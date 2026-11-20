@@ -33,3 +33,9 @@ Use `--source PATH --output PATH` with a temporary output directory for raw
 environment dry runs and distinctly labelled fixtures. The alternate source
 becomes the frame-key root. Supply `--manifest PATH` to test with a separate
 manifest. Keep fixture outputs out of the production atlas directory.
+
+## Other scripts in this directory
+
+- `validate_palette.py` - palette, 1px #14101a outline and size-class gate (`python -I validate_palette.py --class tile|character|weapon|boss|icon FILE_OR_DIR`).
+- `make_sample_png.py` - stdlib PNG writer for validator smoke tests.
+- `fetch_skills.sh` - re-clone the pinned third-party skill repos into `tools/skills/`.

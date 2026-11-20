@@ -1,0 +1,354 @@
+{
+ "name": "tien-nghich-xianxia-40",
+ "version": 2,
+ "outline": "#14101a",
+ "outline_id": "ink_01",
+ "groups": [
+  "jade-greens",
+  "blood-sea-crimsons",
+  "ancient-god-bronze-gold",
+  "soul-banner-obsidian-violet",
+  "heavenly-thunder-cyan-red",
+  "ink-wash-stone-grays"
+ ],
+ "colors": [
+  {
+   "id": "jade_01",
+   "index": 1,
+   "name": "jade-abyss",
+   "group": "jade-greens",
+   "hex": "#0f3d3a"
+  },
+  {
+   "id": "jade_02",
+   "index": 2,
+   "name": "jade-deep",
+   "group": "jade-greens",
+   "hex": "#17594b"
+  },
+  {
+   "id": "jade_03",
+   "index": 3,
+   "name": "jade-forest",
+   "group": "jade-greens",
+   "hex": "#22795f"
+  },
+  {
+   "id": "jade_04",
+   "index": 4,
+   "name": "jade-jade",
+   "group": "jade-greens",
+   "hex": "#2fa27a"
+  },
+  {
+   "id": "jade_05",
+   "index": 5,
+   "name": "jade-bright",
+   "group": "jade-greens",
+   "hex": "#5cc796"
+  },
+  {
+   "id": "jade_06",
+   "index": 6,
+   "name": "jade-mist",
+   "group": "jade-greens",
+   "hex": "#9ae3b8"
+  },
+  {
+   "id": "jade_07",
+   "index": 7,
+   "name": "jade-pale",
+   "group": "jade-greens",
+   "hex": "#d2f5de"
+  },
+  {
+   "id": "blood_01",
+   "index": 8,
+   "name": "blood-abyss",
+   "group": "blood-sea-crimsons",
+   "hex": "#2a0a16"
+  },
+  {
+   "id": "blood_02",
+   "index": 9,
+   "name": "blood-dried",
+   "group": "blood-sea-crimsons",
+   "hex": "#4f0f22"
+  },
+  {
+   "id": "blood_03",
+   "index": 10,
+   "name": "blood-deep",
+   "group": "blood-sea-crimsons",
+   "hex": "#7a1426"
+  },
+  {
+   "id": "blood_04",
+   "index": 11,
+   "name": "blood-crimson",
+   "group": "blood-sea-crimsons",
+   "hex": "#a51d35"
+  },
+  {
+   "id": "blood_05",
+   "index": 12,
+   "name": "blood-bright",
+   "group": "blood-sea-crimsons",
+   "hex": "#d03a4a"
+  },
+  {
+   "id": "blood_06",
+   "index": 13,
+   "name": "blood-foam",
+   "group": "blood-sea-crimsons",
+   "hex": "#ee7a80"
+  },
+  {
+   "id": "blood_07",
+   "index": 14,
+   "name": "blood-pale",
+   "group": "blood-sea-crimsons",
+   "hex": "#f9c4c0"
+  },
+  {
+   "id": "bronze_01",
+   "index": 15,
+   "name": "bronze-dark",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#3a2410"
+  },
+  {
+   "id": "bronze_02",
+   "index": 16,
+   "name": "bronze-aged",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#63400f"
+  },
+  {
+   "id": "bronze_03",
+   "index": 17,
+   "name": "bronze-bronze",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#8f5f14"
+  },
+  {
+   "id": "bronze_04",
+   "index": 18,
+   "name": "bronze-brass",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#bf8a1e"
+  },
+  {
+   "id": "bronze_05",
+   "index": 19,
+   "name": "bronze-gold",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#e0b030"
+  },
+  {
+   "id": "bronze_06",
+   "index": 20,
+   "name": "bronze-bright",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#f5d765"
+  },
+  {
+   "id": "bronze_07",
+   "index": 21,
+   "name": "bronze-glow",
+   "group": "ancient-god-bronze-gold",
+   "hex": "#fff0b0"
+  },
+  {
+   "id": "soul_01",
+   "index": 22,
+   "name": "soul-obsidian",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#1b1030"
+  },
+  {
+   "id": "soul_02",
+   "index": 23,
+   "name": "soul-night",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#2d1b4e"
+  },
+  {
+   "id": "soul_03",
+   "index": 24,
+   "name": "soul-deep",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#46297a"
+  },
+  {
+   "id": "soul_04",
+   "index": 25,
+   "name": "soul-violet",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#6a3fa8"
+  },
+  {
+   "id": "soul_05",
+   "index": 26,
+   "name": "soul-bright",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#8f62cf"
+  },
+  {
+   "id": "soul_06",
+   "index": 27,
+   "name": "soul-wisp",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#b99aeb"
+  },
+  {
+   "id": "soul_07",
+   "index": 28,
+   "name": "soul-pale",
+   "group": "soul-banner-obsidian-violet",
+   "hex": "#e3d6fb"
+  },
+  {
+   "id": "thunder_01",
+   "index": 29,
+   "name": "thunder-cyan-deep",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#0f5f8c"
+  },
+  {
+   "id": "thunder_02",
+   "index": 30,
+   "name": "thunder-cyan",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#28a8dc"
+  },
+  {
+   "id": "thunder_03",
+   "index": 31,
+   "name": "thunder-cyan-bright",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#8ae8ff"
+  },
+  {
+   "id": "thunder_04",
+   "index": 32,
+   "name": "thunder-flash",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#e8fdff"
+  },
+  {
+   "id": "thunder_05",
+   "index": 33,
+   "name": "thunder-red",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#ff3b30"
+  },
+  {
+   "id": "thunder_06",
+   "index": 34,
+   "name": "thunder-red-glow",
+   "group": "heavenly-thunder-cyan-red",
+   "hex": "#ff9a7a"
+  },
+  {
+   "id": "ink_01",
+   "index": 35,
+   "name": "ink-outline",
+   "group": "ink-wash-stone-grays",
+   "hex": "#14101a"
+  },
+  {
+   "id": "ink_02",
+   "index": 36,
+   "name": "ink-dark",
+   "group": "ink-wash-stone-grays",
+   "hex": "#2c2733"
+  },
+  {
+   "id": "ink_03",
+   "index": 37,
+   "name": "ink-slate",
+   "group": "ink-wash-stone-grays",
+   "hex": "#49434f"
+  },
+  {
+   "id": "ink_04",
+   "index": 38,
+   "name": "ink-stone",
+   "group": "ink-wash-stone-grays",
+   "hex": "#6e6877"
+  },
+  {
+   "id": "ink_05",
+   "index": 39,
+   "name": "ink-mist",
+   "group": "ink-wash-stone-grays",
+   "hex": "#9d98a4"
+  },
+  {
+   "id": "ink_06",
+   "index": 40,
+   "name": "ink-pale",
+   "group": "ink-wash-stone-grays",
+   "hex": "#d4d0d8"
+  }
+ ],
+ "size_classes": {
+  "tile": {
+   "sizes": [
+    [
+     16,
+     16
+    ]
+   ],
+   "note": "floors, walls, doors; 2.5D vertical walls"
+  },
+  "character": {
+   "sizes": [
+    [
+     32,
+     32
+    ]
+   ],
+   "note": "player skins and humanoid mobs, front-facing"
+  },
+  "weapon": {
+   "sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     32,
+     32
+    ]
+   ],
+   "note": "Dharma Treasures"
+  },
+  "boss": {
+   "min": [
+    64,
+    64
+   ],
+   "max": [
+    96,
+    96
+   ],
+   "square": true,
+   "note": "chapter bosses"
+  },
+  "icon": {
+   "sizes": [
+    [
+     16,
+     16
+    ],
+    [
+     24,
+     24
+    ]
+   ],
+   "note": "UI skill/restriction icons"
+  }
+ }
+}

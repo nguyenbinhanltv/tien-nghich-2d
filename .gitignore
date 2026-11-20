@@ -1,0 +1,7 @@
+# Third-party agent-skill clones are NOT vendored. Re-create with tools/scripts/fetch_skills.sh
+# (pinned SHAs in docs/SKILLS_INSTALLED.md). Per-clone .venv / caches stay local.
+tools/skills/*/
+!tools/skills/README.md
+__pycache__/
+*.pyc
+.venv/
