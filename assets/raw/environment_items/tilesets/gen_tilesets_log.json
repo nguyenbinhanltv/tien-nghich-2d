@@ -1,0 +1,392 @@
+{
+  "assets": [
+    {
+      "id": "ts_hengyue",
+      "name": {
+        "vi": "Hằng Nhạc Phái",
+        "en": "Hengyue Sect"
+      },
+      "files": [
+        {
+          "file": "ts_hengyue/floor_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "floor: stone courtyard slabs",
+          "sha256": "8a1d6222032866705c31d55a9b0bafb7c21a1882529b0b53f63d2af6c8f0f44e"
+        },
+        {
+          "file": "ts_hengyue/floor_variants.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "Alternate fully surrounded floor cells",
+          "sha256": "e5aae5d7030e60c49b4014fffca5c0de75fd9044e19ee98300993d236af52160"
+        },
+        {
+          "file": "ts_hengyue/floor_garden_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "floor: spirit herb garden soil/grass",
+          "sha256": "bcea382914fd69c33e1d347244e6c85c1d5175a4dd5cf8957e074ca1da12cbb9"
+        },
+        {
+          "file": "ts_hengyue/floor_garden_variants.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "Alternate fully surrounded floor cells",
+          "sha256": "91145368184d89db2a0e3f0d4c0ae0c3beb97bf044fbdca715cccd7f3f3f0df3"
+        },
+        {
+          "file": "ts_hengyue/wall_top_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "wall top / cap (2.5D)",
+          "sha256": "0abb08fa72cac40aa0f68517aadf61118ec6fd9ffed70f98634ee126a940207f"
+        },
+        {
+          "file": "ts_hengyue/wall_face.png",
+          "dims": [
+            128,
+            64
+          ],
+          "cell": [
+            16,
+            32
+          ],
+          "tiles": 12,
+          "frames": 1,
+          "role": "wall vertical face 16x32 (2.5D), variants: plain/window/banner",
+          "sha256": "2a8680213acc7bfec9d4ced122900bee7e47d372511f276034a768d12f14003b"
+        },
+        {
+          "file": "ts_hengyue/deco.png",
+          "dims": [
+            128,
+            32
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 16,
+          "frames": 1,
+          "role": "floor decals: cracks, moss, petals, sweeping marks",
+          "sha256": "df261833978a03d20187923704295f3c8ce5c6f1b29f933aaf3ddcd7a67278e5"
+        },
+        {
+          "file": "ts_hengyue/wall_shadow.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "South wall shadow floor overlays",
+          "sha256": "8e646cc736e6d5e9452208eb2b8c2410df0c34615c4736a387f7d4c32930001f"
+        }
+      ]
+    },
+    {
+      "id": "ts_blood_valley",
+      "name": {
+        "vi": "Quyết Minh Cốc & Huyết Hải",
+        "en": "Jue Ming Valley & Blood Sea"
+      },
+      "files": [
+        {
+          "file": "ts_blood_valley/floor_ravine_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "floor: misty ravine rock",
+          "sha256": "f77c930ba6bcd6f0e603541feab86f0b2d8f7ea651444c45be831918cdc435a4"
+        },
+        {
+          "file": "ts_blood_valley/floor_ravine_variants.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "Alternate fully surrounded floor cells",
+          "sha256": "b8bfedcf5afad9ed927e3d956163c33a0856953c97d47f9fbf32277a2f36d4f5"
+        },
+        {
+          "file": "ts_blood_valley/floor_blood_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "floor: blood-stained / bone ground",
+          "sha256": "52eb11eeff31e50fc681769cb33395beb785cf063fa5a905270945782fd2ded9"
+        },
+        {
+          "file": "ts_blood_valley/floor_blood_variants.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "Alternate fully surrounded floor cells",
+          "sha256": "9700ba97fdd9befd57bba3f1e092a4befa368863a2b89b3fe098049068be82ce"
+        },
+        {
+          "file": "ts_blood_valley/blood_pool_blob47.png",
+          "dims": [
+            128,
+            384
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 4,
+          "role": "ANIMATED blood pool liquid (hazard/lurker spawn) 47-tile blob edges",
+          "sha256": "d9e0f940d9cdd89fb939d96a77c2c49ca4ca2e469d06a3018e60630ec5b7b67f"
+        },
+        {
+          "file": "ts_blood_valley/wall_top_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "wall top: cliff edge (2.5D)",
+          "sha256": "9d6283410dbd6cc11c9678691241cd5ee5d5fa9d532b9507628ed05234f79818"
+        },
+        {
+          "file": "ts_blood_valley/wall_face.png",
+          "dims": [
+            128,
+            64
+          ],
+          "cell": [
+            16,
+            32
+          ],
+          "tiles": 12,
+          "frames": 1,
+          "role": "cliff face 16x32 with variants",
+          "sha256": "210af3b93b33f431299fe7da087413b0852b008768ddb9292a0baf2e5583495e"
+        },
+        {
+          "file": "ts_blood_valley/deco.png",
+          "dims": [
+            128,
+            32
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 16,
+          "frames": 1,
+          "role": "floor decals: bones, blood splatter, mist wisps",
+          "sha256": "4c2f18650b5230d6a9ec9db939a51e7229eb99196816b52e7b5d90038fa5c45e"
+        },
+        {
+          "file": "ts_blood_valley/wall_shadow.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "South wall shadow floor overlays",
+          "sha256": "8e646cc736e6d5e9452208eb2b8c2410df0c34615c4736a387f7d4c32930001f"
+        }
+      ]
+    },
+    {
+      "id": "ts_ancient_god",
+      "name": {
+        "vi": "Cổ Thần Chi Địa",
+        "en": "Ancient God Land"
+      },
+      "files": [
+        {
+          "file": "ts_ancient_god/floor_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "floor: ancient basalt slabs with rune veins",
+          "sha256": "e46e678b9e475d851ccdfa436bc2bf1d69609f6df05ba8325460a40358426b8a"
+        },
+        {
+          "file": "ts_ancient_god/floor_variants.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "Alternate fully surrounded floor cells",
+          "sha256": "f5c22e4602251f8edd46c6eac66bbc20975e7f4940aa75b52645b89fede9482a"
+        },
+        {
+          "file": "ts_ancient_god/void_crack_blob47.png",
+          "dims": [
+            128,
+            384
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 4,
+          "role": "ANIMATED starry void crack (pit hazard) edges",
+          "sha256": "7d9c967d5de8134b651689a43dbb32b6a62723da36008697d498f8c4a2802f1e"
+        },
+        {
+          "file": "ts_ancient_god/wall_top_blob47.png",
+          "dims": [
+            128,
+            96
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 47,
+          "frames": 1,
+          "role": "wall top (2.5D)",
+          "sha256": "03c9f56562019c2efbecef495df5a9d2fb9d0437ae31b62fe5db1b41e17a1f11"
+        },
+        {
+          "file": "ts_ancient_god/wall_face.png",
+          "dims": [
+            128,
+            64
+          ],
+          "cell": [
+            16,
+            32
+          ],
+          "tiles": 12,
+          "frames": 1,
+          "role": "wall face 16x32: carved Ancient God reliefs, chains",
+          "sha256": "40040b1ea95bf3b1e8bc072ef7a921830078b2da8d5693a1d4e788daad7cf41d"
+        },
+        {
+          "file": "ts_ancient_god/rune_glow.png",
+          "dims": [
+            128,
+            64
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 8,
+          "frames": 4,
+          "role": "ANIMATED golden rune floor glyph overlays",
+          "sha256": "38a2b0f00f37761ad08fd4f94cc30936a887d2f791f60112f96678cd447f3062"
+        },
+        {
+          "file": "ts_ancient_god/wall_shadow.png",
+          "dims": [
+            64,
+            16
+          ],
+          "cell": [
+            16,
+            16
+          ],
+          "tiles": 4,
+          "frames": 1,
+          "role": "South wall shadow floor overlays",
+          "sha256": "8e646cc736e6d5e9452208eb2b8c2410df0c34615c4736a387f7d4c32930001f"
+        }
+      ]
+    }
+  ],
+  "mapping": "blob47_mapping.json"
+}
