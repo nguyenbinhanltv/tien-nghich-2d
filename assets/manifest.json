@@ -1,0 +1,3795 @@
+{
+ "schema": "tien-nghich-2d.asset-manifest",
+ "version": "1.0.0",
+ "slice": "vertical_slice_biomes_1_3",
+ "routing": {
+  "pixellab": {
+   "categories": [
+    "player",
+    "mob",
+    "boss"
+   ],
+   "output_root": "assets/raw/characters/"
+  },
+  "codex_antigravity": {
+   "categories": [
+    "tileset",
+    "weapon",
+    "projectile",
+    "prop",
+    "ui",
+    "icon"
+   ],
+   "output_root": "assets/raw/environment_items/"
+  }
+ },
+ "palette": {
+  "status": "v2",
+  "source": "tools/generators/palette.json",
+  "name": "tien-nghich-xianxia-40",
+  "outline_id": "ink_01",
+  "note": "palette_refs are palette v2 ids (no hex stored here). Outline ink_01 is implicit on every sprite; skin tones use blood_07/blood_06 per ART_BIBLE.",
+  "ids": [
+   "jade_01",
+   "jade_02",
+   "jade_03",
+   "jade_04",
+   "jade_05",
+   "jade_06",
+   "jade_07",
+   "blood_01",
+   "blood_02",
+   "blood_03",
+   "blood_04",
+   "blood_05",
+   "blood_06",
+   "blood_07",
+   "bronze_01",
+   "bronze_02",
+   "bronze_03",
+   "bronze_04",
+   "bronze_05",
+   "bronze_06",
+   "bronze_07",
+   "soul_01",
+   "soul_02",
+   "soul_03",
+   "soul_04",
+   "soul_05",
+   "soul_06",
+   "soul_07",
+   "thunder_01",
+   "thunder_02",
+   "thunder_03",
+   "thunder_04",
+   "thunder_05",
+   "thunder_06",
+   "ink_01",
+   "ink_02",
+   "ink_03",
+   "ink_04",
+   "ink_05",
+   "ink_06"
+  ]
+ },
+ "biomes": [
+  "hengyue",
+  "blood_sea",
+  "ancient_god"
+ ],
+ "summary": {
+  "total": 90,
+  "by_category": {
+   "player": 4,
+   "mob": 15,
+   "boss": 3,
+   "tileset": 3,
+   "weapon": 12,
+   "projectile": 12,
+   "prop": 19,
+   "icon": 16,
+   "ui": 6
+  },
+  "by_agent": {
+   "pixellab": 22,
+   "codex_antigravity": 68
+  }
+ },
+ "assets": [
+  {
+   "id": "wl_outer_disciple",
+   "name": {
+    "vi": "Hằng Nhạc Tạp Dịch Đệ Tử",
+    "en": "Hengyue Outer Sect Disciple"
+   },
+   "category": "player",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "form_index": 1,
+   "description": "Chapter 1 form: plain grey servant robe, wooden practice sword, no aura.",
+   "directions": [
+    "south",
+    "east",
+    "north",
+    "west"
+   ],
+   "direction_note": "4 dirs (S,E,N,W); W may be mirrored from E in post but is generated for asymmetric props (banner, sword hand). Front-facing S is the hero view.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "run": {
+     "frames": 6,
+     "loop": true
+    },
+    "dash": {
+     "frames": 4,
+     "loop": false
+    },
+    "cast_attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 88,
+   "output_path": "assets/raw/characters/players/wl_outer_disciple/",
+   "palette_refs": [
+    "ink_04",
+    "blood_07",
+    "blood_06",
+    "ink_02",
+    "ink_01",
+    "bronze_02",
+    "ink_05",
+    "ink_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "wl_qi_condensation",
+   "name": {
+    "vi": "Ngưng Khí Kỳ Tu Sĩ",
+    "en": "Qi Condensation Cultivator"
+   },
+   "category": "player",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "form_index": 2,
+   "description": "Blue-trimmed sect robe, faint cyan qi wisps, Heaven Defying Bead glint at belt.",
+   "directions": [
+    "south",
+    "east",
+    "north",
+    "west"
+   ],
+   "direction_note": "4 dirs (S,E,N,W); W may be mirrored from E in post but is generated for asymmetric props (banner, sword hand). Front-facing S is the hero view.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "run": {
+     "frames": 6,
+     "loop": true
+    },
+    "dash": {
+     "frames": 4,
+     "loop": false
+    },
+    "cast_attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 88,
+   "output_path": "assets/raw/characters/players/wl_qi_condensation/",
+   "palette_refs": [
+    "thunder_01",
+    "ink_04",
+    "blood_07",
+    "blood_06",
+    "ink_02",
+    "ink_01",
+    "thunder_02",
+    "thunder_03"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "wl_blood_foundation",
+   "name": {
+    "vi": "Huyết Hải Trúc Cơ",
+    "en": "Blood-Sea Foundation Establishment"
+   },
+   "category": "player",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "form_index": 3,
+   "description": "Tattered dark robe stained blood-red, crimson qi, Soul Restraining Banner on back.",
+   "directions": [
+    "south",
+    "east",
+    "north",
+    "west"
+   ],
+   "direction_note": "4 dirs (S,E,N,W); W may be mirrored from E in post but is generated for asymmetric props (banner, sword hand). Front-facing S is the hero view.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "run": {
+     "frames": 6,
+     "loop": true
+    },
+    "dash": {
+     "frames": 4,
+     "loop": false
+    },
+    "cast_attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 88,
+   "output_path": "assets/raw/characters/players/wl_blood_foundation/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "blood_07",
+    "blood_06",
+    "ink_02",
+    "ink_01",
+    "soul_05",
+    "ink_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "wl_extreme_jing",
+   "name": {
+    "vi": "Cực Cảnh Hóa Thần",
+    "en": "Extreme Jing Soul Formation"
+   },
+   "category": "player",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "form_index": 4,
+   "description": "Black-and-gold robe, hair loose, red lightning aura crackling around body (aura on separate overlay layer).",
+   "directions": [
+    "south",
+    "east",
+    "north",
+    "west"
+   ],
+   "direction_note": "4 dirs (S,E,N,W); W may be mirrored from E in post but is generated for asymmetric props (banner, sword hand). Front-facing S is the hero view.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "run": {
+     "frames": 6,
+     "loop": true
+    },
+    "dash": {
+     "frames": 4,
+     "loop": false
+    },
+    "cast_attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 88,
+   "output_path": "assets/raw/characters/players/wl_extreme_jing/",
+   "palette_refs": [
+    "ink_01",
+    "soul_01",
+    "thunder_05",
+    "blood_06",
+    "bronze_04",
+    "blood_07",
+    "ink_02",
+    "thunder_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_rogue_disciple",
+   "name": {
+    "vi": "Phản Đồ Ngoại Môn Đệ Tử",
+    "en": "Rogue Outer Disciple"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "hengyue",
+   "archetype": "melee",
+   "description": "Charges with iron sword.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 18,
+   "total_frames": 36,
+   "output_path": "assets/raw/characters/mobs/mob_rogue_disciple/",
+   "palette_refs": [
+    "ink_04",
+    "blood_07",
+    "ink_02",
+    "ink_01",
+    "ink_05",
+    "blood_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_courtyard_guard",
+   "name": {
+    "vi": "Hộ Viện Võ Sĩ",
+    "en": "Courtyard Guard"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "hengyue",
+   "archetype": "tank",
+   "description": "Slow shielded bruiser, shield bash.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_courtyard_guard/",
+   "palette_refs": [
+    "thunder_01",
+    "ink_05",
+    "ink_04",
+    "blood_07",
+    "ink_01",
+    "bronze_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_sword_acolyte",
+   "name": {
+    "vi": "Kiếm Đồng Phản Phái",
+    "en": "Rogue Sword Acolyte"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "hengyue",
+   "archetype": "ranged",
+   "description": "Throws flying-sword volleys, keeps distance.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 18,
+   "total_frames": 36,
+   "output_path": "assets/raw/characters/mobs/mob_sword_acolyte/",
+   "palette_refs": [
+    "thunder_01",
+    "thunder_03",
+    "blood_07",
+    "ink_02",
+    "ink_01",
+    "thunder_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_herb_viper",
+   "name": {
+    "vi": "Độc Mãng Dược Viên",
+    "en": "Herb-Garden Viper"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "hengyue",
+   "archetype": "fast_melee",
+   "description": "Spirit-herb-fed snake, lunging bite, poison pool.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 18,
+   "total_frames": 36,
+   "output_path": "assets/raw/characters/mobs/mob_herb_viper/",
+   "palette_refs": [
+    "jade_03",
+    "jade_02",
+    "jade_05",
+    "ink_06",
+    "ink_01",
+    "bronze_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_demonic_talisman",
+   "name": {
+    "vi": "Ma Đạo Phù Sư",
+    "en": "Demonic Talisman Caster"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "hengyue",
+   "archetype": "caster",
+   "description": "Hurls fire/restriction talismans, summons petty ghost.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_demonic_talisman/",
+   "palette_refs": [
+    "ink_01",
+    "bronze_07",
+    "blood_04",
+    "soul_05",
+    "blood_07",
+    "thunder_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_blood_wolf",
+   "name": {
+    "vi": "Huyết Lang",
+    "en": "Blood Wolf"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "archetype": "fast_melee",
+   "description": "Pack hunter, pounce.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 18,
+   "total_frames": 36,
+   "output_path": "assets/raw/characters/mobs/mob_blood_wolf/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "ink_06",
+    "ink_01",
+    "blood_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_blood_crow",
+   "name": {
+    "vi": "Huyết Nha",
+    "en": "Blood Crow"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "archetype": "flyer",
+   "description": "Flies over pits/pools, dive attack.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 18,
+   "total_frames": 36,
+   "output_path": "assets/raw/characters/mobs/mob_blood_crow/",
+   "palette_refs": [
+    "ink_01",
+    "blood_02",
+    "blood_04",
+    "soul_02",
+    "ink_06",
+    "blood_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_blood_corpse",
+   "name": {
+    "vi": "Huyết Thi Tu Sĩ",
+    "en": "Blood Corpse Cultivator"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "archetype": "melee",
+   "description": "Mindless puppet of Blood Sea sect; explodes on death.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_blood_corpse/",
+   "palette_refs": [
+    "blood_02",
+    "bronze_03",
+    "blood_06",
+    "ink_06",
+    "ink_01",
+    "blood_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_vengeful_soul",
+   "name": {
+    "vi": "Oán Hồn",
+    "en": "Vengeful Soul"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "archetype": "ranged",
+   "description": "Passes through restriction pillars, fires wailing orbs.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_vengeful_soul/",
+   "palette_refs": [
+    "soul_07",
+    "jade_06",
+    "soul_05",
+    "thunder_03",
+    "ink_01",
+    "thunder_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_blood_pool_lurker",
+   "name": {
+    "vi": "Huyết Trì Thủy Quái",
+    "en": "Blood-Pool Lurker"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "archetype": "ambush",
+   "description": "Emerges from animated blood pool tiles to grab; submerges.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 4,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 6,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_blood_pool_lurker/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "ink_06",
+    "ink_01",
+    "blood_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_stone_puppet",
+   "name": {
+    "vi": "Thạch Khôi Lỗi",
+    "en": "Stone Puppet Footsoldier"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "archetype": "melee",
+   "description": "Slow, heavy slam, golden rune core.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_stone_puppet/",
+   "palette_refs": [
+    "ink_03",
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "ink_01",
+    "soul_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_stone_archer_puppet",
+   "name": {
+    "vi": "Thạch Cung Khôi Lỗi",
+    "en": "Stone Archer Puppet"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "archetype": "ranged",
+   "description": "Rune-arrow shooter, stationary turret-like.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 20,
+   "total_frames": 40,
+   "output_path": "assets/raw/characters/mobs/mob_stone_archer_puppet/",
+   "palette_refs": [
+    "ink_03",
+    "ink_04",
+    "bronze_04",
+    "bronze_06",
+    "ink_01",
+    "bronze_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_chain_warden",
+   "name": {
+    "vi": "Thạch Xích Thủ Vệ",
+    "en": "Petrified Chain Warden"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "archetype": "controller",
+   "description": "Swings petrified chains that pull/root player.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 6,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 44,
+   "output_path": "assets/raw/characters/mobs/mob_chain_warden/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "soul_02",
+    "ink_01",
+    "thunder_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_void_eater",
+   "name": {
+    "vi": "Hư Không Thực Ảnh",
+    "en": "Void Rift Eater"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "archetype": "flyer",
+   "description": "Phases in/out of void cracks, bite.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 44,
+   "output_path": "assets/raw/characters/mobs/mob_void_eater/",
+   "palette_refs": [
+    "soul_01",
+    "soul_02",
+    "thunder_01",
+    "thunder_04",
+    "soul_05",
+    "bronze_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "mob_rune_sentinel",
+   "name": {
+    "vi": "Cổ Thần Phù Văn Linh",
+    "en": "Golden Rune Sentinel"
+   },
+   "category": "mob",
+   "assigned_agent": "pixellab",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "archetype": "caster",
+   "description": "Floating glyph; fires rune beams, shields other puppets.",
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "2 generated dirs (S,E); W mirrored from E; N reuses S at runtime (Soul Knight-style readability, ~50% cheaper than 4 dirs).",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 22,
+   "total_frames": 44,
+   "output_path": "assets/raw/characters/mobs/mob_rune_sentinel/",
+   "palette_refs": [
+    "bronze_04",
+    "bronze_06",
+    "ink_05",
+    "thunder_04",
+    "ink_01",
+    "soul_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "boss_teng_huayuan",
+   "name": {
+    "vi": "Đằng Hóa Nguyên",
+    "en": "Teng Huayuan, Blood-Robed Patriarch"
+   },
+   "category": "boss",
+   "assigned_agent": "pixellab",
+   "size": [
+    64,
+    64
+   ],
+   "biome": "hengyue",
+   "chapter": "Chapter 1",
+   "phases": [
+    {
+     "id": "p1",
+     "hp_range": "100-60%",
+     "behavior": "Blood-robe sword arcs, blood-bolt volleys"
+    },
+    {
+     "id": "p2",
+     "hp_range": "60-30%",
+     "behavior": "Summons blood corpse puppets; blood-pool zones"
+    },
+    {
+     "id": "p3",
+     "hp_range": "30-0%",
+     "behavior": "Desperation: bleeds HP for speed, full-room blood nova"
+    }
+   ],
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "Bosses: S + E (W mirrored); arena-fixed so 2 dirs suffice.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack_slash": {
+     "frames": 6,
+     "loop": false
+    },
+    "attack_cast": {
+     "frames": 6,
+     "loop": false
+    },
+    "summon": {
+     "frames": 6,
+     "loop": false
+    },
+    "phase_transition": {
+     "frames": 6,
+     "loop": false
+    },
+    "death": {
+     "frames": 8,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 44,
+   "total_frames": 88,
+   "output_path": "assets/raw/characters/bosses/boss_teng_huayuan/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "blood_06",
+    "ink_01",
+    "blood_07",
+    "ink_06",
+    "ink_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "boss_ghost_king",
+   "name": {
+    "vi": "Oán Hồn Quỷ Vương",
+    "en": "Soul-Devouring Ghost King"
+   },
+   "category": "boss",
+   "assigned_agent": "pixellab",
+   "size": [
+    80,
+    80
+   ],
+   "biome": "blood_sea",
+   "chapter": "Chapter 2",
+   "phases": [
+    {
+     "id": "p1",
+     "hp_range": "100-65%",
+     "behavior": "Soul-orb spirals, claw sweep"
+    },
+    {
+     "id": "p2",
+     "hp_range": "65-35%",
+     "behavior": "Devours minion souls to heal; lights restriction pillars as hazards"
+    },
+    {
+     "id": "p3",
+     "hp_range": "35-0%",
+     "behavior": "Ghost-flame tornado, room-wide wail with safe gaps"
+    }
+   ],
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "Bosses: S + E (W mirrored); arena-fixed so 2 dirs suffice.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack_claw": {
+     "frames": 6,
+     "loop": false
+    },
+    "attack_wail": {
+     "frames": 8,
+     "loop": false
+    },
+    "soul_devour": {
+     "frames": 6,
+     "loop": false
+    },
+    "phase_transition": {
+     "frames": 8,
+     "loop": false
+    },
+    "death": {
+     "frames": 10,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 50,
+   "total_frames": 100,
+   "output_path": "assets/raw/characters/bosses/boss_ghost_king/",
+   "palette_refs": [
+    "soul_07",
+    "jade_06",
+    "soul_05",
+    "thunder_03",
+    "soul_01",
+    "thunder_02",
+    "ink_06",
+    "blood_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "boss_ancient_god_remnant",
+   "name": {
+    "vi": "Cổ Thần Tàn Khu",
+    "en": "Colossal Ancient God Avatar (Remnant)"
+   },
+   "category": "boss",
+   "assigned_agent": "pixellab",
+   "size": [
+    96,
+    96
+   ],
+   "biome": "ancient_god",
+   "chapter": "Chapter 3",
+   "phases": [
+    {
+     "id": "p1",
+     "hp_range": "100-70%",
+     "behavior": "Stone-fist slams, shockwaves, chain lashes"
+    },
+    {
+     "id": "p2",
+     "hp_range": "70-35%",
+     "behavior": "Golden rune lattice beams; void cracks open"
+    },
+    {
+     "id": "p3",
+     "hp_range": "35-0%",
+     "behavior": "Body breaks apart; arena shrinks into void; final rune-nova"
+    }
+   ],
+   "directions": [
+    "south",
+    "east"
+   ],
+   "direction_note": "Bosses: S + E (W mirrored); arena-fixed so 2 dirs suffice.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "move": {
+     "frames": 6,
+     "loop": true
+    },
+    "attack_slam": {
+     "frames": 8,
+     "loop": false
+    },
+    "attack_beam": {
+     "frames": 8,
+     "loop": false
+    },
+    "chain_lash": {
+     "frames": 6,
+     "loop": false
+    },
+    "phase_transition": {
+     "frames": 8,
+     "loop": false
+    },
+    "death": {
+     "frames": 12,
+     "loop": false
+    }
+   },
+   "frames_per_direction": 54,
+   "total_frames": 108,
+   "output_path": "assets/raw/characters/bosses/boss_ancient_god_remnant/",
+   "palette_refs": [
+    "ink_03",
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "bronze_06",
+    "soul_01",
+    "soul_02",
+    "thunder_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ts_hengyue",
+   "name": {
+    "vi": "Hằng Nhạc Phái",
+    "en": "Hengyue Sect"
+   },
+   "category": "tileset",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "tile_size": 16,
+   "biome": "hengyue",
+   "autotile": "blob_47",
+   "tiles": 47,
+   "description": "Stone courtyards, spirit-herb gardens, bamboo, stone lanterns.",
+   "sheets": [
+    {
+     "id": "floor_blob47",
+     "role": "floor: stone courtyard slabs",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "floor_garden_blob47",
+     "role": "floor: spirit herb garden soil/grass",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_top_blob47",
+     "role": "wall top / cap (2.5D)",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_face",
+     "role": "wall vertical face 16x32 (2.5D), variants: plain/window/banner",
+     "tiles": 12,
+     "anim_frames": 1,
+     "tile_size": [
+      16,
+      32
+     ]
+    },
+    {
+     "id": "deco",
+     "role": "floor decals: cracks, moss, petals, sweeping marks",
+     "tiles": 16,
+     "anim_frames": 1
+    }
+   ],
+   "output_path": "assets/raw/environment_items/tilesets/ts_hengyue/",
+   "palette_refs": [
+    "ink_03",
+    "ink_04",
+    "ink_05",
+    "jade_04",
+    "jade_05",
+    "jade_03",
+    "bronze_05",
+    "bronze_02",
+    "bronze_07",
+    "thunder_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ts_blood_valley",
+   "name": {
+    "vi": "Quyết Minh Cốc & Huyết Hải",
+    "en": "Jue Ming Valley & Blood Sea"
+   },
+   "category": "tileset",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "tile_size": 16,
+   "biome": "blood_sea",
+   "autotile": "blob_47",
+   "tiles": 47,
+   "description": "Misty ravines, animated blood pools; bone altars and restriction pillars are separate props.",
+   "sheets": [
+    {
+     "id": "floor_ravine_blob47",
+     "role": "floor: misty ravine rock",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "floor_blood_blob47",
+     "role": "floor: blood-stained / bone ground",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "blood_pool_blob47",
+     "role": "ANIMATED blood pool liquid (hazard/lurker spawn) 47-tile blob edges",
+     "tiles": 47,
+     "anim_frames": 4
+    },
+    {
+     "id": "wall_top_blob47",
+     "role": "wall top: cliff edge (2.5D)",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_face",
+     "role": "cliff face 16x32 with variants",
+     "tiles": 12,
+     "anim_frames": 1,
+     "tile_size": [
+      16,
+      32
+     ]
+    },
+    {
+     "id": "deco",
+     "role": "floor decals: bones, blood splatter, mist wisps",
+     "tiles": 16,
+     "anim_frames": 1
+    }
+   ],
+   "output_path": "assets/raw/environment_items/tilesets/ts_blood_valley/",
+   "palette_refs": [
+    "ink_03",
+    "ink_05",
+    "thunder_03",
+    "soul_02",
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "ink_06",
+    "blood_06",
+    "soul_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ts_ancient_god",
+   "name": {
+    "vi": "Cổ Thần Chi Địa",
+    "en": "Ancient God Land"
+   },
+   "category": "tileset",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "tile_size": 16,
+   "biome": "ancient_god",
+   "autotile": "blob_47",
+   "tiles": 47,
+   "description": "Starry void cracks, petrified chains, golden Ancient God runes.",
+   "sheets": [
+    {
+     "id": "floor_blob47",
+     "role": "floor: ancient basalt slabs with rune veins",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "void_crack_blob47",
+     "role": "ANIMATED starry void crack (pit hazard) edges",
+     "tiles": 47,
+     "anim_frames": 4
+    },
+    {
+     "id": "wall_top_blob47",
+     "role": "wall top (2.5D)",
+     "tiles": 47,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_face",
+     "role": "wall face 16x32: carved Ancient God reliefs, chains",
+     "tiles": 12,
+     "anim_frames": 1,
+     "tile_size": [
+      16,
+      32
+     ]
+    },
+    {
+     "id": "rune_glow",
+     "role": "ANIMATED golden rune floor glyph overlays",
+     "tiles": 8,
+     "anim_frames": 4
+    }
+   ],
+   "output_path": "assets/raw/environment_items/tilesets/ts_ancient_god/",
+   "palette_refs": [
+    "soul_01",
+    "soul_02",
+    "thunder_01",
+    "ink_03",
+    "ink_04",
+    "bronze_04",
+    "bronze_06",
+    "thunder_04",
+    "ink_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "wp_heaven_defying_bead",
+   "name": {
+    "vi": "Thiên Nghịch Châu",
+    "en": "Heaven Defying Bead"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "orbit",
+   "description": "Orbiting bead that fires piercing pulses; signature weapon, dormant at start.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_heaven_defying_bead/",
+   "palette_refs": [
+    "ink_01",
+    "soul_01",
+    "thunder_02",
+    "thunder_04",
+    "bronze_06"
+   ],
+   "projectile_id": "pj_heaven_defying_bead",
+   "status": "pending"
+  },
+  {
+   "id": "wp_soul_banner",
+   "name": {
+    "vi": "Tôn Hồn Phiên",
+    "en": "Soul Restraining Banner"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "attack_style": "summon_cast",
+   "description": "Banner releases homing soul wisps.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_soul_banner/",
+   "palette_refs": [
+    "soul_05",
+    "jade_06",
+    "soul_07",
+    "ink_01",
+    "bronze_02",
+    "blood_02"
+   ],
+   "projectile_id": "pj_soul_banner",
+   "status": "pending"
+  },
+  {
+   "id": "wp_restriction_talisman",
+   "name": {
+    "vi": "Cấm Chế Phù Lục",
+    "en": "Restriction Talisman Scrolls"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "throw",
+   "description": "Thrown talismans that stick and detonate/slow.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_restriction_talisman/",
+   "palette_refs": [
+    "bronze_07",
+    "blood_04",
+    "bronze_04",
+    "ink_01",
+    "thunder_06"
+   ],
+   "projectile_id": "pj_restriction_talisman",
+   "status": "pending"
+  },
+  {
+   "id": "wp_azure_wind_sword",
+   "name": {
+    "vi": "Phi Kiếm Thanh Phong",
+    "en": "Azure Wind Flying Sword"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "attack_style": "flying_sword",
+   "description": "Returning flying sword; fast, low damage.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_azure_wind_sword/",
+   "palette_refs": [
+    "thunder_03",
+    "thunder_02",
+    "ink_05",
+    "ink_06",
+    "ink_01"
+   ],
+   "projectile_id": "pj_azure_wind_sword",
+   "status": "pending"
+  },
+  {
+   "id": "wp_slaughter_sword",
+   "name": {
+    "vi": "Sát Lục Tiên Kiếm",
+    "en": "Slaughter Immortal Sword"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "attack_style": "melee_sword",
+   "description": "Heavy sword, kill-streak scaling; form-4 weapon.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_slaughter_sword/",
+   "palette_refs": [
+    "thunder_05",
+    "blood_05",
+    "ink_05",
+    "ink_01",
+    "bronze_06"
+   ],
+   "projectile_id": "pj_slaughter_sword",
+   "status": "pending"
+  },
+  {
+   "id": "wp_blood_jade_blade",
+   "name": {
+    "vi": "Huyết Ngọc Đoản Đao",
+    "en": "Blood Jade Short Blade"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "melee_dagger",
+   "description": "Fast short blade with lifesteal.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_blood_jade_blade/",
+   "palette_refs": [
+    "blood_04",
+    "blood_02",
+    "jade_05",
+    "ink_06",
+    "ink_01"
+   ],
+   "projectile_id": "pj_blood_jade_blade",
+   "status": "pending"
+  },
+  {
+   "id": "wp_thunder_seal",
+   "name": {
+    "vi": "Lôi Ấn",
+    "en": "Thunder Seal"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "stamp",
+   "description": "Seal stamp calls chain lightning.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_thunder_seal/",
+   "palette_refs": [
+    "bronze_06",
+    "thunder_05",
+    "ink_05",
+    "ink_01",
+    "thunder_04"
+   ],
+   "projectile_id": "pj_thunder_seal",
+   "status": "pending"
+  },
+  {
+   "id": "wp_blood_fiend_banner",
+   "name": {
+    "vi": "Huyết Sát Phiên",
+    "en": "Blood Fiend Banner"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "attack_style": "summon_cast",
+   "description": "Consumes HP for strong blood-fiend barrages.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_blood_fiend_banner/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_06",
+    "ink_01",
+    "ink_06"
+   ],
+   "projectile_id": "pj_blood_fiend_banner",
+   "status": "pending"
+  },
+  {
+   "id": "wp_ancient_god_hammer",
+   "name": {
+    "vi": "Cổ Thần Thạch Chùy",
+    "en": "Ancient God Stone Hammer"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "attack_style": "melee_heavy",
+   "description": "Slow smash, stagger shockwaves.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_ancient_god_hammer/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "bronze_06",
+    "ink_01"
+   ],
+   "projectile_id": "pj_ancient_god_hammer",
+   "status": "pending"
+  },
+  {
+   "id": "wp_soul_lamp",
+   "name": {
+    "vi": "Hồn Đăng",
+    "en": "Soul Lamp"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "orbit",
+   "description": "Lamp fires piercing ghost-fire; soul-card synergy.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_soul_lamp/",
+   "palette_refs": [
+    "bronze_05",
+    "thunder_06",
+    "soul_07",
+    "ink_01",
+    "ink_06"
+   ],
+   "projectile_id": "pj_soul_lamp",
+   "status": "pending"
+  },
+  {
+   "id": "wp_five_element_needles",
+   "name": {
+    "vi": "Ngũ Hành Phi Châm",
+    "en": "Five-Element Flying Needles"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "throw",
+   "description": "Fan of five needles, elemental variant per upgrade.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_five_element_needles/",
+   "palette_refs": [
+    "ink_05",
+    "jade_05",
+    "thunder_06",
+    "thunder_02",
+    "bronze_03",
+    "bronze_06"
+   ],
+   "projectile_id": "pj_five_element_needles",
+   "status": "pending"
+  },
+  {
+   "id": "wp_spirit_stone_beads",
+   "name": {
+    "vi": "Linh Thạch Bạo Châu",
+    "en": "Spirit-Stone Burst Beads"
+   },
+   "category": "weapon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "attack_style": "throw",
+   "description": "Consumes spirit stones for AoE bursts.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "attack": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/weapons/wp_spirit_stone_beads/",
+   "palette_refs": [
+    "thunder_02",
+    "jade_05",
+    "thunder_04",
+    "ink_05",
+    "ink_01"
+   ],
+   "projectile_id": "pj_spirit_stone_beads",
+   "status": "pending"
+  },
+  {
+   "id": "pj_heaven_defying_bead",
+   "name": {
+    "vi": "Đạn: Thiên Nghịch Châu",
+    "en": "Projectile: Heaven Defying Bead"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_heaven_defying_bead",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_heaven_defying_bead/",
+   "palette_refs": [
+    "ink_01",
+    "soul_01",
+    "thunder_02",
+    "thunder_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_soul_banner",
+   "name": {
+    "vi": "Đạn: Tôn Hồn Phiên",
+    "en": "Projectile: Soul Restraining Banner"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_soul_banner",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_soul_banner/",
+   "palette_refs": [
+    "soul_05",
+    "jade_06",
+    "soul_07",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_restriction_talisman",
+   "name": {
+    "vi": "Đạn: Cấm Chế Phù Lục",
+    "en": "Projectile: Restriction Talisman Scrolls"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_restriction_talisman",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_restriction_talisman/",
+   "palette_refs": [
+    "bronze_07",
+    "blood_04",
+    "bronze_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_azure_wind_sword",
+   "name": {
+    "vi": "Đạn: Phi Kiếm Thanh Phong",
+    "en": "Projectile: Azure Wind Flying Sword"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_azure_wind_sword",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_azure_wind_sword/",
+   "palette_refs": [
+    "thunder_03",
+    "thunder_02",
+    "ink_05",
+    "ink_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_slaughter_sword",
+   "name": {
+    "vi": "Đạn: Sát Lục Tiên Kiếm",
+    "en": "Projectile: Slaughter Immortal Sword"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_slaughter_sword",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_slaughter_sword/",
+   "palette_refs": [
+    "thunder_05",
+    "blood_05",
+    "ink_05",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_blood_jade_blade",
+   "name": {
+    "vi": "Đạn: Huyết Ngọc Đoản Đao",
+    "en": "Projectile: Blood Jade Short Blade"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_blood_jade_blade",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_blood_jade_blade/",
+   "palette_refs": [
+    "blood_04",
+    "blood_02",
+    "jade_05",
+    "ink_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_thunder_seal",
+   "name": {
+    "vi": "Đạn: Lôi Ấn",
+    "en": "Projectile: Thunder Seal"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_thunder_seal",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_thunder_seal/",
+   "palette_refs": [
+    "bronze_06",
+    "thunder_05",
+    "ink_05",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_blood_fiend_banner",
+   "name": {
+    "vi": "Đạn: Huyết Sát Phiên",
+    "en": "Projectile: Blood Fiend Banner"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_blood_fiend_banner",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_blood_fiend_banner/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_06",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_ancient_god_hammer",
+   "name": {
+    "vi": "Đạn: Cổ Thần Thạch Chùy",
+    "en": "Projectile: Ancient God Stone Hammer"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_ancient_god_hammer",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_ancient_god_hammer/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "bronze_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_soul_lamp",
+   "name": {
+    "vi": "Đạn: Hồn Đăng",
+    "en": "Projectile: Soul Lamp"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_soul_lamp",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_soul_lamp/",
+   "palette_refs": [
+    "bronze_05",
+    "thunder_06",
+    "soul_07",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_five_element_needles",
+   "name": {
+    "vi": "Đạn: Ngũ Hành Phi Châm",
+    "en": "Projectile: Five-Element Flying Needles"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_five_element_needles",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_five_element_needles/",
+   "palette_refs": [
+    "ink_05",
+    "jade_05",
+    "thunder_06",
+    "thunder_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "pj_spirit_stone_beads",
+   "name": {
+    "vi": "Đạn: Linh Thạch Bạo Châu",
+    "en": "Projectile: Spirit-Stone Burst Beads"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "weapon_id": "wp_spirit_stone_beads",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_spirit_stone_beads/",
+   "palette_refs": [
+    "thunder_02",
+    "jade_05",
+    "thunder_04",
+    "ink_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_spirit_chest",
+   "name": {
+    "vi": "Linh Thạch Rương",
+    "en": "Spirit-Stone Chest"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "biome": "all",
+   "description": "Reward chest; closed/open states.",
+   "animations": {
+    "closed": {
+     "frames": 1,
+     "loop": false
+    },
+    "opening": {
+     "frames": 4,
+     "loop": false
+    },
+    "open": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_spirit_chest/",
+   "palette_refs": [
+    "bronze_02",
+    "bronze_03",
+    "bronze_04",
+    "jade_05",
+    "thunder_02",
+    "ink_01"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive"
+   ]
+  },
+  {
+   "id": "prop_alchemy_jar",
+   "name": {
+    "vi": "Đan Dược Bình (Có Thể Phá)",
+    "en": "Breakable Alchemy Jar"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    24
+   ],
+   "biome": "all",
+   "description": "Breakable; drops spirit stones/herbs.",
+   "animations": {
+    "intact": {
+     "frames": 1,
+     "loop": false
+    },
+    "shatter": {
+     "frames": 5,
+     "loop": false
+    },
+    "debris": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_alchemy_jar/",
+   "palette_refs": [
+    "bronze_03",
+    "bronze_02",
+    "jade_05",
+    "bronze_07",
+    "ink_01",
+    "thunder_02"
+   ],
+   "status": "pending",
+   "tags": [
+    "breakable"
+   ]
+  },
+  {
+   "id": "prop_teleport_array",
+   "name": {
+    "vi": "Truyền Tống Trận",
+    "en": "Teleportation Array (Portal)"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "all",
+   "description": "Room-exit/next-chapter portal.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "activate": {
+     "frames": 6,
+     "loop": false
+    },
+    "closed": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_teleport_array/",
+   "palette_refs": [
+    "thunder_02",
+    "bronze_06",
+    "ink_04",
+    "thunder_04",
+    "ink_01",
+    "jade_06"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive",
+    "portal"
+   ]
+  },
+  {
+   "id": "prop_shrine_altar",
+   "name": {
+    "vi": "Thần Đàn",
+    "en": "Shrine Altar"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "all",
+   "description": "Choose restriction card / blessing / curse.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "activate": {
+     "frames": 4,
+     "loop": false
+    },
+    "used": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_shrine_altar/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "bronze_05",
+    "ink_01",
+    "ink_06"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive"
+   ]
+  },
+  {
+   "id": "prop_room_door",
+   "name": {
+    "vi": "Môn Cấm Chế",
+    "en": "Restriction Gate (Room Door)"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "all",
+   "description": "Sealed until room cleared; tinted per biome.",
+   "animations": {
+    "locked": {
+     "frames": 1,
+     "loop": false
+    },
+    "unlocking": {
+     "frames": 4,
+     "loop": false
+    },
+    "open": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_room_door/",
+   "palette_refs": [
+    "ink_03",
+    "bronze_04",
+    "ink_05",
+    "thunder_02",
+    "ink_01",
+    "blood_04"
+   ],
+   "status": "pending",
+   "tags": [
+    "structure"
+   ]
+  },
+  {
+   "id": "prop_spawn_circle",
+   "name": {
+    "vi": "Triệu Hoán Trận",
+    "en": "Enemy Summoning Circle"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "all",
+   "description": "Telegraphs wave spawns.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "spawn": {
+     "frames": 6,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_spawn_circle/",
+   "palette_refs": [
+    "soul_05",
+    "bronze_04",
+    "ink_01",
+    "thunder_04",
+    "blood_06"
+   ],
+   "status": "pending",
+   "tags": [
+    "fx"
+   ]
+  },
+  {
+   "id": "prop_stone_lantern",
+   "name": {
+    "vi": "Thạch Đăng",
+    "en": "Stone Lantern"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    32
+   ],
+   "biome": "hengyue",
+   "description": "Lit stone lantern, flicker.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_stone_lantern/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_05",
+    "thunder_06",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_bamboo_cluster",
+   "name": {
+    "vi": "Trúc Lâm",
+    "en": "Bamboo Cluster"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    48
+   ],
+   "biome": "hengyue",
+   "description": "Sways; cover obstruction.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_bamboo_cluster/",
+   "palette_refs": [
+    "jade_04",
+    "jade_05",
+    "jade_02",
+    "bronze_03",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_spirit_herb",
+   "name": {
+    "vi": "Linh Thảo",
+    "en": "Spirit Herb Patch"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "biome": "hengyue",
+   "description": "Harvestable herb; heals.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "harvested": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_spirit_herb/",
+   "palette_refs": [
+    "jade_03",
+    "jade_05",
+    "thunder_02",
+    "jade_02",
+    "thunder_04"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive"
+   ]
+  },
+  {
+   "id": "prop_courtyard_pillar",
+   "name": {
+    "vi": "Thạch Trụ Sân Viện",
+    "en": "Courtyard Stone Pillar"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    32
+   ],
+   "biome": "hengyue",
+   "description": "Destructible cover.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "broken": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_courtyard_pillar/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "ink_03",
+    "jade_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_sect_banner",
+   "name": {
+    "vi": "Môn Phái Kỳ",
+    "en": "Sect Banner"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    32
+   ],
+   "biome": "hengyue",
+   "description": "Hằng Nhạc sect banner.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_sect_banner/",
+   "palette_refs": [
+    "thunder_01",
+    "bronze_07",
+    "bronze_04",
+    "bronze_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_bone_altar",
+   "name": {
+    "vi": "Cốt Đàn",
+    "en": "Bone Altar"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "blood_sea",
+   "description": "Blood-sacrifice altar: trade HP for cards.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    },
+    "activate": {
+     "frames": 4,
+     "loop": false
+    },
+    "used": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_bone_altar/",
+   "palette_refs": [
+    "ink_06",
+    "ink_03",
+    "blood_04",
+    "blood_06",
+    "ink_01"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive"
+   ]
+  },
+  {
+   "id": "prop_restriction_pillar",
+   "name": {
+    "vi": "Cấm Chế Trụ",
+    "en": "Restriction Pillar"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    48
+   ],
+   "biome": "blood_sea",
+   "description": "Glowing rune pillar; boss-room hazard.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "overload": {
+     "frames": 4,
+     "loop": false
+    },
+    "broken": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_restriction_pillar/",
+   "palette_refs": [
+    "ink_03",
+    "soul_05",
+    "jade_06",
+    "blood_04",
+    "ink_01",
+    "bronze_04"
+   ],
+   "status": "pending",
+   "tags": [
+    "hazard"
+   ]
+  },
+  {
+   "id": "prop_blood_pool_decor",
+   "name": {
+    "vi": "Huyết Trì (Trang Trí)",
+    "en": "Blood Pool Edge Decor"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    16
+   ],
+   "biome": "blood_sea",
+   "description": "Bubbling blood, non-hazard accent.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_blood_pool_decor/",
+   "palette_refs": [
+    "blood_02",
+    "blood_04",
+    "blood_05",
+    "blood_06",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_mist_ravine_rock",
+   "name": {
+    "vi": "Nham Thạch Sơn Cốc",
+    "en": "Ravine Rock Spire"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    32
+   ],
+   "biome": "blood_sea",
+   "description": "Obstacle.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_mist_ravine_rock/",
+   "palette_refs": [
+    "ink_03",
+    "ink_05",
+    "thunder_03",
+    "soul_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_petrified_chain",
+   "name": {
+    "vi": "Thạch Hóa Xích",
+    "en": "Petrified Chain"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    48
+   ],
+   "biome": "ancient_god",
+   "description": "Hanging chain obstacle.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "shatter": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_petrified_chain/",
+   "palette_refs": [
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "soul_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_golden_rune_glyph",
+   "name": {
+    "vi": "Kim Sắc Phù Văn",
+    "en": "Golden Ancient God Rune Glyph"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "description": "Floor glyph; puzzle/buff.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    },
+    "activate": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_golden_rune_glyph/",
+   "palette_refs": [
+    "bronze_04",
+    "bronze_06",
+    "thunder_04",
+    "ink_03",
+    "soul_01"
+   ],
+   "status": "pending",
+   "tags": [
+    "interactive"
+   ]
+  },
+  {
+   "id": "prop_void_crack_decor",
+   "name": {
+    "vi": "Hư Không Liệt Phùng",
+    "en": "Void Crack Accent"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    32
+   ],
+   "biome": "ancient_god",
+   "description": "Decor crack with stars.",
+   "animations": {
+    "idle": {
+     "frames": 6,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_void_crack_decor/",
+   "palette_refs": [
+    "soul_01",
+    "soul_02",
+    "thunder_01",
+    "thunder_04",
+    "soul_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "prop_ancient_statue",
+   "name": {
+    "vi": "Cổ Thần Tàn Tượng",
+    "en": "Ancient God Statue Fragment"
+   },
+   "category": "prop",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    48
+   ],
+   "biome": "ancient_god",
+   "description": "Large cover obstacle.",
+   "animations": {
+    "idle": {
+     "frames": 1,
+     "loop": true
+    },
+    "crumble": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/props/prop_ancient_statue/",
+   "palette_refs": [
+    "ink_03",
+    "ink_04",
+    "ink_05",
+    "bronze_04",
+    "jade_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_sinh_tu_cam",
+   "name": {
+    "vi": "Sinh Tử Cấm",
+    "en": "Life-Death Restriction"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Trade max HP for burst; revives once.",
+   "output_path": "assets/raw/environment_items/icons/icon_sinh_tu_cam/",
+   "palette_refs": [
+    "blood_04",
+    "soul_07",
+    "ink_01",
+    "bronze_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_tue_nguyet_cam",
+   "name": {
+    "vi": "Tuế Nguyệt Cấm",
+    "en": "Years-Moon Restriction"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Time-slow field; ages enemies (DoT).",
+   "output_path": "assets/raw/environment_items/icons/icon_tue_nguyet_cam/",
+   "palette_refs": [
+    "thunder_01",
+    "bronze_06",
+    "thunder_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_thien_loi_dan",
+   "name": {
+    "vi": "Thiên Lôi Dẫn",
+    "en": "Heaven Thunder Guide"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Calls lightning on marked targets.",
+   "output_path": "assets/raw/environment_items/icons/icon_thien_loi_dan/",
+   "palette_refs": [
+    "bronze_06",
+    "thunder_05",
+    "ink_01",
+    "thunder_04"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_van_hon_phe_tam",
+   "name": {
+    "vi": "Vạn Hồn Phệ Tâm",
+    "en": "Myriad Souls Devour Heart"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Kills heal and empower; soul stacks.",
+   "output_path": "assets/raw/environment_items/icons/icon_van_hon_phe_tam/",
+   "palette_refs": [
+    "soul_05",
+    "jade_06",
+    "blood_02",
+    "soul_07"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_huyet_hai_cuong_trieu",
+   "name": {
+    "vi": "Huyết Hải Cuồng Triều",
+    "en": "Blood Sea Surge"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Blood wave pushes enemies.",
+   "output_path": "assets/raw/environment_items/icons/icon_huyet_hai_cuong_trieu/",
+   "palette_refs": [
+    "blood_04",
+    "blood_05",
+    "blood_02",
+    "blood_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_thanh_phong_don",
+   "name": {
+    "vi": "Thanh Phong Độn",
+    "en": "Azure Wind Step"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Extended dash with afterimage.",
+   "output_path": "assets/raw/environment_items/icons/icon_thanh_phong_don/",
+   "palette_refs": [
+    "thunder_03",
+    "thunder_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_ho_the_cuong_khi",
+   "name": {
+    "vi": "Hộ Thể Cương Khí",
+    "en": "Guardian Qi Shield"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Absorbs next hits.",
+   "output_path": "assets/raw/environment_items/icons/icon_ho_the_cuong_khi/",
+   "palette_refs": [
+    "thunder_02",
+    "thunder_04",
+    "jade_05",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_ngung_khi_quyet",
+   "name": {
+    "vi": "Ngưng Khí Quyết",
+    "en": "Qi Condensing Art"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Faster qi regen.",
+   "output_path": "assets/raw/environment_items/icons/icon_ngung_khi_quyet/",
+   "palette_refs": [
+    "thunder_02",
+    "jade_06",
+    "thunder_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_truc_co_dan",
+   "name": {
+    "vi": "Trúc Cơ Đan",
+    "en": "Foundation Pill"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Permanent max HP up (once per run).",
+   "output_path": "assets/raw/environment_items/icons/icon_truc_co_dan/",
+   "palette_refs": [
+    "jade_05",
+    "bronze_06",
+    "bronze_07",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_thien_nghich_chi_luc",
+   "name": {
+    "vi": "Thiên Nghịch Chi Lực",
+    "en": "Defy-Heaven Power"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Bead pulse: huge damage, costs HP.",
+   "output_path": "assets/raw/environment_items/icons/icon_thien_nghich_chi_luc/",
+   "palette_refs": [
+    "soul_01",
+    "thunder_04",
+    "bronze_06",
+    "thunder_02"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_co_than_the",
+   "name": {
+    "vi": "Cổ Thần Thể",
+    "en": "Ancient God Body"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Armor and knockback immunity.",
+   "output_path": "assets/raw/environment_items/icons/icon_co_than_the/",
+   "palette_refs": [
+    "ink_04",
+    "bronze_04",
+    "ink_05",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_hu_khong_liet_phung",
+   "name": {
+    "vi": "Hư Không Liệt Phùng",
+    "en": "Void Rift"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Opens void crack that pulls enemies.",
+   "output_path": "assets/raw/environment_items/icons/icon_hu_khong_liet_phung/",
+   "palette_refs": [
+    "soul_02",
+    "soul_01",
+    "thunder_04",
+    "soul_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_phong_an_cam",
+   "name": {
+    "vi": "Phong Ấn Cấm",
+    "en": "Sealing Restriction"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Seals enemy skills for a few seconds.",
+   "output_path": "assets/raw/environment_items/icons/icon_phong_an_cam/",
+   "palette_refs": [
+    "bronze_07",
+    "bronze_04",
+    "blood_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_cuc_canh_hoa_than",
+   "name": {
+    "vi": "Cực Cảnh Hóa Thần",
+    "en": "Extreme Jing Soul Formation"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Form-4 aura: lightning pulses; self-damage.",
+   "output_path": "assets/raw/environment_items/icons/icon_cuc_canh_hoa_than/",
+   "palette_refs": [
+    "thunder_05",
+    "blood_06",
+    "bronze_06",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_huyet_te",
+   "name": {
+    "vi": "Huyết Tế",
+    "en": "Blood Sacrifice"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "restriction",
+   "description": "Spend HP to refund card cooldowns.",
+   "output_path": "assets/raw/environment_items/icons/icon_huyet_te/",
+   "palette_refs": [
+    "blood_04",
+    "ink_06",
+    "blood_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "icon_tu_linh_tran",
+   "name": {
+    "vi": "Tụ Linh Trận",
+    "en": "Spirit Gathering Array"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "skill",
+   "description": "Placed array boosts qi regen in radius.",
+   "output_path": "assets/raw/environment_items/icons/icon_tu_linh_tran/",
+   "palette_refs": [
+    "jade_05",
+    "thunder_02",
+    "bronze_04",
+    "ink_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_card_frame",
+   "name": {
+    "vi": "Khung Thẻ Cấm Chế",
+    "en": "Card Frames (common/rare/forbidden)"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    32,
+    40
+   ],
+   "description": "3 rarity frames, forbidden animated.",
+   "animations": {
+    "common": {
+     "frames": 1,
+     "loop": false
+    },
+    "rare": {
+     "frames": 1,
+     "loop": false
+    },
+    "forbidden": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_card_frame/",
+   "palette_refs": [
+    "bronze_07",
+    "bronze_04",
+    "ink_03",
+    "blood_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_hud_bars",
+   "name": {
+    "vi": "Thanh Huyết / Linh Lực",
+    "en": "HP & Qi Bars"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    64,
+    8
+   ],
+   "description": "HUD bar frames.",
+   "animations": {
+    "hp": {
+     "frames": 1,
+     "loop": false
+    },
+    "qi": {
+     "frames": 1,
+     "loop": false
+    },
+    "boss_hp": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_hud_bars/",
+   "palette_refs": [
+    "blood_04",
+    "thunder_02",
+    "ink_01",
+    "ink_06",
+    "bronze_06"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_spirit_stone",
+   "name": {
+    "vi": "Linh Thạch",
+    "en": "Spirit Stone Currency Icon"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "description": "Pickup + HUD coin; animated sparkle.",
+   "animations": {
+    "idle": {
+     "frames": 4,
+     "loop": true
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+   "palette_refs": [
+    "thunder_02",
+    "jade_05",
+    "thunder_04",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_minimap",
+   "name": {
+    "vi": "Bản Đồ Phòng",
+    "en": "Room Minimap Tiles"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    8,
+    8
+   ],
+   "description": "Room-type icons for minimap.",
+   "animations": {
+    "room": {
+     "frames": 1,
+     "loop": false
+    },
+    "current": {
+     "frames": 2,
+     "loop": false
+    },
+    "boss": {
+     "frames": 2,
+     "loop": false
+    },
+    "shrine": {
+     "frames": 1,
+     "loop": false
+    },
+    "unknown": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_minimap/",
+   "palette_refs": [
+    "ink_03",
+    "bronze_04",
+    "blood_04",
+    "thunder_02",
+    "ink_01"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_form_portraits",
+   "name": {
+    "vi": "Chân Dung Hóa Hình",
+    "en": "Wang Lin Form Portraits"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    48,
+    48
+   ],
+   "description": "Dialogue/HUD portraits for 4 forms.",
+   "animations": {
+    "form1": {
+     "frames": 1,
+     "loop": false
+    },
+    "form2": {
+     "frames": 1,
+     "loop": false
+    },
+    "form3": {
+     "frames": 1,
+     "loop": false
+    },
+    "form4": {
+     "frames": 1,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_form_portraits/",
+   "palette_refs": [
+    "blood_07",
+    "ink_02",
+    "ink_01",
+    "thunder_02",
+    "blood_04",
+    "thunder_05"
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "ui_panel_cursor",
+   "name": {
+    "vi": "Khung & Con Trỏ",
+    "en": "Panels, Buttons, Cursor"
+   },
+   "category": "ui",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "description": "9-slice panel, buttons, cursor.",
+   "animations": {
+    "nine_slice": {
+     "frames": 1,
+     "loop": false
+    },
+    "button": {
+     "frames": 3,
+     "loop": false
+    },
+    "cursor": {
+     "frames": 2,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/ui/ui_panel_cursor/",
+   "palette_refs": [
+    "bronze_07",
+    "ink_03",
+    "bronze_04",
+    "ink_01",
+    "ink_06"
+   ],
+   "status": "pending"
+  }
+ ]
+}
