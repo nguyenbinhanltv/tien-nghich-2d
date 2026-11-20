@@ -1,0 +1,4714 @@
+{
+  "assets": 43,
+  "files": [
+    {
+      "id": "wp_heaven_defying_bead",
+      "name": {
+        "vi": "Thiên Nghịch Châu",
+        "en": "Heaven Defying Bead"
+      },
+      "file": "weapons/wp_heaven_defying_bead/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "8eaf98f6d92c61cea41c6079eb63bddce42bfbf66faae780c7b997c05c47b609"
+    },
+    {
+      "id": "wp_heaven_defying_bead",
+      "name": {
+        "vi": "Thiên Nghịch Châu",
+        "en": "Heaven Defying Bead"
+      },
+      "file": "weapons/wp_heaven_defying_bead/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "9fd1a4dbfcc19600fe3bc00e596196957f193f381955e9bc401e9d7d3c3c3b75"
+    },
+    {
+      "id": "wp_heaven_defying_bead",
+      "name": {
+        "vi": "Thiên Nghịch Châu",
+        "en": "Heaven Defying Bead"
+      },
+      "file": "weapons/wp_heaven_defying_bead/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "69d80183540223a6655bab0cac770adb119cec8bba2a46c9ff884e3fc21d23ed"
+    },
+    {
+      "id": "wp_heaven_defying_bead",
+      "name": {
+        "vi": "Thiên Nghịch Châu",
+        "en": "Heaven Defying Bead"
+      },
+      "file": "weapons/wp_heaven_defying_bead/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "19eb5fdcffaef876fe35d537a0694534087bd3b58d66f5706b43b884329281be"
+    },
+    {
+      "id": "wp_heaven_defying_bead",
+      "name": {
+        "vi": "Thiên Nghịch Châu",
+        "en": "Heaven Defying Bead"
+      },
+      "file": "weapons/wp_heaven_defying_bead/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "09509a38eff5943595bb4f94a66bd170f6a47a19382b6550d5d5e9c0df62571b"
+    },
+    {
+      "id": "wp_soul_banner",
+      "name": {
+        "vi": "Tôn Hồn Phiên",
+        "en": "Soul Restraining Banner"
+      },
+      "file": "weapons/wp_soul_banner/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "a84d448ea3a28ac91791a099b5594eca12c290d902467c9469037fcb7bf3732b"
+    },
+    {
+      "id": "wp_soul_banner",
+      "name": {
+        "vi": "Tôn Hồn Phiên",
+        "en": "Soul Restraining Banner"
+      },
+      "file": "weapons/wp_soul_banner/attack_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a84d448ea3a28ac91791a099b5594eca12c290d902467c9469037fcb7bf3732b"
+    },
+    {
+      "id": "wp_soul_banner",
+      "name": {
+        "vi": "Tôn Hồn Phiên",
+        "en": "Soul Restraining Banner"
+      },
+      "file": "weapons/wp_soul_banner/attack_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a33dba7e5c7f17e346f0cfe9bf85459b08e6c654851fbdca43f2a7fe2c3b68cc"
+    },
+    {
+      "id": "wp_soul_banner",
+      "name": {
+        "vi": "Tôn Hồn Phiên",
+        "en": "Soul Restraining Banner"
+      },
+      "file": "weapons/wp_soul_banner/attack_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "22860c5547940f983d5c98f1cf0e24061e2eb32f69c865c4026be705a4f52fda"
+    },
+    {
+      "id": "wp_soul_banner",
+      "name": {
+        "vi": "Tôn Hồn Phiên",
+        "en": "Soul Restraining Banner"
+      },
+      "file": "weapons/wp_soul_banner/attack_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "da68d9290d80b964e089f3d75ea61ee7fdb57709be2e6fc6bd2b3ac97de6a18f"
+    },
+    {
+      "id": "wp_restriction_talisman",
+      "name": {
+        "vi": "Cấm Chế Phù Lục",
+        "en": "Restriction Talisman Scrolls"
+      },
+      "file": "weapons/wp_restriction_talisman/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "a72b249e8b453e89ad558ea77c2974c45a1ee58bd6bc833c8b2b59dfd8fcfc10"
+    },
+    {
+      "id": "wp_restriction_talisman",
+      "name": {
+        "vi": "Cấm Chế Phù Lục",
+        "en": "Restriction Talisman Scrolls"
+      },
+      "file": "weapons/wp_restriction_talisman/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "df8c302d4f5a9bd1a87a591dead204c82224dc093e70864c99938a1306959a93"
+    },
+    {
+      "id": "wp_restriction_talisman",
+      "name": {
+        "vi": "Cấm Chế Phù Lục",
+        "en": "Restriction Talisman Scrolls"
+      },
+      "file": "weapons/wp_restriction_talisman/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e58a023da654f7aa9ae6f5c1b742c5d22c0cbbdd703f1d7cefce8d3bd71bd893"
+    },
+    {
+      "id": "wp_restriction_talisman",
+      "name": {
+        "vi": "Cấm Chế Phù Lục",
+        "en": "Restriction Talisman Scrolls"
+      },
+      "file": "weapons/wp_restriction_talisman/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "3972a7dadc6209c817cb1ce0521396fbbdaa2b582e77899ed96e7080027fb397"
+    },
+    {
+      "id": "wp_restriction_talisman",
+      "name": {
+        "vi": "Cấm Chế Phù Lục",
+        "en": "Restriction Talisman Scrolls"
+      },
+      "file": "weapons/wp_restriction_talisman/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "afa1e2dc268462c1b0ae5d652ca3a9495c9c1ee65502f85505a7e1f1332e9491"
+    },
+    {
+      "id": "wp_azure_wind_sword",
+      "name": {
+        "vi": "Phi Kiếm Thanh Phong",
+        "en": "Azure Wind Flying Sword"
+      },
+      "file": "weapons/wp_azure_wind_sword/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "60aa5944b999296046b6184b011ea6b6f3b442b710856960a1e8ff7ec6c5502a"
+    },
+    {
+      "id": "wp_azure_wind_sword",
+      "name": {
+        "vi": "Phi Kiếm Thanh Phong",
+        "en": "Azure Wind Flying Sword"
+      },
+      "file": "weapons/wp_azure_wind_sword/attack_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "2b6aaeead866908e1002b92e6623a6204dfdcd9275582482831ffacab5f915c2"
+    },
+    {
+      "id": "wp_azure_wind_sword",
+      "name": {
+        "vi": "Phi Kiếm Thanh Phong",
+        "en": "Azure Wind Flying Sword"
+      },
+      "file": "weapons/wp_azure_wind_sword/attack_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "642046dad6f12d1cde04107a33fc61ab42f1b5a6c20c0b5284388d9b1f22d1d3"
+    },
+    {
+      "id": "wp_azure_wind_sword",
+      "name": {
+        "vi": "Phi Kiếm Thanh Phong",
+        "en": "Azure Wind Flying Sword"
+      },
+      "file": "weapons/wp_azure_wind_sword/attack_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "983fc55ef71e2b6123ececd6fceaa0abd208aa74ff4bf0ac9cfbbf8195e3dccc"
+    },
+    {
+      "id": "wp_azure_wind_sword",
+      "name": {
+        "vi": "Phi Kiếm Thanh Phong",
+        "en": "Azure Wind Flying Sword"
+      },
+      "file": "weapons/wp_azure_wind_sword/attack_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ca73ad27602531be8204d3dbdff4b01391d0238e3c6c9ac66e065f70c05d6087"
+    },
+    {
+      "id": "wp_slaughter_sword",
+      "name": {
+        "vi": "Sát Lục Tiên Kiếm",
+        "en": "Slaughter Immortal Sword"
+      },
+      "file": "weapons/wp_slaughter_sword/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "e6191ed47f2a811f3c5355b9629fd980c186f1703bceede99db1b99c19edac01"
+    },
+    {
+      "id": "wp_slaughter_sword",
+      "name": {
+        "vi": "Sát Lục Tiên Kiếm",
+        "en": "Slaughter Immortal Sword"
+      },
+      "file": "weapons/wp_slaughter_sword/attack_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ae20aa98cbe52a492b0a676c9630db4245ff34c635c8dafc63d0fbdf4316a028"
+    },
+    {
+      "id": "wp_slaughter_sword",
+      "name": {
+        "vi": "Sát Lục Tiên Kiếm",
+        "en": "Slaughter Immortal Sword"
+      },
+      "file": "weapons/wp_slaughter_sword/attack_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "98dbda188aed4102a5d9034809df5fc9bfd5a4746c2ba43f5f55654c34cb4bcd"
+    },
+    {
+      "id": "wp_slaughter_sword",
+      "name": {
+        "vi": "Sát Lục Tiên Kiếm",
+        "en": "Slaughter Immortal Sword"
+      },
+      "file": "weapons/wp_slaughter_sword/attack_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ee952ce42c17cf5c3c2bcaa64c5546e53fa40799712397093a784ae7aab2b985"
+    },
+    {
+      "id": "wp_slaughter_sword",
+      "name": {
+        "vi": "Sát Lục Tiên Kiếm",
+        "en": "Slaughter Immortal Sword"
+      },
+      "file": "weapons/wp_slaughter_sword/attack_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "9eaf1a2a3df69aea50861b1483a604dede1566bcba87e0a6d2cd40bf2c0eddbf"
+    },
+    {
+      "id": "wp_blood_jade_blade",
+      "name": {
+        "vi": "Huyết Ngọc Đoản Đao",
+        "en": "Blood Jade Short Blade"
+      },
+      "file": "weapons/wp_blood_jade_blade/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "2bd4073e0fba2261e996745f4336cd88873a484c47a60a33452cdc2f230a99b7"
+    },
+    {
+      "id": "wp_blood_jade_blade",
+      "name": {
+        "vi": "Huyết Ngọc Đoản Đao",
+        "en": "Blood Jade Short Blade"
+      },
+      "file": "weapons/wp_blood_jade_blade/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "95299cbe3a43859af2fabf85cb84e164f204de0df237e32213f158e6c333696d"
+    },
+    {
+      "id": "wp_blood_jade_blade",
+      "name": {
+        "vi": "Huyết Ngọc Đoản Đao",
+        "en": "Blood Jade Short Blade"
+      },
+      "file": "weapons/wp_blood_jade_blade/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d094275eb898c3a7ecfff93ed72237182b20ce0a9c83b355ff7a19eff61fd372"
+    },
+    {
+      "id": "wp_blood_jade_blade",
+      "name": {
+        "vi": "Huyết Ngọc Đoản Đao",
+        "en": "Blood Jade Short Blade"
+      },
+      "file": "weapons/wp_blood_jade_blade/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d6f8d4d3d619e487d6930a9c7ac6eba5995440cf81683db09760b8c17cf09785"
+    },
+    {
+      "id": "wp_blood_jade_blade",
+      "name": {
+        "vi": "Huyết Ngọc Đoản Đao",
+        "en": "Blood Jade Short Blade"
+      },
+      "file": "weapons/wp_blood_jade_blade/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "8a55ce8437eb15664d8797b4575b125d18addb9943775f702c8afba82362bac1"
+    },
+    {
+      "id": "wp_thunder_seal",
+      "name": {
+        "vi": "Lôi Ấn",
+        "en": "Thunder Seal"
+      },
+      "file": "weapons/wp_thunder_seal/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "d2ecfe33c8c5700bdf4f8e74b25e04243106d613da63eeef20817f0a7bcaa367"
+    },
+    {
+      "id": "wp_thunder_seal",
+      "name": {
+        "vi": "Lôi Ấn",
+        "en": "Thunder Seal"
+      },
+      "file": "weapons/wp_thunder_seal/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "eb92c23c74b0d98524a11baace6919c6819fcb79e2ff3e24e5564e8f1904ea3c"
+    },
+    {
+      "id": "wp_thunder_seal",
+      "name": {
+        "vi": "Lôi Ấn",
+        "en": "Thunder Seal"
+      },
+      "file": "weapons/wp_thunder_seal/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "f41c5521dde05f3dc45212651c85e65feb531c22f912a75608eede5120d79ec2"
+    },
+    {
+      "id": "wp_thunder_seal",
+      "name": {
+        "vi": "Lôi Ấn",
+        "en": "Thunder Seal"
+      },
+      "file": "weapons/wp_thunder_seal/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "beca401ae27a0934d79c2724d8387b77085ebd73f74a8e2f40884b86b968da3d"
+    },
+    {
+      "id": "wp_thunder_seal",
+      "name": {
+        "vi": "Lôi Ấn",
+        "en": "Thunder Seal"
+      },
+      "file": "weapons/wp_thunder_seal/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "6fbf612e4b0fc4e98277aebd85c060c7a3c87328cc885e05763d0c05d96e4e82"
+    },
+    {
+      "id": "wp_blood_fiend_banner",
+      "name": {
+        "vi": "Huyết Sát Phiên",
+        "en": "Blood Fiend Banner"
+      },
+      "file": "weapons/wp_blood_fiend_banner/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "e63e9a059a0ac8af7f52dc898ac3dcef8a4a403bf742957675821feb4b2bc727"
+    },
+    {
+      "id": "wp_blood_fiend_banner",
+      "name": {
+        "vi": "Huyết Sát Phiên",
+        "en": "Blood Fiend Banner"
+      },
+      "file": "weapons/wp_blood_fiend_banner/attack_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e63e9a059a0ac8af7f52dc898ac3dcef8a4a403bf742957675821feb4b2bc727"
+    },
+    {
+      "id": "wp_blood_fiend_banner",
+      "name": {
+        "vi": "Huyết Sát Phiên",
+        "en": "Blood Fiend Banner"
+      },
+      "file": "weapons/wp_blood_fiend_banner/attack_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fac85feb2939e89ad6e4c2d39e1678598a05ba23609bf5f76656615cd1e967a8"
+    },
+    {
+      "id": "wp_blood_fiend_banner",
+      "name": {
+        "vi": "Huyết Sát Phiên",
+        "en": "Blood Fiend Banner"
+      },
+      "file": "weapons/wp_blood_fiend_banner/attack_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "aefcc4a742ba695bb389e64f761b5915672abb2c9c14ae8cb3b3900cbaafdace"
+    },
+    {
+      "id": "wp_blood_fiend_banner",
+      "name": {
+        "vi": "Huyết Sát Phiên",
+        "en": "Blood Fiend Banner"
+      },
+      "file": "weapons/wp_blood_fiend_banner/attack_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "9366c5f7a68628dfe0d1f89a11a4f27e8f02a84d84a488e123556e41bee60f30"
+    },
+    {
+      "id": "wp_ancient_god_hammer",
+      "name": {
+        "vi": "Cổ Thần Thạch Chùy",
+        "en": "Ancient God Stone Hammer"
+      },
+      "file": "weapons/wp_ancient_god_hammer/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "e05d243c2f44a5018e2cd38835963fb0b6cdcff885fee6136352f3f028446bc5"
+    },
+    {
+      "id": "wp_ancient_god_hammer",
+      "name": {
+        "vi": "Cổ Thần Thạch Chùy",
+        "en": "Ancient God Stone Hammer"
+      },
+      "file": "weapons/wp_ancient_god_hammer/attack_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e05d243c2f44a5018e2cd38835963fb0b6cdcff885fee6136352f3f028446bc5"
+    },
+    {
+      "id": "wp_ancient_god_hammer",
+      "name": {
+        "vi": "Cổ Thần Thạch Chùy",
+        "en": "Ancient God Stone Hammer"
+      },
+      "file": "weapons/wp_ancient_god_hammer/attack_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d742935c1fda98820a3bf9addc1dcda4889cab0c2c3eb2755460a28d95722b70"
+    },
+    {
+      "id": "wp_ancient_god_hammer",
+      "name": {
+        "vi": "Cổ Thần Thạch Chùy",
+        "en": "Ancient God Stone Hammer"
+      },
+      "file": "weapons/wp_ancient_god_hammer/attack_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1bbf5bb933f505b0d203723a526b1d5b7b43600d157298a25b15821ed0474d35"
+    },
+    {
+      "id": "wp_ancient_god_hammer",
+      "name": {
+        "vi": "Cổ Thần Thạch Chùy",
+        "en": "Ancient God Stone Hammer"
+      },
+      "file": "weapons/wp_ancient_god_hammer/attack_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a692239ed81ab708de0903dca710cbfa215fe49c2298598fe3c247d1b3c54eeb"
+    },
+    {
+      "id": "wp_soul_lamp",
+      "name": {
+        "vi": "Hồn Đăng",
+        "en": "Soul Lamp"
+      },
+      "file": "weapons/wp_soul_lamp/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "6564d208d302da277e67bdcd902a39bc82fc9d323055772fd016be776adee5fb"
+    },
+    {
+      "id": "wp_soul_lamp",
+      "name": {
+        "vi": "Hồn Đăng",
+        "en": "Soul Lamp"
+      },
+      "file": "weapons/wp_soul_lamp/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "6564d208d302da277e67bdcd902a39bc82fc9d323055772fd016be776adee5fb"
+    },
+    {
+      "id": "wp_soul_lamp",
+      "name": {
+        "vi": "Hồn Đăng",
+        "en": "Soul Lamp"
+      },
+      "file": "weapons/wp_soul_lamp/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0885aabf74364197209773fc83a0f62bdf9b03636369c7866818a68701322d41"
+    },
+    {
+      "id": "wp_soul_lamp",
+      "name": {
+        "vi": "Hồn Đăng",
+        "en": "Soul Lamp"
+      },
+      "file": "weapons/wp_soul_lamp/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "330409be5ab07d30873a846e97780158dc5c4e664690f5e5f0999b94653e3c4b"
+    },
+    {
+      "id": "wp_soul_lamp",
+      "name": {
+        "vi": "Hồn Đăng",
+        "en": "Soul Lamp"
+      },
+      "file": "weapons/wp_soul_lamp/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "72dfd575b15b6e24481b5554556d3260c218319219eac7b5d99a6d1a15cad3c9"
+    },
+    {
+      "id": "wp_five_element_needles",
+      "name": {
+        "vi": "Ngũ Hành Phi Châm",
+        "en": "Five-Element Flying Needles"
+      },
+      "file": "weapons/wp_five_element_needles/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "3a78f05cb834ae719c110dc42ae5f9be7a0072b182c93135ac51857dcb414eb9"
+    },
+    {
+      "id": "wp_five_element_needles",
+      "name": {
+        "vi": "Ngũ Hành Phi Châm",
+        "en": "Five-Element Flying Needles"
+      },
+      "file": "weapons/wp_five_element_needles/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a568bfe904857de8d0ab8f08165e56a65af1fffaf31d25ae98a16c55f0fb3e48"
+    },
+    {
+      "id": "wp_five_element_needles",
+      "name": {
+        "vi": "Ngũ Hành Phi Châm",
+        "en": "Five-Element Flying Needles"
+      },
+      "file": "weapons/wp_five_element_needles/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c826e203b30e3ef965b55351686de1fd909a0d462f018a0b28c6d9d64f3684da"
+    },
+    {
+      "id": "wp_five_element_needles",
+      "name": {
+        "vi": "Ngũ Hành Phi Châm",
+        "en": "Five-Element Flying Needles"
+      },
+      "file": "weapons/wp_five_element_needles/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "37aaba456ccf40aeb7913187f03bc2d79fd7de9b4ef6fca15d7e93eab0ea45f3"
+    },
+    {
+      "id": "wp_five_element_needles",
+      "name": {
+        "vi": "Ngũ Hành Phi Châm",
+        "en": "Five-Element Flying Needles"
+      },
+      "file": "weapons/wp_five_element_needles/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a03ff6a9cb574ef9d4f4a29e7d8ba9fe451f6127ed5b46eed5e0aea4cb8bb4ab"
+    },
+    {
+      "id": "wp_spirit_stone_beads",
+      "name": {
+        "vi": "Linh Thạch Bạo Châu",
+        "en": "Spirit-Stone Burst Beads"
+      },
+      "file": "weapons/wp_spirit_stone_beads/idle_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "0861599f580b6f9c97b71acfdcc3a670480aa6a5b09585b6de2d1a8a7ae78fc9"
+    },
+    {
+      "id": "wp_spirit_stone_beads",
+      "name": {
+        "vi": "Linh Thạch Bạo Châu",
+        "en": "Spirit-Stone Burst Beads"
+      },
+      "file": "weapons/wp_spirit_stone_beads/attack_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "f42b7cb444b1398acc04fece1a05f75dcc32be798398845b7621a191ca6f70e4"
+    },
+    {
+      "id": "wp_spirit_stone_beads",
+      "name": {
+        "vi": "Linh Thạch Bạo Châu",
+        "en": "Spirit-Stone Burst Beads"
+      },
+      "file": "weapons/wp_spirit_stone_beads/attack_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "026ada9a64d4586def1eab381363363b0b7a38800d1790c764b28e9065a5b4f8"
+    },
+    {
+      "id": "wp_spirit_stone_beads",
+      "name": {
+        "vi": "Linh Thạch Bạo Châu",
+        "en": "Spirit-Stone Burst Beads"
+      },
+      "file": "weapons/wp_spirit_stone_beads/attack_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "785c7100438b20064a9865951dfe00c1ea6a7861f23c29c0c6a35767d3981116"
+    },
+    {
+      "id": "wp_spirit_stone_beads",
+      "name": {
+        "vi": "Linh Thạch Bạo Châu",
+        "en": "Spirit-Stone Burst Beads"
+      },
+      "file": "weapons/wp_spirit_stone_beads/attack_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "attack",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5aaea7449e4b9298388fb002abbc4e91da38bc8b9f8158c0a79c2001fe4a2dc9"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "62aa0b20372d64b24b2889e1ab440000709c4d0ae4239e27e1fdce36c488ed5b"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c314ba337875ccd7041ed0010550753a76844ca0673ad2368a25be3dcf173f80"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d08087901baab35caf32b34bca622412cecd1331d09b00a98694371495d92802"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7d5010d0c6f4de7176e0ed707f1c827f4ac81a8df0179f2af45e92aa1611b7a3"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fb34f9b2103c66a20dbd3d340f6e507184f72baeeeb6b77f5a95cc772bf2a9a7"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "29b24a5c607d961edb40c45d7c636d39c4df999ff8c28e2cd6e78fd0aa6354a0"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "10349cde47c54c6554f9d355375f9ad96378cfa6121f1c0b8ec270361dc083d5"
+    },
+    {
+      "id": "pj_heaven_defying_bead",
+      "name": {
+        "vi": "Đạn: Thiên Nghịch Châu",
+        "en": "Projectile: Heaven Defying Bead"
+      },
+      "file": "projectiles/pj_heaven_defying_bead/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "bedc8e395da67cf4ac1a2d94a202bd0d0186146185aacbdc1ea511773e3a774a"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "de64ad0351def86857ce5c08fcfb859c1bfb9ae0c43436d9123ddc3dd2c2f6ee"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "21455d38076d3a1287a3cdd288313b767c360b215afef49a749b72ca25e07f8e"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "b7dd702e2512f81cfe95b2c58eaf55894c2aba2c87e317ca29a4c711b875a783"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "6a423ff206464d08fee00f18d06bd896dd527007c0f176c8a641ed3906be06f4"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fe55c34328f26936b3002b43f9a24ab6124b200080132da09dbaadbccef7364b"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "eebf289a8b802b83c7748fca5831f14f9c24cba6c6121837cf4256deca860300"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a8caf01ebc655df62abf4d5f5e9e50ad926a12c001c762571362856a2aee36a5"
+    },
+    {
+      "id": "pj_soul_banner",
+      "name": {
+        "vi": "Đạn: Tôn Hồn Phiên",
+        "en": "Projectile: Soul Restraining Banner"
+      },
+      "file": "projectiles/pj_soul_banner/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "61c36f3312d3898afd96d9eaa25e2a8e68a11af53a778276659d7d08fb7cd8c1"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "39dd66f538affab2388273afaefec833e3f6949b33456eed0a165e8bfa9ebad9"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "09a76d44a70769b1e04b49300fa12568b94448c697e6e552ac91829417ebb6ea"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a246f97953748f61459ddc2626724649ec14812c6b99cf43959eb64e92784d33"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "f1021a14fe922ac885c0bec6cb6c038bac2e1e9c5fefab4ac7cba6a59699460e"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c895f91d8d91f7f3887aeac0934937ea54dc5a6e9dfd77de5c1b8a613461debd"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "bbbdd9152eb9ec91c50fab8054b8736e848e9f14b60ff9d7409882ddffc78312"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1146322f71837f4c985984ddc21afd33bd4ffce2a2bd762ae398b90d5bad6c0a"
+    },
+    {
+      "id": "pj_restriction_talisman",
+      "name": {
+        "vi": "Đạn: Cấm Chế Phù Lục",
+        "en": "Projectile: Restriction Talisman Scrolls"
+      },
+      "file": "projectiles/pj_restriction_talisman/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "036f2ef6e0d1669580087263c4d5cc052242625360e865211acaac5bce66cdb6"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5ad69d3d8bbaaf1b576165e441a4bcebdbd13582f9c9f89a8c102dd40d0df770"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "acea6078f19acde2db184739087f87b77812834f9e8fd43d53b44c48804de517"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "62f345338a3536a56ec26b5bdadf8ef7ec0887235802fc897106c3729048643a"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ecf7be322d412e5c18302e702635ff1c07e718696869f59b5c181fc1fe367f2e"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1a76c11ab41484ac06ca1aa9eab02bddbec9bf23059fc5010a076b85dd96b100"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "df68fcc50e14e59646a329e243e5783ff5366c10b1f7bb6d0486d19527f79b08"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ed4535b355e89736d9110c75c55dec9453b291c607636360f891756d0242d438"
+    },
+    {
+      "id": "pj_azure_wind_sword",
+      "name": {
+        "vi": "Đạn: Phi Kiếm Thanh Phong",
+        "en": "Projectile: Azure Wind Flying Sword"
+      },
+      "file": "projectiles/pj_azure_wind_sword/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "589212acc8ceb44104c1a6a2645850a13122ba0a8f552d560bea066ae20f0b1f"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1a8d8bfda29a0b21e0d50c6316c5a3f78b8b594d16151c249d6cd97b3a883856"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1e71a95f3db09eca33f60c0ba3287ba9c85c2b02673f15ab7ed4d9119d1aa910"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d81794444896144732ad435bc3b199cde092cb4ba96051b2e50207b1aef732f8"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "62f4c5e5c29d09a4c3628108ab073766a2776b78ce26b53ac14d4e553f1851c2"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "004beef7650a8c4517ad9d1a4eabf7f89476ec9b6d88cd30dd880d160d89de98"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0fc13a45e108c464369b3d1ab86ccfa31a15ed3b80c07e410058df30a3caf32d"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fd70731f511127ed0b41af39721e3422e6c423a857c5c9648e6e7ba2fecf7f72"
+    },
+    {
+      "id": "pj_slaughter_sword",
+      "name": {
+        "vi": "Đạn: Sát Lục Tiên Kiếm",
+        "en": "Projectile: Slaughter Immortal Sword"
+      },
+      "file": "projectiles/pj_slaughter_sword/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "505f6e36f4cb7d043bf968592d53c14c28f5fee06c027c05c7520d48d53eec1b"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "3adea4f61c4b65d44bdc049e25145908a0d5663691eba2c915ffa12e03e7489b"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e14132fe32edf3032cd5e40a0d78acabbdcc03c12f9599f8be63e8c92c7af8db"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c73799f3c087a456ec0f45ab14ba6ee6a043379229cbe386ff636ad9b5aeec48"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "da50771b43698c4cbbee484dfd5dff827d627e40b1fa1fea2ae66224f37681d6"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "004beef7650a8c4517ad9d1a4eabf7f89476ec9b6d88cd30dd880d160d89de98"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0fc13a45e108c464369b3d1ab86ccfa31a15ed3b80c07e410058df30a3caf32d"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fd70731f511127ed0b41af39721e3422e6c423a857c5c9648e6e7ba2fecf7f72"
+    },
+    {
+      "id": "pj_blood_jade_blade",
+      "name": {
+        "vi": "Đạn: Huyết Ngọc Đoản Đao",
+        "en": "Projectile: Blood Jade Short Blade"
+      },
+      "file": "projectiles/pj_blood_jade_blade/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "505f6e36f4cb7d043bf968592d53c14c28f5fee06c027c05c7520d48d53eec1b"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1e7ab9c568b0dc5d5cfc4923b7b2f3058f47b326fdf688e4c5920cacd63fb2b3"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fafd0ed2e89db41ffd0b943ce8b78c8ce14164515f038bf5d4c9a6c1e03bf537"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7f5834bb3be42331dade578a65047ad70c7a4e43a128f51b440cf6b812b7b140"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "90f7d798f55c7f6e0be71763bdd8ab63d5eca534244c9d65372f3ca8bb31b6ad"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "672c5fee1848240c79ddf6bcd4f9ef84eba86782b33aec53d002962b68643807"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0ea82939f1cc322fb862bed0e46270178c78dc53efd5c6af5c7f65bc4877e370"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "212c528d51c5347bbb7d8c77649371383354f2f1731850f5d20eec383fe3b322"
+    },
+    {
+      "id": "pj_thunder_seal",
+      "name": {
+        "vi": "Đạn: Lôi Ấn",
+        "en": "Projectile: Thunder Seal"
+      },
+      "file": "projectiles/pj_thunder_seal/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c9fd4b97d6b15b9135ec09cce8abdce8e2e3842f3b7fd6ba30d4fae59655b9d5"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "43e4178c929c2df3ebd3e7cfdf49fac1d0ad7dfb152ff20a41b156611a3f0668"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "53c239a5c4e60559a804ba41afbedbbb617fbd9eb5bed4a1dccc3ca1d3613bf2"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "3e744ead7f5bb92b7f9e3e3421b50b075635a37d86398100828fe4385050c3bc"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5ae4e60035f9f0801903c2792a71f9e3685a8e81c0a5c0627352d305f2f15073"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "004beef7650a8c4517ad9d1a4eabf7f89476ec9b6d88cd30dd880d160d89de98"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0fc13a45e108c464369b3d1ab86ccfa31a15ed3b80c07e410058df30a3caf32d"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fd70731f511127ed0b41af39721e3422e6c423a857c5c9648e6e7ba2fecf7f72"
+    },
+    {
+      "id": "pj_blood_fiend_banner",
+      "name": {
+        "vi": "Đạn: Huyết Sát Phiên",
+        "en": "Projectile: Blood Fiend Banner"
+      },
+      "file": "projectiles/pj_blood_fiend_banner/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "505f6e36f4cb7d043bf968592d53c14c28f5fee06c027c05c7520d48d53eec1b"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ba0dfaab6a10c1654a37bf86e19c586cd81c268d31f0b1d59d8657616ab679f9"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "42402159e65be35906ee393045e41cabb7ba3d7ee03a310866faa190a9f1b4b3"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e39300e6abb1377cdb6493058f389b8285011f25fa6793a90f5e21e40965e668"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "97f7380d297cfe34db57d3eb1af13d0aa1104e5859052d8ea74c949563bb8ad8"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0719f1f0732f5590ca8b995862bf6e15771b1ec6dd1055456e3d7b92448b959f"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a4788b459663cf963b53a9ff43ddd2ea3c97a716258c6495add3db2e878f9808"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "9d7573681ef24721161f7e9a0471a7de0dead0f45eb7cd102479abb4b900d390"
+    },
+    {
+      "id": "pj_ancient_god_hammer",
+      "name": {
+        "vi": "Đạn: Cổ Thần Thạch Chùy",
+        "en": "Projectile: Ancient God Stone Hammer"
+      },
+      "file": "projectiles/pj_ancient_god_hammer/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "b826486175175aa006f7eed172398d098f1914efdae54f6597085f36804af5ee"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0de00fd4aa24a53831f28ab1fe9ec03e4eaacf301cff301d3df71fb0c2d856a5"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d3e75cce1fb63433d2065ab89eafed0dcb11173f801c49aab387bb4fed51ab8c"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "10811008f528ec05efaf83af1ef5d174d2ea8d9bcb30d55b3429f39b80c29573"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c5306e7771db1143131526d8e210ac8d1a671ec190f764685da23ad4d8c4f07d"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fe55c34328f26936b3002b43f9a24ab6124b200080132da09dbaadbccef7364b"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "eebf289a8b802b83c7748fca5831f14f9c24cba6c6121837cf4256deca860300"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a8caf01ebc655df62abf4d5f5e9e50ad926a12c001c762571362856a2aee36a5"
+    },
+    {
+      "id": "pj_soul_lamp",
+      "name": {
+        "vi": "Đạn: Hồn Đăng",
+        "en": "Projectile: Soul Lamp"
+      },
+      "file": "projectiles/pj_soul_lamp/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "61c36f3312d3898afd96d9eaa25e2a8e68a11af53a778276659d7d08fb7cd8c1"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "2bc7347c38ab07848182193980fee45d85271ecabdbe93ad09cd617faa172734"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5b197f9432849d8d31bea31823ae5209bf25f5c2598dc9c6ec301e490bb5ea6d"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a54c6ac4f719bab143890263cfc1a03a9c44f19d638a10151587c9dff917b573"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d418f42902c9be40ff5e21e891f9be56fcd4a058068a6734b20ed155fbbd38a7"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1a76c11ab41484ac06ca1aa9eab02bddbec9bf23059fc5010a076b85dd96b100"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "df68fcc50e14e59646a329e243e5783ff5366c10b1f7bb6d0486d19527f79b08"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ed4535b355e89736d9110c75c55dec9453b291c607636360f891756d0242d438"
+    },
+    {
+      "id": "pj_five_element_needles",
+      "name": {
+        "vi": "Đạn: Ngũ Hành Phi Châm",
+        "en": "Projectile: Five-Element Flying Needles"
+      },
+      "file": "projectiles/pj_five_element_needles/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "589212acc8ceb44104c1a6a2645850a13122ba0a8f552d560bea066ae20f0b1f"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/flight_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "62aa0b20372d64b24b2889e1ab440000709c4d0ae4239e27e1fdce36c488ed5b"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/flight_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c314ba337875ccd7041ed0010550753a76844ca0673ad2368a25be3dcf173f80"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/flight_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "d08087901baab35caf32b34bca622412cecd1331d09b00a98694371495d92802"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/flight_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "flight",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7d5010d0c6f4de7176e0ed707f1c827f4ac81a8df0179f2af45e92aa1611b7a3"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/impact_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "fb34f9b2103c66a20dbd3d340f6e507184f72baeeeb6b77f5a95cc772bf2a9a7"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/impact_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "29b24a5c607d961edb40c45d7c636d39c4df999ff8c28e2cd6e78fd0aa6354a0"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/impact_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "10349cde47c54c6554f9d355375f9ad96378cfa6121f1c0b8ec270361dc083d5"
+    },
+    {
+      "id": "pj_spirit_stone_beads",
+      "name": {
+        "vi": "Đạn: Linh Thạch Bạo Châu",
+        "en": "Projectile: Spirit-Stone Burst Beads"
+      },
+      "file": "projectiles/pj_spirit_stone_beads/impact_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "impact",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "bedc8e395da67cf4ac1a2d94a202bd0d0186146185aacbdc1ea511773e3a774a"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/closed_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "closed",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "64d67a7eea44ba3f052b56613a3e61feb1b944b859a70a2972a80a05d00c25da"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/opening_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "opening",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "58545e5e83ddcc06162ffef78b7d23cb1f78ea30075858d0056075dab7b22fcb"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/opening_01.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "opening",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "1d205bfa60bff136210b47596afe6c6e4f354deaea0001d9c6dc5ad7ec10633e"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/opening_02.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "opening",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "60361d534a2e92a89637f9b9d191551001dfc210af5976661bd2c17c0c10906c"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/opening_03.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "opening",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "eb0afe7e845b9f4a5ceaf0879ed15a4a3dd64087042154b86b8f5de8871a038a"
+    },
+    {
+      "id": "prop_spirit_chest",
+      "name": {
+        "vi": "Linh Thạch Rương",
+        "en": "Spirit-Stone Chest"
+      },
+      "file": "props/prop_spirit_chest/open_00.png",
+      "dims": [
+        24,
+        24
+      ],
+      "animation": "open",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "ecf574860cce4f3db43b3b0dc9764256ad718b7318bf0d5d42ec36cf71b37ef2"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/intact_00.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "intact",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "8e24d4296d5f1969af81a4f3a14712455df0039110a76df6100868bafa607f5a"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/shatter_00.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "shatter",
+      "frame": 0,
+      "frames": 5,
+      "loop": false,
+      "sha256": "9fd73b0308e2a952b44bad1975a4f9d2cd1f55a98a27a8f12f19ec4e3f30512a"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/shatter_01.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "shatter",
+      "frame": 1,
+      "frames": 5,
+      "loop": false,
+      "sha256": "de367719b1885a52a2e4e1a493bb6f3e1b55f4fb745efe033c938b3ee5136502"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/shatter_02.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "shatter",
+      "frame": 2,
+      "frames": 5,
+      "loop": false,
+      "sha256": "ca80b7bf4879fd9a60edc9dd5136eb93951c9197f12ee254155a58479078c27a"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/shatter_03.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "shatter",
+      "frame": 3,
+      "frames": 5,
+      "loop": false,
+      "sha256": "e4e0e4819b7361147ab58b0ff0fde0048aa82a4ed729e7bd7fc7ce3b9c65f4ac"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/shatter_04.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "shatter",
+      "frame": 4,
+      "frames": 5,
+      "loop": false,
+      "sha256": "e4d5f54757e6cf17a4cf7ba32e424c99bf59d3b5809e42bb0e1bc82630940818"
+    },
+    {
+      "id": "prop_alchemy_jar",
+      "name": {
+        "vi": "Đan Dược Bình (Có Thể Phá)",
+        "en": "Breakable Alchemy Jar"
+      },
+      "file": "props/prop_alchemy_jar/debris_00.png",
+      "dims": [
+        16,
+        24
+      ],
+      "animation": "debris",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "5f6b0db30c0b055c6e64f93691f0b7efb5fbf91624dd4b1a7f1eb6a1e5d11504"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 6,
+      "loop": true,
+      "sha256": "9fbb4f4ee28675f7861cfa0daff26aefcc363f2a9dd796df5f819fe6f9aae6d3"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 6,
+      "loop": true,
+      "sha256": "9fcdbf34d8f9253255425cae7f7c47d7ec4d20c5bdae03b4a19296899dfd2b04"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 6,
+      "loop": true,
+      "sha256": "f1f3f0d1c527eb88dbea045f3d7899154bf5625adae9a80c487643030a0db86f"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 6,
+      "loop": true,
+      "sha256": "da52487b92930e313c3255923e532c01a29a7b8ddd8521a4639d520f7b1c8a12"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_04.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 4,
+      "frames": 6,
+      "loop": true,
+      "sha256": "95c12401a43ea34bab264d619cbde1fd91ede362f57693bc6047e08f7c138669"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/idle_05.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 5,
+      "frames": 6,
+      "loop": true,
+      "sha256": "32c75a74e23871685c77068b5296859d5a3d7e085d2325a4ab070100db52212e"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 0,
+      "frames": 6,
+      "loop": false,
+      "sha256": "7d1c13efb6e7751ce97e76df96d500f29e992a18235568141834feb68ea5dc2c"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 1,
+      "frames": 6,
+      "loop": false,
+      "sha256": "11f4df38c8cf2a11f23ebf5bdcea402df94bac7c1f7b993c863e2db120b186c6"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 2,
+      "frames": 6,
+      "loop": false,
+      "sha256": "7e11f2adf9705e8d416d7824986ad0914a83ec20ce9b3acd6af51b7dc8c86eb5"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 3,
+      "frames": 6,
+      "loop": false,
+      "sha256": "1d87b2fd0c7ce888c7a8655e1ce3f3bb7e772ccbf6ab34b10666897305e280ec"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_04.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 4,
+      "frames": 6,
+      "loop": false,
+      "sha256": "64cb6655a7ac309bd7efca4a0c811c120b9b912d9d67f78fef35476b06f6455b"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/activate_05.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 5,
+      "frames": 6,
+      "loop": false,
+      "sha256": "04cddf83330129d806a1622e82306f264a94144dfea1d57a215ce31e2e69a443"
+    },
+    {
+      "id": "prop_teleport_array",
+      "name": {
+        "vi": "Truyền Tống Trận",
+        "en": "Teleportation Array (Portal)"
+      },
+      "file": "props/prop_teleport_array/closed_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "closed",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "3be931701f4a6d2015374d437cc199fc4d46712b627e84a8a44f01a2ad5cba57"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "1c76a70746982da5534bda0b7f43f2756bec885dade261cb1daf3d07e7628462"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "ef723d4f3f0c9f4e993ad0bc6938d35ff85979f0385a680bc06582ccf011d0f4"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "506b5e6ea3eba869fca3d9e1dd9e1389acca0f13bec64ff2492ae1a2300045c1"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "982721cb6c19da95653dce45c236352bc16a3ec48f74c89a209c42fe256b1e7e"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/activate_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "74c858dcbc7c10cc9469eab19f4518ac98addf299431a9153f669fbf03af09be"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/activate_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "db9cf9c3eeed0a194dca5b0592a94356939beb532a2636b7a3e3dbe72b47f529"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/activate_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "042aaf5c6ac5772ec6f14c5f28183842396710584ed4d9e1c61677339c32da39"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/activate_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "3c6100caa9bfef3d0a3b28ec1d6fb02f93cd6ae1914b316e4105af58618b5653"
+    },
+    {
+      "id": "prop_shrine_altar",
+      "name": {
+        "vi": "Thần Đàn",
+        "en": "Shrine Altar"
+      },
+      "file": "props/prop_shrine_altar/used_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "used",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "490b4adab8d2871f0d66cae45d3320aa8626bcb6e70ff35e26fb298e6803f5ba"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/locked_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "locked",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "93ce9df002260182d23aca6436907757a42ab3bc5fdf07cc49679f0a68b2a248"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/unlocking_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "unlocking",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "592fcd8d0d8f1d420bce8150150b972d90344c2679bbef2325336be3f6a18884"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/unlocking_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "unlocking",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "675758665e291ae5b43ba627f3cfae42a1eb081833fe52662bf4400ebbf08b04"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/unlocking_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "unlocking",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7f3fd6d3971e7ab68e6a30aae6e9cf21a5b821d91c52f2144774aae474b334fe"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/unlocking_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "unlocking",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7d7997b04c736fee5f4b37eb250888cf2cb6e430c857762be2c0e1832e3f3cbc"
+    },
+    {
+      "id": "prop_room_door",
+      "name": {
+        "vi": "Môn Cấm Chế",
+        "en": "Restriction Gate (Room Door)"
+      },
+      "file": "props/prop_room_door/open_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "open",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "dba087efb43fc7cc823feda68b00518f1f62b95b9e7d66f563ff398165817179"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "a5cd0179858a95939f4c9aca0c740294c6ed8f0a067452d0254057fb388cf1f9"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "d0d491a68c326288f3fdfca5b694a2b4a7292d6557aa0eab00cd05b5ac335b5a"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "01ace9b92b7ed445e41332fab7df930420fa944a5acb3bb038cccf4baa0f5274"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "362de1f41b37d01da5b8bfa9406b7fce57934e38dde8bbe28f75da7e1d481fc0"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 0,
+      "frames": 6,
+      "loop": false,
+      "sha256": "c8aaff7ffbbd3fe8e4706c367956d5a61bb2f39e36db05c43554cfdadffe41c2"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 1,
+      "frames": 6,
+      "loop": false,
+      "sha256": "40bc525b1f815d530d962e11057695569af5067c4333fbca23b63049f7d4c023"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 2,
+      "frames": 6,
+      "loop": false,
+      "sha256": "f05f37d1a867709c5ba79ab740ede963c7428e78fd9e08e7c9122ca6b5ba62da"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 3,
+      "frames": 6,
+      "loop": false,
+      "sha256": "c78b0d0d3b96396bc6aa1e14be5fb2ba1c9e52e4328239a40597a0f4c3ca5580"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_04.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 4,
+      "frames": 6,
+      "loop": false,
+      "sha256": "c0418153ffbf536aefec5db8656e8505cdf0c1103752745c47f83352ab71958c"
+    },
+    {
+      "id": "prop_spawn_circle",
+      "name": {
+        "vi": "Triệu Hoán Trận",
+        "en": "Enemy Summoning Circle"
+      },
+      "file": "props/prop_spawn_circle/spawn_05.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "spawn",
+      "frame": 5,
+      "frames": 6,
+      "loop": false,
+      "sha256": "a6a111870bde83ca285b657b569fce531a654fba499fc2619c01481658a954f1"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "name": {
+        "vi": "Thạch Đăng",
+        "en": "Stone Lantern"
+      },
+      "file": "props/prop_stone_lantern/idle_00.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "9bfb8fb0a4eacccd863da8f0318bf5181f643be487693039c2bbb7ae3a156807"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "name": {
+        "vi": "Thạch Đăng",
+        "en": "Stone Lantern"
+      },
+      "file": "props/prop_stone_lantern/idle_01.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "79ec520626680357e9d2b037b991ba104e1dec9c2658182dd705263c8e5d4853"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "name": {
+        "vi": "Thạch Đăng",
+        "en": "Stone Lantern"
+      },
+      "file": "props/prop_stone_lantern/idle_02.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "859ae9419d1f945977c321baddf65c1948e55bbdb9bf1408ec8d937cfdf17e2d"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "name": {
+        "vi": "Thạch Đăng",
+        "en": "Stone Lantern"
+      },
+      "file": "props/prop_stone_lantern/idle_03.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "d820d9d61a29f531e5b44950d1b65370927734cddf8c6bd5b9ac5a985c5af56a"
+    },
+    {
+      "id": "prop_bamboo_cluster",
+      "name": {
+        "vi": "Trúc Lâm",
+        "en": "Bamboo Cluster"
+      },
+      "file": "props/prop_bamboo_cluster/idle_00.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "a28b73e230d6978f3762052d03a82445e3a4157e32493bc3e2f67e0cdf3495f6"
+    },
+    {
+      "id": "prop_bamboo_cluster",
+      "name": {
+        "vi": "Trúc Lâm",
+        "en": "Bamboo Cluster"
+      },
+      "file": "props/prop_bamboo_cluster/idle_01.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "c69d39bdeed0214e81fb7d0ecc7d045a95bae601f92ec70abb3bb2e1abdaa314"
+    },
+    {
+      "id": "prop_bamboo_cluster",
+      "name": {
+        "vi": "Trúc Lâm",
+        "en": "Bamboo Cluster"
+      },
+      "file": "props/prop_bamboo_cluster/idle_02.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "c405a7941b8a94244209890f848cbc8ce5293f35ce7992272d7da4bb2d34577d"
+    },
+    {
+      "id": "prop_bamboo_cluster",
+      "name": {
+        "vi": "Trúc Lâm",
+        "en": "Bamboo Cluster"
+      },
+      "file": "props/prop_bamboo_cluster/idle_03.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "9c6021258515a01344272d7ecd4c087a08f288c0d90301dc14852b5b87bc8c08"
+    },
+    {
+      "id": "prop_spirit_herb",
+      "name": {
+        "vi": "Linh Thảo",
+        "en": "Spirit Herb Patch"
+      },
+      "file": "props/prop_spirit_herb/idle_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "002d4bda306d104889161b292769fa391d2041ae6bdd9c41024486990b7b1eef"
+    },
+    {
+      "id": "prop_spirit_herb",
+      "name": {
+        "vi": "Linh Thảo",
+        "en": "Spirit Herb Patch"
+      },
+      "file": "props/prop_spirit_herb/idle_01.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "9bba3376008371d16d11041b13fe618c621dab75678e0717932531cc69873f44"
+    },
+    {
+      "id": "prop_spirit_herb",
+      "name": {
+        "vi": "Linh Thảo",
+        "en": "Spirit Herb Patch"
+      },
+      "file": "props/prop_spirit_herb/idle_02.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "870473bc91972cc402e72828b5a69aea50ea571ac84e5a64716e2b78d498dea8"
+    },
+    {
+      "id": "prop_spirit_herb",
+      "name": {
+        "vi": "Linh Thảo",
+        "en": "Spirit Herb Patch"
+      },
+      "file": "props/prop_spirit_herb/idle_03.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "478fcc4cefdb8851284e64fd48d1bf23eb02329fb2ddb927c07dc1bbc4015f46"
+    },
+    {
+      "id": "prop_spirit_herb",
+      "name": {
+        "vi": "Linh Thảo",
+        "en": "Spirit Herb Patch"
+      },
+      "file": "props/prop_spirit_herb/harvested_00.png",
+      "dims": [
+        16,
+        16
+      ],
+      "animation": "harvested",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "3d9efed04a09a5076773cac28222c63450723ba0726aff751db6e8787697fee3"
+    },
+    {
+      "id": "prop_courtyard_pillar",
+      "name": {
+        "vi": "Thạch Trụ Sân Viện",
+        "en": "Courtyard Stone Pillar"
+      },
+      "file": "props/prop_courtyard_pillar/idle_00.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "76882f791791548e27150509984406f20d3f68332eff4d0166d5c518025478c3"
+    },
+    {
+      "id": "prop_courtyard_pillar",
+      "name": {
+        "vi": "Thạch Trụ Sân Viện",
+        "en": "Courtyard Stone Pillar"
+      },
+      "file": "props/prop_courtyard_pillar/broken_00.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "broken",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "e4237703b2ff01f1132f174c829c0fb33fd684458c39efc986b12e7d9685ffc2"
+    },
+    {
+      "id": "prop_sect_banner",
+      "name": {
+        "vi": "Môn Phái Kỳ",
+        "en": "Sect Banner"
+      },
+      "file": "props/prop_sect_banner/idle_00.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "9fd82277abbfd4c55172ba7965326337cfc42616db3b3497df036cd3d4e16a6c"
+    },
+    {
+      "id": "prop_sect_banner",
+      "name": {
+        "vi": "Môn Phái Kỳ",
+        "en": "Sect Banner"
+      },
+      "file": "props/prop_sect_banner/idle_01.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "01b66eed5a37536b82311a8715d856c1f3040519107a164d17a8898802c24c2a"
+    },
+    {
+      "id": "prop_sect_banner",
+      "name": {
+        "vi": "Môn Phái Kỳ",
+        "en": "Sect Banner"
+      },
+      "file": "props/prop_sect_banner/idle_02.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "f8e65f6c4e0b161704a24683303b5913b70eb78c1b1957937e8c1e658cb2fb02"
+    },
+    {
+      "id": "prop_sect_banner",
+      "name": {
+        "vi": "Môn Phái Kỳ",
+        "en": "Sect Banner"
+      },
+      "file": "props/prop_sect_banner/idle_03.png",
+      "dims": [
+        16,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "05632425fc59d47006f07199c63923c55583fa8e8066368f287d16121ab04977"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "cf89253229c62c2216657a85ff37c34c094ba3789d113af839eaf2aa16450388"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "322375424d91eae65b11a31098f71d2f60ebfa179ec961c1fa114d1de6019efd"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "9a0bf452332e6207e17ee3ee4598085798d18803f31e03fbfefe338ddebbbb2c"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "d968a522f640d04bf47b03fb06e919d0751ab7d1d879ee2e8b17e33902b174d5"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/activate_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a947903dd4c3f1e4e66c8c52862f781ecedef4bbb980e9b7f0e86224892bf4a3"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/activate_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "698c277a6988d490cee406b941efc1a97c10120fbbc3f2d5dc437ecbf1724e2c"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/activate_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "7c507b8ae279e2e5836141401f7a8aea2cf6600a467652b81a1e02f012830135"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/activate_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "363c8e4840ee70d0050a564f2cb6b3ae38e0daa052d26e64aab66cae25182cf9"
+    },
+    {
+      "id": "prop_bone_altar",
+      "name": {
+        "vi": "Cốt Đàn",
+        "en": "Bone Altar"
+      },
+      "file": "props/prop_bone_altar/used_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "used",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "c43aff6102788e2e537ae3ebf4a0eb369da8140cc8189a1410143c64dfaacdbf"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_00.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 6,
+      "loop": true,
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_01.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 6,
+      "loop": true,
+      "sha256": "db662b07522ba07cc6120a773e861e2c8b26a38ddd04a7724849a7d8f2ba01fd"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_02.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 6,
+      "loop": true,
+      "sha256": "fc93761482c777ceb89f57e52ec8ed78f7c6ce8822124cbddba7f051fb00020c"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_03.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 6,
+      "loop": true,
+      "sha256": "4425c7d1da1bf3ba7fafc0547bbbdfd335a901c39f07a3264ca3aee6cc598e36"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_04.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 4,
+      "frames": 6,
+      "loop": true,
+      "sha256": "5be1e841cef71ed262a6066cdfdd7056d1a7371dac1ff5429b3b78f88f226781"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/idle_05.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 5,
+      "frames": 6,
+      "loop": true,
+      "sha256": "8c9719f96ba5c54fee56058cf5cb19c36ce6e79f71825f1f845fa777b0aae557"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/overload_00.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "overload",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "62d87d465fbe25a618fe843260c5bc13091fad5517223687c951dbd0c0b1cba1"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/overload_01.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "overload",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5665b9f4370c6fb33f5829584f0687212c91de439bc893c1bfe71193774e6c9a"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/overload_02.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "overload",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "ea1bea3ac66e100a456a574d62850ea0533ca2f083e5d1fe7ed4e30e86de1bf6"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/overload_03.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "overload",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "49289a1b7a98e642f660880c02571e4f544ed7271671d54beb126a1abb1e135c"
+    },
+    {
+      "id": "prop_restriction_pillar",
+      "name": {
+        "vi": "Cấm Chế Trụ",
+        "en": "Restriction Pillar"
+      },
+      "file": "props/prop_restriction_pillar/broken_00.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "broken",
+      "frame": 0,
+      "frames": 1,
+      "loop": false,
+      "sha256": "ae5da62dc244e72777c1b611fcf43b21dcfed517dc872fa9bab1ef181e3dfe09"
+    },
+    {
+      "id": "prop_blood_pool_decor",
+      "name": {
+        "vi": "Huyết Trì (Trang Trí)",
+        "en": "Blood Pool Edge Decor"
+      },
+      "file": "props/prop_blood_pool_decor/idle_00.png",
+      "dims": [
+        32,
+        16
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 4,
+      "loop": true,
+      "sha256": "c3b69c1a86465946cc7b7dd62bd40aa227e2e85bd68444d39b0057db8605dfa6"
+    },
+    {
+      "id": "prop_blood_pool_decor",
+      "name": {
+        "vi": "Huyết Trì (Trang Trí)",
+        "en": "Blood Pool Edge Decor"
+      },
+      "file": "props/prop_blood_pool_decor/idle_01.png",
+      "dims": [
+        32,
+        16
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 4,
+      "loop": true,
+      "sha256": "8e8ab5678b80bd97fca82896c485d660d9703c4aa238f3eafc0e62ad357f60cc"
+    },
+    {
+      "id": "prop_blood_pool_decor",
+      "name": {
+        "vi": "Huyết Trì (Trang Trí)",
+        "en": "Blood Pool Edge Decor"
+      },
+      "file": "props/prop_blood_pool_decor/idle_02.png",
+      "dims": [
+        32,
+        16
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 4,
+      "loop": true,
+      "sha256": "34db1131baf7dc104e0472cf9e9e13ff9223c2db2eace30fd802dea02e71f58f"
+    },
+    {
+      "id": "prop_blood_pool_decor",
+      "name": {
+        "vi": "Huyết Trì (Trang Trí)",
+        "en": "Blood Pool Edge Decor"
+      },
+      "file": "props/prop_blood_pool_decor/idle_03.png",
+      "dims": [
+        32,
+        16
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 4,
+      "loop": true,
+      "sha256": "f8262b4de17f9e47524b9d508e01c0bd2b7aa6cc936c1b1b5ca79186e495c9c9"
+    },
+    {
+      "id": "prop_mist_ravine_rock",
+      "name": {
+        "vi": "Nham Thạch Sơn Cốc",
+        "en": "Ravine Rock Spire"
+      },
+      "file": "props/prop_mist_ravine_rock/idle_00.png",
+      "dims": [
+        24,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "f4b90a40545083da3e1cc2fc04a5e436b617253ef860b0983b98b7f17c7643bc"
+    },
+    {
+      "id": "prop_petrified_chain",
+      "name": {
+        "vi": "Thạch Hóa Xích",
+        "en": "Petrified Chain"
+      },
+      "file": "props/prop_petrified_chain/idle_00.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "f58760397917217837d32dee5190cc15e7e9501bca16923fb45377ead2db5ffb"
+    },
+    {
+      "id": "prop_petrified_chain",
+      "name": {
+        "vi": "Thạch Hóa Xích",
+        "en": "Petrified Chain"
+      },
+      "file": "props/prop_petrified_chain/shatter_00.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "shatter",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "de37da13e10729549e3f6bc246d5f36b7004d3384a48935bf3beae33024ec27f"
+    },
+    {
+      "id": "prop_petrified_chain",
+      "name": {
+        "vi": "Thạch Hóa Xích",
+        "en": "Petrified Chain"
+      },
+      "file": "props/prop_petrified_chain/shatter_01.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "shatter",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "0a9bf746ab05b7ed0a53857e25ded1221869462a5a82b9b33eb07015d9a05a10"
+    },
+    {
+      "id": "prop_petrified_chain",
+      "name": {
+        "vi": "Thạch Hóa Xích",
+        "en": "Petrified Chain"
+      },
+      "file": "props/prop_petrified_chain/shatter_02.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "shatter",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "e7b3cd3ce10615eb8f56ce8c8abb381c5d23feaf97d764a2534e7eae60f2549d"
+    },
+    {
+      "id": "prop_petrified_chain",
+      "name": {
+        "vi": "Thạch Hóa Xích",
+        "en": "Petrified Chain"
+      },
+      "file": "props/prop_petrified_chain/shatter_03.png",
+      "dims": [
+        16,
+        48
+      ],
+      "animation": "shatter",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "3e0a6db86cfd90ccd0ed6b86ac0af162d2fdac0323d6be7a62d2a388d2d7dde3"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 6,
+      "loop": true,
+      "sha256": "6f709f9ebd672dd399efe233200c6770a75a574f4f79470b26bcc94839b6d8cd"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 6,
+      "loop": true,
+      "sha256": "a4d7ede60489bb0132a141e211c814962fa8cb460dc83e54a0fcb8227906d468"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 6,
+      "loop": true,
+      "sha256": "3df62ff5155d09b1c4c694d8fcdb3897b927e907ca5bd765ee3daf21fdfe2933"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 6,
+      "loop": true,
+      "sha256": "07ebdb7d9543d4739459bdaf6c29ed9420e8df6047e115ffbc17b25692521ebd"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_04.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 4,
+      "frames": 6,
+      "loop": true,
+      "sha256": "ee54b5d5584dc512c8255bbb21bb7af3f8f37234b3c2db3edefbb7831183527f"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/idle_05.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 5,
+      "frames": 6,
+      "loop": true,
+      "sha256": "f12276c9c1db5a4b720460993cafd8d402526de49200f78d03491d0c386f8496"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/activate_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "c5a251f74f82d83c54035c5cffb4c267a55a6dc4cb8674224bb8f945722e60a8"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/activate_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "90d7fb07c169ab6027e4e9ea6da09dfb72ef33c19ff87740cc90e7bc0aef820e"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/activate_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "901c562443ec4a5b597c97cac8bd75bf35c47ca7c96f88c992142b25b553342a"
+    },
+    {
+      "id": "prop_golden_rune_glyph",
+      "name": {
+        "vi": "Kim Sắc Phù Văn",
+        "en": "Golden Ancient God Rune Glyph"
+      },
+      "file": "props/prop_golden_rune_glyph/activate_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "activate",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "f0f4b4f92efdaa9bb76221cace779e2df306ef607116cbf1aca9b2c6462b5e7b"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_00.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 6,
+      "loop": true,
+      "sha256": "632cd5889dcf49f24c581ca28da009ba4f34b69ead82d9eca0e1f7f24ea206f2"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_01.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 1,
+      "frames": 6,
+      "loop": true,
+      "sha256": "5fa22bf875065ce96fd572fbd52a005d284e6d0c92ca79d7697714f9409e2475"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_02.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 2,
+      "frames": 6,
+      "loop": true,
+      "sha256": "3d90c64b51aa4fd15b07be09a20e14dbe0db65ef4ba6ffb61ced10b67757dc4b"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_03.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 3,
+      "frames": 6,
+      "loop": true,
+      "sha256": "fdf0ed4274cb78fc2c7b592af589018e43ba189b3f42bf17668bc7f099a27315"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_04.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 4,
+      "frames": 6,
+      "loop": true,
+      "sha256": "fdb0e2367bd98a6d2578cd671da5074867046163396dafabfe03c1db4b002e4e"
+    },
+    {
+      "id": "prop_void_crack_decor",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Crack Accent"
+      },
+      "file": "props/prop_void_crack_decor/idle_05.png",
+      "dims": [
+        32,
+        32
+      ],
+      "animation": "idle",
+      "frame": 5,
+      "frames": 6,
+      "loop": true,
+      "sha256": "bbad7ac32f0cfc683b559b81e39960bf5e76828573d0a42885368066bc84c1de"
+    },
+    {
+      "id": "prop_ancient_statue",
+      "name": {
+        "vi": "Cổ Thần Tàn Tượng",
+        "en": "Ancient God Statue Fragment"
+      },
+      "file": "props/prop_ancient_statue/idle_00.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "idle",
+      "frame": 0,
+      "frames": 1,
+      "loop": true,
+      "sha256": "80399551f0f27109c799748d066def095b0b383130c9c33459095d07291e6325"
+    },
+    {
+      "id": "prop_ancient_statue",
+      "name": {
+        "vi": "Cổ Thần Tàn Tượng",
+        "en": "Ancient God Statue Fragment"
+      },
+      "file": "props/prop_ancient_statue/crumble_00.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "crumble",
+      "frame": 0,
+      "frames": 4,
+      "loop": false,
+      "sha256": "5ba07a432cfc70cee7cced072d2c7acc2be1c2059de55844302ecbb18dc794f1"
+    },
+    {
+      "id": "prop_ancient_statue",
+      "name": {
+        "vi": "Cổ Thần Tàn Tượng",
+        "en": "Ancient God Statue Fragment"
+      },
+      "file": "props/prop_ancient_statue/crumble_01.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "crumble",
+      "frame": 1,
+      "frames": 4,
+      "loop": false,
+      "sha256": "43f49c04d1f90bafd63b475ad5c664f2d4d256fdf84131d8326a2f59b7a6d054"
+    },
+    {
+      "id": "prop_ancient_statue",
+      "name": {
+        "vi": "Cổ Thần Tàn Tượng",
+        "en": "Ancient God Statue Fragment"
+      },
+      "file": "props/prop_ancient_statue/crumble_02.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "crumble",
+      "frame": 2,
+      "frames": 4,
+      "loop": false,
+      "sha256": "bca7bc291fa552818a3e0bf09182c165c33fc91f3b9c0cb1dc124e037faa2d01"
+    },
+    {
+      "id": "prop_ancient_statue",
+      "name": {
+        "vi": "Cổ Thần Tàn Tượng",
+        "en": "Ancient God Statue Fragment"
+      },
+      "file": "props/prop_ancient_statue/crumble_03.png",
+      "dims": [
+        32,
+        48
+      ],
+      "animation": "crumble",
+      "frame": 3,
+      "frames": 4,
+      "loop": false,
+      "sha256": "a72043c67d0421c1862a6742f63f40537fbf5e16f2231755672b25b116454b80"
+    }
+  ]
+}
