@@ -190,7 +190,7 @@ export function pad2(n) {
  * Returns candidate canonical frame keys (ordered by preference) for an asset frame.
  * Supports both exact shared contract keys and minor manifest/raw path variations.
  */
-export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', frameIndex = 0, tileIndex = 0, sheetId = null } = {}) {
+export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', frameIndex = 0, tileIndex = 0, sheetId = null, tileFrame = 0 } = {}) {
   const cat = asset.category;
   const id = asset.id;
   const d = DIR_NAME_TO_CODE[dir] || 's';
@@ -199,6 +199,7 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   if (cat === 'player' || cat === 'mob' || cat === 'boss') {
     const alias = PLAYER_ALIAS_MAP[id];
     const subFolder = cat === 'player' ? 'players' : cat === 'mob' ? 'mobs' : 'bosses';
+    keys.push(`characters/${id}/${anim}_${dir}_${frameIndex}`);
     keys.push(`characters/${id}/${anim}_${d}_${frameIndex}`);
     if (alias) keys.push(`characters/${alias}/${anim}_${d}_${frameIndex}`);
     keys.push(`characters/${subFolder}/${id}/${anim}_${d}_${frameIndex}`);
@@ -214,6 +215,8 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
     const biomeId = asset.biome || id.replace(/^ts_/, '');
     const nn = pad2(tileIndex);
     if (sheetId) {
+      keys.push(`tilesets/${id}/${sheetId}_f${tileFrame}_${tileIndex}`);
+      keys.push(`tilesets/${id}/${sheetId}_f0_${tileIndex}`);
       keys.push(`tilesets/${biomeId}/${sheetId}/tile_${nn}`);
       keys.push(`tilesets/${id}/${sheetId}/tile_${nn}`);
       keys.push(`tilesets/${biomeId}/${sheetId}_${nn}`);
@@ -226,6 +229,8 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   }
 
   if (cat === 'weapon') {
+    keys.push(`weapons/${id}/${anim || 'idle'}_none_${frameIndex}`);
+    keys.push(`weapons/${id}/idle_none_0`);
     if (anim && anim !== 'idle') {
       keys.push(`weapons/${id}/${anim}_${frameIndex}`);
       keys.push(`weapons/${id}_${anim}_${frameIndex}`);
@@ -237,6 +242,7 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   }
 
   if (cat === 'projectile') {
+    keys.push(`projectiles/${id}/${anim || 'flight'}_none_${frameIndex}`);
     if (anim && anim !== 'flight') {
       keys.push(`projectiles/${id}/${anim}_${frameIndex}`);
       keys.push(`projectiles/${id}_${anim}_${frameIndex}`);
@@ -248,6 +254,7 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   }
 
   if (cat === 'prop') {
+    keys.push(`props/${id}/${anim || 'idle'}_none_${frameIndex}`);
     if (anim) {
       keys.push(`props/${id}/${anim}_${frameIndex}`);
       keys.push(`props/${id}_${anim}_${frameIndex}`);
@@ -268,6 +275,7 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   }
 
   if (cat === 'icon') {
+    keys.push(`ui/${id}/static_none_0`);
     keys.push(`ui/${id}`);
     keys.push(`icons/${id}`);
     keys.push(`ui/icons/${id}`);
@@ -277,6 +285,7 @@ export function buildCandidateFrameKeys(asset, { anim = 'idle', dir = 'south', f
   }
 
   if (cat === 'ui') {
+    keys.push(`ui/${id}/${anim || 'idle'}_none_${frameIndex}`);
     if (anim) {
       keys.push(`ui/${id}/${anim}_${frameIndex}`);
       keys.push(`ui/${id}_${anim}_${frameIndex}`);
@@ -297,17 +306,16 @@ export function primaryContractKey(asset, opts = {}) {
   const d = DIR_NAME_TO_CODE[opts.dir || 'south'] || 's';
   const fi = opts.frameIndex ?? 0;
   if (cat === 'player' || cat === 'mob' || cat === 'boss') {
-    return `characters/${id}/${opts.anim || 'idle'}_${d}_${fi}`;
+    return `characters/${id}/${opts.anim || 'idle'}_${opts.dir || 'south'}_${fi}`;
   }
   if (cat === 'tileset') {
-    const biomeId = asset.biome || id.replace(/^ts_/, '');
-    return `tilesets/${biomeId}/tile_${pad2(opts.tileIndex ?? 0)}`;
+    return `tilesets/${id}/${opts.sheetId || 'floor_blob47'}_f${opts.tileFrame ?? 0}_${opts.tileIndex ?? 0}`;
   }
-  if (cat === 'weapon') return `weapons/${id}`;
-  if (cat === 'projectile') return `projectiles/${id}_${fi}`;
-  if (cat === 'prop') return `props/${id}_${fi}`;
+  if (cat === 'weapon') return `weapons/${id}/${opts.anim || 'idle'}_none_${fi}`;
+  if (cat === 'projectile') return `projectiles/${id}/${opts.anim || 'flight'}_none_${fi}`;
+  if (cat === 'prop') return `props/${id}/${opts.anim || 'idle'}_none_${fi}`;
   if (cat === 'vfx') return `vfx/${id}_${fi}`;
-  if (cat === 'icon') return `ui/${id}`;
-  if (cat === 'ui') return `ui/${id}`;
+  if (cat === 'icon') return `ui/${id}/static_none_0`;
+  if (cat === 'ui') return `ui/${id}/${opts.anim || 'idle'}_none_${fi}`;
   return `${cat}/${id}`;
 }

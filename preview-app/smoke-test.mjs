@@ -110,9 +110,41 @@ async function run() {
 
     // 6. Verify AssetKeys contract helper formatting
     const wl = manifest.assets.find((a) => a.id === 'wl_outer_disciple');
-    assert.equal(primaryContractKey(wl, { anim: 'run', dir: 'south', frameIndex: 0 }), 'characters/wl_outer_disciple/run_s_0');
+    assert.equal(primaryContractKey(wl, { anim: 'run', dir: 'south', frameIndex: 0 }), 'characters/wl_outer_disciple/run_south_0');
     const cands = buildCandidateFrameKeys(wl, { anim: 'run', dir: 'south', frameIndex: 0 });
     assert.ok(cands.includes('characters/wanglin_01/run_s_0'), 'Candidate keys must support wanglin_01 alias');
+
+    // 6b. Real web atlases: every delivered manifest frame must resolve through the candidate-key contract
+    const frames = new Set();
+    for (const rel of index.atlases) {
+      const atlas = await (await fetchOk(`${origin}/${rel}`)).json();
+      assert.ok(!Array.isArray(atlas.frames), `${rel}: hash-format atlas expected`);
+      await fetchOk(`${origin}/${rel.slice(0, rel.lastIndexOf('/'))}/${atlas.meta.image}`);
+      for (const k of Object.keys(atlas.frames)) frames.add(k);
+    }
+    if (frames.size > 0) {
+      const resolve = (a, o) => buildCandidateFrameKeys(a, o).find((k) => frames.has(k));
+      const miss = [];
+      let checked = 0;
+      for (const a of manifest.assets) {
+        if (a.category === 'tileset') {
+          for (const sh of a.sheets) if (!resolve(a, { sheetId: sh.id, tileIndex: 0 })) miss.push(`${a.id}/${sh.id}`);
+          checked++;
+          continue;
+        }
+        const anims = a.animations ? Object.keys(a.animations) : ['static'];
+        const dirs = a.directions || ['none'];
+        const delivered = [...frames].some((k) => k.includes(`/${a.id}/`) || k.startsWith(`${a.category === 'icon' ? 'ui' : a.category}s/${a.id}`));
+        if (!delivered) continue; // not generated yet (e.g. bosses beyond the first)
+        checked++;
+        for (const anim of anims) {
+          const o = { anim: a.category === 'icon' ? 'idle' : anim, dir: dirs[0] === 'none' ? 'south' : dirs[0], frameIndex: 0 };
+          if (!resolve(a, o)) miss.push(`${a.id}:${anim}`);
+        }
+      }
+      assert.deepEqual(miss, [], `Atlas frames not resolvable via AssetKeys candidates: ${miss.slice(0, 8).join(', ')}`);
+      console.log(`atlas check: ${frames.size} frames, ${checked} manifest assets resolve`);
+    }
 
     // 7. Optional live browser verification via `ao browser`
     if (useAoBrowser) {

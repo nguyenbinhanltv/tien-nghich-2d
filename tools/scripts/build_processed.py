@@ -329,6 +329,8 @@ def build(args):
         if vdir.exists():
             shutil.rmtree(vdir)
         for p in sorted(Path(args.vfx_src).glob("*.png")):
+            if p.stem.endswith("_sheet"):          # horizontal strips are a packaging convenience, not frames
+                continue
             fixed = snap(read(p), palette, outline, "vfx", stats)
             write(fixed, vdir / p.name)
             report["written"]["vfx"] += 1
