@@ -1,0 +1,65 @@
+{
+ "schema": "tien-nghich-2d.asset-manifest",
+ "version": "fixture",
+ "assets": [
+  {
+   "id": "fx_mob",
+   "category": "mob",
+   "size": [
+    32,
+    32
+   ],
+   "directions": [
+    "south",
+    "east"
+   ],
+   "animations": {
+    "idle": {
+     "frames": 3
+    },
+    "move": {
+     "frames": 2
+    }
+   },
+   "frames_per_direction": 5,
+   "total_frames": 10,
+   "output_path": "assets/raw/characters/mobs/fx_mob/"
+  },
+  {
+   "id": "fx_icon",
+   "category": "icon",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "output_path": "assets/raw/environment_items/icons/fx_icon/"
+  },
+  {
+   "id": "fx_tiles",
+   "category": "tileset",
+   "size": [
+    16,
+    16
+   ],
+   "tile_size": 16,
+   "sheets": [
+    {
+     "id": "floor",
+     "tiles": 2,
+     "anim_frames": 1
+    }
+   ],
+   "output_path": "assets/raw/environment_items/tilesets/fx_tiles/"
+  }
+ ]
+}
