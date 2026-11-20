@@ -200,7 +200,9 @@ export class AssetStore {
 
     // 3. Dev fallback: register individual PNGs under assets/processed/ & assets/raw/environment_items/ & assets/raw/characters/
     // Sort larger icon variants (e.g. 24x24) ahead of 16x16 so canonical keys default to the primary manifest size.
-    const realPngs = [
+    const haveRealAtlas = this.loadedAtlases.some((a) => !a.isFixture);
+    const forcePng = new URLSearchParams(globalThis.location?.search || '').get('png') === '1';
+    const realPngs = haveRealAtlas && !forcePng ? [] : [
       ...(this.index.processedPngs || []),
       ...(this.index.rawEnvironmentPngs || []),
       ...(this.index.rawCharacterPngs || []),
@@ -225,8 +227,29 @@ export class AssetStore {
       }
     }
 
+    this._syncVfxAssets();
     this._computeGroupStatus();
     this.emit();
+  }
+
+  /** Real VFX ids come from the atlas keys `vfx/<id>_<n>` (the manifest has no VFX entries). */
+  _syncVfxAssets() {
+    const counts = new Map();
+    for (const [key, fr] of this.frames) {
+      const m = /^vfx\/(.+)_(\d+)$/.exec(key);
+      if (!m || fr.isFixture) continue;
+      const e = counts.get(m[1]) || { n: 0, w: fr.sw, h: fr.sh };
+      e.n = Math.max(e.n, Number(m[2]) + 1);
+      counts.set(m[1], e);
+    }
+    if (!counts.size) return;
+    this.assets = this.assets.filter((a) => !(a.category === 'vfx' && a._contractEntry));
+    for (const [id, e] of counts) {
+      const asset = { id, name: { vi: id, en: id }, category: 'vfx', size: [e.w, e.h], biome: 'all',
+        animations: { play: { frames: e.n, loop: false } }, palette_refs: [], _fromAtlas: true };
+      this.assets.push(asset);
+      this.assetsById.set(id, asset);
+    }
   }
 
   async _loadAtlasFile(relPath, isFixture) {
@@ -314,16 +337,18 @@ export class AssetStore {
     return this.frames.get(key) || null;
   }
 
-  resolveTileFrame(biomeId, tileIndex, sheetId = null) {
+  resolveTileFrame(biomeId, tileIndex, sheetId = null, tileFrame = 0) {
     const biome = BIOMES.find((b) => b.id === biomeId) || BIOMES[0];
     const pseudoAsset = { category: 'tileset', id: biome.tilesetId, biome: biome.id };
-    return this.resolveFrame(pseudoAsset, { tileIndex, sheetId });
+    return this.resolveFrame(pseudoAsset, { tileIndex, sheetId, tileFrame });
   }
 
   hasAnyFrameForAsset(asset) {
     if (asset.category === 'tileset') {
+      const sheetId = asset.sheets?.[0]?.id || 'floor_blob47';
       for (let i = 0; i < 47; i++) {
-        if (this.resolveTileFrame(asset.biome, i)) return this.resolveTileFrame(asset.biome, i);
+        const hit = this.resolveTileFrame(asset.biome, i, sheetId) || this.resolveTileFrame(asset.biome, i);
+        if (hit) return hit;
       }
       return null;
     }

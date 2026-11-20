@@ -71,7 +71,7 @@ export async function buildPreviewIndex() {
     fixtureAtlases,
     fixturePngs,
   ] = await Promise.all([
-    walkFiles('assets/atlases/web', (f) => f.endsWith('.json')),
+    walkFiles('assets/atlases/web', (f) => /atlas-\d+\.json$/.test(f)),
     walkFiles('assets/processed', (f) => f.endsWith('.png')),
     walkFiles('assets/raw/environment_items', (f) => f.endsWith('.png')),
     walkFiles('assets/raw/characters', (f) => f.endsWith('.png')),

@@ -505,12 +505,16 @@ export class ArenaController {
           const tileIdx = bm.maskToTile.get(mask) ?? 46;
 
           const sheet = isFrontFace ? 'wall_face' : 'wall_top_blob47';
-          const frame =
-            this.store.resolveTileFrame(biome.id, tileIdx, sheet) ||
-            this.store.resolveTileFrame(biome.id, tileIdx);
+          const faceIdx = (room.wallFaceVariants[y * room.cols + x] || 0) % 12;
+          const frame = isFrontFace
+            ? this.store.resolveTileFrame(biome.id, faceIdx, 'wall_face')
+            : this.store.resolveTileFrame(biome.id, tileIdx, sheet) ||
+              this.store.resolveTileFrame(biome.id, tileIdx);
 
           if (frame) {
-            ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, px, py, 16, 16);
+            // wall_face tiles are 16x32 (2.5D): anchor the bottom of the face on this cell.
+            if (frame.sh === 32) ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, px, py - 16, 16, 32);
+            else ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, px, py, 16, 16);
           } else {
             this._drawPlaceholderWallTile(ctx, px, py, mask, isFrontFace, pal, room.wallFaceVariants[y * room.cols + x]);
           }
@@ -890,8 +894,9 @@ export class ArenaController {
 
   _drawImpactVfx(ctx, fx) {
     const t = fx.age / fx.duration;
-    const fIdx = Math.min(3, Math.floor(t * 4));
-    const vfxAsset = this.store.assetsById.get('vfx_qi_burst');
+    const vfxAsset = this.store.assetsById.get('hit_spark') || this.store.assetsById.get('vfx_qi_burst');
+    const vfxFrames = vfxAsset?.animations?.play?.frames || 4;
+    const fIdx = Math.min(vfxFrames - 1, Math.floor(t * vfxFrames));
     const frame = vfxAsset ? this.store.resolveFrame(vfxAsset, { anim: 'play', frameIndex: fIdx }) : null;
 
     const px = Math.round(fx.x);
