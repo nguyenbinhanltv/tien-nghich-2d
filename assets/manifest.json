@@ -1388,6 +1388,24 @@
      "role": "floor decals: cracks, moss, petals, sweeping marks",
      "tiles": 16,
      "anim_frames": 1
+    },
+    {
+     "id": "floor_garden_variants",
+     "role": "floor: variation tiles for garden",
+     "tiles": 4,
+     "anim_frames": 1
+    },
+    {
+     "id": "floor_variants",
+     "role": "floor: plain variation tiles (random pick)",
+     "tiles": 4,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_shadow",
+     "role": "wall: cast-shadow strip on the floor under a wall",
+     "tiles": 4,
+     "anim_frames": 1
     }
    ],
    "output_path": "assets/raw/environment_items/tilesets/ts_hengyue/",
@@ -1462,6 +1480,24 @@
      "role": "floor decals: bones, blood splatter, mist wisps",
      "tiles": 16,
      "anim_frames": 1
+    },
+    {
+     "id": "floor_blood_variants",
+     "role": "floor: variation tiles for blood",
+     "tiles": 4,
+     "anim_frames": 1
+    },
+    {
+     "id": "floor_ravine_variants",
+     "role": "floor: variation tiles for ravine",
+     "tiles": 4,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_shadow",
+     "role": "wall: cast-shadow strip on the floor under a wall",
+     "tiles": 4,
+     "anim_frames": 1
     }
    ],
    "output_path": "assets/raw/environment_items/tilesets/ts_blood_valley/",
@@ -1530,6 +1566,18 @@
      "role": "ANIMATED golden rune floor glyph overlays",
      "tiles": 8,
      "anim_frames": 4
+    },
+    {
+     "id": "floor_variants",
+     "role": "floor: plain variation tiles (random pick)",
+     "tiles": 4,
+     "anim_frames": 1
+    },
+    {
+     "id": "wall_shadow",
+     "role": "wall: cast-shadow strip on the floor under a wall",
+     "tiles": 4,
+     "anim_frames": 1
     }
    ],
    "output_path": "assets/raw/environment_items/tilesets/ts_ancient_god/",
