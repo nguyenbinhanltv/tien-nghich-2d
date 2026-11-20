@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[2]
 GROUPS = ("characters", "tilesets", "weapons", "projectiles", "props", "vfx", "ui")
 IMAGE_SUFFIXES = {".png", ".webp", ".bmp", ".gif", ".tif", ".tiff", ".jpg", ".jpeg"}
 MISSING = "missing: pixellab not generated"
+# assets/processed uses the QA folder names; the public atlas key groups are coarser.
+KEY_GROUP = {"players": "characters", "mobs": "characters", "bosses": "characters", "icons": "ui"}
 ANIM_FRAME = re.compile(r"^(.+)/([^/]+)_([^/_]+)_(\d+)$")
 
 
@@ -53,6 +55,8 @@ def read_sprites(source):
         if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES:
             continue
         key = path.relative_to(source).with_suffix("").as_posix()
+        head, separator, tail = key.partition("/")
+        key = f"{KEY_GROUP.get(head, head)}{separator}{tail}"
         if key in sprites:
             raise ValueError(f"Duplicate frame key {key!r}: {path}")
         with Image.open(path) as image:

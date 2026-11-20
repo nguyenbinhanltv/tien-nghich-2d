@@ -8,11 +8,12 @@ validates its output.
 Frame keys are paths relative to `assets/processed/` with the extension removed
 and forward slashes as separators. The file layout defines the public keys:
 
-- Character frames use `characters/<asset_id>/<anim>_<dir>_<frameIndex>`.
-- Biome tiles use `tilesets/<biome_id>/tile_<NN>`.
-- Weapons and UI use `weapons/<id>` and `ui/<id>`.
-- Projectiles, props, and VFX use `projectiles/<id>_<n>`, `props/<id>_<n>`,
-  and `vfx/<id>_<n>`.
+- `assets/processed/` keeps the QA folder names (`players|mobs|bosses|icons`); the packer maps them to the
+  public key groups: `players|mobs|bosses` -> `characters`, `icons` -> `ui`.
+- Character frames: `characters/<asset_id>/<anim>_<dir>_<frameIndex>`.
+- Biome tiles: `tilesets/<ts_id>/<sheet>_f<frame>_<tileIndex>` (a tileset has several sheets, so no bare `tile_NN`).
+- Weapons, projectiles, props, UI and icons: `<group>/<id>/<anim>_none_<n>` (`static_none_0` / `v16_none_0` for icons).
+- VFX: `vfx/<id>_<n>`.
 
 Each page has a numbered `atlas-N.png` and its Phaser/Pixi hash
 `atlas-N.json`. Web also emits `atlas-N.array.json` and a lossless
