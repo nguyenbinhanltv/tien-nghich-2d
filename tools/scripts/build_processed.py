@@ -8,7 +8,7 @@ Pipeline per frame
   2. characters only: PixelLab outline #020105 -> ink_01, common-bbox crop per character,
      feet-anchored paste into the manifest canvas (mode-filter downscale only when the common
      bbox does not fit; never interpolates colours)
-  3. alpha -> 0/255, RGB under alpha 0 -> 0, snap every pixel to the 41 palette colours (Lab distance)
+  3. alpha -> 0/255, RGB under alpha 0 -> 0, snap every pixel to the 40 palette colours (ink_01 outline included) (Lab distance)
   4. repair silhouette edges with the #14101a outline (categories that need one)
   5. optional character colour-noise clean-up (rare colours merged into the nearest used colour)
 
