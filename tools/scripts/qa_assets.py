@@ -397,7 +397,18 @@ def summarize(issues):
     return c
 
 
+def _rel(v) -> str:
+    """Repo-relative path for the report (no machine-specific absolute paths)."""
+    try:
+        return Path(v).resolve().relative_to(REPO).as_posix()
+    except (ValueError, OSError):
+        return str(v)
+
+
 def write_report(path: Path, ctx: dict):
+    ctx = dict(ctx, root=_rel(ctx["root"]), manifest=_rel(ctx["manifest"]), palette=_rel(ctx["palette"]))
+    if ctx.get("fix"):
+        ctx["fix"] = {**ctx["fix"], "src": _rel(ctx["fix"]["src"]), "dst": _rel(ctx["fix"]["dst"])}
     L = ["# Asset QA Report", "", f"- Root kiểm tra: `{ctx['root']}`", f"- Manifest: `{ctx['manifest']}` ({ctx['n_assets']} asset)",
          f"- Palette: `{ctx['palette']}` ({ctx['n_colors']} màu)", f"- Số PNG đọc được: {ctx['n_png']}", ""]
     errs = [i for i in ctx["issues"] if i["severity"] == "error"]

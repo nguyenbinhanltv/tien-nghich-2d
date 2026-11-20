@@ -90,6 +90,47 @@ def mode_downscale(arr: np.ndarray, out_w: int, out_h: int, src_w: float, src_h:
     return out
 
 
+def snap_character(arr, palette, outline, stats, speckle=False):
+    """Like snap(), but ink_01 is reserved for the outline: off-palette interior darks snap to the
+    nearest *non-ink* colour (ink_02 ...), so interior shading stays readable against the 1px outline.
+    Only pixels that were already exactly #14101a (PixelLab #020105 remapped) or edge repairs get ink_01."""
+    ink = np.array(outline, np.uint8)
+    keep = ~(palette == ink).all(-1)
+    is_ink = (arr[..., 3] >= 128) & (arr[..., :3] == ink).all(-1)
+    tmp = arr.copy()
+    tmp[is_ink, :3] = palette[keep][0]            # placeholder inside the reduced palette
+    tmp, st = qa.fix_array(tmp, palette[keep], outline)
+    stats.update(st)
+    tmp[is_ink & (tmp[..., 3] == 255), :3] = ink
+    fixed, st2 = qa.fix_array(tmp, palette, outline, fix_outline=True, fix_speckle=speckle)
+    stats["outline_repainted"] += st2["outline_repainted"]
+    stats["speckle_removed"] += st2.get("speckle_removed", 0)
+    stats["outline_thinned"] += thin_outline(fixed, palette, outline)
+    return fixed
+
+
+def thin_outline(arr, palette, outline, passes=3):
+    """Break 2x2 outline blocks: an interior (non-edge) block pixel becomes ink_02 so the outline stays 1px."""
+    ink = np.array(outline, np.uint8)
+    fill = palette[int(np.argmin(((palette.astype(int) - np.array([0x2c, 0x27, 0x33])) ** 2).sum(-1)))]
+    n = 0
+    for _ in range(passes):
+        opaque = arr[..., 3] == 255
+        edge = qa._neighbors_transparent(opaque)
+        thick = qa.defect_masks(arr, palette, outline)["outline_thick"]
+        ol = opaque & (arr[..., :3] == ink).all(-1)
+        cand = thick & ol & ~edge
+        if not cand.any():
+            break
+        # one pixel per 2x2 block: take candidates whose left and top neighbours are not already candidates
+        pick = cand.copy()
+        pick[:, 1:] &= ~cand[:, :-1]
+        pick[1:, :] &= ~cand[:-1, :]
+        arr[pick, :3] = fill
+        n += int(pick.sum())
+    return n
+
+
 # ----------------------------------------------------------------------------- environment
 def slice_tileset(a, raw_dir: Path, report):
     """Cut each manifest sheet into tiles; animated sheets are frame blocks stacked downward."""
@@ -275,7 +316,7 @@ def build(args):
             placed, info = place_character(frames, tuple(a["size"]), outline, aid)
             fixed = {}
             for k, arr in placed.items():
-                fixed[k] = snap(arr, palette, outline, a["category"], stats, speckle=False)
+                fixed[k] = snap_character(arr, palette, outline, stats, speckle=True)
             if not args.no_denoise:
                 stats["colour_noise_merged"] += denoise_colours(fixed)
             info["frames"] = len(fixed)
