@@ -1,0 +1,838 @@
+{
+  "script": "tools/generators/gen_ui_icons.py",
+  "palette": "palette.json",
+  "palette_name": "tien-nghich-xianxia-40",
+  "palette_version": 2,
+  "outline_id": "ink_01",
+  "manifest": "manifest.json",
+  "out_dir": "assets/raw/environment_items/ui",
+  "total_assets": 21,
+  "total_files": 45,
+  "notes": [
+    "All colors loaded strictly by stable id from palette.json v2 (outline = ink_01).",
+    "All 16 skill/restriction icons follow manifest ids, names, and variant_sizes [[24,24],[16,16]].",
+    "Outputs are placed under assets/raw/environment_items/ui/ per docs/ASSET_ROUTING.md and task spec (manifest_output_path is preserved per entry).",
+    "ui_spirit_stone follows manifest size 16x16 with 4 individual idle frames (one canvas per frame per ART_BIBLE.md) plus a 24x24 HUD icon variant.",
+    "hud_hp, hud_qi, hud_btn_dash, hud_btn_attack are silent in manifest.json and generated at 24x24 + 16x16."
+  ],
+  "files": [
+    {
+      "id": "icon_sinh_tu_cam",
+      "name": {
+        "vi": "Sinh Tử Cấm",
+        "en": "Life-Death Restriction"
+      },
+      "category": "icon",
+      "file": "icon_sinh_tu_cam/icon_sinh_tu_cam_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_sinh_tu_cam/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 9993267228578183151,
+      "sha256": "c17b1ecaf4c0c0d7aa69c7e68ce64e772ca22b72ca2c47778144d9a88e514150",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_sinh_tu_cam",
+      "name": {
+        "vi": "Sinh Tử Cấm",
+        "en": "Life-Death Restriction"
+      },
+      "category": "icon",
+      "file": "icon_sinh_tu_cam/icon_sinh_tu_cam_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_sinh_tu_cam/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 8536469327262987190,
+      "sha256": "ca6be2359f0ae32658f719713fc7cc6308c9d527d7a7dadc985b34a138eeb94c",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_tue_nguyet_cam",
+      "name": {
+        "vi": "Tuế Nguyệt Cấm",
+        "en": "Years-Moon Restriction"
+      },
+      "category": "icon",
+      "file": "icon_tue_nguyet_cam/icon_tue_nguyet_cam_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_tue_nguyet_cam/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 94658382483598865,
+      "sha256": "0ea5b7e87e222f4cd30f52ff84baaacf6cf967b0527b2192b4472d76e43d3dfe",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_tue_nguyet_cam",
+      "name": {
+        "vi": "Tuế Nguyệt Cấm",
+        "en": "Years-Moon Restriction"
+      },
+      "category": "icon",
+      "file": "icon_tue_nguyet_cam/icon_tue_nguyet_cam_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_tue_nguyet_cam/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 14948268165380228398,
+      "sha256": "25af35cd5eff2f8f184fcc69dacd8e83f64c66c590a6f515b18f02a9215f0681",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thien_loi_dan",
+      "name": {
+        "vi": "Thiên Lôi Dẫn",
+        "en": "Heaven Thunder Guide"
+      },
+      "category": "icon",
+      "file": "icon_thien_loi_dan/icon_thien_loi_dan_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thien_loi_dan/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 14331498561237087594,
+      "sha256": "882bfea4d66aa72d0f4707673d077e18e8489f2b865b22baf1e79ebee9c483ce",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thien_loi_dan",
+      "name": {
+        "vi": "Thiên Lôi Dẫn",
+        "en": "Heaven Thunder Guide"
+      },
+      "category": "icon",
+      "file": "icon_thien_loi_dan/icon_thien_loi_dan_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thien_loi_dan/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 9280967710132445199,
+      "sha256": "c33d5ec0f44c0b06f9316951b64c3c10eec27e7f0dc96da036b4c4c63f137814",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_van_hon_phe_tam",
+      "name": {
+        "vi": "Vạn Hồn Phệ Tâm",
+        "en": "Myriad Souls Devour Heart"
+      },
+      "category": "icon",
+      "file": "icon_van_hon_phe_tam/icon_van_hon_phe_tam_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_van_hon_phe_tam/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 15412796604280741814,
+      "sha256": "3a7b8f08f35051198baf1bb5c22eae528759ca280e6cb3f9c9be1e7b6578dc58",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_van_hon_phe_tam",
+      "name": {
+        "vi": "Vạn Hồn Phệ Tâm",
+        "en": "Myriad Souls Devour Heart"
+      },
+      "category": "icon",
+      "file": "icon_van_hon_phe_tam/icon_van_hon_phe_tam_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_van_hon_phe_tam/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 8578955850193567501,
+      "sha256": "987a1efe864fcde95ed97847cd1d3367c3c11452d8ebf44ae6e0102dbc8afec8",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_huyet_hai_cuong_trieu",
+      "name": {
+        "vi": "Huyết Hải Cuồng Triều",
+        "en": "Blood Sea Surge"
+      },
+      "category": "icon",
+      "file": "icon_huyet_hai_cuong_trieu/icon_huyet_hai_cuong_trieu_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_huyet_hai_cuong_trieu/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 16247507137280339524,
+      "sha256": "3afbff25dfff564354052535b161d7d58f3601c0762706a05740536b23f394d0",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_huyet_hai_cuong_trieu",
+      "name": {
+        "vi": "Huyết Hải Cuồng Triều",
+        "en": "Blood Sea Surge"
+      },
+      "category": "icon",
+      "file": "icon_huyet_hai_cuong_trieu/icon_huyet_hai_cuong_trieu_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_huyet_hai_cuong_trieu/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 9953418549017526066,
+      "sha256": "3d8d99a5387595b157d4a8cb83ee53055c523ca4b4a2a085f87913a1d685e7d4",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thanh_phong_don",
+      "name": {
+        "vi": "Thanh Phong Độn",
+        "en": "Azure Wind Step"
+      },
+      "category": "icon",
+      "file": "icon_thanh_phong_don/icon_thanh_phong_don_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thanh_phong_don/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 11163078748322834895,
+      "sha256": "55025ba805700b6493b1331359b436e21d6082bfb9e676e88d1afec9cb0b4d67",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thanh_phong_don",
+      "name": {
+        "vi": "Thanh Phong Độn",
+        "en": "Azure Wind Step"
+      },
+      "category": "icon",
+      "file": "icon_thanh_phong_don/icon_thanh_phong_don_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thanh_phong_don/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 6439686069051264314,
+      "sha256": "4a539ebc39265cee2a9dd5c62e68f303bd6c048d3fd06407225edd9ef9ba8d55",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_ho_the_cuong_khi",
+      "name": {
+        "vi": "Hộ Thể Cương Khí",
+        "en": "Guardian Qi Shield"
+      },
+      "category": "icon",
+      "file": "icon_ho_the_cuong_khi/icon_ho_the_cuong_khi_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_ho_the_cuong_khi/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 9904270953288095080,
+      "sha256": "0723fcaade8cc375491becf21382a988ed6ba3b7e3bc90bce2a62031d45a1e35",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_ho_the_cuong_khi",
+      "name": {
+        "vi": "Hộ Thể Cương Khí",
+        "en": "Guardian Qi Shield"
+      },
+      "category": "icon",
+      "file": "icon_ho_the_cuong_khi/icon_ho_the_cuong_khi_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_ho_the_cuong_khi/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 3972228958798050796,
+      "sha256": "b8596b1aa78a8c4ae02b82f12f8b13902e75256f854fd806e688db4423529898",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_ngung_khi_quyet",
+      "name": {
+        "vi": "Ngưng Khí Quyết",
+        "en": "Qi Condensing Art"
+      },
+      "category": "icon",
+      "file": "icon_ngung_khi_quyet/icon_ngung_khi_quyet_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_ngung_khi_quyet/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 640370522169641618,
+      "sha256": "0ea004623e1a4b927974c1b04f6b8751bf5455f661f56ba1519e61fa813718cc",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_ngung_khi_quyet",
+      "name": {
+        "vi": "Ngưng Khí Quyết",
+        "en": "Qi Condensing Art"
+      },
+      "category": "icon",
+      "file": "icon_ngung_khi_quyet/icon_ngung_khi_quyet_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_ngung_khi_quyet/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 11305936069711151942,
+      "sha256": "7040519bb4cdeb6ff4658c41df677083ab3e4120974dbffc2758b13e5a61c2fa",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_truc_co_dan",
+      "name": {
+        "vi": "Trúc Cơ Đan",
+        "en": "Foundation Pill"
+      },
+      "category": "icon",
+      "file": "icon_truc_co_dan/icon_truc_co_dan_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_truc_co_dan/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 16115803498376668686,
+      "sha256": "ef572ca5a15d0c518b2017bcda4524740066f65197b7aa4e917fd9ddb0cfe38c",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_truc_co_dan",
+      "name": {
+        "vi": "Trúc Cơ Đan",
+        "en": "Foundation Pill"
+      },
+      "category": "icon",
+      "file": "icon_truc_co_dan/icon_truc_co_dan_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_truc_co_dan/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 17263327644290343830,
+      "sha256": "d2d96605b2c4d744c3e05bf72f5d773df59b909ccc9d7b265d763f9d26652fa9",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thien_nghich_chi_luc",
+      "name": {
+        "vi": "Thiên Nghịch Chi Lực",
+        "en": "Defy-Heaven Power"
+      },
+      "category": "icon",
+      "file": "icon_thien_nghich_chi_luc/icon_thien_nghich_chi_luc_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thien_nghich_chi_luc/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 4342071901195716123,
+      "sha256": "967eb70e5b5b9f7c13457e1f7098e1d3b2d1dd9ed95942c6e25d9c00c81ee7c6",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_thien_nghich_chi_luc",
+      "name": {
+        "vi": "Thiên Nghịch Chi Lực",
+        "en": "Defy-Heaven Power"
+      },
+      "category": "icon",
+      "file": "icon_thien_nghich_chi_luc/icon_thien_nghich_chi_luc_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_thien_nghich_chi_luc/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 16825202730786287055,
+      "sha256": "90088704eac222dfed27f2cd9b4a4e6b9ebc96c15f7d255d0ea60ffebb62bf64",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_co_than_the",
+      "name": {
+        "vi": "Cổ Thần Thể",
+        "en": "Ancient God Body"
+      },
+      "category": "icon",
+      "file": "icon_co_than_the/icon_co_than_the_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_co_than_the/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 1397472239259731074,
+      "sha256": "afe37333f0d56b5fc89abdff3ed0b59b5be122cec0bcab454d6dc0d0c722dd4d",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_co_than_the",
+      "name": {
+        "vi": "Cổ Thần Thể",
+        "en": "Ancient God Body"
+      },
+      "category": "icon",
+      "file": "icon_co_than_the/icon_co_than_the_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_co_than_the/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 13389294091039312483,
+      "sha256": "6121294e0de6f0071fa5ed8643f9b606e50345c74d016788570c3f788c983a75",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_hu_khong_liet_phung",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Rift"
+      },
+      "category": "icon",
+      "file": "icon_hu_khong_liet_phung/icon_hu_khong_liet_phung_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_hu_khong_liet_phung/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 17823692804923205316,
+      "sha256": "798752e0e957988a44ec2aeb9fcef6674fc316816ca90c14c1548d5866339af8",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_hu_khong_liet_phung",
+      "name": {
+        "vi": "Hư Không Liệt Phùng",
+        "en": "Void Rift"
+      },
+      "category": "icon",
+      "file": "icon_hu_khong_liet_phung/icon_hu_khong_liet_phung_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_hu_khong_liet_phung/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 13702708676945525431,
+      "sha256": "8d8ddb19ff328f12955b165f4c7cf684623fce5ccad4e773b3d19310129c77f9",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_phong_an_cam",
+      "name": {
+        "vi": "Phong Ấn Cấm",
+        "en": "Sealing Restriction"
+      },
+      "category": "icon",
+      "file": "icon_phong_an_cam/icon_phong_an_cam_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_phong_an_cam/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 4518036127277320824,
+      "sha256": "2d78e9d90c91954de79658a8b9f39b77bb63948f495e46a0d887ce82b9c648ae",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_phong_an_cam",
+      "name": {
+        "vi": "Phong Ấn Cấm",
+        "en": "Sealing Restriction"
+      },
+      "category": "icon",
+      "file": "icon_phong_an_cam/icon_phong_an_cam_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_phong_an_cam/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 16054273662594355436,
+      "sha256": "9b7c156551c3c7ced362b2c57ac2468aea59265344ea9a6ed519ab1db7fea31d",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_cuc_canh_hoa_than",
+      "name": {
+        "vi": "Cực Cảnh Hóa Thần",
+        "en": "Extreme Jing Soul Formation"
+      },
+      "category": "icon",
+      "file": "icon_cuc_canh_hoa_than/icon_cuc_canh_hoa_than_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_cuc_canh_hoa_than/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 5983255354667788874,
+      "sha256": "3eec894cf4796513d978379f2a71e0d604127d3af73bbe5f130b500fde9b44c0",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_cuc_canh_hoa_than",
+      "name": {
+        "vi": "Cực Cảnh Hóa Thần",
+        "en": "Extreme Jing Soul Formation"
+      },
+      "category": "icon",
+      "file": "icon_cuc_canh_hoa_than/icon_cuc_canh_hoa_than_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_cuc_canh_hoa_than/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 14722854130560323376,
+      "sha256": "b0b14b403332bdd778f8ea2bae207bbc4fa98f2b7e69179a255bb86b0b070777",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_huyet_te",
+      "name": {
+        "vi": "Huyết Tế",
+        "en": "Blood Sacrifice"
+      },
+      "category": "icon",
+      "file": "icon_huyet_te/icon_huyet_te_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_huyet_te/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 11496272974312142898,
+      "sha256": "53ac3875dcfe8eeaf7f900bcaedab036bb05f1f6be587e3226fa0896884d0f1c",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_huyet_te",
+      "name": {
+        "vi": "Huyết Tế",
+        "en": "Blood Sacrifice"
+      },
+      "category": "icon",
+      "file": "icon_huyet_te/icon_huyet_te_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_huyet_te/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 672675548898143002,
+      "sha256": "a655f4bad376dd4f7ed0e1154b0f179f1f0a56f6661781c0a92de13bce49bcf6",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_tu_linh_tran",
+      "name": {
+        "vi": "Tụ Linh Trận",
+        "en": "Spirit Gathering Array"
+      },
+      "category": "icon",
+      "file": "icon_tu_linh_tran/icon_tu_linh_tran_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_tu_linh_tran/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 17300765320249844530,
+      "sha256": "abd5914c130f3c1e52047c05eafe64ec4f0de052a7063c89d9edf40ee26747cc",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "icon_tu_linh_tran",
+      "name": {
+        "vi": "Tụ Linh Trận",
+        "en": "Spirit Gathering Array"
+      },
+      "category": "icon",
+      "file": "icon_tu_linh_tran/icon_tu_linh_tran_16x16.png",
+      "manifest_output_path": "assets/raw/environment_items/icons/icon_tu_linh_tran/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 5641574866084664504,
+      "sha256": "215f3fb973f004d1a0152e62136b9974c68e14d5b499ced55a33e80310cf40f6",
+      "notes": "Manifest lists 24x24 + 16x16 variants; written under --out (assets/raw/environment_items/ui/) per routing spec."
+    },
+    {
+      "id": "ui_spirit_stone",
+      "name": {
+        "vi": "Linh Thạch",
+        "en": "Spirit Stone Currency Icon"
+      },
+      "category": "ui",
+      "file": "ui_spirit_stone/ui_spirit_stone_idle_0.png",
+      "manifest_output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 4,
+      "frame_index": 0,
+      "animation": "idle",
+      "seed": 16822602805865899099,
+      "sha256": "da953d7aa1fc6d4a6e2c5b79a1b8ad154c703431ba241c626bb301cd0b4f8f5c",
+      "notes": "Follows manifest 16x16 4-frame looping idle animation (one canvas per frame matching palette.json size_classes.icon), plus a 24x24 HUD icon variant."
+    },
+    {
+      "id": "ui_spirit_stone",
+      "name": {
+        "vi": "Linh Thạch",
+        "en": "Spirit Stone Currency Icon"
+      },
+      "category": "ui",
+      "file": "ui_spirit_stone/ui_spirit_stone_idle_1.png",
+      "manifest_output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 4,
+      "frame_index": 1,
+      "animation": "idle",
+      "seed": 3383264741122934323,
+      "sha256": "8952d94a6ac01f2d42190883bbdf5c382057192d42af02d4a5f964522859a098",
+      "notes": "Follows manifest 16x16 4-frame looping idle animation (one canvas per frame matching palette.json size_classes.icon), plus a 24x24 HUD icon variant."
+    },
+    {
+      "id": "ui_spirit_stone",
+      "name": {
+        "vi": "Linh Thạch",
+        "en": "Spirit Stone Currency Icon"
+      },
+      "category": "ui",
+      "file": "ui_spirit_stone/ui_spirit_stone_idle_2.png",
+      "manifest_output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 4,
+      "frame_index": 2,
+      "animation": "idle",
+      "seed": 13192881516740728909,
+      "sha256": "08c3e4fdcd596e8d01cfb1c62e88a4d19fb13f32701b557c3c73f1f9b6747da8",
+      "notes": "Follows manifest 16x16 4-frame looping idle animation (one canvas per frame matching palette.json size_classes.icon), plus a 24x24 HUD icon variant."
+    },
+    {
+      "id": "ui_spirit_stone",
+      "name": {
+        "vi": "Linh Thạch",
+        "en": "Spirit Stone Currency Icon"
+      },
+      "category": "ui",
+      "file": "ui_spirit_stone/ui_spirit_stone_idle_3.png",
+      "manifest_output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 4,
+      "frame_index": 3,
+      "animation": "idle",
+      "seed": 5696691588806088140,
+      "sha256": "d2b5182ccededff451b1082b52ed1771241cf8a808e820688afcfed387a265a4",
+      "notes": "Follows manifest 16x16 4-frame looping idle animation (one canvas per frame matching palette.json size_classes.icon), plus a 24x24 HUD icon variant."
+    },
+    {
+      "id": "ui_spirit_stone",
+      "name": {
+        "vi": "Linh Thạch",
+        "en": "Spirit Stone Currency Icon"
+      },
+      "category": "ui",
+      "file": "ui_spirit_stone/ui_spirit_stone_24x24.png",
+      "manifest_output_path": "assets/raw/environment_items/ui/ui_spirit_stone/",
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 9509829829971095859,
+      "sha256": "d67d8ba0ff063be4f16e4c6c6f50407b7d27ba34c729129319e3a85ed9f94dc0",
+      "notes": "Supplemental 24x24 HUD variant alongside manifest 16x16x4 idle."
+    },
+    {
+      "id": "hud_hp",
+      "name": {
+        "vi": "Biểu Tượng Sinh Lực",
+        "en": "HP HUD Icon"
+      },
+      "category": "ui",
+      "file": "hud_hp/hud_hp_24x24.png",
+      "manifest_output_path": null,
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 1917699883405239126,
+      "sha256": "af181c18e0d6b8270e0104aaa17e49add7099abeb2f8ffeddcef8991e15ceaef",
+      "notes": "Manifest silent on standalone HP icon; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_hp",
+      "name": {
+        "vi": "Biểu Tượng Sinh Lực",
+        "en": "HP HUD Icon"
+      },
+      "category": "ui",
+      "file": "hud_hp/hud_hp_16x16.png",
+      "manifest_output_path": null,
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 14485564890747927089,
+      "sha256": "a744ba7945334afd618dc28a3194414f4e05bb98070c0d4346fd7ada917bdb2a",
+      "notes": "Manifest silent on standalone HP icon; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_qi",
+      "name": {
+        "vi": "Biểu Tượng Linh Lực",
+        "en": "Spirit Qi / Mana HUD Icon"
+      },
+      "category": "ui",
+      "file": "hud_qi/hud_qi_24x24.png",
+      "manifest_output_path": null,
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 4790466357893076082,
+      "sha256": "3b5c943d9a1ff1b5fe268ece3b7b42fadf34d2b569bde57ea339eeb5a41bab71",
+      "notes": "Manifest silent on standalone Spirit Qi icon; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_qi",
+      "name": {
+        "vi": "Biểu Tượng Linh Lực",
+        "en": "Spirit Qi / Mana HUD Icon"
+      },
+      "category": "ui",
+      "file": "hud_qi/hud_qi_16x16.png",
+      "manifest_output_path": null,
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 17617127971370157427,
+      "sha256": "f14750bb19e25b0f53e8fef89efcd7014883ffb886defc3af77de990edac961e",
+      "notes": "Manifest silent on standalone Spirit Qi icon; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_btn_dash",
+      "name": {
+        "vi": "Nút Lướt (Độn Pháp)",
+        "en": "Mobile Dash Button"
+      },
+      "category": "ui",
+      "file": "hud_btn_dash/hud_btn_dash_24x24.png",
+      "manifest_output_path": null,
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 13687041578705541260,
+      "sha256": "a9cc2e59bfe18631ac03b1735d748e573dda15a446386dbe43eeb54cc7c52229",
+      "notes": "Manifest silent on Dash button; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_btn_dash",
+      "name": {
+        "vi": "Nút Lướt (Độn Pháp)",
+        "en": "Mobile Dash Button"
+      },
+      "category": "ui",
+      "file": "hud_btn_dash/hud_btn_dash_16x16.png",
+      "manifest_output_path": null,
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 7207760882534146653,
+      "sha256": "f8ac3a45b40bc4216f59811c0d7f1b6fe83b7779107b95f426869ff1c5292ddf",
+      "notes": "Manifest silent on Dash button; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_btn_attack",
+      "name": {
+        "vi": "Nút Công Kích",
+        "en": "Mobile Attack Button"
+      },
+      "category": "ui",
+      "file": "hud_btn_attack/hud_btn_attack_24x24.png",
+      "manifest_output_path": null,
+      "dims": [
+        24,
+        24
+      ],
+      "frames": 1,
+      "seed": 905993950811160886,
+      "sha256": "18036724e8c6f3c9cd92bcc52d78f7f19d62ba1b875fa20d32fd032279f54170",
+      "notes": "Manifest silent on Attack button; generated 24x24 + 16x16 per task spec."
+    },
+    {
+      "id": "hud_btn_attack",
+      "name": {
+        "vi": "Nút Công Kích",
+        "en": "Mobile Attack Button"
+      },
+      "category": "ui",
+      "file": "hud_btn_attack/hud_btn_attack_16x16.png",
+      "manifest_output_path": null,
+      "dims": [
+        16,
+        16
+      ],
+      "frames": 1,
+      "seed": 16347061420249377533,
+      "sha256": "48834b3122ddb3f6ce4ebd6a37caadb150632293f6620fc55e2d09f46d9267ee",
+      "notes": "Manifest silent on Attack button; generated 24x24 + 16x16 per task spec."
+    }
+  ]
+}
