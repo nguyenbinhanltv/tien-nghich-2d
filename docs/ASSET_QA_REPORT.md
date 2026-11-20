@@ -1,19 +1,19 @@
 # Asset QA Report
 
-- Root kiểm tra: `D:\claude-tmp\final\processed`
-- Manifest: `assets/_fixtures/manifest.json` (3 asset)
-- Palette: `C:\Users\PC\.ao\data\worktrees\tien-nghich-2d\tien-nghich-2d-11\tools\generators\palette.json` (40 màu)
-- Số PNG đọc được: 11
+- Root kiểm tra: `C:\Users\PC\.ao\data\worktrees\tien-nghich-2d\tien-nghich-2d-13\assets\processed`
+- Manifest: `C:\Users\PC\.ao\data\worktrees\tien-nghich-2d\tien-nghich-2d-13\assets\manifest.json` (90 asset)
+- Palette: `C:\Users\PC\.ao\data\worktrees\tien-nghich-2d\tien-nghich-2d-13\tools\generators\palette.json` (40 màu)
+- Số PNG đọc được: 1197
 
-**Kết quả: 3 lỗi, 1 cảnh báo.**
+**Kết quả: 0 lỗi, 28 cảnh báo.**
 
 ## Độ phủ theo manifest
 
 | Trạng thái | Số asset |
 |---|---|
-| complete | 1 |
-| partial | 2 |
-| not_delivered | 0 |
+| complete | 63 |
+| partial | 0 |
+| not_delivered | 27 |
 
 `not_delivered` = chưa có file nào (không tính là lỗi). `partial` = thiếu frame (lỗi `missing_frames`).
 
@@ -21,47 +21,45 @@
 
 | Mức | Mã | Số file/mục | Số pixel/đối tượng |
 |---|---|---|---|
-| error | `empty_frame` | 1 | 1 |
-| error | `missing_frames` | 2 | 3 |
-| warn | `duplicate_frame` | 1 | 2 |
+| warn | `duplicate_frame` | 3 | 3 |
+| warn | `non_png` | 1 | 1 |
+| warn | `outline_thick` | 24 | 272 |
 
 ## Chi tiết (tối đa 200 dòng)
 
 | Mức | Mã | Vị trí | Chi tiết |
 |---|---|---|---|
-| error | `empty_frame` | `icons/fx_icon/static_none_0.png` | fully transparent (1) |
-| error | `missing_frames` | `mobs/fx_mob` | 2 of 10 missing e.g. move_south_1, move_east_1 (2) |
-| error | `missing_frames` | `tilesets/fx_tiles` | 1 of 2 missing e.g. floor_f0_0 (1) |
-| warn | `duplicate_frame` | `mobs/fx_mob/idle_south_1.png` | identical to mobs/fx_mob/idle_south_0.png (2) |
-
-## Chế độ --fix
-
-- Nguồn (chỉ đọc): `C:\Users\PC\.ao\data\worktrees\tien-nghich-2d\tien-nghich-2d-11\assets\_fixtures\raw`
-- Đích: `D:\claude-tmp\final\processed`
-- Lỗi trước khi sửa: 13; sau khi sửa: 3; **sửa được: 10**
-- Số file ghi: 11; bỏ qua (không tự sửa được): 5
+| warn | `duplicate_frame` | `tilesets/ts_ancient_god/wall_face_f0_11.png` | identical to tilesets/ts_ancient_god/wall_face_f0_9.png (1) |
+| warn | `duplicate_frame` | `tilesets/ts_blood_valley/deco_f0_1.png` | identical to tilesets/ts_blood_valley/deco_f0_0.png (1) |
+| warn | `duplicate_frame` | `tilesets/ts_blood_valley/deco_f0_3.png` | identical to tilesets/ts_blood_valley/deco_f0_2.png (1) |
+| warn | `non_png` | `.gitkeep` | non-PNG file in asset tree (1) |
+| warn | `outline_thick` | `icons/icon_cuc_canh_hoa_than/v16_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_hu_khong_liet_phung/static_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_huyet_hai_cuong_trieu/v16_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_ngung_khi_quyet/v16_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_thanh_phong_don/static_none_0.png` | 2x2 outline blocks (outline should be 1px) (12) |
+| warn | `outline_thick` | `icons/icon_thien_loi_dan/v16_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_tu_linh_tran/static_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `icons/icon_tu_linh_tran/v16_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `props/prop_bamboo_cluster/idle_none_0.png` | 2x2 outline blocks (outline should be 1px) (60) |
+| warn | `outline_thick` | `props/prop_bamboo_cluster/idle_none_1.png` | 2x2 outline blocks (outline should be 1px) (26) |
+| warn | `outline_thick` | `props/prop_bamboo_cluster/idle_none_2.png` | 2x2 outline blocks (outline should be 1px) (26) |
+| warn | `outline_thick` | `props/prop_bamboo_cluster/idle_none_3.png` | 2x2 outline blocks (outline should be 1px) (52) |
+| warn | `outline_thick` | `props/prop_bone_altar/activate_none_1.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `props/prop_courtyard_pillar/broken_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `props/prop_petrified_chain/shatter_none_3.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `props/prop_restriction_pillar/broken_none_0.png` | 2x2 outline blocks (outline should be 1px) (6) |
+| warn | `outline_thick` | `props/prop_restriction_pillar/overload_none_0.png` | 2x2 outline blocks (outline should be 1px) (8) |
+| warn | `outline_thick` | `props/prop_restriction_pillar/overload_none_1.png` | 2x2 outline blocks (outline should be 1px) (8) |
+| warn | `outline_thick` | `props/prop_restriction_pillar/overload_none_2.png` | 2x2 outline blocks (outline should be 1px) (6) |
+| warn | `outline_thick` | `props/prop_shrine_altar/activate_none_1.png` | 2x2 outline blocks (outline should be 1px) (12) |
+| warn | `outline_thick` | `props/prop_spirit_herb/idle_none_2.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `weapons/wp_ancient_god_hammer/attack_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `weapons/wp_ancient_god_hammer/idle_none_0.png` | 2x2 outline blocks (outline should be 1px) (4) |
+| warn | `outline_thick` | `weapons/wp_thunder_seal/attack_none_2.png` | 2x2 outline blocks (outline should be 1px) (4) |
 
 ## Ghi chú về vai trò công cụ
 
 - Công cụ này kiểm tra cơ học (kích thước, alpha, palette, viền, đặt tên, số frame). Không đánh giá chất lượng nghệ thuật.
 - `palette_refs` trong manifest là tên vai trò tạm; chưa được ánh xạ sang id palette thật nên chưa kiểm tra 'đúng màu theo asset'.
 - `assetcat` KHÔNG làm kiểm tra pixel: nó chỉ lập chỉ mục/license/provenance (xem docs/ASSET_PROVENANCE.md).
-
----
-
-## Phụ lục A - Dry-run trên output thật (chỉ đọc)
-
-Worktree `tien-nghich-2d-5` và `-6`: không có file PNG nào (chỉ `.git`). `-2`, `-3`: không có PNG ngoài clone skill.
-`assets/processed/` của repo này: chưa tồn tại -> 90/90 asset `not_delivered`, 0 lỗi.
-
-**Worktree `tien-nghich-2d-7`** (45 PNG, toàn bộ UI/icon, `assets/raw/environment_items/ui/<id>/`), chạy `--root <w7>/assets --loose`:
-
-| Mức | Mã | Số | Ý nghĩa |
-|---|---|---|---|
-| error | `bad_group` | 32 | 16 icon `icon_*` (32 file) nằm trong `ui/`, manifest yêu cầu nhóm `icons` |
-| error | `bad_name` | 5 | `ui_spirit_stone_24x24.png` / `ui_spirit_stone_idle_<n>.png` không theo `<anim>_<dir>_<n>` |
-| error | `orphan_asset` | 8 | `hud_hp`, `hud_qi`, `hud_btn_attack`, `hud_btn_dash` không có trong manifest |
-| warn | `loose_outline_thick` | 8 | khối viền 2x2 ở một số icon (viền phải 1px) |
-| - | pixel (`loose_partial_alpha/off_palette/outline_gap/dirty_transparent/size`) | 0 | **mọi pixel của 45 file sạch** (alpha 0/255, đúng palette, viền liền) |
-
-Kết luận: chất lượng pixel đạt, lệch ở hợp đồng đặt tên/nhóm. Cần chủ worktree 7 chọn: đổi tên theo hợp đồng hoặc sửa hợp đồng (nếu sửa, chỉ cần đổi `NAME_RE`/`GROUP_OF_CATEGORY` trong `qa_assets.py`).
