@@ -2,6 +2,214 @@
 
 export const AssetKeys = {
   "characters": {
+    "boss_ancient_god_remnant/attack_beam_east_0": "characters/boss_ancient_god_remnant/attack_beam_east_0",
+    "boss_ancient_god_remnant/attack_beam_east_1": "characters/boss_ancient_god_remnant/attack_beam_east_1",
+    "boss_ancient_god_remnant/attack_beam_east_2": "characters/boss_ancient_god_remnant/attack_beam_east_2",
+    "boss_ancient_god_remnant/attack_beam_east_3": "characters/boss_ancient_god_remnant/attack_beam_east_3",
+    "boss_ancient_god_remnant/attack_beam_east_4": "characters/boss_ancient_god_remnant/attack_beam_east_4",
+    "boss_ancient_god_remnant/attack_beam_east_5": "characters/boss_ancient_god_remnant/attack_beam_east_5",
+    "boss_ancient_god_remnant/attack_beam_east_6": "characters/boss_ancient_god_remnant/attack_beam_east_6",
+    "boss_ancient_god_remnant/attack_beam_east_7": "characters/boss_ancient_god_remnant/attack_beam_east_7",
+    "boss_ancient_god_remnant/attack_beam_south_0": "characters/boss_ancient_god_remnant/attack_beam_south_0",
+    "boss_ancient_god_remnant/attack_beam_south_1": "characters/boss_ancient_god_remnant/attack_beam_south_1",
+    "boss_ancient_god_remnant/attack_beam_south_2": "characters/boss_ancient_god_remnant/attack_beam_south_2",
+    "boss_ancient_god_remnant/attack_beam_south_3": "characters/boss_ancient_god_remnant/attack_beam_south_3",
+    "boss_ancient_god_remnant/attack_beam_south_4": "characters/boss_ancient_god_remnant/attack_beam_south_4",
+    "boss_ancient_god_remnant/attack_beam_south_5": "characters/boss_ancient_god_remnant/attack_beam_south_5",
+    "boss_ancient_god_remnant/attack_beam_south_6": "characters/boss_ancient_god_remnant/attack_beam_south_6",
+    "boss_ancient_god_remnant/attack_beam_south_7": "characters/boss_ancient_god_remnant/attack_beam_south_7",
+    "boss_ancient_god_remnant/attack_slam_east_0": "characters/boss_ancient_god_remnant/attack_slam_east_0",
+    "boss_ancient_god_remnant/attack_slam_east_1": "characters/boss_ancient_god_remnant/attack_slam_east_1",
+    "boss_ancient_god_remnant/attack_slam_east_2": "characters/boss_ancient_god_remnant/attack_slam_east_2",
+    "boss_ancient_god_remnant/attack_slam_east_3": "characters/boss_ancient_god_remnant/attack_slam_east_3",
+    "boss_ancient_god_remnant/attack_slam_east_4": "characters/boss_ancient_god_remnant/attack_slam_east_4",
+    "boss_ancient_god_remnant/attack_slam_east_5": "characters/boss_ancient_god_remnant/attack_slam_east_5",
+    "boss_ancient_god_remnant/attack_slam_east_6": "characters/boss_ancient_god_remnant/attack_slam_east_6",
+    "boss_ancient_god_remnant/attack_slam_east_7": "characters/boss_ancient_god_remnant/attack_slam_east_7",
+    "boss_ancient_god_remnant/attack_slam_south_0": "characters/boss_ancient_god_remnant/attack_slam_south_0",
+    "boss_ancient_god_remnant/attack_slam_south_1": "characters/boss_ancient_god_remnant/attack_slam_south_1",
+    "boss_ancient_god_remnant/attack_slam_south_2": "characters/boss_ancient_god_remnant/attack_slam_south_2",
+    "boss_ancient_god_remnant/attack_slam_south_3": "characters/boss_ancient_god_remnant/attack_slam_south_3",
+    "boss_ancient_god_remnant/attack_slam_south_4": "characters/boss_ancient_god_remnant/attack_slam_south_4",
+    "boss_ancient_god_remnant/attack_slam_south_5": "characters/boss_ancient_god_remnant/attack_slam_south_5",
+    "boss_ancient_god_remnant/attack_slam_south_6": "characters/boss_ancient_god_remnant/attack_slam_south_6",
+    "boss_ancient_god_remnant/attack_slam_south_7": "characters/boss_ancient_god_remnant/attack_slam_south_7",
+    "boss_ancient_god_remnant/chain_lash_east_0": "characters/boss_ancient_god_remnant/chain_lash_east_0",
+    "boss_ancient_god_remnant/chain_lash_east_1": "characters/boss_ancient_god_remnant/chain_lash_east_1",
+    "boss_ancient_god_remnant/chain_lash_east_2": "characters/boss_ancient_god_remnant/chain_lash_east_2",
+    "boss_ancient_god_remnant/chain_lash_east_3": "characters/boss_ancient_god_remnant/chain_lash_east_3",
+    "boss_ancient_god_remnant/chain_lash_east_4": "characters/boss_ancient_god_remnant/chain_lash_east_4",
+    "boss_ancient_god_remnant/chain_lash_east_5": "characters/boss_ancient_god_remnant/chain_lash_east_5",
+    "boss_ancient_god_remnant/chain_lash_south_0": "characters/boss_ancient_god_remnant/chain_lash_south_0",
+    "boss_ancient_god_remnant/chain_lash_south_1": "characters/boss_ancient_god_remnant/chain_lash_south_1",
+    "boss_ancient_god_remnant/chain_lash_south_2": "characters/boss_ancient_god_remnant/chain_lash_south_2",
+    "boss_ancient_god_remnant/chain_lash_south_3": "characters/boss_ancient_god_remnant/chain_lash_south_3",
+    "boss_ancient_god_remnant/chain_lash_south_4": "characters/boss_ancient_god_remnant/chain_lash_south_4",
+    "boss_ancient_god_remnant/chain_lash_south_5": "characters/boss_ancient_god_remnant/chain_lash_south_5",
+    "boss_ancient_god_remnant/death_east_0": "characters/boss_ancient_god_remnant/death_east_0",
+    "boss_ancient_god_remnant/death_east_1": "characters/boss_ancient_god_remnant/death_east_1",
+    "boss_ancient_god_remnant/death_east_10": "characters/boss_ancient_god_remnant/death_east_10",
+    "boss_ancient_god_remnant/death_east_11": "characters/boss_ancient_god_remnant/death_east_11",
+    "boss_ancient_god_remnant/death_east_2": "characters/boss_ancient_god_remnant/death_east_2",
+    "boss_ancient_god_remnant/death_east_3": "characters/boss_ancient_god_remnant/death_east_3",
+    "boss_ancient_god_remnant/death_east_4": "characters/boss_ancient_god_remnant/death_east_4",
+    "boss_ancient_god_remnant/death_east_5": "characters/boss_ancient_god_remnant/death_east_5",
+    "boss_ancient_god_remnant/death_east_6": "characters/boss_ancient_god_remnant/death_east_6",
+    "boss_ancient_god_remnant/death_east_7": "characters/boss_ancient_god_remnant/death_east_7",
+    "boss_ancient_god_remnant/death_east_8": "characters/boss_ancient_god_remnant/death_east_8",
+    "boss_ancient_god_remnant/death_east_9": "characters/boss_ancient_god_remnant/death_east_9",
+    "boss_ancient_god_remnant/death_south_0": "characters/boss_ancient_god_remnant/death_south_0",
+    "boss_ancient_god_remnant/death_south_1": "characters/boss_ancient_god_remnant/death_south_1",
+    "boss_ancient_god_remnant/death_south_10": "characters/boss_ancient_god_remnant/death_south_10",
+    "boss_ancient_god_remnant/death_south_11": "characters/boss_ancient_god_remnant/death_south_11",
+    "boss_ancient_god_remnant/death_south_2": "characters/boss_ancient_god_remnant/death_south_2",
+    "boss_ancient_god_remnant/death_south_3": "characters/boss_ancient_god_remnant/death_south_3",
+    "boss_ancient_god_remnant/death_south_4": "characters/boss_ancient_god_remnant/death_south_4",
+    "boss_ancient_god_remnant/death_south_5": "characters/boss_ancient_god_remnant/death_south_5",
+    "boss_ancient_god_remnant/death_south_6": "characters/boss_ancient_god_remnant/death_south_6",
+    "boss_ancient_god_remnant/death_south_7": "characters/boss_ancient_god_remnant/death_south_7",
+    "boss_ancient_god_remnant/death_south_8": "characters/boss_ancient_god_remnant/death_south_8",
+    "boss_ancient_god_remnant/death_south_9": "characters/boss_ancient_god_remnant/death_south_9",
+    "boss_ancient_god_remnant/idle_east_0": "characters/boss_ancient_god_remnant/idle_east_0",
+    "boss_ancient_god_remnant/idle_east_1": "characters/boss_ancient_god_remnant/idle_east_1",
+    "boss_ancient_god_remnant/idle_east_2": "characters/boss_ancient_god_remnant/idle_east_2",
+    "boss_ancient_god_remnant/idle_east_3": "characters/boss_ancient_god_remnant/idle_east_3",
+    "boss_ancient_god_remnant/idle_east_4": "characters/boss_ancient_god_remnant/idle_east_4",
+    "boss_ancient_god_remnant/idle_east_5": "characters/boss_ancient_god_remnant/idle_east_5",
+    "boss_ancient_god_remnant/idle_south_0": "characters/boss_ancient_god_remnant/idle_south_0",
+    "boss_ancient_god_remnant/idle_south_1": "characters/boss_ancient_god_remnant/idle_south_1",
+    "boss_ancient_god_remnant/idle_south_2": "characters/boss_ancient_god_remnant/idle_south_2",
+    "boss_ancient_god_remnant/idle_south_3": "characters/boss_ancient_god_remnant/idle_south_3",
+    "boss_ancient_god_remnant/idle_south_4": "characters/boss_ancient_god_remnant/idle_south_4",
+    "boss_ancient_god_remnant/idle_south_5": "characters/boss_ancient_god_remnant/idle_south_5",
+    "boss_ancient_god_remnant/move_east_0": "characters/boss_ancient_god_remnant/move_east_0",
+    "boss_ancient_god_remnant/move_east_1": "characters/boss_ancient_god_remnant/move_east_1",
+    "boss_ancient_god_remnant/move_east_2": "characters/boss_ancient_god_remnant/move_east_2",
+    "boss_ancient_god_remnant/move_east_3": "characters/boss_ancient_god_remnant/move_east_3",
+    "boss_ancient_god_remnant/move_east_4": "characters/boss_ancient_god_remnant/move_east_4",
+    "boss_ancient_god_remnant/move_east_5": "characters/boss_ancient_god_remnant/move_east_5",
+    "boss_ancient_god_remnant/move_south_0": "characters/boss_ancient_god_remnant/move_south_0",
+    "boss_ancient_god_remnant/move_south_1": "characters/boss_ancient_god_remnant/move_south_1",
+    "boss_ancient_god_remnant/move_south_2": "characters/boss_ancient_god_remnant/move_south_2",
+    "boss_ancient_god_remnant/move_south_3": "characters/boss_ancient_god_remnant/move_south_3",
+    "boss_ancient_god_remnant/move_south_4": "characters/boss_ancient_god_remnant/move_south_4",
+    "boss_ancient_god_remnant/move_south_5": "characters/boss_ancient_god_remnant/move_south_5",
+    "boss_ancient_god_remnant/phase_transition_east_0": "characters/boss_ancient_god_remnant/phase_transition_east_0",
+    "boss_ancient_god_remnant/phase_transition_east_1": "characters/boss_ancient_god_remnant/phase_transition_east_1",
+    "boss_ancient_god_remnant/phase_transition_east_2": "characters/boss_ancient_god_remnant/phase_transition_east_2",
+    "boss_ancient_god_remnant/phase_transition_east_3": "characters/boss_ancient_god_remnant/phase_transition_east_3",
+    "boss_ancient_god_remnant/phase_transition_east_4": "characters/boss_ancient_god_remnant/phase_transition_east_4",
+    "boss_ancient_god_remnant/phase_transition_east_5": "characters/boss_ancient_god_remnant/phase_transition_east_5",
+    "boss_ancient_god_remnant/phase_transition_east_6": "characters/boss_ancient_god_remnant/phase_transition_east_6",
+    "boss_ancient_god_remnant/phase_transition_east_7": "characters/boss_ancient_god_remnant/phase_transition_east_7",
+    "boss_ancient_god_remnant/phase_transition_south_0": "characters/boss_ancient_god_remnant/phase_transition_south_0",
+    "boss_ancient_god_remnant/phase_transition_south_1": "characters/boss_ancient_god_remnant/phase_transition_south_1",
+    "boss_ancient_god_remnant/phase_transition_south_2": "characters/boss_ancient_god_remnant/phase_transition_south_2",
+    "boss_ancient_god_remnant/phase_transition_south_3": "characters/boss_ancient_god_remnant/phase_transition_south_3",
+    "boss_ancient_god_remnant/phase_transition_south_4": "characters/boss_ancient_god_remnant/phase_transition_south_4",
+    "boss_ancient_god_remnant/phase_transition_south_5": "characters/boss_ancient_god_remnant/phase_transition_south_5",
+    "boss_ancient_god_remnant/phase_transition_south_6": "characters/boss_ancient_god_remnant/phase_transition_south_6",
+    "boss_ancient_god_remnant/phase_transition_south_7": "characters/boss_ancient_god_remnant/phase_transition_south_7",
+    "boss_ghost_king/attack_claw_east_0": "characters/boss_ghost_king/attack_claw_east_0",
+    "boss_ghost_king/attack_claw_east_1": "characters/boss_ghost_king/attack_claw_east_1",
+    "boss_ghost_king/attack_claw_east_2": "characters/boss_ghost_king/attack_claw_east_2",
+    "boss_ghost_king/attack_claw_east_3": "characters/boss_ghost_king/attack_claw_east_3",
+    "boss_ghost_king/attack_claw_east_4": "characters/boss_ghost_king/attack_claw_east_4",
+    "boss_ghost_king/attack_claw_east_5": "characters/boss_ghost_king/attack_claw_east_5",
+    "boss_ghost_king/attack_claw_south_0": "characters/boss_ghost_king/attack_claw_south_0",
+    "boss_ghost_king/attack_claw_south_1": "characters/boss_ghost_king/attack_claw_south_1",
+    "boss_ghost_king/attack_claw_south_2": "characters/boss_ghost_king/attack_claw_south_2",
+    "boss_ghost_king/attack_claw_south_3": "characters/boss_ghost_king/attack_claw_south_3",
+    "boss_ghost_king/attack_claw_south_4": "characters/boss_ghost_king/attack_claw_south_4",
+    "boss_ghost_king/attack_claw_south_5": "characters/boss_ghost_king/attack_claw_south_5",
+    "boss_ghost_king/attack_wail_east_0": "characters/boss_ghost_king/attack_wail_east_0",
+    "boss_ghost_king/attack_wail_east_1": "characters/boss_ghost_king/attack_wail_east_1",
+    "boss_ghost_king/attack_wail_east_2": "characters/boss_ghost_king/attack_wail_east_2",
+    "boss_ghost_king/attack_wail_east_3": "characters/boss_ghost_king/attack_wail_east_3",
+    "boss_ghost_king/attack_wail_east_4": "characters/boss_ghost_king/attack_wail_east_4",
+    "boss_ghost_king/attack_wail_east_5": "characters/boss_ghost_king/attack_wail_east_5",
+    "boss_ghost_king/attack_wail_east_6": "characters/boss_ghost_king/attack_wail_east_6",
+    "boss_ghost_king/attack_wail_east_7": "characters/boss_ghost_king/attack_wail_east_7",
+    "boss_ghost_king/attack_wail_south_0": "characters/boss_ghost_king/attack_wail_south_0",
+    "boss_ghost_king/attack_wail_south_1": "characters/boss_ghost_king/attack_wail_south_1",
+    "boss_ghost_king/attack_wail_south_2": "characters/boss_ghost_king/attack_wail_south_2",
+    "boss_ghost_king/attack_wail_south_3": "characters/boss_ghost_king/attack_wail_south_3",
+    "boss_ghost_king/attack_wail_south_4": "characters/boss_ghost_king/attack_wail_south_4",
+    "boss_ghost_king/attack_wail_south_5": "characters/boss_ghost_king/attack_wail_south_5",
+    "boss_ghost_king/attack_wail_south_6": "characters/boss_ghost_king/attack_wail_south_6",
+    "boss_ghost_king/attack_wail_south_7": "characters/boss_ghost_king/attack_wail_south_7",
+    "boss_ghost_king/death_east_0": "characters/boss_ghost_king/death_east_0",
+    "boss_ghost_king/death_east_1": "characters/boss_ghost_king/death_east_1",
+    "boss_ghost_king/death_east_2": "characters/boss_ghost_king/death_east_2",
+    "boss_ghost_king/death_east_3": "characters/boss_ghost_king/death_east_3",
+    "boss_ghost_king/death_east_4": "characters/boss_ghost_king/death_east_4",
+    "boss_ghost_king/death_east_5": "characters/boss_ghost_king/death_east_5",
+    "boss_ghost_king/death_east_6": "characters/boss_ghost_king/death_east_6",
+    "boss_ghost_king/death_east_7": "characters/boss_ghost_king/death_east_7",
+    "boss_ghost_king/death_east_8": "characters/boss_ghost_king/death_east_8",
+    "boss_ghost_king/death_east_9": "characters/boss_ghost_king/death_east_9",
+    "boss_ghost_king/death_south_0": "characters/boss_ghost_king/death_south_0",
+    "boss_ghost_king/death_south_1": "characters/boss_ghost_king/death_south_1",
+    "boss_ghost_king/death_south_2": "characters/boss_ghost_king/death_south_2",
+    "boss_ghost_king/death_south_3": "characters/boss_ghost_king/death_south_3",
+    "boss_ghost_king/death_south_4": "characters/boss_ghost_king/death_south_4",
+    "boss_ghost_king/death_south_5": "characters/boss_ghost_king/death_south_5",
+    "boss_ghost_king/death_south_6": "characters/boss_ghost_king/death_south_6",
+    "boss_ghost_king/death_south_7": "characters/boss_ghost_king/death_south_7",
+    "boss_ghost_king/death_south_8": "characters/boss_ghost_king/death_south_8",
+    "boss_ghost_king/death_south_9": "characters/boss_ghost_king/death_south_9",
+    "boss_ghost_king/idle_east_0": "characters/boss_ghost_king/idle_east_0",
+    "boss_ghost_king/idle_east_1": "characters/boss_ghost_king/idle_east_1",
+    "boss_ghost_king/idle_east_2": "characters/boss_ghost_king/idle_east_2",
+    "boss_ghost_king/idle_east_3": "characters/boss_ghost_king/idle_east_3",
+    "boss_ghost_king/idle_east_4": "characters/boss_ghost_king/idle_east_4",
+    "boss_ghost_king/idle_east_5": "characters/boss_ghost_king/idle_east_5",
+    "boss_ghost_king/idle_south_0": "characters/boss_ghost_king/idle_south_0",
+    "boss_ghost_king/idle_south_1": "characters/boss_ghost_king/idle_south_1",
+    "boss_ghost_king/idle_south_2": "characters/boss_ghost_king/idle_south_2",
+    "boss_ghost_king/idle_south_3": "characters/boss_ghost_king/idle_south_3",
+    "boss_ghost_king/idle_south_4": "characters/boss_ghost_king/idle_south_4",
+    "boss_ghost_king/idle_south_5": "characters/boss_ghost_king/idle_south_5",
+    "boss_ghost_king/move_east_0": "characters/boss_ghost_king/move_east_0",
+    "boss_ghost_king/move_east_1": "characters/boss_ghost_king/move_east_1",
+    "boss_ghost_king/move_east_2": "characters/boss_ghost_king/move_east_2",
+    "boss_ghost_king/move_east_3": "characters/boss_ghost_king/move_east_3",
+    "boss_ghost_king/move_east_4": "characters/boss_ghost_king/move_east_4",
+    "boss_ghost_king/move_east_5": "characters/boss_ghost_king/move_east_5",
+    "boss_ghost_king/move_south_0": "characters/boss_ghost_king/move_south_0",
+    "boss_ghost_king/move_south_1": "characters/boss_ghost_king/move_south_1",
+    "boss_ghost_king/move_south_2": "characters/boss_ghost_king/move_south_2",
+    "boss_ghost_king/move_south_3": "characters/boss_ghost_king/move_south_3",
+    "boss_ghost_king/move_south_4": "characters/boss_ghost_king/move_south_4",
+    "boss_ghost_king/move_south_5": "characters/boss_ghost_king/move_south_5",
+    "boss_ghost_king/phase_transition_east_0": "characters/boss_ghost_king/phase_transition_east_0",
+    "boss_ghost_king/phase_transition_east_1": "characters/boss_ghost_king/phase_transition_east_1",
+    "boss_ghost_king/phase_transition_east_2": "characters/boss_ghost_king/phase_transition_east_2",
+    "boss_ghost_king/phase_transition_east_3": "characters/boss_ghost_king/phase_transition_east_3",
+    "boss_ghost_king/phase_transition_east_4": "characters/boss_ghost_king/phase_transition_east_4",
+    "boss_ghost_king/phase_transition_east_5": "characters/boss_ghost_king/phase_transition_east_5",
+    "boss_ghost_king/phase_transition_east_6": "characters/boss_ghost_king/phase_transition_east_6",
+    "boss_ghost_king/phase_transition_east_7": "characters/boss_ghost_king/phase_transition_east_7",
+    "boss_ghost_king/phase_transition_south_0": "characters/boss_ghost_king/phase_transition_south_0",
+    "boss_ghost_king/phase_transition_south_1": "characters/boss_ghost_king/phase_transition_south_1",
+    "boss_ghost_king/phase_transition_south_2": "characters/boss_ghost_king/phase_transition_south_2",
+    "boss_ghost_king/phase_transition_south_3": "characters/boss_ghost_king/phase_transition_south_3",
+    "boss_ghost_king/phase_transition_south_4": "characters/boss_ghost_king/phase_transition_south_4",
+    "boss_ghost_king/phase_transition_south_5": "characters/boss_ghost_king/phase_transition_south_5",
+    "boss_ghost_king/phase_transition_south_6": "characters/boss_ghost_king/phase_transition_south_6",
+    "boss_ghost_king/phase_transition_south_7": "characters/boss_ghost_king/phase_transition_south_7",
+    "boss_ghost_king/soul_devour_east_0": "characters/boss_ghost_king/soul_devour_east_0",
+    "boss_ghost_king/soul_devour_east_1": "characters/boss_ghost_king/soul_devour_east_1",
+    "boss_ghost_king/soul_devour_east_2": "characters/boss_ghost_king/soul_devour_east_2",
+    "boss_ghost_king/soul_devour_east_3": "characters/boss_ghost_king/soul_devour_east_3",
+    "boss_ghost_king/soul_devour_east_4": "characters/boss_ghost_king/soul_devour_east_4",
+    "boss_ghost_king/soul_devour_east_5": "characters/boss_ghost_king/soul_devour_east_5",
+    "boss_ghost_king/soul_devour_south_0": "characters/boss_ghost_king/soul_devour_south_0",
+    "boss_ghost_king/soul_devour_south_1": "characters/boss_ghost_king/soul_devour_south_1",
+    "boss_ghost_king/soul_devour_south_2": "characters/boss_ghost_king/soul_devour_south_2",
+    "boss_ghost_king/soul_devour_south_3": "characters/boss_ghost_king/soul_devour_south_3",
+    "boss_ghost_king/soul_devour_south_4": "characters/boss_ghost_king/soul_devour_south_4",
+    "boss_ghost_king/soul_devour_south_5": "characters/boss_ghost_king/soul_devour_south_5",
     "boss_teng_huayuan/attack_cast_east_0": "characters/boss_teng_huayuan/attack_cast_east_0",
     "boss_teng_huayuan/attack_cast_east_1": "characters/boss_teng_huayuan/attack_cast_east_1",
     "boss_teng_huayuan/attack_cast_east_2": "characters/boss_teng_huayuan/attack_cast_east_2",
@@ -3149,6 +3357,414 @@ export const BiomeTiles = {
 } as const;
 
 export const CharacterAnimations = {
+  "boss_ancient_god_remnant": {
+    "attack_beam": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/attack_beam_east_0",
+          "characters/boss_ancient_god_remnant/attack_beam_east_1",
+          "characters/boss_ancient_god_remnant/attack_beam_east_2",
+          "characters/boss_ancient_god_remnant/attack_beam_east_3",
+          "characters/boss_ancient_god_remnant/attack_beam_east_4",
+          "characters/boss_ancient_god_remnant/attack_beam_east_5",
+          "characters/boss_ancient_god_remnant/attack_beam_east_6",
+          "characters/boss_ancient_god_remnant/attack_beam_east_7"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/attack_beam_south_0",
+          "characters/boss_ancient_god_remnant/attack_beam_south_1",
+          "characters/boss_ancient_god_remnant/attack_beam_south_2",
+          "characters/boss_ancient_god_remnant/attack_beam_south_3",
+          "characters/boss_ancient_god_remnant/attack_beam_south_4",
+          "characters/boss_ancient_god_remnant/attack_beam_south_5",
+          "characters/boss_ancient_god_remnant/attack_beam_south_6",
+          "characters/boss_ancient_god_remnant/attack_beam_south_7"
+        ],
+        "loop": false
+      }
+    },
+    "attack_slam": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/attack_slam_east_0",
+          "characters/boss_ancient_god_remnant/attack_slam_east_1",
+          "characters/boss_ancient_god_remnant/attack_slam_east_2",
+          "characters/boss_ancient_god_remnant/attack_slam_east_3",
+          "characters/boss_ancient_god_remnant/attack_slam_east_4",
+          "characters/boss_ancient_god_remnant/attack_slam_east_5",
+          "characters/boss_ancient_god_remnant/attack_slam_east_6",
+          "characters/boss_ancient_god_remnant/attack_slam_east_7"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/attack_slam_south_0",
+          "characters/boss_ancient_god_remnant/attack_slam_south_1",
+          "characters/boss_ancient_god_remnant/attack_slam_south_2",
+          "characters/boss_ancient_god_remnant/attack_slam_south_3",
+          "characters/boss_ancient_god_remnant/attack_slam_south_4",
+          "characters/boss_ancient_god_remnant/attack_slam_south_5",
+          "characters/boss_ancient_god_remnant/attack_slam_south_6",
+          "characters/boss_ancient_god_remnant/attack_slam_south_7"
+        ],
+        "loop": false
+      }
+    },
+    "chain_lash": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/chain_lash_east_0",
+          "characters/boss_ancient_god_remnant/chain_lash_east_1",
+          "characters/boss_ancient_god_remnant/chain_lash_east_2",
+          "characters/boss_ancient_god_remnant/chain_lash_east_3",
+          "characters/boss_ancient_god_remnant/chain_lash_east_4",
+          "characters/boss_ancient_god_remnant/chain_lash_east_5"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/chain_lash_south_0",
+          "characters/boss_ancient_god_remnant/chain_lash_south_1",
+          "characters/boss_ancient_god_remnant/chain_lash_south_2",
+          "characters/boss_ancient_god_remnant/chain_lash_south_3",
+          "characters/boss_ancient_god_remnant/chain_lash_south_4",
+          "characters/boss_ancient_god_remnant/chain_lash_south_5"
+        ],
+        "loop": false
+      }
+    },
+    "death": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/death_east_0",
+          "characters/boss_ancient_god_remnant/death_east_1",
+          "characters/boss_ancient_god_remnant/death_east_2",
+          "characters/boss_ancient_god_remnant/death_east_3",
+          "characters/boss_ancient_god_remnant/death_east_4",
+          "characters/boss_ancient_god_remnant/death_east_5",
+          "characters/boss_ancient_god_remnant/death_east_6",
+          "characters/boss_ancient_god_remnant/death_east_7",
+          "characters/boss_ancient_god_remnant/death_east_8",
+          "characters/boss_ancient_god_remnant/death_east_9",
+          "characters/boss_ancient_god_remnant/death_east_10",
+          "characters/boss_ancient_god_remnant/death_east_11"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/death_south_0",
+          "characters/boss_ancient_god_remnant/death_south_1",
+          "characters/boss_ancient_god_remnant/death_south_2",
+          "characters/boss_ancient_god_remnant/death_south_3",
+          "characters/boss_ancient_god_remnant/death_south_4",
+          "characters/boss_ancient_god_remnant/death_south_5",
+          "characters/boss_ancient_god_remnant/death_south_6",
+          "characters/boss_ancient_god_remnant/death_south_7",
+          "characters/boss_ancient_god_remnant/death_south_8",
+          "characters/boss_ancient_god_remnant/death_south_9",
+          "characters/boss_ancient_god_remnant/death_south_10",
+          "characters/boss_ancient_god_remnant/death_south_11"
+        ],
+        "loop": false
+      }
+    },
+    "idle": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/idle_east_0",
+          "characters/boss_ancient_god_remnant/idle_east_1",
+          "characters/boss_ancient_god_remnant/idle_east_2",
+          "characters/boss_ancient_god_remnant/idle_east_3",
+          "characters/boss_ancient_god_remnant/idle_east_4",
+          "characters/boss_ancient_god_remnant/idle_east_5"
+        ],
+        "loop": true
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/idle_south_0",
+          "characters/boss_ancient_god_remnant/idle_south_1",
+          "characters/boss_ancient_god_remnant/idle_south_2",
+          "characters/boss_ancient_god_remnant/idle_south_3",
+          "characters/boss_ancient_god_remnant/idle_south_4",
+          "characters/boss_ancient_god_remnant/idle_south_5"
+        ],
+        "loop": true
+      }
+    },
+    "move": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/move_east_0",
+          "characters/boss_ancient_god_remnant/move_east_1",
+          "characters/boss_ancient_god_remnant/move_east_2",
+          "characters/boss_ancient_god_remnant/move_east_3",
+          "characters/boss_ancient_god_remnant/move_east_4",
+          "characters/boss_ancient_god_remnant/move_east_5"
+        ],
+        "loop": true
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/move_south_0",
+          "characters/boss_ancient_god_remnant/move_south_1",
+          "characters/boss_ancient_god_remnant/move_south_2",
+          "characters/boss_ancient_god_remnant/move_south_3",
+          "characters/boss_ancient_god_remnant/move_south_4",
+          "characters/boss_ancient_god_remnant/move_south_5"
+        ],
+        "loop": true
+      }
+    },
+    "phase_transition": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/phase_transition_east_0",
+          "characters/boss_ancient_god_remnant/phase_transition_east_1",
+          "characters/boss_ancient_god_remnant/phase_transition_east_2",
+          "characters/boss_ancient_god_remnant/phase_transition_east_3",
+          "characters/boss_ancient_god_remnant/phase_transition_east_4",
+          "characters/boss_ancient_god_remnant/phase_transition_east_5",
+          "characters/boss_ancient_god_remnant/phase_transition_east_6",
+          "characters/boss_ancient_god_remnant/phase_transition_east_7"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/phase_transition_south_0",
+          "characters/boss_ancient_god_remnant/phase_transition_south_1",
+          "characters/boss_ancient_god_remnant/phase_transition_south_2",
+          "characters/boss_ancient_god_remnant/phase_transition_south_3",
+          "characters/boss_ancient_god_remnant/phase_transition_south_4",
+          "characters/boss_ancient_god_remnant/phase_transition_south_5",
+          "characters/boss_ancient_god_remnant/phase_transition_south_6",
+          "characters/boss_ancient_god_remnant/phase_transition_south_7"
+        ],
+        "loop": false
+      }
+    }
+  },
+  "boss_ghost_king": {
+    "attack_claw": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/attack_claw_east_0",
+          "characters/boss_ghost_king/attack_claw_east_1",
+          "characters/boss_ghost_king/attack_claw_east_2",
+          "characters/boss_ghost_king/attack_claw_east_3",
+          "characters/boss_ghost_king/attack_claw_east_4",
+          "characters/boss_ghost_king/attack_claw_east_5"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/attack_claw_south_0",
+          "characters/boss_ghost_king/attack_claw_south_1",
+          "characters/boss_ghost_king/attack_claw_south_2",
+          "characters/boss_ghost_king/attack_claw_south_3",
+          "characters/boss_ghost_king/attack_claw_south_4",
+          "characters/boss_ghost_king/attack_claw_south_5"
+        ],
+        "loop": false
+      }
+    },
+    "attack_wail": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/attack_wail_east_0",
+          "characters/boss_ghost_king/attack_wail_east_1",
+          "characters/boss_ghost_king/attack_wail_east_2",
+          "characters/boss_ghost_king/attack_wail_east_3",
+          "characters/boss_ghost_king/attack_wail_east_4",
+          "characters/boss_ghost_king/attack_wail_east_5",
+          "characters/boss_ghost_king/attack_wail_east_6",
+          "characters/boss_ghost_king/attack_wail_east_7"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/attack_wail_south_0",
+          "characters/boss_ghost_king/attack_wail_south_1",
+          "characters/boss_ghost_king/attack_wail_south_2",
+          "characters/boss_ghost_king/attack_wail_south_3",
+          "characters/boss_ghost_king/attack_wail_south_4",
+          "characters/boss_ghost_king/attack_wail_south_5",
+          "characters/boss_ghost_king/attack_wail_south_6",
+          "characters/boss_ghost_king/attack_wail_south_7"
+        ],
+        "loop": false
+      }
+    },
+    "death": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/death_east_0",
+          "characters/boss_ghost_king/death_east_1",
+          "characters/boss_ghost_king/death_east_2",
+          "characters/boss_ghost_king/death_east_3",
+          "characters/boss_ghost_king/death_east_4",
+          "characters/boss_ghost_king/death_east_5",
+          "characters/boss_ghost_king/death_east_6",
+          "characters/boss_ghost_king/death_east_7",
+          "characters/boss_ghost_king/death_east_8",
+          "characters/boss_ghost_king/death_east_9"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/death_south_0",
+          "characters/boss_ghost_king/death_south_1",
+          "characters/boss_ghost_king/death_south_2",
+          "characters/boss_ghost_king/death_south_3",
+          "characters/boss_ghost_king/death_south_4",
+          "characters/boss_ghost_king/death_south_5",
+          "characters/boss_ghost_king/death_south_6",
+          "characters/boss_ghost_king/death_south_7",
+          "characters/boss_ghost_king/death_south_8",
+          "characters/boss_ghost_king/death_south_9"
+        ],
+        "loop": false
+      }
+    },
+    "idle": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/idle_east_0",
+          "characters/boss_ghost_king/idle_east_1",
+          "characters/boss_ghost_king/idle_east_2",
+          "characters/boss_ghost_king/idle_east_3",
+          "characters/boss_ghost_king/idle_east_4",
+          "characters/boss_ghost_king/idle_east_5"
+        ],
+        "loop": true
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/idle_south_0",
+          "characters/boss_ghost_king/idle_south_1",
+          "characters/boss_ghost_king/idle_south_2",
+          "characters/boss_ghost_king/idle_south_3",
+          "characters/boss_ghost_king/idle_south_4",
+          "characters/boss_ghost_king/idle_south_5"
+        ],
+        "loop": true
+      }
+    },
+    "move": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/move_east_0",
+          "characters/boss_ghost_king/move_east_1",
+          "characters/boss_ghost_king/move_east_2",
+          "characters/boss_ghost_king/move_east_3",
+          "characters/boss_ghost_king/move_east_4",
+          "characters/boss_ghost_king/move_east_5"
+        ],
+        "loop": true
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/move_south_0",
+          "characters/boss_ghost_king/move_south_1",
+          "characters/boss_ghost_king/move_south_2",
+          "characters/boss_ghost_king/move_south_3",
+          "characters/boss_ghost_king/move_south_4",
+          "characters/boss_ghost_king/move_south_5"
+        ],
+        "loop": true
+      }
+    },
+    "phase_transition": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/phase_transition_east_0",
+          "characters/boss_ghost_king/phase_transition_east_1",
+          "characters/boss_ghost_king/phase_transition_east_2",
+          "characters/boss_ghost_king/phase_transition_east_3",
+          "characters/boss_ghost_king/phase_transition_east_4",
+          "characters/boss_ghost_king/phase_transition_east_5",
+          "characters/boss_ghost_king/phase_transition_east_6",
+          "characters/boss_ghost_king/phase_transition_east_7"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/phase_transition_south_0",
+          "characters/boss_ghost_king/phase_transition_south_1",
+          "characters/boss_ghost_king/phase_transition_south_2",
+          "characters/boss_ghost_king/phase_transition_south_3",
+          "characters/boss_ghost_king/phase_transition_south_4",
+          "characters/boss_ghost_king/phase_transition_south_5",
+          "characters/boss_ghost_king/phase_transition_south_6",
+          "characters/boss_ghost_king/phase_transition_south_7"
+        ],
+        "loop": false
+      }
+    },
+    "soul_devour": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/soul_devour_east_0",
+          "characters/boss_ghost_king/soul_devour_east_1",
+          "characters/boss_ghost_king/soul_devour_east_2",
+          "characters/boss_ghost_king/soul_devour_east_3",
+          "characters/boss_ghost_king/soul_devour_east_4",
+          "characters/boss_ghost_king/soul_devour_east_5"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/soul_devour_south_0",
+          "characters/boss_ghost_king/soul_devour_south_1",
+          "characters/boss_ghost_king/soul_devour_south_2",
+          "characters/boss_ghost_king/soul_devour_south_3",
+          "characters/boss_ghost_king/soul_devour_south_4",
+          "characters/boss_ghost_king/soul_devour_south_5"
+        ],
+        "loop": false
+      }
+    }
+  },
   "boss_teng_huayuan": {
     "attack_cast": {
       "east": {
