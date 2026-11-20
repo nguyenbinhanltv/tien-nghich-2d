@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiên Nghịch 2D — Previewer &amp; Asset Inspector</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">仙</span>
+        <div>
+          <h1>Tiên Nghịch 2D Previewer</h1>
+          <div class="brand-sub">Soul Knight-style Xianxia Roguelite · Zero-Build HTML5 · Nearest-Neighbor Integer Scale</div>
+        </div>
+      </div>
+
+      <nav class="tabs" role="tablist" aria-label="Previewer Modes">
+        <button id="tab-btn-arena" type="button" role="tab" class="tab-btn active">Play Arena</button>
+        <button id="tab-btn-inspector" type="button" role="tab" class="tab-btn">Asset Inspector</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <div id="biome-buttons" class="biome-buttons" aria-label="Biomes (Keys 1-3)"></div>
+        <label class="inline-control" title="Integer canvas scaling">
+          Scale
+          <select id="scale-select">
+            <option value="auto" selected>Auto-Int</option>
+            <option value="1">1×</option>
+            <option value="2">2×</option>
+            <option value="3">3×</option>
+            <option value="4">4×</option>
+          </select>
+        </label>
+        <label class="inline-toggle" title="Load clearly-labelled dev test fixtures from assets/_fixtures/ (never real art)">
+          <input id="toggle-fixtures" type="checkbox" />
+          Dev Fixtures
+        </label>
+        <button id="btn-reload-index" type="button" class="btn-secondary">Reload</button>
+      </div>
+    </header>
+
+    <section id="asset-status-banner" class="status-banner" aria-live="polite">
+      Loading manifest, palette, and asset index...
+    </section>
+
+    <main class="workspace">
+      <!-- TAB (a) + (b): PLAYABLE ARENA -->
+      <section id="panel-arena" class="arena-layout">
+        <aside class="sidebar">
+          <div class="card">
+            <h2>Wang Lin Skin (1–4)</h2>
+            <div id="skin-selector" class="choice-list"></div>
+          </div>
+
+          <div class="card">
+            <h2>Dharma Treasure (Click to Fire)</h2>
+            <select id="weapon-select" class="full-select"></select>
+            <div id="weapon-meta" class="weapon-meta"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h2>Procedural Room (Blob-47)</h2>
+              <button id="btn-regen-room" type="button" class="btn-small">New Seed</button>
+            </div>
+            <div id="room-minimap" class="minimap-grid" aria-label="3x3 Dungeon Minimap"></div>
+            <div id="room-info" class="muted small-note"></div>
+          </div>
+
+          <div class="card">
+            <h2>Debug Overlays</h2>
+            <div class="checkbox-grid">
+              <label><input id="dbg-hitboxes" type="checkbox" /> Hitboxes</label>
+              <label><input id="dbg-bitmasks" type="checkbox" /> Blob-47 Masks</label>
+              <label><input id="dbg-grid" type="checkbox" /> 16px Grid</label>
+              <label><input id="dbg-walls" type="checkbox" /> 2.5D Wall Faces</label>
+            </div>
+          </div>
+        </aside>
+
+        <div class="arena-stage-wrap">
+          <div class="stage-bar">
+            <div id="biome-caption" class="biome-caption"></div>
+            <div class="controls-legend">
+              <span><kbd>WASD</kbd> Move</span>
+              <span><kbd>Space</kbd> Dash</span>
+              <span><kbd>Click</kbd> Fire</span>
+              <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Biomes</span>
+              <span id="scale-readout" class="muted"></span>
+            </div>
+          </div>
+          <div class="canvas-stage">
+            <canvas id="arena-canvas" class="pixel-canvas" width="336" height="240"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB (c): ASSET INSPECTOR -->
+      <section id="panel-inspector" class="inspector-layout" hidden>
+        <aside class="inspector-list-col">
+          <div class="list-filters">
+            <input id="inspector-search" type="search" placeholder="Filter by ID or name..." />
+            <select id="inspector-biome-filter">
+              <option value="all">All Biomes</option>
+              <option value="hengyue">Hằng Nhạc Phái</option>
+              <option value="blood_sea">Huyết Hải</option>
+              <option value="ancient_god">Cổ Thần Chi Địa</option>
+            </select>
+          </div>
+          <div id="inspector-categories" class="category-pills"></div>
+          <div class="list-header">
+            <span>Assets</span>
+            <span id="inspector-list-count" class="muted">0</span>
+          </div>
+          <div id="inspector-asset-list" class="asset-list"></div>
+        </aside>
+
+        <div class="inspector-stage-col">
+          <div class="inspector-toolbar">
+            <label id="insp-anim-wrap" class="inline-control">
+              Anim
+              <select id="insp-anim-select"></select>
+            </label>
+            <label id="insp-sheet-wrap" class="inline-control" hidden>
+              Sheet
+              <select id="insp-sheet-select"></select>
+            </label>
+            <label id="insp-dir-wrap" class="inline-control">
+              Dir
+              <select id="insp-dir-select"></select>
+            </label>
+            <button id="insp-tileset-mode" type="button" class="btn-secondary" hidden>View: 47-Tile Sheet</button>
+            <label class="inline-control">
+              Zoom
+              <select id="insp-zoom-select">
+                <option value="1">1×</option>
+                <option value="2">2×</option>
+                <option value="3">3×</option>
+                <option value="4" selected>4×</option>
+                <option value="6">6×</option>
+                <option value="8">8×</option>
+              </select>
+            </label>
+            <label class="inline-toggle"><input id="insp-toggle-hitbox" type="checkbox" checked /> Hitbox</label>
+            <label class="inline-toggle"><input id="insp-toggle-grid" type="checkbox" /> Pixel Grid</label>
+            <label class="inline-toggle"><input id="insp-toggle-origin" type="checkbox" checked /> Pivot</label>
+          </div>
+
+          <div class="inspector-canvas-stage">
+            <canvas id="inspector-canvas" class="pixel-canvas" width="256" height="256"></canvas>
+          </div>
+
+          <div class="transport-bar">
+            <button id="insp-btn-prev" type="button" class="btn-secondary" title="Previous frame">◀ Step</button>
+            <button id="insp-btn-play" type="button" class="btn-primary">⏸ Pause</button>
+            <button id="insp-btn-next" type="button" class="btn-secondary" title="Next frame">Step ▶</button>
+            <input id="insp-scrubber" type="range" min="0" max="3" value="0" class="scrubber" />
+            <span id="insp-frame-label" class="frame-label">Frame 1 / 4</span>
+            <label class="inline-control">
+              FPS
+              <input id="insp-fps-range" type="range" min="1" max="24" value="8" class="fps-slider" />
+              <span id="insp-fps-value">8 fps</span>
+            </label>
+            <label class="inline-control">
+              Speed
+              <select id="insp-speed-select">
+                <option value="0.25">0.25×</option>
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <aside id="inspector-meta" class="inspector-meta-col"></aside>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
