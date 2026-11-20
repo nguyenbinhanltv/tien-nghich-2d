@@ -1,5 +1,73 @@
 {
  "anchors": {
+  "boss_ancient_god_remnant": {
+   "anchor_px": [
+    47,
+    95
+   ],
+   "bbox_size": [
+    97,
+    109
+   ],
+   "canvas": [
+    96,
+    96
+   ],
+   "common_bbox_ref48": [
+    -25,
+    -25,
+    71,
+    83
+   ],
+   "frames": 108,
+   "origin": [
+    0.4948,
+    1.0
+   ],
+   "out_size": [
+    85,
+    96
+   ],
+   "paste_offset": [
+    5,
+    0
+   ],
+   "scale": 0.8807
+  },
+  "boss_ghost_king": {
+   "anchor_px": [
+    40,
+    79
+   ],
+   "bbox_size": [
+    81,
+    81
+   ],
+   "canvas": [
+    80,
+    80
+   ],
+   "common_bbox_ref48": [
+    -16,
+    -17,
+    64,
+    63
+   ],
+   "frames": 100,
+   "origin": [
+    0.5,
+    1.0
+   ],
+   "out_size": [
+    80,
+    80
+   ],
+   "paste_offset": [
+    0,
+    0
+   ],
+   "scale": 0.9877
+  },
   "boss_teng_huayuan": {
    "anchor_px": [
     32,
@@ -685,18 +753,18 @@
  "missing": [],
  "stats": {
   "alpha_snapped": 0,
-  "colour_noise_merged": 3873,
-  "outline_repainted": 66747,
-  "outline_thinned": 5917,
+  "colour_noise_merged": 8274,
+  "outline_repainted": 123285,
+  "outline_thinned": 6223,
   "quantized": 232791,
-  "speckle_removed": 118,
+  "speckle_removed": 231,
   "transparent_cleaned": 0
  },
  "unmanifested": [
   "ui/ui_spirit_stone/ui_spirit_stone_24x24.png"
  ],
  "written": {
-  "bosses": 88,
+  "bosses": 296,
   "icons": 32,
   "mobs": 592,
   "players": 352,
