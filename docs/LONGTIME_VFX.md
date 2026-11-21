@@ -239,7 +239,7 @@ Thang 1–10: đọc được ở 1×, tổng thể so với hiệu ứng cũ đ
 |---|---:|---:|---|
 | `lt_fx_impact` | 6 | 5 | Hình sao bốn cánh quen, gần giống `hit_spark`; lõi xám nhạt của biến thể `stone` ít tương phản trên sàn xám; phân biệt đá/linh chủ yếu nhờ màu. Hai biến thể là tô lại nên hình dạng giống nhau theo thiết kế. |
 | `lt_fx_ward_pulse` | 5 | 4 | Vòng elip trơn, giữ gần như nguyên bốn frame rồi vỡ thành một cung dưới lệch; sáu màu tách được trừ `mirror` (ink) rất khó phân biệt với viền. Chưa có "xung" đúng nghĩa. |
-| `lt_fx_craft` | 3 | 3 | Dấu cộng sáng ở trên và nhúm tia ở dưới tách rời, không đọc thành một tia bay lên; tối thiểu đã không che miệng lò. Là hiệu ứng yếu nhất. |
+| `lt_fx_craft` | 5 | 4 | Vẽ lại sau PR #65 (mục 8.6): hạt hình giọt bay lên rồi nổ thành chùm nhỏ ở đỉnh, không còn dấu cộng. Thân giọt có cuống thẳng, đọc hơi giống chiếc kẹo mút hơn là tia lửa; chùm nổ nhỏ và thưa ở 1×; chưa kiểm cạnh `lt_kiln` thật. |
 | `lt_fx_stamp` | 6 | 5 | Đọc được là ấn đóng xuống và không có đỏ hay vòng nguy hiểm; vài mảnh bụi lệch ở góc dưới trái trông như lỗi. |
 | `lt_fx_gate_unseal` | 4 | 4 | Quầng xanh hình trứng với vết nứt; không vẽ lại đĩa niêm phong (nhờ sprite cổng), nên "đĩa vỡ" chưa thật sự thấy; chưa kiểm cảm giác giật ở frame 6. |
 | `lt_fx_core_breach` | 6 | 5 | Sao đỏ nhiều gai rồi tan thành mảnh xám: đọc là thất bại và khác `hit_spark`, nhưng đơn điệu và hơi nhỏ so với canvas 64. |
@@ -249,3 +249,18 @@ Mỗi hiệu ứng dùng tối đa vài vòng chỉnh (impact: ba; các ID còn 
 ### 8.5 Còn cần người xem
 
 **Cả sáu ID chưa qua đọc mù 1× của người** (mục 5). Ưu tiên: `lt_fx_craft` (có thể phải vẽ lại), `lt_fx_ward_pulse` biến thể `mirror`, `lt_fx_gate_unseal` (giật ở frame swap), rồi đối chiếu `lt_fx_impact` với `hit_spark`. Chưa làm: xem trên nền sàn của từng biome cạnh sprite gắn kèm; đọc mù ba người.
+
+### 8.6 Vòng chỉnh sau PR #65: `lt_fx_craft` và biến thể `mirror`
+
+**`lt_fx_craft` được thiết kế lại** vì dấu cộng đứng yên phía trên vài thanh ngắn đọc như biểu tượng hồi máu, không có gì bay lên (đổi ẩn dụ chứ không chỉnh tham số, theo bài học spritefx). Chuyển động mới: một hạt hình giọt có đuôi nhọn bay từ chân (16,28) lên đỉnh trong bốn frame `fast` (sự kiện `done` ở frame 3 khi nó tới nơi), rồi hạt tan thành sáu điểm tỏa ra và trôi lên, mờ dần đến frame 8, frame 9 rỗng. Giữ nguyên 10 frame, nhịp 50×4/60×4/70×2 ms, ba bộ màu và quy tắc tô lại (ba biến thể đồng mặt nạ, song ánh màu). Các số nghiệm thu giữ nguyên như đã chỉnh ở 8.2 (frame đầu 3,7% ≤ 4, đỉnh 8,0% trong 3–12, chênh lớn nhất 6,3% ≤ 8, frame cuối 0%); không nới thêm, không đổi ngưỡng SpriteFX. Chỉ chunk `interface` được dựng lại; mọi mục khác của atlas giống từng pixel, JSON atlas giống từng byte.
+
+**`lt_fx_ward_pulse` biến thể `mirror` (ramp `ink`): đã đo, không sửa.** Đo trên khung `release` 2 so với ba nền (tương phản WCAG; ảnh `lt_fx_ward_mirror_contrast.png` là artifact của session):
+
+| Nền | Thân vòng (4 bậc ink: `#49434f`, `#6e6877`, `#9d98a4`, `#d4d0d8`) | Viền `ink_01` |
+|---|---|---|
+| xám giữa `#808080` | 2,42 / 1,36 / 1,40 / 2,60 | 4,8, vòng được viền rõ nên vẫn đọc được |
+| đá sân `#2c2733` | 1,52 / 2,71 / 5,16 / 9,56 | 1,3, mất |
+| tối `#1a1220` | 1,91 / 3,40 / 6,48 / 12,0 | 1,0, mất |
+
+Vòng không biến mất ở cả ba nền, nên không sửa. Điểm yếu thật: nửa trên (bậc tối nhất) trên nền đá sân và nền tối chỉ 1,5–1,9:1 và viền không giúp được; nửa dưới sáng đọc tốt. Nguyên nhân là ramp `ink` chỉ có bốn bậc dùng được (bậc 0 `#2c2733` trùng màu đá sân), nên không có lựa chọn khác trong ramp. Sửa thật cần một trong hai thay đổi nằm ngoài phạm vi vòng này: đổi ramp của `mirror` sang ramp có bậc tối sáng hơn (đụng quyết định 8, đang ở mặc định tạm thời), hoặc nâng độ sáng chung của vòng cho cả sáu biến thể (vẽ lại toàn bộ `lt_fx_ward_pulse`). Cần người quyết định; cần người xem trên nền sàn thật của từng biome.
+

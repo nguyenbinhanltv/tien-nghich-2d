@@ -8,20 +8,20 @@
  "palette": "tools/generators/palette.json (40 colours); ramps from tools/generators/vfx_specs/palettes/tien_nghich_40.json",
  "parents": [],
  "source": "specs/",
- "source_sha256": "e6a13b6d58d6c5399c3a9c43dff1da990c70a8f4e1b13784661dec1fd99bb607",
+ "source_sha256": "f5e71a3cf47f7d3b2f70e200713334c4237e7a62a6575040ba2e391ee13475f4",
  "specs": {
-  "specs/finish_bronze.json": "d4e90257ea50612bb15e5c6ac509575a0e55a64a17d0f72bad2fb3f7c0e35988",
-  "specs/finish_jade.json": "609045edabcfb36621e2f3fa15a8cbf481a1ef30f990ce8498d53a64140fde08",
-  "specs/finish_soul.json": "924cd15660453285aa89e5b4d586b66e4fb21a455097da95852a851dd1ac52a7"
+  "specs/finish_bronze.json": "582945aefbbb715437c57120d51c6dce893ed0befc741c32b4ae6121170c4c5c",
+  "specs/finish_jade.json": "514ab4e2ca32cbb93ab9541a13c9f9958dce63d96b761772be6815d160f42f4c",
+  "specs/finish_soul.json": "f674a83e43a92f715ab6b101229443cf2b2119d91b986ac4c8607300b402675c"
  },
  "render_sheets_sha256": {
-  "finish_bronze": "568bd20d3316d545de5d1e22faefa80e1642ae1de72ba0f05b8c3e5e5a66bdc1",
-  "finish_jade": "21151e86077d2fb90d7d9fefed644962d595d3906e3f4b067d39892c66ba1d4b",
-  "finish_soul": "5c1e89795b2b8ac0cf0cc0d8f9157bcca40e0045f0c0d4672bf1a9d7e2548192"
+  "finish_bronze": "f666667f9149ecfae8c83400bfc7347008d3eabe47f23dce7eafef2557776c8a",
+  "finish_jade": "345569b8f0246894fa007d35d4377b4622269673d0033307e8729c970d621b81",
+  "finish_soul": "d790179641dd42c7f7c092a1f145b8275d67e2bc443e980fdae31919c7009494"
  },
  "generator": "tools/generators/longtime_vfx.py",
  "generator_sha256": "ec23f24849dccc3fd4d2e54fb1f55261ecb51c3ac0fd32522932e118d60931c0",
- "effects_sha256": "4db1e5895d034e2e7026f93741e4cc06c71defc0a62f947c7f70774955dd72fd",
+ "effects_sha256": "c65628acfcb5f337a1f250af2e66d7b65e6491717c4e3aa06833d54917a99e5e",
  "environment": "tools/.venvs/spritefx (CPython, numpy 2.4.6, Pillow 12.3.0, jsonschema 4.26.0)",
  "review": "machine checks only; human 1x readability review pending",
  "frames": [
@@ -30,63 +30,63 @@
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_0.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "7847e040c444f82c3a8345f7f75de2c748793bd54a28784fe6b9854843b936e6"
+   "sha256": "5bcccb80d0ecf82cf44161af15fddb3c2dd38f9daff67c11d46b654ff09ecd70"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_1",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_1.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "7e1791c40f73bc89be037eed1f343cd85d64c8fcaa380ae4034cc2795838f667"
+   "sha256": "bf05612c2bcf7d79aa4688f5d3a5b2dd9fecec31a6bac33614f3fe3bc2150493"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_2",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_2.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "2fe31bcae609f5d9c197ba9fbc812b2cf4b7ac4abad4cc16257ddffb75b01725"
+   "sha256": "ba5860547bda830ad5888b7c7928661019019d64f3a9fbced791645b229eb692"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_3",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_3.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "d997863a85b0b200a86ed6fcfe605430cc1ad4ba10a776dedf2fed3fc8f6e278"
+   "sha256": "63a2251652237c65f7a0ce07ba11b934faa606bebf23fcf2df6b344c3815f32b"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_4",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_4.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "ca56b2b33a38b9a3ba4b7f720cf1b5b5b2c5ee2a909c99dff853562866a30797"
+   "sha256": "88a1aef62a9cb2b8694b81be0342e7dc7891d23bca5b62b9b5fbec4d4602cd4e"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_5",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_5.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "69689cfea96ae470da8f101da90ae085f06d098de13b46481b87e0f457386a9b"
+   "sha256": "5c87d51127dcd83c2cc919dcd24dd47d73b98610ab66067e9d7911e0c7874212"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_6",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_6.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "478d43919ab27226baf7637cb94a3ff8b2b839181de6caac49681f1859cd3795"
+   "sha256": "9fd98cda6cc7288f4be1bf340ead05e719ae652fb48b8158d193dab66b6b66e3"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_7",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_7.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "c9dc54cb326a3b397e625601c592cfbb0b45ee7984893050260761fc76544df5"
+   "sha256": "e2d307b8d2debe475350bb1c825cd81772e2f29cc7c6e38a092cd769725d13e0"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_8",
    "path": "assets/processed_longtime/lt_fx_craft/finish_bronze_8.png",
    "duration_ms": 70,
    "render_ms": 50,
-   "sha256": "e8a374a7471ead820c7ed3f2b5906eb9440865fe05000b21326198158e10c77e"
+   "sha256": "985224b0cb31a904d6dcbfca703e938df77647396550e4f9e97b369c08c053c0"
   },
   {
    "key": "longtime/lt_fx_craft/finish_bronze_9",
@@ -100,63 +100,63 @@
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_0.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "5ac6e64e02519941a6951a9b4ec6b441574de3d08b56e153117c2b4d0f13653b"
+   "sha256": "d898ee62b10ee5c67f8c46f80831683e7e447f4c773e11438181864e6e2a1718"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_1",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_1.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "a738c96cfb8e06d7a0120e5b613281a69e2857137fa3634011f07cbede42d50d"
+   "sha256": "ed35795ba947a2ab27199c6b12e1e5895b2a8f641a3e8243ed688959dca87e28"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_2",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_2.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "57ba5e1e8fb17b7fd4d2a320f2164baa3b6025c29ba33ea222afab94e0d3b393"
+   "sha256": "c56cd501c2ba93f6e296957e7fff5702d278d15faf04e8a19d8476a975f7ee89"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_3",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_3.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "b51b54fbe2b5a42bba78449454d822f55edd86eadf655bc0b26ef64e5d35ed2f"
+   "sha256": "fb23e12042a58f16cda5e40cd7bbdc2420240a47adc7e3c4e4d5192835d1b5b9"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_4",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_4.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "57a2dac4ed880cf04512f0b7d57ca7babc846e8b3949f6b29e7d14a45f5912f7"
+   "sha256": "bb6e0ea1b2a33c9364dc74cf2d618cd981d73a6927263b23a377ef7cb9baa550"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_5",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_5.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "bcb46f7bb14737695426b25108a0c54340eb8181bfcf20b644df6544fc2d53d1"
+   "sha256": "a3898cd08d4bb059db9a9992f9f96607a183f8f43dda54c639b6b1159f6fa333"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_6",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_6.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "c0a8edd8be8d8078c72a639b1dcd8dc357bbfd4d17d6554d7899bb36160ca5a7"
+   "sha256": "2702df4466a07e8df6062b8dc1f46e252c2bbbffcb081a306437d8eace6354ea"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_7",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_7.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "9b29f8102e26e5cc0524c610424e7bfcf01c7e01f44fb9c6755f36684f7d4d42"
+   "sha256": "3e8f5c7183ef4c5c67e8630df4b2efdac345835bca410a99497100fb9ff0089e"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_8",
    "path": "assets/processed_longtime/lt_fx_craft/finish_jade_8.png",
    "duration_ms": 70,
    "render_ms": 50,
-   "sha256": "9192051fd6259dc59d818465535d47bb4df4d625833ed5a3485fff8f73390826"
+   "sha256": "01134ba57bbcc84c7600a341f7ac5823e1269d55482de238af73e0324db310f0"
   },
   {
    "key": "longtime/lt_fx_craft/finish_jade_9",
@@ -170,63 +170,63 @@
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_0.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "111ea9105d15f8c26d2ef6efa7313e7d447a5ccf4c30b543e93c7fd62f2a71a0"
+   "sha256": "7f82f386299f368c53806e7bec3bc67694cdd21445d3fc6b0e5430185d548b97"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_1",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_1.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "f0919bd055897cba773436bffe136cd77391b1048227de954a7cb3bc942e17e3"
+   "sha256": "cf72873f479059ae94c82c28b36896e8e5b64eef782c0f720c73c90f1b3afd78"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_2",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_2.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "0846dd3d43a3b8ec4c20007d955fb47b4abe2602ce648b7d5e2e02aaa7d33893"
+   "sha256": "1712d33dbb5b1637d069825a7139bbc41f88b6e8420120eeef01954bacf1fe49"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_3",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_3.png",
    "duration_ms": 50,
    "render_ms": 50,
-   "sha256": "76a8375047b0ce0b90eeeef0c3a34e7f2e417ce4cf13c2e3196d9c4ec830d83c"
+   "sha256": "0c499afce84199338f4a4be5c0df01304b821f853b719017d4f75e4db376ab27"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_4",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_4.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "a5399ec15a44405623a23f9f072fd177681158594036229728c96c33693037b4"
+   "sha256": "e5012f8b74d4fc35742446adff9d2f115bba766580a659c5300dab82bf4e9370"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_5",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_5.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "2473ba2c24ed334b6e9e32143070ae66c58ed954b4b9b26582b2cad88f2a5e58"
+   "sha256": "490c776365aad15778afdc3bf6278f2492be5362e59e57c28bee04858cf6424e"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_6",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_6.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "c4bfb136d9b38177423cb21cf5dc199cdba78f9a26a757d7856d7727b72eebef"
+   "sha256": "9d4b439d2abc06b57944616da802e6d5c966c3c89f0e567c4ac6f9a3414295fd"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_7",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_7.png",
    "duration_ms": 60,
    "render_ms": 50,
-   "sha256": "d40a00412a9a291578d9f3675f9f85b9ea215110a620853afb5b01be8629a9f1"
+   "sha256": "f1cfc59b18484807f8f10d0173a1cfd68eda45d6bb5e0add90619b4b091aaf37"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_8",
    "path": "assets/processed_longtime/lt_fx_craft/finish_soul_8.png",
    "duration_ms": 70,
    "render_ms": 50,
-   "sha256": "0186c53cbab857096f1dd722673d42ac952afde0d16ee2e155500cc4016f8664"
+   "sha256": "4b44318c15cf9d06cb4f7a7630fa50e3c2539f99887ac2a35f9e43fb49e042a4"
   },
   {
    "key": "longtime/lt_fx_craft/finish_soul_9",

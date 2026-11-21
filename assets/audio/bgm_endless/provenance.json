@@ -1,0 +1,86 @@
+{
+  "id": "bgm_endless",
+  "revision": 1,
+  "base": "be13f3527a355d53f8dcba609ac3da98d3f25d3d",
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/FM/noise patch. No recordings, samples, soundfont or generative-audio model.",
+  "inputs": {
+    "score.json": "4f731b0d60d0f1d555faa9178fd52978329c07e24cf4473e27679d4f7a45c377",
+    "render.py": "6ee6928faa78b3da86c3a80ec0605cec4d512dfe1e6464d25199410047415cca"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "render": "From the checkout root, run python -I -B assets/audio/bgm_endless/render.py <output.wav> with CPython 3.14.5 and NumPy 2.5.5 (tools/.venvs/project/bin/python). The output parent directory must exist.",
+  "patch": "PCG64 seed 5513. Plucks: soft two-operator FM voice with a fast-decaying index and warm body, low root figure, mid eight-note wheel (three variants) and sparse high sparks, panned. Pad: four-partial sine voice with a detuned twin on a quiet open fifth (A2 and E3) with slow swell and 0.09 Hz breathing. 2.2 s seeded-noise reverb applied by circular FFT convolution, wet 0.38, so tails cross the loop boundary. Events and releases wrap modulo the loop. Master gain 1.2, nearest-even PCM16 quantization without dither.",
+  "tempo_bpm": 75,
+  "meter": "4/4",
+  "bars": 20,
+  "tuning": "A minor pentatonic (A C D E G), tonal center A, A4 = 440 Hz; pad A2+E3, plucks A2-E5 (MIDI 45-76)",
+  "register_note": "Measured mono energy share: below 100 Hz -28.8 dB, 100-450 Hz -0.1 dB, 450-1600 Hz -15.8 dB, 1.6-5 kHz -33.3 dB, above 5 kHz -78.9 dB of total. Plucks stay below about 700 Hz fundamentals so the 1.6-5 kHz band stays open for the floor marker and the reward clinks.",
+  "floor_cycle": {
+    "note": "Four cycles of five bars, one bar per floor (1-based bars 1-5, 6-10, 11-15, 16-20). Plucks add a voice each bar, then bar 5 of each cycle is a marker room: no pluck, only the quiet pad (about 8 dB below the floor bars by RMS, not silent). Frames are sample frames per channel; 35,280 per beat, 141,120 per bar.",
+    "marker_room_start_frames": [
+      564480,
+      1270080,
+      1975680,
+      2681280
+    ],
+    "marker_room_length_frames": 141120,
+    "note_on_silence": "The bed does not go silent for the bank-or-continue decision. The game should duck or stop it; the marker rooms and an open 1.6-5 kHz band leave room for the floor marker and sfx_reward either way."
+  },
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+  "loopStart": 0,
+  "loopEnd": 2822400,
+  "frames": 2822400,
+  "duration_seconds": 64.0,
+  "onset_tail": "The pad's and reverb's tails across the final bar are still sounding at the final frame and continue into bar 1; frame 0 equals the continuation of frame 2822399.",
+  "wav_sha256": "6e938f93277a85093a34b6ffff19527b730bff4bcf5145924d1ffb6464f327f2",
+  "pcm_sha256": "c569a80324a238a0c172f34077de44847bab1a984216f0a8f0b6572c1ef59d5c",
+  "verification": {
+    "rebuild": "Two independent render processes wrote to separate empty directories (together with the other bed and the eight SFX). Master WAVs, all SFX WAVs and the SFX ledger matched (diff -r).",
+    "meter": "FFmpeg 8.1.2 ebur128 (peak=true) on the master WAV; not the pinned 6.1.1 build, which this machine lacks. Re-measure on the pinned build in the packing step.",
+    "integrated_lufs": -22.0,
+    "true_peak_dbtp": -9.9,
+    "loudness_range_lu": 5.4,
+    "reference_beds": {
+      "bgm_dong_phu": {
+        "integrated_lufs": -23.2,
+        "true_peak_dbtp": -7.4
+      },
+      "bgm_hengyue": {
+        "integrated_lufs": -21.66,
+        "true_peak_dbtp": -7.06
+      },
+      "bgm_blood_sea": {
+        "integrated_lufs": -22.0,
+        "true_peak_dbtp": -7.5
+      },
+      "bgm_ancient_god": {
+        "integrated_lufs": -22.5,
+        "true_peak_dbtp": -7.2
+      }
+    },
+    "sample_peak_abs_lr": [
+      9450,
+      10459
+    ],
+    "last_pcm_lr": [
+      542,
+      -21
+    ],
+    "first_pcm_lr": [
+      571,
+      0
+    ],
+    "signed_seam_step_lr": [
+      29,
+      21
+    ],
+    "max_abs_step_within_10ms_either_side_lr": [
+      226,
+      189
+    ],
+    "human_listening": "Pending. No agent listened to this audio."
+  }
+}

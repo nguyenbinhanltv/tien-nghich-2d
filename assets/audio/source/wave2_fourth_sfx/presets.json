@@ -1,0 +1,128 @@
+{
+  "sfx_seed": {
+    "seed": 9301,
+    "duration_ms": 520,
+    "trim": 0.63,
+    "design": "A seed is pressed into soil: one soft earthen pat with a short falling hollow note, a fine crumble of soil settling, and a tiny low pop as the hole closes. Warm, damp and quiet, with no bright ring.",
+    "pilot_reference": "sfx_step is a heel and scuff of 118 ms; sfx_pickup rings; sfx_chest has a hard wooden catch. This is a soft muffled pat with a falling hollow tone and a grain of soil trailing after.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 50, "gain": 1.2, "low_hz": 90, "high_hz": 900, "attack_ms": 3, "decay_ms": 16, "release_ms": 18},
+      {"voice": "tone", "start_ms": 0, "ms": 150, "gain": 0.5, "hz": 196, "end_hz": 98, "attack_ms": 4, "decay_ms": 45, "release_ms": 60},
+      {"voice": "noise", "start_ms": 70, "ms": 260, "gain": 0.7, "low_hz": 500, "high_hz": 3200, "attack_ms": 20, "decay_ms": 110, "release_ms": 120, "flutter_hz": 31, "flutter_depth": 0.85},
+      {"voice": "tone", "start_ms": 330, "ms": 160, "gain": 0.3, "hz": 330, "end_hz": 247, "attack_ms": 3, "decay_ms": 40, "release_ms": 70}
+    ]
+  },
+  "sfx_harvest": {
+    "seed": 9311,
+    "duration_ms": 700,
+    "trim": 0.96,
+    "design": "A green stem snaps, leaves rustle past for a quarter second, and two small soft woody notes fall together as the herb drops into the hand: G4 then E4, a falling third, with no sparkle.",
+    "pilot_reference": "sfx_pickup is a bright rising D5-A5 fifth; sfx_seed is a soft low pat. This is a dry snap, a long leafy rustle and a falling third in the mid register.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 16, "gain": 1.1, "low_hz": 1500, "high_hz": 6500, "attack_ms": 1, "decay_ms": 5, "release_ms": 6},
+      {"voice": "noise", "start_ms": 25, "ms": 300, "gain": 0.9, "low_hz": 1800, "high_hz": 7500, "attack_ms": 60, "decay_ms": 160, "release_ms": 140, "flutter_hz": 27, "flutter_depth": 0.9},
+      {"voice": "tone", "start_ms": 300, "ms": 190, "gain": 0.46, "hz": 392, "end_hz": 390, "attack_ms": 3, "decay_ms": 60, "release_ms": 70, "fm_ratio": 2, "fm_index": 0.45},
+      {"voice": "tone", "start_ms": 420, "ms": 270, "gain": 0.46, "hz": 330, "end_hz": 328, "attack_ms": 3, "decay_ms": 85, "release_ms": 100, "fm_ratio": 2, "fm_index": 0.4}
+    ]
+  },
+  "sfx_kiln": {
+    "seed": 9323,
+    "duration_ms": 1500,
+    "trim": 0.54,
+    "design": "The kiln lights: a clay door thud, then two slow bellows breaths feed a deepening furnace hum on a low open fifth (D2 and A2), with only two quiet embers. It builds slowly and stays low, in the domestic register of a working furnace.",
+    "pilot_reference": "sfx_flame is a 780 ms combat release with five crackle snaps; sfx_breakthrough is a bright rising D. This is longer, bellows-driven, and has a sustained low hum with almost no crackle.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 60, "gain": 1.3, "low_hz": 80, "high_hz": 900, "attack_ms": 2, "decay_ms": 18, "release_ms": 24},
+      {"voice": "tone", "start_ms": 0, "ms": 200, "gain": 0.5, "hz": 110, "end_hz": 64, "attack_ms": 3, "decay_ms": 55, "release_ms": 90},
+      {"voice": "noise", "start_ms": 150, "ms": 460, "gain": 1.4, "low_hz": 120, "high_hz": 1200, "attack_ms": 230, "decay_ms": 520, "release_ms": 200},
+      {"voice": "noise", "start_ms": 640, "ms": 560, "gain": 1.7, "low_hz": 100, "high_hz": 1500, "attack_ms": 260, "decay_ms": 600, "release_ms": 260},
+      {"voice": "tone", "start_ms": 200, "ms": 1250, "gain": 0.34, "hz": 73.4, "end_hz": 73.4, "attack_ms": 420, "decay_ms": 1500, "release_ms": 450, "fm_ratio": 2, "fm_index": 0.8},
+      {"voice": "tone", "start_ms": 300, "ms": 1150, "gain": 0.24, "hz": 110, "end_hz": 110, "attack_ms": 450, "decay_ms": 1400, "release_ms": 450, "fm_ratio": 2, "fm_index": 0.6},
+      {"voice": "noise", "start_ms": 960, "ms": 14, "gain": 0.6, "low_hz": 2200, "high_hz": 7500, "attack_ms": 1, "decay_ms": 4, "release_ms": 6},
+      {"voice": "noise", "start_ms": 1180, "ms": 12, "gain": 0.45, "low_hz": 2400, "high_hz": 8000, "attack_ms": 1, "decay_ms": 4, "release_ms": 5}
+    ]
+  },
+  "sfx_craft": {
+    "seed": 9337,
+    "duration_ms": 1100,
+    "trim": 0.47,
+    "design": "Two hammer taps on warm metal, then the finished piece rings: D5, A5 and D6 sound together as one open chord over a thin high ping, then fade. Completion rather than collection, and the notes arrive at once, not in sequence.",
+    "pilot_reference": "sfx_pickup climbs D5 to A5 in sequence; sfx_chime is one high bell with no low body; sfx_seal_lock is pulses and a latch. This has two knocks and then a simultaneous three-note chord.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 24, "gain": 0.9, "low_hz": 700, "high_hz": 5000, "attack_ms": 1, "decay_ms": 7, "release_ms": 9},
+      {"voice": "tone", "start_ms": 0, "ms": 110, "gain": 0.5, "hz": 392, "end_hz": 380, "attack_ms": 1, "decay_ms": 26, "release_ms": 36, "fm_ratio": 2.76, "fm_index": 0.6},
+      {"voice": "noise", "start_ms": 170, "ms": 26, "gain": 1.0, "low_hz": 700, "high_hz": 5000, "attack_ms": 1, "decay_ms": 7, "release_ms": 10},
+      {"voice": "tone", "start_ms": 170, "ms": 120, "gain": 0.55, "hz": 440, "end_hz": 428, "attack_ms": 1, "decay_ms": 28, "release_ms": 40, "fm_ratio": 2.76, "fm_index": 0.6},
+      {"voice": "tone", "start_ms": 340, "ms": 760, "gain": 0.42, "hz": 587.33, "end_hz": 587.33, "attack_ms": 2, "decay_ms": 300, "release_ms": 260, "fm_ratio": 2.01, "fm_index": 0.35},
+      {"voice": "tone", "start_ms": 340, "ms": 760, "gain": 0.34, "hz": 880, "end_hz": 880, "attack_ms": 2, "decay_ms": 280, "release_ms": 260, "fm_ratio": 2.01, "fm_index": 0.3},
+      {"voice": "tone", "start_ms": 340, "ms": 700, "gain": 0.26, "hz": 1174.66, "end_hz": 1174.66, "attack_ms": 2, "decay_ms": 240, "release_ms": 260},
+      {"voice": "tone", "start_ms": 340, "ms": 300, "gain": 0.1, "hz": 3290, "end_hz": 3270, "attack_ms": 1, "decay_ms": 70, "release_ms": 120},
+      {"voice": "noise", "start_ms": 340, "ms": 20, "gain": 0.7, "low_hz": 900, "high_hz": 6000, "attack_ms": 1, "decay_ms": 6, "release_ms": 8}
+    ]
+  },
+  "sfx_gate": {
+    "seed": 9341,
+    "duration_ms": 1400,
+    "trim": 0.52,
+    "design": "A heavy moon gate opens: stone grinds slowly across stone, a deep boom seats the leaf, then an airy low fifth (D3 over A3) swells softly through the opening and fades. Threshold weight first, passage after.",
+    "pilot_reference": "sfx_crush is a short stone grind with pebbles; sfx_breakthrough rises to a bright sustained D. This is a grind into one boom into a soft, low, breathy open fifth.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 520, "gain": 2.4, "low_hz": 60, "high_hz": 700, "attack_ms": 120, "decay_ms": 520, "release_ms": 180, "flutter_hz": 13, "flutter_depth": 0.7},
+      {"voice": "noise", "start_ms": 40, "ms": 440, "gain": 1.1, "low_hz": 300, "high_hz": 2200, "attack_ms": 100, "decay_ms": 340, "release_ms": 160, "flutter_hz": 19, "flutter_depth": 0.85},
+      {"voice": "tone", "start_ms": 500, "ms": 340, "gain": 0.75, "hz": 82, "end_hz": 40, "attack_ms": 4, "decay_ms": 90, "release_ms": 150},
+      {"voice": "noise", "start_ms": 500, "ms": 120, "gain": 1.3, "low_hz": 70, "high_hz": 800, "attack_ms": 2, "decay_ms": 30, "release_ms": 55},
+      {"voice": "noise", "start_ms": 640, "ms": 740, "gain": 0.55, "low_hz": 250, "high_hz": 1800, "attack_ms": 280, "decay_ms": 520, "release_ms": 320},
+      {"voice": "tone", "start_ms": 620, "ms": 760, "gain": 0.3, "hz": 147, "end_hz": 147, "attack_ms": 300, "decay_ms": 700, "release_ms": 330},
+      {"voice": "tone", "start_ms": 680, "ms": 700, "gain": 0.22, "hz": 220, "end_hz": 220, "attack_ms": 300, "decay_ms": 650, "release_ms": 330}
+    ]
+  },
+  "sfx_bond": {
+    "seed": 9353,
+    "duration_ms": 1100,
+    "trim": 0.62,
+    "design": "A companion bond: two soft voices in parallel thirds rise a whole tone (G4 and B4, then A4 and C#5), settle with a low warm purr that flutters about twenty-six times a second. Gentle and close, with slow attacks and no transient.",
+    "pilot_reference": "sfx_confirm is a single D5 pluck and sfx_pickup a bright rising fifth; both start on a click. This begins softly, moves in paired thirds, and carries a low purr underneath.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 440, "gain": 0.34, "hz": 392, "end_hz": 392, "attack_ms": 45, "decay_ms": 420, "release_ms": 130, "fm_ratio": 1, "fm_index": 0.25},
+      {"voice": "tone", "start_ms": 0, "ms": 440, "gain": 0.3, "hz": 493.9, "end_hz": 493.9, "attack_ms": 45, "decay_ms": 420, "release_ms": 130, "fm_ratio": 1, "fm_index": 0.22},
+      {"voice": "tone", "start_ms": 330, "ms": 770, "gain": 0.38, "hz": 440, "end_hz": 440, "attack_ms": 55, "decay_ms": 520, "release_ms": 330, "fm_ratio": 1, "fm_index": 0.25},
+      {"voice": "tone", "start_ms": 330, "ms": 770, "gain": 0.33, "hz": 554.4, "end_hz": 554.4, "attack_ms": 55, "decay_ms": 520, "release_ms": 330, "fm_ratio": 1, "fm_index": 0.22},
+      {"voice": "tone", "start_ms": 120, "ms": 980, "gain": 0.28, "hz": 110, "end_hz": 112, "attack_ms": 260, "decay_ms": 800, "release_ms": 380, "fm_ratio": 2, "fm_index": 0.9, "flutter_hz": 26, "flutter_depth": 0.7},
+      {"voice": "noise", "start_ms": 100, "ms": 900, "gain": 0.35, "low_hz": 120, "high_hz": 700, "attack_ms": 280, "decay_ms": 650, "release_ms": 360, "flutter_hz": 26, "flutter_depth": 0.8}
+    ]
+  },
+  "sfx_ward_place": {
+    "seed": 9367,
+    "duration_ms": 1000,
+    "trim": 0.53,
+    "design": "A ward stake is driven into the ground: one heavy thunk, a soft shimmering sweep widens outward from 700 to 1500 Hz, and the barrier sets as two slightly detuned tones (A4 against a few hertz sharp) beat slowly and fade. Placement and boundary, not a lock.",
+    "pilot_reference": "sfx_seal_lock is two rising pulses and a dry latch at 537 ms; sfx_hit_stone is a short crack. This is one low thunk, a widening upward shimmer, then a long beating hum.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 50, "gain": 1.5, "low_hz": 100, "high_hz": 1400, "attack_ms": 2, "decay_ms": 14, "release_ms": 20},
+      {"voice": "tone", "start_ms": 0, "ms": 200, "gain": 0.7, "hz": 150, "end_hz": 62, "attack_ms": 2, "decay_ms": 55, "release_ms": 90},
+      {"voice": "tone", "start_ms": 90, "ms": 300, "gain": 0.3, "hz": 700, "end_hz": 1500, "attack_ms": 120, "decay_ms": 250, "release_ms": 140, "fm_ratio": 2.01, "fm_index": 0.7},
+      {"voice": "noise", "start_ms": 100, "ms": 320, "gain": 0.5, "low_hz": 1200, "high_hz": 5200, "attack_ms": 140, "decay_ms": 220, "release_ms": 140},
+      {"voice": "tone", "start_ms": 330, "ms": 660, "gain": 0.34, "hz": 440, "end_hz": 440, "attack_ms": 30, "decay_ms": 420, "release_ms": 260, "fm_ratio": 1, "fm_index": 0.3},
+      {"voice": "tone", "start_ms": 330, "ms": 660, "gain": 0.3, "hz": 445.5, "end_hz": 445.5, "attack_ms": 30, "decay_ms": 400, "release_ms": 260, "fm_ratio": 1, "fm_index": 0.3},
+      {"voice": "tone", "start_ms": 330, "ms": 500, "gain": 0.2, "hz": 146.8, "end_hz": 146.8, "attack_ms": 20, "decay_ms": 300, "release_ms": 200}
+    ]
+  },
+  "sfx_reward": {
+    "seed": 9371,
+    "duration_ms": 1500,
+    "trim": 0.53,
+    "design": "Banking a reward: four jade stones clink upward in quick succession (D6, E6, G6, A6, a rising pentatonic run), and then a warm resolved chord (D4, A4, D5) blooms and rings out. The run says it is counted, and the chord says it is safe.",
+    "pilot_reference": "sfx_pickup is one rising fifth for one stone; sfx_craft is two taps and an upper chord; sfx_breakthrough is a long low rise. This is a quick four-note run, and then a warm low chord.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 140, "gain": 0.36, "hz": 1174.66, "end_hz": 1170, "attack_ms": 1, "decay_ms": 38, "release_ms": 50, "fm_ratio": 2.61, "fm_index": 0.5},
+      {"voice": "tone", "start_ms": 75, "ms": 140, "gain": 0.36, "hz": 1318.5, "end_hz": 1314, "attack_ms": 1, "decay_ms": 38, "release_ms": 50, "fm_ratio": 2.61, "fm_index": 0.5},
+      {"voice": "tone", "start_ms": 150, "ms": 140, "gain": 0.38, "hz": 1568, "end_hz": 1563, "attack_ms": 1, "decay_ms": 38, "release_ms": 50, "fm_ratio": 2.61, "fm_index": 0.5},
+      {"voice": "tone", "start_ms": 225, "ms": 220, "gain": 0.42, "hz": 1760, "end_hz": 1755, "attack_ms": 1, "decay_ms": 60, "release_ms": 80, "fm_ratio": 2.61, "fm_index": 0.5},
+      {"voice": "noise", "start_ms": 0, "ms": 30, "gain": 0.3, "low_hz": 2500, "high_hz": 8500, "attack_ms": 1, "decay_ms": 8, "release_ms": 10},
+      {"voice": "tone", "start_ms": 330, "ms": 1100, "gain": 0.44, "hz": 293.66, "end_hz": 293.66, "attack_ms": 40, "decay_ms": 650, "release_ms": 420, "fm_ratio": 2, "fm_index": 0.3},
+      {"voice": "tone", "start_ms": 330, "ms": 1100, "gain": 0.4, "hz": 440, "end_hz": 440, "attack_ms": 50, "decay_ms": 650, "release_ms": 420, "fm_ratio": 2, "fm_index": 0.25},
+      {"voice": "tone", "start_ms": 340, "ms": 1060, "gain": 0.3, "hz": 587.33, "end_hz": 587.33, "attack_ms": 60, "decay_ms": 600, "release_ms": 420},
+      {"voice": "noise", "start_ms": 330, "ms": 400, "gain": 0.2, "low_hz": 2500, "high_hz": 6500, "attack_ms": 200, "decay_ms": 250, "release_ms": 140}
+    ]
+  }
+}

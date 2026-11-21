@@ -1,0 +1,41 @@
+{
+  "id": "bgm_endless",
+  "title": "The Wheel Turns Five Floors",
+  "sample_rate": 44100,
+  "tempo_bpm": 75,
+  "beats_per_bar": 4,
+  "tuning_A4_hz": 440,
+  "tonal_center": "A",
+  "scale": ["A", "C", "D", "E", "G"],
+  "seed": 5513,
+  "master_gain": 1.2,
+  "reverb": {"seconds": 2.2, "decay_per_second": 2.6, "wet": 0.38, "seeds": [505, 606]},
+  "cycle_bars": 5,
+  "notation": "The loop is four cycles of five bars, one bar per floor. Each pluck event is [beat within the bar, MIDI note, velocity]. Each pad event is [beat from zero, MIDI note, gate in beats, amplitude]. Bars select a low, mid and high pluck figure and a pad phrase. Fifth bar of every cycle (marker room) carries no pluck at all, only the quiet pad. Everything wraps modulo the loop; the reverb is a circular convolution.",
+  "pads": {
+    "cycle": [[0, 45, 19.4, 0.5], [0, 52, 19.4, 0.36]],
+    "none": []
+  },
+  "low": {
+    "none": [],
+    "root": [[0, 45, 0.85], [2, 52, 0.62]],
+    "root_b": [[0, 45, 0.85], [2, 50, 0.6]]
+  },
+  "mid": {
+    "none": [],
+    "wheel_a": [[0, 57, 0.46], [0.5, 60, 0.4], [1, 62, 0.42], [1.5, 64, 0.4], [2, 67, 0.46], [2.5, 64, 0.38], [3, 62, 0.4], [3.5, 60, 0.38]],
+    "wheel_b": [[0, 60, 0.44], [0.5, 62, 0.4], [1, 64, 0.42], [1.5, 67, 0.4], [2, 64, 0.44], [2.5, 62, 0.38], [3, 60, 0.4], [3.5, 57, 0.38]],
+    "wheel_c": [[0, 62, 0.44], [0.5, 64, 0.4], [1, 67, 0.42], [1.5, 69, 0.4], [2, 67, 0.44], [2.5, 64, 0.38], [3, 62, 0.4], [3.5, 60, 0.38]]
+  },
+  "high": {
+    "none": [],
+    "spark_a": [[1, 69, 0.3], [3, 72, 0.26]],
+    "spark_b": [[0.5, 76, 0.26], [2.5, 72, 0.3], [3.5, 69, 0.26]]
+  },
+  "bars": [
+    ["cycle", "root", "none", "none"], ["none", "root", "wheel_a", "none"], ["none", "root", "wheel_a", "spark_a"], ["none", "root_b", "wheel_b", "spark_a"], ["none", "none", "none", "none"],
+    ["cycle", "root", "none", "none"], ["none", "root", "wheel_b", "none"], ["none", "root", "wheel_b", "spark_b"], ["none", "root_b", "wheel_c", "spark_b"], ["none", "none", "none", "none"],
+    ["cycle", "root", "none", "none"], ["none", "root", "wheel_a", "none"], ["none", "root", "wheel_c", "spark_a"], ["none", "root_b", "wheel_a", "spark_b"], ["none", "none", "none", "none"],
+    ["cycle", "root", "none", "none"], ["none", "root", "wheel_c", "none"], ["none", "root", "wheel_b", "spark_a"], ["none", "root_b", "wheel_c", "spark_b"], ["none", "none", "none", "none"]
+  ]
+}
