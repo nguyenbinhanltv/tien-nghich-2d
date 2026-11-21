@@ -1,0 +1,48 @@
+{
+  "id": "lt_cinder_mirror",
+  "producer": "OpenAI Codex",
+  "method": "Original native-grid drawing from parent silhouette references; no random seed.",
+  "brief": "Pleated ember ribs cradle a round mirror above one wrapped grip.",
+  "parent_sources": [
+    {
+      "id": "lt_ember_fan",
+      "path": "assets/raw/longtime/lt_ember_fan/source.png",
+      "sha256": "026713b95008693812c6dd8cdd4717447e55ebdf237af1a0ccd32bd44118eae4"
+    },
+    {
+      "id": "lt_mirror_disc",
+      "path": "assets/raw/longtime/lt_mirror_disc/source.png",
+      "sha256": "113b0b3137a35732bfd14f0dc60733a82ab9639349bdd84ec6aac424cc38a25d"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_cinder_mirror.py",
+  "generator_sha256_lf": "f1e712bc5aab2197e1901674b41ae37537acadfc7677f72ec849f39f9117b213",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "source": "source.png",
+  "source_sha256": "6bc903b4dafecd5a0481c457c329e17fd8f2772918defa0bd9ba811ec82b703b",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_cinder_mirror/contact_1x.png": "a4538796f28e1cf867bb5c8d0d0d84526ef7d2becb9a91911d0273a670dd33e9",
+    "assets/raw/longtime/lt_cinder_mirror/contact_6x.png": "c9c54da16ee02d4cc0e4d1f7f7a087af57dc7c175bdf4b115373c6206dcf0d4f"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_cinder_mirror/held_none_0",
+      "path": "assets/processed_longtime/lt_cinder_mirror/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6bc903b4dafecd5a0481c457c329e17fd8f2772918defa0bd9ba811ec82b703b"
+    }
+  ]
+}
