@@ -1,0 +1,9 @@
+﻿header a{color:#d2c49c;text-underline-offset:4px}#hall{width:100%;display:block;image-rendering:pixelated}main{max-width:770px}
+#health{color:#efd08d;letter-spacing:.13em;font:600 15px Georgia,serif;white-space:nowrap}.controls,#choices,.actions{display:flex;align-items:center;gap:10px}.controls{justify-content:space-between;margin-top:12px}.pad{display:grid;grid-template-columns:repeat(3,44px);gap:3px}.pad [data-key=up]{grid-column:2}.pad [data-key=left]{grid-column:1}
+.controls button,#choices button,#restart{font:600 14px "Instrument Sans","Segoe UI",sans-serif;color:#ebdeb9;background:#25382e;border:1px solid #69765a;min-height:44px;padding:7px 12px;cursor:pointer}.controls button{touch-action:none;user-select:none;-webkit-user-select:none}.controls button:active,.controls button.held{background:#53664b}.actions{flex-wrap:wrap}.actions button{border-color:#a28c5b}#choices,#restart{margin:0 12px 12px}#choices[hidden],#restart[hidden]{display:none}#choices button{text-align:left;display:grid;grid-template-columns:24px 1fr;align-items:center;column-gap:8px}#choices canvas{grid-row:span 2;image-rendering:pixelated}#choices small{font-weight:400}#choices button:focus-visible{outline:2px solid #edce82}
+@media(max-width:560px){.heading{gap:8px}h1{font-size:clamp(23px,6vw,32px)}.controls{gap:6px}.actions{gap:4px}.actions button{padding:8px}.actions kbd{display:none}#choices{flex-direction:column;align-items:stretch}footer{line-height:1.4}}
+.controls[hidden]{display:none}
+@media(min-width:650px) and (max-height:800px){
+  main{max-width:clamp(460px,calc(162vh - 540px),770px);padding-block:10px}
+  h1{font-size:clamp(30px,5vh,44px)}
+}

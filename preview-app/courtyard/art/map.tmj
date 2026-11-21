@@ -1,0 +1,406 @@
+{
+  "compressionlevel": -1,
+  "height": 14,
+  "infinite": false,
+  "layers": [
+    {
+      "id": 1,
+      "image": "images/courtyard.png",
+      "imageheight": 224,
+      "imagewidth": 384,
+      "name": "Courtyard",
+      "offsetx": 0.0,
+      "offsety": 0.0,
+      "opacity": 1,
+      "repeatx": false,
+      "repeaty": false,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "index",
+      "id": 2,
+      "name": "collision",
+      "objects": [
+        {
+          "id": 1,
+          "name": "region-0",
+          "type": "walkRegion",
+          "rotation": 0,
+          "visible": true,
+          "x": 8.0,
+          "y": 55.0,
+          "width": 0,
+          "height": 0,
+          "polygon": [
+            {
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "x": 368.0,
+              "y": 0.0
+            },
+            {
+              "x": 368.0,
+              "y": 160.0
+            },
+            {
+              "x": 0.0,
+              "y": 160.0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "collision.rects[0]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 42,
+          "y": 91,
+          "width": 96,
+          "height": 62,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[0]"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "collision.rects[1]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 246,
+          "y": 91,
+          "width": 96,
+          "height": 62,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[1]"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "collision.rects[2]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 142,
+          "y": 54,
+          "width": 100,
+          "height": 36,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[2]"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "collision.rects[3]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 13,
+          "y": 74,
+          "width": 18,
+          "height": 22,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[3]"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "collision.rects[4]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 357,
+          "y": 80,
+          "width": 8,
+          "height": 15,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[4]"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "collision.rects[5]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 14,
+          "y": 167,
+          "width": 19,
+          "height": 18,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[5]"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "collision.rects[6]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 351,
+          "y": 169,
+          "width": 17,
+          "height": 18,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[6]"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "collision.rects[7]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 49,
+          "y": 175,
+          "width": 15,
+          "height": 11,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[7]"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "collision.rects[8]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 320,
+          "y": 175,
+          "width": 15,
+          "height": 11,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[8]"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "collision.rects[9]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 57,
+          "y": 57,
+          "width": 17,
+          "height": 17,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[9]"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "collision.rects[10]",
+          "type": "solid",
+          "rotation": 0,
+          "visible": true,
+          "x": 310,
+          "y": 57,
+          "width": 17,
+          "height": 17,
+          "properties": [
+            {
+              "name": "source",
+              "type": "string",
+              "value": "collision.rects[10]"
+            }
+          ]
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": false,
+      "x": 0,
+      "y": 0,
+      "properties": [
+        {
+          "name": "actorRadius",
+          "type": "float",
+          "value": 4.0
+        },
+        {
+          "name": "ySquash",
+          "type": "float",
+          "value": 1.0
+        },
+        {
+          "name": "navCell",
+          "type": "int",
+          "value": 2
+        },
+        {
+          "name": "semantics",
+          "type": "string",
+          "value": "plan Appendix C; tile collision lives in the tilesets"
+        }
+      ]
+    },
+    {
+      "draworder": "index",
+      "id": 3,
+      "name": "interactions",
+      "objects": [
+        {
+          "height": 0,
+          "id": 13,
+          "name": "south-gate",
+          "point": true,
+          "properties": [
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "north"
+            }
+          ],
+          "rotation": 0,
+          "type": "spawn",
+          "visible": true,
+          "width": 0,
+          "x": 192,
+          "y": 201
+        },
+        {
+          "height": 0,
+          "id": 14,
+          "name": "evening-bell",
+          "point": true,
+          "properties": [
+            {
+              "name": "reach",
+              "type": "float",
+              "value": 22.0
+            }
+          ],
+          "rotation": 0,
+          "type": "interaction",
+          "visible": true,
+          "width": 0,
+          "x": 192.0,
+          "y": 86.0
+        },
+        {
+          "height": 0,
+          "id": 15,
+          "name": "bell-steps",
+          "point": true,
+          "properties": [
+            {
+              "name": "slots",
+              "type": "string",
+              "value": "[[192.0,99.0]]"
+            },
+            {
+              "name": "approach",
+              "type": "string",
+              "value": "[[192.0,99.0]]"
+            }
+          ],
+          "rotation": 0,
+          "type": "anchor",
+          "visible": true,
+          "width": 0,
+          "x": 192.0,
+          "y": 86.0
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "nextlayerid": 4,
+  "nextobjectid": 16,
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "mapId",
+      "type": "string",
+      "value": "courtyard"
+    },
+    {
+      "name": "bundleSchema",
+      "type": "string",
+      "value": "generate2dmap.map_bundle.v2"
+    },
+    {
+      "name": "worldWidth",
+      "type": "float",
+      "value": 384.0
+    },
+    {
+      "name": "worldHeight",
+      "type": "float",
+      "value": 224.0
+    },
+    {
+      "name": "generator",
+      "type": "string",
+      "value": "generate2dmap export_tiled.py 0.6.0"
+    },
+    {
+      "name": "actorRadius",
+      "type": "float",
+      "value": 4.0
+    },
+    {
+      "name": "ySquash",
+      "type": "float",
+      "value": 1.0
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.11.0",
+  "tileheight": 16,
+  "tilesets": [],
+  "tilewidth": 16,
+  "type": "map",
+  "version": "1.10",
+  "width": 24
+}
