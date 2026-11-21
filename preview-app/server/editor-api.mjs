@@ -111,7 +111,8 @@ export function editorApi(root,dir) {
         }
         if (['image','export'].includes(action) && args.revision===undefined) invalid('Specify an exact revision');
         validate(action,args,frame,library.palette);
-        const baseline=store.needsBaseline(args.key)?await library.baseline(frame):null;
+        const needsOrigin = action === 'review' && args.status === 'approved';
+        const baseline=store.needsBaseline(args.key) || needsOrigin ? await library.baseline(frame) : null;
         const snap=store.operate(frame,baseline,action,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
         else send(200,action==='export'?exportFrame(snap):snap);
