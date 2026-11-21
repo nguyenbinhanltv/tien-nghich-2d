@@ -1,0 +1,9 @@
+{
+  "template": {"columns": 2, "rows": 2, "labels": ["SOUTH", "WEST", "NORTH", "EAST"], "label_band_fraction": 0.13, "key_rgb": [0, 255, 0]},
+  "source_landmarks": {
+    "south": {"cell_x": [0, 0.5], "center_x": 0.48, "foot_window": [0.28, 0.66], "height_px": 21},
+    "west": {"cell_x": [0.5, 1], "center_x": 0.50, "foot_window": [0.14, 0.67], "height_px": 15},
+    "north": {"cell_x": [0, 0.475], "center_x": 0.55, "foot_window": [0.63, 0.74], "height_px": 19},
+    "east": {"cell_x": [0.475, 1], "center_x": 0.53, "foot_window": [0.25, 0.95], "height_px": 15}
+  }
+}
