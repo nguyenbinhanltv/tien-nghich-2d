@@ -5,7 +5,7 @@
 ## Quy trình cho asset từ thư viện (sfx, nhạc, font, tham chiếu)
 1. `assetcat search ... --json`, rồi `assetcat show <pack> --json` -> ghi `license`, `license_info.attribution_required`, `ai_generated` (+ `ai_reason`).
 2. `license == unknown` hoặc `ai_generated != no` -> **không đưa vào game**; báo người dùng (không tự sửa curation).
-3. `assetcat pull <pack|file> --to <thư mục staging tạm> --manifest assets/sources.toml --require-ai no [--dry-run]`. Không bao giờ pull vào `assets/raw/characters/` hay `assets/raw/environment_items/` (xem `docs/ASSET_ROUTING.md`: nhân vật = PixelLab, môi trường = generator có script).
+3. `assetcat pull <pack|file> --to <thư mục staging tạm> --manifest assets/sources.toml --require-ai no [--dry-run]`. Không bao giờ pull vào `assets/raw/characters/` hay `assets/raw/environment_items/` (xem `docs/ASSET_ROUTING.md`: nhân vật = các đường xưởng tạo hình của studio (PixelLab đã ngừng dùng từ 2026-11-22), môi trường = generator có script).
 4. Dán dòng credit (`[packs."..."].credit` trong `assets/sources.toml`) vào credits; giữ file `License-*.txt` cạnh asset.
 5. Bản ghi `ai_generated`/`ai_reason` theo pack là căn cứ cho việc công bố AI (ví dụ trang Steam).
 

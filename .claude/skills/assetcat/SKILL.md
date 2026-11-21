@@ -1,6 +1,6 @@
 ---
 name: assetcat
-description: Wrapper for the cloned assetcat skill. Search the user's local indexed asset library (sprites, tilesets, sfx, music, fonts), check licenses / AI provenance, and pull files into a project with credits. Use for reference-gathering, license checks and SFX/music/fonts - NOT as a source of characters (PixelLab only) or of final environment art (scripted generators only).
+description: Wrapper for the cloned assetcat skill. Search the user's local indexed asset library (sprites, tilesets, sfx, music, fonts), check licenses / AI provenance, and pull files into a project with credits. Use for reference-gathering, license checks and SFX/music/fonts - NOT as a source of final characters (studio forge routes) or of final environment art (code-drawn generators only).
 ---
 
 # assetcat (wrapper)
