@@ -1,0 +1,117 @@
+{
+  "sfx_tell_heavy": {
+    "seed": 9103,
+    "duration_ms": 520,
+    "trim": 0.38,
+    "design": "A low reed growl swells upward under rumbling breath, then lands one dull knock: the heavy wind-up before a stone or brute strike.",
+    "pilot_reference": "sfx_tell_light is two high dry bamboo knocks; this is one low rising swell with a single dull thud.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 400, "gain": 0.5, "hz": 84, "end_hz": 122, "attack_ms": 160, "decay_ms": 900, "release_ms": 70, "fm_ratio": 2, "fm_index": 1.7},
+      {"voice": "noise", "start_ms": 0, "ms": 380, "gain": 2.6, "low_hz": 90, "high_hz": 700, "attack_ms": 190, "decay_ms": 900, "release_ms": 80},
+      {"voice": "tone", "start_ms": 378, "ms": 135, "gain": 0.75, "hz": 74, "end_hz": 48, "attack_ms": 3, "decay_ms": 38, "release_ms": 34}
+    ]
+  },
+  "sfx_tell_boss": {
+    "seed": 9127,
+    "duration_ms": 1180,
+    "trim": 0.52,
+    "design": "Two struck bronze tones, the second a fourth higher, with a long inharmonic ring over a dark swell: the boss warning announces itself in the open bronze register.",
+    "pilot_reference": "sfx_tell_light is dry and same-pitch; sfx_seal_lock is short pulses with a latch. This rings low and long with a rising interval.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 620, "gain": 0.5, "hz": 110, "end_hz": 109, "attack_ms": 4, "decay_ms": 330, "release_ms": 120},
+      {"voice": "tone", "start_ms": 0, "ms": 480, "gain": 0.3, "hz": 299, "end_hz": 297, "attack_ms": 2, "decay_ms": 150, "release_ms": 100},
+      {"voice": "tone", "start_ms": 0, "ms": 300, "gain": 0.12, "hz": 1190, "end_hz": 1180, "attack_ms": 2, "decay_ms": 60, "release_ms": 80},
+      {"voice": "noise", "start_ms": 0, "ms": 25, "gain": 0.6, "low_hz": 700, "high_hz": 3200, "attack_ms": 1, "decay_ms": 9, "release_ms": 8},
+      {"voice": "tone", "start_ms": 420, "ms": 740, "gain": 0.55, "hz": 147, "end_hz": 146, "attack_ms": 4, "decay_ms": 400, "release_ms": 150},
+      {"voice": "tone", "start_ms": 420, "ms": 560, "gain": 0.33, "hz": 400, "end_hz": 397, "attack_ms": 2, "decay_ms": 190, "release_ms": 120},
+      {"voice": "tone", "start_ms": 420, "ms": 360, "gain": 0.13, "hz": 1590, "end_hz": 1575, "attack_ms": 2, "decay_ms": 70, "release_ms": 90},
+      {"voice": "noise", "start_ms": 420, "ms": 25, "gain": 0.7, "low_hz": 700, "high_hz": 3200, "attack_ms": 1, "decay_ms": 9, "release_ms": 8},
+      {"voice": "noise", "start_ms": 200, "ms": 900, "gain": 1.0, "low_hz": 70, "high_hz": 420, "attack_ms": 380, "decay_ms": 700, "release_ms": 300}
+    ]
+  },
+  "sfx_hit_stone": {
+    "seed": 9151,
+    "duration_ms": 280,
+    "trim": 0.57,
+    "design": "A hard crack and grit spray sit on a short low knock with a faint inharmonic ping: hard contact with no soft membrane.",
+    "pilot_reference": "sfx_hit_flesh is a dry slap over a collapsing membrane; this is brighter, harder and rings briefly.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 24, "gain": 1.5, "low_hz": 1600, "high_hz": 7500, "attack_ms": 1, "decay_ms": 7, "release_ms": 8},
+      {"voice": "noise", "start_ms": 3, "ms": 110, "gain": 1.3, "low_hz": 350, "high_hz": 3000, "attack_ms": 2, "decay_ms": 30, "release_ms": 40},
+      {"voice": "tone", "start_ms": 1, "ms": 120, "gain": 0.55, "hz": 190, "end_hz": 96, "attack_ms": 2, "decay_ms": 38, "release_ms": 40},
+      {"voice": "tone", "start_ms": 2, "ms": 180, "gain": 0.16, "hz": 1840, "end_hz": 1790, "attack_ms": 1, "decay_ms": 55, "release_ms": 60, "fm_ratio": 2.76, "fm_index": 0.4}
+    ]
+  },
+  "sfx_hit_spirit": {
+    "seed": 9173,
+    "duration_ms": 420,
+    "trim": 0.55,
+    "design": "A soft-edged hollow strike whose two wobbling, inharmonic tones shimmer and thin away like a bell struck through mist.",
+    "pilot_reference": "sfx_hit_stone is a hard crack with no pitched shimmer; sfx_hit_flesh is a dry slap.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 70, "gain": 1.6, "low_hz": 1800, "high_hz": 6200, "attack_ms": 8, "decay_ms": 22, "release_ms": 30},
+      {"voice": "tone", "start_ms": 0, "ms": 330, "gain": 0.45, "hz": 664, "end_hz": 548, "attack_ms": 9, "decay_ms": 120, "release_ms": 110, "fm_ratio": 1.5, "fm_index": 1.1, "flutter_depth": 0.45, "flutter_hz": 22},
+      {"voice": "tone", "start_ms": 36, "ms": 320, "gain": 0.3, "hz": 1832, "end_hz": 1480, "attack_ms": 9, "decay_ms": 95, "release_ms": 110, "fm_ratio": 2.76, "fm_index": 0.7, "flutter_depth": 0.5, "flutter_hz": 31},
+      {"voice": "tone", "start_ms": 0, "ms": 180, "gain": 0.3, "hz": 150, "end_hz": 110, "attack_ms": 8, "decay_ms": 55, "release_ms": 60}
+    ]
+  },
+  "sfx_counter": {
+    "seed": 9209,
+    "duration_ms": 340,
+    "trim": 0.48,
+    "design": "A hard bronze clash deflects the blow, and a brighter high ring answers it a beat later: parry then riposte accent.",
+    "pilot_reference": "sfx_blade is an airy sweep before contact; sfx_seal_lock closes with a latch; this rings metallic from the first frame and rises.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 30, "gain": 1.6, "low_hz": 2400, "high_hz": 9000, "attack_ms": 1, "decay_ms": 8, "release_ms": 10},
+      {"voice": "tone", "start_ms": 0, "ms": 230, "gain": 0.55, "hz": 196, "end_hz": 194, "attack_ms": 2, "decay_ms": 85, "release_ms": 90, "fm_ratio": 2.72, "fm_index": 0.8},
+      {"voice": "tone", "start_ms": 1, "ms": 160, "gain": 0.32, "hz": 533, "end_hz": 528, "attack_ms": 2, "decay_ms": 55, "release_ms": 70},
+      {"voice": "tone", "start_ms": 70, "ms": 270, "gain": 0.5, "hz": 784, "end_hz": 790, "attack_ms": 2, "decay_ms": 105, "release_ms": 100, "fm_ratio": 2.72, "fm_index": 0.55},
+      {"voice": "tone", "start_ms": 71, "ms": 190, "gain": 0.18, "hz": 2132, "end_hz": 2120, "attack_ms": 1, "decay_ms": 50, "release_ms": 80}
+    ]
+  },
+  "sfx_player_hurt": {
+    "seed": 9239,
+    "duration_ms": 360,
+    "trim": 0.51,
+    "design": "A blunt body hit under a strained descending tone that drops a fifth: the player's own pain, clearly pitched and falling.",
+    "pilot_reference": "sfx_hit_flesh is an unpitched dry slap on the target; this carries a falling vocal-like pitch and a duller hit.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 60, "gain": 1.5, "low_hz": 200, "high_hz": 2200, "attack_ms": 2, "decay_ms": 16, "release_ms": 24},
+      {"voice": "tone", "start_ms": 0, "ms": 90, "gain": 0.6, "hz": 120, "end_hz": 70, "attack_ms": 2, "decay_ms": 28, "release_ms": 30},
+      {"voice": "tone", "start_ms": 6, "ms": 330, "gain": 0.5, "hz": 262, "end_hz": 131, "attack_ms": 12, "decay_ms": 150, "release_ms": 120, "fm_ratio": 1, "fm_index": 1.25},
+      {"voice": "tone", "start_ms": 6, "ms": 280, "gain": 0.18, "hz": 524, "end_hz": 262, "attack_ms": 12, "decay_ms": 100, "release_ms": 110}
+    ]
+  },
+  "sfx_enemy_fall": {
+    "seed": 9257,
+    "duration_ms": 640,
+    "trim": 0.44,
+    "design": "A heavy body drop slumps downward, a scuff of dragging debris follows, and a small second settle closes it.",
+    "pilot_reference": "sfx_hit_flesh is a single contact; this is a downward collapse with two later settling events.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 300, "gain": 0.75, "hz": 168, "end_hz": 54, "attack_ms": 4, "decay_ms": 105, "release_ms": 120},
+      {"voice": "noise", "start_ms": 0, "ms": 120, "gain": 1.5, "low_hz": 120, "high_hz": 1100, "attack_ms": 3, "decay_ms": 36, "release_ms": 50},
+      {"voice": "noise", "start_ms": 150, "ms": 230, "gain": 1.3, "low_hz": 400, "high_hz": 3200, "attack_ms": 70, "decay_ms": 140, "release_ms": 110},
+      {"voice": "tone", "start_ms": 395, "ms": 200, "gain": 0.4, "hz": 96, "end_hz": 50, "attack_ms": 3, "decay_ms": 50, "release_ms": 70},
+      {"voice": "noise", "start_ms": 395, "ms": 90, "gain": 0.9, "low_hz": 140, "high_hz": 1000, "attack_ms": 3, "decay_ms": 25, "release_ms": 40}
+    ]
+  },
+  "sfx_boss_fall": {
+    "seed": 9283,
+    "duration_ms": 1900,
+    "trim": 0.45,
+    "design": "A massive low impact with a sub drop, a bronze bell fading through the debris, a long rumble, and two shrinking settles: the chapter boss going down.",
+    "pilot_reference": "sfx_enemy_fall is a short drop and scuff; sfx_tell_boss is the same bronze register but opens the fight with a rising interval.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 760, "gain": 0.85, "hz": 92, "end_hz": 30, "attack_ms": 5, "decay_ms": 260, "release_ms": 220, "fm_ratio": 1, "fm_index": 0.6},
+      {"voice": "noise", "start_ms": 0, "ms": 220, "gain": 2.0, "low_hz": 80, "high_hz": 1400, "attack_ms": 3, "decay_ms": 60, "release_ms": 90},
+      {"voice": "tone", "start_ms": 130, "ms": 1100, "gain": 0.3, "hz": 110, "end_hz": 104, "attack_ms": 6, "decay_ms": 520, "release_ms": 330},
+      {"voice": "tone", "start_ms": 130, "ms": 800, "gain": 0.2, "hz": 299, "end_hz": 285, "attack_ms": 4, "decay_ms": 260, "release_ms": 260},
+      {"voice": "noise", "start_ms": 100, "ms": 1250, "gain": 1.8, "low_hz": 60, "high_hz": 520, "attack_ms": 260, "decay_ms": 650, "release_ms": 450},
+      {"voice": "tone", "start_ms": 820, "ms": 380, "gain": 0.5, "hz": 70, "end_hz": 36, "attack_ms": 4, "decay_ms": 95, "release_ms": 150},
+      {"voice": "noise", "start_ms": 820, "ms": 120, "gain": 1.0, "low_hz": 100, "high_hz": 1000, "attack_ms": 3, "decay_ms": 30, "release_ms": 60},
+      {"voice": "tone", "start_ms": 1260, "ms": 560, "gain": 0.28, "hz": 58, "end_hz": 32, "attack_ms": 4, "decay_ms": 80, "release_ms": 180},
+      {"voice": "noise", "start_ms": 1260, "ms": 100, "gain": 0.6, "low_hz": 100, "high_hz": 900, "attack_ms": 3, "decay_ms": 25, "release_ms": 50}
+    ]
+  }
+}
