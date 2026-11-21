@@ -1,0 +1,67 @@
+{
+  "id": "bgm_blood_sea",
+  "revision": 1,
+  "base": "4fe6ac783a819a9586da1c57a3c1216e1093a9be",
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/noise patch. No recordings, samples, soundfont or generative-audio model.",
+  "inputs": {
+    "score.json": "a1a8609732999c031fbecd9161b212b187e990a882af10f0960951e1fb8bac13",
+    "render.py": "f76f23aefd09ddfabac69fd35d64c10f2ec089eddbdcd1be77ebcf1c0d02c542"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "render": "From the checkout root, run python -B assets/audio/bgm_blood_sea/render.py <output.wav> with CPython 3.14.5 and NumPy 2.5.5 (tools/.venvs/project/bin/python). The output parent directory must exist.",
+  "patch": "PCG64 seed 6131. Bowed low voice: ten-harmonic additive saw with slow 0.32 s bow swell, 4.4 Hz vibrato and seeded rosin grit. Unstable upper voice: two detuned beating sines plus a wandering inharmonic partial, drifting pitch and irregular tremor. Seeded low-passed breath swells. Notes, releases and cross-channel reflections wrap modulo the loop. All oscillator phases start at zero. Master gain 1.55, nearest-even PCM16 quantization without dither.",
+  "tempo_bpm": 72,
+  "meter": "4/4",
+  "bars": 24,
+  "tuning": "E Phrygian-leaning set (E F G A B C), tonal center E, A4 = 440 Hz",
+  "register_note": "Bowed fundamentals sit at E2-B2; unstable voice fundamentals G3-F4. Measured mono energy share 450-1600 Hz is -10.8 dB of total (the bronze warning register is left comparatively open for sfx_tell_boss/sfx_counter), 1.6-5 kHz -18.7 dB.",
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+  "loopStart": 0,
+  "loopEnd": 3528000,
+  "frames": 3528000,
+  "duration_seconds": 80,
+  "onset_tail": "The preceding bar's bowed and breath tails are already sounding at frame zero and continue across the final frame; frame 0 equals the continuation of frame 3527999.",
+  "wav_sha256": "303efbf3e735ae2f361a1486b6070f3dd9115941df51a73c77ae6f05b421d026",
+  "pcm_sha256": "ee1ba535f3303e2eadcfeee1648c7bea0eaee3d9ca79fcf0f98c523a64306a6d",
+  "verification": {
+    "rebuild": "Two independent render processes wrote to separate empty directories (together with the eight SFX). Master WAV and all SFX WAV and provenance bytes matched.",
+    "meter": "FFmpeg 8.1.2 ebur128 (peak=true) on the master WAV; not the pinned 6.1.1 build, which this machine lacks. Re-measure on the pinned build in the packing step.",
+    "integrated_lufs": -22.0,
+    "true_peak_dbtp": -7.5,
+    "loudness_range_lu": 4.4,
+    "reference_beds": {
+      "bgm_dong_phu": {
+        "integrated_lufs": -23.2,
+        "true_peak_dbtp": -7.4
+      },
+      "bgm_hengyue": {
+        "integrated_lufs": -21.66,
+        "true_peak_dbtp": -7.06
+      }
+    },
+    "sample_peak_abs_lr": [
+      11993,
+      13753
+    ],
+    "last_pcm_lr": [
+      143,
+      112
+    ],
+    "first_pcm_lr": [
+      144,
+      113
+    ],
+    "signed_seam_step_lr": [
+      1,
+      1
+    ],
+    "max_abs_step_within_10ms_either_side_lr": [
+      102,
+      95
+    ],
+    "human_listening": "Pending. No agent listened to this audio."
+  }
+}

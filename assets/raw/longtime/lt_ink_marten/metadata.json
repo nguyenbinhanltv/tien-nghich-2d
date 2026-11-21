@@ -1,0 +1,89 @@
+{
+  "group_id": "6ff04330-b90c-4f4e-a0ab-104feba2a8d7",
+  "states": [
+    {
+      "character": {
+        "id": "ab421aa9-eab8-4193-b396-75d6dd6e3582",
+        "name": "Idle",
+        "prompt": "Small ink marten, slender weasel-like animal standing on all four legs, glossy dark ink-black fur, a very long thick ink-black tail trailing behind it, cream-white muzzle and chest. Large upright rounded ears. The LEFT ear has a bright cream-white triangular notch cut out of its tip, clearly visible as a pale gap; the RIGHT ear is solid dark and whole. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "cat",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-21T21:00:57.513198+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "follow": {
+            "south": [
+              "Idle/animations/follow/south/frame_000.png",
+              "Idle/animations/follow/south/frame_001.png",
+              "Idle/animations/follow/south/frame_002.png",
+              "Idle/animations/follow/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/follow/east/frame_000.png",
+              "Idle/animations/follow/east/frame_001.png",
+              "Idle/animations/follow/east/frame_002.png",
+              "Idle/animations/follow/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/follow/north/frame_000.png",
+              "Idle/animations/follow/north/frame_001.png",
+              "Idle/animations/follow/north/frame_002.png",
+              "Idle/animations/follow/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/follow/west/frame_000.png",
+              "Idle/animations/follow/west/frame_001.png",
+              "Idle/animations/follow/west/frame_002.png",
+              "Idle/animations/follow/west/frame_003.png"
+            ]
+          },
+          "idle": {
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-21T21:04:31.753359"
+}

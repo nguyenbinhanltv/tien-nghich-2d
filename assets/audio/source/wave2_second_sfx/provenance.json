@@ -1,0 +1,122 @@
+{
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original procedural sound design created for Tien Nghich 2D.",
+  "inputs": "Project DSP and original presets only; no source recordings, model weights or soundfonts.",
+  "format": "Mono PCM16 little-endian WAV, 44100 Hz; one-shots without loops.",
+  "markers": "Integer sample frames; [onset_frame, tail_end_exclusive) bounds all nonzero PCM.",
+  "tuning": "Absolute Hz per layer; A4=440 Hz reference, no beat grid.",
+  "synthesis": "Zero oscillator phase and filter states, MT19937 with seed + layer index, nearest-even rounding, no dither.",
+  "rebuild": "python -I -B tools/generators/wave2_second_sfx.py --out <empty-directory>",
+  "python": "3.14.5",
+  "source_sha256_lf": {
+    "tools/generators/wave2_second_sfx.py": "603101630add7340bf78f0bdd78da1d8043619f3657139731c97f4b5c04dcf73",
+    "tools/generators/pilot_sfx.py": "c03ef85b27d0572ec40a3619d7f6bc9d23a0eb5e3ebbfbbc5674188477a3af2b",
+    "assets/audio/source/wave2_second_sfx/presets.json": "585f651529d8fc8f56d78ba9dadfa4def0f28faa190602c534cca54db99228cc"
+  },
+  "masters": [
+    {
+      "id": "sfx_tell_heavy",
+      "file": "sfx_tell_heavy.wav",
+      "seed": 9103,
+      "frames": 22932,
+      "duration_ms": 520.0,
+      "onset_frame": 2,
+      "tail_end_exclusive": 22619,
+      "sample_peak_dbfs": -7.014,
+      "rms_dbfs": -19.925,
+      "pcm_sha256": "7f02c0ff13a98beb934f712ca7b0800acaa606482ff66c71a3388cc9ddeb4481",
+      "wav_sha256": "2bfd3302da29c15550b5e48085d6dd3aa4a840327fd62c7c7c9a8b142412b1fe"
+    },
+    {
+      "id": "sfx_tell_boss",
+      "file": "sfx_tell_boss.wav",
+      "seed": 9127,
+      "frames": 52038,
+      "duration_ms": 1180.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 51152,
+      "sample_peak_dbfs": -5.976,
+      "rms_dbfs": -18.772,
+      "pcm_sha256": "efd85e06e4ab699a0c9d58b303d9739025b8b97fcd95b691eb7d29260b6b5008",
+      "wav_sha256": "643d4b183f799a0716c2788019f6fd7da4846e2224aac000c9b22249beb4ddf1"
+    },
+    {
+      "id": "sfx_hit_stone",
+      "file": "sfx_hit_stone.wav",
+      "seed": 9151,
+      "frames": 12348,
+      "duration_ms": 280.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 8006,
+      "sample_peak_dbfs": -4.018,
+      "rms_dbfs": -22.713,
+      "pcm_sha256": "6ff4236aa311ed2ffd29607fbe54f6c86f9f1c92120206101e80c841e88cabe7",
+      "wav_sha256": "bbfed2049ffc174ccb8a43e8131b3bc08bc39a3d19094b5a9b82887bd6ccc9a3"
+    },
+    {
+      "id": "sfx_hit_spirit",
+      "file": "sfx_hit_spirit.wav",
+      "seed": 9173,
+      "frames": 18522,
+      "duration_ms": 420.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 15668,
+      "sample_peak_dbfs": -6.071,
+      "rms_dbfs": -23.297,
+      "pcm_sha256": "403a3d53506f83006dedcd63a6203086ee53d7685e3236003369cb2e1b9afe51",
+      "wav_sha256": "a7746af979de08bc43d4715cd60d4c60891fad151496fbb1e1fe96ac78db5394"
+    },
+    {
+      "id": "sfx_counter",
+      "file": "sfx_counter.wav",
+      "seed": 9209,
+      "frames": 14994,
+      "duration_ms": 340.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 14990,
+      "sample_peak_dbfs": -4.967,
+      "rms_dbfs": -20.082,
+      "pcm_sha256": "b29fcb7abe740e8a1b762e8071bd9969828ad48aa2d69241ce10ec34cdca535a",
+      "wav_sha256": "b309fffb9ce6d6470b64e3dbf934883e09897c8db03f072be9b0c73313d6e8bb"
+    },
+    {
+      "id": "sfx_player_hurt",
+      "file": "sfx_player_hurt.wav",
+      "seed": 9239,
+      "frames": 15876,
+      "duration_ms": 360.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 14792,
+      "sample_peak_dbfs": -6.096,
+      "rms_dbfs": -21.871,
+      "pcm_sha256": "ad8af53708d9607d443e5388eb6331e276f9b593a7661e319db8e8f63e6dafe5",
+      "wav_sha256": "0786989d972769fb34458881d05f9c6f114d9fb09b5d524c83d1d1c32cebd26a"
+    },
+    {
+      "id": "sfx_enemy_fall",
+      "file": "sfx_enemy_fall.wav",
+      "seed": 9257,
+      "frames": 28224,
+      "duration_ms": 640.0,
+      "onset_frame": 2,
+      "tail_end_exclusive": 26132,
+      "sample_peak_dbfs": -5.967,
+      "rms_dbfs": -22.484,
+      "pcm_sha256": "7e9b3f53b1f31a034de64be175d1e22d6f474bb6f11d1a28457ff8ecbe43eb11",
+      "wav_sha256": "f46c91659b17e8bbaa77ea08548daeb81be802c214a6564f0bfb47860fa24dcc"
+    },
+    {
+      "id": "sfx_boss_fall",
+      "file": "sfx_boss_fall.wav",
+      "seed": 9283,
+      "frames": 83790,
+      "duration_ms": 1900.0,
+      "onset_frame": 1,
+      "tail_end_exclusive": 79359,
+      "sample_peak_dbfs": -3.002,
+      "rms_dbfs": -21.35,
+      "pcm_sha256": "36c2405fedd2b25198a4d2062989a43d365514254b0ae6dbbdf9a0d13cebb960",
+      "wav_sha256": "632cec8ff26782f73df97436c0d055c4abb0b0ad55140b10cdb94c636f5633e9"
+    }
+  ]
+}
