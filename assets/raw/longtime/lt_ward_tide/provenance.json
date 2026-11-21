@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_tide",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "A rising jade crest spills from a carved basin into twin sprays.",
+  "rights": "Original artwork created for this project.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/lt_tide_flare_bell_wards.py",
+  "generator_sha256_lf": "89211420d5998ad53f3ea22b21676c7a3f3d746dc22f5c9a4c9d2f2dcaa58a2a",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "source": "source.png",
+  "source_sha256": "bd68304fbe20367b26f48ef183292cfdede6358d5cad6f4eae77f01ea0779001",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ward_tide/contact_1x.png": "2f3cea42a6eab1b709718afe8b5e01dba7fc0029a02040cc0e4670be2f132e24",
+    "assets/raw/longtime/lt_ward_tide/contact_4x.png": "957c36fa41dd3ebfaf244e8ba88785cfe289b51956645ea82abd7a4bcc04ff89"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ward_tide/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_tide/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "1ef7a5b73c96a93ae6a72ae6f5709064ac4eee13e60a5c8e52f5e795e5f2ba6d"
+    },
+    {
+      "key": "longtime/lt_ward_tide/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_tide/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "2ebb7fddfbecfc31e3376cf0a9840bdd773f8dae914541e49423a555d8a95839"
+    },
+    {
+      "key": "longtime/lt_ward_tide/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_tide/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "88c1d4fd82ce17421db409745bd3ac74e8b3d60349767bdec356e4c0b5d4c0ac"
+    },
+    {
+      "key": "longtime/lt_ward_tide/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_tide/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "9661abfa4a3d6a5f850b3155d54eeaa86aea81b318f7dc9d3bcd3c9d724f1373"
+    },
+    {
+      "key": "longtime/lt_ward_tide/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_tide/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "84c2406fc660bb6ffc7d015661f8eb3fbb610d4c69baeed8046d70a61792e6a4"
+    },
+    {
+      "key": "longtime/lt_ward_tide/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_tide/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "5d4b581ed8f9ca489e9ef401db1fd6885acd58860b58f6cd238bd847c0e85522"
+    },
+    {
+      "key": "longtime/lt_ward_tide/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_tide/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "40265accaf358b91bb84219a11ede36afe1803f5ae3ae9f2fdc788857d623697"
+    },
+    {
+      "key": "longtime/lt_ward_tide/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_tide/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "6137c99ff5c069415bd4d47ac9d52a3ab68ffdf4b6bc297627628aaaac096f25"
+    }
+  ]
+}
