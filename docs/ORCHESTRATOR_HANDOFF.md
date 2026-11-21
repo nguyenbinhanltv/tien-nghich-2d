@@ -57,11 +57,11 @@ To replay the comparison, download the WAV and timing key from the [portable aud
    ffmpeg -hide_banner -encoders | Select-String 'libvorbis|\baac\b'
    python -I tools/scripts/check_longtime.py
    python -I tools/scripts/check_audio_plan.py
-   node preview-app/smoke-test.mjs
-   node preview-app/serve.mjs --port 4173
+   node studio/smoke-test.mjs
+   node studio/serve.mjs --port 4173
    ```
 
-   Open [Asset Inspector](http://127.0.0.1:4173/preview-app/?tab=inspector), then **Longtime art → interface** for the shipped icons, or **Audio pilot** for the approved reference. For Wave 2 playback, use the merged package or portable audition linked above. The [Preview App guide](../preview-app/README.md) gives the fallback server and browser controls.
+   Open [Asset Inspector](http://127.0.0.1:4173/studio/?tab=inspector), then **Longtime art → interface** for the shipped icons, or **Audio pilot** for the approved reference. For Wave 2 playback, use the merged package or portable audition linked above. The [Studio app guide](../studio/README.md) gives the fallback server and browser controls.
 
 3. On a fresh `main` checkout, verify the Wave 2 package with the pinned FFmpeg 6.1.1 binary (SHA-256 `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`). The check compares seven rebuilt files with the committed outputs. [Package report](../assets/audio/packs/wave2_batch1_v1/PACK_REPORT.md)
 
