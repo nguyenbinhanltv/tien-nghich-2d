@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +8,8 @@ import { StdioClient } from './stdio_client.mjs';
 import { McpServer } from './server.mjs';
 import { ToolRegistry, ToolError, scopeAllows } from './registry.mjs';
 import { validate, assertSupportedSchema } from './schema.mjs';
-import { openProject } from './project.mjs';
+import { openProject, ProjectError } from './project.mjs';
+import { buildRegistry } from './tools/index.mjs';
 import { META_CLIENT_INFO, META_VERSION } from './protocol.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -304,4 +305,33 @@ test('project module: opens the repo and rejects a bad root', () => {
   assert.equal(p.palette().count, 40);
   assert.throws(() => openProject(join(tmpdir(), 'nope-studio-xyz')), /not a directory/);
   assert.throws(() => openProject(HERE), /missing assets\/manifest\.json/);
+});
+
+test('a manifest broken after startup is an actionable isError result naming the file, then recovers', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'studio-mcp-proj-'));
+  try {
+    for (const f of ['assets/manifest.json', 'assets/manifest_longtime.json', 'assets/audio_manifest.json', 'tools/generators/palette.json']) {
+      mkdirSync(dirname(join(dir, f)), { recursive: true });
+      cpSync(join(ROOT, f), join(dir, f));
+    }
+    const server = new McpServer({ registry: buildRegistry(), project: openProject(dir), scope: 'read', agent: 'unit' });
+    const info = () => call(server, 'studio_project_info', {});
+    assert.notEqual((await info()).result.isError, true);
+
+    writeFileSync(join(dir, 'assets/manifest.json'), '{ "assets": [ '); // caught mid-edit
+    const bad = (await info()).result;
+    assert.equal(bad.isError, true);
+    assert.match(bad.content[0].text, /assets\/manifest\.json is not valid JSON/);
+    assert.doesNotMatch(bad.content[0].text, /unexpectedly/);
+
+    rmSync(join(dir, 'assets/manifest_longtime.json')); // restore base, remove another
+    cpSync(join(ROOT, 'assets/manifest.json'), join(dir, 'assets/manifest.json'));
+    const gone = (await info()).result;
+    assert.equal(gone.isError, true);
+    assert.match(gone.content[0].text, /missing assets\/manifest_longtime\.json/);
+
+    cpSync(join(ROOT, 'assets/manifest_longtime.json'), join(dir, 'assets/manifest_longtime.json'));
+    assert.notEqual((await info()).result.isError, true, 'server recovers once the file is valid again');
+    assert.ok(new ProjectError('x') instanceof ToolError);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

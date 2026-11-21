@@ -7,8 +7,11 @@
 
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { ToolError } from './registry.mjs';
 
-export class ProjectError extends Error {}
+// A ToolError so a missing or half-written manifest reaches the model as an actionable isError result
+// ("assets/manifest.json is not valid JSON: ...") instead of a generic "failed unexpectedly".
+export class ProjectError extends ToolError {}
 
 // Rules that exist only in prose/Python today (docs/ART_BIBLE.md, tools/scripts/qa_assets.py).
 // Kept here as data so they can move into the project pack verbatim.
