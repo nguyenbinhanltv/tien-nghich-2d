@@ -1,0 +1,47 @@
+{
+  "id": "bgm_ancient_god",
+  "title": "Stones That Remember the Gods",
+  "sample_rate": 44100,
+  "tempo_bpm": 60,
+  "beats_per_bar": 4,
+  "tuning_A4_hz": 440,
+  "tonal_center": "C",
+  "scale": ["C", "D", "F", "G", "A"],
+  "seed": 4807,
+  "master_gain": 1.2,
+  "reverb": {"seconds": 2.6, "decay_per_second": 2.3, "wet": 0.42, "seeds": [101, 202]},
+  "notation": "Each drone event is [beat from zero, MIDI note, gate in beats, amplitude]. Each stone event is [beat within the bar, stone name, velocity, pan -1..1]. Each bar selects a drone phrase (drone) and a stone figure (stones). Everything is wrapped modulo the loop, and the reverb is a circular convolution so tails cross the loop boundary.",
+  "stones": {
+    "anvil": {"midi": 36, "decay_s": 1.5, "thud": 1.0},
+    "slab": {"midi": 43, "decay_s": 1.1, "thud": 0.6},
+    "flint": {"midi": 50, "decay_s": 0.8, "thud": 0.3},
+    "keystone": {"midi": 29, "decay_s": 2.6, "thud": 1.4}
+  },
+  "drone": {
+    "root_a": [[0, 36, 15.5, 0.9], [0, 43, 15.5, 0.62]],
+    "root_b": [[0, 36, 15.5, 0.86], [0, 43, 15.5, 0.6], [8, 50, 7.5, 0.22]],
+    "up_a": [[0, 43, 15.5, 0.88], [0, 50, 15.5, 0.6]],
+    "up_b": [[0, 43, 15.5, 0.84], [0, 50, 15.5, 0.58], [8, 57, 7.5, 0.2]],
+    "wake": [[0, 36, 15.5, 0.8], [0, 43, 15.5, 0.52], [0, 24, 15.5, 0.7]],
+    "rest": []
+  },
+  "stone_figures": {
+    "none": [],
+    "slow_a": [[0.0, "anvil", 0.9, -0.2], [2.75, "slab", 0.62, 0.25]],
+    "slow_b": [[0.25, "anvil", 0.85, -0.15], [2.5, "slab", 0.6, 0.3], [3.75, "flint", 0.4, -0.4]],
+    "slow_c": [[0.5, "anvil", 0.88, -0.25], [2.25, "slab", 0.6, 0.2], [3.5, "flint", 0.45, 0.45]],
+    "slow_d": [[0.75, "anvil", 0.82, -0.1], [2.0, "flint", 0.42, -0.45], [3.25, "slab", 0.64, 0.35]],
+    "gap": [[2.5, "flint", 0.3, 0.3]],
+    "keystone": [[0.0, "keystone", 1.0, 0.0]],
+    "return_a": [[1.5, "slab", 0.4, 0.2]],
+    "return_b": [[1.0, "anvil", 0.6, -0.2], [3.25, "slab", 0.45, 0.25]]
+  },
+  "boss_transition": {"break_bars_1based": [13, 14, 15], "keystone_bar_1based": 16, "note": "Bar 13 holds one faint flint where the pulse should fall; bars 14 and 15 carry no stone. The keystone lands on beat one of bar 16, and the displaced pulse re-enters at bar 17 with a single slab on beat 2.5 (a late entry)."},
+  "bars": [
+    ["root_a", "none"], ["rest", "slow_a"], ["rest", "slow_b"], ["rest", "slow_c"],
+    ["up_a", "slow_a"], ["rest", "slow_d"], ["rest", "slow_b"], ["rest", "slow_c"],
+    ["root_b", "slow_d"], ["rest", "slow_a"], ["rest", "slow_c"], ["rest", "slow_b"],
+    ["wake", "gap"], ["rest", "none"], ["rest", "none"], ["rest", "keystone"],
+    ["up_b", "return_a"], ["rest", "return_b"], ["rest", "slow_d"], ["rest", "slow_a"]
+  ]
+}
