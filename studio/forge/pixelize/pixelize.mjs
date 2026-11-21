@@ -4,7 +4,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { blit, boundsOf, boxDownscale, createImage, encodePng, rebuildOutline, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
-import { assertNoOverwrite, normalizeScale } from '../sheet/import.mjs';
+import { assertCellId, assertNoOverwrite, normalizeScale } from '../sheet/import.mjs';
 
 export const pixelizeSchema = 'forge.pixelize';
 
@@ -78,7 +78,7 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = 
 /** Write <id>.png (native sprites) and pixelize.json to dir. Never overwrites a path listed in `protect`. */
 export async function writePixelized(dir, result, {protect = []} = {}) {
   const root = path.resolve(dir);
-  const ids = [...result.cells.keys()];
+  const ids = [...result.cells.keys()].map(assertCellId);
   const files = ids.map(id => path.join(root, `${id}.png`)), meta = path.join(root, 'pixelize.json');
   assertNoOverwrite([...files, meta], protect);
   await fs.mkdir(root, {recursive: true});

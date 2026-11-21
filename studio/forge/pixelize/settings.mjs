@@ -49,15 +49,20 @@ export async function settingsFromPack(pack, root, profile) {
 }
 
 /**
- * Marks are palette colours kept out of ordinary snapping and preserved where the source shows them:
- * {color: paletteId | "#rrggbb", minRgb: [r, g, b], blueOverGreen: n}. A source pixel is a mark pixel
+ * Marks are palette colours (an id or a hex that is in the palette) kept out of ordinary snapping and preserved where the source shows them:
+ * {color, minRgb: [r, g, b] (required), blueOverGreen?: n}. A source pixel is a mark pixel
  * when each channel reaches minRgb and blue exceeds green by blueOverGreen (the prototype's lavender test).
  */
 export function resolveMarks(marks = [], palette) {
   return marks.map(mark => {
-    const entry = mark.color.startsWith('#') ? {id: null, hex: mark.color.toLowerCase()} : palette.colors.find(c => c.id === mark.color);
+    const key = String(mark.color).toLowerCase();
+    const entry = palette.colors.find(c => c.id === mark.color || c.hex === key);
     if (!entry) throw new Error(`mark colour "${mark.color}" is not in the palette`);
-    return {id: entry.id, hex: entry.hex, rgb: hexToRgb(entry.hex), minRgb: mark.minRgb ?? [0, 0, 0], blueOverGreen: mark.blueOverGreen ?? -255};
+    const min = mark.minRgb;
+    if (!Array.isArray(min) || min.length !== 3 || !min.every(v => Number.isInteger(v) && v >= 0 && v <= 255))
+      throw new Error(`mark "${mark.color}": minRgb is required and must be three 0-255 integers`);
+    if (mark.blueOverGreen !== undefined && !Number.isInteger(mark.blueOverGreen)) throw new Error(`mark "${mark.color}": blueOverGreen must be an integer`);
+    return {id: entry.id, hex: entry.hex, rgb: entry.rgb, minRgb: min, blueOverGreen: mark.blueOverGreen ?? -255};
   });
 }
 

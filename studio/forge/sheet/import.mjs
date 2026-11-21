@@ -8,6 +8,13 @@ import { assertLayout, cellRect } from './layout.mjs';
 
 export const importSchema = 'forge.sheet-import';
 
+const cellIdPattern = /^[a-z0-9][a-z0-9_-]*$/;
+/** Cell ids become file names; accept only what validateLayout accepts. */
+export function assertCellId(id) {
+  if (typeof id !== 'string' || !cellIdPattern.test(id)) throw new Error(`invalid cell id ${JSON.stringify(id)}`);
+  return id;
+}
+
 function keyTest(layout) {
   const {rgb, minChannel, margin} = layout.key;
   const dom = rgb.indexOf(Math.max(...rgb)), others = [0, 1, 2].filter(c => c !== dom);
@@ -100,6 +107,7 @@ export function assertNoOverwrite(targets, protect = []) {
 /** Write import.json, prompt.txt, layout.json and cells/<id>.png under dir. */
 export async function writeImport(dir, {record, cells, layout}, {protect = []} = {}) {
   const root = path.resolve(dir);
+  [...cells.keys()].forEach(assertCellId);
   const files = [...cells.keys()].map(id => path.join(root, 'cells', `${id}.png`));
   const meta = ['import.json', 'layout.json', 'prompt.txt'].map(f => path.join(root, f));
   assertNoOverwrite([...files, ...meta], protect);
@@ -116,6 +124,11 @@ export async function readImport(dir) {
   const record = JSON.parse(await fs.readFile(path.join(dir, 'import.json'), 'utf8'));
   if (record.schema !== importSchema) throw new Error(`${dir} is not a ${importSchema} directory`);
   const cells = new Map();
+  if (!Array.isArray(record.cells)) throw new Error('import.json has no cells list');
+  for (const entry of record.cells) {
+    assertCellId(entry.id);
+    if (entry.crop !== `cells/${entry.id}.png`) throw new Error(`cell "${entry.id}": crop must be cells/${entry.id}.png`);
+  }
   for (const entry of record.cells) cells.set(entry.id, decodePng(await fs.readFile(path.join(dir, entry.crop))));
   return {record, cells};
 }

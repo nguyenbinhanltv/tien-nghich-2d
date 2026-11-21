@@ -131,8 +131,10 @@ threshold 128 → snap to the palette **minus the outline colour and marks** →
 parts from) and `native` (with outline). `writePixelized(dir, result)` writes `<id>.png` and `pixelize.json`.
 
 Marks are palette colours kept out of ordinary snapping and preserved where the source shows them:
-`[{"color": "<palette id | #rrggbb>", "minRgb": [r, g, b], "blueOverGreen": n}]`. A reduced source pixel is a mark
-pixel when every channel reaches `minRgb` and blue exceeds green by `blueOverGreen` (omit to ignore).
+`[{"color": "<palette id | #rrggbb in the palette>", "minRgb": [r, g, b], "blueOverGreen": n}]`. A colour not in the
+palette, or a missing/invalid `minRgb`, throws. A reduced source pixel is a mark pixel when every channel reaches
+`minRgb` and blue exceeds green by `blueOverGreen` (optional). `readImport`, `writeImport` and `writePixelized`
+reject cell ids outside `[a-z0-9][a-z0-9_-]*` and a `crop` path other than `cells/<id>.png`.
 
 ```json
 {
