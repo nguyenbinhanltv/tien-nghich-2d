@@ -1,0 +1,103 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
+import { problem } from './editor-catalog.mjs';
+
+const stateSql = `coalesce((select status from reviews r where r.key=v.key and r.rev=v.rev
+  and status is not null order by seq desc limit 1),'pending')`;
+
+export function revisionStore(root, dir = path.join(root, '.inspector-revisions')) {
+  const relative = path.relative(root, dir);
+  if (!path.isAbsolute(dir) || (!relative.startsWith('..'+path.sep) && !path.isAbsolute(relative)
+      && relative !== '.inspector-revisions') || relative === '..') {
+    throw new Error('Use a dedicated absolute library outside the repository or its default revision directory');
+  }
+  const back = path.relative(dir, root);
+  if (back !== '..' && !back.startsWith('..'+path.sep) && !path.isAbsolute(back)) throw new Error('Library cannot contain repository');
+  const filename = path.join(dir, 'editor.sqlite');
+  let db;
+  function open(write) {
+    if (!fs.lstatSync(dir, {throwIfNoEntry:false})) {
+      if (!write) return;
+      const parent = path.dirname(dir);
+      if (path.relative(fs.realpathSync.native(parent), parent) !== '') throw new Error('Linked library parent');
+      try { fs.mkdirSync(dir, {mode:0o700}); } catch (error) { if (error.code !== 'EEXIST') throw error; }
+    }
+    if (path.relative(fs.realpathSync.native(dir), dir) !== '') throw new Error('Linked revision directory');
+    for (const suffix of ['', '-journal', '-shm', '-wal']) {
+      const stat = fs.lstatSync(filename+suffix, {throwIfNoEntry:false});
+      if (stat && (!stat.isFile() || stat.nlink !== 1)) throw new Error('Invalid revision file');
+    }
+    if (db || (!write && !fs.existsSync(filename))) return;
+    const connection = new DatabaseSync(filename);
+    try {
+      fs.chmodSync(filename, 0o600);
+      connection.exec(`PRAGMA busy_timeout=5000; PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL;
+        CREATE TABLE IF NOT EXISTS versions(key TEXT NOT NULL, rev INTEGER NOT NULL, parent INTEGER,
+          png BLOB NOT NULL, meta TEXT NOT NULL, PRIMARY KEY(key,rev));
+        CREATE TABLE IF NOT EXISTS reviews(seq INTEGER PRIMARY KEY, key TEXT NOT NULL, rev INTEGER NOT NULL,
+          status TEXT, text TEXT, FOREIGN KEY(key,rev) REFERENCES versions(key,rev));
+        CREATE INDEX IF NOT EXISTS reviews_by_revision ON reviews(key,rev,seq);`);
+      db = connection;
+    } catch (error) { connection.close(); throw error; }
+  }
+  function operate(frame, baseline, action, args) {
+    const key = frame.info.key;
+    const write = ['save','restore','review'].includes(action);
+    open(write);
+    if (db) db.exec(write ? 'BEGIN IMMEDIATE' : 'BEGIN');
+    try {
+      function append(rev, parent, png, metadata) {
+        db.prepare('INSERT INTO versions VALUES(?,?,?,?,?)').run(key, rev, parent, png, JSON.stringify(metadata));
+      }
+      let head = db?.prepare('SELECT max(rev) AS rev FROM versions WHERE key=?').get(key).rev;
+      if (head == null) {
+        head = 0;
+        if (write) append(0, null, baseline, frame.metadata);
+      }
+      function version(n) {
+        const row = db?.prepare('SELECT png,meta FROM versions WHERE key=? AND rev=?').get(key,n);
+        if (row) return {png:Buffer.from(row.png), metadata:JSON.parse(row.meta)};
+        if (n === 0) return {png:baseline, metadata:frame.metadata};
+        throw problem(404,'unknown_revision','Revision does not exist');
+      }
+      let selected = args.revision ?? head;
+      if (action === 'save' || action === 'restore') {
+        if (args.baseRevision !== head) throw problem(409,'revision_conflict','Reload the current revision',head);
+        const current = version(head);
+        const next = action === 'restore' ? version(args.targetRevision) : {
+          png:args.png ?? current.png, metadata:{...current.metadata,...args.metadata}
+        };
+        if (action === 'restore' || !next.png.equals(current.png) ||
+            JSON.stringify(next.metadata) !== JSON.stringify(current.metadata)) {
+          append(head+1,head,next.png,next.metadata);
+          head++;
+        }
+        selected = head;
+      }
+      const {png, metadata} = version(selected);
+      if (action === 'review') {
+        db.prepare('INSERT INTO reviews(key,rev,status,text) VALUES(?,?,?,?)')
+          .run(key,selected,args.status ?? null,args.text ?? null);
+      }
+      let history = db?.prepare('SELECT rev AS revision,parent,'+stateSql+
+        ' AS status FROM versions v WHERE key=? ORDER BY rev DESC').all(key) ?? [];
+      if (!history.length) history = [{revision:0,parent:null,status:'pending'}];
+      const comments = db?.prepare(`SELECT text,coalesce((select status from reviews p
+        where p.key=r.key and p.rev=r.rev and p.seq<=r.seq and p.status is not null
+        order by p.seq desc limit 1),'pending') as status FROM reviews r
+        WHERE key=? AND rev=? AND text IS NOT NULL ORDER BY seq`).all(key,selected) ?? [];
+      const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
+        status:history.find(item=>item.revision===selected).status,comments,history};
+      if (db) db.exec('COMMIT');
+      return snapshot;
+    } catch (error) {
+      if (db) db.exec('ROLLBACK');
+      throw error;
+    }
+  }
+  return {operate, needsBaseline(key) {
+    open(false);
+    return !db?.prepare('SELECT 1 FROM versions WHERE key=? AND rev=0').get(key);
+  }, close() { db?.close(); }};
+}
