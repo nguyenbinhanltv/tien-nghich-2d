@@ -19,7 +19,7 @@ export default {
   },
   annotations: { readOnlyHint: true, idempotentHint: true },
   handler({ sections }, ctx) {
-    const p = ctx.project;
+    const p = ctx.project.snapshot(); // one consistent load for the whole response
     const all = {
       palette: () => p.palette(),
       sizeClasses: () => p.sizeClasses(),

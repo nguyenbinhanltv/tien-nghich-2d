@@ -299,39 +299,152 @@ test('schema validator ignores inherited Object.prototype members', () => {
   assert.deepEqual(validate(JSON.parse('{"__proto__": 1}'), closed), ['$: unexpected property "__proto__"']);
 });
 
-test('project module: opens the repo and rejects a bad root', () => {
+test('project module: opens the repo through the pack and rejects a bad root', () => {
   const p = openProject(ROOT);
-  assert.equal(p.source, 'legacy-files');
-  assert.equal(p.palette().count, 40);
+  assert.equal(p.source, 'project-pack');
+  const view = p.snapshot();
+  assert.equal(view.palette().count, 40);
+  assert.deepEqual(view.pack(), { path: 'studio.project.json', present: true, consumed: true, id: 'tien-nghich-2d', name: view.pack().name, version: 1 });
   assert.throws(() => openProject(join(tmpdir(), 'nope-studio-xyz')), /not a directory/);
-  assert.throws(() => openProject(HERE), /missing assets\/manifest\.json/);
+  assert.throws(() => openProject(HERE), /missing studio\.project\.json/);
 });
 
-test('a manifest broken after startup is an actionable isError result naming the file, then recovers', async () => {
+const PROJECT_FILES = ['studio.project.json', 'assets/manifest.json', 'assets/manifest_longtime.json', 'assets/audio_manifest.json', 'tools/generators/palette.json'];
+function tempProject() {
   const dir = mkdtempSync(join(tmpdir(), 'studio-mcp-proj-'));
+  for (const f of PROJECT_FILES) {
+    mkdirSync(dirname(join(dir, f)), { recursive: true });
+    cpSync(join(ROOT, f), join(dir, f));
+  }
+  return dir;
+}
+const infoText = async (server, args = {}) => {
+  const r = (await call(server, 'studio_project_info', args)).result;
+  return { r, text: r.content[0].text };
+};
+
+test('a manifest broken after startup is an actionable isError result naming the file, then recovers', async () => {
+  const dir = tempProject();
   try {
-    for (const f of ['assets/manifest.json', 'assets/manifest_longtime.json', 'assets/audio_manifest.json', 'tools/generators/palette.json']) {
-      mkdirSync(dirname(join(dir, f)), { recursive: true });
-      cpSync(join(ROOT, f), join(dir, f));
-    }
     const server = new McpServer({ registry: buildRegistry(), project: openProject(dir), scope: 'read', agent: 'unit' });
-    const info = () => call(server, 'studio_project_info', {});
-    assert.notEqual((await info()).result.isError, true);
+    assert.notEqual((await infoText(server)).r.isError, true);
 
     writeFileSync(join(dir, 'assets/manifest.json'), '{ "assets": [ '); // caught mid-edit
-    const bad = (await info()).result;
-    assert.equal(bad.isError, true);
-    assert.match(bad.content[0].text, /assets\/manifest\.json is not valid JSON/);
-    assert.doesNotMatch(bad.content[0].text, /unexpectedly/);
+    const bad = await infoText(server);
+    assert.equal(bad.r.isError, true);
+    assert.match(bad.text, /assets\/manifest\.json is not valid JSON/);
+    assert.doesNotMatch(bad.text, /unexpectedly/);
 
-    rmSync(join(dir, 'assets/manifest_longtime.json')); // restore base, remove another
+    rmSync(join(dir, 'assets/manifest_longtime.json'));
     cpSync(join(ROOT, 'assets/manifest.json'), join(dir, 'assets/manifest.json'));
-    const gone = (await info()).result;
-    assert.equal(gone.isError, true);
-    assert.match(gone.content[0].text, /missing assets\/manifest_longtime\.json/);
+    const gone = await infoText(server);
+    assert.equal(gone.r.isError, true);
+    assert.match(gone.text, /missing assets\/manifest_longtime\.json/);
 
     cpSync(join(ROOT, 'assets/manifest_longtime.json'), join(dir, 'assets/manifest_longtime.json'));
-    assert.notEqual((await info()).result.isError, true, 'server recovers once the file is valid again');
+    assert.notEqual((await infoText(server)).r.isError, true, 'server recovers once the file is valid again');
     assert.ok(new ProjectError('x') instanceof ToolError);
   } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('the pack, not hard-coded paths, decides which files are read', async () => {
+  const dir = tempProject();
+  try {
+    const packFile = join(dir, 'studio.project.json');
+    const pack = JSON.parse(readFileSync(packFile, 'utf8'));
+    // Move the palette and the core manifest elsewhere and point the pack at them.
+    mkdirSync(join(dir, 'moved'));
+    cpSync(join(dir, 'tools/generators/palette.json'), join(dir, 'moved/pal.json'));
+    const core = JSON.parse(readFileSync(join(dir, 'assets/manifest.json'), 'utf8'));
+    core.assets = core.assets.slice(0, 5);
+    writeFileSync(join(dir, 'moved/core.json'), JSON.stringify(core));
+    rmSync(join(dir, 'tools'), { recursive: true });
+    rmSync(join(dir, 'assets/manifest.json'));
+    pack.palette.file = 'moved/pal.json';
+    pack.catalog.sources.find((x) => x.kind === 'asset-manifest').file = 'moved/core.json';
+    writeFileSync(packFile, JSON.stringify(pack));
+
+    const server = new McpServer({ registry: buildRegistry(), project: openProject(dir), scope: 'read', agent: 'unit' });
+    const { r } = await infoText(server);
+    assert.notEqual(r.isError, true);
+    const s = r.structuredContent;
+    assert.equal(s.palette.source, 'moved/pal.json');
+    assert.equal(s.assetCounts.base.total, 5);
+    assert.equal(s.assetCounts.base.manifest, 'moved/core.json');
+    assert.equal(s.project.source, 'project-pack');
+    assert.equal(s.project.pack.consumed, true);
+    assert.deepEqual(s.manifests.map((m) => m.path), ['moved/core.json', 'assets/manifest_longtime.json', 'assets/audio_manifest.json', 'studio.project.json']);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('an invalid or missing pack is reported by name, not as a crash', async () => {
+  const dir = tempProject();
+  try {
+    const server = new McpServer({ registry: buildRegistry(), project: openProject(dir), scope: 'read', agent: 'unit' });
+    writeFileSync(join(dir, 'studio.project.json'), '{"schema":"studio.project"}');
+    const invalid = await infoText(server);
+    assert.equal(invalid.r.isError, true);
+    assert.match(invalid.text, /Invalid project pack/);
+    writeFileSync(join(dir, 'studio.project.json'), '{ nope');
+    assert.match((await infoText(server)).text, /studio\.project\.json/);
+    rmSync(join(dir, 'studio.project.json'));
+    assert.match((await infoText(server)).text, /missing studio\.project\.json/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('one call uses one snapshot: every section comes from a single load', async () => {
+  const dir = tempProject();
+  try {
+    const project = openProject(dir);
+    let loads = 0;
+    const counting = { ...project, snapshot: () => { loads += 1; return project.snapshot(); } };
+    const server = new McpServer({ registry: buildRegistry(), project: counting, scope: 'read', agent: 'unit' });
+    assert.notEqual((await infoText(server)).r.isError, true);
+    assert.equal(loads, 1);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+// ---- stdio line-size limit ---------------------------------------------------------------
+const errorsOf = (c, code) => c.stdoutLines.map((l) => JSON.parse(l)).filter((m) => m.error?.code === code);
+const ping = (id) => JSON.stringify({ jsonrpc: '2.0', id, method: 'server/discover', params: {} });
+
+test('line limit: an oversized line with its newline in the same chunk is refused, not parsed', async () => {
+  await withClient(['--max-line-bytes', '1024'], async (c) => {
+    const huge = JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'server/discover', params: { pad: 'x'.repeat(5000) } });
+    c.proc.stdin.write(huge + '\n' + ping(2) + '\n'); // one write: oversized line AND a good line
+    assert.equal((await c.request(3, 'server/discover', {})).result.resultType, 'complete');
+    const tooBig = errorsOf(c, -32700);
+    assert.equal(tooBig.length, 1);
+    assert.match(tooBig[0].error.message, /too large/);
+    assert.equal(c.stdoutLines.map((l) => JSON.parse(l)).filter((m) => m.id === 1).length, 0, 'the oversized request was never executed');
+    assert.equal(c.stdoutLines.map((l) => JSON.parse(l)).filter((m) => m.id === 2).length, 1, 'the next line is still served');
+  });
+});
+
+test('line limit: an oversized line spanning many chunks yields one error, then the stream resyncs', async () => {
+  await withClient(['--max-line-bytes', '1024'], async (c) => {
+    c.proc.stdin.write('{"jsonrpc":"2.0","id":1,"method":"x","params":{"pad":"');
+    for (let i = 0; i < 20; i++) { c.proc.stdin.write('y'.repeat(600)); await new Promise((r) => setTimeout(r, 5)); }
+    c.proc.stdin.write('"}}\n');
+    assert.equal((await c.request(2, 'server/discover', {})).result.resultType, 'complete');
+    assert.equal(errorsOf(c, -32700).length, 1, 'reported once, not once per chunk');
+  });
+});
+
+test('line limit counts bytes, not characters', async () => {
+  await withClient(['--max-line-bytes', '1024'], async (c) => {
+    const req = (id, n) => JSON.stringify({ jsonrpc: '2.0', id, method: 'nope', params: { s: '\u00e9'.repeat(n) } });
+    assert.equal(req(1, 400).length < 1024 && Buffer.byteLength(req(1, 400)) < 1024, true);
+    assert.equal((await c.request(1, 'nope', { s: '\u00e9'.repeat(400) })).error.code, -32601, '800 bytes of payload is under the limit');
+    c.proc.stdin.write(req(2, 600) + '\n'); // 600 characters but about 1200 bytes
+    assert.equal((await c.request(3, 'server/discover', {})).result.resultType, 'complete');
+    assert.equal(errorsOf(c, -32700).length, 1);
+    assert.equal(c.stdoutLines.map((l) => JSON.parse(l)).filter((m) => m.id === 2).length, 0);
+  });
+});
+
+test('--max-line-bytes is validated', async () => {
+  const c = new StdioClient(ENTRY, ['--project', ROOT, '--max-line-bytes', '10']);
+  assert.equal((await c.exited).code, 2);
+  assert.match(c.stderr, /max-line-bytes/);
 });
