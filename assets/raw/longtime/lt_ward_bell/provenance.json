@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_bell",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "A suspended bronze bell winds up and sends two ripples beyond its frame.",
+  "rights": "Original artwork created for this project.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/lt_tide_flare_bell_wards.py",
+  "generator_sha256_lf": "89211420d5998ad53f3ea22b21676c7a3f3d746dc22f5c9a4c9d2f2dcaa58a2a",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "source": "source.png",
+  "source_sha256": "b17b1a44a12a9e7f1fbcd843b58c953f173878099875708bf884179129751d0d",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ward_bell/contact_1x.png": "aaed054977297a24e15fd5bf5bbe2ea61eb5ff6ea1a6f5df6eacbe784f1fd323",
+    "assets/raw/longtime/lt_ward_bell/contact_4x.png": "62083ff62428680a7b550e50aba366dd6c5c8350290391127f948516b7f61e06"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ward_bell/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_bell/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "9ceb0a7eaac34251d6898e51a8ae923b34a4d3172fcbf5380f2b4fb94fc66ccb"
+    },
+    {
+      "key": "longtime/lt_ward_bell/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_bell/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "d085d1051aa627cd42d5bd0bf824376ac4bf0730305dd53458c74af02e172a55"
+    },
+    {
+      "key": "longtime/lt_ward_bell/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_bell/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "a7ee382f9577ae1098fd073e6d730266f963aa61c42efc4498226da62b26a4b1"
+    },
+    {
+      "key": "longtime/lt_ward_bell/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_bell/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "5943c69c36197fd70d449ed12b0c9b45ed162c0ad50a3c0851ea9288f220b8cf"
+    },
+    {
+      "key": "longtime/lt_ward_bell/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_bell/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "4aefafb63f4fcac6539306b4bd846507e09b1f3f8a6156f36b9fc5496214229f"
+    },
+    {
+      "key": "longtime/lt_ward_bell/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_bell/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "467a081450a51437d68314c5ef7129902bf3fd54cb8a210465823e17178dbc80"
+    },
+    {
+      "key": "longtime/lt_ward_bell/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_bell/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "7eafa1f0a62d2e86f34e363348cfbf94865972594f4690e78950b69d2edf6f45"
+    },
+    {
+      "key": "longtime/lt_ward_bell/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_bell/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "8ead17d87c4ee2bebdf693df8358e783652893d983dee47f71d3ba3b79b5e563"
+    }
+  ]
+}
