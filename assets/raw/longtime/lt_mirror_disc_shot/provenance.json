@@ -1,0 +1,66 @@
+{
+  "id": "lt_mirror_disc_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Spinning lenticular mirror shard with a traveling glint.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_mirror_disc.py",
+  "generator_sha256_lf": "5af9e22d0148febc2a19cd7cac4e05d9e2c220eb77c0c2f3bc80740b2097942e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "4f5b4b3b7e080e102b52010871858c63b23d9a8b81d3c71ca7f6eca88ecab139",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_mirror_disc/contact_1x.png": "4bd30a128f7aef4fdeb8c676143117782080e6e7f40152cfd2e69f4f98caf13c",
+    "assets/raw/longtime/lt_mirror_disc/contact_6x.png": "db0aeedc6f509c377048bbc75e88527db52e18236c60fd3bef63127d39e728b3"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_mirror_disc_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_mirror_disc_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "fb2d220c003fdec62b559ae5a6f1bd218fb9eaef9d035b915721eab872926a89"
+    },
+    {
+      "key": "longtime/lt_mirror_disc_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_mirror_disc_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "3ab12cabf4420bb849d276b9009c250bb6274cda73c70242d7dc83528f5ec841"
+    },
+    {
+      "key": "longtime/lt_mirror_disc_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_mirror_disc_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "2992627f25ad39f72e1a3ff6069eef7c46a5c5d7a31b9ddc5f7643ecd654a927"
+    },
+    {
+      "key": "longtime/lt_mirror_disc_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_mirror_disc_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "14e0252c825f22694a26632c909e3836802eb14125c3707457cbff67e09dc1be"
+    }
+  ]
+}
