@@ -49,7 +49,7 @@ Codex creates new game assets using built-in ImageGen or deterministic code auth
 
 ## Historical: PixelLab workflow (retired 2026-11-22)
 
-The following specification records the earlier production pipeline. It is **not current**. PixelLab-made assets (the original characters in `assets/manifest.json` and `lt_kiln_keeper`, `lt_ink_marten`) keep their provenance and the legacy `assigned_agent: pixellab` labels.
+The following specification records the earlier production pipeline. It is **not current**. PixelLab-made assets keep their provenance. The original characters in `assets/manifest.json` keep their legacy `assigned_agent: pixellab` labels. `lt_kiln_keeper` and `lt_ink_marten` were also made with PixelLab, but in `assets/manifest_longtime.json` they have no per-asset label: they inherit `assigned_agent` from their profile (`npc`, `pet`), and those character profiles now read `studio_forge`, so `check_longtime.py` counts their 64 frames under `studio_forge`. Their PixelLab origin is recorded in `assets/raw/longtime/<id>/provenance.json` and `generation.json`.
 
 Historically enforced by skill `.claude/skills/orchestrator-asset-routing/`.
 
