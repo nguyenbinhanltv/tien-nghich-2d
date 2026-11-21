@@ -1,6 +1,6 @@
 // Minimal JSON Schema checker (the subset the studio schemas use). No dependencies.
 // Supported: type, const, enum, pattern, minimum, minLength, minItems, maxItems, minProperties,
-// required, properties, additionalProperties (boolean or schema), items, anyOf, local $ref.
+// required, properties, propertyNames, additionalProperties (boolean or schema), items, anyOf, local $ref.
 
 function typeOf(value) {
   if (value === null) return 'null';
@@ -51,6 +51,7 @@ export function validateSchema(schema, value, root = schema, at = '$', issues = 
     const keys = Object.keys(value);
     if (schema.minProperties !== undefined && keys.length < schema.minProperties) issues.push(`${at}: needs at least ${schema.minProperties} entr(ies)`);
     for (const name of schema.required ?? []) if (!Object.hasOwn(value, name)) issues.push(`${at}: missing "${name}"`);
+    if (schema.propertyNames) for (const key of keys) validateSchema(schema.propertyNames, key, root, `${at}.${key} (name)`, issues);
     const props = schema.properties ?? {};
     for (const key of keys) {
       const child = `${at}.${key}`;
