@@ -1,0 +1,35 @@
+{
+  "id": "lt_icon_kiln_heat",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing; no seed or external images.",
+  "brief": "Single glyph for kiln heat.",
+  "reference_ids": [
+    "lt_kiln"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_abode.py",
+  "generator_sha256_lf": "71fc20eb947c36a92021d7767889b23de1485c50eff7287094f34ca0cf9a8c31",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "131908059da4712791e7924b00c446311ccfa8bdfc15c71925a9c7dcc81db8cf",
+  "frames": [
+    {
+      "key": "longtime/lt_icon_kiln_heat/glyph_none_0",
+      "path": "assets/processed_longtime/lt_icon_kiln_heat/glyph_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "131908059da4712791e7924b00c446311ccfa8bdfc15c71925a9c7dcc81db8cf"
+    }
+  ]
+}

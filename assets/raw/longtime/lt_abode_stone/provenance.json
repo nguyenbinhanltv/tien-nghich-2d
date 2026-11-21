@@ -1,0 +1,265 @@
+{
+  "id": "lt_abode_stone",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing; no seed or external images.",
+  "brief": "Damp flagstones, ink seams and a pale threshold.",
+  "reference_ids": [
+    "ts_hengyue"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_abode.py",
+  "generator_sha256_lf": "71fc20eb947c36a92021d7767889b23de1485c50eff7287094f34ca0cf9a8c31",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    0,
+    0
+  ],
+  "source": "source.png",
+  "source_sha256": "74a79824b637be44d00bad7744ffe1265299718a9bc406969f9fb086fd647ad7",
+  "frames": [
+    {
+      "key": "longtime/lt_abode_stone/floor_none_0",
+      "path": "assets/processed_longtime/lt_abode_stone/floor_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "04d371c74dec8a84043c4a96c6203fe0b05ee919402e8e1b629e0e67686e9a5a"
+    },
+    {
+      "key": "longtime/lt_abode_stone/floor_none_1",
+      "path": "assets/processed_longtime/lt_abode_stone/floor_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "7c4a8a7f261481368d0e8ac4c209a699c2cb2656719ab174ae549dda3fc215df"
+    },
+    {
+      "key": "longtime/lt_abode_stone/floor_none_2",
+      "path": "assets/processed_longtime/lt_abode_stone/floor_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "f48d1c83d7001cfdd2174097019733ea1d0faeaa1ab5946d944104c0a03e722d"
+    },
+    {
+      "key": "longtime/lt_abode_stone/floor_none_3",
+      "path": "assets/processed_longtime/lt_abode_stone/floor_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "711f929b81e47120c5f3de0d03285d1b173e0922a7ea019f425119a75909b6d6"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_0",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_0.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "04d371c74dec8a84043c4a96c6203fe0b05ee919402e8e1b629e0e67686e9a5a"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_1",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_1.png",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "ebaa12eb64d5ca558268ef9e142e9730c7309509f4dc24644411cde8dfc90239"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_2",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "911db673776a3c89c2da99d913336ed235efb26e42867c6953be9c18a78d42ae"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_3",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_3.png",
+      "source_xy": [
+        112,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "09167bdc9d63b1f17752f45e45c00cad5b9c47e84de5c15a700fe4f8017f8ad2"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_4",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_4.png",
+      "source_xy": [
+        0,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "91875d97de3711e79efb5c61633077b80e39c0bc2c929704a2ae86ad71fb203b"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_5",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_5.png",
+      "source_xy": [
+        16,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "8f60dd491465dee6a29736c73fbd65afdd3d6400a7a1f5cce1cd19677e39b68d"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_6",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_6.png",
+      "source_xy": [
+        32,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "e8fe395c65e897970be6c97b6970a4c7cf0033ad44d70a8167a28813b0c4cb42"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_7",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_7.png",
+      "source_xy": [
+        48,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "24ff48bad4c360516fd4624283c1e5b8e05c8f7471f6032dfd66d1f368394eae"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_8",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_8.png",
+      "source_xy": [
+        64,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "61acdc674e423d10aef12c848f10af2dd5c503ef828e2a1c635b663f70066933"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_9",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_9.png",
+      "source_xy": [
+        80,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "f3c5f6dacb39f8b1d01354bf5b9691648a94926b4a36514ced2b6149559b6d49"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_10",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_10.png",
+      "source_xy": [
+        96,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "1facacf28d025eaed679ec3dfff991683f0fa75846efdfe8f504a4ef5de9aadd"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_11",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_11.png",
+      "source_xy": [
+        112,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "be785813036e622a476a76e8b3ea09c6c48d0320dbbd911ba0d74f49ca258ef5"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_12",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_12.png",
+      "source_xy": [
+        0,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "d1cc920aca5933e89746d331a701cd13e8536e42914d97a5a7ddd74b9786ee0c"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_13",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_13.png",
+      "source_xy": [
+        16,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "4c9e6bbf83aba1ca926e56995afc0d8edddea2d173e42ee5cc7194051106a809"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_14",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_14.png",
+      "source_xy": [
+        32,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "ee3a56098fe1863f534aab2eb17b353b4de2d24a70c8d12f0ec9e6b5b204d4bd"
+    },
+    {
+      "key": "longtime/lt_abode_stone/edge_none_15",
+      "path": "assets/processed_longtime/lt_abode_stone/edge_none_15.png",
+      "source_xy": [
+        48,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "59f7e6bc7e109a71060b3b07ea737c93e05b549501bff782fe53a04067831947"
+    },
+    {
+      "key": "longtime/lt_abode_stone/wall_cap_none_0",
+      "path": "assets/processed_longtime/lt_abode_stone/wall_cap_none_0.png",
+      "source_xy": [
+        64,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "f23c6e3adcd52432f7987a1003bf801f1bba72866f8755920ae9c20418ea5537"
+    },
+    {
+      "key": "longtime/lt_abode_stone/wall_cap_none_1",
+      "path": "assets/processed_longtime/lt_abode_stone/wall_cap_none_1.png",
+      "source_xy": [
+        80,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "953075333218584097937b26399f604aba47b3410b9a84346d6470b2950bca11"
+    },
+    {
+      "key": "longtime/lt_abode_stone/wall_cap_none_2",
+      "path": "assets/processed_longtime/lt_abode_stone/wall_cap_none_2.png",
+      "source_xy": [
+        96,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "7fc4d3d29aa81acfd1c29fce7fe7005c6ef6b647962ebc286a1b866bd604d5b6"
+    },
+    {
+      "key": "longtime/lt_abode_stone/wall_cap_none_3",
+      "path": "assets/processed_longtime/lt_abode_stone/wall_cap_none_3.png",
+      "source_xy": [
+        112,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "bb217821afbaa6ca9c2af4ecb254f23a9a1f149249aa2f0155fe053a3b1dfc6c"
+    }
+  ]
+}
