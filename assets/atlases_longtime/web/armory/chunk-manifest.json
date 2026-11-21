@@ -2,28 +2,32 @@
   "asset_ids": [
     "lt_ember_fan",
     "lt_ember_fan_shot",
+    "lt_mirror_disc",
+    "lt_mirror_disc_shot",
     "lt_reed_blade",
-    "lt_reed_blade_shot"
+    "lt_reed_blade_shot",
+    "lt_seal_chisel",
+    "lt_seal_chisel_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 10,
+  "frame_count": 20,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 10,
+      "frames": 20,
       "height": 32,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "d2700bc8609a910327d25fc70758e9b684195fd190f7bbcd83d34825cf1895fd",
-      "png_sha256": "947509ef034366cc3afe3729f1e1070a56e3814f16fe11e768f21578f2ba447c",
-      "rgba8_bytes": 32768,
-      "width": 256
+      "json_sha256": "f8af0a637c152a3e5e3bbb06ea84b85c867587f8df21e882e4008a9bcadb4427",
+      "png_sha256": "cfbab77dfebaceec209e39c2b0a8ca96026b5213525742e6b15eb77e9e98eb65",
+      "rgba8_bytes": 65536,
+      "width": 512
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 32768,
-  "rgba8_mib": 0.0312,
+  "rgba8_bytes": 65536,
+  "rgba8_mib": 0.0625,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
