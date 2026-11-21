@@ -2,7 +2,7 @@
 
 ## Resume point
 
-Keep scheduling paused on the new machine. Finish the existing handoff and audio review only. Start production or enable recurring jobs when the user explicitly resumes. GitHub holds the shared work. A fresh clone recovers the committed assets, manifests and tools; private Inspector revisions, listening decisions and local session state require their own records.
+Both schedules are paused until the user explicitly restarts them. A fresh clone recovers the committed assets, manifests and tools from GitHub. Keep separate records for private Inspector revisions and local session state.
 
 [PR #50](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/50) shipped at `b6abede08b71f0e617c61cb013f7ea25c7c7b257`. Its seven web chunk manifests contain **93 Longtime IDs and 306 frames**. Counts below are IDs / frames. The 102 inherited core entries are accounted for separately.
 
@@ -10,7 +10,7 @@ Keep scheduling paused on the new machine. Finish the existing handoff and audio
 |---|---|---|---|---|---|---|
 | 4 / 34 | 48 / 120 | 1 / 24 | **32 / 32** | 1 / 24 | 1 / 24 | 6 / 48 |
 
-## Audio awaiting human audition
+## Approved Hằng Nhạc audio on main
 
 The approved Động Phủ pilot (one bed and eight cues) remains the listening reference. The first Wave 2 sub-batch adds one chapter bed and eight cues. The two published sources are recoverable independently.
 
@@ -19,9 +19,11 @@ The approved Động Phủ pilot (one bed and eight cues) remains the listening 
 | [Hằng Nhạc score](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/ao/skills-arena-prs/hengyue-score) | [55dd32c9625a5e213312380ca01992d64ba60db6](https://github.com/nguyenbinhanltv/tien-nghich-2d/commit/55dd32c9625a5e213312380ca01992d64ba60db6). Two byte-identical renders. Stereo PCM16 at 44,100 Hz, loop [0, 3087000) frames, 70 s, −21.66 LUFS and −7.06 dBTP. |
 | [Wave 2 effects](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/ao/ember-delta-tiles/wave2-first-sfx) | [b20ef09b802f84c207d895db0752090eeb62db1d](https://github.com/nguyenbinhanltv/tien-nghich-2d/commit/b20ef09b802f84c207d895db0752090eeb62db1d). Eight mono masters reproduced twice. Step, evade, cast, bolt, light tell, focus, cancel and deny have individual PCM and WAV hashes. |
 
-**Open audio integration.** [PR #52](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52), branch `ao/ember-delta-atlas/audio-wave2-batch1`, head `b27eb12c34a9d0786d535b750993dc3140b54a04`. The integrator reports 7/7 deterministic pack outputs, 4/4 Wave 2 tests, 5/5 pilot tests, the audio plan check passing and all 23 pilot files byte-identical. Independent technical QA was underway at handoff. [Versioned pack, manifest and report](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/b27eb12c34a9d0786d535b750993dc3140b54a04/assets/audio/packs/wave2_batch1_v1)
+The user heard and approved the Hằng Nhạc Ogg/AAC A/B. [PR #52](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52) merged audio head `b27eb12c34a9d0786d535b750993dc3140b54a04` into `main` at `c1db17870829ae4cdadf310786567efb8b99489e`. The current package is [assets/audio/packs/wave2_batch1_v1](../assets/audio/packs/wave2_batch1_v1).
 
-**Human audition pending.** Download the WAV and timing key from [the portable audition folder](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/cb0181eb463848efec0bec43ffbef41cfa2b7e29/audition) on `ao/ember-delta-atlas/audio-wave2-batch1-audition`, commit `cb0181eb463848efec0bec43ffbef41cfa2b7e29`. Compare the master, Ogg and AAC seams at 4.0, 12.8 and 21.6 seconds, then follow the key for all eight effects solo and over the bed. Check mono and record the listener's decision against the exact audio head before merging #52.
+Independent technical QA rebuilt all five codec files byte-for-byte, verified all 23 pilot files and matched the portable audition to the decoded audio across three loop seams and 16 solo SFX excerpts. The listening status in the QA comment predates the user’s approval. [Exact-head QA on #52](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52#issuecomment-7068634787)
+
+To replay the comparison, download the WAV and timing key from the [portable audition at `cb0181eb463848efec0bec43ffbef41cfa2b7e29`](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/cb0181eb463848efec0bec43ffbef41cfa2b7e29/audition). The master, Ogg and AAC seams occur at 4.0, 12.8 and 21.6 seconds, followed by all eight effects solo and over the bed.
 
 | File under `audition/` | SHA-256 of Git blob contents |
 |---|---|
@@ -57,28 +59,17 @@ The approved Động Phủ pilot (one bed and eight cues) remains the listening 
    node preview-app/serve.mjs --port 4173
    ```
 
-   Open [Asset Inspector](http://127.0.0.1:4173/preview-app/?tab=inspector), then **Longtime art → interface** for the shipped icons, or **Audio pilot** for the approved reference. Wave 2 is auditioned from the integration package. The [Preview App guide](../preview-app/README.md) gives the fallback server and browser controls.
+   Open [Asset Inspector](http://127.0.0.1:4173/preview-app/?tab=inspector), then **Longtime art → interface** for the shipped icons, or **Audio pilot** for the approved reference. For Wave 2 playback, use the merged package or portable audition linked above. The [Preview App guide](../preview-app/README.md) gives the fallback server and browser controls.
 
-3. To adopt an **open** audio PR after ownership transfer is authorized, use a clean worker checkout. Record the live head, compare it with the reviewed SHA, then attach ownership and check out the verified branch. If the head moved, inspect the new diff and repeat its checks before carrying forward earlier evidence.
+3. On a fresh `main` checkout, verify the Wave 2 package with the pinned FFmpeg 6.1.1 binary (SHA-256 `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`). The check compares seven rebuilt files with the committed outputs. [Package report](../assets/audio/packs/wave2_batch1_v1/PACK_REPORT.md)
 
    ```powershell
-   $pr = 52
-   $info = gh pr view $pr --json state,headRefName,headRefOid,url | ConvertFrom-Json
-   if ($info.state -ne 'OPEN' -or (git status --porcelain)) { throw 'Check PR state and worktree' }
-   if ($info.headRefOid -ne 'b27eb12c34a9d0786d535b750993dc3140b54a04') { throw 'Review updated audio head first' }
-   git fetch origin $info.headRefName
-   if ((git rev-parse "origin/$($info.headRefName)") -ne $info.headRefOid) { throw 'Remote head moved' }
-   ao session claim-pr $info.url
-   gh pr checkout $pr
-   git status --short --branch
-   git rev-parse HEAD
+   python -B tools/scripts/build_audio_wave2_batch1_pack.py --ffmpeg (Get-Command ffmpeg).Source --check
    ```
-
-   Confirm the final HEAD equals the recorded full SHA. On that audio head, run `python -B tools/scripts/build_audio_wave2_batch1_pack.py --ffmpeg (Get-Command ffmpeg).Source --check`. The reference FFmpeg 6.1.1 binary SHA-256 is `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`. For a merged PR, use the merged main checkout and its recorded pack hash.
 
 ## Backlog for a later user-directed restart
 
-- **PixelLab:** The coordinator?s production backlog is **30 IDs total**: two wave-one subjects (kiln keeper and ink marten) and 28 later assignments. Confirm authorized access and available quota before allocating them. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
-- **Longtime VFX:** scope IDs, visual purpose, frame profiles, budgets and acceptance in design before producing art. Preserve the 12 inherited effects and the existing core delivery contract. [GDD](GDD.md) · [Core manifest](../assets/manifest.json) · [Art Bible](ART_BIBLE.md)
-- **Audio:** after this sub-batch is accepted, core production has four beds and 24 effects outstanding. Later waves reserve five beds and ten effects behind their design gates. [Audio design](AUDIO_DESIGN.md) · [Audio manifest](../assets/audio_manifest.json)
+- **PixelLab** has **30 IDs** in the production backlog recorded by the coordinator. Wave one has two subjects, `lt_kiln_keeper` and `lt_ink_marten`, with 28 later assignments. Confirm authorized access and available quota before allocating them. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
+- **Longtime VFX** needs design first. Define IDs, visual purpose, frame profiles, budgets and acceptance criteria before producing art. Preserve the 12 inherited effects and the existing core delivery contract. [GDD](GDD.md) · [Core manifest](../assets/manifest.json) · [Art Bible](ART_BIBLE.md)
+- **Audio** has **4 BGM and 24 SFX** remaining in core after the pilot and first Wave 2 batch. The extensions reserve **5 BGM and 10 SFX** behind their design gates. [Audio design](AUDIO_DESIGN.md) · [Audio manifest](../assets/audio_manifest.json)
 - **Asset work:** use the versioned [routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md), [art QA](../.agents/skills/tien-nghich-art-qa/SKILL.md) and [AssetCat](../.agents/skills/tien-nghich-assetcat/SKILL.md) skills for source routing, palette/outline checks and rights records.
