@@ -1,0 +1,79 @@
+{
+  "$schema": "studio/schemas/project.schema.json",
+  "schema": "studio.project",
+  "version": 1,
+  "id": "tien-nghich-2d",
+  "name": "Tiên Nghịch 2D",
+  "palette": {
+    "file": "tools/generators/palette.json"
+  },
+  "sizeClasses": {
+    "tile": {"sizes": [[16, 16]]},
+    "character": {"sizes": [[32, 32]]},
+    "weapon": {"sizes": [[24, 24], [32, 32]]},
+    "boss": {"min": [64, 64], "max": [96, 96], "square": true},
+    "icon": {"sizes": [[16, 16], [24, 24]]}
+  },
+  "rules": {
+    "alpha": "binary",
+    "outline": {"mode": "silhouette", "color": "palette", "borderIsEdge": false}
+  },
+  "frameKeys": {
+    "ui": "ui/{id}/{clip}_none_{n}",
+    "vfx": "vfx/{id}_{n}",
+    "longtime": "longtime/{id}/{clip}_{direction}_{n}",
+    "longtimeVfx": "longtime/{id}/{clip}_{palette}_{n}"
+  },
+  "directories": {
+    "raw": {
+      "characters": "assets/raw/characters",
+      "environment": "assets/raw/environment_items",
+      "longtime": "assets/raw/longtime"
+    },
+    "processed": {
+      "core": "assets/processed",
+      "longtime": "assets/processed_longtime"
+    },
+    "atlases": {
+      "core": "assets/atlases",
+      "longtime": "assets/atlases_longtime"
+    },
+    "fixtures": {
+      "atlases": "assets/_fixtures/atlases/web",
+      "pngs": "assets/_fixtures/pngs"
+    },
+    "revisions": ".inspector-revisions"
+  },
+  "atlasProfiles": {
+    "web": {"limit": 2048, "padding": 0, "extrude": 0, "fixedSize": true},
+    "mobile": {"limit": 1024, "padding": 2, "extrude": 1, "fixedSize": false}
+  },
+  "catalog": {
+    "sources": [
+      {"id": "core", "kind": "asset-manifest", "file": "assets/manifest.json"},
+      {"id": "longtime", "kind": "design-manifest", "file": "assets/manifest_longtime.json", "effects": "vfx.entries"},
+      {"id": "vfx", "kind": "vfx-index", "file": "assets/processed/vfx/vfx_index.json"},
+      {"id": "audio", "kind": "audio-plan", "file": "assets/audio_manifest.json"}
+    ]
+  },
+  "editable": {
+    "overlay": "assets/approved-frames.json",
+    "groups": [
+      {
+        "kind": "asset-animations", "source": "core", "category": "ui", "frameKey": "ui",
+        "raw": "{output_path}{id}_{clip}_{n}.png", "processed": "assets/processed/{key}.png"
+      },
+      {"kind": "vfx-descriptor", "source": "vfx", "category": "vfx", "frameKey": "vfx"}
+    ]
+  },
+  "adapters": {
+    "interpreter": {"command": "tools/.venvs/project/bin/python", "args": ["-I"]},
+    "commands": {
+      "validatePalette": {"script": "tools/scripts/validate_palette.py", "args": ["{path}"]},
+      "qa": {"script": "tools/scripts/qa_assets.py", "args": []},
+      "qaLongtime": {"script": "tools/scripts/qa_longtime.py", "args": []},
+      "pack": {"script": "tools/scripts/pack_atlases.py", "args": []},
+      "packCheck": {"script": "tools/scripts/pack_atlases.py", "args": ["--check"]}
+    }
+  }
+}

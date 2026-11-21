@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "studio.project.schema.json",
+  "title": "Studio project pack",
+  "description": "Everything project-specific that the studio core, server and client read. Paths are relative to the project root.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "version", "id", "name", "palette", "sizeClasses", "rules", "frameKeys", "directories", "atlasProfiles", "catalog", "editable", "adapters"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema": {"const": "studio.project"},
+    "version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"},
+    "name": {"type": "string", "minLength": 1},
+    "palette": {
+      "type": "object", "additionalProperties": false, "required": ["file"],
+      "properties": {"file": {"$ref": "#/$defs/path"}}
+    },
+    "sizeClasses": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/sizeClass"}
+    },
+    "rules": {
+      "type": "object", "additionalProperties": false, "required": ["alpha", "outline"],
+      "properties": {
+        "alpha": {"enum": ["binary"]},
+        "outline": {
+          "type": "object", "additionalProperties": false, "required": ["mode", "color", "borderIsEdge"],
+          "properties": {
+            "mode": {"enum": ["silhouette", "none"]},
+            "color": {"anyOf": [{"const": "palette"}, {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}]},
+            "borderIsEdge": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "frameKeys": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "directories": {
+      "type": "object", "additionalProperties": false, "required": ["raw", "processed", "atlases", "revisions"],
+      "properties": {
+        "raw": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
+        "processed": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
+        "atlases": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
+        "fixtures": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
+        "revisions": {"$ref": "#/$defs/path"}
+      }
+    },
+    "atlasProfiles": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false, "required": ["limit", "padding", "extrude", "fixedSize"],
+        "properties": {
+          "limit": {"type": "integer", "minimum": 1},
+          "padding": {"type": "integer", "minimum": 0},
+          "extrude": {"type": "integer", "minimum": 0},
+          "fixedSize": {"type": "boolean"}
+        }
+      }
+    },
+    "catalog": {
+      "type": "object", "additionalProperties": false, "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "kind", "file"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+              "kind": {"enum": ["asset-manifest", "design-manifest", "vfx-index", "audio-plan"]},
+              "file": {"$ref": "#/$defs/path"},
+              "effects": {"type": "string", "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$"}
+            }
+          }
+        }
+      }
+    },
+    "editable": {
+      "type": "object", "additionalProperties": false, "required": ["overlay", "groups"],
+      "properties": {
+        "overlay": {"$ref": "#/$defs/path"},
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object", "required": ["kind", "source", "frameKey"],
+            "properties": {
+              "kind": {"enum": ["asset-animations", "vfx-descriptor"]},
+              "source": {"type": "string"},
+              "category": {"type": "string"},
+              "frameKey": {"type": "string"},
+              "raw": {"type": "string"},
+              "processed": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "adapters": {
+      "type": "object", "additionalProperties": false, "required": ["interpreter", "commands"],
+      "properties": {
+        "interpreter": {
+          "type": "object", "additionalProperties": false, "required": ["command"],
+          "properties": {"command": {"$ref": "#/$defs/path"}, "args": {"type": "array", "items": {"type": "string"}}}
+        },
+        "commands": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object", "additionalProperties": false, "required": ["script"],
+            "properties": {"script": {"$ref": "#/$defs/path"}, "args": {"type": "array", "items": {"type": "string"}}}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "path": {"type": "string", "minLength": 1},
+    "sizeClass": {
+      "type": "object",
+      "properties": {
+        "sizes": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}}},
+        "min": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+        "max": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+        "square": {"type": "boolean"}
+      }
+    }
+  }
+}
