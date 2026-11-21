@@ -17,7 +17,7 @@ function parse(argv) {
   for (let i = 0; i < rest.length; i++) {
     if (rest[i].startsWith('--')) {
       const name = rest[i].slice(2);
-      flags[name] = ['no-images'].includes(name) ? true : rest[++i];
+      flags[name] = rest[++i];
     } else positional.push(rest[i]);
   }
   return {command, positional, flags};
