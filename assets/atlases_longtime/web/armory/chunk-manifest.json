@@ -6,6 +6,8 @@
     "lt_brass_spindle_shot",
     "lt_cinder_mirror",
     "lt_cinder_mirror_shot",
+    "lt_echo_prism",
+    "lt_echo_prism_shot",
     "lt_ember_fan",
     "lt_ember_fan_shot",
     "lt_ember_reed",
@@ -36,6 +38,8 @@
     "lt_reed_verdict_shot",
     "lt_seal_chisel",
     "lt_seal_chisel_shot",
+    "lt_shard_needle",
+    "lt_shard_needle_shot",
     "lt_star_hook",
     "lt_star_hook_shot",
     "lt_stone_flail",
@@ -46,24 +50,24 @@
     "lt_tide_bell_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 110,
+  "frame_count": 120,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 110,
-      "height": 32,
+      "frames": 120,
+      "height": 64,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "7ab890bcd5f71772ab28dfdd6ad347cd5d3d7c6b5deed80afb9c402396aed70f",
-      "png_sha256": "de772d763921b409cf3612ade332e9aaf46949f17db0877d05befcebdb78915f",
-      "rgba8_bytes": 262144,
+      "json_sha256": "e03f52ea9f03f26dc584daf4830f0f6f285952f7d217f4311090b46bb482cc01",
+      "png_sha256": "17f283e4b28b011613a744fdc39d21af5be29779fa3053bf0b2bf2a5ded25e80",
+      "rgba8_bytes": 524288,
       "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 262144,
-  "rgba8_mib": 0.25,
+  "rgba8_bytes": 524288,
+  "rgba8_mib": 0.5,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
