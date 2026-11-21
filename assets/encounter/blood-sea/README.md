@@ -4,7 +4,7 @@ A local Blood Sea encounter starring Vương Lâm in his Huyết Hải Trúc Cơ
 
 ## Play and inspect
 
-From the repository root, run `node preview-app/serve.mjs --port 4173` and open `http://127.0.0.1:4173/preview-app/blood-sea/index.html`. Enter battle, move with WASD or the arrows, hold J to strike toward the king, press Space to dodge in your last movement direction, and press P to pause. Touch devices have direction, strike and dodge buttons. Each spirit blade travels 105 native pixels. A timed dodge through an impact shortens the next dodge cooldown.
+From the repository root, run `node studio/serve.mjs --port 4173` and open `http://127.0.0.1:4173/studio/blood-sea/index.html`. Enter battle, move with WASD or the arrows, hold J to strike toward the king, press Space to dodge in your last movement direction, and press P to pause. Touch devices have direction, strike and dodge buttons. Each spirit blade travels 105 native pixels. A timed dodge through an impact shortens the next dodge cooldown.
 
 The Bestiary's **Inspect poses** link opens this encounter's collection in the existing inspector. Select either actor, choose the clip and direction, pause, step, or enable the pivot overlay. The navigation link **Asset inspector** opens the full project collection.
 
@@ -75,14 +75,14 @@ For a portable local copy, run `python tools/scripts/package_blood_sea.py Drowne
 
 To review motion at native scale, open **Inspect poses**, select an actor and a multi-frame clip, then step forward and enable **Previous pose**. The translucent preceding frame shares the active frame’s measured ground point. **Pivot** marks that point. Mirrored facings use their displayed pivot on both frames.
 
-The optional **Sound** button enables seven original procedural cues. The closing gold seal rings once per threat, a successful dodge answers with a rising pair of notes, and a connected counter adds a low bronze impact. Hurt, awakening and both endings have their own motifs. Codex authored the pitches, intervals and envelopes in `preview-app/blood-sea/sound.mjs`. The browser synthesizes them after the player enables sound.
+The optional **Sound** button enables seven original procedural cues. The closing gold seal rings once per threat, a successful dodge answers with a rising pair of notes, and a connected counter adds a low bronze impact. Hurt, awakening and both endings have their own motifs. Codex authored the pitches, intervals and envelopes in `studio/blood-sea/sound.mjs`. The browser synthesizes them after the player enables sound.
 
 ```sh
 python tools/scripts/build_blood_sea.py --check
-python tools/scripts/qa_blood_sea_anim.py --encounter-dir assets/encounter/blood-sea --runtime-dir preview-app/blood-sea --strict
-node --test preview-app/blood-sea/encounter.test.mjs
-node preview-app/smoke-test.mjs
-node preview-app/blood-sea/browser-test.cjs http://127.0.0.1:4173/preview-app/blood-sea/index.html
+python tools/scripts/qa_blood_sea_anim.py --encounter-dir assets/encounter/blood-sea --runtime-dir studio/blood-sea --strict
+node --test studio/blood-sea/encounter.test.mjs
+node studio/smoke-test.mjs
+node studio/blood-sea/browser-test.cjs http://127.0.0.1:4173/studio/blood-sea/index.html
 ```
 
 The optional browser check uses a local Playwright installation and Chromium. Set `CHROMIUM_PATH` to use an existing browser binary and `ENCOUNTER_QA_DIR` to save screenshots in an existing directory. The test drives keyboard and touch input through the live page and checks health, warnings, pause, victory, defeat, restart and phone width.

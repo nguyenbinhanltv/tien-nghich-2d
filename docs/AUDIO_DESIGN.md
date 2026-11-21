@@ -67,7 +67,7 @@ AudioCraft is an optional isolated research lane. Its upstream distribution dist
 
 ### Legacy references
 
-At the planning base `583fa784`, the tracked Blood Sea Web Audio score defines seven short two-partial sketches. Use `dodge` for dash timing, `evade` for successful avoidance, `counterHit` for the counter accent, `hurt` for player hurt, `awaken` for the boss tell, `releasing` for a release contour and `falling` for a defeat contour. These are reference aliases with zero budget weight. They lack pilot PCM masters, score-to-master hashes, decoded-pack evidence and delivery records. The browser test references the prototype. The tracked inventory contained no standalone production music or effects masters. [Legacy score](../preview-app/blood-sea/sound.mjs)
+At the planning base `583fa784`, the tracked Blood Sea Web Audio score defines seven short two-partial sketches. Use `dodge` for dash timing, `evade` for successful avoidance, `counterHit` for the counter accent, `hurt` for player hurt, `awaken` for the boss tell, `releasing` for a release contour and `falling` for a defeat contour. These are reference aliases with zero budget weight. They lack pilot PCM masters, score-to-master hashes, decoded-pack evidence and delivery records. The browser test references the prototype. The tracked inventory contained no standalone production music or effects masters. [Legacy score](../studio/blood-sea/sound.mjs)
 
 ## PR sequence and owners
 

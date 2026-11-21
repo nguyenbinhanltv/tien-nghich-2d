@@ -6,7 +6,7 @@ import {Trial} from '../trial.js';
 const {chromium} = createRequire(import.meta.url)('playwright-core');
 const server = createPreviewServer();
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const home = 'http://127.0.0.1:' + server.address().port + '/preview-app/';
+const home = 'http://127.0.0.1:' + server.address().port + '/studio/';
 let browser;
 try {
   browser = await chromium.launch();

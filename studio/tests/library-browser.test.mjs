@@ -5,7 +5,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
-const url = new URL(process.argv[2] || 'http://127.0.0.1:4173/preview-app/');
+const url = new URL(process.argv[2] || 'http://127.0.0.1:4173/studio/');
 const web = new URL('../../assets/atlases_longtime/web/', import.meta.url);
 const counts = new Map();
 for (const group of await readdir(web)) {

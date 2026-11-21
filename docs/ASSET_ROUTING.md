@@ -25,7 +25,7 @@ Default character animation is the part-based rig with motion templates, with di
 | Projectiles | Code-drawn generator | `.../projectiles/` | same |
 | VFX | Code-drawn spec (spritefx permitted) | `.../vfx/` | same |
 | UI icons | Code-drawn generator | `.../ui/` | same |
-| Atlases | `tools/scripts/` packers | `assets/atlases/web/`, `assets/atlases/mobile/` | preview-app |
+| Atlases | `tools/scripts/` packers | `assets/atlases/web/`, `assets/atlases/mobile/` | studio |
 
 ### Forbidden actions
 1. Any paid generation service for any asset, and the `pixellab` MCP in particular.
@@ -67,7 +67,7 @@ Historically enforced by skill `.claude/skills/orchestrator-asset-routing/`.
 | Projectiles | scripted generator | `.../projectiles/` | same |
 | VFX | scripted generator (spritefx permitted) | `.../vfx/` | same |
 | UI icons | scripted generator | `.../ui/` | same |
-| Atlases | `tools/scripts/` packers | `assets/atlases/web/`, `assets/atlases/mobile/` | preview-app |
+| Atlases | `tools/scripts/` packers | `assets/atlases/web/`, `assets/atlases/mobile/` | studio |
 
 ### Forbidden actions (historical)
 1. PixelLab for anything but characters/enemies/bosses/animations.

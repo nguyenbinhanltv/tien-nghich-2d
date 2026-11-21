@@ -1,5 +1,5 @@
 /**
- * Shared AssetKeys contract for Tien Nghich 2D (Phaser 3 / PixiJS / preview-app).
+ * Shared AssetKeys contract for Tien Nghich 2D (Phaser 3 / PixiJS / studio).
  *
  * Frame keys are derived from `assets/processed/<group>/...` as
  * `<relative path without extension>` with `/` separators:

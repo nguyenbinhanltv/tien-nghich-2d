@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTENTS = [
-    "preview-app", "assets/manifest.json", "assets/atlases/web", "assets/processed",
+    "studio", "studio.project.json", "assets/manifest.json", "assets/atlases/web", "assets/processed",
     "assets/raw/environment_items", "assets/raw/characters", "assets/_fixtures",
     "assets/encounter/blood-sea", "tools/generators/palette.json",
     "tools/scripts/build_blood_sea.py", "tools/scripts/blood_sea_effects.py",
@@ -17,16 +17,16 @@ GUIDE = """The Drowned Court
 
 Extract the full archive. In the extracted folder, start the local preview with
 
-    node preview-app/serve.mjs --port 4173
+    node studio/serve.mjs --port 4173
 
 Python 3 can also serve the same files with
 
-    python preview-app/serve.py --port 4173
+    python studio/serve.py --port 4173
 
-Play at http://127.0.0.1:4173/preview-app/blood-sea/index.html
-Inspect poses at http://127.0.0.1:4173/preview-app/index.html?tab=inspector&collection=court
+Play at http://127.0.0.1:4173/studio/blood-sea/index.html
+Inspect poses at http://127.0.0.1:4173/studio/index.html?tab=inspector&collection=court
 Open the west-facing Ghost King wail paused on frame 3 at
-http://127.0.0.1:4173/preview-app/index.html?tab=inspector&collection=court&actor=boss_ghost_king&clip=soul_wail&facing=west&frame=3
+http://127.0.0.1:4173/studio/index.html?tab=inspector&collection=court&actor=boss_ghost_king&clip=soul_wail&facing=west&frame=3
 Use Ctrl+C in the terminal to close the preview.
 
 Use WASD or the arrows to move, J to strike, Space to dodge and P to pause.
@@ -38,7 +38,7 @@ Select Watch best to replay the recorded inputs from your fastest clear.
 All court art, source prompts, measured anchors and clip timing are under
 assets/encounter/blood-sea/. To verify the native exports with Pillow 13.0.0,
 run python tools/scripts/build_blood_sea.py --check. Simulation and inspector
-tests run with node --test preview-app/blood-sea/encounter.test.mjs.
+tests run with node --test studio/blood-sea/encounter.test.mjs.
 
 Local source revision {revision}
 """

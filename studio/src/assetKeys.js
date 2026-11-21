@@ -1,6 +1,6 @@
 /**
  * Runtime ES-module mirror of AssetKeys.ts + canonical key builder helpers.
- * Keeps preview-app zero-build while adhering strictly to the shared atlas contract.
+ * Keeps studio zero-build while adhering strictly to the shared atlas contract.
  */
 
 export const ASSET_GROUPS = Object.freeze({

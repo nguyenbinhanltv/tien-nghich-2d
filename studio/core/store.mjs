@@ -7,11 +7,33 @@ import { problem } from './errors.mjs';
 const stateSql = `coalesce((select status from reviews r where r.key=v.key and r.rev=v.rev
   and status is not null order by seq desc limit 1),case v.rev when 0 then 'approved' else 'pending' end)`;
 
+// Real path of the deepest existing ancestor of `p`, with the not-yet-created tail appended.
+function realAncestors(p) {
+  const tail = [];
+  for (let at = p;;) {
+    try { return path.join(fs.realpathSync.native(at), ...tail); }
+    catch (error) {
+      const up = path.dirname(at);
+      if (!['ENOENT', 'ENOTDIR'].includes(error.code) || up === at) throw error;
+      tail.unshift(path.basename(at));
+      at = up;
+    }
+  }
+}
+
 /**
  * Revision and review store. `reservedName` is the project's default in-repo revision directory
  * name (pack directories.revisions); `dir` is a dedicated absolute library directory, never that one.
  */
 export function revisionStore(root, reservedName, dir = path.join(root, reservedName)) {
+  if (path.isAbsolute(dir)) {
+    // Judge every location by its real path, so a symlinked system directory (macOS /var, a
+    // symlinked checkout) is no obstacle but an alias of the repository is still the repository.
+    // Only the ancestors are resolved: the library directory and its database files must stay
+    // real files, so a link planted at or below the library is still refused in open().
+    root = fs.realpathSync.native(root);
+    dir = path.join(realAncestors(path.dirname(dir)), path.basename(dir));
+  }
   const relative = path.relative(root, dir);
   if (!path.isAbsolute(dir) || (!relative.startsWith('..'+path.sep) && !path.isAbsolute(relative)
       && relative !== reservedName) || relative === '..') {
