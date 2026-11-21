@@ -1,5 +1,13 @@
 # Asset Routing Spec
 
+## Current Codex workflow
+
+Codex creates new game assets using built-in ImageGen or deterministic code authored by Codex. Antigravity may assemble animation from those sources or perform QA. Keep the original prompt or generator, source art and producer attribution with the asset. The repository skills cover [asset routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md) and [art validation](../.agents/skills/tien-nghich-art-qa/SKILL.md).
+
+## Historical PixelLab workflow
+
+The following specification records the earlier production pipeline. Existing raw art, manifests and provenance retain their original producer labels.
+
 Enforced by skill `.claude/skills/orchestrator-asset-routing/`.
 
 ## Hard rule
