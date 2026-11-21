@@ -4,6 +4,8 @@ Zero-build HTML5 Canvas previewer (`image-rendering: pixelated`, `ctx.imageSmoot
 
 ## Quick Start
 
+**The Drowned Court** is a separate playable Blood Sea boss encounter. Open [the duel](blood-sea/index.html) from the preview server, or use the Blood Sea boss encounter link in the top bar. Its [source, export and test guide](../assets/encounter/blood-sea/README.md) covers the Codex-generated sprites and the encounter pose inspector.
+
 Serve the repository root so `/preview-app/`, `/assets/`, and `/tools/generators/palette.json` are all reachable:
 
 ```bash

@@ -285,6 +285,7 @@ export class AssetStore {
         sy: entry.frame.y,
         sw: entry.frame.w,
         sh: entry.frame.h,
+        ground: entry.ground,
         url: imgUrl,
         atlasPath: clean,
         key,
@@ -294,6 +295,61 @@ export class AssetStore {
     }
 
     this.loadedAtlases.push({ path: clean, image: imgUrl, frameCount: count, isFixture });
+    return json.meta;
+  }
+
+  /** An isolated pose catalogue for the Blood Sea duel, using the normal inspector's atlas resolver. */
+  async encounterCollection() {
+    const root = 'assets/encounter/blood-sea';
+    const spec = await fetchJsonSafe('/' + root + '/contract.json');
+    if (!spec?.actors) throw new Error('Unable to load the Blood Sea pose contract.');
+    const collection = new AssetStore();
+    collection.paletteById = this.paletteById;
+    for (const [id, actor] of Object.entries(spec.actors)) {
+      const base = this.assetsById.get(id);
+      const animations = {};
+      const supplements = Object.entries(spec.supplements || {}).filter(([, sheet]) => sheet.actor === id);
+      for (const [page, sheet] of [[id, actor], ...supplements]) {
+        const meta = await collection._loadAtlasFile(root + '/web/' + page + '.json', false);
+        for (const [row, direction] of actor.rows.entries()) {
+          const cells = new Map();
+          for (const [col, pose] of sheet.poses.entries()) {
+            const left = sheet.xEdges[row][col], top = sheet.yEdges[row];
+            const replacement = sheet.replacement;
+            const corrected = replacement?.direction === direction && replacement.pose === pose;
+            const input = corrected ? replacement.source : (sheet.baseSource || page + '.png');
+            cells.set(pose, {
+              url: '/' + root + '/source/' + page + '.png', page, pose, direction,
+              input, prompt: spec.sourcePrompts?.[input], digest: spec.sourceSha256[input],
+              assembled: Boolean(sheet.baseSource), corrected,
+              left, top, width: sheet.xEdges[row][col + 1] - left, height: sheet.yEdges[row + 1] - top,
+              anchor: sheet.anchors[row][col],
+            });
+          }
+          const clips = {...Object.fromEntries(sheet.poses.map(pose => [pose, [pose]])), ...sheet.clips};
+          for (const [clip, poses] of Object.entries(clips)) {
+            poses.forEach((pose, index) => {
+              const frame = collection.frames.get(`characters/${id}/${clip}_${direction}_${index}`);
+              if (frame) frame.sourceCell = cells.get(pose);
+            });
+          }
+        }
+        for (const [clip, poses] of Object.entries(sheet.clips)) {
+          animations[clip] = { frames: poses.length, timeline: meta?.timelines?.[clip] };
+        }
+        for (const pose of sheet.poses) animations[pose] = { frames: 1 };
+      }
+      const asset = { ...base, animations, phases: undefined, assigned_agent: 'Codex ImageGen' };
+      collection.assets.push(asset);
+      collection.assetsById.set(id, asset);
+    }
+    await collection._loadAtlasFile(root + '/web/effects.json', false);
+    collection._syncVfxAssets();
+    for (const asset of collection.assets.filter(item => item.category === 'vfx')) {
+      asset.assigned_agent = 'Codex';
+      asset.name.en = asset.id.replace(/^court_/, '').replaceAll('_', ' ');
+    }
+    return collection;
   }
 
   async _registerPng(relPath, isFixture) {

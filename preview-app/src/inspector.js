@@ -28,12 +28,29 @@ const CATEGORY_ORDER = [
   { id: 'ui', label: 'UI' },
 ];
 
+function pivotX(frame, width) {
+  return frame.mirrorX ? width - frame.ground[0] : frame.ground[0];
+}
+
+function drawPose(ctx, frame, x, y, width, height, alpha = 1) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(frame.mirrorX ? x + width : x, y);
+  if (frame.mirrorX) ctx.scale(-1, 1);
+  ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, 0, 0, width, height);
+  ctx.restore();
+}
+
 export class InspectorController {
-  constructor(store, dom) {
+  constructor(store, dom, onPlaybackChange = () => {}) {
     this.store = store;
+    this.onPlaybackChange = onPlaybackChange;
+    this.active = false;
     this.dom = dom;
     this.canvas = dom.canvas;
     this.ctx = this.canvas.getContext('2d');
+    this.sourceImages = new Map();
+    this.sourcePrompts = new Map();
 
     this.category = 'all';
     this.search = '';
@@ -48,6 +65,7 @@ export class InspectorController {
     this.playing = true;
     this.frameIndex = 0;
     this.fps = 8;
+    this.useGameTiming = true;
     this.speedMult = 1;
     this.accum = 0;
     this.zoom = 4;
@@ -74,6 +92,17 @@ export class InspectorController {
   }
 
   _bindDom() {
+    this.dom.attribution.addEventListener('toggle', () => {
+      const request = this.dom.attribution.querySelector('[data-role="request"]');
+      if (this.dom.attribution.open && !this.sourcePrompts.has(request.dataset.url)) delete request.dataset.url;
+      this.renderAttribution(this._resolveCurrentFrame(this.selectedAsset));
+    });
+    this.dom.sourceToggle.addEventListener('change', () => {
+      const frame = this._resolveCurrentFrame(this.selectedAsset);
+      const url = frame?.sourceCell?.url;
+      if (this.sourceImages.get(url)?.failed) this.sourceImages.delete(url);
+      this.renderSource(frame);
+    });
     this.dom.search.addEventListener('input', (e) => {
       this.search = e.target.value.trim().toLowerCase();
       this.renderAssetList();
@@ -110,6 +139,7 @@ export class InspectorController {
     });
     this.dom.scrubber.addEventListener('input', (e) => {
       this.playing = false;
+      this.accum = 0;
       if (this.selectedAsset?.category === 'tileset') {
         this.tileIndex = Number(e.target.value);
       } else {
@@ -122,11 +152,17 @@ export class InspectorController {
       this.fps = Number(e.target.value);
       this.dom.fpsValue.textContent = `${this.fps} fps`;
     });
+    this.dom.timingToggle.addEventListener('change', (e) => {
+      this.useGameTiming = e.target.checked;
+      this.accum = 0;
+      this.renderTransport();
+    });
     this.dom.speedSelect.addEventListener('change', (e) => {
       this.speedMult = Number(e.target.value);
     });
     this.dom.zoomSelect.addEventListener('change', (e) => {
       this.zoom = Number(e.target.value);
+      this.render();
     });
     this.dom.toggleHitbox.addEventListener('change', (e) => {
       this.showHitbox = e.target.checked;
@@ -134,10 +170,13 @@ export class InspectorController {
     });
     this.dom.toggleGrid.addEventListener('change', (e) => {
       this.showPixelGrid = e.target.checked;
+      this.render();
     });
     this.dom.toggleOrigin.addEventListener('change', (e) => {
       this.showOrigin = e.target.checked;
+      this.render();
     });
+    this.dom.previousPose.addEventListener('change', () => this.render());
     this.dom.tilesetModeBtn.addEventListener('click', () => {
       this.tilesetViewMode = this.tilesetViewMode === 'sheet47' ? 'single' : 'sheet47';
       this.renderInspectorControls();
@@ -190,6 +229,7 @@ export class InspectorController {
     const asset = this.selectedAsset;
     if (!asset) return;
     const count = this.getFrameCount(asset);
+    this.accum = 0;
     if (asset.category === 'tileset') {
       this.tileIndex = (this.tileIndex + delta + count) % count;
     } else {
@@ -199,15 +239,29 @@ export class InspectorController {
     this.renderMetadata();
   }
 
-  selectAsset(id) {
+  restorePoseLink(params) {
+    const asset = this.store.assetsById.get(params.get('actor'));
+    const clip = params.get('clip'), facing = params.get('facing'), frame = params.get('frame');
+    this.playing = false;
+    if (asset && ['player', 'boss'].includes(asset.category) && Object.hasOwn(asset.animations, clip) &&
+        ['south', 'east', 'north', 'west'].includes(facing) && /^[1-9]\d*$/.test(frame) &&
+        Number(frame) <= asset.animations[clip].frames) {
+      this.selectAsset(asset.id, {clip, facing, index: Number(frame) - 1});
+    } else {
+      this.renderTransport();
+      this.dom.poseNotice.hidden = false;
+    }
+  }
+
+  selectAsset(id, pose) {
     const asset = this.store.assetsById.get(id);
     if (!asset) return;
     this.selectedId = id;
     const animKeys = asset.animations ? Object.keys(asset.animations) : ['idle'];
-    this.animName = animKeys[0] || 'idle';
-    this.direction = (asset.directions && asset.directions[0]) || 'south';
+    this.animName = pose?.clip ?? (animKeys[0] || 'idle');
+    this.direction = pose?.facing ?? (asset.directions?.[0] || 'south');
     this.sheetId = asset.sheets?.[0]?.id || null;
-    this.frameIndex = 0;
+    this.frameIndex = pose?.index ?? 0;
     this.tileIndex = 0;
     this.accum = 0;
 
@@ -335,7 +389,26 @@ export class InspectorController {
   renderTransport() {
     const asset = this.selectedAsset;
     if (!asset) return;
+    this.dom.poseNotice.hidden = true;
+    const link = this.dom.poseLink;
+    if (link) {
+      link.hidden = !['player', 'boss'].includes(asset.category);
+      if (link.hidden) link.removeAttribute('href');
+      else link.href = '?' + new URLSearchParams({
+        tab: 'inspector', collection: 'court', actor: asset.id, clip: this.animName,
+        facing: this.direction, frame: String(this.frameIndex + 1),
+      });
+    }
     const count = this.getFrameCount(asset);
+    const timeline = asset.animations?.[this.animName]?.timeline;
+    const timed = this.useGameTiming && timeline;
+    const comparePoses = count > 1 && ['player', 'boss', 'mob'].includes(asset.category) &&
+      !!this._resolveCurrentFrame(asset)?.ground;
+    this.dom.previousWrap.hidden = !comparePoses;
+    this.dom.previousPose.disabled = !comparePoses || this.frameIndex === 0;
+    this.dom.timingWrap.hidden = !timeline;
+    this.dom.fpsRange.disabled = !!timed;
+    this.dom.fpsValue.textContent = timed ? 'clip' : `${this.fps} fps`;
     const cur = asset.category === 'tileset' ? this.tileIndex : this.frameIndex;
     this.dom.scrubber.max = String(Math.max(0, count - 1));
     this.dom.scrubber.value = String(cur);
@@ -343,6 +416,11 @@ export class InspectorController {
       ? `Tile ${pad2(cur)} / 46 (mask ${CANONICAL_47_MASKS[cur] ?? '?'})`
       : `Frame ${cur + 1} / ${count}`;
     this.dom.btnPlay.textContent = this.playing ? '⏸ Pause' : '▶ Play';
+    if (timed) {
+      const frame = timeline[this.frameIndex];
+      this.dom.frameLabel.textContent += ` · ${frame.label} · ${frame.ms} ms`;
+    }
+    this.onPlaybackChange();
   }
 
   renderMetadata() {
@@ -350,6 +428,9 @@ export class InspectorController {
     if (!asset) return;
 
     const frame = this._resolveCurrentFrame(asset);
+    this.render();
+    this.renderSource(frame);
+    this.renderAttribution(frame);
     const key = this.store.getPrimaryKey(asset, {
       anim: this.animName,
       dir: this.direction,
@@ -396,6 +477,7 @@ export class InspectorController {
         <span>Canvas Size</span><code>${(asset.size || [32, 32]).join(' × ')} px</code>
         <span>Contract Key</span><code>${key}</code>
         <span>Resolved Frame</span><code>${frame ? frame.key : '— (missing)'}</code>
+        ${frame?.ground ? `<span>Ground pivot</span><code>${frame.ground.join(', ')} px</code>` : ''}
         <span>Hitbox</span><code>${hb.x},${hb.y} ${hb.w}×${hb.h}</code>
         <span>Hitbox Source</span><code class="${hb.source === 'manifest' ? 'ok-text' : 'warn-text'}">${hb.label}</code>
       </div>
@@ -409,7 +491,89 @@ export class InspectorController {
     `;
   }
 
-  _resolveCurrentFrame(asset) {
+  renderAttribution(frame) {
+    const panel = this.dom.attribution;
+    const cell = frame?.sourceCell;
+    panel.hidden = !cell?.prompt || !cell.digest;
+    if (panel.hidden || !panel.open) return;
+    const sheet = cell.assembled ? 'Assembled sheet' : 'Sheet';
+    const facing = frame.mirrorX ? 'east mirrored west' : cell.direction;
+    const correction = cell.corrected ? ' · Corrected input' : '';
+    panel.querySelector('[data-role="lineage"]').textContent =
+      `${sheet} ${cell.page}.png · ${cell.pose} · ${facing}${correction}`;
+    const sourceDir = new URL(cell.url, window.location.href);
+    for (const role of ['input', 'prompt']) {
+      const link = panel.querySelector(`[data-role="${role}"]`);
+      link.href = new URL(encodeURIComponent(cell[role]), sourceDir).href;
+      link.textContent = cell[role];
+    }
+    panel.querySelector('[data-role="digest"]').textContent = cell.digest;
+    const promptUrl = panel.querySelector('[data-role="prompt"]').href;
+    const request = panel.querySelector('[data-role="request"]');
+    if (request.dataset.url === promptUrl) return;
+    request.dataset.url = promptUrl;
+    request.textContent = 'Loading prompt…';
+    if (!this.sourcePrompts.has(promptUrl)) {
+      const pending = fetch(promptUrl).then(response => {
+        if (!response.ok) throw new Error('Prompt unavailable');
+        return response.text();
+      });
+      this.sourcePrompts.set(promptUrl, pending);
+    }
+    this.sourcePrompts.get(promptUrl).then(text => {
+      if (request.dataset.url === promptUrl) request.textContent = text;
+    }).catch(() => {
+      this.sourcePrompts.delete(promptUrl);
+      if (request.dataset.url === promptUrl) {
+        request.textContent = 'Prompt unavailable. Close and reopen to retry.';
+      }
+    });
+  }
+
+  renderSource(frame) {
+    if (!this.active || document.hidden) return;
+    const {sourceToggle, sourceWrap, sourceFigure, sourceCanvas, sourceCaption, stage} = this.dom;
+    const cell = frame?.sourceCell;
+    sourceWrap.hidden = !cell;
+    sourceFigure.hidden = !cell || !sourceToggle.checked;
+    stage.classList.toggle('with-source', !sourceFigure.hidden);
+    if (sourceFigure.hidden) return;
+
+    let entry = this.sourceImages.get(cell.url);
+    if (!entry) {
+      const image = new Image();
+      entry = {image, failed: false};
+      this.sourceImages.set(cell.url, entry);
+      // Re-resolve selection on completion: the user can step to another sheet while an image loads.
+      image.onload = () => this.renderSource(this._resolveCurrentFrame(this.selectedAsset));
+      image.onerror = () => {
+        entry.failed = true;
+        this.renderSource(this._resolveCurrentFrame(this.selectedAsset));
+      };
+      image.src = cell.url;
+    }
+    sourceCanvas.hidden = !entry.image.naturalWidth || entry.failed;
+    if (sourceCanvas.hidden) {
+      sourceCaption.textContent = entry.failed ? 'Source unavailable. Toggle Source crop to retry.' : 'Loading source crop…';
+      return;
+    }
+    sourceCanvas.width = cell.width;
+    sourceCanvas.height = cell.height;
+    const ctx = sourceCanvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    if (frame.mirrorX) { ctx.translate(cell.width, 0); ctx.scale(-1, 1); }
+    ctx.drawImage(entry.image, cell.left, cell.top, cell.width, cell.height, 0, 0, cell.width, cell.height);
+    const x = cell.anchor[0] - cell.left, y = cell.anchor[1] - cell.top;
+    ctx.beginPath();
+    ctx.moveTo(x - 12, y); ctx.lineTo(x + 12, y);
+    ctx.moveTo(x, y - 12); ctx.lineTo(x, y + 12);
+    ctx.lineWidth = 5; ctx.strokeStyle = '#101219'; ctx.stroke();
+    ctx.lineWidth = 2; ctx.strokeStyle = '#8ae8ff'; ctx.stroke();
+    const facing = frame.mirrorX ? cell.direction + ' mirrored west' : cell.direction;
+    sourceCaption.textContent = `${cell.page}.png · ${cell.pose} · ${facing}\nCrop (${cell.left}, ${cell.top}) · ${cell.width} × ${cell.height} px\nSheet ground (${cell.anchor.join(', ')}) → native (${frame.ground.join(', ')})`;
+  }
+
+  _resolveCurrentFrame(asset, frameIndex = this.frameIndex) {
     if (asset.category === 'tileset') {
       return (
         this.store.resolveTileFrame(asset.biome, this.tileIndex, this.sheetId) ||
@@ -435,18 +599,38 @@ export class InspectorController {
     const hit = this.store.resolveFrame(asset, {
       anim: this.animName,
       dir,
-      frameIndex: this.frameIndex,
+      frameIndex,
     });
     return hit ? { ...hit, mirrorX, anchorPx: hit.isFixture ? null : facing?.anchor_px } : null;
   }
 
-  update(dt) {
+  get canAnimate() {
     const asset = this.selectedAsset;
-    if (!asset || !this.playing) return;
-    if (asset.category === 'tileset' && this.tilesetViewMode === 'sheet47') return;
+    return this.playing && asset && this.getFrameCount(asset) > 1 &&
+      !(asset.category === 'tileset' && this.tilesetViewMode === 'sheet47');
+  }
 
+  update(dt) {
+    if (!this.canAnimate) return;
+    const asset = this.selectedAsset;
     const count = this.getFrameCount(asset);
-    if (count <= 1) return;
+
+    const timeline = this.useGameTiming && asset.animations?.[this.animName]?.timeline;
+    if (timeline) {
+      const cycle = timeline.reduce((sum, frame) => sum + frame.ms, 0) / 1000;
+      this.accum = (this.accum + dt * this.speedMult) % cycle;
+      const before = this.frameIndex;
+      // Zero-duration start markers remain available when stepping manually.
+      while (this.accum >= timeline[this.frameIndex].ms / 1000) {
+        this.accum -= timeline[this.frameIndex].ms / 1000;
+        this.frameIndex = (this.frameIndex + 1) % count;
+      }
+      if (this.frameIndex !== before) {
+        this.renderTransport();
+        this.renderMetadata();
+      }
+      return;
+    }
 
     const interval = 1 / Math.max(0.5, this.fps * this.speedMult);
     this.accum += dt;
@@ -463,6 +647,7 @@ export class InspectorController {
   }
 
   render() {
+    if (!this.active || document.hidden) return;
     const asset = this.selectedAsset;
     const ctx = this.ctx;
     if (!asset) return;
@@ -498,15 +683,15 @@ export class InspectorController {
 
     const frame = this._resolveCurrentFrame(asset);
     if (frame) {
-      ctx.save();
-      if (frame.mirrorX) {
-        ctx.translate(ox + w * z, oy);
-        ctx.scale(-1, 1);
-        ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, 0, 0, w * z, h * z);
-      } else {
-        ctx.drawImage(frame.image, frame.sx, frame.sy, frame.sw, frame.sh, ox, oy, w * z, h * z);
+      if (this.dom.previousPose.checked && !this.dom.previousPose.disabled) {
+        const prev = this._resolveCurrentFrame(asset, this.frameIndex - 1);
+        if (prev?.ground) {
+          const dx = (pivotX(frame, w) - pivotX(prev, w)) * z;
+          const dy = (frame.ground[1] - prev.ground[1]) * z;
+          drawPose(ctx, prev, ox + dx, oy + dy, w * z, h * z, .38);
+        }
       }
-      ctx.restore();
+      drawPose(ctx, frame, ox, oy, w * z, h * z);
 
       if (frame.isFixture) {
         ctx.fillStyle = 'rgba(224, 176, 48, 0.9)';
@@ -567,8 +752,9 @@ export class InspectorController {
 
     // Origin / pivot crosshair (bottom-center for characters/props, center for projectiles/weapons)
     if (this.showOrigin) {
-      const pivX = ox + Math.round((w / 2) * z);
-      const pivY = ['player', 'mob', 'boss', 'prop'].includes(asset.category)
+      const ground = frame?.ground;
+      const pivX = ox + (ground ? pivotX(frame, w) : w / 2) * z;
+      const pivY = ground ? oy + ground[1] * z : ['player', 'mob', 'boss', 'prop'].includes(asset.category)
         ? oy + h * z - 2
         : oy + Math.round((h / 2) * z);
       ctx.strokeStyle = '#8ae8ff';
@@ -594,7 +780,8 @@ export class InspectorController {
       ctx.fillRect(ox, oy + h * z + 4, Math.min(cw - pad, 290), 16);
       ctx.fillStyle = hb.source === 'manifest' ? '#5cc796' : '#ff9a7a';
       ctx.font = '10px monospace';
-      ctx.fillText(hb.label, ox + 4, oy + h * z + 15);
+      const label = hb.source === 'sprite_bounds' ? 'Hitbox: sprite bounds (fallback)' : hb.label;
+      ctx.fillText(label, ox + 4, oy + h * z + 15, cw - ox - 8);
     }
   }
 

@@ -1,0 +1,520 @@
+{
+  "frames": {
+    "characters/wl_blood_foundation/idle_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/stride_south_0": {
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/windup_south_0": {
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/impact_south_0": {
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_south_1": {
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_south_1": {
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_south_2": {
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_south_3": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/idle_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/stride_east_0": {
+      "frame": {
+        "x": 32,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/windup_east_0": {
+      "frame": {
+        "x": 64,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/impact_east_0": {
+      "frame": {
+        "x": 96,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_east_1": {
+      "frame": {
+        "x": 32,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_east_1": {
+      "frame": {
+        "x": 64,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_east_2": {
+      "frame": {
+        "x": 96,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_east_3": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/idle_north_0": {
+      "frame": {
+        "x": 0,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/stride_north_0": {
+      "frame": {
+        "x": 32,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/windup_north_0": {
+      "frame": {
+        "x": 64,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/impact_north_0": {
+      "frame": {
+        "x": 96,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_north_0": {
+      "frame": {
+        "x": 0,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_north_1": {
+      "frame": {
+        "x": 32,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_north_0": {
+      "frame": {
+        "x": 0,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_north_1": {
+      "frame": {
+        "x": 64,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_north_2": {
+      "frame": {
+        "x": 96,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_north_3": {
+      "frame": {
+        "x": 0,
+        "y": 64,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/idle_west_0": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/stride_west_0": {
+      "frame": {
+        "x": 32,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/windup_west_0": {
+      "frame": {
+        "x": 64,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/impact_west_0": {
+      "frame": {
+        "x": 96,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_west_0": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/run_west_1": {
+      "frame": {
+        "x": 32,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_west_0": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_west_1": {
+      "frame": {
+        "x": 64,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_west_2": {
+      "frame": {
+        "x": 96,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    },
+    "characters/wl_blood_foundation/cast_attack_west_3": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        30
+      ]
+    }
+  },
+  "meta": {
+    "image": "wl_blood_foundation.png",
+    "timelines": {
+      "run": [
+        {
+          "ms": 125,
+          "label": "Plant"
+        },
+        {
+          "ms": 125,
+          "label": "Stride"
+        }
+      ],
+      "cast_attack": [
+        {
+          "ms": 0,
+          "label": "Start"
+        },
+        {
+          "ms": 150,
+          "label": "Windup"
+        },
+        {
+          "ms": 190,
+          "label": "Blade release"
+        },
+        {
+          "ms": 90,
+          "label": "Recovery"
+        }
+      ]
+    },
+    "companions": [
+      "wl-reactions"
+    ]
+  }
+}

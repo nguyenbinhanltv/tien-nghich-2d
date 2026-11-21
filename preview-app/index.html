@@ -23,6 +23,7 @@
       <a class="tab-btn" href="./courtyard/">Evening Bell trial</a>
 
       <div class="topbar-actions">
+        <a href="./blood-sea/index.html" class="btn-secondary">Blood Sea boss encounter ↗</a>
         <div id="biome-buttons" class="biome-buttons" aria-label="Biomes (Keys 1-3)"></div>
         <label class="inline-control" title="Integer canvas scaling">
           Scale
@@ -112,7 +113,8 @@
           </div>
           <div id="inspector-categories" class="category-pills"></div>
           <div class="list-header">
-            <span>Assets</span>
+            <span id="collection-label">Assets</span>
+            <a id="all-assets" href="?tab=inspector" hidden>All assets ↗</a>
             <span id="inspector-list-count" class="muted">0</span>
           </div>
           <div id="inspector-asset-list" class="asset-list"></div>
@@ -147,10 +149,16 @@
             <label class="inline-toggle"><input id="insp-toggle-hitbox" type="checkbox" checked /> Hitbox</label>
             <label class="inline-toggle"><input id="insp-toggle-grid" type="checkbox" /> Pixel Grid</label>
             <label class="inline-toggle"><input id="insp-toggle-origin" type="checkbox" checked /> Pivot</label>
+            <label id="insp-previous-wrap" class="inline-toggle" hidden><input id="insp-previous" type="checkbox" /> Previous pose</label>
+            <label id="insp-source-wrap" class="inline-toggle" hidden><input id="insp-source" type="checkbox" /> Source crop</label>
           </div>
 
-          <div class="inspector-canvas-stage">
+          <div class="inspector-canvas-stage" id="insp-stage">
             <canvas id="inspector-canvas" class="pixel-canvas" width="256" height="256"></canvas>
+            <figure id="insp-source-figure" hidden>
+              <canvas id="insp-source-canvas" aria-label="Source crop with measured ground point"></canvas>
+              <figcaption id="insp-source-caption"></figcaption>
+            </figure>
           </div>
 
           <div class="transport-bar">
@@ -159,6 +167,11 @@
             <button id="insp-btn-next" type="button" class="btn-secondary" title="Next frame">Step ▶</button>
             <input id="insp-scrubber" type="range" min="0" max="3" value="0" class="scrubber" />
             <span id="insp-frame-label" class="frame-label">Frame 1 / 4</span>
+            <a id="insp-pose-link" class="pose-link" target="_blank" rel="noopener noreferrer" hidden>Open pose link ↗</a>
+            <span id="insp-pose-notice" role="status" hidden>This pose link is out of date or incomplete. Showing the first court actor.</span>
+            <label id="insp-timing-wrap" class="inline-toggle" hidden>
+              <input id="insp-use-timing" type="checkbox" checked /> Game timing
+            </label>
             <label class="inline-control">
               FPS
               <input id="insp-fps-range" type="range" min="1" max="24" value="8" class="fps-slider" />
@@ -174,6 +187,14 @@
               </select>
             </label>
           </div>
+          <details id="insp-attribution" hidden>
+            <summary>Art source and prompt</summary>
+            <p data-role="lineage"></p>
+            <p>Codex ImageGen input · <a data-role="input" target="_blank" rel="noopener noreferrer"></a></p>
+            <p>Generation prompt · <a data-role="prompt" target="_blank" rel="noopener noreferrer"></a></p>
+            <p>Input SHA-256 · <code data-role="digest"></code></p>
+            <blockquote data-role="request"></blockquote>
+          </details>
         </div>
 
         <aside id="inspector-meta" class="inspector-meta-col"></aside>

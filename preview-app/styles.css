@@ -612,6 +612,9 @@ input[type='search'] {
   border-bottom: none;
 }
 
+.pose-link {color: var(--jade-pale); font-size: 12px; text-underline-offset: 3px}
+#insp-pose-notice {color: var(--bronze-glow); font-size: 12px}
+
 .inspector-canvas-stage {
   flex: 1;
   display: grid;
@@ -625,6 +628,24 @@ input[type='search'] {
   flex: 1;
   min-width: 100px;
 }
+
+.inspector-canvas-stage.with-source {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+  gap: 16px;
+}
+.with-source > canvas {max-width: 100%; height: auto}
+#insp-source-figure {margin: 0; width: min(100%, 260px); min-width: 0}
+#insp-source-canvas {
+  display: block; width: 100%; height: auto; image-rendering: pixelated;
+  background: repeating-conic-gradient(#27232e 0 25%, #201c28 0 50%) 0 0 / 16px 16px;
+  border: 1px solid var(--ink-dark); box-sizing: border-box;
+}
+#insp-source-caption {font: 11px/1.5 ui-monospace, monospace; white-space: pre-line; overflow-wrap: anywhere; margin-top: 6px}
+#insp-attribution {padding: 10px 12px; font-size: 13px; overflow-wrap: anywhere}
+#insp-attribution summary {cursor: pointer}
+#insp-attribution p {margin: 5px 0}
+#insp-attribution a {color: var(--thunder-bright)}
+#insp-attribution blockquote {margin: 8px 0; padding-left: 12px; border-left: 2px solid currentColor; white-space: pre-wrap}
 
 .fps-slider {
   width: 72px;

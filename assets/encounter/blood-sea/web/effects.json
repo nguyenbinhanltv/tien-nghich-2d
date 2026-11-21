@@ -1,0 +1,429 @@
+{
+  "frames": {
+    "vfx/court_spirit_blade_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 16
+      },
+      "ground": [
+        12,
+        8
+      ]
+    },
+    "vfx/court_spirit_blade_1": {
+      "frame": {
+        "x": 24,
+        "y": 0,
+        "w": 24,
+        "h": 16
+      },
+      "ground": [
+        12,
+        8
+      ]
+    },
+    "vfx/court_spirit_blade_2": {
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 24,
+        "h": 16
+      },
+      "ground": [
+        12,
+        8
+      ]
+    },
+    "vfx/court_spirit_blade_3": {
+      "frame": {
+        "x": 72,
+        "y": 0,
+        "w": 24,
+        "h": 16
+      },
+      "ground": [
+        12,
+        8
+      ]
+    },
+    "vfx/court_hit_spark_0": {
+      "frame": {
+        "x": 0,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_hit_spark_1": {
+      "frame": {
+        "x": 32,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_hit_spark_2": {
+      "frame": {
+        "x": 64,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_hit_spark_3": {
+      "frame": {
+        "x": 96,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_hit_spark_4": {
+      "frame": {
+        "x": 128,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_hit_spark_5": {
+      "frame": {
+        "x": 160,
+        "y": 16,
+        "w": 32,
+        "h": 32
+      },
+      "ground": [
+        16,
+        16
+      ]
+    },
+    "vfx/court_seal_break_0": {
+      "frame": {
+        "x": 0,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_1": {
+      "frame": {
+        "x": 64,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_2": {
+      "frame": {
+        "x": 128,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_3": {
+      "frame": {
+        "x": 192,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_4": {
+      "frame": {
+        "x": 256,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_5": {
+      "frame": {
+        "x": 320,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_6": {
+      "frame": {
+        "x": 384,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_break_7": {
+      "frame": {
+        "x": 448,
+        "y": 48,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_claw_rake_0": {
+      "frame": {
+        "x": 0,
+        "y": 112,
+        "w": 120,
+        "h": 32
+      },
+      "ground": [
+        60,
+        16
+      ]
+    },
+    "vfx/court_claw_rake_1": {
+      "frame": {
+        "x": 120,
+        "y": 112,
+        "w": 120,
+        "h": 32
+      },
+      "ground": [
+        60,
+        16
+      ]
+    },
+    "vfx/court_claw_rake_2": {
+      "frame": {
+        "x": 240,
+        "y": 112,
+        "w": 120,
+        "h": 32
+      },
+      "ground": [
+        60,
+        16
+      ]
+    },
+    "vfx/court_claw_rake_3": {
+      "frame": {
+        "x": 360,
+        "y": 112,
+        "w": 120,
+        "h": 32
+      },
+      "ground": [
+        60,
+        16
+      ]
+    },
+    "vfx/court_claw_rake_4": {
+      "frame": {
+        "x": 480,
+        "y": 112,
+        "w": 120,
+        "h": 32
+      },
+      "ground": [
+        60,
+        16
+      ]
+    },
+    "vfx/court_seal_brand_0": {
+      "frame": {
+        "x": 0,
+        "y": 144,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_brand_1": {
+      "frame": {
+        "x": 64,
+        "y": 144,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_brand_2": {
+      "frame": {
+        "x": 128,
+        "y": 144,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_brand_3": {
+      "frame": {
+        "x": 192,
+        "y": 144,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_seal_brand_4": {
+      "frame": {
+        "x": 256,
+        "y": 144,
+        "w": 64,
+        "h": 64
+      },
+      "ground": [
+        32,
+        32
+      ]
+    },
+    "vfx/court_wail_mask_0": {
+      "frame": {
+        "x": 0,
+        "y": 208,
+        "w": 24,
+        "h": 28
+      },
+      "ground": [
+        12,
+        14
+      ]
+    },
+    "vfx/court_wail_mask_1": {
+      "frame": {
+        "x": 24,
+        "y": 208,
+        "w": 24,
+        "h": 28
+      },
+      "ground": [
+        12,
+        14
+      ]
+    },
+    "vfx/court_wail_mask_2": {
+      "frame": {
+        "x": 48,
+        "y": 208,
+        "w": 24,
+        "h": 28
+      },
+      "ground": [
+        12,
+        14
+      ]
+    },
+    "vfx/court_wail_mask_3": {
+      "frame": {
+        "x": 72,
+        "y": 208,
+        "w": 24,
+        "h": 28
+      },
+      "ground": [
+        12,
+        14
+      ]
+    },
+    "vfx/court_wail_mask_4": {
+      "frame": {
+        "x": 96,
+        "y": 208,
+        "w": 24,
+        "h": 28
+      },
+      "ground": [
+        12,
+        14
+      ]
+    }
+  },
+  "meta": {
+    "image": "effects.png",
+    "clips": {
+      "court_spirit_blade": {
+        "label": "Spirit blade",
+        "frames": 4
+      },
+      "court_hit_spark": {
+        "label": "Strike impact",
+        "frames": 6
+      },
+      "court_seal_break": {
+        "label": "Broken seal",
+        "frames": 8
+      },
+      "court_claw_rake": {
+        "label": "Claw rake",
+        "frames": 5
+      },
+      "court_seal_brand": {
+        "label": "Soul seal brand",
+        "frames": 5
+      },
+      "court_wail_mask": {
+        "label": "Wailing mask",
+        "frames": 5
+      }
+    }
+  }
+}

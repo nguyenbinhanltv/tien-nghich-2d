@@ -1,0 +1,167 @@
+{
+  "frames": {
+    "characters/boss_ghost_king/fracture_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/unbind_south_0": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/husk_south_0": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_south_1": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_south_2": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/fracture_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/unbind_east_0": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/husk_east_0": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_east_1": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/seal_release_east_2": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    }
+  },
+  "meta": {
+    "image": "ghost-release.png",
+    "timelines": {
+      "seal_release": [
+        {
+          "ms": 200,
+          "label": "Fracture"
+        },
+        {
+          "ms": 260,
+          "label": "Unbind"
+        },
+        {
+          "ms": 240,
+          "label": "Empty mantle"
+        }
+      ]
+    }
+  }
+}

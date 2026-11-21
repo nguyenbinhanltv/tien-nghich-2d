@@ -1,0 +1,195 @@
+{
+  "frames": {
+    "characters/boss_ghost_king/inhale_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/cry_south_0": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/spent_south_0": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_south_1": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_south_2": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_south_3": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/inhale_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/cry_east_0": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/spent_east_0": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_east_1": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_east_2": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/soul_wail_east_3": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    }
+  },
+  "meta": {
+    "image": "ghost-wail.png",
+    "timelines": {
+      "soul_wail": [
+        {
+          "ms": 920,
+          "label": "Draw breath"
+        },
+        {
+          "ms": 280,
+          "label": "Dodge window"
+        },
+        {
+          "ms": 250,
+          "label": "Wail"
+        },
+        {
+          "ms": 560,
+          "label": "Exhale"
+        }
+      ]
+    }
+  }
+}
