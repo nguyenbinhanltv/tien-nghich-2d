@@ -188,20 +188,29 @@ class LongtimeQATests(unittest.TestCase):
         # Verify offline chunk atlases match deterministic rebuild byte-for-byte
         if export.is_dir():
             with tempfile.TemporaryDirectory() as td:
-                rebuilt = ql.pack_chunks(self.manifest, res["sprites"], Path(td))
+                rebuilt = ql.pack_chunks(self.manifest, res["sprites"], Path(td) / "wave1")
                 for chunk in ("abode", "interface"):
+                    wave1_chunk_ids = sorted(a["id"] for a in self.selected if a["chunk_group"] == chunk)
                     for plat in ("web", "mobile"):
                         cm_path = export / plat / chunk / "chunk-manifest.json"
                         self.assertTrue(cm_path.is_file(), f"Missing {cm_path}")
                         disk = json.loads(cm_path.read_text(encoding="utf-8"))
                         self.assertEqual(disk["readiness"], "packed")
+                        self.assertTrue(set(wave1_chunk_ids).issubset(disk["asset_ids"]))
+                        if disk["asset_ids"] == wave1_chunk_ids:
+                            expected_chunk = rebuilt[chunk][plat]
+                        else:
+                            cum_sel = ql.select_assets(self.manifest, wave=None, agent=None, ids=disk["asset_ids"])
+                            cum_res = ql.validate_group(self.manifest, proc, self.palette, self.outline, cum_sel, source_root=src)
+                            self.assertEqual([i for i in cum_res["issues"] if i["severity"] == "error"], [])
+                            expected_chunk = ql.pack_chunks(self.manifest, cum_res["sprites"], Path(td) / f"{chunk}_{plat}")[chunk][plat]
                         self.assertEqual(
                             [p["png_sha256"] for p in disk["pages"]],
-                            [p["png_sha256"] for p in rebuilt[chunk][plat]["pages"]],
+                            [p["png_sha256"] for p in expected_chunk["pages"]],
                         )
                         self.assertEqual(
                             [p["json_sha256"] for p in disk["pages"]],
-                            [p["json_sha256"] for p in rebuilt[chunk][plat]["pages"]],
+                            [p["json_sha256"] for p in expected_chunk["pages"]],
                         )
 
 
