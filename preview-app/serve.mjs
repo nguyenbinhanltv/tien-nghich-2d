@@ -95,10 +95,21 @@ export async function buildPreviewIndex() {
   };
 }
 
-export function createPreviewServer() {
-  return http.createServer(async (req, res) => {
+function publicPath(relative) {
+  return !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>
+    !['..', '.git', '.inspector-revisions'].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
+}
+
+export function createPreviewServer({ revisionDir } = {}) {
+  let editor;
+  const server = http.createServer(async (req, res) => {
     try {
       const urlObj = new URL(req.url || '/', 'http://127.0.0.1');
+      if (urlObj.pathname.startsWith('/api/editor/')) {
+        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir));
+        await (await editor).handle(req, res, urlObj, server.address());
+        return;
+      }
       let reqPath = decodeURIComponent(urlObj.pathname);
 
       if (reqPath === '/') {
@@ -126,7 +137,7 @@ export function createPreviewServer() {
       // Resolve safely inside REPO_ROOT
       const cleaned = reqPath.replace(/^\/+/, '');
       let absPath = path.resolve(REPO_ROOT, cleaned);
-      if (!absPath.startsWith(REPO_ROOT + path.sep) && absPath !== REPO_ROOT) {
+      if (!publicPath(cleaned) || !publicPath(path.relative(REPO_ROOT, absPath))) {
         res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('Forbidden');
         return;
@@ -145,6 +156,12 @@ export function createPreviewServer() {
         return;
       }
 
+      absPath = await fs.realpath(absPath);
+      if (!publicPath(path.relative(await fs.realpath(REPO_ROOT), absPath))) {
+        res.writeHead(403);
+        res.end('Forbidden');
+        return;
+      }
       const ext = path.extname(absPath).toLowerCase();
       const mime = MIME_TYPES[ext] || 'application/octet-stream';
       const body = await fs.readFile(absPath);
@@ -155,24 +172,28 @@ export function createPreviewServer() {
       res.end(body);
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end(`Server error: ${err.message}`);
+      res.end('Server error');
     }
   });
+  server.on('close', () => editor?.then(api => api.close(), () => {}));
+  return server;
 }
 
 function parseArgs(argv) {
   let port = Number(process.env.PORT || 4173);
   let host = process.env.HOST || '127.0.0.1';
+  let revisionDir;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--port' && argv[i + 1]) port = Number(argv[++i]);
     else if (argv[i] === '--host' && argv[i + 1]) host = argv[++i];
+    else if (argv[i] === '--revision-dir' && argv[i + 1]) revisionDir = argv[++i];
   }
-  return { port, host };
+  return { port, host, revisionDir };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
-  const { port, host } = parseArgs(process.argv.slice(2));
-  const server = createPreviewServer();
+  const { port, host, revisionDir } = parseArgs(process.argv.slice(2));
+  const server = createPreviewServer({ revisionDir });
   server.listen(port, host, () => {
     const addr = server.address();
     console.log(`Tien Nghich 2D Previewer serving repo root at http://${host}:${addr.port}/preview-app/`);
