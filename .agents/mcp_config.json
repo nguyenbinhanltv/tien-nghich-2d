@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "studio": {
+      "command": "node",
+      "args": ["studio/mcp.mjs", "--agent", "antigravity"],
+      "timeoutSeconds": 60
+    }
+  }
+}

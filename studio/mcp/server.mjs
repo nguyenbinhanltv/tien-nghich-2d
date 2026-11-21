@@ -185,21 +185,27 @@ export class McpServer {
 }
 
 // ---- stdio binding ------------------------------------------------------------------------
-const MAX_LINE_BYTES = 8 * 1024 * 1024;
+export const DEFAULT_MAX_LINE_BYTES = 8 * 1024 * 1024;
 
 /**
  * Newline-delimited JSON-RPC over a readable/writable pair. Only protocol messages are ever written
  * to `output`; diagnostics go to stderr. Resolves when `input` ends and in-flight calls finish.
+ *
+ * A line longer than `maxLineBytes` (UTF-8 bytes, not characters) is never parsed: it is answered
+ * with one -32700 "message too large" and skipped up to its terminating newline, however many
+ * chunks it spans, then the stream resynchronises.
  */
-export function serveStdio({ input, output, server }) {
+export function serveStdio({ input, output, server, maxLineBytes = DEFAULT_MAX_LINE_BYTES }) {
   const send = (obj) => output.write(JSON.stringify(obj) + '\n');
+  const tooLarge = () => send(errorResponse(null, ERR.PARSE, `message too large (limit ${maxLineBytes} bytes)`));
   const inflight = new Set();
   let buf = '';
-  let discarding = false;
+  let discarding = false; // inside an oversized line whose newline has not arrived yet
 
   const handleLine = (line) => {
     line = line.replace(/\r$/, '');
     if (!line.trim()) return; // blank lines are not messages; ignore, never echo
+    if (Buffer.byteLength(line, 'utf8') > maxLineBytes) return tooLarge();
     let parsed;
     try {
       parsed = JSON.parse(line);
@@ -217,18 +223,24 @@ export function serveStdio({ input, output, server }) {
   return new Promise((resolve) => {
     input.setEncoding('utf8');
     input.on('data', (chunk) => {
+      if (discarding) {
+        const nl = chunk.indexOf('\n');
+        if (nl < 0) return; // still inside the oversized line: drop, say nothing more
+        chunk = chunk.slice(nl + 1);
+        discarding = false;
+      }
       buf += chunk;
       let i;
       while ((i = buf.indexOf('\n')) >= 0) {
         const line = buf.slice(0, i);
         buf = buf.slice(i + 1);
-        if (discarding) { discarding = false; continue; }
         handleLine(line);
       }
-      if (buf.length > MAX_LINE_BYTES) { // no newline in 8 MiB: refuse, resync at the next newline
+      // No newline yet. Characters <= bytes, so only measure bytes once the character count could matter.
+      if (buf.length > maxLineBytes / 4 && Buffer.byteLength(buf, 'utf8') > maxLineBytes) {
         buf = '';
         discarding = true;
-        send(errorResponse(null, ERR.PARSE, 'message too large'));
+        tooLarge();
       }
     });
     input.on('end', async () => {
