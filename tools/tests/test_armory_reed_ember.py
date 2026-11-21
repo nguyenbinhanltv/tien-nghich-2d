@@ -98,30 +98,43 @@ class ArmoryReedEmberTests(unittest.TestCase):
         self.assertEqual(len(res["sprites"]), 10)
 
         with tempfile.TemporaryDirectory() as td:
-            rebuilt = ql.pack_chunks(manifest, res["sprites"], Path(td))
             for platform in ("web", "mobile"):
                 chunk_dir = ROOT / "assets/atlases_longtime" / platform / CHUNK
                 cm = json.loads((chunk_dir / "chunk-manifest.json").read_bytes())
-                self.assertEqual(cm["asset_ids"], sorted(ARMORY_IDS))
-                self.assertEqual(cm["frame_count"], 10)
+                self.assertTrue(set(ARMORY_IDS).issubset(cm["asset_ids"]))
+                self.assertGreaterEqual(cm["frame_count"], 10)
                 self.assertEqual(cm["page_count"], 1)
                 self.assertEqual(cm["readiness"], "packed")
                 page = cm["pages"][0]
                 self.assertEqual(sha(chunk_dir / page["image"]), page["png_sha256"])
                 self.assertEqual(sha(chunk_dir / page["json"]), page["json_sha256"])
+
+                # Deterministic rebuild of the full cumulative armory chunk matches disk byte-for-byte
+                cum_selected = ql.select_assets(manifest, wave=None, agent=None, ids=cm["asset_ids"])
+                cum_res = ql.validate_group(
+                    manifest,
+                    ROOT / "assets/processed_longtime",
+                    palette,
+                    outline,
+                    cum_selected,
+                    source_root=ROOT / "assets/raw/longtime",
+                )
+                self.assertEqual([i for i in cum_res["issues"] if i["severity"] == "error"], [])
+                rebuilt = ql.pack_chunks(manifest, cum_res["sprites"], Path(td) / platform)
                 self.assertEqual(page["png_sha256"], rebuilt[CHUNK][platform]["pages"][0]["png_sha256"])
                 self.assertEqual(page["json_sha256"], rebuilt[CHUNK][platform]["pages"][0]["json_sha256"])
                 self.assertEqual(sha(chunk_dir / "chunk-manifest.json"), rebuilt[CHUNK][platform]["manifest_sha256"])
 
                 data = json.loads((chunk_dir / page["json"]).read_bytes())
-                self.assertEqual(set(data["frames"]), set(res["sprites"]))
+                self.assertTrue(set(res["sprites"]).issubset(data["frames"]))
                 with Image.open(chunk_dir / page["image"]) as atlas:
                     if platform == "mobile":
                         self.assertEqual(cm["mobile_page_budget"], 1)
                         self.assertLessEqual(cm["page_count"], 1)
                         self.assertEqual((data["meta"]["padding"], data["meta"]["extrude"]), (2, 1))
                         self.assertTrue(all(s <= 1024 and (s & (s - 1)) == 0 for s in atlas.size))
-                    for key, entry in data["frames"].items():
+                    for key in sorted(res["sprites"]):
+                        entry = data["frames"][key]
                         is_shot = "_shot/" in key
                         r = entry["frame"]
                         x, y, w, h = r["x"], r["y"], r["w"], r["h"]
