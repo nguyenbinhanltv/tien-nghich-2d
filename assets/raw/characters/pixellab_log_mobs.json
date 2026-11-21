@@ -1,0 +1,832 @@
+{
+ "entries": [
+  {
+   "id": "mob_rogue_disciple",
+   "character_uuid": "15c1ba8d-d226-4921-8393-860548acea92",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_rogue_disciple",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 44,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:00:56Z",
+   "seconds": 4.1,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_courtyard_guard",
+   "character_uuid": "e99be495-c48b-4e07-a586-cea27dadda7f",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_courtyard_guard",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     48,
+     48
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:01:44Z",
+   "seconds": 3.6,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_sword_acolyte",
+   "character_uuid": "c970a9ea-02b7-43d0-b80e-3cb5e3dac988",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_sword_acolyte",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 44,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:02:33Z",
+   "seconds": 3.3,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_demonic_talisman",
+   "character_uuid": "cfe213fe-aea7-4fd0-a8b2-326061e87e0f",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_demonic_talisman",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ],
+    [
+     48,
+     48
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:04:09Z",
+   "seconds": 4.0,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_blood_corpse",
+   "character_uuid": "f0ec114d-d0c8-4bd0-8feb-78e71d64024a",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_blood_corpse",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:05:01Z",
+   "seconds": 3.1,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_stone_puppet",
+   "character_uuid": "0410a757-0f17-4592-bd30-e2279e022ca3",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_stone_puppet",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:08:55Z",
+   "seconds": 3.1,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_stone_archer_puppet",
+   "character_uuid": "6b7568f2-a459-42ae-aea0-5a5b6f1ad5b2",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_stone_archer_puppet",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:10:00Z",
+   "seconds": 4.6,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_chain_warden",
+   "character_uuid": "6b3044f6-56fb-4c32-aaca-0b6e813014d9",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_chain_warden",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 6,
+     "south": 6
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 52,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:11:10Z",
+   "seconds": 4.4,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_vengeful_soul",
+   "character_uuid": "1b71df22-e26a-41c6-af7c-74938a3ffcf3",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_vengeful_soul",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:12:11Z",
+   "seconds": 5.2,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_blood_pool_lurker",
+   "character_uuid": "0b70ab2e-89fb-4509-980c-192b763e61d3",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_blood_pool_lurker",
+   "canvas_sizes_found": [
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 6,
+     "south": 6
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 4,
+     "south": 4
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 48,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 3.8
+   },
+   "fetched_utc": "2026-11-20T19:14:28Z",
+   "seconds": 4.7,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_blood_crow",
+   "character_uuid": "d708e12d-4fb7-4d6d-8043-aef772f0a6b1",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_blood_crow",
+   "canvas_sizes_found": [
+    [
+     40,
+     40
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 44,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 5.1
+   },
+   "fetched_utc": "2026-11-20T19:15:22Z",
+   "seconds": 2.7,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_herb_viper",
+   "character_uuid": "273f2c9e-7050-4eff-8545-4860ade63cf5",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_herb_viper",
+   "canvas_sizes_found": [
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 44,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 2.3
+   },
+   "fetched_utc": "2026-11-20T19:16:26Z",
+   "seconds": 2.5,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_blood_wolf",
+   "character_uuid": "e2cb592b-d057-4924-a56e-ef776e24189d",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_blood_wolf",
+   "canvas_sizes_found": [
+    [
+     44,
+     44
+    ],
+    [
+     48,
+     48
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 4,
+     "south": 4
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 4,
+     "south": 4
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 44,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 2.8
+   },
+   "fetched_utc": "2026-11-20T19:17:41Z",
+   "seconds": 2.6,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_void_eater",
+   "character_uuid": "4e06734c-7798-48ed-96e9-fdd32a4ee2b5",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_void_eater",
+   "canvas_sizes_found": [
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 52,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 4.3
+   },
+   "fetched_utc": "2026-11-20T19:19:54Z",
+   "seconds": 7.0,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  },
+  {
+   "id": "mob_rune_sentinel",
+   "character_uuid": "e19a8a4c-2c8a-4f2f-b93d-3abdee4296c2",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/mobs/mob_rune_sentinel",
+   "canvas_sizes_found": [
+    [
+     40,
+     40
+    ]
+   ],
+   "frames_per_dir": {
+    "attack": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 4,
+     "south": 4
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 52,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 84.0,
+    "mean_off_palette_pct": 11.0
+   },
+   "fetched_utc": "2026-11-20T19:22:40Z",
+   "seconds": 3.2,
+   "error": null,
+   "tool": "create_character(v3)+animate_character(template idle/move, v3 custom attack/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)"
+  }
+ ]
+}
