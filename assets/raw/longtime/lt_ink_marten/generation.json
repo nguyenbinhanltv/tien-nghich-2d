@@ -1,0 +1,31 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-2, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, cat template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "ab421aa9-eab8-4193-b396-75d6dd6e3582",
+  "character_job_id": "ea2b36be-b7ee-4ac0-9437-34d0bd87f6dd",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small ink marten, slender weasel-like animal standing on all four legs, glossy dark ink-black fur, a very long thick ink-black tail trailing behind it, cream-white muzzle and chest. Large upright rounded ears. The LEFT ear has a bright cream-white triangular notch cut out of its tip, clearly visible as a pale gap; the RIGHT ear is solid dark and whole. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3", "frame_count": 4, "keep_first_frame": false, "animation_group_id": "d415ee48-2587-4157-976b-c16aaa4357da",
+      "job_ids": {"south": "1c025ce9-ac2d-42af-b9c2-a0e62f4a352c", "west": "cf1a997b-b7ca-4315-ad1b-0d0b9ce6f2a9", "north": "a4ffe150-7d08-418d-b081-518839bab8ce", "east": "a18f16f9-da34-4c9b-8085-fd4844ceacc1"},
+      "action_description": "stands on all four legs breathing gently, the long ink-black tail sways slowly, ears twitch slightly; the pale notch stays in the tip of its left ear",
+      "direction_prompts": {"south": "facing the viewer on all four legs, breathes gently, long tail sways behind; the cream notch stays visible in the tip of the ear on the viewer's right (its left ear)", "west": "facing left on all four legs, breathes gently, long tail sways behind on the right; the cream notch stays in the tip of its nearer left ear", "north": "seen from behind on all four legs, breathes gently, long tail sways; the cream notch stays in the tip of the ear on the viewer's left? no: its left ear is on the viewer's left when seen from behind", "east": "facing right on all four legs, breathes gently, long tail sways behind on the left; the cream notch stays in the tip of its left ear"},
+      "note": "the north prompt was sent with a stray self-correction ('? no:') left in the text; recorded verbatim"
+    },
+    "follow": {
+      "mode": "v3", "frame_count": 4, "keep_first_frame": false, "animation_group_id": "529059a3-e9bc-4ff2-b19f-524e8712fd69",
+      "job_ids": {"south": "070019b7-13ca-4819-a80b-8032e52f985c", "west": "92b8d48d-72f3-4c52-b8af-728c6f2974e1", "north": "dcc9d13d-4b36-4a53-bbc2-905ed959bd14", "east": "18234787-f394-41e5-9edd-6c203390f5e9"},
+      "action_description": "trots forward on all four legs in a quick bounding walk cycle, the long ink-black tail streams behind it; the pale notch stays in the tip of its left ear",
+      "direction_prompts": {"south": "trots toward the viewer on all four legs in a compact narrow trot, only the legs move; the long tail trails straight behind the body and stays hidden or directly behind it, never swinging out to the sides; the cream notch stays visible in the tip of the ear on the viewer's right (its left ear)  [second attempt, south only]", "west": "trots to the left on all four legs, long tail streaming out to the right behind it; the cream notch stays in the tip of its nearer left ear", "north": "trots away from the viewer, seen from behind, on all four legs, long tail swaying; its left ear with the cream notch is on the viewer's left", "east": "trots to the right on all four legs, long tail streaming out to the left behind it; the cream notch stays in the tip of its left ear"}
+    }
+  },
+  "attempts": [
+    {"n": 1, "what": "first character generation (character id d79fd6b0-d370-411c-a144-eef81f899b67, prompt without the enlarged-ear/notch emphasis)", "credits": 6, "result": "rejected before animating: pale ear notch indistinguishable from ear highlights. Character left in the PixelLab account, not shipped."},
+    {"n": 2, "what": "second character generation (the one shipped), then idle and follow v3 for 4 directions", "credits": 14, "result": "accepted for integration with flags"},
+    {"n": 3, "what": "follow south only, re-generated because the first output swung the tail out to 40 px wide (does not fit 32 px) and appended to the same group", "credits": 1, "result": "accepted"}
+  ],
+  "credits_spent": {"character_rejected": 6, "character_shipped": 6, "animations": 8, "follow_south_regen": 1, "total_generations": 21, "balance_before_both_characters": 848.26},
+  "known_flaws": ["pale left-ear notch is clearly readable in south and east only; in west and north it is not visible (back view and near-side ear are dark), a limit of the rotation stage that animation prompts cannot fix", "dark ink fur on a dark outline gives low internal contrast at 1x", "north facing reads as a dark blob; the tail is only a lower mass"]
+}

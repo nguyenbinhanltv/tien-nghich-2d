@@ -1,0 +1,30 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-2, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette) then animate_character v3 per direction. East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "25ff49d2-2e19-46f7-8dbd-c8bf287c6963",
+  "character_job_id": "3f87046f-4384-465f-97ab-22a23dde7b27",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Elderly xianxia kiln keeper, small human in a plain grey-blue robe, one leather apron strapped over the character's RIGHT shoulder only (asymmetric), holding a very long iron tongs in the RIGHT hand extending down and forward, bald head with a small grey topknot, soot-smudged, calm face. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3", "frame_count": 4, "keep_first_frame": false, "animation_group_id": "3daa3ac2-009a-46bf-8a7a-1af82557fceb",
+      "job_ids": {"south": "97cb776f-d3cb-4edf-9852-cb4f204295f1", "west": "d805e1a6-6e98-490e-acbc-a68cbc4f4b0f", "north": "cdb987ee-c566-4ff8-8f5c-46c58c9937bb", "east": "73fa2e6e-8a74-4ac0-a8c1-b712fd2e3566"},
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling, the long iron tongs stay held low in the same right hand and stay clearly visible",
+      "direction_prompts": {"south": "facing the viewer, breathes gently; the long tongs stay held low in his right hand on the viewer's left, always visible", "west": "facing left, breathes gently; the long tongs stay held low in front of him pointing left, always visible", "north": "back to the viewer, breathes gently; the long tongs stay held low in his right hand on the viewer's right side, always visible", "east": "facing right, breathes gently; the long tongs stay held low in front of him pointing right, always visible"}
+    },
+    "interact": {
+      "mode": "v3", "frame_count": 4, "keep_first_frame": false, "animation_group_id": "2b8dceb2-8a64-42ea-a9ed-cf755771e3c8",
+      "job_ids": {"south": "93eec7d7-4a4c-48e1-bb45-1f76dedd5ee7", "west": "cc07340b-65a5-4bfa-9df3-b12f6d10f472", "north": "7e6bb78e-2384-417d-8ab6-a462609f5933", "east": "e1091ed6-572f-4c33-a514-e6b325fac64c"},
+      "action_description": "holds out the long iron tongs a little forward and up, as if presenting a hot ingot, then brings them back down; the tongs always stay in the same right hand and stay clearly visible; the other hand stays at his side",
+      "direction_prompts": {"south": "facing the viewer, lifts the long tongs in his right hand (the viewer's left side of the screen) slightly forward and up, then lowers; tongs never cross to the viewer's right", "west": "facing left, holds the long tongs out in front toward the left a little higher, then lowers them; tongs stay on the left", "north": "seen from behind, his right arm is on the viewer's RIGHT; the long dark iron tongs are held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly upward and outward to the viewer's right, then lowered; nothing is held on the viewer's left (second attempt, north only)", "east": "facing right, holds the long tongs out in front toward the right a little higher, then lowers them; tongs stay on the right and do not rise above his head"}
+    }
+  },
+  "attempts": [
+    {"n": 1, "what": "idle = template breathing-idle (4 dir), interact = v3 (4 dir), same character", "credits": 8, "result": "rejected: idle west and north lost the tongs, interact north on the wrong side, interact south frame 3 flipped, interact east tongs above head. Raw discarded (not shipped)."},
+    {"n": 2, "what": "both clips re-generated as palette-locked v3 with explicit per-direction prompts (regeneration 1 of idle and interact)", "credits": 8, "result": "accepted except interact north"},
+    {"n": 3, "what": "interact north only, re-generated and appended to the same group (regeneration 2 of interact)", "credits": 1, "result": "accepted"}
+  ],
+  "credits_spent": {"character": 6, "animations_attempt_1": 8, "animations_attempt_2": 8, "animation_attempt_3": 1, "total_generations": 23, "balance_before": 848.26},
+  "known_flaws": ["idle west frames 1-3: the beard flicks out as a pale wisp (reads as beard sway at 1x)", "tongs are a thin low-contrast silhouette at 1x in idle west/east"]
+}
