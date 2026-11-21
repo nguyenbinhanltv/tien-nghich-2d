@@ -1,0 +1,655 @@
+{
+  "schema": "tien-nghich-2d.longtime-design",
+  "version": "1.0.0",
+  "phase": "A",
+  "base": {
+    "commit": "4a8c155d150bc56c9e71265866bde87a00d1e0a9",
+    "contracts": [
+      [
+        "assets/manifest.json",
+        90,
+        "ec47ad0378f1649f3f45d7e8fb628f072186e33eb6634cc2d9753c0d6c4e045e"
+      ],
+      [
+        "assets/processed/vfx/vfx_index.json",
+        12,
+        "52067533596aee2c5ca578934ed400f4b546767c664650bf705ba2a26d00216a"
+      ]
+    ]
+  },
+  "defaults": {
+    "readiness": "planned",
+    "provenance": "Proposed adaptation artwork. On authorship record tool, prompt, source hash, rights and parent IDs.",
+    "palette": "tools/generators/palette.json",
+    "source": "assets/raw/longtime/{id}/",
+    "processed": "assets/processed_longtime/{id}/{clip}_{direction}_{n}.png",
+    "export": "assets/atlases_longtime/{platform}/{chunk_group}/",
+    "key": "longtime/{id}/{clip}_{direction}_{n}"
+  },
+  "mobile": {
+    "page": [
+      1024,
+      1024
+    ],
+    "padding": 2,
+    "extrude": 1,
+    "bytes_per_pixel": 4
+  },
+  "chunks": {
+    "abode": 1,
+    "forms": 2,
+    "mist_archive": 3,
+    "ember_delta": 3,
+    "star_quarry": 3,
+    "trial": 2,
+    "armory": 1,
+    "wards": 1,
+    "interface": 1
+  },
+  "profiles": {
+    "player": {
+      "category": "player",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        29
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          4,
+          160
+        ],
+        "walk": [
+          6,
+          100
+        ],
+        "cast": [
+          6,
+          90
+        ],
+        "hurt": [
+          2,
+          130
+        ]
+      }
+    },
+    "pet": {
+      "category": "pet",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        29
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          4,
+          180
+        ],
+        "follow": [
+          4,
+          120
+        ]
+      }
+    },
+    "npc": {
+      "category": "npc",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        29
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          4,
+          200
+        ],
+        "interact": [
+          4,
+          140
+        ]
+      }
+    },
+    "mob": {
+      "category": "mob",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        29
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          3,
+          160
+        ],
+        "walk": [
+          4,
+          120
+        ],
+        "telegraph": [
+          3,
+          160
+        ],
+        "strike": [
+          4,
+          90
+        ]
+      }
+    },
+    "boss": {
+      "category": "boss",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        64,
+        64
+      ],
+      "pivot_px": [
+        32,
+        61
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          4,
+          180
+        ],
+        "advance": [
+          4,
+          140
+        ],
+        "telegraph": [
+          4,
+          180
+        ],
+        "strike": [
+          6,
+          100
+        ]
+      }
+    },
+    "boss_large": {
+      "category": "boss",
+      "assigned_agent": "pixellab",
+      "native_px": [
+        96,
+        96
+      ],
+      "pivot_px": [
+        48,
+        93
+      ],
+      "directions": [
+        "south",
+        "west",
+        "north",
+        "east"
+      ],
+      "clips": {
+        "idle": [
+          4,
+          180
+        ],
+        "advance": [
+          4,
+          140
+        ],
+        "telegraph": [
+          4,
+          180
+        ],
+        "strike": [
+          6,
+          100
+        ]
+      }
+    },
+    "terrain": {
+      "category": "tileset",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        16,
+        16
+      ],
+      "pivot_px": [
+        0,
+        0
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "floor": [
+          4,
+          0
+        ],
+        "edge": [
+          16,
+          0
+        ],
+        "wall_cap": [
+          4,
+          0
+        ]
+      }
+    },
+    "forge": {
+      "category": "facility",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        29
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "cold": [
+          1,
+          0
+        ],
+        "hot": [
+          4,
+          160
+        ]
+      }
+    },
+    "plot": {
+      "category": "facility",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        32,
+        16
+      ],
+      "pivot_px": [
+        16,
+        13
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "bare": [
+          1,
+          0
+        ],
+        "sprout": [
+          1,
+          0
+        ],
+        "ripe": [
+          1,
+          0
+        ]
+      }
+    },
+    "gate": {
+      "category": "facility",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        32,
+        48
+      ],
+      "pivot_px": [
+        16,
+        45
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "sealed": [
+          1,
+          0
+        ],
+        "open": [
+          1,
+          0
+        ]
+      }
+    },
+    "weapon": {
+      "category": "weapon",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        24,
+        24
+      ],
+      "pivot_px": [
+        12,
+        18
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "held": [
+          1,
+          0
+        ]
+      }
+    },
+    "relic": {
+      "category": "weapon",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        24
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "held": [
+          1,
+          0
+        ]
+      }
+    },
+    "shot": {
+      "category": "projectile",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        16,
+        16
+      ],
+      "pivot_px": [
+        8,
+        8
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "flight": [
+          4,
+          80
+        ]
+      }
+    },
+    "ward": {
+      "category": "tower",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        32,
+        48
+      ],
+      "pivot_px": [
+        16,
+        45
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "idle": [
+          1,
+          0
+        ],
+        "charge": [
+          4,
+          120
+        ],
+        "release": [
+          3,
+          80
+        ]
+      }
+    },
+    "icon": {
+      "category": "icon",
+      "assigned_agent": "codex_antigravity",
+      "native_px": [
+        16,
+        16
+      ],
+      "pivot_px": [
+        8,
+        8
+      ],
+      "directions": [
+        "none"
+      ],
+      "clips": {
+        "glyph": [
+          1,
+          0
+        ]
+      }
+    }
+  },
+  "mode_assets": {
+    "core": [
+      "wl_outer_disciple",
+      "ts_hengyue",
+      "ts_blood_valley",
+      "ts_ancient_god",
+      "ui_card_frame",
+      "lt_mist_archive",
+      "lt_ember_delta",
+      "lt_star_quarry"
+    ],
+    "abode": [
+      "wp_heaven_defying_bead",
+      "prop_alchemy_jar",
+      "lt_kiln_keeper",
+      "lt_ink_marten",
+      "lt_kiln",
+      "lt_herb_bed",
+      "lt_moon_gate",
+      "lt_icon_seed"
+    ],
+    "endless": [
+      "cam_che_tran_phap",
+      "lt_icon_floor_five",
+      "lt_icon_pressure",
+      "lt_icon_bank",
+      "lt_ashen_crown"
+    ],
+    "trial": [
+      "charge_up",
+      "lt_mirror_adjudicator",
+      "lt_icon_trial_ticket",
+      "lt_icon_oath"
+    ],
+    "defense": [
+      "ui_hud_bars",
+      "lt_ward_anchor",
+      "lt_ward_mirror",
+      "lt_ward_thorn",
+      "lt_ward_tide",
+      "lt_ward_flare",
+      "lt_ward_bell",
+      "lt_icon_wave_clock"
+    ]
+  },
+  "wave_1": [
+    "lt_abode_stone",
+    "lt_kiln",
+    "lt_herb_bed",
+    "lt_moon_gate",
+    "lt_kiln_keeper",
+    "lt_ink_marten",
+    "lt_icon_seed",
+    "lt_icon_ingot",
+    "lt_icon_kiln_heat"
+  ],
+  "assets": [
+    {"id":"lt_abode_stone","profile":"terrain","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Damp flagstones, ink seams and a pale threshold.","dependencies":["ts_hengyue"]},
+    {"id":"lt_kiln","profile":"forge","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Cold dark mouth; an orange crucible silhouette when hot.","dependencies":["prop_alchemy_jar"]},
+    {"id":"lt_herb_bed","profile":"plot","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Raised bed; bare soil, split leaf and hanging seed pod.","dependencies":["prop_spirit_herb"]},
+    {"id":"lt_moon_gate","profile":"gate","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Unbroken seal disk when shut; clear walk-through opening when unlocked.","dependencies":["prop_teleport_array"]},
+    {"id":"lt_kiln_keeper","profile":"npc","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Long tongs, one shoulder apron","dependencies":[]},
+    {"id":"lt_seed_broker","profile":"npc","chunk_group":"abode","phase":"later","method":"new_source","brief":"Seed pouches on a carrying pole","dependencies":[]},
+    {"id":"lt_seal_scribe","profile":"npc","chunk_group":"abode","phase":"later","method":"new_source","brief":"Wide brush and rolled seal","dependencies":[]},
+    {"id":"lt_chart_reader","profile":"npc","chunk_group":"abode","phase":"later","method":"new_source","brief":"Square astrolabe","dependencies":[]},
+    {"id":"lt_bell_founder","profile":"npc","chunk_group":"abode","phase":"later","method":"new_source","brief":"Handbell and leather glove","dependencies":[]},
+    {"id":"lt_ward_mason","profile":"npc","chunk_group":"abode","phase":"later","method":"new_source","brief":"Stone chisel at the hip","dependencies":[]},
+    {"id":"lt_ink_marten","profile":"pet","chunk_group":"abode","phase":"wave_1","method":"new_source","brief":"Long ink tail, pale ear notch","dependencies":[]},
+    {"id":"lt_reed_crane","profile":"pet","chunk_group":"abode","phase":"later","method":"new_source","brief":"Folded reed wings","dependencies":[]},
+    {"id":"lt_coal_toad","profile":"pet","chunk_group":"abode","phase":"later","method":"new_source","brief":"Coal sac below the jaw","dependencies":[]},
+    {"id":"lt_star_hare","profile":"pet","chunk_group":"abode","phase":"later","method":"new_source","brief":"Single bright ear tip","dependencies":[]},
+    {"id":"lt_bronze_cicada","profile":"pet","chunk_group":"abode","phase":"later","method":"new_source","brief":"Raised wing cases","dependencies":[]},
+    {"id":"lt_mist_carp","profile":"pet","chunk_group":"abode","phase":"later","method":"new_source","brief":"Forked ribbon tail","dependencies":[]},
+    {"id":"lt_ink_veil","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Veil covers the left shoulder","dependencies":["wl_extreme_jing"]},
+    {"id":"lt_river_oath","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Long split river sash","dependencies":["wl_extreme_jing"]},
+    {"id":"lt_star_vessel","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Circular bronze backplate","dependencies":["wl_extreme_jing"]},
+    {"id":"lt_ashen_crown","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Broken ash-colored crown","dependencies":["wl_extreme_jing"]},
+    {"id":"lt_mist_archive","profile":"terrain","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Paper walls, ink drains and seal-block threshold.","dependencies":[]},
+    {"id":"lt_scroll_moth","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the scroll moth silhouette before its strike.","dependencies":["lt_mist_archive"]},
+    {"id":"lt_wax_sentinel","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the wax sentinel silhouette before its strike.","dependencies":["lt_mist_archive"]},
+    {"id":"lt_ink_leech","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the ink leech silhouette before its strike.","dependencies":["lt_mist_archive"]},
+    {"id":"lt_folio_hound","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the folio hound silhouette before its strike.","dependencies":["lt_mist_archive"]},
+    {"id":"lt_binding_archivist","profile":"boss","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Fan of scroll spines opens before a binding sweep.","dependencies":["lt_mist_archive"]},
+    {"id":"lt_ember_delta","profile":"terrain","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Ash banks, slag channels and glowing kiln caps.","dependencies":[]},
+    {"id":"lt_ash_skater","profile":"mob","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Show the ash skater silhouette before its strike.","dependencies":["lt_ember_delta"]},
+    {"id":"lt_kiln_crab","profile":"mob","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Show the kiln crab silhouette before its strike.","dependencies":["lt_ember_delta"]},
+    {"id":"lt_cinder_heron","profile":"mob","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Show the cinder heron silhouette before its strike.","dependencies":["lt_ember_delta"]},
+    {"id":"lt_ember_diver","profile":"mob","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Show the ember diver silhouette before its strike.","dependencies":["lt_ember_delta"]},
+    {"id":"lt_furnace_ferryman","profile":"boss","chunk_group":"ember_delta","phase":"later","method":"new_source","brief":"Raised furnace paddle signals a broadside.","dependencies":["lt_ember_delta"]},
+    {"id":"lt_star_quarry","profile":"terrain","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Cut stone, brass survey lines and fractured ledges.","dependencies":[]},
+    {"id":"lt_shard_mole","profile":"mob","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Show the shard mole silhouette before its strike.","dependencies":["lt_star_quarry"]},
+    {"id":"lt_orbit_wasp","profile":"mob","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Show the orbit wasp silhouette before its strike.","dependencies":["lt_star_quarry"]},
+    {"id":"lt_slate_carrier","profile":"mob","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Show the slate carrier silhouette before its strike.","dependencies":["lt_star_quarry"]},
+    {"id":"lt_seam_stalker","profile":"mob","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Show the seam stalker silhouette before its strike.","dependencies":["lt_star_quarry"]},
+    {"id":"lt_hollow_astrolabe","profile":"boss_large","chunk_group":"star_quarry","phase":"later","method":"new_source","brief":"Broken orbital rings align before a radial strike.","dependencies":["lt_star_quarry"]},
+    {"id":"lt_mirror_adjudicator","profile":"boss_large","chunk_group":"trial","phase":"later","method":"new_source","brief":"Mirror shield rotates edge-on before the verdict strike.","dependencies":["lt_moon_gate"]},
+    {"id":"lt_reed_blade","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld reed blade, readable grip and tip.","dependencies":[]},
+    {"id":"lt_reed_blade_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for reed blade.","dependencies":["lt_reed_blade"]},
+    {"id":"lt_seal_chisel","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld seal chisel, readable grip and tip.","dependencies":[]},
+    {"id":"lt_seal_chisel_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for seal chisel.","dependencies":["lt_seal_chisel"]},
+    {"id":"lt_ember_fan","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld ember fan, readable grip and tip.","dependencies":[]},
+    {"id":"lt_ember_fan_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for ember fan.","dependencies":["lt_ember_fan"]},
+    {"id":"lt_mirror_disc","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld mirror disc, readable grip and tip.","dependencies":[]},
+    {"id":"lt_mirror_disc_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for mirror disc.","dependencies":["lt_mirror_disc"]},
+    {"id":"lt_tide_bell","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld tide bell, readable grip and tip.","dependencies":[]},
+    {"id":"lt_tide_bell_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for tide bell.","dependencies":["lt_tide_bell"]},
+    {"id":"lt_stone_flail","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld stone flail, readable grip and tip.","dependencies":[]},
+    {"id":"lt_stone_flail_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for stone flail.","dependencies":["lt_stone_flail"]},
+    {"id":"lt_mist_needle","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld mist needle, readable grip and tip.","dependencies":[]},
+    {"id":"lt_mist_needle_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for mist needle.","dependencies":["lt_mist_needle"]},
+    {"id":"lt_ash_bow","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld ash bow, readable grip and tip.","dependencies":[]},
+    {"id":"lt_ash_bow_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for ash bow.","dependencies":["lt_ash_bow"]},
+    {"id":"lt_star_hook","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld star hook, readable grip and tip.","dependencies":[]},
+    {"id":"lt_star_hook_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for star hook.","dependencies":["lt_star_hook"]},
+    {"id":"lt_ink_flute","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld ink flute, readable grip and tip.","dependencies":[]},
+    {"id":"lt_ink_flute_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for ink flute.","dependencies":["lt_ink_flute"]},
+    {"id":"lt_jade_lance","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld jade lance, readable grip and tip.","dependencies":[]},
+    {"id":"lt_jade_lance_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for jade lance.","dependencies":["lt_jade_lance"]},
+    {"id":"lt_kiln_hammer","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld kiln hammer, readable grip and tip.","dependencies":[]},
+    {"id":"lt_kiln_hammer_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for kiln hammer.","dependencies":["lt_kiln_hammer"]},
+    {"id":"lt_moon_glaive","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld moon glaive, readable grip and tip.","dependencies":[]},
+    {"id":"lt_moon_glaive_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for moon glaive.","dependencies":["lt_moon_glaive"]},
+    {"id":"lt_brass_spindle","profile":"weapon","chunk_group":"armory","phase":"later","method":"new_source","brief":"Handheld brass spindle, readable grip and tip.","dependencies":[]},
+    {"id":"lt_brass_spindle_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for brass spindle.","dependencies":["lt_brass_spindle"]},
+    {"id":"lt_reed_verdict","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_reed_blade","lt_seal_chisel"]},
+    {"id":"lt_reed_verdict_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for reed verdict.","dependencies":["lt_reed_verdict"]},
+    {"id":"lt_cinder_mirror","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_ember_fan","lt_mirror_disc"]},
+    {"id":"lt_cinder_mirror_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for cinder mirror.","dependencies":["lt_cinder_mirror"]},
+    {"id":"lt_tidal_chain","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_tide_bell","lt_stone_flail"]},
+    {"id":"lt_tidal_chain_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for tidal chain.","dependencies":["lt_tidal_chain"]},
+    {"id":"lt_mist_string","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_mist_needle","lt_ash_bow"]},
+    {"id":"lt_mist_string_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for mist string.","dependencies":["lt_mist_string"]},
+    {"id":"lt_ink_orbit","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_star_hook","lt_ink_flute"]},
+    {"id":"lt_ink_orbit_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for ink orbit.","dependencies":["lt_ink_orbit"]},
+    {"id":"lt_jade_crucible","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_jade_lance","lt_kiln_hammer"]},
+    {"id":"lt_jade_crucible_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for jade crucible.","dependencies":["lt_jade_crucible"]},
+    {"id":"lt_lunar_loom","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_moon_glaive","lt_brass_spindle"]},
+    {"id":"lt_lunar_loom_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for lunar loom.","dependencies":["lt_lunar_loom"]},
+    {"id":"lt_ember_reed","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_reed_blade","lt_mirror_disc"]},
+    {"id":"lt_ember_reed_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for ember reed.","dependencies":["lt_ember_reed"]},
+    {"id":"lt_echo_prism","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_ember_fan","lt_stone_flail"]},
+    {"id":"lt_echo_prism_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for echo prism.","dependencies":["lt_echo_prism"]},
+    {"id":"lt_shard_needle","profile":"relic","chunk_group":"armory","phase":"later","method":"new_source","brief":"Combine the two parent silhouettes around one grip.","dependencies":["lt_tide_bell","lt_ash_bow"]},
+    {"id":"lt_shard_needle_shot","profile":"shot","chunk_group":"armory","phase":"later","method":"new_source","brief":"Separate flight silhouette for shard needle.","dependencies":["lt_shard_needle"]},
+    {"id":"lt_ward_anchor","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible anchor charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_ward_mirror","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible mirror charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_ward_thorn","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible thorn charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_ward_tide","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible tide charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_ward_flare","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible flare charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_ward_bell","profile":"ward","chunk_group":"wards","phase":"later","method":"new_source","brief":"Ground socket and visible bell charge marker.","dependencies":["prop_restriction_pillar"]},
+    {"id":"lt_icon_seed","profile":"icon","chunk_group":"interface","phase":"wave_1","method":"new_source","brief":"Single glyph for seed.","dependencies":["lt_herb_bed"]},
+    {"id":"lt_icon_ingot","profile":"icon","chunk_group":"interface","phase":"wave_1","method":"new_source","brief":"Single glyph for ingot.","dependencies":["lt_kiln"]},
+    {"id":"lt_icon_kiln_heat","profile":"icon","chunk_group":"interface","phase":"wave_1","method":"new_source","brief":"Single glyph for kiln heat.","dependencies":["lt_kiln"]},
+    {"id":"lt_icon_dew","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for dew.","dependencies":[]},
+    {"id":"lt_icon_pellet","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for pellet.","dependencies":[]},
+    {"id":"lt_icon_flask","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for flask.","dependencies":[]},
+    {"id":"lt_icon_temper","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for temper.","dependencies":[]},
+    {"id":"lt_icon_slag","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for slag.","dependencies":[]},
+    {"id":"lt_icon_fusion_pair","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for fusion pair.","dependencies":[]},
+    {"id":"lt_icon_fusion_lock","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for fusion lock.","dependencies":[]},
+    {"id":"lt_icon_extract","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for extract.","dependencies":[]},
+    {"id":"lt_icon_oath","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for oath.","dependencies":[]},
+    {"id":"lt_icon_reroll","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for reroll.","dependencies":[]},
+    {"id":"lt_icon_seal","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for seal.","dependencies":[]},
+    {"id":"lt_icon_breach","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for breach.","dependencies":[]},
+    {"id":"lt_icon_trial_ticket","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for trial ticket.","dependencies":[]},
+    {"id":"lt_icon_ward_core","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for ward core.","dependencies":[]},
+    {"id":"lt_icon_ward_charge","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for ward charge.","dependencies":[]},
+    {"id":"lt_icon_ward_repair","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for ward repair.","dependencies":[]},
+    {"id":"lt_icon_wave_clock","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Segments around a bell dial.","dependencies":[]},
+    {"id":"lt_icon_floor_five","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for floor five.","dependencies":[]},
+    {"id":"lt_icon_pressure","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for pressure.","dependencies":[]},
+    {"id":"lt_icon_respite","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for respite.","dependencies":[]},
+    {"id":"lt_icon_bank","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for bank.","dependencies":[]},
+    {"id":"lt_icon_quit","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for quit.","dependencies":[]},
+    {"id":"lt_icon_risk","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for risk.","dependencies":[]},
+    {"id":"lt_icon_route_mist","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for route mist.","dependencies":[]},
+    {"id":"lt_icon_route_ember","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for route ember.","dependencies":[]},
+    {"id":"lt_icon_route_star","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for route star.","dependencies":[]},
+    {"id":"lt_icon_pet_bond","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for pet bond.","dependencies":[]},
+    {"id":"lt_icon_realm_step","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for realm step.","dependencies":[]},
+    {"id":"lt_icon_ingot_preview","profile":"icon","chunk_group":"interface","phase":"later","method":"palette_variant","brief":"Ghosted bronze-to-ink preview of the same ingot. Pair with a preview label.","dependencies":["lt_icon_ingot"]}
+  ]
+}
