@@ -19,6 +19,10 @@ Key naming contract (path relative to the root):
     dir    south|east|north|west as listed in the manifest; "none" when not directional;
            tileset: "f<k>" = animation frame k of the sheet
     n      0-based frame index (tileset: tile index)
+  vfx/<id>_<n>.png
+    Declared by delivery.vfx_index (assets/processed/vfx/vfx_index.json). Known contact sheets
+    listed in vfx_index.json (<id>_sheet.png) are explicitly excluded from runtime lint/counts;
+    unexplained PNGs under vfx/ remain errors.
 This tool does NOT judge art quality or palette *semantics* (manifest palette_refs are
 provisional role names); it checks mechanical, objectively decidable properties only.
 """
@@ -38,11 +42,12 @@ from PIL import Image, ImageDraw
 REPO = Path(__file__).resolve().parents[2]
 SEV_ORDER = {"error": 0, "warn": 1, "info": 2}
 NAME_RE = re.compile(r"^(?P<anim>[a-z0-9]+(?:_[a-z0-9]+)*)_(?P<dir>south|east|north|west|none|f\d+)_(?P<n>\d+)$")
-# Categories whose silhouettes must carry the 1px outline. Tiles/UI/projectile glows are exempt.
+VFX_NAME_RE = re.compile(r"^(?P<id>[a-z0-9]+(?:_[a-z0-9]+)*)_(?P<n>\d+)$")
+# Categories whose silhouettes must carry the 1px outline. Tiles/UI/projectile/VFX glows are exempt.
 OUTLINE_CATEGORIES = {"player", "mob", "boss", "weapon", "prop", "icon"}
 GROUP_OF_CATEGORY = {"player": "players", "mob": "mobs", "boss": "bosses", "tileset": "tilesets",
                      "weapon": "weapons", "projectile": "projectiles", "prop": "props",
-                     "icon": "icons", "ui": "ui"}
+                     "icon": "icons", "ui": "ui", "vfx": "vfx"}
 
 
 # ----------------------------------------------------------------------------- loading
@@ -91,6 +96,88 @@ def expected_files(a: dict) -> dict:
     elif not out:
         out[("static", "none", 0)] = size
     return out
+
+
+def _normalize_vfx_sheet(sheet_path: str | None) -> str | None:
+    """Normalize a declared VFX contact sheet path to a root-relative POSIX key under vfx/."""
+    if not sheet_path or not isinstance(sheet_path, str):
+        return None
+    norm = sheet_path.replace("\\", "/").lstrip("/")
+    if norm.startswith("assets/processed/"):
+        norm = norm[len("assets/processed/"):]
+    p = Path(norm)
+    if len(p.parts) != 2 or p.parts[0] != "vfx" or p.suffix.lower() != ".png":
+        return None
+    return p.as_posix()
+
+
+def load_vfx_index(root: Path, m: dict, vfx_index_path: Path | None = None):
+    """Load VFX catalog metadata if present under root/vfx/vfx_index.json or explicitly provided.
+
+    Returns (effects_by_id, known_sheets_by_key, issues, loaded_path).
+    """
+    issues = []
+    chosen = None
+    explicit = vfx_index_path is not None
+    if explicit:
+        chosen = Path(vfx_index_path)
+    else:
+        local = root / "vfx" / "vfx_index.json"
+        if local.is_file():
+            chosen = local
+        elif m.get("delivery", {}).get("vfx_index") and (root / "vfx").is_dir():
+            issues.append(("error", "missing_vfx_index", "vfx/vfx_index.json",
+                           f"manifest declares delivery.vfx_index={m['delivery']['vfx_index']} but vfx/vfx_index.json is missing"))
+            return {}, {}, issues, None
+
+    if chosen is None:
+        return {}, {}, issues, None
+    if not chosen.is_file():
+        issues.append(("error", "missing_vfx_index", _rel(chosen), "explicit --vfx-index file not found"))
+        return {}, {}, issues, None
+
+    try:
+        doc = json.loads(chosen.read_text(encoding="utf8"))
+    except Exception as e:
+        issues.append(("error", "invalid_vfx_index", _rel(chosen), f"unable to parse JSON: {e}"))
+        return {}, {}, issues, chosen
+
+    raw_effects = doc.get("effects")
+    if not isinstance(raw_effects, list):
+        issues.append(("error", "invalid_vfx_index", _rel(chosen), "vfx_index.json must contain an 'effects' list"))
+        return {}, {}, issues, chosen
+
+    effects = {}
+    known_sheets = {}
+    for entry in raw_effects:
+        if not isinstance(entry, dict) or not isinstance(entry.get("id"), str) or not entry["id"]:
+            issues.append(("error", "invalid_vfx_index", _rel(chosen), "VFX entry missing valid 'id'"))
+            continue
+        eid = entry["id"]
+        if eid in effects:
+            issues.append(("error", "vfx_dup_id", eid, "duplicate VFX id in vfx_index.json"))
+            continue
+        fsize = entry.get("frame_size")
+        fcount = entry.get("frame_count")
+        if (not isinstance(fsize, list) or len(fsize) != 2 or
+                not all(isinstance(v, int) and v > 0 for v in fsize)):
+            issues.append(("error", "invalid_vfx_index", eid, f"invalid frame_size {fsize!r}"))
+            continue
+        if not isinstance(fcount, int) or fcount < 1:
+            issues.append(("error", "invalid_vfx_index", eid, f"invalid frame_count {fcount!r}"))
+            continue
+        effects[eid] = {
+            "id": eid,
+            "frame_size": (fsize[0], fsize[1]),
+            "frame_count": fcount,
+            "loop": bool(entry.get("loop", False)),
+            "tags": entry.get("tags") if isinstance(entry.get("tags"), list) else [],
+            "sheet": entry.get("sheet"),
+        }
+        sheet_key = _normalize_vfx_sheet(entry.get("sheet"))
+        if sheet_key:
+            known_sheets[sheet_key] = eid
+    return effects, known_sheets, issues, chosen
 
 
 def manifest_selfcheck(m: dict) -> list:
@@ -182,14 +269,19 @@ def defect_masks(arr: np.ndarray, palette: np.ndarray, outline) -> dict:
     return m
 
 
-def analyse(arr: np.ndarray, expect_size, palette: np.ndarray, outline, need_outline: bool) -> list:
+def analyse(arr: np.ndarray, expect_size, palette: np.ndarray, outline, need_outline: bool, allow_empty: bool = False) -> list:
     """arr: HxWx4 uint8. Returns [(severity, code, count, detail)]."""
     out = []
     h, w = arr.shape[:2]
     if expect_size and (w, h) != tuple(expect_size):
         out.append(("error", "size", 1, f"{w}x{h} != expected {expect_size[0]}x{expect_size[1]}"))
-    if not (arr[..., 3] > 0).any():
-        out.append(("error", "empty_frame", 1, "fully transparent"))
+    is_empty = not (arr[..., 3] > 0).any()
+    if is_empty:
+        dirty = (arr[..., 3] == 0) & (arr[..., :3].sum(-1) != 0)
+        if dirty.any():
+            out.append(("error", "dirty_transparent", int(dirty.sum()), "RGB under alpha 0 must be 0,0,0"))
+        if not allow_empty:
+            out.append(("error", "empty_frame", 1, "fully transparent"))
         return out
     m = defect_masks(arr, palette, outline)
     px = pack(arr[..., :3])
@@ -222,8 +314,8 @@ def load_rgba(p: Path):
         return None, None, str(e)
 
 
-def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False):
-    """Return (issues, per_file, coverage). issues: dicts with severity/code/where/count/detail."""
+def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False, vfx_index: Path | None = None):
+    """Return (issues, coverage). issues: dicts with severity/code/where/count/detail."""
     issues = []
 
     def add(sev, code, where, detail, count=1):
@@ -233,6 +325,13 @@ def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False):
         add(sev, code, where, detail)
     assets = {a["id"]: a for a in m["assets"]}
     exp = {i: expected_files(a) for i, a in assets.items()}
+
+    vfx_effects, known_vfx_sheets, vfx_idx_issues, _ = load_vfx_index(root, m, vfx_index)
+    for sev, code, where, detail in vfx_idx_issues:
+        add(sev, code, where, detail)
+    for eid in vfx_effects:
+        if eid in assets:
+            add("error", "vfx_dup_id", eid, "VFX id collides with manifest asset id")
 
     def contract_fail(code, key, detail, p, aid=None):
         """Naming/layout violation. With --loose the pixels are still inspected (reported as loose_*)."""
@@ -250,6 +349,9 @@ def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False):
             add(sev, "loose_" + c, key, d, cnt)
 
     found = defaultdict(dict)  # id -> {(anim,dir,n): path}
+    found_vfx = defaultdict(dict)  # eid -> {n: key}
+    empty_vfx = defaultdict(set)  # eid -> {n}
+    excluded_vfx_sheets = set()
     files = sorted(root.rglob("*")) if root.exists() else []
     hashes = {}
     for p in files:
@@ -260,6 +362,49 @@ def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False):
         if p.suffix.lower() != ".png":
             if p.suffix.lower() not in (".json", ".md", ".toml", ".txt"):
                 add("warn", "non_png", key, "non-PNG file in asset tree")
+            continue
+        if rel.parts[0] == "vfx" and vfx_effects:
+            if key in known_vfx_sheets:
+                excluded_vfx_sheets.add(key)
+                continue
+            if len(rel.parts) != 2:
+                contract_fail("orphan_path", key, "expected vfx/<effect_id>_<n>.png", p, None)
+                continue
+            mt = VFX_NAME_RE.match(p.stem)
+            if not mt:
+                contract_fail("bad_name", key, "VFX frame name must match <effect_id>_<n> (lowercase, no spaces)", p, None)
+                continue
+            eid, n_str = mt["id"], mt["n"]
+            if eid not in vfx_effects:
+                contract_fail("orphan_asset", key, f"VFX id '{eid}' is not in vfx_index.json", p, None)
+                continue
+            if n_str != str(int(n_str)):
+                contract_fail("bad_name", key, "frame index must not be zero-padded", p, None)
+                continue
+            n = int(n_str)
+            eff = vfx_effects[eid]
+            if n >= eff["frame_count"]:
+                add("error", "orphan_frame", key, f"VFX frame index {n} >= frame_count {eff['frame_count']}")
+                continue
+            if n in found_vfx[eid]:
+                add("error", "duplicate_key", key, f"same key also at {found_vfx[eid][n]}")
+                continue
+            found_vfx[eid][n] = key
+            if not with_pixels:
+                continue
+            arr, mode, err = load_rgba(p)
+            if arr is None:
+                add("error", "corrupt_png", key, err)
+                continue
+            if mode != "RGBA":
+                add("warn", "mode", key, f"PNG mode {mode}, expected RGBA")
+            is_empty = not (arr[..., 3] > 0).any()
+            if is_empty:
+                empty_vfx[eid].add(n)
+            for sev, code, cnt, detail in analyse(arr, eff["frame_size"], palette, outline, False, allow_empty=True):
+                add(sev, code, key, detail, cnt)
+            if not is_empty:
+                hashes[key] = (eid, ("play", "none", n), hashlib.sha1(arr.tobytes()).hexdigest())
             continue
         if len(rel.parts) < 3:
             contract_fail("orphan_path", key, "expected <group>/<id>/<anim>_<dir>_<n>.png", p, None)
@@ -309,6 +454,46 @@ def scan(root: Path, m: dict, palette, outline, with_pixels=True, loose=False):
         if have and miss:
             ex = ", ".join(f"{x[0]}_{x[1]}_{x[2]}" for x in miss[:3])
             add("error", "missing_frames", f"{GROUP_OF_CATEGORY[a['category']]}/{aid}", f"{len(miss)} of {len(want)} missing e.g. {ex}", len(miss))
+
+    vfx_delivered_any = any(found_vfx.values()) or m.get("delivery", {}).get("vfx_readiness") == "packed"
+    for eid, eff in vfx_effects.items():
+        have = found_vfx.get(eid, {})
+        want_count = eff["frame_count"]
+        miss = [n for n in range(want_count) if n not in have]
+        status = "not_delivered" if not have else ("complete" if not miss else "partial")
+        sheet_key = _normalize_vfx_sheet(eff.get("sheet"))
+        cov[eid] = {
+            "category": "vfx",
+            "have": len(have),
+            "want": want_count,
+            "status": status,
+            "excluded_sheet": sheet_key if sheet_key in excluded_vfx_sheets else None,
+        }
+        if miss and (have or vfx_delivered_any):
+            ex = ", ".join(f"{eid}_{n}" for n in miss[:3])
+            add("error", "missing_frames", f"vfx/{eid}", f"{len(miss)} of {want_count} missing e.g. {ex}", len(miss))
+        if empty_vfx.get(eid):
+            non_empty = len(have) - len(empty_vfx[eid])
+            tags = eff.get("tags") or []
+
+            def _is_once_frame(frame_idx: int) -> bool:
+                if tags:
+                    covering = [t for t in tags if isinstance(t, list) and len(t) >= 4 and t[1] <= frame_idx <= t[2]]
+                    return bool(covering) and all(t[3] == "once" for t in covering)
+                return not eff["loop"]
+
+            tail_empty = set()
+            if non_empty > 0:
+                idx_n = want_count - 1
+                while idx_n >= 0 and idx_n in empty_vfx[eid] and _is_once_frame(idx_n):
+                    tail_empty.add(idx_n)
+                    idx_n -= 1
+            for n in sorted(empty_vfx[eid]):
+                if n in tail_empty:
+                    add("warn", "empty_frame", have[n], "fully transparent VFX fade-out tail frame")
+                else:
+                    add("error", "empty_frame", have[n], "fully transparent")
+
     seq = defaultdict(list)
     for key, (aid, k, hx) in hashes.items():
         seq[(aid, k[0], k[1])].append((k[2], hx, key))
@@ -405,20 +590,45 @@ def _rel(v) -> str:
         return str(v)
 
 
+def group_counts(cov: dict) -> dict:
+    """Summarize delivered/expected runtime frame counts and excluded VFX contact sheets by group."""
+    groups = defaultdict(lambda: {"assets": 0, "complete": 0, "have": 0, "want": 0, "excluded_sheets": 0})
+    for v in cov.values():
+        g = GROUP_OF_CATEGORY.get(v["category"], v["category"])
+        groups[g]["assets"] += 1
+        if v["status"] == "complete":
+            groups[g]["complete"] += 1
+        groups[g]["have"] += v["have"]
+        groups[g]["want"] += v["want"]
+        if v.get("excluded_sheet"):
+            groups[g]["excluded_sheets"] += 1
+    return dict(groups)
+
+
 def write_report(path: Path, ctx: dict):
     ctx = dict(ctx, root=_rel(ctx["root"]), manifest=_rel(ctx["manifest"]), palette=_rel(ctx["palette"]))
     if ctx.get("fix"):
         ctx["fix"] = {**ctx["fix"], "src": _rel(ctx["fix"]["src"]), "dst": _rel(ctx["fix"]["dst"])}
-    L = ["# Asset QA Report", "", f"- Root kiểm tra: `{ctx['root']}`", f"- Manifest: `{ctx['manifest']}` ({ctx['n_assets']} asset)",
-         f"- Palette: `{ctx['palette']}` ({ctx['n_colors']} màu)", f"- Số PNG đọc được: {ctx['n_png']}", ""]
+    cov = ctx["coverage"]
+    n_vfx = sum(1 for v in cov.values() if v["category"] == "vfx")
+    n_sheets = sum(1 for v in cov.values() if v.get("excluded_sheet"))
+    asset_label = f"{ctx['n_assets']} manifest" + (f" + {n_vfx} VFX" if n_vfx else "")
+    L = ["# Asset QA Report", "", f"- Root kiểm tra: `{ctx['root']}`", f"- Manifest: `{ctx['manifest']}` ({asset_label})",
+         f"- Palette: `{ctx['palette']}` ({ctx['n_colors']} màu)",
+         f"- Số PNG runtime đọc được: {ctx['n_png']}" + (f" (loại trừ {n_sheets} VFX contact sheet đã khai báo)" if n_sheets else ""), ""]
     errs = [i for i in ctx["issues"] if i["severity"] == "error"]
     warns = [i for i in ctx["issues"] if i["severity"] == "warn"]
     L += [f"**Kết quả: {len(errs)} lỗi, {len(warns)} cảnh báo.**", ""]
-    cov = ctx["coverage"]
     st = Counter(v["status"] for v in cov.values())
-    L += ["## Độ phủ theo manifest", "", "| Trạng thái | Số asset |", "|---|---|"]
+    L += ["## Độ phủ theo manifest & VFX index", "", "| Trạng thái | Số asset |", "|---|---|"]
     L += [f"| {k} | {st.get(k, 0)} |" for k in ("complete", "partial", "not_delivered")]
     L += ["", "`not_delivered` = chưa có file nào (không tính là lỗi). `partial` = thiếu frame (lỗi `missing_frames`).", ""]
+    gc = group_counts(cov)
+    L += ["## Thống kê theo nhóm", "", "| Nhóm | Asset (đủ/tổng) | Frame runtime (có/cần) | Contact sheet loại trừ |", "|---|---|---|---|"]
+    for g in sorted(gc):
+        s = gc[g]
+        L.append(f"| `{g}` | {s['complete']}/{s['assets']} | {s['have']}/{s['want']} | {s['excluded_sheets']} |")
+    L += [""]
     L += ["## Lỗi theo loại", "", "| Mức | Mã | Số file/mục | Số pixel/đối tượng |", "|---|---|---|---|"]
     agg = defaultdict(lambda: [0, 0])
     for i in ctx["issues"]:
@@ -518,6 +728,7 @@ def contact_sheet(src: Path, dst: Path, log: list, palette, outline, out: Path, 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--manifest", default=str(REPO / "assets/manifest.json"))
+    ap.add_argument("--vfx-index", default=None, help="optional path to vfx_index.json (auto-detected under <root>/vfx/vfx_index.json)")
     ap.add_argument("--palette", default=str(REPO / "tools/generators/palette.json"))
     ap.add_argument("--root", default=str(REPO / "assets/processed"))
     ap.add_argument("--fix", action="store_true")
@@ -552,19 +763,24 @@ def main(argv=None):
             contact_sheet(src, dst, log, palette, outline, Path(args.sheet))
     else:
         root = Path(args.root)
-        issues, cov = scan(root, m, palette, outline, loose=args.loose)
+        vfx_idx = Path(args.vfx_index) if args.vfx_index else None
+        issues, cov = scan(root, m, palette, outline, loose=args.loose, vfx_index=vfx_idx)
         ctx["root"] = str(root)
-    ctx.update(issues=issues, coverage=cov, n_png=sum(v["have"] for v in cov.values()))
+    excluded_sheets = sum(1 for v in cov.values() if v.get("excluded_sheet"))
+    ctx.update(issues=issues, coverage=cov, n_png=sum(v["have"] for v in cov.values()),
+               excluded_sheets=excluded_sheets, groups=group_counts(cov))
     if args.report:
         write_report(Path(args.report), ctx)
     errs = sum(i["severity"] == "error" for i in issues)
     warns = sum(i["severity"] == "warn" for i in issues)
     if args.json:
-        print(json.dumps({"errors": errs, "warnings": warns, "issues": issues}, indent=1))
+        print(json.dumps({"errors": errs, "warnings": warns, "png": ctx["n_png"],
+                          "excluded_sheets": excluded_sheets, "groups": ctx["groups"], "issues": issues}, indent=1))
     else:
         for (s, c), n in sorted(summarize(issues).items(), key=lambda x: (SEV_ORDER[x[0][0]], x[0][1])):
             print(f"{s:5} {c:20} x{n}")
-        print(f"errors={errs} warnings={warns} png={ctx['n_png']}")
+        sheet_note = f" excluded_sheets={excluded_sheets}" if excluded_sheets else ""
+        print(f"errors={errs} warnings={warns} png={ctx['n_png']}{sheet_note}")
         if args.fix:
             f = ctx["fix"]
             print(f"fix: errors {f['before_err']} -> {f['after_err']}, written={f['written']} skipped={f['skipped']}")
