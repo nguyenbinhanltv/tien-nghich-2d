@@ -1,0 +1,66 @@
+{
+  "id": "lt_ember_fan_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Forked ember tongues streaming behind a pointed incandescent coal.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_ember_fan.py",
+  "generator_sha256_lf": "0df6ca094fff05f07a18ec5898225f3c8ca81aac5e985b828f50b8ff5bb94be8",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "5676368b7af58ac569acaa49f62d55afcc7e45d04d4a25cadc84aeaebf03bb5b",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ember_fan/contact_1x.png": "448303143bf45a325446e427e949de299cd7600bde3579ae9a0536a82b1740a7",
+    "assets/raw/longtime/lt_ember_fan/contact_6x.png": "69d5b7f0086ae35f3db9d7cc19993f9e8fc6bdfd58e87544b3ef59b8759bdeb3"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ember_fan_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_ember_fan_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "dbab568cfd4ac039b59cf655808a7cc3548c36f6f67a74828313f0a8ec5cd149"
+    },
+    {
+      "key": "longtime/lt_ember_fan_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_ember_fan_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "223edb984c948262681baad397d8345ddf3ab05b432175090d3f2dd0ea65e063"
+    },
+    {
+      "key": "longtime/lt_ember_fan_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_ember_fan_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "84d5f1aa5f33cf2b1d6b96a59a8421fba65d5d0c3f046f40f9e5dd935bd826cd"
+    },
+    {
+      "key": "longtime/lt_ember_fan_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_ember_fan_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "94a4a3044f777c010ee64c67c4c7bbfb2884fa7a307fd71ef5f9a7faad471115"
+    }
+  ]
+}
