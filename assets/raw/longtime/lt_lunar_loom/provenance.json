@@ -1,0 +1,49 @@
+{
+  "id": "lt_lunar_loom",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Combine the two parent silhouettes around one grip.",
+  "reference_ids": [
+    "lt_moon_glaive",
+    "lt_brass_spindle"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_moon_glaive",
+      "path": "assets/raw/longtime/lt_moon_glaive/source.png",
+      "sha256": "b19da8bfbb53beef10c0bef1332ebee6df3cd0dbd8af37087313169049080539"
+    },
+    {
+      "id": "lt_brass_spindle",
+      "path": "assets/raw/longtime/lt_brass_spindle/source.png",
+      "sha256": "934555de17bdbdbd7cc8a9e9019dec51fbbd3d809087f518c5089b8ca8c37153"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_lunar_loom.py",
+  "generator_sha256_lf": "fb598833ac951721026cdead7d611bed6cd1211412c32cc8d148eb2b3125592f",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "57cc7564a1c0f9c5eae97dcb42e8dfb29df8277d94077dde4e97c2abaebd66d3",
+  "frames": [
+    {
+      "key": "longtime/lt_lunar_loom/held_none_0",
+      "path": "assets/processed_longtime/lt_lunar_loom/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "57cc7564a1c0f9c5eae97dcb42e8dfb29df8277d94077dde4e97c2abaebd66d3"
+    }
+  ]
+}
