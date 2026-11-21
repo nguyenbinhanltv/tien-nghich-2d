@@ -1,0 +1,1549 @@
+{
+ "summary": {
+  "files": 96,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 100.0
+ },
+ "results": [
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 308,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 342,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 392,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 390,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 389,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 403,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 413,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 380,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 382,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 369,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 350,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 363,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 352,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 371,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/cast_attack/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 360,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 320,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 298,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 363,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 339,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 18.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 327,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 370,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 326,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 311,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 301,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 329,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/dash/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 322,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 322,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 305,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 247,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 376,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 325,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 326,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 298,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 376,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 356,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 357,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 262,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/death/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 217,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 279,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 274,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 342,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 343,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 339,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 309,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 290,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/idle/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 313,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 353,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 347,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 399,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 379,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 383,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 405,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 309,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 306,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 324,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 279,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/east/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 373,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 371,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 18.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 362,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 380,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 19.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 367,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 18.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/north/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 367,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 18.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 321,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 330,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 319,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 297,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/south/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 287,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 284,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_extreme_jing/run/west/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 266,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.6
+  }
+ ]
+}

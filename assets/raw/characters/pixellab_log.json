@@ -1,0 +1,325 @@
+{
+ "entries": [
+  {
+   "id": "wl_outer_disciple",
+   "character_uuid": "2c4b170e-1956-4abc-8e55-20d1ea42ccad",
+   "manifest_size": "32",
+   "path": "assets/raw/characters/players/wl_outer_disciple",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "cast_attack": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "dash": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "death": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "idle": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "run": {
+     "east": 6,
+     "north": 6,
+     "south": 6,
+     "west": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 96,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T18:49:35Z",
+   "seconds": 4.0,
+   "error": null,
+   "tool": "create_character(v3,32,low top-down,8dir)+animate_character",
+   "prompt_hex_from_palette": [
+    "#6e6877",
+    "#49434f",
+    "#f9c4c0",
+    "#ee7a80",
+    "#14101a",
+    "#8f5f14",
+    "#63400f",
+    "#3a2410"
+   ],
+   "params": {
+    "create": {
+     "mode": "v3",
+     "size": 32,
+     "view": "low top-down",
+     "outline": "single color black outline",
+     "detail": "low detail",
+     "n_directions": 8
+    },
+    "animations": {
+     "idle": "template breathing-idle (4f)",
+     "run": "template running-6-frames (6f)",
+     "dash": "v3 custom 4f keep_first_frame=false",
+     "cast_attack": "v3 custom 4f",
+     "death": "v3 custom 4f"
+    }
+   },
+   "returned_ids": {
+    "create_job": "2a40e64a-cb5f-42d6-bf31-4fd1ece732db",
+    "anim_groups": {
+     "idle": "63cfafee-2a7a-46c5-989b-a8417037f89e",
+     "run": "5a012ad2-14ce-45c1-a563-065b6db9363e",
+     "dash": "cf9d0e9b-0473-4699-baa6-a259a8ea5c0e",
+     "cast_attack": "804dd203-68a7-4210-a220-b1608dddc368",
+     "death": "f5d34d71-30f4-442a-a0a8-3cbf5067f8ef"
+    }
+   },
+   "seed": "none (create_character takes no seed)",
+   "generations_used": 22
+  },
+  {
+   "id": "wl_qi_condensation",
+   "character_uuid": "d0bd5442-7c52-469a-8c7e-e3d8eea8eb18",
+   "manifest_size": "32",
+   "path": "../../assets/raw/characters/players/wl_qi_condensation",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     48,
+     48
+    ]
+   ],
+   "frames_per_dir": {
+    "cast_attack": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "dash": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "death": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "idle": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "run": {
+     "east": 6,
+     "north": 6,
+     "south": 6,
+     "west": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 96,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T18:59:53Z",
+   "seconds": 7.5,
+   "error": null,
+   "tool": "create_character(v3,32,low top-down)+animate_character(template idle/run, v3 custom 4f dash/cast/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "outline": "single color black outline",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)",
+   "generations_used": 22
+  },
+  {
+   "id": "wl_blood_foundation",
+   "character_uuid": "468d313d-049a-488b-9c26-5cf3aa2fb9d7",
+   "manifest_size": "32",
+   "path": "../../assets/raw/characters/players/wl_blood_foundation",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ],
+    [
+     48,
+     48
+    ]
+   ],
+   "frames_per_dir": {
+    "cast_attack": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "dash": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "death": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "idle": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "run": {
+     "east": 6,
+     "north": 6,
+     "south": 6,
+     "west": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 96,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:00:01Z",
+   "seconds": 7.2,
+   "error": null,
+   "tool": "create_character(v3,32,low top-down)+animate_character(template idle/run, v3 custom 4f dash/cast/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "outline": "single color black outline",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)",
+   "generations_used": 22
+  },
+  {
+   "id": "wl_extreme_jing",
+   "character_uuid": "401b7e01-74cd-44e6-aba2-75a0cc0e6a95",
+   "manifest_size": "32",
+   "path": "../../assets/raw/characters/players/wl_extreme_jing",
+   "canvas_sizes_found": [
+    [
+     32,
+     32
+    ],
+    [
+     44,
+     44
+    ]
+   ],
+   "frames_per_dir": {
+    "cast_attack": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "dash": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "death": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "idle": {
+     "east": 4,
+     "north": 4,
+     "south": 4,
+     "west": 4
+    },
+    "run": {
+     "east": 6,
+     "north": 6,
+     "south": 6,
+     "west": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 96,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.0,
+    "mean_off_palette_pct": 100.0
+   },
+   "fetched_utc": "2026-11-20T19:00:09Z",
+   "seconds": 8.0,
+   "error": null,
+   "tool": "create_character(v3,32,low top-down)+animate_character(template idle/run, v3 custom 4f dash/cast/death)",
+   "params": {
+    "mode": "v3",
+    "size": 32,
+    "view": "low top-down",
+    "outline": "single color black outline",
+    "detail": "low detail",
+    "hex_in_prompt": "from palette.json"
+   },
+   "seed": "none (no seed in create_character)",
+   "generations_used": 22
+  }
+ ]
+}
