@@ -1,0 +1,66 @@
+{
+  "id": "lt_reed_blade_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Separate flight silhouette for reed blade.",
+  "reference_ids": [
+    "lt_reed_blade"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_reed_blade.py",
+  "generator_sha256_lf": "d7e7b59ac41207680ecd1e032e1b969530e41fed1b2640a82496121063ea0741",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "b1c43412e0e4626a106f5040995955b866cdcea8b2758fb29f910e0f15a1ad48",
+  "frames": [
+    {
+      "key": "longtime/lt_reed_blade_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_reed_blade_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "8cff04cee7f2a36c7d2431679ed67895a890332c64776eeb76380e07b776703c"
+    },
+    {
+      "key": "longtime/lt_reed_blade_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_reed_blade_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "2c025f4e2afcef92ebc708ae76b1c70d50b57abe699ad98bf975ce855814738a"
+    },
+    {
+      "key": "longtime/lt_reed_blade_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_reed_blade_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "54498224c3395952be38fd9fbdc50c34e347265e28538464cd81a7938d2e8c67"
+    },
+    {
+      "key": "longtime/lt_reed_blade_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_reed_blade_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "8363b3181283afb9b9f3013489b199089232b697641b101ee9ffa5ec283a9f3f"
+    }
+  ]
+}
