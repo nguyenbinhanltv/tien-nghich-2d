@@ -1,0 +1,49 @@
+{
+  "id": "lt_echo_prism",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Combine the two parent silhouettes around one grip.",
+  "reference_ids": [
+    "lt_ember_fan",
+    "lt_stone_flail"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_ember_fan",
+      "path": "assets/raw/longtime/lt_ember_fan/source.png",
+      "sha256": "026713b95008693812c6dd8cdd4717447e55ebdf237af1a0ccd32bd44118eae4"
+    },
+    {
+      "id": "lt_stone_flail",
+      "path": "assets/raw/longtime/lt_stone_flail/source.png",
+      "sha256": "72b3d7096681d310fd592a46048f219f0a1459fc9c972ac6de8e477ff105da38"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_echo_prism.py",
+  "generator_sha256_lf": "385a7b9f280bde44c43c6ce235c3577e64e551ed7c7473a10099876820b62a1e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "780d066ce6515c42a61a5da418fc0855018515302ccb3b0553e17bc56a138044",
+  "frames": [
+    {
+      "key": "longtime/lt_echo_prism/held_none_0",
+      "path": "assets/processed_longtime/lt_echo_prism/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "780d066ce6515c42a61a5da418fc0855018515302ccb3b0553e17bc56a138044"
+    }
+  ]
+}
