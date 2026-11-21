@@ -24,7 +24,7 @@ test('studio/forge sources hold no project-specific literals', async () => {
   for (const file of await sources(root)) {
     // The forge lanes share this guard: only the sheet and pixelize lanes and the shared entry points are checked here.
     const rel = path.relative(root, file);
-    if (!/^(image|index|cli)\.mjs$|^(sheet|pixelize)\//.test(rel)) continue;
+    if (!/^(image|index|cli)\.mjs$|^(sheet|pixelize|pipeline)\//.test(rel)) continue;
     (await fs.readFile(file, 'utf8')).split('\n').forEach((line, i) => banned.forEach(re => re.test(line) && hits.push(`${rel}:${i + 1} ${re} ${line.trim()}`)));
   }
   assert.deepEqual(hits, []);

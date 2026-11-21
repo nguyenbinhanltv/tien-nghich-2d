@@ -166,7 +166,7 @@ The first five thresholds are the prototype's. `runGates` and `qaBake` take per-
 
 - All 32 bake-off frames, their paw contacts and the prototype gate verdicts are reproduced from `rig.json` and the outline-free import layers, pixel for pixel (`marten-parity.test.mjs`). The decoded pixels are equal; PNG bytes are not compared, since the studio's PNG codec and Pillow compress differently.
 - Polygon fill and nearest rotation match Pillow for every rig polygon and for random rotations (`raster-parity.test.mjs`, reference data from Pillow 12.3). Random sharp-bottomed polygons can differ by a pixel on the last scanline; author polygons and look at the bake.
-- `raster.mjs` holds the image primitives this lane needed before `../image.mjs` landed. Fold it into the shared module later.
+- The raster primitives live in `../image.mjs` now; `raster.mjs` only re-exports them so this lane's tests and imports keep working.
 - Contact-aware follow improves south and north on the marten and does not improve west and east: those silhouettes span 30 of 32 px, so there is no margin to shift into. See the PR for numbers. Slide checks are in sprite space; sliding under engine translation needs a scene test.
 
 ## Tests

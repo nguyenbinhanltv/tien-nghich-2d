@@ -1,6 +1,7 @@
 // Pose-sheet clips: a clip whose keys are imported pose cells (facings by key poses on one sheet) instead of
-// rig-derived keys. The pose cells share one scale and one ground line when the sheet was imported with
-// scaleOptions.mode "sheet", so poses do not jump. A rig may add secondary motion on top.
+// rig-derived keys. The pose cells share a scale and a ground line when the sheet was imported with
+// scaleOptions.mode "facing" (poses of a facing together) or "sheet" (all cells), so poses do not jump; a facing's
+// scale can also be locked to the turnaround with scaleOptions.fixedScale. A rig may add secondary motion on top.
 //
 // forge.poseclips (version 1):
 // {
@@ -9,6 +10,7 @@
 //     "walk": {
 //       "keys": ["stand", "step_a", "stand", "step_b"],   // pose names, one per frame of the profile's clip
 //       "facings": ["south", "west", "north"],             // optional; default: every facing that has all the cells
+//       "contacts": {"south": [[{"id": "paw_l", "xy": [11, 24], "planted": true}], ...]},   // optional, per facing: one list per key
 //       "mirror": {"east": {"of": "west", "swapColors": {"<palette id>": "<palette id>"}}},   // optional
 //       "secondary": {"template": "idle"},                 // optional: motion template (same profile) layered on top
 //       "loop": true                                        // optional, default true unless a secondary template says otherwise
@@ -16,7 +18,7 @@
 //   }
 // }
 // The cell for key `p` of facing `f` is the layout cell with id "<p>_<f>".
-import { cloneImage } from '../image.mjs';
+import { alphaAt, cloneImage } from '../image.mjs';
 import { prepareFacing, bakeKey, mirrorFacing } from '../rig/bake.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
 import { getTemplate, bodyPlans, checkApplicable } from '../motion/library.mjs';
@@ -34,6 +36,11 @@ export function validatePoseClips(doc, {table, layerIds}) {
     const facings = poseFacings(spec, layerIds);
     if (!facings.length) issues.push(`${at}: no facing has a cell for every key (cells are named <pose>_<facing>)`);
     for (const f of spec.facings ?? []) for (const pose of spec.keys ?? []) if (!layerIds.has(`${pose}_${f}`)) issues.push(`${at}: missing cell "${pose}_${f}"`);
+    for (const [f, lists] of Object.entries(spec.contacts ?? {})) {
+      if (!facings.includes(f)) issues.push(`${at}.contacts.${f}: not a facing of this clip`);
+      else if (!Array.isArray(lists) || lists.length !== (spec.keys ?? []).length) issues.push(`${at}.contacts.${f}: needs one list per key (${(spec.keys ?? []).length})`);
+      else lists.forEach((list, i) => list.forEach(c => { if (typeof c.id !== 'string' || !Array.isArray(c.xy) || c.xy.length !== 2 || typeof c.planted !== 'boolean') issues.push(`${at}.contacts.${f}[${i}]: each contact needs id, xy [x, y] and planted`); }));
+    }
     for (const [f, m] of Object.entries(spec.mirror ?? {})) if (!facings.includes(m.of)) issues.push(`${at}.mirror.${f}: source facing "${m.of}" is not imported for this clip`);
   }
   return issues;
@@ -75,9 +82,18 @@ export function bakePoseClip({name, spec, clip, cells, palette, rig, library, pr
     }
     spec.keys.forEach((pose, i) => {
       const cell = cells.get(`${pose}_${f}`);
-      if (!template) { frames.push(cloneImage(cell.native)); contacts.push([]); return; }
-      const out = bakeKey(prepareFacing(cell.indexed, rig.facings[f], palette), rig.facings[f], poses[i], palette, {edgeSafe});
-      frames.push(out.frame); contacts.push(out.contacts);
+      let frame, list = [];
+      if (!template) frame = cloneImage(cell.native);
+      else { const out = bakeKey(prepareFacing(cell.indexed, rig.facings[f], palette), rig.facings[f], poses[i], palette, {edgeSafe}); frame = out.frame; list = out.contacts; }
+      const declared = spec.contacts?.[f]?.[i];
+      if (declared) {
+        for (const c of declared) {
+          const [x, y] = c.xy;
+          if (x < 0 || y < 0 || x >= frame.width || y >= frame.height || alphaAt(frame, x, y) !== 255) throw new Error(`pose clip "${name}": contact ${c.id} of ${f} key ${i} at ${x},${y} is not on an opaque pixel`);
+        }
+        list = declared.map(c => ({id: c.id, xy: [...c.xy], planted: c.planted}));
+      }
+      frames.push(frame); contacts.push(list);
     });
     return {frames, contacts, poses};
   };

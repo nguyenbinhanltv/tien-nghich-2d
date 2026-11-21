@@ -167,7 +167,8 @@ export async function runPipeline(input) {
   });
   if (!imported.ok) return fail('import', imported);
   artifacts.import = imported.value;
-  summary.stages.import = {ok: true, record: imported.value.record};
+  const importWarnings = imported.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
+  summary.stages.import = {ok: true, record: imported.value.record, warnings: importWarnings};
 
   const pixelized = stage('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette)}));
   if (!pixelized.ok) return fail('pixelize', pixelized);

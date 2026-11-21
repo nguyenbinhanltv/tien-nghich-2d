@@ -3,11 +3,12 @@
 // binary alpha, palette snap with the outline colour (and marks) reserved, 1px outline rebuilt.
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { blit, boundsOf, boxDownscale, createImage, decodePng, encodePng, rebuildOutline, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
+import { blit, boundsOf, boxDownscale, createImage, decodePng, encodePng, rebuildOutline, resizeBox, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
 import { assertCellId, assertNoOverwrite, defaultScaleOptions, normalizeEntries, normalizeScale } from '../sheet/import.mjs';
 
 export const pixelizeSchema = 'forge.pixelize';
 
+const stable = v => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => (a < b ? -1 : 1))) : x));
 const sameRgb = (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
 
 /**
@@ -39,7 +40,25 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
       }
     });
   }
+  const kept = [];
+  marks.forEach((m, k) => {
+    if (m.minCoverage === undefined) return;
+    // Share of each native pixel's source footprint that matches the detector at full resolution.
+    const hit = createImage(figure.width, figure.height, [255, 255, 255, 0]);
+    for (let i = 0; i < figure.pixels.length; i += 4) {
+      const r = figure.pixels[i], g = figure.pixels[i + 1], b = figure.pixels[i + 2];
+      if (figure.pixels[i + 3] === 255 && r >= m.minRgb[0] && g >= m.minRgb[1] && b >= m.minRgb[2] && b - g >= m.blueOverGreen) hit.pixels[i + 3] = 255;
+    }
+    const share = blit(createImage(width, height), resizeBox(hit, ...dims), origin[0], origin[1]);
+    for (let i = 0; i < indexed.pixels.length; i += 4) {
+      if (indexed.pixels[i + 3] !== 255 || share.pixels[i + 3] < m.minCoverage * 255) continue;
+      if (!sameRgb(indexed.pixels.subarray(i, i + 3), m.rgb)) markPixels[k]++;
+      indexed.pixels.set(m.rgb, i);
+      if (m.keepOnOutline) kept.push([i, m.rgb]);
+    }
+  });
   const native = outline.mode === 'none' ? indexed : rebuildOutline(indexed, outline.color, {borderIsEdge: outline.borderIsEdge});
+  for (const [i, rgb] of kept) native.pixels.set(rgb, i);
   const box = boundsOf(native);
   const warnings = [];
   if (!box) warnings.push('sprite is empty after reduction');
@@ -58,7 +77,7 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = 
   const rp = imported.record.profile, p = settings.profile, recorded = imported.record.scaleOptions;
   const wanted = {...defaultScaleOptions, ...(scaleOptions ?? recorded ?? {})};
   const reusable = rp && recorded && rp.nativePx.join() === p.nativePx.join() && rp.pivotPx.join() === p.pivotPx.join()
-    && Object.keys(wanted).every(k => wanted[k] === recorded[k]);
+    && stable(wanted) === stable(recorded);
   const fitted = reusable ? imported.record.cells : normalizeEntries(imported.record.cells.map(({scale, limit, targetY, alignGround, ...bare}) => bare), p, wanted);
   for (const entry of fitted) {
     const {indexed, native, info} = pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions: wanted});

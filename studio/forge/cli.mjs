@@ -13,9 +13,11 @@
 //   node studio/forge/cli.mjs gates     --bake dir --project root --profile <name> [--rig rig.json] [--pose-rig rig.json] [--qa gates.json]
 //   node studio/forge/cli.mjs run       --layout layout.json --sheet sheet.png --out dir --project root --profile <name>
 //        [--prompt file] [--marks marks.json] [bake options] [import options]   the whole chain; writes import/ pixelize/ bake/ pipeline.json
-// import and run also take --scale-mode cell|sheet [--ground-lift n] [--margin n] (recorded in import.json).
+// import and run also take --scale-mode cell|facing|sheet [--ground-lift n] [--margin n] [--fixed-scale scales.json]
+// ({facing: scale}, e.g. the per-facing scales of a turnaround import) - all recorded in import.json. `qa` is an alias of `gates`.
 // `pixelize` is accepted as an alias. Output directories are created; inputs are never modified.
 import fs from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadPack } from '../core/pack.mjs';
 import { bakeStage, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
@@ -49,6 +51,7 @@ const scaleOptionsOf = opts => ({
   ...(opts['scale-mode'] ? {mode: opts['scale-mode']} : {}),
   ...(opts['ground-lift'] ? {groundLift: Number(opts['ground-lift'])} : {}),
   ...(opts.margin ? {margin: Number(opts.margin)} : {}),
+  ...(opts['fixed-scale'] ? {fixedScale: JSON.parse(readFileSync(opts['fixed-scale'], 'utf8'))} : {}),
 });
 const optionalJson = async file => (file ? readJson(file) : undefined);
 const reportGates = gates => {
@@ -83,6 +86,7 @@ const commands = {
     const result = importSheet({layout, sheet: image, sheetBytes: bytes, source: path.basename(sheetFile), prompt, profile: settings?.profile, scaleOptions: scaleOptionsOf(opts)});
     await writeImport(need(opts, 'out'), result, {protect: [sheetFile]});
     console.log(`import ${layout.id}: ${result.cells.size} cells, sheet sha256 ${result.record.sheet.sha256} -> ${opts.out}`);
+    for (const c of result.record.cells.filter(cell => cell.warnings.length)) console.warn(`warning ${c.id}: ${c.warnings.join(', ')} (the crop may cut the drawing)`);
   },
 
   async pixelise(opts) {
@@ -144,6 +148,7 @@ const commands = {
   },
 };
 commands.pixelize = commands.pixelise;
+commands.qa = commands.gates;
 
 try {
   const [name, ...rest] = process.argv.slice(2);

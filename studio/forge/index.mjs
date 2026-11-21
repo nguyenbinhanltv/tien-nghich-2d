@@ -3,7 +3,7 @@
 export * from './image.mjs';
 export { validateLayout, assertLayout, cellRect, gridLayout, turnaroundLayout, fromLegacyLayout, normalizeLayout, layoutSchema } from './sheet/layout.mjs';
 export { renderTemplate } from './sheet/template.mjs';
-export { importSheet, normalizeScale, normalizeEntries, defaultScaleOptions, readSheetFile, writeImport, readImport, assertNoOverwrite, assertCellId, importSchema } from './sheet/import.mjs';
+export { importSheet, normalizeScale, normalizeEntries, scalesByFacing, defaultScaleOptions, readSheetFile, writeImport, readImport, assertNoOverwrite, assertCellId, importSchema } from './sheet/import.mjs';
 export { settingsFromPack, parsePaletteColors, resolveMarks } from './pixelize/settings.mjs';
 export { pixelizeCell, pixelizeImport, writePixelized, readPixelized, pixelizeSchema } from './pixelize/pixelize.mjs';
 export { bakeRig, writeBake, qaBake, validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, gateFacing, unitOf } from './rig/index.mjs';

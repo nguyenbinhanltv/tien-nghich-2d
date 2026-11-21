@@ -45,8 +45,15 @@ function importCell(sheet, layout, cell) {
     figure.pixels.set([d[i], d[i + 1], d[i + 2], 255], ((y - y0) * figure.width + (x - x0)) * 4);
     pixels++;
   }
+  const warnings = [];
+  const touches = (test) => { for (let k = 0; k < (test.horizontal ? view.width : view.height); k++) if (foreground(test.index(k))) return true; return false; };
+  const at = (x, y) => (y * view.width + x) * 4;
+  if (touches({horizontal: false, index: y => at(0, y)})) warnings.push('left_edge');
+  if (touches({horizontal: false, index: y => at(view.width - 1, y)})) warnings.push('right_edge');
+  if (touches({horizontal: true, index: x => at(x, view.height - 1)})) warnings.push('bottom_edge');
+  if (band < view.height && touches({horizontal: true, index: x => at(x, band)})) warnings.push('label_band');
   return {figure, entry: {id: cell.id, facing: cell.facing, pose: cell.pose, label: cell.label, rect, bounds, ground,
-    heightPx: m.heightPx, foregroundPx: pixels, crop: `cells/${cell.id}.png`}};
+    heightPx: m.heightPx, foregroundPx: pixels, warnings, crop: `cells/${cell.id}.png`}};
 }
 
 export const defaultScaleOptions = {mode: 'cell', groundLift: 4, margin: 1};
@@ -73,35 +80,49 @@ export function normalizeScale(cell, profile, {groundLift = 4, margin = 1} = {})
 
 const median = values => { const v = [...values].sort((a, b) => a - b), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
 
+/** Scales per facing from a turnaround import record, for locking a pose sheet to the turnaround's size. */
+export const scalesByFacing = record => Object.fromEntries(record.cells.filter(c => c.facing && c.scale).map(c => [c.facing, c.scale]));
+
 /**
- * Fit every cell of an import. mode "cell" (default) gives each figure its own scale, the right thing for a
- * turnaround whose facings differ in size. mode "sheet" is for pose sheets: ONE scale for every cell (the smallest
- * any cell needs, so all of them fit), and ONE ground line (the median of the cells' measured ground rows as a
- * fraction of the cell height) so a pose that is drawn a little low or high does not jump when played. The pose
- * keeps the template's centre column. Each entry gets scale, limit, targetY and alignGround (the ground point
- * the figure is pinned to the pivot by); sheet mode also records groundMeasured and groundShiftPx (native px).
+ * Fit every cell of an import. `mode` decides what cells share:
+ *   "cell"   each figure gets its own scale and ground (a turnaround whose facings differ in size);
+ *   "facing" the poses of one facing share one scale (the smallest any of them needs) and one ground line;
+ *   "sheet"  every cell shares one scale and one ground line.
+ * A shared ground line is the median of the group's measured ground rows as a fraction of the cell height, so a
+ * pose drawn a little low or high neither jumps nor loses a deliberate lift. Poses keep the template's centre column.
+ * `fixedScale` ({facing: scale}, e.g. scalesByFacing(turnaround record)) pins a facing's scale outright. Each
+ * entry gets scale, limit, targetY and alignGround (the point pinned to the pivot); shared modes also record
+ * groundMeasured, groundShiftPx (native px) and limitCell (the cell that binds the group's scale).
  */
 export function normalizeEntries(entries, profile, options = {}) {
   const o = {...defaultScaleOptions, ...options};
-  if (!['cell', 'sheet'].includes(o.mode)) throw new RangeError(`unknown scale mode "${o.mode}"`);
-  const frac = entries.map(e => e.ground[1] / (e.rect[3] - e.rect[1]));
-  const sharedFrac = o.mode === 'sheet' ? median(frac) : null;
-  const fits = entries.map(e => {
-    const alignGround = o.mode === 'sheet' ? [e.ground[0], roundHalfEven(sharedFrac * (e.rect[3] - e.rect[1]))] : [...e.ground];
-    return {alignGround, ...normalizeScale({...e, ground: alignGround}, profile, o)};
-  });
-  let binding = null;
-  if (o.mode === 'sheet') binding = fits.reduce((best, f, i) => f.scale < fits[best].scale ? i : best, 0);
-  return entries.map((e, i) => {
-    const fit = o.mode === 'sheet' ? {...fits[i], scale: fits[binding].scale, limit: fits[binding].limit, limitCell: entries[binding].id} : fits[i];
-    const out = {...e, scale: fit.scale, limit: fit.limit, targetY: fit.targetY, alignGround: fit.alignGround};
-    if (o.mode === 'sheet') {
-      out.limitCell = fit.limitCell;
-      out.groundMeasured = [...e.ground];
-      out.groundShiftPx = Number(((fit.alignGround[1] - e.ground[1]) * fit.scale).toFixed(2));
+  if (!['cell', 'facing', 'sheet'].includes(o.mode)) throw new RangeError(`unknown scale mode "${o.mode}"`);
+  const groupOf = e => o.mode === 'sheet' ? 'all' : o.mode === 'facing' ? `f:${e.facing ?? e.id}` : e.id;
+  const groups = new Map();
+  entries.forEach((e, i) => groups.set(groupOf(e), [...(groups.get(groupOf(e)) ?? []), i]));
+  const out = new Array(entries.length);
+  for (const members of groups.values()) {
+    const shared = o.mode !== 'cell';
+    const sharedFrac = shared ? median(members.map(i => entries[i].ground[1] / (entries[i].rect[3] - entries[i].rect[1]))) : null;
+    const fits = members.map(i => {
+      const e = entries[i];
+      const alignGround = shared ? [e.ground[0], roundHalfEven(sharedFrac * (e.rect[3] - e.rect[1]))] : [...e.ground];
+      return {i, alignGround, ...normalizeScale({...e, ground: alignGround}, profile, o)};
+    });
+    const bound = shared ? fits.reduce((best, f) => f.scale < best.scale ? f : best) : null;
+    for (const fit of fits) {
+      const e = entries[fit.i], fixed = o.fixedScale?.[e.facing];
+      const scale = fixed ?? (shared ? bound.scale : fit.scale);
+      const next = {...e, scale, limit: fixed !== undefined ? 'fixed' : shared ? bound.limit : fit.limit, targetY: fit.targetY, alignGround: fit.alignGround};
+      if (shared) {
+        next.limitCell = fixed !== undefined ? null : entries[bound.i].id;
+        next.groundMeasured = [...e.ground];
+        next.groundShiftPx = Number(((fit.alignGround[1] - e.ground[1]) * scale).toFixed(2));
+      }
+      out[fit.i] = next;
     }
-    return out;
-  });
+  }
+  return out;
 }
 
 /**
