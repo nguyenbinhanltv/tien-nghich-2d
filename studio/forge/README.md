@@ -29,13 +29,15 @@ node studio/forge/cli.mjs import   --layout /tmp/layout.json --sheet drawn.png -
 node studio/forge/cli.mjs pixelise --import /tmp/imp --out /tmp/px --project . --profile pet --marks marks.json
 node studio/forge/cli.mjs bake     --pixelize /tmp/px --out /tmp/bake --project . --profile pet --rig rig.json [--poses poseclips.json] [--patch patch.json]
 node studio/forge/cli.mjs gates    --bake /tmp/bake --project . --profile pet --rig rig.json     # `qa` is an alias
+node studio/forge/cli.mjs compare  --sets rig=/tmp/bake,poses=/tmp/bake2 --out /tmp/cmp.png --json /tmp/cmp.json [--project . --profile pet --rig rig.json]
 node studio/forge/cli.mjs run      --layout layout.json --sheet drawn.png --out /tmp/all --project . --profile pet --rig rig.json
 ```
 
 `template`: with `--layout` it renders that file; otherwise it builds a turnaround from `--facings` (or the
 profile's `directions`), optional `--poses`, `--size WxH`, `--height-px`. `import`, `pixelise`, `bake` and `run` never modify
 their inputs: outputs go to the `--out` directory and a write that would hit the input sheet is refused.
-`bake` writes `<clip>_<facing>_<n>.png`, `bake.json` and `gates.json` and exits 2 on a gate error; `gates` re-runs the gates from
+`compare` makes one contact sheet (a row per clip and facing, a block of keys per set) from bake directories or plain `<clip>_<facing>_<n>.png` directories; with `--profile` it also
+runs the gates on each bake directory and prints findings per gate. `bake` writes `<clip>_<facing>_<n>.png`, `bake.json` and `gates.json` and exits 2 on a gate error; `gates` re-runs the gates from
 `bake.json` and the frames. `run` writes `import/`, `pixelize/`, `bake/` and `pipeline.json`. Options: `--library` (motion library
 JSON, default the body plan's), `--clips a,b`, `--qa gates.json` (per-gate options), `--pose-rig`, `--marks`, and for import and run
 `--scale-mode cell|facing|sheet`, `--ground-lift`, `--margin`, `--fixed-scale scales.json`. Warnings (cut drawings, sprite on the canvas edge, clipped figure) print to stderr and sit in the records.
@@ -94,7 +96,11 @@ A clip whose keys are imported pose cells, not rig-derived keys: facings by key 
   survives instead of being pinned to the floor. Poses stay on the template's centre column. `fixedScale` (`{facing: scale}`, e.g. `scalesByFacing(turnaroundRecord)`) pins a facing's scale outright (limit `"fixed"`).
 - **Contacts.** The importer cannot tell which paw plants, so a clip can declare them per key. A declared contact must sit on an opaque pixel (error otherwise); then the foot-slide gate judges the pose clip like a rig clip.
   `weightTransfer` needs body-plate offsets that a plain pose clip does not have, so it is skipped there.
-- **Gates.** Rig landmarks and features apply to rig clips and to pose clips with `secondary`, not to plain pose clips. The flicker gate flags a pose-to-pose colour change as readily as shading drift: set `qa.flicker` per clip need.
+- **Landmarks.** `"landmarks": {"<facing>": [{"id", "color", "box": [x0, y0, x1, y1]}]}` declares where an asymmetric mark must be in the final sprite; the `markSide` gate checks every key (a missing mark or a stray one is an error). Validated against the palette at bake time.
+- **Gates for drawn keys.** Rig landmarks and features apply to rig clips and to pose clips with `secondary`. The A-B-A flicker gate is tuned for rig keys and flagged 16 of 16 drawn keys in the Codex trial, so drawn-key clips skip it by default and
+  get `identityDrift` (`pipeline/drift.mjs`): per pair of consecutive keys `interiorChange` (share of the shared interior that changes colour) and `colorShift` (half the L1 distance between the interior colour mixes), worst pair in the metrics
+  (`<clip>/<facing>`), and `identity_drift` **warnings** when `identity.maxInteriorChange` (default 0.6, uncalibrated: a gross-change guard) or `identity.maxColorShift` (default off) is exceeded. Override per run with `qa.pose`
+  (`{flicker: {maxPixels: 60}, identity: {…} | false}`) or per clip with the spec's `qa`; set `pose.flicker` to put the flicker gate back.
 - Mirrored facings are flipped from their source after baking (contacts mirrored too); patches apply after the mirror.
 
 ## Import and layout details added with the pose trial
@@ -102,7 +108,7 @@ A clip whose keys are imported pose cells, not rig-derived keys: facings by key 
 - **Labels fit.** `renderTemplate` shrinks a label to the cell's width as well as its band, and `validateLayout` rejects a label that cannot fit even at the smallest size (the first trial had labels overrunning 256 px cells).
 - **Import warnings.** Each cell record has `warnings`: `left_edge`, `right_edge`, `bottom_edge` (foreground touches that edge of the crop, so the drawing may be cut) and `label_band` (foreground in the first row under the label band: the
   band mask may have cropped the drawing). They are not errors; `run`, `import` and the pipeline summary list them. Move the seam in the layout (cell `rect`s need not tile) or the band fraction, and import again.
-- **Marks.** `resolveMarks` takes `minCoverage` (0..1: a native pixel also becomes a mark when that share of its source footprint matched the detector at full resolution, for notches the area filter would average away) and
+- **Marks.** `resolveMarks` takes `region` (`[x0, y0, x1, y1]` fractions of the figure's box: look for the mark only there, so a similar colour elsewhere is ignored), `minCoverage` (0..1: a native pixel also becomes a mark when that share of its source footprint matched the detector at full resolution, for notches the area filter would average away) and
   `keepOnOutline` (such pixels stay mark-coloured when the outline is rebuilt). Both off by default, so parity is unchanged.
 - **Scale options are recorded.** `import.json` holds `scaleOptions: {mode, groundLift, margin, fixedScale?}`. `pixelizeImport` reuses a recorded fit only when the profile and the options match; otherwise it refits (`normalizeEntries`).
 - **The marten's layout.** `assets/experiments/forge_bakeoff/lt_ink_marten/layout.forge.json` is the bake-off layout in `forge.layout` form with `landmarkBasis: "cell_width"`; its fractions were chosen so every

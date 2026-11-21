@@ -13,6 +13,9 @@
 //   node studio/forge/cli.mjs gates     --bake dir --project root --profile <name> [--rig rig.json] [--pose-rig rig.json] [--qa gates.json]
 //   node studio/forge/cli.mjs run       --layout layout.json --sheet sheet.png --out dir --project root --profile <name>
 //        [--prompt file] [--marks marks.json] [bake options] [import options]   the whole chain; writes import/ pixelize/ bake/ pipeline.json
+//   node studio/forge/cli.mjs compare   --sets name=dir,name=dir --out sheet.png [--json report.json] [--scale 4]
+//        [--project root --profile <name> --rig rig.json --qa gates.json]    side-by-side contact sheet of bake or frame directories;
+//        with a profile the bake directories are also run through the gates and summarised per gate
 // import and run also take --scale-mode cell|facing|sheet [--ground-lift n] [--margin n] [--fixed-scale scales.json]
 // ({facing: scale}, e.g. the per-facing scales of a turnaround import) - all recorded in import.json. `qa` is an alias of `gates`.
 // `pixelize` is accepted as an alias. Output directories are created; inputs are never modified.
@@ -20,7 +23,7 @@ import fs from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadPack } from '../core/pack.mjs';
-import { bakeStage, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
+import { bakeStage, compareSets, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
   resolveMarks, rigPalette, runPipeline, settingsFromPack, summarizeBake, turnaroundLayout, writeBakeDir, writeImport, writePixelized } from './index.mjs';
 
 const usage = 'usage: cli.mjs template|import|pixelise [options]  (see the header of studio/forge/cli.mjs)';
@@ -125,6 +128,17 @@ const commands = {
     const gates = qaStage(result, {settings, palette: rigPalette(settings), rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']),
       options: await optionalJson(opts.qa)});
     reportGates(gates);
+  },
+
+  async compare(opts) {
+    const dirs = Object.fromEntries(need(opts, 'sets').split(',').map(pair => { const i = pair.indexOf('='); if (i < 1) throw new Error('--sets takes name=dir,name=dir'); return [pair.slice(0, i), pair.slice(i + 1)]; }));
+    const settings = opts.profile ? await project({project: '.', ...opts}) : null;
+    const gates = settings ? {settings, palette: rigPalette(settings), rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']), options: await optionalJson(opts.qa)} : undefined;
+    const {sheet, rows, sets} = await compareSets(dirs, {scale: Number(opts.scale ?? 4), gates});
+    await fs.writeFile(need(opts, 'out'), encodePng(sheet));
+    if (opts.json) await fs.writeFile(opts.json, JSON.stringify({rows, sets}, null, 2) + '\n');
+    console.log(`compare: ${Object.keys(dirs).length} set(s), ${rows.length} row(s) -> ${opts.out}`);
+    for (const [name, set] of Object.entries(sets)) console.log(`  ${name}: ${set.frames} frames${set.gates ? `, gates ${set.gates.pass ? 'pass' : 'FAIL'} ${JSON.stringify(set.gates.findings)}` : ''}`);
   },
 
   async run(opts) {

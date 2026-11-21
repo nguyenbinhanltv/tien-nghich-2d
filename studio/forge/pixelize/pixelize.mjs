@@ -31,10 +31,16 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
   const indexed = snapPalette(sampled, ordinary);
   const markPixels = marks.map(() => 0);
   const d = sampled.pixels;
+  // A mark's region, in native pixels: fractions of the reduced figure placed at its origin.
+  const inRegion = (m, i) => {
+    if (!m.region) return true;
+    const x = (i / 4) % width, y = Math.floor(i / 4 / width), [a, b, c, e] = m.region;
+    return x >= origin[0] + a * dims[0] && x < origin[0] + c * dims[0] && y >= origin[1] + b * dims[1] && y < origin[1] + e * dims[1];
+  };
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] !== 255) continue;
     marks.forEach((m, k) => {
-      if (d[i] >= m.minRgb[0] && d[i + 1] >= m.minRgb[1] && d[i + 2] >= m.minRgb[2] && d[i + 2] - d[i + 1] >= m.blueOverGreen) {
+      if (inRegion(m, i) && d[i] >= m.minRgb[0] && d[i + 1] >= m.minRgb[1] && d[i + 2] >= m.minRgb[2] && d[i + 2] - d[i + 1] >= m.blueOverGreen) {
         indexed.pixels.set(m.rgb, i);
         markPixels[k]++;
       }
@@ -51,7 +57,7 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
     }
     const share = blit(createImage(width, height), resizeBox(hit, ...dims), origin[0], origin[1]);
     for (let i = 0; i < indexed.pixels.length; i += 4) {
-      if (indexed.pixels[i + 3] !== 255 || share.pixels[i + 3] < m.minCoverage * 255) continue;
+      if (indexed.pixels[i + 3] !== 255 || share.pixels[i + 3] < m.minCoverage * 255 || !inRegion(m, i)) continue;
       if (!sameRgb(indexed.pixels.subarray(i, i + 3), m.rgb)) markPixels[k]++;
       indexed.pixels.set(m.rgb, i);
       if (m.keepOnOutline) kept.push([i, m.rgb]);

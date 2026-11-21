@@ -15,7 +15,9 @@ import { validatePatch } from '../rig/patch.mjs';
 import { loadLibrary, clipTable } from '../motion/library.mjs';
 import { runGates, stability, defaultOptions } from '../gates/index.mjs';
 import { bakePoseClip, validatePoseClips, poseClipsSchema } from './poses.mjs';
+import { identityDrift } from './drift.mjs';
 
+export { identityDrift, defaultDrift } from './drift.mjs';
 export { poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip } from './poses.mjs';
 export const bakeSchema = 'forge.bake';
 
@@ -54,7 +56,7 @@ export function bakeStage({settings, palette, cells, rig, poseRig, poseClips, li
   const result = {rig: rig?.id ?? null, profile: name, clips: {}, frames: {}};
   const poseSpecs = poseClips?.clips ?? {};
   if (poseClips) {
-    const issues = validatePoseClips(poseClips, {table, layerIds: new Set(cells.keys())});
+    const issues = validatePoseClips(poseClips, {table, layerIds: new Set(cells.keys()), palette});
     if (issues.length) throw new Error(`pose clips are invalid:\n  ${issues.join('\n  ')}`);
   }
   if (patch) {
@@ -83,8 +85,11 @@ export function bakeStage({settings, palette, cells, rig, poseRig, poseClips, li
 const stub = {parts: [], landmarks: [], features: []};
 
 /**
- * Gates over a bake: per clip and facing (rig landmarks apply to rig clips and to pose clips with secondary motion,
- * not to plain pose clips), plus palette and proportion stability across the clips of each facing.
+ * Gates over a bake: per clip and facing (rig landmarks apply to rig clips and to pose clips with secondary motion;
+ * a plain pose clip is judged against the `landmarks` its own spec declares), plus palette and proportion stability
+ * across the clips of each facing. Pose clips (drawn keys) skip the A-B-A flicker gate by default, which is tuned for rig keys,
+ * and get the identity-drift measure instead (warnings). `options.pose` overrides for them, e.g.
+ * `{flicker: {maxPixels: 60}, identity: {maxInteriorChange: 0.5, maxColorShift: 0.3}}`; a pose clip's own `qa` applies on top.
  * Returns {pass, findings, metrics}.
  */
 export function qaStage(result, {settings, palette, rig, poseRig, options = {}}) {
@@ -94,10 +99,21 @@ export function qaStage(result, {settings, palette, rig, poseRig, options = {}})
     const owner = baked.source === 'poses' ? (baked.secondary ? poseRig ?? rig : null) : rig;
     for (const facing of Object.keys(baked.facings)) {
       const known = owner?.facings[facing];
-      const run = runGates(unitOf(result, clip, facing),
-        {palette, facing: known ? gateFacing(owner, facing) : stub, pivot, mirrored: Boolean(known?.mirrorOf)}, options);
+      const declared = baked.source === 'poses' ? baked.landmarks?.[facing] : null;
+      const drawn = baked.source === 'poses';
+      const {pose: poseOptions = {}, ...gateOptions} = options;
+      const clipOptions = drawn ? {flicker: false, ...gateOptions, ...poseOptions, ...(baked.qa ?? {})} : gateOptions;
+      const {identity, ...forGates} = clipOptions;
+      const unit = unitOf(result, clip, facing);
+      const run = runGates(unit,
+        {palette, facing: known ? gateFacing(owner, facing) : declared ? {...stub, landmarks: declared} : stub, pivot, mirrored: Boolean(known?.mirrorOf)}, forGates);
       findings.push(...run.findings);
       metrics[`${clip}/${facing}`] = run.metrics;
+      if (drawn && identity !== false) {
+        const drift = identityDrift(unit, {palette}, identity);
+        findings.push(...drift.findings);
+        metrics[`${clip}/${facing}`] = {...run.metrics, ...drift.metrics};
+      }
     }
   }
   if (options.stability !== false && Object.keys(result.clips).length > 1) {
@@ -118,6 +134,7 @@ export function summarizeBake(result) {
     schema: bakeSchema, version: 1, rig: result.rig, profile: result.profile,
     clips: Object.fromEntries(Object.entries(result.clips).map(([name, c]) => [name, {
       durationMs: c.durationMs, loop: c.loop, source: c.source ?? 'rig', ...(c.secondary !== undefined ? {secondary: c.secondary} : {}),
+      ...(c.landmarks ? {landmarks: c.landmarks} : {}), ...(c.qa ? {qa: c.qa} : {}),
       facings: Object.fromEntries(Object.entries(c.facings).map(([f, o]) => [f, {frames: o.frames.length, contacts: o.contacts, poses: o.poses ?? null}]))}])),
     frames: frameHashes(result),
   }));  // through JSON so the summary is exactly what a tool would send (no -0, no undefined)
@@ -135,7 +152,8 @@ export async function readBakeDir(dir) {
   if (doc.schema !== bakeSchema) throw new Error(`${dir} is not a ${bakeSchema} directory`);
   const result = {rig: doc.rig, profile: doc.profile, clips: {}, frames: {}};
   for (const [name, c] of Object.entries(doc.clips)) {
-    result.clips[name] = {clip: name, durationMs: c.durationMs, loop: c.loop, source: c.source, ...(c.secondary !== undefined ? {secondary: c.secondary} : {}), facings: {}};
+    result.clips[name] = {clip: name, durationMs: c.durationMs, loop: c.loop, source: c.source, ...(c.secondary !== undefined ? {secondary: c.secondary} : {}),
+      ...(c.landmarks ? {landmarks: c.landmarks} : {}), ...(c.qa ? {qa: c.qa} : {}), facings: {}};
     for (const [f, o] of Object.entries(c.facings)) {
       const frames = Array.from({length: o.frames}, (_, i) => readFrame(path.join(dir, `${name}_${f}_${i}.png`)));
       frames.forEach((fr, i) => { result.frames[`${name}_${f}_${i}`] = fr; });
