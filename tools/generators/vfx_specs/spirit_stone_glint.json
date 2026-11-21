@@ -1,0 +1,172 @@
+{
+ "name": "spirit_stone_glint",
+ "type": "sparkle",
+ "canvas": [
+  32,
+  32
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 6,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "jade": {
+   "colors": [
+    "#17594b",
+    "#22795f",
+    "#2fa27a",
+    "#5cc796",
+    "#9ae3b8",
+    "#d2f5de"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "twinkle",
+   "ticks": 4,
+   "fast": true
+  },
+  {
+   "name": "fade",
+   "ticks": 8
+  }
+ ],
+ "layers": [
+  {
+   "id": "beam",
+   "kind": "shape",
+   "during": [
+    "twinkle",
+    "fade"
+   ],
+   "ramp": "jade",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.12,
+    "rotate": 45,
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.3,
+       9
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.3,
+   "value": 1.0
+  },
+  {
+   "id": "star",
+   "kind": "shape",
+   "during": [
+    "twinkle",
+    "fade"
+   ],
+   "ramp": "jade",
+   "role": "flash",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.14,
+    "r": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.25,
+       13
+      ],
+      [
+       0.8,
+       4
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.35,
+   "value": 1.25
+  },
+  {
+   "id": "sat",
+   "kind": "particles",
+   "during": [
+    "twinkle",
+    "fade"
+   ],
+   "ramp": "jade",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "count": 3,
+    "from": {
+     "area": "circle",
+     "r": 9
+    }
+   },
+   "life": [
+    6,
+    9
+   ],
+   "stamp": {
+    "kind": "plus",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.4,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "beam",
+  "star",
+  "sat"
+ ]
+}

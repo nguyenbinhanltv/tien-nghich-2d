@@ -1,0 +1,252 @@
+{
+ "name": "ton_hon_phan_hac_vu",
+ "type": "aura",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 21,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "wraith": {
+   "colors": [
+    "#2d1b4e",
+    "#6a3fa8",
+    "#8f62cf",
+    "#b99aeb",
+    "#e3d6fb"
+   ]
+  },
+  "umbra": {
+   "colors": [
+    "#1b1030",
+    "#2d1b4e",
+    "#46297a"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "swirl",
+   "ticks": 48
+  }
+ ],
+ "layers": [
+  {
+   "id": "pall",
+   "kind": "field",
+   "ramp": "umbra",
+   "role": "smoke",
+   "noise": {
+    "kind": "worley",
+    "scale": 11,
+    "speed": 0.02,
+    "invert": true
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": 25,
+    "ry": 24
+   },
+   "radial_falloff": 0.7,
+   "threshold": 0.35,
+   "value": 0.9,
+   "min_cluster": 6
+  },
+  {
+   "id": "arms",
+   "kind": "field",
+   "ramp": "wraith",
+   "role": "spark",
+   "min_cluster": 5,
+   "polar": {
+    "swirl": 3,
+    "rings": 1.2,
+    "speed": 0.0208
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": 24,
+    "ry": 23
+   },
+   "threshold": 0.62,
+   "value": 0.85
+  },
+  {
+   "id": "puffs",
+   "kind": "particles",
+   "ramp": "umbra",
+   "role": "smoke",
+   "min_cluster": 4,
+   "emit": {
+    "mode": "stream",
+    "rate": 0.3,
+    "from": {
+     "area": "ring",
+     "r": 11,
+     "width": 3
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.15,
+     0.3
+    ],
+    "angle": "out"
+   },
+   "life": [
+    24,
+    34
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.5,
+       5
+      ],
+      [
+       1,
+       5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 120
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.5,
+      0.9
+     ],
+     [
+      1,
+      0.0
+     ]
+    ],
+    "ease": "inout"
+   }
+  },
+  {
+   "id": "wisps",
+   "kind": "particles",
+   "ramp": "wraith",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.35,
+    "from": {
+     "area": "ring",
+     "r": 14,
+     "width": 3
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.4,
+     0.7
+    ],
+    "angle": 270,
+    "spread": 25
+   },
+   "wiggle": {
+    "amp": 2.5,
+    "freq": 0.05
+   },
+   "life": [
+    16,
+    24
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "eyes",
+   "kind": "shape",
+   "ramp": "wraith",
+   "role": "flash",
+   "tag": "sparkle",
+   "min_cluster": 1,
+   "shape": {
+    "sdf": "capsule",
+    "from": [
+     -6,
+     -2
+    ],
+    "to": [
+     -3,
+     -3
+    ],
+    "r": 1
+   },
+   "mirror": "x",
+   "value": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      0.5,
+      1.4
+     ],
+     [
+      1,
+      0.9
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "pall",
+  "arms",
+  "puffs",
+  "wisps",
+  "eyes"
+ ],
+ "loop": true
+}

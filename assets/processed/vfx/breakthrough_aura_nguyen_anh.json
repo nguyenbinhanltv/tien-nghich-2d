@@ -1,0 +1,173 @@
+{
+ "id": "breakthrough_aura_nguyen_anh",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  32
+ ],
+ "fps": 30,
+ "loop": true,
+ "frame_count": 36,
+ "total_ms": 1200,
+ "sheet": "assets/processed/vfx/breakthrough_aura_nguyen_anh_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_29.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_30.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_31.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_32.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_33.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_34.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_nguyen_anh_35.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "aura",
+   "from": 0,
+   "to": 35,
+   "direction": "forward"
+  }
+ ],
+ "events": [],
+ "spec": "tools/generators/vfx_specs/breakthrough_aura_nguyen_anh.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

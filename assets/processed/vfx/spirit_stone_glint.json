@@ -1,0 +1,85 @@
+{
+ "id": "spirit_stone_glint",
+ "frame_size": [
+  32,
+  32
+ ],
+ "anchor": [
+  16,
+  16
+ ],
+ "fps": 30,
+ "loop": false,
+ "frame_count": 12,
+ "total_ms": 400,
+ "sheet": "assets/processed/vfx/spirit_stone_glint_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/spirit_stone_glint_11.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "twinkle",
+   "from": 0,
+   "to": 3,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "fade",
+   "from": 4,
+   "to": 11,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [],
+ "spec": "tools/generators/vfx_specs/spirit_stone_glint.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

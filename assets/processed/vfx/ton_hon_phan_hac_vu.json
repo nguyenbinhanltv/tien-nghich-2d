@@ -1,0 +1,221 @@
+{
+ "id": "ton_hon_phan_hac_vu",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  32
+ ],
+ "fps": 30,
+ "loop": true,
+ "frame_count": 48,
+ "total_ms": 1600,
+ "sheet": "assets/processed/vfx/ton_hon_phan_hac_vu_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_29.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_30.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_31.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_32.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_33.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_34.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_35.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_36.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_37.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_38.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_39.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_40.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_41.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_42.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_43.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_44.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_45.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_46.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ton_hon_phan_hac_vu_47.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "swirl",
+   "from": 0,
+   "to": 47,
+   "direction": "forward"
+  }
+ ],
+ "events": [],
+ "spec": "tools/generators/vfx_specs/ton_hon_phan_hac_vu.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

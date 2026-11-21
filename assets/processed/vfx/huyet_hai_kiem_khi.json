@@ -1,0 +1,105 @@
+{
+ "id": "huyet_hai_kiem_khi",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  32
+ ],
+ "fps": 30,
+ "loop": false,
+ "frame_count": 14,
+ "total_ms": 467,
+ "sheet": "assets/processed/vfx/huyet_hai_kiem_khi_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/huyet_hai_kiem_khi_13.png",
+   "duration_ms": 34
+  }
+ ],
+ "tags": [
+  {
+   "name": "swing",
+   "from": 0,
+   "to": 1,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "impact",
+   "from": 2,
+   "to": 3,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "shatter",
+   "from": 4,
+   "to": 13,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [
+  {
+   "frame": 2,
+   "name": "hit"
+  }
+ ],
+ "spec": "tools/generators/vfx_specs/huyet_hai_kiem_khi.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

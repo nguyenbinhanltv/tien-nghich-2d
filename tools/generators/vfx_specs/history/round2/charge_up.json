@@ -1,0 +1,252 @@
+{
+ "name": "charge_up",
+ "type": "other",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 8,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "gold": {
+   "colors": [
+    "#63400f",
+    "#8f5f14",
+    "#bf8a1e",
+    "#e0b030",
+    "#f5d765",
+    "#fff0b0"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "gather",
+   "ticks": 18
+  },
+  {
+   "name": "hold",
+   "ticks": 12
+  }
+ ],
+ "layers": [
+  {
+   "id": "ring",
+   "kind": "shape",
+   "during": [
+    "gather"
+   ],
+   "ramp": "gold",
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       28
+      ],
+      [
+       1,
+       12
+      ]
+     ],
+     "ease": "in"
+    },
+    "width": 1
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      1,
+      1.0
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.6,
+    "noise": "angular",
+    "scale": 10,
+    "amount": 1
+   }
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "during": [
+    "gather",
+    "hold"
+   ],
+   "ramp": "gold",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.9,
+    "from": {
+     "area": "ring",
+     "r": 26,
+     "width": 3
+    }
+   },
+   "velocity": {
+    "speed": -1.1,
+    "angle": "out"
+   },
+   "life": [
+    10,
+    14
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      1,
+      1.0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "orb",
+   "kind": "shape",
+   "ramp": "gold",
+   "role": "flash",
+   "during": [
+    "gather",
+    "hold"
+   ],
+   "outline": "dark",
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.6,
+       7
+      ],
+      [
+       0.8,
+       7
+      ],
+      [
+       1,
+       7
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.25,
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.6,
+      1.1
+     ],
+     [
+      1,
+      1.1
+     ]
+    ]
+   }
+  },
+  {
+   "id": "rays",
+   "kind": "shape",
+   "ramp": "gold",
+   "during": [
+    "gather",
+    "hold"
+   ],
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.15,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       90
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.6,
+       13
+      ],
+      [
+       0.8,
+       13
+      ],
+      [
+       1,
+       13
+      ]
+     ]
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.2,
+   "value": 0.9
+  }
+ ],
+ "order": [
+  "ring",
+  "motes",
+  "orb",
+  "rays"
+ ],
+ "loop": true,
+ "sections": {
+  "start": [
+   "gather"
+  ],
+  "loop": [
+   "hold"
+  ]
+ }
+}

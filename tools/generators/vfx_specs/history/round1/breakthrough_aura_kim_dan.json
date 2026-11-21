@@ -1,0 +1,116 @@
+{
+ "name": "breakthrough_aura_kim_dan",
+ "type": "aura",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 31,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "volt": {
+   "colors": [
+    "#a51d35",
+    "#ff3b30",
+    "#ff9a7a",
+    "#f5d765",
+    "#fff0b0"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "aura",
+   "ticks": 36
+  }
+ ],
+ "layers": [
+  {
+   "id": "flame",
+   "kind": "field",
+   "ramp": "volt",
+   "role": "fire",
+   "noise": {
+    "kind": "fbm",
+    "scale": 7,
+    "octaves": 3,
+    "speed": 0.06
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": 15,
+    "ry": 26,
+    "at": [
+     0,
+     -2
+    ]
+   },
+   "falloff_from": "bottom",
+   "radial_falloff": 0.9,
+   "threshold": 0.2,
+   "flow": 1,
+   "value": 1.4
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "volt",
+   "tag": "ember",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.2,
+    "from": {
+     "area": "rect",
+     "size": [
+      24,
+      4
+     ],
+     "at": [
+      0,
+      22
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.5,
+     0.9
+    ],
+    "angle": 270,
+    "spread": 20
+   },
+   "wiggle": {
+    "amp": 1.2,
+    "freq": 0.08
+   },
+   "life": [
+    24,
+    34
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "flame",
+  "motes"
+ ],
+ "loop": true
+}

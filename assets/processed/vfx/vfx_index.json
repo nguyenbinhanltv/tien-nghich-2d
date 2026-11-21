@@ -1,0 +1,462 @@
+{
+ "schema": "tien-nghich-2d.vfx-index",
+ "palette": "tools/generators/palette.json",
+ "frame_key_pattern": "assets/processed/vfx/<id>_<n>.png (n 0-based)",
+ "effects": [
+  {
+   "id": "breakthrough_aura_kim_dan",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 36,
+   "total_ms": 1200,
+   "sheet": "assets/processed/vfx/breakthrough_aura_kim_dan_sheet.png",
+   "descriptor": "assets/processed/vfx/breakthrough_aura_kim_dan.json",
+   "tags": [
+    [
+     "aura",
+     0,
+     35,
+     "loop"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "breakthrough_aura_luyen_khi",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 36,
+   "total_ms": 1200,
+   "sheet": "assets/processed/vfx/breakthrough_aura_luyen_khi_sheet.png",
+   "descriptor": "assets/processed/vfx/breakthrough_aura_luyen_khi.json",
+   "tags": [
+    [
+     "aura",
+     0,
+     35,
+     "loop"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "breakthrough_aura_nguyen_anh",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 36,
+   "total_ms": 1200,
+   "sheet": "assets/processed/vfx/breakthrough_aura_nguyen_anh_sheet.png",
+   "descriptor": "assets/processed/vfx/breakthrough_aura_nguyen_anh.json",
+   "tags": [
+    [
+     "aura",
+     0,
+     35,
+     "loop"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "breakthrough_aura_truc_co",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 36,
+   "total_ms": 1200,
+   "sheet": "assets/processed/vfx/breakthrough_aura_truc_co_sheet.png",
+   "descriptor": "assets/processed/vfx/breakthrough_aura_truc_co.json",
+   "tags": [
+    [
+     "aura",
+     0,
+     35,
+     "loop"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "cam_che_tran_phap",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 85,
+   "total_ms": 2833,
+   "sheet": "assets/processed/vfx/cam_che_tran_phap_sheet.png",
+   "descriptor": "assets/processed/vfx/cam_che_tran_phap.json",
+   "tags": [
+    [
+     "draw",
+     0,
+     15,
+     "once"
+    ],
+    [
+     "channel",
+     16,
+     45,
+     "loop"
+    ],
+    [
+     "burst",
+     46,
+     48,
+     "once"
+    ],
+    [
+     "release",
+     49,
+     84,
+     "once"
+    ],
+    [
+     "start",
+     0,
+     15,
+     "once"
+    ],
+    [
+     "loop",
+     16,
+     45,
+     "loop"
+    ],
+    [
+     "end",
+     46,
+     84,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "seal",
+     46
+    ]
+   ]
+  },
+  {
+   "id": "charge_up",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 30,
+   "total_ms": 1000,
+   "sheet": "assets/processed/vfx/charge_up_sheet.png",
+   "descriptor": "assets/processed/vfx/charge_up.json",
+   "tags": [
+    [
+     "gather",
+     0,
+     17,
+     "once"
+    ],
+    [
+     "hold",
+     18,
+     29,
+     "loop"
+    ],
+    [
+     "start",
+     0,
+     17,
+     "once"
+    ],
+    [
+     "loop",
+     18,
+     29,
+     "loop"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "dash_afterimage",
+   "frame_size": [
+    32,
+    32
+   ],
+   "anchor": [
+    16,
+    16
+   ],
+   "fps": 30,
+   "loop": false,
+   "frame_count": 12,
+   "total_ms": 400,
+   "sheet": "assets/processed/vfx/dash_afterimage_sheet.png",
+   "descriptor": "assets/processed/vfx/dash_afterimage.json",
+   "tags": [
+    [
+     "streak",
+     0,
+     0,
+     "once"
+    ],
+    [
+     "fade",
+     1,
+     11,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "dash",
+     0
+    ]
+   ]
+  },
+  {
+   "id": "hit_spark",
+   "frame_size": [
+    32,
+    32
+   ],
+   "anchor": [
+    16,
+    16
+   ],
+   "fps": 30,
+   "loop": false,
+   "frame_count": 12,
+   "total_ms": 400,
+   "sheet": "assets/processed/vfx/hit_spark_sheet.png",
+   "descriptor": "assets/processed/vfx/hit_spark.json",
+   "tags": [
+    [
+     "flash",
+     0,
+     1,
+     "once"
+    ],
+    [
+     "burst",
+     2,
+     4,
+     "once"
+    ],
+    [
+     "fade",
+     5,
+     11,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "hit",
+     0
+    ]
+   ]
+  },
+  {
+   "id": "huyet_hai_kiem_khi",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": false,
+   "frame_count": 14,
+   "total_ms": 467,
+   "sheet": "assets/processed/vfx/huyet_hai_kiem_khi_sheet.png",
+   "descriptor": "assets/processed/vfx/huyet_hai_kiem_khi.json",
+   "tags": [
+    [
+     "swing",
+     0,
+     1,
+     "once"
+    ],
+    [
+     "impact",
+     2,
+     3,
+     "once"
+    ],
+    [
+     "shatter",
+     4,
+     13,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "hit",
+     2
+    ]
+   ]
+  },
+  {
+   "id": "spirit_stone_glint",
+   "frame_size": [
+    32,
+    32
+   ],
+   "anchor": [
+    16,
+    16
+   ],
+   "fps": 30,
+   "loop": false,
+   "frame_count": 12,
+   "total_ms": 400,
+   "sheet": "assets/processed/vfx/spirit_stone_glint_sheet.png",
+   "descriptor": "assets/processed/vfx/spirit_stone_glint.json",
+   "tags": [
+    [
+     "twinkle",
+     0,
+     3,
+     "once"
+    ],
+    [
+     "fade",
+     4,
+     11,
+     "once"
+    ]
+   ],
+   "events": []
+  },
+  {
+   "id": "thien_loi_cuc_canh",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    62
+   ],
+   "fps": 30,
+   "loop": false,
+   "frame_count": 34,
+   "total_ms": 1133,
+   "sheet": "assets/processed/vfx/thien_loi_cuc_canh_sheet.png",
+   "descriptor": "assets/processed/vfx/thien_loi_cuc_canh.json",
+   "tags": [
+    [
+     "contrast",
+     0,
+     0,
+     "once"
+    ],
+    [
+     "flash",
+     1,
+     2,
+     "once"
+    ],
+    [
+     "flicker",
+     3,
+     8,
+     "once"
+    ],
+    [
+     "impact",
+     9,
+     16,
+     "once"
+    ],
+    [
+     "linger",
+     17,
+     33,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "hit",
+     1
+    ],
+    [
+     "shake:4",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "ton_hon_phan_hac_vu",
+   "frame_size": [
+    64,
+    64
+   ],
+   "anchor": [
+    32,
+    32
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 48,
+   "total_ms": 1600,
+   "sheet": "assets/processed/vfx/ton_hon_phan_hac_vu_sheet.png",
+   "descriptor": "assets/processed/vfx/ton_hon_phan_hac_vu.json",
+   "tags": [
+    [
+     "swirl",
+     0,
+     47,
+     "loop"
+    ]
+   ],
+   "events": []
+  }
+ ]
+}

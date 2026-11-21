@@ -1,0 +1,601 @@
+{
+ "name": "cam_che_tran_phap",
+ "type": "other",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 11,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "gold": {
+   "colors": [
+    "#63400f",
+    "#8f5f14",
+    "#bf8a1e",
+    "#e0b030",
+    "#f5d765",
+    "#fff0b0"
+   ]
+  },
+  "jade": {
+   "colors": [
+    "#17594b",
+    "#22795f",
+    "#2fa27a",
+    "#5cc796",
+    "#9ae3b8",
+    "#d2f5de"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "draw",
+   "ticks": 16
+  },
+  {
+   "name": "channel",
+   "ticks": 30
+  },
+  {
+   "name": "burst",
+   "ticks": 3,
+   "fast": true,
+   "events": [
+    "seal"
+   ]
+  },
+  {
+   "name": "release",
+   "ticks": 36
+  }
+ ],
+ "layers": [
+  {
+   "id": "ring_0",
+   "kind": "shape",
+   "ramp": "gold",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "width": 2.5,
+    "from": 0,
+    "to": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.18823529411764706,
+       90
+      ],
+      [
+       1,
+       90
+      ]
+     ]
+    },
+    "r": 26
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.5411764705882353,
+      0.7
+     ],
+     [
+      0.5511764705882353,
+      1.0
+     ],
+     [
+      0.6164705882352941,
+      0.85
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.5,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "ring_1",
+   "kind": "shape",
+   "ramp": "gold",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "width": 2.5,
+    "from": 90,
+    "to": {
+     "keys": [
+      [
+       0,
+       93
+      ],
+      [
+       0.18823529411764706,
+       180
+      ],
+      [
+       1,
+       180
+      ]
+     ]
+    },
+    "r": 26
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.5411764705882353,
+      0.7
+     ],
+     [
+      0.5511764705882353,
+      1.0
+     ],
+     [
+      0.6164705882352941,
+      0.85
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.5,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "ring_2",
+   "kind": "shape",
+   "ramp": "gold",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "width": 2.5,
+    "from": 180,
+    "to": {
+     "keys": [
+      [
+       0,
+       183
+      ],
+      [
+       0.18823529411764706,
+       270
+      ],
+      [
+       1,
+       270
+      ]
+     ]
+    },
+    "r": 26
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.5411764705882353,
+      0.7
+     ],
+     [
+      0.5511764705882353,
+      1.0
+     ],
+     [
+      0.6164705882352941,
+      0.85
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.5,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "ring_3",
+   "kind": "shape",
+   "ramp": "gold",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "width": 2.5,
+    "from": 270,
+    "to": {
+     "keys": [
+      [
+       0,
+       273
+      ],
+      [
+       0.18823529411764706,
+       360
+      ],
+      [
+       1,
+       360
+      ]
+     ]
+    },
+    "r": 26
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.5411764705882353,
+      0.7
+     ],
+     [
+      0.5511764705882353,
+      1.0
+     ],
+     [
+      0.6164705882352941,
+      0.85
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.5,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "star",
+   "kind": "shape",
+   "ramp": "jade",
+   "shape": {
+    "sdf": "star",
+    "squash": 0.4,
+    "points": 8,
+    "inner": 0.62,
+    "onion": 1.3,
+    "r": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.03,
+       0
+      ],
+      [
+       0.18823529411764706,
+       21
+      ],
+      [
+       1,
+       21
+      ]
+     ]
+    },
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.18823529411764706,
+       0
+      ],
+      [
+       0.5411764705882353,
+       45
+      ],
+      [
+       1,
+       52
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.75
+     ],
+     [
+      0.5411764705882353,
+      0.75
+     ],
+     [
+      0.5511764705882353,
+      1.05
+     ],
+     [
+      0.6164705882352941,
+      0.9
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.7,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "runes",
+   "kind": "shape",
+   "ramp": "gold",
+   "shape": {
+    "sdf": "rays",
+    "squash": 0.4,
+    "count": 8,
+    "inner": 22,
+    "length": 25,
+    "width": 3,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.18823529411764706,
+       0
+      ],
+      [
+       0.5411764705882353,
+       -45
+      ],
+      [
+       1,
+       -52
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      0.5411764705882353,
+      0.8
+     ],
+     [
+      0.5511764705882353,
+      1.2
+     ],
+     [
+      1,
+      0.7
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5964705882352941,
+    "noise": "angular",
+    "scale": 24,
+    "bias": 0.0,
+    "amount": 1.7,
+    "ease": "linear"
+   },
+   "min_cluster": 4
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "jade",
+   "tag": "sparkle",
+   "during": [
+    "channel"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": 0.7,
+    "from": {
+     "area": "rect",
+     "size": [
+      46,
+      14
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.35,
+     0.7
+    ],
+    "angle": 270,
+    "spread": 10
+   },
+   "life": [
+    14,
+    24
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.3,
+      1.0
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "shock",
+   "kind": "shape",
+   "ramp": "gold",
+   "role": "flash",
+   "during": [
+    "burst",
+    "release"
+   ],
+   "shape": {
+    "sdf": "ring",
+    "squash": 0.4,
+    "r": {
+     "keys": [
+      [
+       0,
+       10
+      ],
+      [
+       0.12,
+       28
+      ],
+      [
+       1,
+       30
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       0.12,
+       3.5
+      ],
+      [
+       0.6,
+       2.2
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.5
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.3,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.0,
+    "amount": 1.0,
+    "ease": "out"
+   },
+   "min_cluster": 4
+  }
+ ],
+ "order": [
+  "ring_0",
+  "ring_1",
+  "ring_2",
+  "ring_3",
+  "star",
+  "runes",
+  "motes",
+  "shock"
+ ],
+ "loop": true,
+ "sections": {
+  "start": [
+   "draw"
+  ],
+  "loop": [
+   "channel"
+  ],
+  "end": [
+   "burst",
+   "release"
+  ]
+ }
+}
