@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_flare",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "A bronze brazier gathers an ember into a tall flame that sheds sparks.",
+  "rights": "Original artwork created for this project.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/lt_tide_flare_bell_wards.py",
+  "generator_sha256_lf": "89211420d5998ad53f3ea22b21676c7a3f3d746dc22f5c9a4c9d2f2dcaa58a2a",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "source": "source.png",
+  "source_sha256": "c2930cdea757b9592783ba449490a0ce72276126186c5ae957604b97bc4833ce",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ward_flare/contact_1x.png": "69d96f2306bf4bf1aec4e03d065bd1474881eb886fdeeb41c21271e1ee833546",
+    "assets/raw/longtime/lt_ward_flare/contact_4x.png": "2ff32d2016a78040fbf2e42b63091fab5e6a2a7708db3e948dfde09ec8a6b01c"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ward_flare/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_flare/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "a2b40ffa89a3059b7835936c691c89b9b0c6c118a8d90db99c669aab8aa081a5"
+    },
+    {
+      "key": "longtime/lt_ward_flare/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_flare/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "9f9d2b16bb2881a0be2c4230d4edc4880bf1aa22ca5b8608adeae5fdb35ebc08"
+    },
+    {
+      "key": "longtime/lt_ward_flare/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_flare/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "bb5d250ee0c9979f8e6e99403e5b0c3ff8947281ce20e277bb77b0286855d9f1"
+    },
+    {
+      "key": "longtime/lt_ward_flare/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_flare/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "20b0289c979b1d083da2fc2c083fa98d3f928d9a22d604e4413741747d5ff0c1"
+    },
+    {
+      "key": "longtime/lt_ward_flare/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_flare/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "2a13f1ec0598a55eeac03c9b289d5d321d929cdd65b09bf50aab012398aa7ddc"
+    },
+    {
+      "key": "longtime/lt_ward_flare/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_flare/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "b298b64da3f63c2e44a06a55a8e1fd7f67bc6e63334cfa13ee8b125a5ea09d96"
+    },
+    {
+      "key": "longtime/lt_ward_flare/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_flare/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "58afdff40af08cfcdff30cca206688a685db6c4e1e888c438359daa878125909"
+    },
+    {
+      "key": "longtime/lt_ward_flare/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_flare/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "2c7368be87049250daba1bd3224943ae497d4d456f33465f3c0e96041418aead"
+    }
+  ]
+}

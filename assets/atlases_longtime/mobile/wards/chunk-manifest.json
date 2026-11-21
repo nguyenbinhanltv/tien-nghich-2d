@@ -1,0 +1,31 @@
+{
+  "asset_ids": [
+    "lt_ward_anchor",
+    "lt_ward_bell",
+    "lt_ward_flare",
+    "lt_ward_mirror",
+    "lt_ward_thorn",
+    "lt_ward_tide"
+  ],
+  "chunk_group": "wards",
+  "frame_count": 48,
+  "mobile_page_budget": 1,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 48,
+      "height": 128,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "23ab203d59b2a67c43b5f6d2278310378e088802fd1aa4b5fd343e804694174a",
+      "png_sha256": "552b0ba8558825f7fef3976be5d9f137eed4984afd03e2db4d604e92e33e218e",
+      "rgba8_bytes": 524288,
+      "width": 1024
+    }
+  ],
+  "platform": "mobile",
+  "readiness": "packed",
+  "rgba8_bytes": 524288,
+  "rgba8_mib": 0.5,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}
