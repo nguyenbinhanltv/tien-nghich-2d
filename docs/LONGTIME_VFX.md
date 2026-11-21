@@ -53,7 +53,7 @@ Người soạn: phiên Claude Code (Sonnet 5.5) của Orchestrator, session `ti
 | Clip | `place` 5 frame: 40, 40, 50, 50, 60 ms. `release` 8 frame: 40, 40, 45, 45, 50, 55, 60, 70 ms (405 ms) |
 | Cấu trúc | Hai clip một lần. Không lặp. |
 | Sự kiện | `place`@place:0, `pulse`@release:0, `edge_final`@release:3 (đến khi vòng ngoài đạt biên cuối; giả thuyết) |
-| Bộ màu | `anchor` bronze · `mirror` ink · `thorn` jade · `tide` bolt · `flare` blood · `bell` soul. Cả sáu: đặt trụ và bắn xung, cue `sfx_ward_place` |
+| Bộ màu | `anchor` bronze · `mirror` ink · `thorn` jade · `tide` bolt · `flare` blood · `bell` soul. Cue theo [kế hoạch âm thanh](AUDIO_DESIGN.md): `place` luôn là `sfx_ward_place`; xung (`release`) theo trụ: anchor `sfx_crush`, mirror `sfx_chime`, thorn `sfx_thorn`, tide `sfx_gust`, flare `sfx_flame`, bell `sfx_chime` |
 | Frame | (5+8) × 6 = 78 |
 
 Nghiệm thu máy: frame đầu phủ tối đa 4% canvas, frame cuối tối đa 1%, đỉnh 5–18%, chênh phủ giữa hai frame liền không quá 8%. Nghiệm thu người ở 1×: sáu bộ màu phân biệt được chỉ bằng màu trên nền xám; mép ngoài đọc được như biên trúng và đạt khoảng 90% tầm cuối ở frame 3; vòng đất không che bóng trụ quá frame 1 của `place`.

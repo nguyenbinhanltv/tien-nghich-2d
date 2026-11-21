@@ -793,8 +793,13 @@
             "uses": [
               [
                 "defense",
-                "anchor ward place and pulse",
+                "anchor ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "anchor ward pulse",
+                "sfx_crush"
               ]
             ]
           },
@@ -805,8 +810,13 @@
             "uses": [
               [
                 "defense",
-                "mirror ward place and pulse",
+                "mirror ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "mirror ward pulse",
+                "sfx_chime"
               ]
             ]
           },
@@ -817,8 +827,13 @@
             "uses": [
               [
                 "defense",
-                "thorn ward place and pulse",
+                "thorn ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "thorn ward pulse",
+                "sfx_thorn"
               ]
             ]
           },
@@ -829,8 +844,13 @@
             "uses": [
               [
                 "defense",
-                "tide ward place and pulse",
+                "tide ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "tide ward pulse",
+                "sfx_gust"
               ]
             ]
           },
@@ -841,8 +861,13 @@
             "uses": [
               [
                 "defense",
-                "flare ward place and pulse",
+                "flare ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "flare ward pulse",
+                "sfx_flame"
               ]
             ]
           },
@@ -853,8 +878,13 @@
             "uses": [
               [
                 "defense",
-                "bell ward place and pulse",
+                "bell ward place",
                 "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "bell ward pulse",
+                "sfx_chime"
               ]
             ]
           }
