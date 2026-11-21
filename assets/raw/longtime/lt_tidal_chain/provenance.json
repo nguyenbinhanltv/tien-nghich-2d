@@ -1,0 +1,49 @@
+{
+  "id": "lt_tidal_chain",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Combine the two parent silhouettes around one grip.",
+  "reference_ids": [
+    "lt_tide_bell",
+    "lt_stone_flail"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_tide_bell",
+      "path": "assets/raw/longtime/lt_tide_bell/source.png",
+      "sha256": "2d525205086dd5b9e1888c11b3169abc018cdcfd6d841bc864142c7740cb55d5"
+    },
+    {
+      "id": "lt_stone_flail",
+      "path": "assets/raw/longtime/lt_stone_flail/source.png",
+      "sha256": "72b3d7096681d310fd592a46048f219f0a1459fc9c972ac6de8e477ff105da38"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_tidal_chain.py",
+  "generator_sha256_lf": "5caef01e10b77c92e66f34a798adae71a1f5d3afd8470092f7ef7d2c65d005ec",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "e5d13d71d7b29221699fbc17808579bb743ea96714f203ac377afd4b085f3822",
+  "frames": [
+    {
+      "key": "longtime/lt_tidal_chain/held_none_0",
+      "path": "assets/processed_longtime/lt_tidal_chain/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "e5d13d71d7b29221699fbc17808579bb743ea96714f203ac377afd4b085f3822"
+    }
+  ]
+}
