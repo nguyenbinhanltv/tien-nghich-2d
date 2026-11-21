@@ -10,10 +10,15 @@ export async function renderTool(app, host) {
   const entry = app.selected();
   if (!entry) return host.replaceChildren(none(app, 'tool.pick'));
   host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
-  const detail = await app.detail(entry);
-  const frames = framesOf(detail);
-  const body = {blob: blobTool, nine: nineTool, hud: hudTool}[state.tool];
-  const node = await body(app, entry, detail, frames);
+  let node;
+  try {
+    const detail = await app.detail(entry);
+    const frames = framesOf(detail);
+    node = await {blob: blobTool, nine: nineTool, hud: hudTool}[state.tool](app, entry, detail, frames);
+  } catch (error) {
+    if (error.name === 'AbortError') return;
+    return host.replaceChildren(h('p', {role: 'alert', class: 'pad'}, ctx.t('common.error', {message: error.message})));
+  }
   host.replaceChildren(h('h2', 'toolname', ctx.t('tool.' + state.tool), ' ', h('code', '', entry.id)), node);
 }
 

@@ -71,7 +71,7 @@ async function paint(ui) {
   renderFilters(app, ui.filters);
   renderTabs(app, ui.tabs);
   const scroll = ui.center.firstElementChild?.scrollTop ?? 0;
-  if (app.state.tool) await renderTool(app, ui.center).catch(error => { if (error.name !== 'AbortError') ui.center.replaceChildren(h('p', {role: 'alert', class: 'pad'}, ctx.t('common.error', {message: error.message}))); });
+  if (app.state.tool) await renderTool(app, ui.center);
   else { renderGrid(app, ui.center); ui.center.scrollTop = scroll; }
   await renderDetail(app, ui.aside, token);
   ui.aside.toggleAttribute('hidden', false);
