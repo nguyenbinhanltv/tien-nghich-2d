@@ -859,8 +859,8 @@ export class EditorController {
     d.frameKey.textContent = snap.key;
     d.frameDims.textContent = `${this.width}×${this.height}px · ${snap.category}`;
     d.revBadge.textContent = `Rev ${this.viewedRevision} / Head ${snap.head}`;
-    d.statusBadge.textContent = STATUS_LABELS[snap.status] || snap.status || 'Pending';
-    d.statusBadge.className = `rev-status-badge rev-status-${snap.status || 'pending'}`;
+    d.statusBadge.textContent = STATUS_LABELS[snap.status] || snap.status;
+    d.statusBadge.className = `rev-status-badge rev-status-${snap.status}`;
 
     // Source / processed links (VFX sourceUrl is authored JSON; UI sourceUrl is native source PNG)
     const links = [];
@@ -1095,7 +1095,7 @@ export class EditorController {
       btn.className = 'history-select-btn';
       btn.innerHTML = `
         <span class="history-rev">Rev ${rev}${isHead ? ' <strong>HEAD</strong>' : ''}</span>
-        <span class="rev-status-badge rev-status-${escapeHtml(item.status || 'pending')}">${escapeHtml(STATUS_LABELS[item.status] || item.status || 'Pending')}</span>
+        <span class="rev-status-badge rev-status-${escapeHtml(item.status)}">${escapeHtml(STATUS_LABELS[item.status] || item.status)}</span>
         <span class="muted">${item.parent === null || item.parent === undefined ? 'baseline' : `from rev ${item.parent}`}</span>
       `;
       btn.addEventListener('click', () => {

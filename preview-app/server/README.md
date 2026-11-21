@@ -28,6 +28,8 @@ Set status to `pending`, `approved` or `changes_requested`. Text is optional whe
 
 ## Persistence, recovery and export
 
+Canonical frames default to **Approved** at revision 0, including in older libraries that have no explicit baseline decision. Opening a frame or its history only reads it. A no-op save preserves the selected head's decision. An explicit decision on any revision takes precedence over the default and keeps its comments. Changing content or restoring a version creates a **Pending** head.
+
 The first mutation pins the original revision and creates a local SQLite database in the gitignored `.inspector-revisions/` directory. Opening a pristine catalog or frame creates no library. Each save, restore or review is a single transaction. Two preview processes sharing the library serialize their writes and check the base inside that transaction. Restart using the same library to recover the last committed state. To use an isolated library, pass `--revision-dir <absolute-directory>` outside the repository, under an existing user-private parent. On Windows the directory inherits its parent's ACL. Use a dedicated directory accessible only to the intended account. SQLite files are never published by the server.
 
 Export reads the same revision snapshot as the Inspector and never rebuilds committed atlases. Decode `pngBase64` and save alongside the hash-format atlas for offline use, setting `atlas.meta.image` to the saved PNG filename. Frame rectangles use native dimensions, atlas pivots are normalized, and VFX duration is in milliseconds. Reviews do not change export bytes.
@@ -35,3 +37,17 @@ Export reads the same revision snapshot as the Inspector and never rebuilds comm
 Errors have shape `{error:{code,message}}`. A conflict also includes top-level `head`. Status codes include 400 for malformed JSON, 403 for origin or listener rejection, 404 for unknown frames or revisions, 405 for method mismatch, 409 for a stale base, 413 for request size, 415 for media type, 422 for invalid fields, metadata or PNG, and 500 for a library failure.
 
 Run `node --test preview-app/server/editor.test.mjs` for the API suite and `node preview-app/smoke-test.mjs` for existing Inspector behavior. Set TMP/TEMP (TMPDIR on Unix) to an account-private scratch directory for an isolated run.
+
+## Publish an approved revision into the project atlases
+
+Use the local CLI from the repository root with Node 24, Python and the project's Pillow dependency. Choose the catalog key and exact **Approved** head shown in the Inspector. Start with a preview.
+
+```sh
+python tools/scripts/promote_frame.py --key ui/ui_minimap/room_none_0 --revision 3
+```
+
+The preview validates the current web/mobile atlases, stages and checks the repack, and lists the source and atlas files that would change. Add `--apply` to repeat the checks and materialize the changes. Pass `--revision-dir <absolute-private-library>` on both commands if the Inspector used a custom library. A newer head, revoked approval, conflicting shared history or changed source fingerprint stops publication. Older libraries without fingerprints require a fresh explicit approval while their revision 0 still matches the project. Use a fresh library to reconcile changed source inputs. The CLI holds the library writer lock during its checks; finish edits before running it.
+
+Each selected frame has one entry in `assets/approved-frames.json` containing its key, local revision number, original source fingerprint, native PNG bytes and allowed metadata. This file is a shared build input. The original UI art and procedural VFX spec continue to generate the underlying frames. The packer applies the approved entry after generation and rejects upstream drift. Published pivots appear in atlas records as normalized coordinates; VFX duration is in milliseconds. Restart the preview server to load a newly published input. A fresh library opens its effective pixels and metadata as Approved revision 0. Existing libraries retain their own revision numbers, comments and decisions.
+
+Inspect the listed files with Git and run `python tools/scripts/pack_atlases.py --check` and `python tools/scripts/check_manifest.py`. A clean `python tools/scripts/pack_atlases.py` rebuild uses the shared entries without the local database. Keep revision databases and the recovery journal private. The workflow writes project files only on explicit apply or recovery. If the process is interrupted during apply, run `python tools/scripts/promote_frame.py --recover` before retrying. Recovery restores the recorded before-images and stops if a target contains an unrelated subsequent edit.

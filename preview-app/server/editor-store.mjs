@@ -1,10 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
 import { DatabaseSync } from 'node:sqlite';
 import { problem } from './editor-catalog.mjs';
 
 const stateSql = `coalesce((select status from reviews r where r.key=v.key and r.rev=v.rev
-  and status is not null order by seq desc limit 1),'pending')`;
+  and status is not null order by seq desc limit 1),case v.rev when 0 then 'approved' else 'pending' end)`;
 
 export function revisionStore(root, dir = path.join(root, '.inspector-revisions')) {
   const relative = path.relative(root, dir);
@@ -16,6 +17,7 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
   if (back !== '..' && !back.startsWith('..'+path.sep) && !path.isAbsolute(back)) throw new Error('Library cannot contain repository');
   const filename = path.join(dir, 'editor.sqlite');
   let db;
+  let readOnly;
   function open(write) {
     if (!fs.lstatSync(dir, {throwIfNoEntry:false})) {
       if (!write) return;
@@ -28,13 +30,17 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
       const stat = fs.lstatSync(filename+suffix, {throwIfNoEntry:false});
       if (stat && (!stat.isFile() || stat.nlink !== 1)) throw new Error('Invalid revision file');
     }
+    if (db && write && readOnly) { db.close(); db = undefined; }
     if (db || (!write && !fs.existsSync(filename))) return;
-    const connection = new DatabaseSync(filename);
+    const connection = new DatabaseSync(filename, {readOnly: !write});
     try {
+      readOnly = !write;
+      if (!write) { db = connection; return; }
       fs.chmodSync(filename, 0o600);
       connection.exec(`PRAGMA busy_timeout=5000; PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL;
         CREATE TABLE IF NOT EXISTS versions(key TEXT NOT NULL, rev INTEGER NOT NULL, parent INTEGER,
           png BLOB NOT NULL, meta TEXT NOT NULL, PRIMARY KEY(key,rev));
+        CREATE TABLE IF NOT EXISTS origins(key TEXT PRIMARY KEY, stamp TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS reviews(seq INTEGER PRIMARY KEY, key TEXT NOT NULL, rev INTEGER NOT NULL,
           status TEXT, text TEXT, FOREIGN KEY(key,rev) REFERENCES versions(key,rev));
         CREATE INDEX IF NOT EXISTS reviews_by_revision ON reviews(key,rev,seq);`);
@@ -43,6 +49,14 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
   }
   function operate(frame, baseline, action, args) {
     const key = frame.info.key;
+    if (action === 'save') {
+      const current = operate(frame,baseline,'frame',{});
+      if (args.baseRevision !== current.head)
+        throw problem(409,'revision_conflict','Reload the current revision',current.head);
+      if ((!args.png || args.png.toString('base64') === current.pngBase64) &&
+          isDeepStrictEqual({...current.metadata,...args.metadata},current.metadata)) return current;
+      // A concurrent writer can still advance the head before BEGIN IMMEDIATE below.
+    }
     const write = ['save','restore','review'].includes(action);
     open(write);
     if (db) db.exec(write ? 'BEGIN IMMEDIATE' : 'BEGIN');
@@ -53,7 +67,10 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
       let head = db?.prepare('SELECT max(rev) AS rev FROM versions WHERE key=?').get(key).rev;
       if (head == null) {
         head = 0;
-        if (write) append(0, null, baseline, frame.metadata);
+        if (write) {
+          append(0, null, baseline, frame.metadata);
+          if (frame.sourceStamp) db.prepare('INSERT INTO origins VALUES(?,?)').run(key,frame.sourceStamp);
+        }
       }
       function version(n) {
         const row = db?.prepare('SELECT png,meta FROM versions WHERE key=? AND rev=?').get(key,n);
@@ -77,15 +94,20 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
       }
       const {png, metadata} = version(selected);
       if (action === 'review') {
+        if (args.status === 'approved' && baseline && frame.sourceStamp) {
+          const zero = version(0);
+          if (zero.png.equals(baseline) && JSON.stringify(zero.metadata) === JSON.stringify(frame.metadata))
+            db.prepare('INSERT OR IGNORE INTO origins VALUES(?,?)').run(key,frame.sourceStamp);
+        }
         db.prepare('INSERT INTO reviews(key,rev,status,text) VALUES(?,?,?,?)')
           .run(key,selected,args.status ?? null,args.text ?? null);
       }
       let history = db?.prepare('SELECT rev AS revision,parent,'+stateSql+
         ' AS status FROM versions v WHERE key=? ORDER BY rev DESC').all(key) ?? [];
-      if (!history.length) history = [{revision:0,parent:null,status:'pending'}];
+      if (!history.length) history = [{revision:0,parent:null,status:'approved'}];
       const comments = db?.prepare(`SELECT text,coalesce((select status from reviews p
         where p.key=r.key and p.rev=r.rev and p.seq<=r.seq and p.status is not null
-        order by p.seq desc limit 1),'pending') as status FROM reviews r
+        order by p.seq desc limit 1),case r.rev when 0 then 'approved' else 'pending' end) as status FROM reviews r
         WHERE key=? AND rev=? AND text IS NOT NULL ORDER BY seq`).all(key,selected) ?? [];
       const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
         status:history.find(item=>item.revision===selected).status,comments,history};
@@ -96,7 +118,11 @@ export function revisionStore(root, dir = path.join(root, '.inspector-revisions'
       throw error;
     }
   }
-  return {operate, needsBaseline(key) {
+  return {operate, origin(key) {
+    open(false);
+    if (!db?.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='origins'").get()) return null;
+    return db.prepare('SELECT stamp FROM origins WHERE key=?').get(key)?.stamp;
+  }, needsBaseline(key) {
     open(false);
     return !db?.prepare('SELECT 1 FROM versions WHERE key=? AND rev=0').get(key);
   }, close() { db?.close(); }};

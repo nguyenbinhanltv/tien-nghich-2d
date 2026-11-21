@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import io
 import json
 import re
 import sys
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,6 +28,7 @@ ANIM_FRAME = re.compile(r"^(.+)/([^/]+)_([^/_]+)_(\d+)$")
 class Sprite:
     key: str
     pixels: Image.Image
+    metadata: dict | None = None
 
 
 @dataclass(frozen=True)
@@ -66,6 +70,33 @@ def read_sprites(source, include_vfx=True):
                 raise ValueError(f"Expected a single frame in {path}")
             sprites[key] = Sprite(key, image.convert("RGBA"))
     return sprites
+
+
+def approved_inputs(root):
+    """Use the Inspector's catalog, palette, native PNG and source fingerprint checks."""
+    overlay = root / "assets/approved-frames.json"
+    if overlay.resolve() != overlay:
+        raise ValueError("Approved frame inputs must be regular project files")
+    if not overlay.exists():
+        return {}
+    entries = read_json(overlay)
+    bridge = ROOT / "preview-app/server/pack-input.mjs"
+    result = subprocess.run(["node", str(bridge), str(root)], capture_output=True, text=True)
+    if result.returncode:
+        raise ValueError("Approved frame validation failed: " + result.stderr)
+    if json.loads(result.stdout) != entries:
+        raise ValueError("Approved frame inputs changed during validation")
+    return entries
+
+
+def apply_approved(sprites, entries, include_vfx=True):
+    for key, entry in entries.items():
+        if not include_vfx and key.startswith("vfx/"):
+            continue
+        with Image.open(io.BytesIO(base64.b64decode(entry["pngBase64"], validate=True))) as image:
+            if image.size != sprites[key].pixels.size or image.mode != "RGBA":
+                raise ValueError(f"Approved frame does not match {key}")
+            sprites[key] = Sprite(key, image.copy(), entry["metadata"])
 
 
 def vfx_contract(source):
@@ -129,13 +160,20 @@ def page_size(placements, profile):
 
 def frame_record(placement):
     width, height = placement.sprite.pixels.size
-    return {
+    result = {
         "frame": {"x": placement.x, "y": placement.y, "w": width, "h": height},
         "rotated": False,
         "trimmed": False,
         "spriteSourceSize": {"x": 0, "y": 0, "w": width, "h": height},
         "sourceSize": {"w": width, "h": height},
     }
+    metadata = placement.sprite.metadata
+    if metadata:
+        x, y = metadata["pivot"]
+        result["pivot"] = {"x": x / width, "y": y / height}
+        if "durationMs" in metadata:
+            result["duration"] = metadata["durationMs"]
+    return result
 
 
 def draw(placements, size, extrusion):
@@ -375,6 +413,8 @@ def main():
     try:
         project_source = args.source.resolve() == (ROOT / "assets/processed").resolve()
         sprites = read_sprites(args.source, not args.exclude_vfx)
+        if args.source.resolve().parts[-2:] == ("assets", "processed"):
+            apply_approved(sprites, approved_inputs(args.source.resolve().parents[1]), not args.exclude_vfx)
         if project_source and not args.exclude_vfx:
             check_vfx_contract(sprites, args.source)
         mob_runtime = {}

@@ -48,6 +48,7 @@ When served by a preview server exposing the local Inspector API v1 (`/api/edito
 - **Before / After & Metadata**: inspect side-by-side Saved vs Draft previews with optional pixel diff highlight, and edit allowed metadata (`pivot` for UI; `pivot` and `durationMs` for VFX).
 - **Revisions, Restore & Conflicts**: click **Save Revision** to append a new `pending` revision (identical saves reuse `head`). Browse older revisions in **Revision History** and click **Restore** to append a new `pending` revision from an earlier version. If another tab saves first, a **409 conflict banner** lets you either **Reload Latest** or **Keep Draft & Rebase**.
 - **Revision-Bound Review & Export**: post comment-only notes or set **Approve**, **Request Changes**, or **Pending** on the currently viewed revision (editing an approved frame creates a new `pending` revision while preserving prior history and comments). Click **Export JSON** to download the reproducible single-frame atlas export.
+- Canonical frames open as **Approved** by default. To preview and publish an exact approved head into both project atlases, follow the [local publication instructions](server/README.md#publish-an-approved-revision-into-the-project-atlases).
 
 ## Asset Loading & Graceful Degradation
 
