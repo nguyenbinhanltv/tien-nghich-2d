@@ -1,0 +1,264 @@
+{
+  "id": "lt_mist_archive",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native pixel drawings",
+  "brief": "Paper walls, ink drains and seal-block threshold.",
+  "rights": "Original artwork created for this project.",
+  "reference_ids": [],
+  "generator": "tools/generators/longtime_mist_archive.py",
+  "generator_sha256_lf": "6c719dc3aed8e36de4a7dfed1dd1900516bbd7e0929308db37b19ad47e56d5b1",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    0,
+    0
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "fc35a2b1b71bca243bfd5e9e097892862ca1e2336d586c7db731662ff1582f40",
+  "frames": [
+    {
+      "key": "longtime/lt_mist_archive/floor_none_0",
+      "path": "assets/processed_longtime/lt_mist_archive/floor_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "18b2f796cca803401f19391b1edfb027830b930c87c41904247e569b5fce70a6"
+    },
+    {
+      "key": "longtime/lt_mist_archive/floor_none_1",
+      "path": "assets/processed_longtime/lt_mist_archive/floor_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "683a6bd48aedb1837c7c459dbf07f91cfa00468abafe78ce14a0f981bb3fba10"
+    },
+    {
+      "key": "longtime/lt_mist_archive/floor_none_2",
+      "path": "assets/processed_longtime/lt_mist_archive/floor_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "21b5c321bee572675e33e0434114aa7029f9763b59d7404050037b28b8e2c3d7"
+    },
+    {
+      "key": "longtime/lt_mist_archive/floor_none_3",
+      "path": "assets/processed_longtime/lt_mist_archive/floor_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6c547365e1c7671944d713cab141be5076d50dac7d1c66017463ddaccb6a761b"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_0",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_0.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "18b2f796cca803401f19391b1edfb027830b930c87c41904247e569b5fce70a6"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_1",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_1.png",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "3d08757ba7d341642e8c444c5fa63b0707e123bf24a84e73b2efafd50097cda8"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_2",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "2a358361a2c9fb5854dc294eb4329b3e48573f7a7c43709a750dd80f1d1e4ac7"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_3",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_3.png",
+      "source_xy": [
+        112,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "216522bd7f1a7de546d87fb2f13f90437d2dc6e9b330186e1eb07ef65b18a4df"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_4",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_4.png",
+      "source_xy": [
+        0,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "db1d2e91ceb71ff74c8e0c69983389da384bccba3412d3a27cb2f912b4dc9856"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_5",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_5.png",
+      "source_xy": [
+        16,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "806282e3dba2c097dce1ca7e55090baae03141fd6bbbbc6dcedf081b1bfd17cf"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_6",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_6.png",
+      "source_xy": [
+        32,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "882735ae333553882f5cef39c479f48a204398491812220d5ace4342aa6718c9"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_7",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_7.png",
+      "source_xy": [
+        48,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "0058939e571da8af8ef7f8e80d5d5a72af99d4432a2791ebb4c08166d12dc74e"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_8",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_8.png",
+      "source_xy": [
+        64,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "74941c495b1943ce262c80ce1e4a20ec67cd8b63ab43a4e0239b58d66f83cc2d"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_9",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_9.png",
+      "source_xy": [
+        80,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "e674212adf2aaf351d5888eb8b678480f724d67aa5a67594e375b98af4ddfc89"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_10",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_10.png",
+      "source_xy": [
+        96,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "2d97f0bbfd119a8c6cd1470d39db2dc3c6131be148647acb7bc0b018a327b6b3"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_11",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_11.png",
+      "source_xy": [
+        112,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "c59313eb563c718aaed0e054c9795423e19b8a69e992b99bce643946189100a6"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_12",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_12.png",
+      "source_xy": [
+        0,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "7efc367845db8a6392e998b7f0211bf82443bfbd32a6e99f0dd089b1405b9f56"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_13",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_13.png",
+      "source_xy": [
+        16,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "860f108cfe517a990895cff34d351b057608f2e26a94eac52df88850458383ef"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_14",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_14.png",
+      "source_xy": [
+        32,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "1a60aa0dc01f2dbe95be71cd18a454b992a8e9f83abd8e0312cc06ea7c324e24"
+    },
+    {
+      "key": "longtime/lt_mist_archive/edge_none_15",
+      "path": "assets/processed_longtime/lt_mist_archive/edge_none_15.png",
+      "source_xy": [
+        48,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "e7ee63920c8fbc9c83d1b1de07c8544be3c9cf2267c389ee55e763261bbd6105"
+    },
+    {
+      "key": "longtime/lt_mist_archive/wall_cap_none_0",
+      "path": "assets/processed_longtime/lt_mist_archive/wall_cap_none_0.png",
+      "source_xy": [
+        64,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "84247528702a86b4e0c10dfcfbe9b9d1acafba53243d19ec6631917592da09ab"
+    },
+    {
+      "key": "longtime/lt_mist_archive/wall_cap_none_1",
+      "path": "assets/processed_longtime/lt_mist_archive/wall_cap_none_1.png",
+      "source_xy": [
+        80,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "9db4be4faf4fcd7714be3e4f86c73216ddb7200a9d38033b00ec9e949eba4247"
+    },
+    {
+      "key": "longtime/lt_mist_archive/wall_cap_none_2",
+      "path": "assets/processed_longtime/lt_mist_archive/wall_cap_none_2.png",
+      "source_xy": [
+        96,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "68962df14a16a3badc853301c3c96a59fa6f6242e0e50abbaf8edcc342b87ce4"
+    },
+    {
+      "key": "longtime/lt_mist_archive/wall_cap_none_3",
+      "path": "assets/processed_longtime/lt_mist_archive/wall_cap_none_3.png",
+      "source_xy": [
+        112,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "0c100ac6b5705f847d87a801b664c072731f6e83b2818c3da0a332b5815d41cc"
+    }
+  ]
+}

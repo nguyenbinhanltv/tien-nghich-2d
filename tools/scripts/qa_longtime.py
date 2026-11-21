@@ -205,6 +205,7 @@ def validate_group(manifest: dict, processed_root: Path, palette: np.ndarray,
         issues.append({"severity": sev, "code": code, "where": where, "count": count, "detail": detail})
 
     by_id = {a["id"]: a for a in selected}
+    other_ids = {a["id"] for a in manifest["assets"]} - by_id.keys()
     expected = {a["id"]: expected_frames_for_asset(a) for a in selected}
     found: dict[str, dict[tuple[str, str, int], Path]] = defaultdict(dict)
     sprites: dict[str, dict] = {}
@@ -216,6 +217,8 @@ def validate_group(manifest: dict, processed_root: Path, palette: np.ndarray,
             if p.is_dir():
                 continue
             rel = p.relative_to(processed_root)
+            if len(rel.parts) > 1 and rel.parts[0] in other_ids:
+                continue
             key = rel.as_posix()
             if p.suffix.lower() != ".png":
                 if p.suffix.lower() not in (".json", ".md", ".txt"):
@@ -440,6 +443,9 @@ def pack_chunks(manifest: dict, sprites: dict[str, dict], out_root: Path) -> dic
             if pname == "mobile" and len(pages) > budget:
                 raise ValueError(f"Chunk '{chunk_name}' mobile pages {len(pages)} exceeds budget {budget}")
             chunk_dir = out_root / pname / chunk_name
+            # Wave 1 published its atlas JSON hashes over CRLF bytes. Make future
+            # package hashes portable without invalidating those two releases.
+            newline = "\r\n" if chunk_name in ("abode", "interface") else "\n"
             chunk_dir.mkdir(parents=True, exist_ok=True)
             page_records = []
             total_rgba8_bytes = 0
@@ -478,7 +484,7 @@ def pack_chunks(manifest: dict, sprites: dict[str, dict], out_root: Path) -> dic
                         "extrude": prof.extrude,
                     },
                 }
-                json_path.write_text(json.dumps(atlas_doc, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+                json_path.write_text(json.dumps(atlas_doc, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline=newline)
                 rgba_bytes = img.width * img.height * mob_cfg["bytes_per_pixel"]
                 total_rgba8_bytes += rgba_bytes
                 page_records.append({
@@ -505,7 +511,7 @@ def pack_chunks(manifest: dict, sprites: dict[str, dict], out_root: Path) -> dic
                 "pages": page_records,
             }
             cm_path = chunk_dir / "chunk-manifest.json"
-            cm_path.write_text(json.dumps(chunk_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            cm_path.write_text(json.dumps(chunk_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline=newline)
             chunk_manifest["manifest_sha256"] = sha256_file(cm_path)
             summary[chunk_name][pname] = chunk_manifest
     return summary
