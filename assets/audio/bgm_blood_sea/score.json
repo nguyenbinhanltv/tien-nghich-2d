@@ -1,0 +1,45 @@
+{
+  "id": "bgm_blood_sea",
+  "title": "Tide Under the Red Valley",
+  "sample_rate": 44100,
+  "tempo_bpm": 72,
+  "beats_per_bar": 4,
+  "tuning_A4_hz": 440,
+  "tonal_center": "E",
+  "scale": ["E", "F", "G", "A", "B", "C"],
+  "seed": 6131,
+  "master_gain": 1.55,
+  "notation": "Each event is [beat from zero, MIDI note, gate in beats, amplitude]. Each bar selects a bowed low figure, an unstable upper figure and a breath swell [beat, gate in beats, amplitude]. Notes and tails wrap modulo the loop.",
+  "bow": {
+    "pulse": [[0,40,1.7,0.9],[2,40,1.7,0.7]],
+    "pulse_f": [[0,41,1.7,0.88],[2,40,1.7,0.68]],
+    "pulse_c": [[0,36,1.7,0.92],[2,40,1.7,0.7]],
+    "fifth": [[0,40,1.6,0.9],[2,47,1.6,0.62]],
+    "long": [[0,40,3.9,0.82]],
+    "long_f": [[0,41,3.9,0.8]],
+    "sink": [[0,40,1.7,0.88],[2,36,1.9,0.74]],
+    "rest": []
+  },
+  "upper": {
+    "rest": [],
+    "creep": [[0.5,59,3.0,0.5]],
+    "lean": [[1,60,2.6,0.52]],
+    "rise": [[0,59,1.8,0.45],[2,64,1.9,0.55]],
+    "bend": [[0.5,65,3.2,0.5]],
+    "thin": [[1.5,64,2.2,0.38]],
+    "lowwail": [[0,55,3.8,0.5]]
+  },
+  "breath": {
+    "rest": [],
+    "tide": [[0,3.8,0.5]],
+    "rush": [[1,2.8,0.7]]
+  },
+  "bars": [
+    ["pulse","rest","rest"],["pulse","creep","tide"],["pulse","rest","rest"],["pulse","lean","tide"],
+    ["fifth","rest","rest"],["pulse","creep","tide"],["pulse_f","rest","rest"],["pulse","rise","rush"],
+    ["pulse_f","bend","tide"],["pulse","lean","rest"],["pulse_c","creep","tide"],["pulse","rise","rest"],
+    ["pulse_f","bend","rush"],["pulse","thin","tide"],["pulse_c","lowwail","rest"],["fifth","rise","rush"],
+    ["sink","lean","tide"],["pulse","thin","rest"],["pulse_c","creep","tide"],["fifth","bend","rest"],
+    ["long","lowwail","tide"],["long_f","thin","rest"],["sink","creep","rush"],["pulse","rest","tide"]
+  ]
+}
