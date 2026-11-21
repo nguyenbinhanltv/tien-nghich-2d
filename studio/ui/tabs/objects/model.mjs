@@ -130,6 +130,13 @@ export function blobSheets(record, frames) {
   return (record?.sheets ?? []).filter(s => s.tiles === 47 && have.has(s.id)).map(s => s.id);
 }
 
+/** Path of the fully surrounded tile (mask 255) in the floor sheet's own frames, or null. */
+export function floorTilePath(frames, floorId, map) {
+  if (!floorId) return null;
+  const n = map.maskToTile.get(255);
+  return framesOfClip(frames, floorId).find(f => f.n === n)?.path ?? null;
+}
+
 /** A small test room: `1` is wall, `0` floor; deterministic from the seed; the border is always wall. */
 export function testRoom(seed, cols = 14, rows = 9) {
   let a = seed >>> 0;

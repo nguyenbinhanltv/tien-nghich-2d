@@ -1,6 +1,6 @@
 // Tool workspaces that replace the grid: 47-tile sheet + autotiling test room, nine-slice, HUD bar clipping.
 import { h, imgUrl, loadImage, button, pixelCanvas } from './dom.mjs';
-import { framesOf, framesOfClip, clipNames, blobSheets, bitmaskMap, testRoom, autotile, blobMasks,
+import { framesOf, framesOfClip, clipNames, blobSheets, bitmaskMap, testRoom, autotile, floorTilePath, blobMasks,
   defaultInsets, clampInsets, nineSlice, nineSizes, hudClipWidth } from './model.mjs';
 
 const none = (app, key) => h('p', {class: 'muted pad', role: 'status'}, app.ctx.t(key));
@@ -52,7 +52,8 @@ async function blobTool(app, entry, detail, frames) {
       h('small', '', `${f.n}`), h('small', 'mask', `#${map.tileToMask.get(f.n) ?? '?'}`))));
   // the room
   const floorId = sheets.find(s => /^floor/i.test(role(s)));
-  const floorTile = floorId && sheet !== floorId ? imgs.get(map.maskToTile.get(255)) ?? await loadImage(framesOfClip(frames, floorId).find(f => f.n === map.maskToTile.get(255))?.path) : null;
+  const floorPath = sheet !== floorId ? floorTilePath(frames, floorId, map) : null;
+  const floorTile = floorPath ? await loadImage(floorPath).catch(() => null) : null;
   const grid = testRoom(state.seed);
   const room = h('div', 'room');
   const draw = async () => {

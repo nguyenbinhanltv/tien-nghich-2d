@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseRoute, stateParams, objectKinds, inScope, applyFilters, facetCounts, framesOf, coverFrame, groupLinks, blobSheets,
-  testRoom, autotile, bitmaskMap, nineSlice, clampInsets, hudClipWidth, defaultZoom } from './model.mjs';
+  testRoom, autotile, floorTilePath, bitmaskMap, nineSlice, clampInsets, hudClipWidth, defaultZoom } from './model.mjs';
 import { parseHash } from '../../router.mjs';
 
 test('parseRoute is total and clamps junk', () => {
@@ -88,4 +88,12 @@ test('HUD clipping keeps the left edge and is monotonic', () => {
   assert.equal(hudClipWidth(64, 150), 64);
   let last = 0;
   for (let f = 0; f <= 100; f++) { const w = hudClipWidth(37, f); assert.ok(w >= last); last = w; }
+});
+
+test('the room floor tile comes from the floor sheet, never the selected wall sheet', () => {
+  const map = bitmaskMap(null);
+  const frames = [{clip: 'wall', n: 46, path: 'w46.png'}, {clip: 'floor', n: 46, path: 'f46.png'}, {clip: 'floor', n: 3, path: 'f3.png'}];
+  assert.equal(floorTilePath(frames, 'floor', map), 'f46.png');
+  assert.equal(floorTilePath(frames, undefined, map), null);
+  assert.equal(floorTilePath([{clip: 'floor', n: 3, path: 'f3.png'}], 'floor', map), null);
 });
