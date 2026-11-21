@@ -1,0 +1,36 @@
+{
+  "id": "lt_brass_spindle",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "A turned brass spindle with a weighted whorl, tapered tip and wrapped grip.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_brass_spindle.py",
+  "generator_sha256_lf": "683217284e6bd10e63f6f67961807e0e42fc48f34a68da86b77ade7ddb26af72",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "pivot_px": [
+    12,
+    18
+  ],
+  "source": "source.png",
+  "source_sha256": "934555de17bdbdbd7cc8a9e9019dec51fbbd3d809087f518c5089b8ca8c37153",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_brass_spindle/contact_1x.png": "cfc656ba136d9be5327218c834f10ece8b30e9518041528b85fc223bdd88eefb",
+    "assets/raw/longtime/lt_brass_spindle/contact_6x.png": "7d073dfaec53e883c00550ffe8d6334a6275c17f40fd8d9e19cddda85a611673"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_brass_spindle/held_none_0",
+      "path": "assets/processed_longtime/lt_brass_spindle/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "934555de17bdbdbd7cc8a9e9019dec51fbbd3d809087f518c5089b8ca8c37153"
+    }
+  ]
+}
