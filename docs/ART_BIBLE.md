@@ -1,6 +1,6 @@
 # Art Bible - Tien Nghich 2D (Xianxia, "Renegade Immortal")
 
-Machine-readable twin: `tools/generators/palette.json` (v2: stable `id`, `index`, `name`, `group`, `hex`). PixelLab prompts and Codex/Antigravity scripts MUST take hex values from that file. Validator: `tools/scripts/validate_palette.py`.
+Machine-readable twin: `tools/generators/palette.json` (v2: stable `id`, `index`, `name`, `group`, `hex`). Image-sheet prompts, forge pixelisation and Codex/Antigravity scripts MUST take hex values from that file. Validator: `tools/scripts/validate_palette.py`.
 
 ## Rules
 1. **Perspective:** 3/4 top-down dungeon view, Soul Knight style. Front-facing characters; 2.5D vertical walls (front face + top cap); floors are flat top faces. No side-view, no 2:1 isometric diamond.

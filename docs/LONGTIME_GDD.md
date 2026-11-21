@@ -43,7 +43,7 @@ Manifest tách thông số chung để người vẽ có thể tra một ID mà 
 
 | Nhu cầu sản xuất | Số ID mới | Phân công và phạm vi |
 |---|---:|---|
-| Form / linh thú / NPC / mob / boss | 4 / 6 / 6 / 12 / 4 | PixelLab sở hữu hình nhân vật và hoạt ảnh. Ba boss biome và một boss Trảm Tiên; số linh thú và NPC đã bao gồm hai mẫu đầu. |
+| Form / linh thú / NPC / mob / boss | 4 / 6 / 6 / 12 / 4 | Xưởng tạo hình của studio (Codex hoặc Antigravity, một trong hai là đủ; xem [Studio plan](STUDIO_PLAN.md)) sở hữu hình nhân vật và hoạt ảnh; PixelLab đã ngừng dùng từ 2026-11-22. Ba boss biome và một boss Trảm Tiên; số linh thú và NPC đã bao gồm hai mẫu đầu. |
 | Bộ tile / facility | 4 / 3 | Codex tạo nguồn, AGY có thể hậu kỳ. Một nền Động Phủ và ba biome; lò, luống và cổng hai trạng thái. |
 | Pháp bảo / đạn | 24 / 24 | 14 mẫu cơ sở cộng 10 mẫu dung hợp. Mỗi pháp bảo có một ID đạn phụ thuộc riêng. |
 | Trụ trận / icon | 6 / 32 | Trụ đặt đất độc lập với vật cầm tay. Icon phôi xem trước `lt_icon_ingot_preview` chỉ đổi ramp của `lt_icon_ingot`, có nhãn preview. Các ID mới còn lại cần nguồn riêng. |
@@ -60,8 +60,8 @@ Mỗi page tối đa 1024², padding 2 px + extrude 1 px mỗi cạnh. Một pag
 
 ## Gói đầu và điều kiện bàn giao
 
-Wave 1 có **9 ID, 101 frame native**. Làn PixelLab gồm `lt_kiln_keeper` và `lt_ink_marten`, mỗi mẫu 32 frame. Chốt silhouette, dấu bất đối xứng, điểm chân và timing trên một mẫu trước khi nhân rộng. Làn Codex/AGY gồm `lt_abode_stone` (24), `lt_kiln` (5), `lt_herb_bed` (3), `lt_moon_gate` (2), `lt_icon_seed`, `lt_icon_ingot`, `lt_icon_kiln_heat` (mỗi icon 1). Duyệt độ đọc ở 1×: cổng mở có khoảng trống, lò nóng lộ miệng sáng, luống chín có quả rủ khi bỏ màu. Xem contact sheet theo clip và hướng khi có nguồn.
+Wave 1 có **9 ID, 101 frame native**. Làn nhân vật gồm `lt_kiln_keeper` và `lt_ink_marten`, mỗi mẫu 32 frame; hai mẫu này đã làm bằng PixelLab trước khi dịch vụ này ngừng dùng và giữ nguồn gốc ban đầu. Chốt silhouette, dấu bất đối xứng, điểm chân và timing trên một mẫu trước khi nhân rộng. Làn Codex/AGY gồm `lt_abode_stone` (24), `lt_kiln` (5), `lt_herb_bed` (3), `lt_moon_gate` (2), `lt_icon_seed`, `lt_icon_ingot`, `lt_icon_kiln_heat` (mỗi icon 1). Duyệt độ đọc ở 1×: cổng mở có khoảng trống, lò nóng lộ miệng sáng, luống chín có quả rủ khi bỏ màu. Xem contact sheet theo clip và hướng khi có nguồn.
 
-Gói đủ đặc tả để giao sau khi Prompt A vào main và có lệnh bắt đầu wave. Khả năng truy cập, quyền và quota PixelLab cần xác nhận ở thời điểm giao; thiếu một trong ba thì hai ID nhân vật giữ planned. Làn hình môi trường có thể nhận riêng bảy ID còn lại. Kiểm tra tài liệu và dữ liệu bằng `python tools/scripts/check_longtime.py`. Quyết định để lại cho người duyệt thiết kế gồm tên hiển thị cuối, các cỡ phi chuẩn và mức trần từng chunk trước sản xuất.
+Gói đủ đặc tả để giao sau khi Prompt A vào main và có lệnh bắt đầu wave. Với nhân vật mới, xưởng tạo hình của studio (P2) phải có trước; khi chưa có thì ID nhân vật giữ planned. Làn hình môi trường có thể nhận riêng bảy ID còn lại. Kiểm tra tài liệu và dữ liệu bằng `python tools/scripts/check_longtime.py`. Quyết định để lại cho người duyệt thiết kế gồm tên hiển thị cuối, các cỡ phi chuẩn và mức trần từng chunk trước sản xuất.
 
 **VFX.** Hợp đồng thiết kế hiệu ứng Longtime (sáu ID mới ở trạng thái `planned`, mười hai hiệu ứng kế thừa được dùng lại) nằm ở [Thiết kế VFX dài hạn](LONGTIME_VFX.md); ngân sách chunk ở đó dùng cùng cách ước lượng kệ.

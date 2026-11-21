@@ -9,7 +9,7 @@ The real skill lives in the untrusted clone: `tools/skills/spine-animation-ai/SK
 
 1. Read `tools/skills/spine-animation-ai/SKILL.md` and `README.md` first; follow them.
 2. Its SKILL.md says to embed/copy helper scripts into a working dir. Copy them OUT to a temp working dir, review them, and run with `python -I`. Never run from inside the clone dir.
-3. Inputs come from `assets/raw/characters/` (PixelLab output only); outputs go to `assets/processed/`.
+3. Inputs come from `assets/raw/characters/` (separated parts from the studio forge routes, or existing assets); outputs go to `assets/processed/`. The studio's own rig baker is the default animation route (`docs/STUDIO_PLAN.md`); this skill is reference for part separation only.
 4. Respect `.claude/skills/orchestrator-asset-routing` and `xianxia-art-bible-enforcer`.
 5. **License warning:** PolyForm Noncommercial 1.0.0 - not usable in a commercial game without a separate licence. Spine runtimes also need an Esoteric Software licence. Flag to the user before adopting into the shipping pipeline.
 
