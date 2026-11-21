@@ -1,0 +1,308 @@
+{
+  "frames": {
+    "longtime/lt_ember_fan/held_none_0": {
+      "durationMs": 0,
+      "frame": {
+        "h": 24,
+        "w": 24,
+        "x": 3,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.75
+      },
+      "pivotPx": [
+        12,
+        18
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 24
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_ember_fan_shot/flight_none_0": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 63,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_ember_fan_shot/flight_none_1": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 85,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_ember_fan_shot/flight_none_2": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 107,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_ember_fan_shot/flight_none_3": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 129,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_reed_blade/held_none_0": {
+      "durationMs": 0,
+      "frame": {
+        "h": 24,
+        "w": 24,
+        "x": 33,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.75
+      },
+      "pivotPx": [
+        12,
+        18
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 24
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_reed_blade_shot/flight_none_0": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 151,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_reed_blade_shot/flight_none_1": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 173,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_reed_blade_shot/flight_none_2": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 195,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_reed_blade_shot/flight_none_3": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 217,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    }
+  },
+  "meta": {
+    "app": "tien-nghich-2d.qa_longtime",
+    "chunk_group": "armory",
+    "extrude": 1,
+    "format": "RGBA8888",
+    "image": "atlas-0.png",
+    "padding": 2,
+    "platform": "mobile",
+    "scale": "1",
+    "size": {
+      "h": 32,
+      "w": 256
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "asset_ids": [
+    "lt_ember_fan",
+    "lt_ember_fan_shot",
+    "lt_reed_blade",
+    "lt_reed_blade_shot"
+  ],
+  "chunk_group": "armory",
+  "frame_count": 10,
+  "mobile_page_budget": 1,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 10,
+      "height": 32,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "6b124bf4b6259820d1d14e2e71aa30bffa7e8d88b431096bc377f5e3a6e6ee75",
+      "png_sha256": "d74531dc1056fca8f30954165864582bd97a473fa9d8c60806dc4a6f3fd4927c",
+      "rgba8_bytes": 32768,
+      "width": 256
+    }
+  ],
+  "platform": "mobile",
+  "readiness": "packed",
+  "rgba8_bytes": 32768,
+  "rgba8_mib": 0.0312,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}
