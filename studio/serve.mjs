@@ -13,7 +13,9 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadPackSync } from '../studio/core/pack.mjs';
+import { loadPackSync } from './core/pack.mjs';
+import { studioApi } from './server/catalog-api.mjs';
+import { tabApi } from './server/tab-api.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +24,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const PACK = loadPackSync(REPO_ROOT, undefined, { verifyFiles: false });
 const DIRS = PACK.directories;
 const LEGACY_PREFIX = '/preview-app';
+const LEGACY_TABS = ['arena', 'inspector'];
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -107,7 +110,7 @@ function publicPath(relative) {
 }
 
 export function createPreviewServer({ revisionDir } = {}) {
-  let editor, mcp;
+  let editor, studio, tabs, mcp;
   const server = http.createServer(async (req, res) => {
     try {
       const urlObj = new URL(req.url || '/', 'http://127.0.0.1');
@@ -122,10 +125,24 @@ export function createPreviewServer({ revisionDir } = {}) {
         await (await editor).handle(req, res, urlObj, server.address());
         return;
       }
+      if (urlObj.pathname.startsWith('/api/studio/')) {
+        studio ??= studioApi(REPO_ROOT);
+        await studio.handle(req, res, urlObj, server.address());
+        return;
+      }
+      if (urlObj.pathname.startsWith('/api/tabs/')) {
+        tabs ??= tabApi(REPO_ROOT);
+        await tabs.handle(req, res, urlObj, server.address());
+        return;
+      }
       let reqPath = decodeURIComponent(urlObj.pathname);
       // Legacy alias: the app used to live at /preview-app/ and other tools still use that URL.
       if (reqPath === LEGACY_PREFIX || reqPath.startsWith(LEGACY_PREFIX + '/'))
         reqPath = '/studio' + reqPath.slice(LEGACY_PREFIX.length);
+      // The shell owns /studio/. The original two-tab previewer keeps answering its own
+      // deep links (/studio/?tab=arena|inspector, used by tests, docs and the library page).
+      if (['/studio', '/studio/', '/studio/index.html'].includes(reqPath) && LEGACY_TABS.includes(urlObj.searchParams.get('tab')))
+        reqPath = '/studio/previewer.html';
 
       if (reqPath === '/') {
         res.writeHead(302, { Location: '/studio/' });

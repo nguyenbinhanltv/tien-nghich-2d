@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "studio.rig",
+  "type": "object",
+  "required": ["schema", "version", "id", "bodyPlan", "canvas", "pivot", "facings"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {"const": "studio.rig"},
+    "version": {"const": 1},
+    "id": {"type": "string", "minLength": 1},
+    "bodyPlan": {"type": "string", "minLength": 1},
+    "canvas": {"$ref": "#/definitions/point"},
+    "pivot": {"$ref": "#/definitions/point"},
+    "facings": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/definitions/facing"}}
+  },
+  "definitions": {
+    "point": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer"}},
+    "box": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}},
+    "polygon": {"type": "array", "minItems": 3, "items": {"$ref": "#/definitions/point"}},
+    "facing": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "mirrorOf": {"type": "string"},
+        "swapColors": {"type": "object", "additionalProperties": {"type": "string"}},
+        "forward": {"$ref": "#/definitions/point"},
+        "maxShift": {"type": "integer", "minimum": 0},
+        "parts": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/part"}},
+        "landmarks": {"type": "array", "items": {"$ref": "#/definitions/landmark"}},
+        "features": {"type": "array", "items": {"$ref": "#/definitions/feature"}}
+      }
+    },
+    "part": {
+      "type": "object", "required": ["id", "role"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "phase": {"type": "integer", "minimum": 0},
+        "cut": {"$ref": "#/definitions/polygon"},
+        "remove": {"$ref": "#/definitions/polygon"},
+        "joint": {"$ref": "#/definitions/point"},
+        "swing": {"type": "number"},
+        "contact": {"$ref": "#/definitions/point"}
+      }
+    },
+    "landmark": {
+      "type": "object", "required": ["id", "box"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "color": {"type": "string", "minLength": 1},
+        "box": {"$ref": "#/definitions/box"},
+        "expect": {"enum": ["present", "absent"]},
+        "follows": {"type": "string", "minLength": 1},
+        "pixels": {"type": "array", "items": {"$ref": "#/definitions/point"}},
+        "fallback": {"type": "string"}
+      }
+    },
+    "feature": {
+      "type": "object", "required": ["id", "box", "minAccents"], "additionalProperties": false,
+      "properties": {"id": {"type": "string", "minLength": 1}, "box": {"$ref": "#/definitions/box"}, "minAccents": {"type": "integer", "minimum": 1}, "minDelta": {"type": "number", "minimum": 0}}
+    }
+  }
+}

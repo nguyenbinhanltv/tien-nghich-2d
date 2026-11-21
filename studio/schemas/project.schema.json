@@ -5,124 +5,597 @@
   "description": "Everything project-specific that the studio core, server and client read. Paths are relative to the project root.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "version", "id", "name", "palette", "sizeClasses", "rules", "frameKeys", "directories", "atlasProfiles", "catalog", "editable", "adapters"],
+  "required": [
+    "schema",
+    "version",
+    "id",
+    "name",
+    "palette",
+    "sizeClasses",
+    "rules",
+    "frameKeys",
+    "directories",
+    "atlasProfiles",
+    "catalog",
+    "editable",
+    "adapters"
+  ],
   "properties": {
-    "$schema": {"type": "string"},
-    "schema": {"const": "studio.project"},
-    "version": {"const": 1},
-    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"},
-    "name": {"type": "string", "minLength": 1},
+    "$schema": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "studio.project"
+    },
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
     "palette": {
-      "type": "object", "additionalProperties": false, "required": ["file"],
-      "properties": {"file": {"$ref": "#/$defs/path"}}
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file"
+      ],
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/path"
+        }
+      }
     },
     "sizeClasses": {
-      "type": "object", "minProperties": 1,
-      "additionalProperties": {"$ref": "#/$defs/sizeClass"}
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/sizeClass"
+      }
     },
     "rules": {
-      "type": "object", "additionalProperties": false, "required": ["alpha", "outline"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alpha",
+        "outline"
+      ],
       "properties": {
-        "alpha": {"enum": ["binary"]},
+        "alpha": {
+          "enum": [
+            "binary"
+          ]
+        },
         "outline": {
-          "type": "object", "additionalProperties": false, "required": ["mode", "color", "borderIsEdge"],
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "color",
+            "borderIsEdge"
+          ],
           "properties": {
-            "mode": {"enum": ["silhouette", "none"]},
-            "color": {"anyOf": [{"const": "palette"}, {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}]},
-            "borderIsEdge": {"type": "boolean"}
+            "mode": {
+              "enum": [
+                "silhouette",
+                "none"
+              ]
+            },
+            "color": {
+              "anyOf": [
+                {
+                  "const": "palette"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                }
+              ]
+            },
+            "borderIsEdge": {
+              "type": "boolean"
+            }
           }
         }
       }
     },
     "frameKeys": {
-      "type": "object", "minProperties": 1,
-      "additionalProperties": {"type": "string", "minLength": 1}
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "directories": {
-      "type": "object", "additionalProperties": false, "required": ["raw", "processed", "atlases", "revisions"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw",
+        "processed",
+        "atlases",
+        "revisions"
+      ],
       "properties": {
-        "raw": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
-        "processed": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
-        "atlases": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
-        "fixtures": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
-        "revisions": {"type": "string", "pattern": "^[a-z0-9._-]+$", "description": "Single lower-case directory name at the project root; the server hides it and the store refuses it as a library."}
+        "raw": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "processed": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "atlases": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "fixtures": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "revisions": {
+          "type": "string",
+          "pattern": "^[a-z0-9._-]+$",
+          "description": "Single lower-case directory name at the project root; the server hides it and the store refuses it as a library."
+        }
       }
     },
     "atlasProfiles": {
-      "type": "object", "minProperties": 1,
+      "type": "object",
+      "minProperties": 1,
       "additionalProperties": {
-        "type": "object", "additionalProperties": false, "required": ["limit", "padding", "extrude", "fixedSize"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "limit",
+          "padding",
+          "extrude",
+          "fixedSize"
+        ],
         "properties": {
-          "limit": {"type": "integer", "minimum": 1},
-          "padding": {"type": "integer", "minimum": 0},
-          "extrude": {"type": "integer", "minimum": 0},
-          "fixedSize": {"type": "boolean"}
+          "limit": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "padding": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "extrude": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fixedSize": {
+            "type": "boolean"
+          }
         }
       }
     },
     "catalog": {
-      "type": "object", "additionalProperties": false, "required": ["sources"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sources"
+      ],
       "properties": {
         "sources": {
-          "type": "array", "minItems": 1,
+          "type": "array",
+          "minItems": 1,
           "items": {
-            "type": "object", "additionalProperties": false, "required": ["id", "kind", "file"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "file"
+            ],
             "properties": {
-              "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
-              "kind": {"enum": ["asset-manifest", "design-manifest", "vfx-index", "audio-plan"]},
-              "file": {"$ref": "#/$defs/path"},
-              "effects": {"type": "string", "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$"}
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "kind": {
+                "enum": [
+                  "asset-manifest",
+                  "design-manifest",
+                  "vfx-index",
+                  "audio-plan"
+                ]
+              },
+              "file": {
+                "$ref": "#/$defs/path"
+              },
+              "effects": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$"
+              },
+              "processed": {
+                "type": "string",
+                "description": "Key into directories.processed holding this source's processed frames."
+              },
+              "budget": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ceilings",
+                  "page",
+                  "bytesPerPixel",
+                  "manifest"
+                ],
+                "description": "Per-chunk atlas budget of a design-manifest: dotted paths to the ceilings, page size and bytes per pixel, and a {chunk} template for each chunk's atlas manifest.",
+                "properties": {
+                  "ceilings": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "type": "string"
+                  },
+                  "bytesPerPixel": {
+                    "type": "string"
+                  },
+                  "manifest": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "atlas": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "dir",
+                  "frameKey"
+                ],
+                "description": "Where a vfx-index finds its packed atlases (hash-format JSON) and which frameKeys template names its frames.",
+                "properties": {
+                  "dir": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "frameKey": {
+                    "type": "string"
+                  }
+                }
+              },
+              "evidence": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "Where an audio-plan finds packed packs (*/pack.json), authored masters, and per-batch source folders (named like the master's folder) for provenance pointers.",
+                "properties": {
+                  "packs": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "masters": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "sources": {
+                    "$ref": "#/$defs/path"
+                  }
+                }
+              },
+              "label": {
+                "type": "object",
+                "required": [
+                  "en"
+                ],
+                "properties": {
+                  "en": {
+                    "type": "string"
+                  },
+                  "vi": {
+                    "type": "string"
+                  }
+                }
+              },
+              "effectsLabel": {
+                "type": "object",
+                "required": [
+                  "en"
+                ],
+                "properties": {
+                  "en": {
+                    "type": "string"
+                  },
+                  "vi": {
+                    "type": "string"
+                  }
+                }
+              },
+              "raw": {
+                "type": "string",
+                "description": "Key into directories.raw holding this source's per-asset source folders."
+              }
             }
           }
         }
       }
     },
     "editable": {
-      "type": "object", "additionalProperties": false, "required": ["overlay", "groups"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overlay",
+        "groups"
+      ],
       "properties": {
-        "overlay": {"$ref": "#/$defs/path"},
+        "overlay": {
+          "$ref": "#/$defs/path"
+        },
         "groups": {
           "type": "array",
           "items": {
-            "type": "object", "required": ["kind", "source", "frameKey"],
+            "type": "object",
+            "required": [
+              "kind",
+              "source",
+              "frameKey"
+            ],
             "properties": {
-              "kind": {"enum": ["asset-animations", "vfx-descriptor"]},
-              "source": {"type": "string"},
-              "category": {"type": "string"},
-              "frameKey": {"type": "string"},
-              "raw": {"type": "string"},
-              "processed": {"type": "string"}
+              "kind": {
+                "enum": [
+                  "asset-animations",
+                  "vfx-descriptor"
+                ]
+              },
+              "source": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "frameKey": {
+                "type": "string"
+              },
+              "raw": {
+                "type": "string"
+              },
+              "processed": {
+                "type": "string"
+              }
             }
           }
         }
       }
     },
     "adapters": {
-      "type": "object", "additionalProperties": false, "required": ["interpreter", "commands"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interpreter",
+        "commands"
+      ],
       "properties": {
         "interpreter": {
-          "type": "object", "additionalProperties": false, "required": ["command"],
-          "properties": {"command": {"$ref": "#/$defs/path"}, "args": {"type": "array", "items": {"type": "string"}}}
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "command": {
+              "$ref": "#/$defs/path"
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "commands": {
           "type": "object",
           "additionalProperties": {
-            "type": "object", "additionalProperties": false, "required": ["script"],
-            "properties": {"script": {"$ref": "#/$defs/path"}, "args": {"type": "array", "items": {"type": "string"}}}
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "script"
+            ],
+            "properties": {
+              "script": {
+                "$ref": "#/$defs/path"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "brand",
+        "theme",
+        "categoryTabs",
+        "tools"
+      ],
+      "description": "Look and navigation of the studio shell. Colours are palette ids, never hex; labels carry per-language text.",
+      "properties": {
+        "brand": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mark"
+          ],
+          "properties": {
+            "mark": {
+              "type": "string",
+              "minLength": 1
+            },
+            "subtitle": {
+              "type": "object",
+              "required": [
+                "en"
+              ],
+              "properties": {
+                "en": {
+                  "type": "string"
+                },
+                "vi": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "en",
+              "vi"
+            ]
+          }
+        },
+        "theme": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "categoryTabs": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "overview",
+              "characters",
+              "objects",
+              "vfx",
+              "audio",
+              "review",
+              "jobs",
+              "sandbox",
+              "atlas"
+            ]
+          }
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "href",
+              "tab",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "href": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tab": {
+                "enum": [
+                  "overview",
+                  "characters",
+                  "objects",
+                  "vfx",
+                  "audio",
+                  "review",
+                  "jobs",
+                  "sandbox",
+                  "atlas"
+                ]
+              },
+              "label": {
+                "type": "object",
+                "required": [
+                  "en"
+                ],
+                "properties": {
+                  "en": {
+                    "type": "string"
+                  },
+                  "vi": {
+                    "type": "string"
+                  }
+                }
+              },
+              "note": {
+                "type": "object",
+                "required": [
+                  "en"
+                ],
+                "properties": {
+                  "en": {
+                    "type": "string"
+                  },
+                  "vi": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
   },
   "$defs": {
-    "path": {"type": "string", "minLength": 1},
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
     "sizeClass": {
       "type": "object",
       "properties": {
-        "sizes": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}}},
-        "min": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
-        "max": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
-        "square": {"type": "boolean"}
+        "sizes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "min": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "max": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "square": {
+          "type": "boolean"
+        }
       }
     }
   }

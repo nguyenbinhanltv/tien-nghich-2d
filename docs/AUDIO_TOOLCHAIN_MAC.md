@@ -1,6 +1,32 @@
-# Audio codec toolchain on macOS (FFmpeg 6.1.1) — findings
+# Audio codec toolchain on macOS (FFmpeg 6.1.1)
 
-**Verdict: this Mac cannot reproduce the approved Windows packs byte for byte.** An FFmpeg 6.1.1 with libvorbis and native AAC-LC was built here from official sources, but `--check` fails for `pilot_v1` and `wave2_batch1_v1` on every codec file. `wave2_batch2_v1` was therefore **not** built (the task gated it on a pass). Approved packs and their builders are untouched.
+**Findings.** An FFmpeg 6.1.1 with libvorbis and native AAC-LC was built here from official sources. It cannot reproduce the approved Windows packs byte for byte: `--check` fails for `pilot_v1` and `wave2_batch1_v1` on every codec file. The approved packs and their builders are untouched.
+
+## Decision: per-pack pinned toolchains (chosen 2026-11-22)
+
+Taken by the orchestrator under the user's delegated authority; reversible.
+
+1. **Approved packs stay Windows-pinned.** `pilot_v1` and `wave2_batch1_v1` are not re-encoded and their `--check` is not relaxed.
+2. **New packs are built on this Mac** and each records its own toolchain (variant, binary SHA-256, source tarball hashes, libvorbis build note, configure flags) in `pack.json` and `PACK_REPORT.md`. Its `--check` is byte-exact on that same toolchain. Current packs: `wave2_batch2_v1`, `wave2_batch3_v1`, `wave2_batch4_v1`, all built by `tools/scripts/build_audio_wave2_pack.py --batch 2|3|4 --ffmpeg <native ffmpeg>` (one parameterised builder; it refuses non-`native` binaries).
+3. **One variant for all new packs: `native` (arm64).** The x86-under-Rosetta build was measured closest to the Windows output, but it is still not byte-identical, so it buys nothing for a pack whose `--check` runs on its own toolchain. `native` needs no Rosetta (Apple is phasing it out) and no extra NASM build, and any Apple Silicon machine can rebuild it with one script. The cost: its output depends on Apple clang's floating-point code generation, so a different compiler major version may not reproduce the bytes; `--check` then prints a toolchain note instead of hiding it.
+4. **Cross-toolchain equivalence check, separate and read-only:** `tools/scripts/check_audio_pack_equivalence.py --pack <id> --ffmpeg <ffmpeg>`. It rebuilds into a scratch directory and requires identical decoded frame counts, decoder head offsets, SFX cue markers and BGM loop markers, a byte-identical lossless sprite WAV, and decoded SNR of at least **35 dB** (committed vs rebuilt) per codec file. **It does not replace `--check`**: it tolerates codec-level float differences that `--check` forbids, and it never modifies the committed pack.
+
+### `--check` semantics for new packs
+Rebuilds into a temp dir; the WAV, Ogg, M4A files must be byte-identical. `pack.json`, `evidence.json` must match apart from the machine-specific `toolchain` block, and `PACK_REPORT.md` must match. Differences inside the `toolchain` block (for example a different binary hash from an independent rebuild, or another CPython patch version) are printed as notes rather than hidden.
+
+### Equivalence evidence on the approved packs (native binary `468833…c1744`, threshold 35 dB)
+| Pack file | bytes | decoded identical | max abs diff (PCM) | SNR |
+|---|---|---|---|---|
+| `pilot_v1/sfx_sprite.m4a` | differ | no | 612 | 46.57 dB |
+| `pilot_v1/sfx_sprite.ogg` | differ | no | 891 | 44.92 dB |
+| `pilot_v1/bgm_dong_phu.m4a` | differ | no | 2675 | **36.96 dB** |
+| `pilot_v1/bgm_dong_phu.ogg` | differ | no | 148 | 62.20 dB |
+| `wave2_batch1_v1/sfx_sprite.m4a` | differ | no | 1 | 96.12 dB |
+| `wave2_batch1_v1/sfx_sprite.ogg` | differ | no | 122 | 62.52 dB |
+| `wave2_batch1_v1/bgm_hengyue.m4a` | differ | no | 535 | 46.70 dB |
+| `wave2_batch1_v1/bgm_hengyue.ogg` | differ | no | 64 | 65.46 dB |
+
+Both packs report **EQUIVALENT within thresholds** (frame counts, head offsets, cue markers and loop markers identical, sprite WAVs byte-identical). The 35 dB floor leaves only about 2 dB of margin on the weakest file (the pilot AAC BGM), so treat it as a regression tripwire, not a quality bar. Listening approval of the Windows packs does not transfer to Mac-built packs; each new pack needs its own.
 
 ## Build (recorded, reproducible)
 
@@ -27,7 +53,7 @@ The pinned Windows binary (gyan.dev essentials 6.1.1, SHA-256 `04e1307997530f9cf
 
 ## `--check` result
 
-Run with `build_audio_pilot_pack.py` and `build_audio_wave2_batch1_pack.py --check`. Every variant fails the same set of files.
+The original investigation, run with `build_audio_pilot_pack.py` and `build_audio_wave2_batch1_pack.py --check`. Every variant fails the same set of files.
 
 | File | native | nofma | x86 (Rosetta) |
 |---|---|---|---|
@@ -58,12 +84,8 @@ x86 under Rosetta, the closest variant overall (native and nofma ranges follow t
 
 The default arm64 build gives SNR 37.0 dB to 96.1 dB on the same files (Ogg 44.9 to 65.5 dB, M4A 37.0 to 96.1 dB; re-measured with the script-built binary); `nofma` gives 39.2 dB to inf. These differences are well below each codec's own error versus the masters (Ogg 11.81–36.27 dB SNR, M4A 13.44–57.02 dB per cue in the batch 1 report). The differences are float-rounding-level divergences in the encoders (FMA contraction on arm64, SIMD paths on x86), amplified by bit-reservoir/rate decisions, not a different codec, container, delay or loop-point behaviour.
 
-## Options
+## Options considered (2026-11-22 choice: per-pack pinned toolchains, above)
 
-1. **Keep Windows as the packing authority** (recommended for anything that must stay `--check`-verifiable). Mac builds are fine for exploration only.
-2. **Re-pin to a Mac-built toolchain**: rebuild and re-approve `pilot_v1`/`wave2_batch1_v1` as new pack revisions. Requires fresh listening approval; the pinned binary here is reproducible from `build_ffmpeg_611_mac.sh`, but only on Apple Silicon with the same clang.
-3. **Obtain the exact Windows toolchain** (the pinned `gyan.dev` binary under Wine or on a Windows runner/CI) so `--check` stays byte-exact on any machine.
-4. **Relax `--check`** for codec files to a decoded-sample tolerance (e.g., SNR ≥ 35 dB, identical frame counts and loop markers) on non-pinned toolchains. This weakens the guarantee and needs an owner decision.
-5. **Verify provenance of the Windows binary** (its libvorbis version and build flags are not recorded in the reports); that is the one unknown that could close the Ogg gap.
+1. Keep Windows as the packing authority for everything. 2. Re-pin approved packs to a Mac build and re-approve by listening. 3. Run the pinned Windows binary via Wine or CI. 4. Relax `--check` to a tolerance (now offered only as the separate equivalence check). 5. Record the Windows binary's libvorbis version and build flags, the one unknown that could close the Ogg gap.
 
-Listening status: **pending**; no agent can listen, and no new audio was produced by this work.
+Listening status: **pending** for every Mac-built pack; no agent can listen.

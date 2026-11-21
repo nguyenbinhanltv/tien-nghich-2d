@@ -1,0 +1,77 @@
+{
+  "schema": "studio.motion.library",
+  "version": 1,
+  "bodyPlan": "quadruped",
+  "archetypes": {
+    "idle": {
+      "loop": true,
+      "tracks": [
+        {"id": "tail-sway", "target": {"role": "tail"}, "channel": "rotate", "curve": {"wave": {"amp": 6}}},
+        {"id": "head-nod", "target": {"role": "head"}, "channel": "rotate", "curve": {"wave": {"amp": 2, "phase": 0.25}}},
+        {"id": "ear-flick", "target": {"role": "ear"}, "channel": "rotate", "curve": {"wave": {"amp": 3, "phase": 0.5}}}
+      ]
+    },
+    "locomote": {
+      "loop": true,
+      "tracks": [
+        {"id": "gait", "target": {"role": "limb"}, "gait": {"groups": 2, "planted": 0.5, "stride": 1, "lift": 1}},
+        {"id": "weight", "target": {"roles": ["body", "head", "ear"]}, "contactPose": {"shift": 1, "maxShift": 1}},
+        {"id": "tail-sway", "target": {"role": "tail"}, "channel": "rotate", "curve": {"wave": {"amp": 5, "phase": -0.25}}},
+        {"id": "head-bob", "target": {"role": "head"}, "channel": "rotate", "curve": {"wave": {"amp": 2, "phase": 0.25}}}
+      ]
+    },
+    "gesture": {
+      "loop": false,
+      "tracks": [
+        {"id": "head-turn", "target": {"role": "head"}, "channel": "rotate", "curve": {"keyframes": [[0, 0], [0.5, -8], [1, 0]]}},
+        {"id": "tail-wag", "target": {"role": "tail"}, "channel": "rotate", "curve": {"wave": {"amp": 8, "cycles": 1.5}}},
+        {"id": "lean", "target": {"roles": ["body", "head"]}, "channel": "forward", "curve": {"keyframes": [[0, 0], [0.5, 1], [1, 0]]}}
+      ]
+    },
+    "windup": {
+      "loop": false,
+      "tracks": [
+        {"id": "crouch", "target": {"roles": ["body", "head", "tail", "ear"]}, "channel": "dy", "curve": {"keyframes": [[0, 0], [0.6, 1], [1, 1]]}},
+        {"id": "draw-back", "target": {"roles": ["body", "head"]}, "channel": "forward", "curve": {"keyframes": [[0, 0], [1, -1]]}},
+        {"id": "tail-raise", "target": {"role": "tail"}, "channel": "rotate", "curve": {"keyframes": [[0, 0], [1, -12]]}}
+      ]
+    },
+    "strike": {
+      "loop": false,
+      "tracks": [
+        {"id": "lunge", "target": {"roles": ["body", "head", "tail", "ear"]}, "channel": "forward", "curve": {"keyframes": [[0, -1], [0.4, 2], [0.75, 1], [1, 0]]}},
+        {"id": "tail-snap", "target": {"role": "tail"}, "channel": "rotate", "curve": {"keyframes": [[0, -12], [0.4, 10], [1, 0]]}}
+      ]
+    },
+    "recoil": {
+      "loop": false,
+      "tracks": [
+        {"id": "knock-back", "target": {"roles": ["body", "head", "tail", "ear"]}, "channel": "forward", "curve": {"keyframes": [[0, -2], [1, -1]]}},
+        {"id": "flinch", "target": {"roles": ["body", "head", "tail", "ear"]}, "channel": "dy", "curve": {"keyframes": [[0, 0], [1, 1]]}},
+        {"id": "tail-flare", "target": {"role": "tail"}, "channel": "rotate", "curve": {"keyframes": [[0, 14], [1, 4]]}}
+      ]
+    }
+  },
+  "templates": {
+    "pet/idle": {"use": "idle"},
+    "pet/follow": {"use": "locomote"},
+    "npc/idle": {"use": "idle"},
+    "npc/interact": {"use": "gesture"},
+    "player/idle": {"use": "idle"},
+    "player/walk": {"use": "locomote"},
+    "player/cast": {"use": "gesture"},
+    "player/hurt": {"use": "recoil"},
+    "mob/idle": {"use": "idle"},
+    "mob/walk": {"use": "locomote"},
+    "mob/telegraph": {"use": "windup"},
+    "mob/strike": {"use": "strike"},
+    "boss/idle": {"use": "idle", "scale": 2},
+    "boss/advance": {"use": "locomote", "scale": 2},
+    "boss/telegraph": {"use": "windup", "scale": 2},
+    "boss/strike": {"use": "strike", "scale": 2},
+    "boss_large/idle": {"use": "idle", "scale": 3},
+    "boss_large/advance": {"use": "locomote", "scale": 3},
+    "boss_large/telegraph": {"use": "windup", "scale": 3},
+    "boss_large/strike": {"use": "strike", "scale": 3}
+  }
+}

@@ -32,3 +32,13 @@ test('the editable set is exactly today\'s UI and VFX frames', async () => {
   assert.equal(frames.get(keys[0]).info.category, 'ui');
   assert.equal(frames.get(keys.at(-1)).info.category, 'vfx');
 });
+
+test('every asset has a readiness, and Longtime readiness follows the chunk atlases', async () => {
+  const pack = await loadPack(root);
+  const {assets, chunks} = await buildCatalog(pack, root);
+  assert.ok(assets.every(a => ['planned', 'authored', 'packed'].includes(a.readiness)), 'known readiness values');
+  const inAtlas = new Set(chunks.flatMap(c => c.assetIds));
+  for (const a of assets.filter(a => a.source.startsWith('longtime'))) if (inAtlas.has(a.id)) assert.equal(a.readiness, 'packed', a.id);
+  assert.ok(assets.filter(a => a.source === 'longtime' && a.wave === 'wave_1').length === 9);
+  assert.equal(assets.find(a => a.id === 'lt_kiln_keeper').chunk, 'abode');
+});

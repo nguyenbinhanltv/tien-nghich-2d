@@ -15,3 +15,25 @@ export async function readInside(root, relative) {
 export async function readJson(root, relative) {
   return JSON.parse(await readInside(root, relative));
 }
+
+/** Recursively list files under a project directory (relative paths, sorted); [] if it is missing. */
+export async function walkFiles(root, relativeDir, accept = () => true) {
+  const out = [];
+  async function visit(rel) {
+    let entries;
+    try { entries = await fs.readdir(path.join(root, rel), {withFileTypes: true}); }
+    catch (error) { if (error.code === 'ENOENT' || error.code === 'ENOTDIR') return; throw error; }
+    for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
+      const child = rel + '/' + entry.name;
+      if (entry.isDirectory()) await visit(child);
+      else if (entry.isFile() && accept(child)) out.push(child);
+    }
+  }
+  await visit(relativeDir.replace(/\/+$/, ''));
+  return out;
+}
+
+export async function readJsonIfExists(root, relative) {
+  try { return await readJson(root, relative); }
+  catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
+}

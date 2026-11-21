@@ -54,10 +54,15 @@ async function run() {
 
   try {
     // 1. Verify core pages & modules
-    const htmlRes = await fetchOk(`${origin}/studio/`);
+    // /studio/ is the shell; the original previewer answers its legacy deep links.
+    const shellHtml = await (await fetchOk(`${origin}/studio/`)).text();
+    assert.ok(shellHtml.includes('ui/shell.js'), 'Missing shell entry in /studio/');
+    const htmlRes = await fetchOk(`${origin}/studio/?tab=inspector`);
     const html = await htmlRes.text();
-    assert.ok(html.includes('id="arena-canvas"'), 'Missing arena-canvas in index.html');
-    assert.ok(html.includes('id="inspector-canvas"'), 'Missing inspector-canvas in index.html');
+    assert.ok(html.includes('id="arena-canvas"'), 'Missing arena-canvas in the previewer');
+    assert.ok(html.includes('id="inspector-canvas"'), 'Missing inspector-canvas in the previewer');
+    for (const rel of ['/studio/ui/shell.js', '/studio/ui/router.mjs', '/studio/ui/i18n/en.json', '/studio/ui/i18n/vi.json',
+      '/studio/ui/tabs/overview/index.mjs', '/api/studio/project', '/api/studio/overview']) await fetchOk(`${origin}${rel}`);
 
     for (const rel of [
       '/studio/styles.css',
@@ -71,7 +76,7 @@ async function run() {
       await fetchOk(`${origin}${rel}`);
     }
     // Legacy alias: every /preview-app/... URL resolves to the same file as /studio/...
-    for (const rel of ['/', '/src/main.js', '/library.html']) {
+    for (const rel of ['/', '/ui/shell.js', '/src/main.js', '/library.html', '/previewer.html']) {
       const [legacy, current] = await Promise.all([`/preview-app${rel}`, `/studio${rel}`].map(async u => (await fetchOk(origin + u)).text()));
       assert.equal(legacy, current, `/preview-app${rel} must alias /studio${rel}`);
     }
