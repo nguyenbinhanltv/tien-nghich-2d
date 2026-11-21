@@ -1,0 +1,264 @@
+{
+  "id": "lt_star_quarry",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native pixel drawings",
+  "brief": "Cut stone, brass survey lines and fractured ledges.",
+  "rights": "Original artwork created for this project.",
+  "reference_ids": [],
+  "generator": "tools/generators/longtime_star_quarry.py",
+  "generator_sha256_lf": "0fd797c8fda7486bff1ae74e947f96e313830bfec1e89d081fc0555b8a362244",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    0,
+    0
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "8693243397a2faa6b7f339213f7bae6ce4e2e498d17ed702505a3f7dc7ba056d",
+  "frames": [
+    {
+      "key": "longtime/lt_star_quarry/floor_none_0",
+      "path": "assets/processed_longtime/lt_star_quarry/floor_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "50101f56a3b07730cc67cdab5c3ed515c237475c6a9ff8f7b401d306b6a6d42b"
+    },
+    {
+      "key": "longtime/lt_star_quarry/floor_none_1",
+      "path": "assets/processed_longtime/lt_star_quarry/floor_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "e79ab58f5601b3d28094e8547a24074690d0400451d1b7887852218230c6a15b"
+    },
+    {
+      "key": "longtime/lt_star_quarry/floor_none_2",
+      "path": "assets/processed_longtime/lt_star_quarry/floor_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "fa2f66be31c572bd2ad56531faa414e38af1c74811d2d1dacc86d6d57847d6b9"
+    },
+    {
+      "key": "longtime/lt_star_quarry/floor_none_3",
+      "path": "assets/processed_longtime/lt_star_quarry/floor_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "5f558bb2efa9aa8e31586167c8c94bcf1d73538479f868af98f121a49f1d0576"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_0",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_0.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "50101f56a3b07730cc67cdab5c3ed515c237475c6a9ff8f7b401d306b6a6d42b"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_1",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_1.png",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "9e4c543dfe9790186b759e4cc6b75b1b21e0d16ed401ca15c9b75c29dc68e498"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_2",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "4ac65e00447724eed132a1d23cee025a5856400ce779b32aed2f3b7dff2592f9"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_3",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_3.png",
+      "source_xy": [
+        112,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "d518cca37cb888678829572f6468516c7e7f73eaeb25096dafd8b2bbf7325494"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_4",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_4.png",
+      "source_xy": [
+        0,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "bb65ea333e8e408b427be5167024619103816f3b6766f784bea75f7582e6ce57"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_5",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_5.png",
+      "source_xy": [
+        16,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "c23d8abd0284dbf0276d9b0c0e53821364fad56b4341766a3b1eef431de0a4ab"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_6",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_6.png",
+      "source_xy": [
+        32,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "beb5bbee067009c0904cb064e417e13b7179ecab9d029deebb257506f1271272"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_7",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_7.png",
+      "source_xy": [
+        48,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "e2c11bcced35b15f63186d6019d392c2e73e89326eb0830996c0c423a14b6b94"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_8",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_8.png",
+      "source_xy": [
+        64,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "f4f77e7f2c0472a861c0e2b95cde519474dd00b57b1f71294fc31f27baedd258"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_9",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_9.png",
+      "source_xy": [
+        80,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "3ef23a503a97b37c1102574edf17f836f170fc93c2b075a0016e4dd09483b320"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_10",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_10.png",
+      "source_xy": [
+        96,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "22783487e3d12128df891b03a9462628fe67e165ed99ced2a81fe84555d7261e"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_11",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_11.png",
+      "source_xy": [
+        112,
+        16
+      ],
+      "duration_ms": 0,
+      "sha256": "ad43400697794024f785bf52662fa6253b4d64c1a915d0eb1c0cae9b8a9678b7"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_12",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_12.png",
+      "source_xy": [
+        0,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "071116e0d942babf95e7ccee90c35916f4330b1fc4382075c3db3137239dcf86"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_13",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_13.png",
+      "source_xy": [
+        16,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "3d8f622113d3498704e78397144b8881a1853f12585e9fe19b340bde31d63c2b"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_14",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_14.png",
+      "source_xy": [
+        32,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "9271a470d7fd24c4de62995233dd61cb7e2277d94d92c6dfe15e0ee4ac61dbd9"
+    },
+    {
+      "key": "longtime/lt_star_quarry/edge_none_15",
+      "path": "assets/processed_longtime/lt_star_quarry/edge_none_15.png",
+      "source_xy": [
+        48,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "62b93ed521ab6b9d1689676947606f637ba6f118a1f242ff4a131de7730fce95"
+    },
+    {
+      "key": "longtime/lt_star_quarry/wall_cap_none_0",
+      "path": "assets/processed_longtime/lt_star_quarry/wall_cap_none_0.png",
+      "source_xy": [
+        64,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "c27f8feb51eed056e2b677f78891f42704ef2828fd8d5d09fbda90c312333a5c"
+    },
+    {
+      "key": "longtime/lt_star_quarry/wall_cap_none_1",
+      "path": "assets/processed_longtime/lt_star_quarry/wall_cap_none_1.png",
+      "source_xy": [
+        80,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "f8a75ca777eb39f12fdfd8582e49edb8b63f3803935acc1b6064572fc2dc2bd3"
+    },
+    {
+      "key": "longtime/lt_star_quarry/wall_cap_none_2",
+      "path": "assets/processed_longtime/lt_star_quarry/wall_cap_none_2.png",
+      "source_xy": [
+        96,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "8b45fd30d4affe61ee95c1ae5fea07d77d869ed22579c1935a30426794f79107"
+    },
+    {
+      "key": "longtime/lt_star_quarry/wall_cap_none_3",
+      "path": "assets/processed_longtime/lt_star_quarry/wall_cap_none_3.png",
+      "source_xy": [
+        112,
+        32
+      ],
+      "duration_ms": 0,
+      "sha256": "382df3564466c2e5b1e35ffb579e9160ca9d2b9233f74c708dcf305a7045a99a"
+    }
+  ]
+}
