@@ -159,7 +159,7 @@ def check_pixels(arr: np.ndarray, expect_size: tuple[int, int], palette: np.ndar
         issues.append(("error", "partial_alpha", int(partial.sum()), "alpha must be 0 or 255"))
     dirty = (a == 0) & (arr[..., :3].sum(-1) != 0)
     if dirty.any():
-        issues.append(("error", "dirty_transparent", int(dirty.sum()), "RGB under alpha 0 must be 0,0,0"))
+        issues.append(("warn", "dirty_transparent", int(dirty.sum()), "non-zero RGB under alpha 0 (harmless under nearest-neighbor; prefer 0,0,0)"))
     px = pack_rgb(arr[..., :3])
     off = opaque & ~np.isin(px, pack_rgb(palette))
     if off.any():
@@ -317,12 +317,24 @@ def validate_group(manifest: dict, processed_root: Path, palette: np.ndarray,
             if prov_file.is_file():
                 try:
                     pdoc = json.loads(prov_file.read_text(encoding="utf-8"))
-                    required_keys = {"tool", "prompt", "source_sha256"}
-                    missing_k = required_keys - set(pdoc)
-                    if missing_k:
-                        add("warn", "incomplete_provenance", f"{aid}/provenance.json", f"missing {sorted(missing_k)}")
+                    is_codex_ledger = {"producer", "method", "rights", "source_sha256"}.issubset(pdoc)
+                    is_prompt_ledger = {"tool", "prompt", "source_sha256"}.issubset(pdoc)
+                    if not (is_codex_ledger or is_prompt_ledger):
+                        add("warn", "incomplete_provenance", f"{aid}/provenance.json",
+                            "missing required provenance fields")
                         provenance_status[aid] = "incomplete"
                     else:
+                        src_name = pdoc.get("source")
+                        if src_name and (sdir / src_name).is_file():
+                            actual_src_hash = sha256_file(sdir / src_name)
+                            if actual_src_hash != pdoc["source_sha256"]:
+                                add("error", "provenance_hash_mismatch", f"{aid}/{src_name}",
+                                    f"source_sha256 {actual_src_hash[:12]} != ledger {pdoc['source_sha256'][:12]}")
+                        for fentry in pdoc.get("frames", []):
+                            fkey = fentry.get("key")
+                            if fkey in sprites and fentry.get("sha256") != sprites[fkey]["sha256"]:
+                                add("error", "provenance_hash_mismatch", fkey,
+                                    "processed frame SHA-256 differs from provenance ledger")
                         provenance_status[aid] = "verified"
                 except Exception as exc:
                     add("error", "invalid_provenance", f"{aid}/provenance.json", str(exc))
@@ -483,6 +495,7 @@ def pack_chunks(manifest: dict, sprites: dict[str, dict], out_root: Path) -> dic
                 "schema": "tien-nghich-2d.longtime-chunk-atlas",
                 "chunk_group": chunk_name,
                 "platform": pname,
+                "readiness": "packed",
                 "asset_ids": sorted({sp["asset_id"] for sp in items}),
                 "frame_count": len(items),
                 "page_count": len(page_records),

@@ -174,6 +174,36 @@ class LongtimeQATests(unittest.TestCase):
             self.assertIn(("unknown_asset/idle_none_0.png", "orphan_asset"), errs)
             self.assertIn(("rogue_sheet.png", "unexplained_sheet"), errs)
 
+    def test_real_wave1_delivered_assets_and_offline_chunk_atlases(self):
+        proc = ROOT / "assets/processed_longtime"
+        src = ROOT / "assets/raw/longtime"
+        export = ROOT / "assets/atlases_longtime"
+        if not proc.is_dir():
+            self.skipTest("Wave 1 processed assets not delivered yet")
+        res = ql.validate_group(self.manifest, proc, self.palette, self.outline, self.selected, source_root=src)
+        errs = [i for i in res["issues"] if i["severity"] == "error"]
+        self.assertEqual(errs, [], errs)
+        self.assertEqual(len(res["sprites"]), 37)
+        self.assertTrue(all(v == "verified" for v in res["provenance"].values()), res["provenance"])
+        # Verify offline chunk atlases match deterministic rebuild byte-for-byte
+        if export.is_dir():
+            with tempfile.TemporaryDirectory() as td:
+                rebuilt = ql.pack_chunks(self.manifest, res["sprites"], Path(td))
+                for chunk in ("abode", "interface"):
+                    for plat in ("web", "mobile"):
+                        cm_path = export / plat / chunk / "chunk-manifest.json"
+                        self.assertTrue(cm_path.is_file(), f"Missing {cm_path}")
+                        disk = json.loads(cm_path.read_text(encoding="utf-8"))
+                        self.assertEqual(disk["readiness"], "packed")
+                        self.assertEqual(
+                            [p["png_sha256"] for p in disk["pages"]],
+                            [p["png_sha256"] for p in rebuilt[chunk][plat]["pages"]],
+                        )
+                        self.assertEqual(
+                            [p["json_sha256"] for p in disk["pages"]],
+                            [p["json_sha256"] for p in rebuilt[chunk][plat]["pages"]],
+                        )
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
