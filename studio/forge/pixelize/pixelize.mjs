@@ -79,9 +79,9 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
 export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = {}) {
   const cells = new Map(), infos = [];
   // A recorded fit belongs to the profile and scale options the import ran with. It is reused only when both
-  // match (options default to the recorded ones); otherwise every cell is fitted again for this profile.
+  // match (options given here overlay the recorded ones key by key); otherwise every cell is fitted again for this profile.
   const rp = imported.record.profile, p = settings.profile, recorded = imported.record.scaleOptions;
-  const wanted = {...defaultScaleOptions, ...(scaleOptions ?? recorded ?? {})};
+  const wanted = {...defaultScaleOptions, ...(recorded ?? {}), ...(scaleOptions ?? {})};
   const reusable = rp && recorded && rp.nativePx.join() === p.nativePx.join() && rp.pivotPx.join() === p.pivotPx.join()
     && stable(wanted) === stable(recorded);
   const fitted = reusable ? imported.record.cells : normalizeEntries(imported.record.cells.map(({scale, limit, targetY, alignGround, ...bare}) => bare), p, wanted);

@@ -167,58 +167,78 @@ export async function readBakeDir(dir) {
  * Import a drawn sheet and run the rest of the pipeline on it.
  * input: {project: {root, profile} | {settings, palette}, layout, sheet: {bytes} | {image, bytes?}, prompt, marks,
  *   scaleOptions, rig, poseRig, poseClips, library, patch, clips, edgeSafe, qa (gate options), out}
- * Stages never throw: a failing stage ends the run with {ok: false, failed: <stage>, error}. A finished run is
- * ok only when the gates have no error finding. `out` writes import/, pixelize/, bake/ and pipeline.json.
+ * Nothing here throws for a bad input: project loading ("project"), "import", "pixelize", "bake", "gates" and the output
+ * step ("write") are stages, and a failing one ends the run with {ok: false, failed: <stage>, error}. A finished run is
+ * ok only when the gates have no error finding. With `out`, import/, pixelize/, bake/ (whatever finished) and
+ * pipeline.json are written even when a stage failed, so a failed run can be diagnosed from disk; a failure of the
+ * write itself is reported as `writeError` (and as `failed: "write"` when nothing else failed).
  */
 export async function runPipeline(input) {
-  const project = input.project.settings ? input.project : await openForgeProject(input.project.root, input.project.profile);
-  const {settings, palette} = project;
-  const summary = {ok: false, failed: null, error: null, profile: settings.profile.name, stages: {}};
+  const summary = {ok: false, failed: null, error: null, profile: input.project?.profile ?? input.project?.settings?.profile?.name ?? null, stages: {}};
   const artifacts = {};
-  const fail = (name, step) => { summary.failed = name; summary.error = step.error; summary.stages[name] = {ok: false, error: step.error}; return {summary, artifacts}; };
+  const fail = (name, error) => { summary.ok = false; summary.failed = name; summary.error = error; summary.stages[name] = {ok: false, error}; };
+  await execute(input, summary, artifacts, fail);
+  if (input.out) {
+    try {
+      const out = path.resolve(input.out);
+      const protect = input.sheet?.source ? [path.resolve(input.sheet.source)] : [];
+      await fs.mkdir(out, {recursive: true});
+      if (artifacts.import) await writeImport(path.join(out, 'import'), artifacts.import, {protect});
+      if (artifacts.pixelized) await writePixelized(path.join(out, 'pixelize'), artifacts.pixelized, {protect});
+      if (artifacts.bake) await writeBakeDir(artifacts.bake, path.join(out, 'bake'));
+      summary.out = out;
+      await fs.writeFile(path.join(out, 'pipeline.json'), JSON.stringify(summary, null, 2) + '\n');
+    } catch (error) {
+      summary.writeError = error.message;
+      if (!summary.failed) { summary.ok = false; summary.failed = 'write'; summary.error = error.message; summary.stages.write = {ok: false, error: error.message}; }
+      try { await fs.writeFile(path.join(path.resolve(input.out), 'pipeline.json'), JSON.stringify(summary, null, 2) + '\n'); } catch { /* the directory itself is unusable */ }
+    }
+  }
+  return {summary, artifacts};
+}
 
-  const imported = stage('import', () => {
+async function execute(input, summary, artifacts, fail) {
+  const opened = await (async () => {
+    try { return {ok: true, value: input.project.settings ? input.project : await openForgeProject(input.project.root, input.project.profile)}; }
+    catch (error) { return {ok: false, error: error.message}; }
+  })();
+  if (!opened.ok) return fail('project', opened.error);
+  const {settings, palette} = opened.value;
+  summary.profile = settings.profile.name;
+  const run = (name, fn) => { const step = stage(name, fn); if (!step.ok) fail(name, step.error); return step; };
+
+  const imported = run('import', () => {
     const layout = normalizeLayout(input.layout);
     const bytes = input.sheet.bytes ? Buffer.from(input.sheet.bytes) : undefined;
     const image = input.sheet.image ?? decodePng(bytes);
     return importSheet({layout, sheet: image, sheetBytes: bytes, source: input.sheet.source, prompt: input.prompt ?? '', profile: settings.profile, scaleOptions: input.scaleOptions});
   });
-  if (!imported.ok) return fail('import', imported);
+  if (!imported.ok) return;
   artifacts.import = imported.value;
   const importWarnings = imported.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
   summary.stages.import = {ok: true, record: imported.value.record, warnings: importWarnings};
 
-  const pixelized = stage('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette)}));
-  if (!pixelized.ok) return fail('pixelize', pixelized);
+  const pixelized = run('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette)}));
+  if (!pixelized.ok) return;
   artifacts.pixelized = pixelized.value;
   const warnings = pixelized.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
   summary.stages.pixelize = {ok: true, record: pixelized.value.record, warnings};
 
-  if (input.rig || input.poseClips) {
+  if (!input.rig && !input.poseClips) { summary.ok = true; return; }
+  const baked = run('bake', () => {
     if (input.rig) {
       const issues = validateRig(input.rig, {palette});
-      if (issues.length) return fail('bake', {error: `rig is invalid:\n  ${issues.join('\n  ')}`});
+      if (issues.length) throw new Error(`rig is invalid:\n  ${issues.join('\n  ')}`);
     }
-    const baked = stage('bake', () => bakeStage({settings, palette, cells: pixelized.value.cells, rig: input.rig, poseRig: input.poseRig, poseClips: input.poseClips,
-      library: input.library, patch: input.patch, clips: input.clips, edgeSafe: input.edgeSafe}));
-    if (!baked.ok) return fail('bake', baked);
-    artifacts.bake = baked.value;
-    summary.stages.bake = {ok: true, patched: Object.keys(input.patch?.frames ?? {}).length, ...summarizeBake(baked.value)};
-    const qa = stage('gates', () => qaStage(baked.value, {settings, palette, rig: input.rig, poseRig: input.poseRig, options: input.qa}));
-    if (!qa.ok) return fail('gates', qa);
-    summary.stages.gates = {ok: qa.value.pass, ...qa.value};
-    summary.ok = qa.value.pass;
-    if (!qa.value.pass) { summary.failed = 'gates'; summary.error = `${qa.value.findings.filter(f => f.severity === 'error').length} gate error(s)`; }
-  } else summary.ok = true;
-
-  if (input.out) {
-    const out = path.resolve(input.out);
-    const protect = input.sheet.source ? [path.resolve(input.sheet.source)] : [];
-    await writeImport(path.join(out, 'import'), imported.value, {protect});
-    await writePixelized(path.join(out, 'pixelize'), pixelized.value, {protect});
-    if (artifacts.bake) await writeBakeDir(artifacts.bake, path.join(out, 'bake'));
-    await fs.writeFile(path.join(out, 'pipeline.json'), JSON.stringify(summary, null, 2) + '\n');
-    summary.out = out;
-  }
-  return {summary, artifacts};
+    return bakeStage({settings, palette, cells: pixelized.value.cells, rig: input.rig, poseRig: input.poseRig, poseClips: input.poseClips,
+      library: input.library, patch: input.patch, clips: input.clips, edgeSafe: input.edgeSafe});
+  });
+  if (!baked.ok) return;
+  artifacts.bake = baked.value;
+  summary.stages.bake = {ok: true, patched: Object.keys(input.patch?.frames ?? {}).length, ...summarizeBake(baked.value)};
+  const qa = run('gates', () => qaStage(baked.value, {settings, palette, rig: input.rig, poseRig: input.poseRig, options: input.qa}));
+  if (!qa.ok) return;
+  summary.stages.gates = {ok: qa.value.pass, ...qa.value};
+  summary.ok = qa.value.pass;
+  if (!qa.value.pass) { summary.failed = 'gates'; summary.error = `${qa.value.findings.filter(f => f.severity === 'error').length} gate error(s)`; }
 }

@@ -53,6 +53,21 @@ test('sheet mode shares one scale and one ground line; cell mode refits every po
   assert.equal(shared.record.cells.find(c => c.id === 'stand_front').limitCell, 'lift_front');
 });
 
+test('a partial scale override keeps the recorded mode', async t => {
+  const {dir, settings, layout, sheet} = await build();
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const facing = importSheet({layout, sheet, profile: settings.profile, scaleOptions: {mode: 'facing'}});
+  const cells = result => result.record.cells;
+  const oneScalePerFacing = result => ['front', 'side'].every(f => new Set(cells(result).filter(c => c.facing === f).map(c => c.scale)).size === 1);
+  for (const partial of [{groundLift: 3}, {margin: 2}, {fixedScale: {front: 0.05}}]) {
+    const refit = pixelizeImport(facing, settings, {scaleOptions: partial});
+    assert.equal(refit.record.scaleOptions.mode, 'facing', JSON.stringify(partial));
+    assert.ok(oneScalePerFacing(refit), `poses of a facing still share a scale with ${JSON.stringify(partial)}`);
+  }
+  assert.equal(pixelizeImport(facing, settings, {scaleOptions: {groundLift: 3}}).record.scaleOptions.groundLift, 3);
+  assert.equal(pixelizeImport(facing, settings, {scaleOptions: {mode: 'cell'}}).record.scaleOptions.mode, 'cell');
+});
+
 test('recorded sheet-mode scale is refitted, never reused, for another profile or other options', async t => {
   const {dir, settings, layout, sheet} = await build();
   t.after(() => fs.rm(dir, {recursive: true, force: true}));

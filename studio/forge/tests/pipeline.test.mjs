@@ -124,3 +124,38 @@ test('the CLI runs the whole chain: pixelise writes the indexed layers, bake fee
   assert.match(result.stdout, /pipeline ok/);
   assert.equal((await json(path.join(full, 'pipeline.json'))).ok, true);
 });
+
+test('runPipeline never throws: a bad project, a failed import and a failed write are all stages, and pipeline.json is left behind', async t => {
+  const out = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'forge-fail-'));
+  t.after(() => fs.rm(out, {recursive: true, force: true}));
+  const input = await inputs('layout.forge.json');
+  // Bad profile: project loading is the first stage.
+  const bad = await runPipeline({...input, project: {root, profile: 'no_such_profile'}, out: path.join(out, 'a')});
+  assert.equal(bad.summary.ok, false);
+  assert.equal(bad.summary.failed, 'project');
+  assert.match(bad.summary.error, /no_such_profile/);
+  assert.equal((await json(path.join(out, 'a', 'pipeline.json'))).failed, 'project');
+  // Bad project root.
+  assert.equal((await runPipeline({...input, project: {root: path.join(out, 'missing'), profile: 'pet'}})).summary.failed, 'project');
+  // Failed import with out set: no import/ directory, but the diagnosis is on disk.
+  const empty = {...(await json(dir + 'layout.forge.json')), cells: []};
+  const failed = await runPipeline({...input, layout: empty, out: path.join(out, 'b')});
+  assert.equal(failed.summary.failed, 'import');
+  assert.deepEqual((await fs.readdir(path.join(out, 'b'))).sort(), ['pipeline.json']);
+  assert.equal((await json(path.join(out, 'b', 'pipeline.json'))).failed, 'import');
+  // A stage that failed after others finished: what finished is written.
+  const bakeFail = structuredClone(input.rig); bakeFail.facings.south.parts[0].role = 'wing';
+  const partial = await runPipeline({...input, rig: bakeFail, out: path.join(out, 'c')});
+  assert.equal(partial.summary.failed, 'bake');
+  assert.deepEqual((await fs.readdir(path.join(out, 'c'))).sort(), ['import', 'pipeline.json', 'pixelize']);
+  // The output step itself failing (out is an existing file) is reported, not thrown.
+  const file = path.join(out, 'plain-file');
+  await fs.writeFile(file, 'x');
+  const writeFailed = await runPipeline({...input, out: file});
+  assert.equal(writeFailed.summary.failed, 'write');
+  assert.ok(writeFailed.summary.writeError);
+  // ...and it does not hide an earlier failure.
+  const both = await runPipeline({...input, layout: empty, out: file});
+  assert.equal(both.summary.failed, 'import');
+  assert.ok(both.summary.writeError);
+});
