@@ -4,6 +4,8 @@
     "lt_ash_bow_shot",
     "lt_brass_spindle",
     "lt_brass_spindle_shot",
+    "lt_cinder_mirror",
+    "lt_cinder_mirror_shot",
     "lt_ember_fan",
     "lt_ember_fan_shot",
     "lt_ink_flute",
@@ -20,6 +22,8 @@
     "lt_moon_glaive_shot",
     "lt_reed_blade",
     "lt_reed_blade_shot",
+    "lt_reed_verdict",
+    "lt_reed_verdict_shot",
     "lt_seal_chisel",
     "lt_seal_chisel_shot",
     "lt_star_hook",
@@ -30,17 +34,17 @@
     "lt_tide_bell_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 70,
+  "frame_count": 80,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 70,
+      "frames": 80,
       "height": 32,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "416c4dd56e9c1142e320ba120c7638b7efb7d17c37e604df2397314a31d3f253",
-      "png_sha256": "48fa47e0bbe5b8fb74dba45cad46b511fbfafae6731ca6fd3554d163a8179f3a",
+      "json_sha256": "935d784c1b3f3804b8c5c0c3b4c928913632df13119557f54353efea8e45b767",
+      "png_sha256": "24af91d4f2922adf57b547e1c7cb6853b9f99e62184a95e435fc8ffa7414dd19",
       "rgba8_bytes": 262144,
       "width": 2048
     }

@@ -1,0 +1,49 @@
+{
+  "id": "lt_reed_verdict",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Combine the two parent silhouettes around one grip.",
+  "reference_ids": [
+    "lt_reed_blade",
+    "lt_seal_chisel"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_reed_blade",
+      "path": "assets/raw/longtime/lt_reed_blade/source.png",
+      "sha256": "98c672d8333265805169d33e7cfcee923359c934779f2e776f46ff280ca99ffb"
+    },
+    {
+      "id": "lt_seal_chisel",
+      "path": "assets/raw/longtime/lt_seal_chisel/source.png",
+      "sha256": "134f919b97c66600c17a5f8476c4ed51391d37fde3beb6d6c9f19b52be2fbc34"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_reed_verdict.py",
+  "generator_sha256_lf": "67519f35d55427dc8b9f1bf9bb3ae0d87350890f7f8c3baf0397869c31b4abd1",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "c56b7e1362bf88029a9cfb0777d6eac50233bfc067c8db5919fa166073b76b4e",
+  "frames": [
+    {
+      "key": "longtime/lt_reed_verdict/held_none_0",
+      "path": "assets/processed_longtime/lt_reed_verdict/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "c56b7e1362bf88029a9cfb0777d6eac50233bfc067c8db5919fa166073b76b4e"
+    }
+  ]
+}
