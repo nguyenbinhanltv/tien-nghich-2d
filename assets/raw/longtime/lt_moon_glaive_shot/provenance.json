@@ -1,0 +1,66 @@
+{
+  "id": "lt_moon_glaive_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Separate flight silhouette for moon glaive.",
+  "reference_ids": [
+    "lt_moon_glaive"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_moon_glaive.py",
+  "generator_sha256_lf": "95bd1c68c5abb0acf4038110da4d3df5f97c19d61ecb01896203cf0ec9c8485c",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "ddac3048d0675ff5b4152ab529410ce2dd2b4eecec18b82537c60b54c5c70516",
+  "frames": [
+    {
+      "key": "longtime/lt_moon_glaive_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_moon_glaive_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "b5205b86767158f643219b07d58e32b8e04c4bbe85566be062dc41c468a8fabd"
+    },
+    {
+      "key": "longtime/lt_moon_glaive_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_moon_glaive_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "59c47a6db029441a009452d07c6381ab5dd37586c1c6b91e6a00cde29698e97a"
+    },
+    {
+      "key": "longtime/lt_moon_glaive_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_moon_glaive_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "4e274dc526c895f62a69f4b5690aa7ccbd4d2051b0fdf875a9e5af8df0fc07c7"
+    },
+    {
+      "key": "longtime/lt_moon_glaive_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_moon_glaive_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "936b6ccabd1adef6ab9e4f8862629403ddcb79266dbcbaf892c4860bb7e58a0c"
+    }
+  ]
+}
