@@ -7,7 +7,7 @@ node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name
                     [--library-dir <abs>] [--max-line-bytes <n>] [--skip-independent-check]
 node studio/mcp.mjs --issue-token --agent <name> --scope <scope>     # HTTP bearer token, shown once
 node studio/mcp.mjs --self-test          # human-runnable proof: real handshakes, real calls, exit code
-node --test studio/mcp/*.test.mjs studio/core/tests/*.test.mjs        # 142 tests
+node --test studio/mcp/*.test.mjs studio/core/tests/*.test.mjs        # the tests
 node studio/mcp/eval/run.mjs             # the evaluation, as a real agent (needs the `claude` CLI)
 ```
 
