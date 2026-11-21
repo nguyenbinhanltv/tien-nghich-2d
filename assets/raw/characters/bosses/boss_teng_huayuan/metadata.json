@@ -1,0 +1,167 @@
+{
+  "group_id": "9d2e75f0-2603-459d-a804-d67d8985f6af",
+  "states": [
+    {
+      "character": {
+        "id": "20fdc0ee-798f-45b1-9d86-6a10e557177c",
+        "name": "Idle",
+        "prompt": "Teng Huayuan, blood-robed patriarch, tall gaunt elder cultivator front-facing, long dark crimson robe #4f0f22 and #7a1426 with blood red trim #a51d35, pale skin #f9c4c0 shade #ee7a80, long black hair #14101a, holding a blood sword #d03a4a, simple clear silhouette, arms slightly away from body, symmetric neutral stance, 1px outline #14101a, 3/4 top-down view, transparent background",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T19:20:20.985137+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "phase_transition": {
+            "east": [
+              "Idle/animations/phase_transition/east/frame_000.png",
+              "Idle/animations/phase_transition/east/frame_001.png",
+              "Idle/animations/phase_transition/east/frame_002.png",
+              "Idle/animations/phase_transition/east/frame_003.png",
+              "Idle/animations/phase_transition/east/frame_004.png",
+              "Idle/animations/phase_transition/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/phase_transition/south/frame_000.png",
+              "Idle/animations/phase_transition/south/frame_001.png",
+              "Idle/animations/phase_transition/south/frame_002.png",
+              "Idle/animations/phase_transition/south/frame_003.png",
+              "Idle/animations/phase_transition/south/frame_004.png",
+              "Idle/animations/phase_transition/south/frame_005.png"
+            ]
+          },
+          "death": {
+            "south": [
+              "Idle/animations/death/south/frame_000.png",
+              "Idle/animations/death/south/frame_001.png",
+              "Idle/animations/death/south/frame_002.png",
+              "Idle/animations/death/south/frame_003.png",
+              "Idle/animations/death/south/frame_004.png",
+              "Idle/animations/death/south/frame_005.png",
+              "Idle/animations/death/south/frame_006.png",
+              "Idle/animations/death/south/frame_007.png"
+            ],
+            "east": [
+              "Idle/animations/death/east/frame_000.png",
+              "Idle/animations/death/east/frame_001.png",
+              "Idle/animations/death/east/frame_002.png",
+              "Idle/animations/death/east/frame_003.png",
+              "Idle/animations/death/east/frame_004.png",
+              "Idle/animations/death/east/frame_005.png",
+              "Idle/animations/death/east/frame_006.png",
+              "Idle/animations/death/east/frame_007.png"
+            ]
+          },
+          "move": {
+            "east": [
+              "Idle/animations/move/east/frame_000.png",
+              "Idle/animations/move/east/frame_001.png",
+              "Idle/animations/move/east/frame_002.png",
+              "Idle/animations/move/east/frame_003.png",
+              "Idle/animations/move/east/frame_004.png",
+              "Idle/animations/move/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/move/south/frame_000.png",
+              "Idle/animations/move/south/frame_001.png",
+              "Idle/animations/move/south/frame_002.png",
+              "Idle/animations/move/south/frame_003.png",
+              "Idle/animations/move/south/frame_004.png",
+              "Idle/animations/move/south/frame_005.png"
+            ]
+          },
+          "attack_cast": {
+            "south": [
+              "Idle/animations/attack_cast/south/frame_000.png",
+              "Idle/animations/attack_cast/south/frame_001.png",
+              "Idle/animations/attack_cast/south/frame_002.png",
+              "Idle/animations/attack_cast/south/frame_003.png",
+              "Idle/animations/attack_cast/south/frame_004.png",
+              "Idle/animations/attack_cast/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/attack_cast/east/frame_000.png",
+              "Idle/animations/attack_cast/east/frame_001.png",
+              "Idle/animations/attack_cast/east/frame_002.png",
+              "Idle/animations/attack_cast/east/frame_003.png",
+              "Idle/animations/attack_cast/east/frame_004.png",
+              "Idle/animations/attack_cast/east/frame_005.png"
+            ]
+          },
+          "summon": {
+            "south": [
+              "Idle/animations/summon/south/frame_000.png",
+              "Idle/animations/summon/south/frame_001.png",
+              "Idle/animations/summon/south/frame_002.png",
+              "Idle/animations/summon/south/frame_003.png",
+              "Idle/animations/summon/south/frame_004.png",
+              "Idle/animations/summon/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/summon/east/frame_000.png",
+              "Idle/animations/summon/east/frame_001.png",
+              "Idle/animations/summon/east/frame_002.png",
+              "Idle/animations/summon/east/frame_003.png",
+              "Idle/animations/summon/east/frame_004.png",
+              "Idle/animations/summon/east/frame_005.png"
+            ]
+          },
+          "attack_slash": {
+            "east": [
+              "Idle/animations/attack_slash/east/frame_000.png",
+              "Idle/animations/attack_slash/east/frame_001.png",
+              "Idle/animations/attack_slash/east/frame_002.png",
+              "Idle/animations/attack_slash/east/frame_003.png",
+              "Idle/animations/attack_slash/east/frame_004.png",
+              "Idle/animations/attack_slash/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/attack_slash/south/frame_000.png",
+              "Idle/animations/attack_slash/south/frame_001.png",
+              "Idle/animations/attack_slash/south/frame_002.png",
+              "Idle/animations/attack_slash/south/frame_003.png",
+              "Idle/animations/attack_slash/south/frame_004.png",
+              "Idle/animations/attack_slash/south/frame_005.png"
+            ]
+          },
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png",
+              "Idle/animations/idle/south/frame_004.png",
+              "Idle/animations/idle/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png",
+              "Idle/animations/idle/east/frame_004.png",
+              "Idle/animations/idle/east/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-20T19:28:25.376372"
+}

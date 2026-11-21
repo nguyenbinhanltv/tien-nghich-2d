@@ -1,0 +1,204 @@
+{
+ "entries": [
+  {
+   "id": "boss_teng_huayuan",
+   "character_uuid": "20fdc0ee-798f-45b1-9d86-6a10e557177c",
+   "manifest_size": "64",
+   "path": "assets/raw/characters/bosses/boss_teng_huayuan",
+   "canvas_sizes_found": [
+    [
+     84,
+     84
+    ],
+    [
+     88,
+     88
+    ]
+   ],
+   "frames_per_dir": {
+    "attack_cast": {
+     "east": 6,
+     "south": 6
+    },
+    "attack_slash": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 8,
+     "south": 8
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    },
+    "phase_transition": {
+     "east": 6,
+     "south": 6
+    },
+    "summon": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 96,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 82.1,
+    "mean_off_palette_pct": 0.0
+   },
+   "fetched_utc": "2026-11-20T19:28:28Z",
+   "seconds": 6.7,
+   "error": null,
+   "tool": "create_character_pro_flash(mannequin,64x64,palette 40,seed 2001)+animate_character v3 custom w/ palette",
+   "params": {
+    "seed": 2001,
+    "width": 64,
+    "height": 64,
+    "palette": "palette.json 40 hex",
+    "view": "low top-down"
+   },
+   "seed": 2001
+  },
+  {
+   "id": "boss_ghost_king",
+   "character_uuid": "7d177b53-7611-4242-aeb0-2a0488b58f3b",
+   "manifest_size": "80",
+   "path": "assets/raw/characters/bosses/boss_ghost_king",
+   "canvas_sizes_found": [
+    [
+     104,
+     104
+    ]
+   ],
+   "frames_per_dir": {
+    "attack_claw": {
+     "east": 6,
+     "south": 6
+    },
+    "attack_wail": {
+     "east": 8,
+     "south": 8
+    },
+    "death": {
+     "east": 10,
+     "south": 10
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    },
+    "phase_transition": {
+     "east": 8,
+     "south": 8
+    },
+    "soul_devour": {
+     "east": 6,
+     "south": 6
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 108,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 0.7,
+    "mean_off_palette_pct": 0.0
+   },
+   "fetched_utc": "2026-11-20T19:31:21Z",
+   "seconds": 5.8,
+   "error": null,
+   "tool": "create_character_pro_flash(mannequin,80x80,palette 40,seed 2002)+animate_character v3 custom w/ palette",
+   "params": {
+    "seed": 2002,
+    "width": 80,
+    "height": 80,
+    "palette": "palette.json 40 hex",
+    "view": "low top-down"
+   },
+   "seed": 2002
+  },
+  {
+   "id": "boss_ancient_god_remnant",
+   "character_uuid": "dbeecec0-1a8f-4614-b046-4e020c86e7db",
+   "manifest_size": "96",
+   "path": "assets/raw/characters/bosses/boss_ancient_god_remnant",
+   "canvas_sizes_found": [
+    [
+     120,
+     120
+    ],
+    [
+     124,
+     124
+    ]
+   ],
+   "frames_per_dir": {
+    "attack_beam": {
+     "east": 8,
+     "south": 8
+    },
+    "attack_slam": {
+     "east": 8,
+     "south": 8
+    },
+    "chain_lash": {
+     "east": 6,
+     "south": 6
+    },
+    "death": {
+     "east": 12,
+     "south": 12
+    },
+    "idle": {
+     "east": 6,
+     "south": 6
+    },
+    "move": {
+     "east": 6,
+     "south": 6
+    },
+    "phase_transition": {
+     "east": 8,
+     "south": 8
+    }
+   },
+   "frame_count_mismatch_vs_manifest": {},
+   "verify_summary": {
+    "files": 116,
+    "size_mismatch": 0,
+    "no_alpha_channel": 0,
+    "corner_not_transparent": 0,
+    "with_semi_transparent_px": 0,
+    "mean_outline_coverage_pct": 5.3,
+    "mean_off_palette_pct": 0.0
+   },
+   "fetched_utc": "2026-11-20T19:34:52Z",
+   "seconds": 6.7,
+   "error": null,
+   "tool": "create_character_pro_flash(mannequin,96x96,palette 40,seed 2003)+animate_character v3 custom w/ palette",
+   "params": {
+    "seed": 2003,
+    "width": 96,
+    "height": 96,
+    "palette": "palette.json 40 hex",
+    "view": "low top-down"
+   },
+   "seed": 2003
+  }
+ ]
+}

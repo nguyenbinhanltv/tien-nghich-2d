@@ -1,0 +1,1869 @@
+{
+ "summary": {
+  "files": 116,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 5.3,
+  "mean_off_palette_pct": 0.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2111,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2203,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2598,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2766,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2792,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2695,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_006.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3136,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/east/frame_007.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2735,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3452,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3358,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3122,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2784,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2697,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2718,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_006.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2743,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_beam/south/frame_007.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 4573,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2073,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2091,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2193,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2165,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2140,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2127,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_006.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2109,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/east/frame_007.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2109,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3484,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 10.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3420,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3014,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2860,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3060,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3053,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 10.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_006.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3005,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/attack_slam/south/frame_007.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2676,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2045,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2076,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2126,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2112,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2037,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1993,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3378,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3212,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3102,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3029,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2894,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/chain_lash/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2760,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2078,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2055,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 8.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2055,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1936,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1871,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 10.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1852,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 8.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_006.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1790,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_007.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1727,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_008.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1717,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_009.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1676,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_010.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1697,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/east/frame_011.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1705,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3289,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3204,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 8.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2934,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2650,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2160,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_006.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1957,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_007.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1927,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_008.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1956,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_009.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1857,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_010.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1776,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/death/south/frame_011.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1760,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2097,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2079,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1993,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2003,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2098,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2133,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3386,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 10.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 13.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3182,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3165,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3305,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/idle/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3382,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 17.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2124,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2146,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2097,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2176,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2105,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 8.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2443,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3330,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3263,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3154,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2972,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2728,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/move/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2473,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_000.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2066,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_001.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2162,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_002.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2456,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_003.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2517,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_004.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2605,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 12.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_005.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2695,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_006.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2597,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/east/frame_007.png",
+   "size": [
+    124,
+    124
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2599,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_000.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3451,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 4.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_001.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3378,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 1.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_002.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3362,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_003.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_004.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3469,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 5.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_005.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3594,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 3.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_006.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3686,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 2.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/phase_transition/south/frame_007.png",
+   "size": [
+    120,
+    120
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3850,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 8.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/east.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2056,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 6.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/north-east.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2726,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 14.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/north-west.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2750,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 14.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/north.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 2945,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/south-east.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3079,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/south-west.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3075,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 13.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/south.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 3429,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 9.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_ancient_god_remnant/rotations/west.png",
+   "size": [
+    96,
+    96
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1822,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 7.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  }
+ ]
+}
