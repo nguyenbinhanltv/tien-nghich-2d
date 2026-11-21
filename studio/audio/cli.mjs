@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // node studio/audio/cli.mjs validate <doc.json>
 // node studio/audio/cli.mjs render  <doc.json> --out <file.wav> [--project <root>] [--report <file.json>] [--images <dir>]
-// node studio/audio/cli.mjs analyze <file.wav|doc.json> [--out-dir <dir>] [--loop <start:end>] [--no-images] [--width <px>]
+// node studio/audio/cli.mjs analyze <file.wav|doc.json> [--out-dir <dir>] [--loop <start:end>] [--width <px>]
+// analyze writes nothing unless --out-dir is given (then it writes the two PNGs there); without it only the figures print.
 // JSON goes to stdout; problems go to stderr with exit code 1. No agent listens to anything here: figures and pictures only.
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -50,9 +51,9 @@ async function main() {
   const input = positional[0];
   if (command === 'analyze' && /\.wav$/i.test(input)) {
     const loop = flags.loop ? (([s, e]) => ({start: Number(s), end: Number(e)}))(flags.loop.split(':')) : undefined;
-    const result = analyze(await fs.readFile(input), {loop, images: !flags['no-images'], width: flags.width ? Number(flags.width) : undefined});
+    const result = analyze(await fs.readFile(input), {loop, images: Boolean(flags['out-dir']), width: flags.width ? Number(flags.width) : undefined});
     const out = {source: result.source, measurements: result.measurements};
-    if (result.images) out.images = await writeImages(flags['out-dir'] ?? '.', path.basename(input, path.extname(input)), result.images);
+    if (result.images) out.images = await writeImages(flags['out-dir'], path.basename(input, path.extname(input)), result.images);
     return process.stdout.write(JSON.stringify(out, null, 2) + '\n');
   }
   let doc = await readJson(input);
@@ -76,9 +77,9 @@ async function main() {
     if (flags.report) await fs.writeFile(flags.report, JSON.stringify(summary, null, 2) + '\n');
     return process.stdout.write(JSON.stringify(summary, null, 2) + '\n');
   }
-  const result = analyze(doc, {images: !flags['no-images'], width: flags.width ? Number(flags.width) : undefined});
+  const result = analyze(doc, {images: Boolean(flags['out-dir']), width: flags.width ? Number(flags.width) : undefined});
   const out = {source: result.source, measurements: result.measurements, pitch: result.pitch};
-  if (result.images) out.images = await writeImages(flags['out-dir'] ?? '.', doc.id, result.images);
+  if (result.images) out.images = await writeImages(flags['out-dir'], doc.id, result.images);
   process.stdout.write(JSON.stringify(out, null, 2) + '\n');
 }
 

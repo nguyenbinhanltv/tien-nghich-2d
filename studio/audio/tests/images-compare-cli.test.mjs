@@ -114,6 +114,16 @@ test('CLI: validate, render with report and images, analyze a WAV, and never wri
   assert.equal(analysis.status, 0, analysis.stderr);
   assert.deepEqual(JSON.parse(analysis.stdout).measurements.peak, summary.measurements.peak);
 
+  // analyze is read-only unless --out-dir is given: no files appear in the working directory.
+  const cwd = tmp();
+  const quiet = spawnSync(process.execPath, [cli, 'analyze', out], {encoding: 'utf8', cwd});
+  assert.equal(quiet.status, 0, quiet.stderr);
+  assert.ok(JSON.parse(quiet.stdout).measurements && !JSON.parse(quiet.stdout).images);
+  assert.deepEqual(fs.readdirSync(cwd), []);
+  const quietDoc = spawnSync(process.execPath, [cli, 'analyze', doc], {encoding: 'utf8', cwd});
+  assert.equal(quietDoc.status, 0, quietDoc.stderr);
+  assert.deepEqual(fs.readdirSync(cwd), []);
+
   const refused = spawnSync(process.execPath, [cli, 'render', doc, '--out', path.join(repo, 'assets/audio/masters/pilot_sfx/zz.wav'), '--project', repo], {encoding: 'utf8'});
   assert.equal(refused.status, 1);
   assert.match(refused.stderr, /delivered audio/);

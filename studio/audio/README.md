@@ -23,7 +23,7 @@ Nothing project-specific lives here (`tests/literals.test.mjs` enforces it). The
 node --test 'studio/audio/tests/*.test.mjs'
 node studio/audio/cli.mjs validate studio/audio/examples/zap.patch.json
 node studio/audio/cli.mjs render   studio/audio/examples/dusk.score.json --out /tmp/dusk.wav --images /tmp/dusk-img --report /tmp/dusk.json
-node studio/audio/cli.mjs analyze  /tmp/dusk.wav --loop 0:470400 --out-dir /tmp/dusk-img
+node studio/audio/cli.mjs analyze  /tmp/dusk.wav --loop 0:470400 --out-dir /tmp/dusk-img   # without --out-dir nothing is written
 ```
 
 `render` accepts `--project <root>`: the document's sample rate is then checked against (or filled from) the project's
