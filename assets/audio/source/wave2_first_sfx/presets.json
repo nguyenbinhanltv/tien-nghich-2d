@@ -1,0 +1,97 @@
+{
+  "sfx_step": {
+    "seed": 8143,
+    "duration_ms": 118,
+    "trim": 0.76,
+    "design": "A soft sole lands heel first; a higher grit scuff follows as weight rolls forward.",
+    "pilot_reference": "sfx_hit_flesh has a stronger slap and a deeper collapsing membrane.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 55, "gain": 0.69, "low_hz": 95, "high_hz": 1350, "attack_ms": 2, "decay_ms": 19, "release_ms": 13},
+      {"voice": "tone", "start_ms": 1, "ms": 58, "gain": 0.31, "hz": 141, "end_hz": 88, "attack_ms": 3, "decay_ms": 17, "release_ms": 20},
+      {"voice": "noise", "start_ms": 36, "ms": 80, "gain": 0.61, "low_hz": 620, "high_hz": 3650, "attack_ms": 7, "decay_ms": 27, "release_ms": 28}
+    ]
+  },
+  "sfx_evade": {
+    "seed": 8191,
+    "duration_ms": 192,
+    "trim": 0.7,
+    "design": "A narrow slip of silk and a lifted harmonic acknowledge a successful dodge.",
+    "pilot_reference": "sfx_dash is a broad immediate movement rush.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 78, "gain": 0.58, "low_hz": 1450, "high_hz": 4900, "attack_ms": 11, "decay_ms": 85, "release_ms": 32},
+      {"voice": "tone", "start_ms": 27, "ms": 92, "gain": 0.36, "hz": 527, "end_hz": 836, "attack_ms": 12, "decay_ms": 110, "release_ms": 38},
+      {"voice": "tone", "start_ms": 73, "ms": 115, "gain": 0.29, "hz": 836, "end_hz": 883, "attack_ms": 7, "decay_ms": 35, "release_ms": 38, "fm_ratio": 2, "fm_index": 0.32}
+    ]
+  },
+  "sfx_cast": {
+    "seed": 8219,
+    "duration_ms": 309,
+    "trim": 0.73,
+    "design": "Breath gathers under a widening resonant fifth, then releases into a brief puff.",
+    "pilot_reference": "sfx_breakthrough has a longer low intake and sustained harmonic resolution.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 180, "gain": 0.53, "low_hz": 430, "high_hz": 2600, "attack_ms": 47, "decay_ms": 240, "release_ms": 49},
+      {"voice": "tone", "start_ms": 4, "ms": 244, "gain": 0.35, "hz": 257, "end_hz": 293.665, "attack_ms": 41, "decay_ms": 250, "release_ms": 66},
+      {"voice": "tone", "start_ms": 70, "ms": 212, "gain": 0.3, "hz": 397, "end_hz": 440, "attack_ms": 48, "decay_ms": 210, "release_ms": 67},
+      {"voice": "noise", "start_ms": 196, "ms": 110, "gain": 0.85, "low_hz": 800, "high_hz": 4700, "attack_ms": 2, "decay_ms": 30, "release_ms": 43}
+    ]
+  },
+  "sfx_bolt": {
+    "seed": 8233,
+    "duration_ms": 144,
+    "trim": 0.77,
+    "design": "One hard spark snaps into a short falling, buzzing projectile tail.",
+    "pilot_reference": "sfx_blade sweeps up then down through an airy metallic whistle.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 17, "gain": 1.05, "low_hz": 2000, "high_hz": 7000, "attack_ms": 1, "decay_ms": 8, "release_ms": 6},
+      {"voice": "tone", "start_ms": 1, "ms": 137, "gain": 0.62, "hz": 1430, "end_hz": 218, "attack_ms": 2, "decay_ms": 49, "release_ms": 34, "fm_ratio": 1.71, "fm_index": 1.12},
+      {"voice": "tone", "start_ms": 3, "ms": 74, "gain": 0.19, "hz": 715, "end_hz": 326, "attack_ms": 2, "decay_ms": 23, "release_ms": 18}
+    ]
+  },
+  "sfx_tell_light": {
+    "seed": 8263,
+    "duration_ms": 234,
+    "trim": 0.68,
+    "design": "Two dry bamboo knocks at the same pitch warn before a light strike; the second is louder.",
+    "pilot_reference": "sfx_seal_lock tightens through two pulses and closes on a separate latch.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 67, "gain": 0.46, "hz": 1046, "end_hz": 1018, "attack_ms": 2, "decay_ms": 20, "release_ms": 17, "fm_ratio": 2.72, "fm_index": 0.78},
+      {"voice": "noise", "start_ms": 0, "ms": 28, "gain": 0.43, "low_hz": 720, "high_hz": 3600, "attack_ms": 2, "decay_ms": 10, "release_ms": 8},
+      {"voice": "tone", "start_ms": 116, "ms": 111, "gain": 0.68, "hz": 1046, "end_hz": 1018, "attack_ms": 2, "decay_ms": 30, "release_ms": 26, "fm_ratio": 2.72, "fm_index": 0.78},
+      {"voice": "noise", "start_ms": 116, "ms": 29, "gain": 0.56, "low_hz": 720, "high_hz": 3600, "attack_ms": 2, "decay_ms": 11, "release_ms": 9}
+    ]
+  },
+  "sfx_focus": {
+    "seed": 8287,
+    "duration_ms": 56,
+    "trim": 0.58,
+    "design": "A quiet paper-edge tick marks a single focus move; it has almost no pitched tail.",
+    "pilot_reference": "sfx_confirm rings out as a centered pluck on commitment.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 50, "gain": 0.72, "low_hz": 1150, "high_hz": 5450, "attack_ms": 2, "decay_ms": 12, "release_ms": 15},
+      {"voice": "tone", "start_ms": 1, "ms": 35, "gain": 0.16, "hz": 1710, "end_hz": 1460, "attack_ms": 1, "decay_ms": 8, "release_ms": 9}
+    ]
+  },
+  "sfx_cancel": {
+    "seed": 8297,
+    "duration_ms": 178,
+    "trim": 0.62,
+    "design": "Two muted strokes descend from A to D as the menu backs out.",
+    "pilot_reference": "sfx_confirm is a single sustained pluck; sfx_pickup rises.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 76, "gain": 0.5, "hz": 440, "end_hz": 438, "attack_ms": 3, "decay_ms": 23, "release_ms": 19, "fm_ratio": 2, "fm_index": 0.35},
+      {"voice": "tone", "start_ms": 69, "ms": 104, "gain": 0.48, "hz": 293.665, "end_hz": 291, "attack_ms": 3, "decay_ms": 32, "release_ms": 27, "fm_ratio": 2, "fm_index": 0.22}
+    ]
+  },
+  "sfx_deny": {
+    "seed": 8311,
+    "duration_ms": 207,
+    "trim": 0.61,
+    "design": "Two blunt, low reed buzzes repeat on a locked action and cut off cleanly.",
+    "pilot_reference": "sfx_confirm has a single bright attack and freely decaying tail.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 78, "gain": 0.55, "hz": 153, "end_hz": 147, "attack_ms": 5, "decay_ms": 170, "release_ms": 14, "fm_ratio": 2, "fm_index": 1.55},
+      {"voice": "tone", "start_ms": 103, "ms": 99, "gain": 0.57, "hz": 153, "end_hz": 147, "attack_ms": 4, "decay_ms": 170, "release_ms": 18, "fm_ratio": 2, "fm_index": 1.55}
+    ]
+  }
+}

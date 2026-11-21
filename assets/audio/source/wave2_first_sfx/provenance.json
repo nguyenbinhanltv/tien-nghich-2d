@@ -1,0 +1,122 @@
+{
+  "creator": "OpenAI Codex",
+  "rights": "Original procedural sound design created for Tien Nghich 2D.",
+  "inputs": "Project DSP and original presets only; no source recordings, model weights or soundfonts.",
+  "format": "Mono PCM16 little-endian WAV, 44100 Hz; one-shots without loops.",
+  "markers": "Integer sample frames; [onset_frame, tail_end_exclusive) bounds all nonzero PCM.",
+  "tuning": "Absolute Hz per layer; A4=440 Hz reference, no beat grid.",
+  "synthesis": "Zero oscillator phase and filter states, MT19937 with seed + layer index, nearest-even rounding, no dither.",
+  "rebuild": "python -I -B tools/generators/wave2_first_sfx.py --out <empty-directory>",
+  "python": "3.14.0",
+  "source_sha256_lf": {
+    "tools/generators/wave2_first_sfx.py": "3008c6982b3f2bfe685d790f29621158609406928b1c34b23d994f8cff2aaeba",
+    "tools/generators/pilot_sfx.py": "c03ef85b27d0572ec40a3619d7f6bc9d23a0eb5e3ebbfbbc5674188477a3af2b",
+    "assets/audio/source/wave2_first_sfx/presets.json": "6ca925bad50d66a3724fcbfed6560522520e413b8d4e020638ecb0122f3d8fac"
+  },
+  "masters": [
+    {
+      "id": "sfx_step",
+      "file": "sfx_step.wav",
+      "seed": 8143,
+      "frames": 5204,
+      "duration_ms": 118.00453514739229,
+      "onset_frame": 1,
+      "tail_end_exclusive": 5112,
+      "sample_peak_dbfs": -12.141,
+      "rms_dbfs": -25.323,
+      "pcm_sha256": "7e7bb9a1d3cba3c4f1b1c1025440c58ad59bfc97908cf29281ac7d531fac0613",
+      "wav_sha256": "de102c277265484c3f5dfc36e7aaf9ba56db029bf797b78213fd2cce0fdfc840"
+    },
+    {
+      "id": "sfx_evade",
+      "file": "sfx_evade.wav",
+      "seed": 8191,
+      "frames": 8467,
+      "duration_ms": 191.9954648526077,
+      "onset_frame": 1,
+      "tail_end_exclusive": 8287,
+      "sample_peak_dbfs": -9.165,
+      "rms_dbfs": -21.0,
+      "pcm_sha256": "6deb7eb193d159538bbd55d877cdb6bf1095e480c7b9b617f764ef0c919f6d75",
+      "wav_sha256": "d70899eb1c7d4db34e508cc462aac20ca9b981d0df098098850152515d5b1704"
+    },
+    {
+      "id": "sfx_cast",
+      "file": "sfx_cast.wav",
+      "seed": 8219,
+      "frames": 13627,
+      "duration_ms": 309.00226757369614,
+      "onset_frame": 2,
+      "tail_end_exclusive": 13488,
+      "sample_peak_dbfs": -6.495,
+      "rms_dbfs": -18.478,
+      "pcm_sha256": "30e573fb4d952d263316d13a91ccd1a80d8931c718e05e1d2cc1cc9c0c71378b",
+      "wav_sha256": "46d395858adf360aedbe335092ed8a6a53824f3bab3fd453fd730c5fb28bb022"
+    },
+    {
+      "id": "sfx_bolt",
+      "file": "sfx_bolt.wav",
+      "seed": 8233,
+      "frames": 6350,
+      "duration_ms": 143.99092970521542,
+      "onset_frame": 1,
+      "tail_end_exclusive": 6085,
+      "sample_peak_dbfs": -3.484,
+      "rms_dbfs": -17.032,
+      "pcm_sha256": "a8532f2ffe9d070f3e7481b8e2e074c8762e43d645df1ece572fe89cadf5b29b",
+      "wav_sha256": "ec59abda2e9d9bad3d812ff8925b24dc8b1dec6e7e96e6697c4e9b5a593a246c"
+    },
+    {
+      "id": "sfx_tell_light",
+      "file": "sfx_tell_light.wav",
+      "seed": 8263,
+      "frames": 10319,
+      "duration_ms": 233.99092970521542,
+      "onset_frame": 1,
+      "tail_end_exclusive": 10004,
+      "sample_peak_dbfs": -5.717,
+      "rms_dbfs": -20.752,
+      "pcm_sha256": "c8ee5e9691a3d99a506414c522406d56e84385c41e266521fdeb133e3f59f3f7",
+      "wav_sha256": "6e50e0b378d3d0703312c2d8b8b0c14ded168c520be4ad93b8d1d839d639f94d"
+    },
+    {
+      "id": "sfx_focus",
+      "file": "sfx_focus.wav",
+      "seed": 8287,
+      "frames": 2470,
+      "duration_ms": 56.00907029478458,
+      "onset_frame": 1,
+      "tail_end_exclusive": 2196,
+      "sample_peak_dbfs": -12.728,
+      "rms_dbfs": -29.777,
+      "pcm_sha256": "4d7261f34df5d4cde2c4c91249aa180bca8af14608f36ed6346e314657e2c410",
+      "wav_sha256": "da811ccc40bbbf49dc89f0d5867258e5db16d4a54a11ee0474d7963b7f278ac7"
+    },
+    {
+      "id": "sfx_cancel",
+      "file": "sfx_cancel.wav",
+      "seed": 8297,
+      "frames": 7850,
+      "duration_ms": 178.0045351473923,
+      "onset_frame": 1,
+      "tail_end_exclusive": 7627,
+      "sample_peak_dbfs": -11.414,
+      "rms_dbfs": -21.133,
+      "pcm_sha256": "e4ced8083258fb8aa2bcd5b7bfc6a758bc4b1725e83fc41da17ca94b927f961d",
+      "wav_sha256": "d0b06dcca6c8e7d51d16e79ad36ba39c7f541392d7254fe99d7af48adb39a82d"
+    },
+    {
+      "id": "sfx_deny",
+      "file": "sfx_deny.wav",
+      "seed": 8311,
+      "frames": 9129,
+      "duration_ms": 207.00680272108843,
+      "onset_frame": 1,
+      "tail_end_exclusive": 8907,
+      "sample_peak_dbfs": -9.428,
+      "rms_dbfs": -14.537,
+      "pcm_sha256": "9230da0719867bd5d6ac5586aa759092d381cd66b0a022869a1ec76b29b9ace4",
+      "wav_sha256": "87eb1969176e7a6d7c76f7fa814c3526dbadffbe2a470d86dd1eea93e7963942"
+    }
+  ]
+}
