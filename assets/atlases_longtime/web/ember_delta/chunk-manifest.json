@@ -1,0 +1,26 @@
+{
+  "asset_ids": [
+    "lt_ember_delta"
+  ],
+  "chunk_group": "ember_delta",
+  "frame_count": 24,
+  "mobile_page_budget": null,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 24,
+      "height": 16,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "3839b7fa4fc48fefc6a18e5031fe305e9bffcc3330006139940b546bffe372fd",
+      "png_sha256": "dadcdab3b81173ad1efb990135abe6b57e1a1168792dc78014fa79efd9f9fcbc",
+      "rgba8_bytes": 32768,
+      "width": 512
+    }
+  ],
+  "platform": "web",
+  "readiness": "packed",
+  "rgba8_bytes": 32768,
+  "rgba8_mib": 0.0312,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}

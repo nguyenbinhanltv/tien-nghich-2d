@@ -1,0 +1,288 @@
+{
+  "id": "lt_ember_delta",
+  "producer": "OpenAI Codex",
+  "reference_ids": [],
+  "rights": "Original artwork created for this project.",
+  "brief": "Ash banks, slag channels and glowing kiln caps.",
+  "method": "Hand-specified deterministic native pixel geometry. No seed or image inputs.",
+  "generator": "tools/generators/lt_ember_delta.py",
+  "generator_sha256_lf": "bb30539ed53f9396603e1687942ebbbdb25c49ec4bafe0eee1756f8236c9a61a",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    0,
+    0
+  ],
+  "source": "source.png",
+  "source_sha256": "b24fe5e3744ee9fa096ae2330f7038733c75a14b59fa428b4568ac67a868cc0b",
+  "enlarged_contact": "contact_6x.png",
+  "enlarged_sha256": "4cdca8f4691d39885f46ba85d0fc187c77fe0a669d965d6973e80b37b2315e2a",
+  "proof": {
+    "unique_frames": 24,
+    "opaque_pixels": 6144,
+    "alpha_values": [
+      255
+    ],
+    "palette_ids": [
+      "blood_02",
+      "blood_03",
+      "blood_05",
+      "ink_01",
+      "ink_02",
+      "ink_03",
+      "ink_04",
+      "ink_05",
+      "thunder_05",
+      "thunder_06"
+    ],
+    "mask_side_probes": 64,
+    "compatible_floor_edge_joins": 96,
+    "straight_cap_joins": 4
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ember_delta/floor_none_0",
+      "source_xy": [
+        0,
+        0
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/floor_none_0.png",
+      "duration_ms": 0,
+      "sha256": "b7172df5f3e9696e525350ca20b4b84195a909e80373cda0b57b4e7df497e6e5"
+    },
+    {
+      "key": "longtime/lt_ember_delta/floor_none_1",
+      "source_xy": [
+        16,
+        0
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/floor_none_1.png",
+      "duration_ms": 0,
+      "sha256": "2fc0555cbed07a3f77388e84732ac3dbb6b1bacc8cc7617bfc1c7b002bfd1a70"
+    },
+    {
+      "key": "longtime/lt_ember_delta/floor_none_2",
+      "source_xy": [
+        32,
+        0
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/floor_none_2.png",
+      "duration_ms": 0,
+      "sha256": "f13c48838dc12381b8e252ff241b17f532687e81bdc6484bd16e08ba530e10fd"
+    },
+    {
+      "key": "longtime/lt_ember_delta/floor_none_3",
+      "source_xy": [
+        48,
+        0
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/floor_none_3.png",
+      "duration_ms": 0,
+      "sha256": "8b0a7dc279ec7f6ae62431f8da967cf6ed3fb1dc57dcb316e18fdaba8c86b182"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_0",
+      "source_xy": [
+        0,
+        16
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_0.png",
+      "duration_ms": 0,
+      "sha256": "b2595f25ec0d2338111f105612e69e3efd408f1364a99d8843170bee3da24807"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_1",
+      "source_xy": [
+        16,
+        16
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_1.png",
+      "duration_ms": 0,
+      "sha256": "95e6ec9c178477a299d2d89b937675e4efba9002c70a1e41ae72587e36e1bf5f"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_2",
+      "source_xy": [
+        32,
+        16
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_2.png",
+      "duration_ms": 0,
+      "sha256": "5827f27ea7c9eb65e0426ef123e9a414406ba6e65ada3d0c5a9688461a89c17c"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_3",
+      "source_xy": [
+        48,
+        16
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_3.png",
+      "duration_ms": 0,
+      "sha256": "40a1ea09dba3a2ded9b4d3c711a6f6a3b106b2e8842171ac1d7641a35ae90229"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_4",
+      "source_xy": [
+        0,
+        32
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_4.png",
+      "duration_ms": 0,
+      "sha256": "d720af59136ea40f2c4a652fef1a3a82d89a5d60f35c6410fe76283eefc7ac3f"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_5",
+      "source_xy": [
+        16,
+        32
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_5.png",
+      "duration_ms": 0,
+      "sha256": "08cc935f9538977c09ecd95aa17db2bc5ecf51c0fefebe7074f7dba75a05d675"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_6",
+      "source_xy": [
+        32,
+        32
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_6.png",
+      "duration_ms": 0,
+      "sha256": "0cb5f8a2d367931adc87d81b72691149434f4dc07156fa692768438955c2219e"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_7",
+      "source_xy": [
+        48,
+        32
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_7.png",
+      "duration_ms": 0,
+      "sha256": "b7b686ea7522834c141f83ef1fa10f4885e852fdca8c28f08f7f7cbb19733574"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_8",
+      "source_xy": [
+        0,
+        48
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_8.png",
+      "duration_ms": 0,
+      "sha256": "eaaed5f76cbc604f31ea4f159a43bb669f073d8c9a41c64f03ff0b2c56dfc025"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_9",
+      "source_xy": [
+        16,
+        48
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_9.png",
+      "duration_ms": 0,
+      "sha256": "5e2d4a8e7e2cbc5333e907f0021f9b11fb904d0186565ed2a474eb387785c1cd"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_10",
+      "source_xy": [
+        32,
+        48
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_10.png",
+      "duration_ms": 0,
+      "sha256": "2085aad7dbfcfd722c45a614694f8bab3b34bdee9f2a2da79aa065813f0677d1"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_11",
+      "source_xy": [
+        48,
+        48
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_11.png",
+      "duration_ms": 0,
+      "sha256": "9ceed02c5cd9b2666c9119420d064f2275b31395b8960d1e2929a8c3cecf3c0d"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_12",
+      "source_xy": [
+        0,
+        64
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_12.png",
+      "duration_ms": 0,
+      "sha256": "8b4be72a3f073bc9ccbdc5821ae6066a2528e90a279006af08dd56d2244acab6"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_13",
+      "source_xy": [
+        16,
+        64
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_13.png",
+      "duration_ms": 0,
+      "sha256": "a0ed06991741171190240c4052cee006da79a071f6af992eca6f3d680d2d192a"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_14",
+      "source_xy": [
+        32,
+        64
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_14.png",
+      "duration_ms": 0,
+      "sha256": "e7b035260966e8e3b8bfeee4154ac4cf0c52a3a5ccdbd5dc54069f3c81ed60be"
+    },
+    {
+      "key": "longtime/lt_ember_delta/edge_none_15",
+      "source_xy": [
+        48,
+        64
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/edge_none_15.png",
+      "duration_ms": 0,
+      "sha256": "c340b1fd8857908a81a9bab0707c20fcb88353ccda7a6f305596932a2b11eb7b"
+    },
+    {
+      "key": "longtime/lt_ember_delta/wall_cap_none_0",
+      "source_xy": [
+        0,
+        80
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/wall_cap_none_0.png",
+      "duration_ms": 0,
+      "sha256": "9680c546d0378162c52ba15559ee1d686b001ad0d288e40fcb9027bd4bc886e8"
+    },
+    {
+      "key": "longtime/lt_ember_delta/wall_cap_none_1",
+      "source_xy": [
+        16,
+        80
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/wall_cap_none_1.png",
+      "duration_ms": 0,
+      "sha256": "8d064629e0bf57cc10a2a06144676173b56bde999f8ac26fdbc9a102e9cc44f4"
+    },
+    {
+      "key": "longtime/lt_ember_delta/wall_cap_none_2",
+      "source_xy": [
+        32,
+        80
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/wall_cap_none_2.png",
+      "duration_ms": 0,
+      "sha256": "3f14f0f3740ffde8f9428e93b3fa5b3a5530ba5e2306531d1a2a3fdf8d954b7b"
+    },
+    {
+      "key": "longtime/lt_ember_delta/wall_cap_none_3",
+      "source_xy": [
+        48,
+        80
+      ],
+      "path": "assets/processed_longtime/lt_ember_delta/wall_cap_none_3.png",
+      "duration_ms": 0,
+      "sha256": "1fdb65bc57997899382067eb7e2faa8f3bb94dc2c9dd6e2badf4ae62fdf5f6df"
+    }
+  ],
+  "sheet_order": "Row 1 floors; rows 2-5 exposed-side masks 0-15 (N1 E2 S4 W8); row 6 caps N E S W."
+}
