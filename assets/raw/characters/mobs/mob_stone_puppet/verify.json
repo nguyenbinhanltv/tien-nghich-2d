@@ -1,0 +1,781 @@
+{
+ "summary": {
+  "files": 48,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 100.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 325,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 345,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 338,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 345,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 490,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 487,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 461,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 426,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 444,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/attack/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 476,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 488,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 461,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 447,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/death/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 445,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 295,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 277,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 287,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 426,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 434,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 425,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/idle/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 434,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 266,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 267,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 266,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 257,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 280,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/east/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 258,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 441,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 455,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 463,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 438,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 452,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/move/south/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 474,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 412,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 413,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 481,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 433,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 458,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 498,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_stone_puppet/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  }
+ ]
+}

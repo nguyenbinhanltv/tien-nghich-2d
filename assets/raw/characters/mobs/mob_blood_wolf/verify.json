@@ -1,0 +1,717 @@
+{
+ "summary": {
+  "files": 44,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 2.8
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 455,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 21.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 456,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.1,
+   "off_palette_mean_dist": 21.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 449,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 21.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 440,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.6,
+   "off_palette_mean_dist": 21.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 319,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.8,
+   "off_palette_mean_dist": 19.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.1,
+   "off_palette_mean_dist": 29.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 299,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 30.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/attack/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 309,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.0,
+   "off_palette_mean_dist": 17.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 395,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.3,
+   "off_palette_mean_dist": 21.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 397,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.5,
+   "off_palette_mean_dist": 21.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 380,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.0,
+   "off_palette_mean_dist": 21.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 329,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.0,
+   "off_palette_mean_dist": 21.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 310,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 8.1,
+   "off_palette_mean_dist": 20.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 283,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.2,
+   "off_palette_mean_dist": 19.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 294,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 12.2,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/death/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 217,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 10.6,
+   "off_palette_mean_dist": 21.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 435,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.7,
+   "off_palette_mean_dist": 18.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 445,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.8,
+   "off_palette_mean_dist": 19.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 442,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.3,
+   "off_palette_mean_dist": 20.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 435,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.2,
+   "off_palette_mean_dist": 20.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 329,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.3,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 322,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.9,
+   "off_palette_mean_dist": 21.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.2,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/idle/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 319,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.4,
+   "off_palette_mean_dist": 20.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 453,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 21.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 438,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.5,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 418,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.2,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 420,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 22.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_004.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 423,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.3,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/east/frame_005.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 433,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.6,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.3,
+   "off_palette_mean_dist": 18.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.3,
+   "off_palette_mean_dist": 20.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.0,
+   "off_palette_mean_dist": 21.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.3,
+   "off_palette_mean_dist": 20.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_004.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.0,
+   "off_palette_mean_dist": 21.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/move/south/frame_005.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 312,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.3,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 433,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 407,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 398,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 324,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 390,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 385,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 328,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_wolf/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 434,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  }
+ ]
+}

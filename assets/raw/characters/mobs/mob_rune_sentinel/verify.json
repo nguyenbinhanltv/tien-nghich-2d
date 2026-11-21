@@ -1,0 +1,845 @@
+{
+ "summary": {
+  "files": 52,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 84.0,
+  "mean_off_palette_pct": 11.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 195,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.1,
+   "off_palette_pct": 20.0,
+   "off_palette_mean_dist": 24.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 237,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 57.9,
+   "off_palette_pct": 32.9,
+   "off_palette_mean_dist": 20.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 305,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 37.5,
+   "off_palette_pct": 47.5,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 325,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 47.8,
+   "off_palette_pct": 31.4,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 289,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 61.0,
+   "off_palette_pct": 28.7,
+   "off_palette_mean_dist": 20.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 225,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 81.2,
+   "off_palette_pct": 20.4,
+   "off_palette_mean_dist": 30.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 351,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.3,
+   "off_palette_pct": 7.7,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 348,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 80.0,
+   "off_palette_pct": 1.7,
+   "off_palette_mean_dist": 29.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 380,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 58.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 345,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.1,
+   "off_palette_pct": 2.9,
+   "off_palette_mean_dist": 19.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 360,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.8,
+   "off_palette_pct": 0.6,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/attack/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 352,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 232,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 80.6,
+   "off_palette_pct": 5.6,
+   "off_palette_mean_dist": 22.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 216,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 51.1,
+   "off_palette_pct": 48.6,
+   "off_palette_mean_dist": 14.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 166,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 37.5,
+   "off_palette_pct": 67.5,
+   "off_palette_mean_dist": 14.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 142,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 24.6,
+   "off_palette_pct": 81.7,
+   "off_palette_mean_dist": 14.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 349,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.3,
+   "off_palette_pct": 4.6,
+   "off_palette_mean_dist": 30.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 92.0,
+   "off_palette_pct": 8.3,
+   "off_palette_mean_dist": 25.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 265,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.7,
+   "off_palette_pct": 11.7,
+   "off_palette_mean_dist": 21.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/death/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 250,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 17.6,
+   "off_palette_mean_dist": 15.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 164,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.7,
+   "off_palette_pct": 3.0,
+   "off_palette_mean_dist": 21.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 195,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 50.5,
+   "off_palette_pct": 5.6,
+   "off_palette_mean_dist": 28.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 227,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 35.1,
+   "off_palette_pct": 11.0,
+   "off_palette_mean_dist": 24.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 196,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 44.3,
+   "off_palette_pct": 15.3,
+   "off_palette_mean_dist": 25.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 160,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.3,
+   "off_palette_pct": 8.1,
+   "off_palette_mean_dist": 21.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 168,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.8,
+   "off_palette_pct": 5.4,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 338,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.1,
+   "off_palette_pct": 9.2,
+   "off_palette_mean_dist": 24.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 332,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 75.6,
+   "off_palette_pct": 13.3,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 71.4,
+   "off_palette_pct": 26.7,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.7,
+   "off_palette_pct": 10.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.8,
+   "off_palette_pct": 2.3,
+   "off_palette_mean_dist": 23.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/idle/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 315,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.2,
+   "off_palette_pct": 1.0,
+   "off_palette_mean_dist": 30.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 163,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.2,
+   "off_palette_pct": 1.8,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 158,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.4,
+   "off_palette_pct": 1.9,
+   "off_palette_mean_dist": 25.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 163,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 1.8,
+   "off_palette_mean_dist": 28.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 159,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.1,
+   "off_palette_pct": 2.5,
+   "off_palette_mean_dist": 19.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 157,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 3.2,
+   "off_palette_mean_dist": 25.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 157,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.5,
+   "off_palette_pct": 1.3,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 1.5,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 337,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.0,
+   "off_palette_pct": 1.2,
+   "off_palette_mean_dist": 25.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 294,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 2.0,
+   "off_palette_mean_dist": 21.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 297,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 1.7,
+   "off_palette_mean_dist": 25.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 299,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.5,
+   "off_palette_pct": 1.3,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/move/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 315,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 100.0,
+   "off_palette_pct": 2.5,
+   "off_palette_mean_dist": 24.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 163,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 92.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 92.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 319,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 99.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 337,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_rune_sentinel/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 168,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  }
+ ]
+}

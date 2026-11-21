@@ -1,0 +1,717 @@
+{
+ "summary": {
+  "files": 44,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 100.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 328,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 347,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 362,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 355,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 448,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 437,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 396,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/attack/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 387,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 342,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 350,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 275,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 424,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 393,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 350,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/death/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 344,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 308,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 389,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 393,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/idle/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 392,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 263,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 281,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 252,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 297,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/east/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 272,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 315,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 298,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/move/south/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 335,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 373,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 383,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 438,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 414,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 390,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 434,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_sword_acolyte/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 309,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.7
+  }
+ ]
+}

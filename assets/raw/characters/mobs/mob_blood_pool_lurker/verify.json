@@ -1,0 +1,781 @@
+{
+ "summary": {
+  "files": 48,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 3.8
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 417,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.8,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.0,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 421,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.6,
+   "off_palette_mean_dist": 22.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 384,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.0,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 370,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.9,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 366,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.6,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 409,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 7.1,
+   "off_palette_mean_dist": 21.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 420,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.5,
+   "off_palette_mean_dist": 22.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 409,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.9,
+   "off_palette_mean_dist": 22.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 388,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.9,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 368,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.4,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/attack/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 393,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.8,
+   "off_palette_mean_dist": 22.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 388,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 7.5,
+   "off_palette_mean_dist": 24.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 382,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 7.1,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 371,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.9,
+   "off_palette_mean_dist": 23.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 358,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.2,
+   "off_palette_mean_dist": 22.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 351,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 6.0,
+   "off_palette_mean_dist": 22.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/east/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 371,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.9,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 427,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 10.1,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 441,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 9.5,
+   "off_palette_mean_dist": 20.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 476,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 7.8,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 469,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.9,
+   "off_palette_mean_dist": 25.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_004.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 433,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 8.8,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/death/south/frame_005.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 410,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 5.1,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 418,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.0,
+   "off_palette_mean_dist": 20.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 419,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.2,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 391,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.3,
+   "off_palette_mean_dist": 21.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 380,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.6,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.7,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 393,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.3,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 365,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.6,
+   "off_palette_mean_dist": 26.2
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/idle/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 348,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 1.7,
+   "off_palette_mean_dist": 28.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/east/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 410,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.1,
+   "off_palette_mean_dist": 20.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/east/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 403,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.2,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/east/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 391,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 4.6,
+   "off_palette_mean_dist": 21.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/east/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 400,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 2.2,
+   "off_palette_mean_dist": 20.4
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/south/frame_000.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 430,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 6.7,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/south/frame_001.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 427,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 7.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/south/frame_002.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 413,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.6,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/move/south/frame_003.png",
+   "size": [
+    40,
+    40
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 382,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 3.7,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 399,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 402,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 403,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 396,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 389,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 398,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 386,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/mobs/mob_blood_pool_lurker/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 388,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  }
+ ]
+}

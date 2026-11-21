@@ -1,0 +1,97 @@
+{
+  "group_id": "9209be86-b79d-466a-82b0-055ce96fcb06",
+  "states": [
+    {
+      "character": {
+        "id": "273f2c9e-7050-4eff-8545-4860ade63cf5",
+        "name": "Idle",
+        "prompt": "spirit-herb-fed snake, coiled green viper with raised head and fangs, scales jade #22795f and #2fa27a with belly #9ae3b8, glowing poison drops #5cc796, eyes #f5d765, 1px outline #14101a, 3/4 top-down view, transparent background",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T19:05:30.404067+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "death": {
+            "south": [
+              "Idle/animations/death/south/frame_000.png",
+              "Idle/animations/death/south/frame_001.png",
+              "Idle/animations/death/south/frame_002.png",
+              "Idle/animations/death/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/death/east/frame_000.png",
+              "Idle/animations/death/east/frame_001.png",
+              "Idle/animations/death/east/frame_002.png",
+              "Idle/animations/death/east/frame_003.png"
+            ]
+          },
+          "attack": {
+            "south": [
+              "Idle/animations/attack/south/frame_000.png",
+              "Idle/animations/attack/south/frame_001.png",
+              "Idle/animations/attack/south/frame_002.png",
+              "Idle/animations/attack/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/attack/east/frame_000.png",
+              "Idle/animations/attack/east/frame_001.png",
+              "Idle/animations/attack/east/frame_002.png",
+              "Idle/animations/attack/east/frame_003.png"
+            ]
+          },
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ]
+          },
+          "move": {
+            "south": [
+              "Idle/animations/move/south/frame_000.png",
+              "Idle/animations/move/south/frame_001.png",
+              "Idle/animations/move/south/frame_002.png",
+              "Idle/animations/move/south/frame_003.png",
+              "Idle/animations/move/south/frame_004.png",
+              "Idle/animations/move/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/move/east/frame_000.png",
+              "Idle/animations/move/east/frame_001.png",
+              "Idle/animations/move/east/frame_002.png",
+              "Idle/animations/move/east/frame_003.png",
+              "Idle/animations/move/east/frame_004.png",
+              "Idle/animations/move/east/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-20T19:16:25.518214"
+}
