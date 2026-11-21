@@ -5,7 +5,7 @@ import { bakeClip, frameName } from './bake.mjs';
 import { validateRig } from './validate.mjs';
 import { validatePatch, applyPatch, appendOps, emptyPatch, patchKey } from './patch.mjs';
 import { bodyPlans, checkApplicable, clipTable, getTemplate } from '../motion/library.mjs';
-import { runGates, stability } from '../gates/index.mjs';
+import { runGates, stability, defaultOptions } from '../gates/index.mjs';
 import { writeFrame } from './raster.mjs';
 
 export { makePalette, readFrame, writeFrame, framesEqual, contactSheet } from './raster.mjs';
@@ -84,7 +84,7 @@ export function qaBake(result, {rig, palette, options = {}}) {
   if (options.stability !== false && Object.keys(result.clips).length > 1) {
     for (const facing of Object.keys(rig.facings)) {
       const units = Object.fromEntries(Object.keys(result.clips).map(c => [c, unitOf(result, c, facing)]));
-      findings.push(...stability(units, {palette}, {...options.stability}));
+      findings.push(...stability(units, {palette}, {...defaultOptions.stability, ...options.stability}));
     }
   }
   return {pass: !findings.some(f => f.severity === 'error'), findings, metrics};

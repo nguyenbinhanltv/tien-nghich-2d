@@ -155,7 +155,7 @@ Every gate returns findings:
 | `flicker` | interior non-ink pixels that change for one key and revert | more than 10 px |
 | `loopSeam` | last-to-first change larger than the biggest internal step | ×1.25 + 0.03 |
 | `markSide` | mark missing from its box, mark pixels outside every box, mark present where `absent` | exact |
-| `stability` (across clips of a facing) | colours not in the reference clip, silhouette size beyond a fraction of the reference | 0 new colours, 25% |
+| `stability` (across clips of a facing) | colours not in the reference clip, silhouette size beyond a fraction of the reference | 0 new colours, 50% (gross scale or stretch between clips, not motion) |
 | `silhouetteContrast` | edge pixels under a WCAG contrast ratio against `options.background` `[r,g,b]` | 1.5, more than 50% of edge |
 | `featureContrast` | a rig feature box with too few accent pixels | per feature |
 | `weightTransfer` | contacts step but the body plate never moves (also reports `bodyTravel`, `supportMisalignment`) | 1 px |

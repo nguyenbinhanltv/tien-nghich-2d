@@ -181,3 +181,19 @@ test('marten: a mark on the wrong ear is caught with the ear box and the stray p
   assert.deepEqual(found.map(f => f.frame), [2, 2]);
   assert.deepEqual(found[1].pixels, [[12, 13], [12, 14]]);
 });
+
+test('qaBake reports stability findings with default options (partial options keep the other defaults)', async () => {
+  const {qaBake} = await import('../../rig/index.mjs');
+  const withPatch = ops => bakeRig({rig: bipedRig, native: bipedNative(palette), library: loadLibrary('biped'), profile: manifest.profiles.player, profileName: 'player', palette, clips: ['idle', 'walk'],
+    patch: {schema: 'studio.patch', version: 1, frames: {walk_south_2: ops}}});
+  const run = (ops, options = {}) => qaBake(withPatch(ops), {rig: bipedRig, palette, options}).findings.filter(f => f.gate.startsWith('stability'));
+  // Idle is the reference clip (first); a colour only walk uses is a finding at its pixel, with no options given.
+  const colour = run([{op: 'set', pixels: [[15, 20, 'bp_spare']]}]);
+  assert.deepEqual(colour.map(f => [f.gate, f.clip, f.facing, f.pixels]), [['stability_palette', 'walk', 'south', [[15, 20]]]]);
+  // Overriding only maxSizeDelta must not switch the palette check off.
+  assert.equal(run([{op: 'set', pixels: [[15, 20, 'bp_spare']]}], {stability: {maxSizeDelta: 0.5}}).length, 1);
+  // A stretched silhouette is reported by default too.
+  const wide = run([{op: 'fill', box: [1, 12, 10, 20], color: 'bp_cloth'}]);
+  assert.deepEqual(wide.map(f => [f.gate, f.frame]), [['stability_proportion', 2]]);
+  assert.deepEqual(run([]), [], 'clean bake: no stability findings');
+});

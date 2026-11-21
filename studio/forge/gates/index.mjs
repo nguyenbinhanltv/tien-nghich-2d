@@ -15,7 +15,7 @@ export const defaultOptions = {
   flicker: {maxPixels: 10},
   loopSeam: {factor: 1.25, margin: 0.03},
   markSide: {},
-  stability: {maxSizeDelta: 0.25, maxNewColors: 0},
+  stability: {maxSizeDelta: 0.5, maxNewColors: 0},
   silhouetteContrast: {minRatio: 1.5, maxLowEdgeFraction: 0.5},
   featureContrast: {},
   weightTransfer: {minBodyTravel: 1}
@@ -166,7 +166,8 @@ export function markSide(unit, ctx) {
  * Colours appearing in a clip but absent from the reference clip, and silhouette sizes that stray from the
  * reference by more than `maxSizeDelta` of the reference size, are findings.
  */
-export function stability(clips, ctx, options = defaultOptions.stability) {
+export function stability(clips, ctx, overrides = {}) {
+  const options = {...defaultOptions.stability, ...overrides};
   const out = [];
   const names = Object.keys(clips);
   const reference = options.reference ?? names[0];
