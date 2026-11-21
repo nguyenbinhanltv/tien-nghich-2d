@@ -4,7 +4,7 @@
  "delivery": {
   "gdd": "docs/GDD.md",
   "vfx_index": "assets/processed/vfx/vfx_index.json",
-  "vfx_readiness": "authored",
+  "vfx_readiness": "packed",
   "ui_export": {
    "processed": "assets/processed/ui/{id}/{clip}_none_{n}.png",
    "atlas_key": "ui/{id}/{clip}_none_{n}"

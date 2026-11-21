@@ -110,6 +110,7 @@ export class AssetStore {
     this.assetsById = new Map();
     this.mobRuntime = {};
     this.index = null;
+    this.vfxCatalog = new Map();
     this.bitmaskMap = createDefaultBitmaskMap();
     this.useFixtures = false;
 
@@ -132,12 +133,14 @@ export class AssetStore {
 
   async init({ useFixtures = false } = {}) {
     this.useFixtures = useFixtures;
-    const [palette, manifest, index, mobRuntime] = await Promise.all([
+    const [palette, manifest, index, mobRuntime, vfxIndex] = await Promise.all([
       fetchJsonSafe('/tools/generators/palette.json'),
       fetchJsonSafe('/assets/manifest.json'),
       fetchJsonSafe('/__preview_index.json'),
       fetchJsonSafe('/assets/atlases/mob-runtime.json'),
+      fetchJsonSafe('/assets/processed/vfx/vfx_index.json'),
     ]);
+    this.vfxCatalog = new Map((vfxIndex?.effects || []).map((e) => [e.id, e]));
 
     this.palette = palette;
     this.mobRuntime = mobRuntime || {};
@@ -248,8 +251,21 @@ export class AssetStore {
     if (!counts.size) return;
     this.assets = this.assets.filter((a) => !(a.category === 'vfx' && a._contractEntry));
     for (const [id, e] of counts) {
-      const asset = { id, name: { vi: id, en: id }, category: 'vfx', size: [e.w, e.h], biome: 'all',
-        animations: { play: { frames: e.n, loop: false } }, palette_refs: [], _fromAtlas: true };
+      const meta = this.vfxCatalog.get(id);
+      const play = { frames: e.n, loop: false };
+      if (meta && meta.frame_count === e.n) {
+        // Browse-only timing from the delivered catalog: per-frame ms, phase label, loop and anchor.
+        play.loop = Boolean(meta.loop);
+        play.fps = meta.fps;
+        play.anchor = meta.anchor;
+        play.events = meta.events;
+        play.timeline = Array.from({ length: e.n }, (_, i) => ({
+          ms: Math.round(((i + 1) * 1000) / meta.fps) - Math.round((i * 1000) / meta.fps),
+          label: (meta.tags.find((t) => i >= t[1] && i <= t[2]) || [`frame ${i}`])[0],
+        }));
+      }
+      const asset = { id, name: { vi: id, en: id }, category: 'vfx', size: meta ? [...meta.frame_size] : [e.w, e.h],
+        biome: 'all', animations: { play }, palette_refs: [], _fromAtlas: true };
       this.assets.push(asset);
       this.assetsById.set(id, asset);
     }

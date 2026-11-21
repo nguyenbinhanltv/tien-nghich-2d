@@ -25,11 +25,12 @@ class DesignManifestTests(unittest.TestCase):
         self.assertEqual(len(records), 102)
         self.assertEqual(sum(s["processed"] == "complete" for _, s in records.values()), 97)
         for profile in ("web", "mobile"):
-            self.assertEqual(sum(s[profile] == "complete" for _, s in records.values()), 85)
+            self.assertEqual(sum(s[profile] == "complete" for _, s in records.values()), 97)
         self.assertEqual(check.coverage({"frame0", "frame1"}, {"frame1"}), "partial")
 
-    def test_cannot_label_unpacked_effects_as_delivered(self):
-        self.doc["delivery"]["vfx_readiness"] = "packed"
+    def test_packed_effects_cannot_be_downgraded_or_mislabelled(self):
+        self.assertEqual(self.doc["delivery"]["vfx_readiness"], "packed")
+        self.doc["delivery"]["vfx_readiness"] = "authored"
         with self.assertRaisesRegex(ValueError, "differs from measured"):
             self.validate()
 
