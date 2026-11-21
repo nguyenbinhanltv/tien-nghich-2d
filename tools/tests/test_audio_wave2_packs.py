@@ -4,6 +4,8 @@ import hashlib
 import importlib.util
 import json
 import re
+import shutil
+import tempfile
 import unittest
 import wave
 from pathlib import Path
@@ -128,6 +130,31 @@ class BuilderTableTests(unittest.TestCase):
         for h in tc.SOURCES.values():
             self.assertIn(h, script)
         self.assertTrue(re.search(r"native\)", script))
+
+
+class CompareOutputsTests(unittest.TestCase):
+    def test_toolchain_only_differences_pass_and_codec_changes_fail(self):
+        m = load("build_audio_wave2_pack")
+        src = ROOT / "assets/audio/packs/wave2_batch2_v1"
+        with tempfile.TemporaryDirectory() as d:
+            rebuilt = Path(d)
+            for f in src.iterdir():
+                shutil.copy(f, rebuilt / f.name)
+            self.assertEqual(m.compare_outputs(2, src, rebuilt), [])
+            pack = json.loads((rebuilt / "pack.json").read_text(encoding="utf-8"))
+            pack["toolchain"].update(binary_sha256="0" * 64, python="3.99.0", numpy="9.9.9", configure="--prefix=<prefix> other")
+            (rebuilt / "pack.json").write_text(json.dumps(pack, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+            ev = json.loads((rebuilt / "evidence.json").read_text(encoding="utf-8"))
+            m.write_report(rebuilt, 2, pack, ev)
+            self.assertNotEqual((rebuilt / "PACK_REPORT.md").read_bytes(), (src / "PACK_REPORT.md").read_bytes())
+            self.assertEqual(m.compare_outputs(2, src, rebuilt), [])
+            blob = bytearray((rebuilt / "sfx_sprite.ogg").read_bytes())
+            blob[-1] ^= 1
+            (rebuilt / "sfx_sprite.ogg").write_bytes(bytes(blob))
+            self.assertEqual(m.compare_outputs(2, src, rebuilt), ["sfx_sprite.ogg: SHA-256 mismatch"])
+            pack["sfx"]["guard_frames"] += 1
+            (rebuilt / "pack.json").write_text(json.dumps(pack, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+            self.assertTrue(any(x.startswith("pack.json") for x in m.compare_outputs(2, src, rebuilt)))
 
 
 class EquivalenceCheckTests(unittest.TestCase):

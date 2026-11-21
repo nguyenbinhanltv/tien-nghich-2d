@@ -10,7 +10,7 @@ Outputs (default assets/audio/packs/wave2_batch<N>_v1/): sfx_sprite_master.wav, 
 pack.json (cue table, source and decoded frame maps, toolchain record) and evidence.json (waveform/codec/loudness measurements).
 
 --check rebuilds into a scratch directory and requires byte-identical WAV/Ogg/M4A files and identical pack.json/evidence.json
-apart from the machine-specific `toolchain` block (its differences are printed; a different FFmpeg binary hash with
+apart from the machine-specific toolchain values (`toolchain` block in the JSON and the toolchain lines of PACK_REPORT.md; the differences are printed; a different FFmpeg binary hash with
 identical outputs is reported, not hidden). --audition-dir writes the portable decoded audition WAV + timing key.
 
 Usage:
@@ -43,6 +43,7 @@ tc = _load("audio_toolchain")
 SR, AAC_FRAME, GUARD, BGM_LEAD = pp.SR, pp.AAC_FRAME, pp.GUARD, pp.BGM_LEAD
 SCHEMA = "tien-nghich-2d.audio-wave2-pack"
 PACK_REVISION = 1
+CODECS = ("ogg", "m4a")  # fixed report order (JSON reloads key-sorted)
 BASE_COMMIT = "99bec8fee7f165c71f6b8cd25fe93ecd90c826f5"
 
 BATCHES = {
@@ -304,13 +305,16 @@ def write_report(out: Path, batch: int, pack: dict, ev: dict) -> None:
          f"- Encoders: libvorbis `-q:a 5`; native AAC-LC 96k mono SFX / 160k stereo BGM; `-map_metadata -1 -fflags +bitexact -flags:a +bitexact`; CPython {t['python']}, NumPy {t['numpy']}", "",
          "## Files", "", "| File | Bytes | SHA-256 |", "|---|---|---|",
          f"| `sfx_sprite_master.wav` | {n((out / 'sfx_sprite_master.wav').stat().st_size)} | `{pack['sfx']['sprite_master']['sha256']}` |"]
-    for c, b in pack["sfx"]["codecs"].items():
+    for c in CODECS:
+        b = pack["sfx"]["codecs"][c]
         L.append(f"| `{b['file']}` | {n(b['bytes'])} | `{b['sha256']}` |")
     for g in pack["bgms"]:
-        for c, b in g["codecs"].items():
+        for c in CODECS:
+            b = g["codecs"][c]
             L.append(f"| `{b['file']}` | {n(b['bytes'])} | `{b['sha256']}` |")
     L += ["", "## Automated evidence", ""]
-    for c, b in pack["sfx"]["codecs"].items():
+    for c in CODECS:
+        b = pack["sfx"]["codecs"][c]
         L.append(f"- SFX {c}: head offset `{b['measured_head_offset_frames']}` frames, decoded `{n(b['decoded_frames'])}` frames (expected `{n(b['expected_frames'])}`), "
                  f"loudness `{b['loudness']['integrated_lufs']}` LUFS-I / `{b['loudness']['true_peak_dbtp']}` dBTP, decoded sample peak `{b['decoded_sample_peak_dbfs']}` dBFS.")
         rows = ev["automated"]["sfx"][c]["per_cue"]
@@ -322,7 +326,8 @@ def write_report(out: Path, batch: int, pack: dict, ev: dict) -> None:
         rm = ev["automated"]["bgm"][g["id"]]["master_loudness_remeasure"]["recorded_in_provenance_ffmpeg_8_1_2"]
         L.append(f"- Re-measured on this toolchain vs figures recorded with FFmpeg 8.1.2: LUFS-I `{rm['integrated_lufs']}` → `{m['loudness']['integrated_lufs']}`, "
                  f"LRA `{rm['loudness_range_lu']}` → `{m['loudness']['loudness_range_lu']}`, true peak `{rm['true_peak_dbtp']}` → `{m['loudness']['true_peak_dbtp']}` dBTP.")
-        for c, b in g["codecs"].items():
+        for c in CODECS:
+            b = g["codecs"][c]
             sm = b["seam_three_repeats"]
             L.append(f"- {c}: decoded loop `[{n(b['decoded_loop_frames']['loopStart'])}, {n(b['decoded_loop_frames']['loopEnd'])})`, head offset `{b['measured_head_offset_frames']}`, "
                      f"`{b['loudness']['integrated_lufs']}` LUFS-I / `{b['loudness']['true_peak_dbtp']}` dBTP; seam join steps `{sm['decoded_join_step_pcm']}` vs body p99.99 `{sm['decoded_body_step_p9999_pcm']}`, "
@@ -377,24 +382,41 @@ def _masked(path: Path) -> str:
     return json.dumps(d, sort_keys=True)
 
 
+def compare_outputs(batch: int, target: Path, rebuilt: Path) -> list[str]:
+    """Problems between a committed pack and a rebuilt one. Toolchain-block values never cause a failure:
+    JSON is compared with `toolchain` masked, and PACK_REPORT.md is regenerated from the rebuilt data carrying the
+    committed toolchain block (so only non-toolchain content must match). WAV/Ogg/M4A must be byte-identical."""
+    problems = []
+    for name in generated_files(batch):
+        t, r = target / name, rebuilt / name
+        if not t.is_file() or not r.is_file():
+            problems.append(f"{name}: missing {'target' if not t.is_file() else 'rebuilt'} file")
+        elif name == "PACK_REPORT.md":
+            pack = json.loads((rebuilt / "pack.json").read_text(encoding="utf-8"))
+            pack["toolchain"] = json.loads((target / "pack.json").read_text(encoding="utf-8"))["toolchain"]
+            ev = json.loads((rebuilt / "evidence.json").read_text(encoding="utf-8"))
+            with tempfile.TemporaryDirectory() as d:
+                for f in ("sfx_sprite_master.wav",):
+                    (Path(d) / f).write_bytes((rebuilt / f).read_bytes())
+                write_report(Path(d), batch, pack, ev)
+                if (Path(d) / name).read_bytes() != t.read_bytes():
+                    problems.append(f"{name}: content mismatch outside the toolchain section")
+        elif name.endswith(".json"):
+            if _masked(t) != _masked(r):
+                problems.append(f"{name}: content mismatch outside the toolchain block")
+        elif pp.sha256(t) != pp.sha256(r):
+            problems.append(f"{name}: SHA-256 mismatch")
+    return problems
+
+
 def check(ff, exe: str, out: Path, batch: int) -> int:
     scratch = Path(tempfile.gettempdir()).resolve()
     if scratch.is_relative_to(out.resolve()):
         sys.exit("choose a temporary directory outside the comparison target")
-    names = generated_files(batch)
     with tempfile.TemporaryDirectory(dir=scratch) as directory:
         rebuilt = Path(directory)
         build_pack(ff, exe, rebuilt, batch)
-        problems = []
-        for name in names:
-            t, r = out / name, rebuilt / name
-            if not t.is_file() or not r.is_file():
-                problems.append(f"{name}: missing {'target' if not t.is_file() else 'rebuilt'} file")
-            elif name.endswith(".json"):
-                if _masked(t) != _masked(r):
-                    problems.append(f"{name}: content mismatch outside the toolchain block")
-            elif pp.sha256(t) != pp.sha256(r):
-                problems.append(f"{name}: SHA-256 mismatch")
+        problems = compare_outputs(batch, out, rebuilt)
         rec_tc = json.loads((out / "pack.json").read_text(encoding="utf-8")).get("toolchain", {}) if (out / "pack.json").is_file() else {}
         new_tc = json.loads((rebuilt / "pack.json").read_text(encoding="utf-8"))["toolchain"]
         for k in ("variant", "ffmpeg", "binary_sha256", "source_tarball_sha256", "configure", "python", "numpy"):
@@ -403,7 +425,7 @@ def check(ff, exe: str, out: Path, batch: int) -> int:
         if problems:
             print("\n".join(problems), file=sys.stderr)
             return 1
-    print(f"deterministic rebuild: OK ({len(names)} files, batch {batch})")
+    print(f"deterministic rebuild: OK ({len(generated_files(batch))} files, batch {batch})")
     return 0
 
 
