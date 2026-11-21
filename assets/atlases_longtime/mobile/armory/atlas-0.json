@@ -1,6 +1,6 @@
 {
   "frames": {
-    "longtime/lt_ember_fan/held_none_0": {
+    "longtime/lt_ash_bow/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -29,12 +29,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_ember_fan_shot/flight_none_0": {
+    "longtime/lt_ash_bow_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 183,
+        "x": 243,
         "y": 3
       },
       "pivot": {
@@ -58,12 +58,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_ember_fan_shot/flight_none_1": {
+    "longtime/lt_ash_bow_shot/flight_none_1": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 205,
+        "x": 265,
         "y": 3
       },
       "pivot": {
@@ -87,12 +87,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_ember_fan_shot/flight_none_2": {
+    "longtime/lt_ash_bow_shot/flight_none_2": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 227,
+        "x": 287,
         "y": 3
       },
       "pivot": {
@@ -116,12 +116,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_ember_fan_shot/flight_none_3": {
+    "longtime/lt_ash_bow_shot/flight_none_3": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 249,
+        "x": 309,
         "y": 3
       },
       "pivot": {
@@ -145,7 +145,7 @@
       },
       "trimmed": false
     },
-    "longtime/lt_mirror_disc/held_none_0": {
+    "longtime/lt_ember_fan/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -174,12 +174,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_mirror_disc_shot/flight_none_0": {
+    "longtime/lt_ember_fan_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 271,
+        "x": 331,
         "y": 3
       },
       "pivot": {
@@ -203,12 +203,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_mirror_disc_shot/flight_none_1": {
+    "longtime/lt_ember_fan_shot/flight_none_1": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 293,
+        "x": 353,
         "y": 3
       },
       "pivot": {
@@ -232,12 +232,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_mirror_disc_shot/flight_none_2": {
+    "longtime/lt_ember_fan_shot/flight_none_2": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 315,
+        "x": 375,
         "y": 3
       },
       "pivot": {
@@ -261,12 +261,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_mirror_disc_shot/flight_none_3": {
+    "longtime/lt_ember_fan_shot/flight_none_3": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 337,
+        "x": 397,
         "y": 3
       },
       "pivot": {
@@ -290,7 +290,7 @@
       },
       "trimmed": false
     },
-    "longtime/lt_reed_blade/held_none_0": {
+    "longtime/lt_mirror_disc/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -319,12 +319,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_reed_blade_shot/flight_none_0": {
+    "longtime/lt_mirror_disc_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 359,
+        "x": 419,
         "y": 3
       },
       "pivot": {
@@ -348,12 +348,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_reed_blade_shot/flight_none_1": {
+    "longtime/lt_mirror_disc_shot/flight_none_1": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 381,
+        "x": 441,
         "y": 3
       },
       "pivot": {
@@ -377,12 +377,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_reed_blade_shot/flight_none_2": {
+    "longtime/lt_mirror_disc_shot/flight_none_2": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 403,
+        "x": 463,
         "y": 3
       },
       "pivot": {
@@ -406,12 +406,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_reed_blade_shot/flight_none_3": {
+    "longtime/lt_mirror_disc_shot/flight_none_3": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 425,
+        "x": 485,
         "y": 3
       },
       "pivot": {
@@ -435,7 +435,7 @@
       },
       "trimmed": false
     },
-    "longtime/lt_seal_chisel/held_none_0": {
+    "longtime/lt_mist_needle/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -464,12 +464,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_seal_chisel_shot/flight_none_0": {
+    "longtime/lt_mist_needle_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 447,
+        "x": 507,
         "y": 3
       },
       "pivot": {
@@ -493,12 +493,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_seal_chisel_shot/flight_none_1": {
+    "longtime/lt_mist_needle_shot/flight_none_1": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 469,
+        "x": 529,
         "y": 3
       },
       "pivot": {
@@ -522,12 +522,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_seal_chisel_shot/flight_none_2": {
+    "longtime/lt_mist_needle_shot/flight_none_2": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 491,
+        "x": 551,
         "y": 3
       },
       "pivot": {
@@ -551,12 +551,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_seal_chisel_shot/flight_none_3": {
+    "longtime/lt_mist_needle_shot/flight_none_3": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 513,
+        "x": 573,
         "y": 3
       },
       "pivot": {
@@ -580,7 +580,7 @@
       },
       "trimmed": false
     },
-    "longtime/lt_stone_flail/held_none_0": {
+    "longtime/lt_reed_blade/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -609,12 +609,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_stone_flail_shot/flight_none_0": {
+    "longtime/lt_reed_blade_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 535,
+        "x": 595,
         "y": 3
       },
       "pivot": {
@@ -638,12 +638,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_stone_flail_shot/flight_none_1": {
+    "longtime/lt_reed_blade_shot/flight_none_1": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 557,
+        "x": 617,
         "y": 3
       },
       "pivot": {
@@ -667,12 +667,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_stone_flail_shot/flight_none_2": {
+    "longtime/lt_reed_blade_shot/flight_none_2": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 579,
+        "x": 639,
         "y": 3
       },
       "pivot": {
@@ -696,12 +696,12 @@
       },
       "trimmed": false
     },
-    "longtime/lt_stone_flail_shot/flight_none_3": {
+    "longtime/lt_reed_blade_shot/flight_none_3": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 601,
+        "x": 661,
         "y": 3
       },
       "pivot": {
@@ -725,7 +725,7 @@
       },
       "trimmed": false
     },
-    "longtime/lt_tide_bell/held_none_0": {
+    "longtime/lt_seal_chisel/held_none_0": {
       "durationMs": 0,
       "frame": {
         "h": 24,
@@ -754,12 +754,302 @@
       },
       "trimmed": false
     },
+    "longtime/lt_seal_chisel_shot/flight_none_0": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 683,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_seal_chisel_shot/flight_none_1": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 705,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_seal_chisel_shot/flight_none_2": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 727,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_seal_chisel_shot/flight_none_3": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 749,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_stone_flail/held_none_0": {
+      "durationMs": 0,
+      "frame": {
+        "h": 24,
+        "w": 24,
+        "x": 183,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.75
+      },
+      "pivotPx": [
+        12,
+        18
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 24
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_stone_flail_shot/flight_none_0": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 771,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_stone_flail_shot/flight_none_1": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 793,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_stone_flail_shot/flight_none_2": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 815,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_stone_flail_shot/flight_none_3": {
+      "durationMs": 80,
+      "frame": {
+        "h": 16,
+        "w": 16,
+        "x": 837,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pivotPx": [
+        8,
+        8
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 16,
+        "w": 16
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "longtime/lt_tide_bell/held_none_0": {
+      "durationMs": 0,
+      "frame": {
+        "h": 24,
+        "w": 24,
+        "x": 213,
+        "y": 3
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.75
+      },
+      "pivotPx": [
+        12,
+        18
+      ],
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 24
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
     "longtime/lt_tide_bell_shot/flight_none_0": {
       "durationMs": 80,
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 623,
+        "x": 859,
         "y": 3
       },
       "pivot": {
@@ -788,7 +1078,7 @@
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 645,
+        "x": 881,
         "y": 3
       },
       "pivot": {
@@ -817,7 +1107,7 @@
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 667,
+        "x": 903,
         "y": 3
       },
       "pivot": {
@@ -846,7 +1136,7 @@
       "frame": {
         "h": 16,
         "w": 16,
-        "x": 689,
+        "x": 925,
         "y": 3
       },
       "pivot": {
