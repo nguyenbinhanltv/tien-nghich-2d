@@ -1,0 +1,66 @@
+{
+  "id": "lt_kiln_hammer_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "A detached tumbling firebrick with a bright refractory seam and shedding embers.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_kiln_hammer.py",
+  "generator_sha256_lf": "c6ac2d223d60237b8d441096948e9343ff2cce2958272aa587d2eff8c31a408b",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "62066644d0a7e901ac6ed3c373d79da8dd2c144fb7dd220ad7d6be1127e78f62",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_kiln_hammer/contact_1x.png": "e9583d6e6d83e32056311d59ca0cc9a34c031a5b74d2a394754c755f71d88a97",
+    "assets/raw/longtime/lt_kiln_hammer/contact_6x.png": "c38dfd97b70457fe9309fc7d9c1e56b42a3ada3cd03211f68fc74e939247aafb"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_kiln_hammer_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_kiln_hammer_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "abeaadba8560f06b99882346b74db2fb59c9c26f65a005c7a3130ffce53d09ba"
+    },
+    {
+      "key": "longtime/lt_kiln_hammer_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_kiln_hammer_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "9a75cd4b1c152d4340540497b3090f03e8b6b7153d2cdb5d2b6533294c88f131"
+    },
+    {
+      "key": "longtime/lt_kiln_hammer_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_kiln_hammer_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "46660df0ab088e62f111995d553b566083d4f7621137dc3336c573de4db4233b"
+    },
+    {
+      "key": "longtime/lt_kiln_hammer_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_kiln_hammer_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "49fe4f7797764558218993be54931f163fb8d4086c41b9d1ce5ebcae05bebcc4"
+    }
+  ]
+}

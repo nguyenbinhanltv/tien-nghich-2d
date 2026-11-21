@@ -6,6 +6,10 @@
     "lt_ember_fan_shot",
     "lt_ink_flute",
     "lt_ink_flute_shot",
+    "lt_jade_lance",
+    "lt_jade_lance_shot",
+    "lt_kiln_hammer",
+    "lt_kiln_hammer_shot",
     "lt_mirror_disc",
     "lt_mirror_disc_shot",
     "lt_mist_needle",
@@ -22,24 +26,24 @@
     "lt_tide_bell_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 50,
+  "frame_count": 60,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 50,
+      "frames": 60,
       "height": 32,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "42a0cd6e36cd048f926eee085a32337b829c65ed9fb5144c3e6eedffb01190d4",
-      "png_sha256": "e8baf9c20c9a4e1fb61a3bf4df46f9ab47ba10e0d8559d2ca3223d9e21ecbea6",
-      "rgba8_bytes": 131072,
-      "width": 1024
+      "json_sha256": "f083ce35e07ffe1420d7996f723b4ce987d104b30bd16d7c447cca3bb4f74fbe",
+      "png_sha256": "191181a7c394fa67cdc5a0d26cbc465f06cea9e5570326546bb20465c8b6859e",
+      "rgba8_bytes": 262144,
+      "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 131072,
-  "rgba8_mib": 0.125,
+  "rgba8_bytes": 262144,
+  "rgba8_mib": 0.25,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

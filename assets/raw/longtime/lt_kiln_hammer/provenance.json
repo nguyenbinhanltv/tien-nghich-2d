@@ -1,0 +1,36 @@
+{
+  "id": "lt_kiln_hammer",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Kiln hammer with a broad brick crown, two glowing vents and a bound grip.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_kiln_hammer.py",
+  "generator_sha256_lf": "c6ac2d223d60237b8d441096948e9343ff2cce2958272aa587d2eff8c31a408b",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "pivot_px": [
+    12,
+    18
+  ],
+  "source": "source.png",
+  "source_sha256": "ccb7c0bb94ded8e91cbeac35b5a2debae7ec9f7261dc2c7bcbd16354bec81ab8",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_kiln_hammer/contact_1x.png": "e9583d6e6d83e32056311d59ca0cc9a34c031a5b74d2a394754c755f71d88a97",
+    "assets/raw/longtime/lt_kiln_hammer/contact_6x.png": "c38dfd97b70457fe9309fc7d9c1e56b42a3ada3cd03211f68fc74e939247aafb"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_kiln_hammer/held_none_0",
+      "path": "assets/processed_longtime/lt_kiln_hammer/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "ccb7c0bb94ded8e91cbeac35b5a2debae7ec9f7261dc2c7bcbd16354bec81ab8"
+    }
+  ]
+}
