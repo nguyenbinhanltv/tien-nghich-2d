@@ -1,0 +1,131 @@
+{
+ "type": "shockwave",
+ "canvas": [
+  48,
+  48
+ ],
+ "anchor": "center",
+ "fps": 25,
+ "seed": 22,
+ "ramps": {
+  "A": {
+   "colors": [
+    "#46297a",
+    "#8f62cf",
+    "#b99aeb",
+    "#e3d6fb"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "pulse",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "pulse"
+   ]
+  },
+  {
+   "name": "fade",
+   "ticks": 4
+  },
+  {
+   "name": "end",
+   "ticks": 2,
+   "fast": true
+  }
+ ],
+ "layers": [
+  {
+   "id": "wave",
+   "kind": "shape",
+   "during": [
+    "pulse",
+    "fade",
+    "end"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.15,
+       17
+      ],
+      [
+       0.3,
+       20
+      ],
+      [
+       1,
+       21
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": 1,
+    "squash": 0.625
+   },
+   "value_mode": "near",
+   "edge": 0.3,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.7,
+    "noise": "angular",
+    "scale": 12,
+    "amount": 1
+   }
+  },
+  {
+   "id": "flash",
+   "kind": "shape",
+   "during": [
+    "pulse"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "squash": 0.625
+   },
+   "value": 1.3
+  }
+ ],
+ "order": [
+  "wave",
+  "flash"
+ ],
+ "name": "release_bell",
+ "outline": "#14101a"
+}

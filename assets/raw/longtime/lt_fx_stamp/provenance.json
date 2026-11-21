@@ -1,0 +1,281 @@
+{
+ "producer": "Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11",
+ "tool": "spritefx",
+ "tool_pin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a",
+ "tool_license": "MIT",
+ "method": "deterministic JSON spec rendered by SpriteFX; no hand-painted pixels; no PixelLab",
+ "rights": "original project artwork; no third-party assets; tool output carries no external rights",
+ "palette": "tools/generators/palette.json (40 colours); ramps from tools/generators/vfx_specs/palettes/tien_nghich_40.json",
+ "parents": [],
+ "source": "specs/",
+ "source_sha256": "91c74784935e643cfc8800bb28772ad7e62001d24f59978e53cadcd5dc8b1ca7",
+ "specs": {
+  "specs/press_mark.json": "55b5129f43765ed51e1ff7adb6ac3568623b1d7abc876b3d48555f871ac4cf13",
+  "specs/press_oath.json": "c85b1b98ebef3b848eac198d63ad8c25a40ac1262c5cb27f7dd06786b6884025",
+  "specs/press_bank.json": "8e2af512645669b6db71706a058af78007e7df887dfe78e8845d703c78dfc6fb"
+ },
+ "render_sheets_sha256": {
+  "press_mark": "2271ae8e086fa065e6e0674173587bed61079989ed1da4b3e0722b2a2edbf28f",
+  "press_oath": "60b7a0aea62a4046128d540939ea0ce62ac93cce49dcf2c813f2c9c950cb873f",
+  "press_bank": "13070285649647c034dc51e633e8895b2fca1a58f6862700a3ae7faa733d39fb"
+ },
+ "generator": "tools/generators/longtime_vfx.py",
+ "generator_sha256": "ec23f24849dccc3fd4d2e54fb1f55261ecb51c3ac0fd32522932e118d60931c0",
+ "effects_sha256": "4db1e5895d034e2e7026f93741e4cc06c71defc0a62f947c7f70774955dd72fd",
+ "environment": "tools/.venvs/spritefx (CPython, numpy 2.4.6, Pillow 12.3.0, jsonschema 4.26.0)",
+ "review": "machine checks only; human 1x readability review pending",
+ "frames": [
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_0",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_0.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "207a677376d8e77f4f1d92c701872a7a675c71a28a06e7bc0b53b1160ec47b5f"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_1",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_1.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "3ac73de950ee5780fb8c5fe9cffbbdc60d4a1cd30f007437f858a0375faba8f0"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_2",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_2.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "2d717ca741138bf3eae458770fed13b092592c40af30e8c7038767cfea894128"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_3",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_3.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "0c98f2cc253d7ead2046d885c800dea10a407e2e16938b394a778b5d7d76344a"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_4",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_4.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "848c2de5872b18ce35c92050003b24194791a41c92e64c546411904ddf3c4953"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_5",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_5.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "0986b9f084efa78ddc0982f9c2f215573be9e94ebdbff6b8ca8a7ff779c76311"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_6",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_6.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "a4c506f7e27ca7cba81e0b703d01b8e2762881f3373baf05e5f769cd9a772258"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_7",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_7.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "656f8aa334b31ef3779f78586fe69a569894260fe0b1cff2ce2fbb282873f574"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_8",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_8.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "8bd941d5d99404c9479f85f5a0701a25b866f4227689e8bbfb9e8f6ec6d2cf88"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_9",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_9.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "6e90b23f64a6fe5fa79a4d554c97d2afea94b12d16ea8f116e9675514cf44668"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_10",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_10.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "ef281db6121078cb5eea5509af07602399bd58b3501bf1cb5b08e7ff052b90ab"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_mark_11",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_mark_11.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "b0a78e5095d79f7cb384f8e12a88ff3aed39844b52d0f217d5104db496475f4b"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_0",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_0.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "9cc9c83b6d24873f9b4269b0c693473478c8461c3b1d8fa73942a027c55cde34"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_1",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_1.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "0ac71c10824383ed3c2ae434363ba3bb6d2890b163693929d099942cceeb4dca"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_2",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_2.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "c939403f26aa4b14e32a2ad0434701d9af478189818430733ddbaf125e2b9514"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_3",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_3.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "9a8a296b9d47edf011becbd0c9418baa92c832ff4608f9b29e4d2ae878d865ce"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_4",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_4.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "86a084130af64bdbe9a7c3cf9cbc9690f8844dd05ab9b42a8275612bc1f98af4"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_5",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_5.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "4d308579a459f3f8567326c1944d8320e1e4f91c7c9ab31e9b1be72245898d45"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_6",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_6.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "2b6f6c652ca87855beaf485f4b23fec94bc10889093cd2666ccee456ddae177c"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_7",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_7.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "fa8d587d9312cb86133fc95d1ad22521ce1f1bbf6ba40e3e4f6bc44736ec8fda"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_8",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_8.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "fe26b1ceba503ea5681b6c0cd9f30536e565cf67d375b7e42dba30fe0f3d09f3"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_9",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_9.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "a312428cd80ec7a103ac1912d0c2fbb2ae4f512dd5bad79a338e518f9d09489b"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_10",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_10.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "adccc6187051c71896e5404ec2fdb6e46d367a25b69b49769374c2b1f735304e"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_oath_11",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_oath_11.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "b0a78e5095d79f7cb384f8e12a88ff3aed39844b52d0f217d5104db496475f4b"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_0",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_0.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "2e5d7f7549cbf395f39e18eb2df49fcc9d70a8fc4b36cf4fcc7b004d99237a9f"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_1",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_1.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "72c5facc15f73955377d0c72cb23988afcbcf990ca9becab2dd2b5464da3da9a"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_2",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_2.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "dfbeefbf2c36fa4bd30e4b612c1f5cd75575a80b21913eb2d1a7dff0bbbd6f11"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_3",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_3.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "96ef69d814b6de216833898e80e0957979cd38750a5a6f90edf336dacf6e58c3"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_4",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_4.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "f9a4081afa1ce6288f51d74d608310780e5de29ee434c72b6c31ca9060c9ae0b"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_5",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_5.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "bb64de341d96eb6e18bce7d3ad86728290f5a3ea34df8d9140228ebcd202d961"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_6",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_6.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "dc981bd5e0126f08947cbc63026c94b239962b4952a7570b4dee0d660780d9a6"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_7",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_7.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "6cde13e81ba1d392ef2e740a74e5a972c4ef9311e8b6e4b886b060f41037e323"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_8",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_8.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "6ad3705c94eccbddf2b85cc60db346b4c50a6fcf1b7977d6d93a528922be25eb"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_9",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_9.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "0e78db53b433b4d675e128160d8c3075a5775dec81dcedb4bdb9ba7913010508"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_10",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_10.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "743474aff5df5e801513ba15d8680bf5cfdc7f4dab47b9f644c1a9860e8a0d7b"
+  },
+  {
+   "key": "longtime/lt_fx_stamp/press_bank_11",
+   "path": "assets/processed_longtime/lt_fx_stamp/press_bank_11.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "b0a78e5095d79f7cb384f8e12a88ff3aed39844b52d0f217d5104db496475f4b"
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 {
   "asset_ids": [
     "lt_abode_stone",
+    "lt_fx_gate_unseal",
     "lt_herb_bed",
     "lt_ink_marten",
     "lt_kiln",
@@ -8,17 +9,17 @@
     "lt_moon_gate"
   ],
   "chunk_group": "abode",
-  "frame_count": 98,
+  "frame_count": 110,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 98,
+      "frames": 110,
       "height": 128,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "c22e5480449983652bf51499b75cce0a6711f30562dac3c10607e52fe25ef63e",
-      "png_sha256": "240181190736a4a76d456b5ebe99d80b96b5ca8b7dcad4437a2fcf3483bfedaa",
+      "json_sha256": "4bdded9bab61a3186ed9cada7440d1505781726b22b6cf0f9220810426835725",
+      "png_sha256": "10a4e89bca0b219b86d8034fae9d0b5071fd1ae2688cb955e81e82ee28664b68",
       "rgba8_bytes": 1048576,
       "width": 2048
     }

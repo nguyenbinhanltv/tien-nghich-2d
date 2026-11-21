@@ -1,5 +1,7 @@
 {
   "asset_ids": [
+    "lt_fx_core_breach",
+    "lt_fx_ward_pulse",
     "lt_ward_anchor",
     "lt_ward_bell",
     "lt_ward_flare",
@@ -8,24 +10,24 @@
     "lt_ward_tide"
   ],
   "chunk_group": "wards",
-  "frame_count": 48,
+  "frame_count": 142,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 48,
-      "height": 128,
+      "frames": 142,
+      "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "23ab203d59b2a67c43b5f6d2278310378e088802fd1aa4b5fd343e804694174a",
-      "png_sha256": "552b0ba8558825f7fef3976be5d9f137eed4984afd03e2db4d604e92e33e218e",
-      "rgba8_bytes": 524288,
+      "json_sha256": "8fc5be263948b5c9af3d60b37dd6f29cb80b3298d30934900d9a6569a89c8db4",
+      "png_sha256": "384209f21e4ee877eaf9326be4b5511f9367ffddbe822820d5c43a5679a4c5d4",
+      "rgba8_bytes": 2097152,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 524288,
-  "rgba8_mib": 0.5,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

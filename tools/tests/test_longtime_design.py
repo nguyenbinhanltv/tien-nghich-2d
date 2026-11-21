@@ -39,7 +39,7 @@ class DesignTests(unittest.TestCase):
 
 
 class VfxDesignTests(unittest.TestCase):
-    def test_planned_vfx(self):
+    def test_vfx_entries(self):
         data = design.read(design.CATALOG)
         entries = data["vfx"]["entries"]
         self.assertEqual(len(entries), 6)
@@ -54,7 +54,11 @@ class VfxDesignTests(unittest.TestCase):
         def inherited_id(m):
             entry(m)["id"] = "hit_spark"
         def readiness(m):
-            entry(m)["status"] = "authored"
+            entry(m)["status"] = "shipped"
+        def block_status(m):
+            m["vfx"]["status"] = "planned"
+        def no_evidence(m):
+            entry(m)["chunk_group"] = "abode" if entry(m)["chunk_group"] != "abode" else "wards"
         def ramp(m):
             entry(m)["palettes"]["anchor"]["ramps"] = ["magenta"]
         def chunk(m):
@@ -78,7 +82,7 @@ class VfxDesignTests(unittest.TestCase):
             entry(m)["pivot_px"] = [500, 500]
         def acceptance(m):
             entry(m)["acceptance"]["peak_opaque_pct"] = [30, 10]
-        for change in (duplicate, inherited_id, readiness, ramp, chunk, event, timing, pivot,
+        for change in (duplicate, inherited_id, readiness, block_status, no_evidence, ramp, chunk, event, timing, pivot,
                        loop, cue, related, reuse, budget, acceptance):
             with self.subTest(change=change.__name__):
                 data = design.read(design.CATALOG)

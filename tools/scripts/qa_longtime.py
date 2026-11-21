@@ -40,6 +40,8 @@ DEFAULT_SHIPPED_ATLASES = REPO / "assets/atlases"
 
 OUTLINE_CATEGORIES = {"player", "mob", "boss", "pet", "npc", "facility", "weapon", "tower", "icon"}
 FRAME_RE = re.compile(r"^(?P<clip>[a-z_]+)_(?P<dir>south|west|north|east|none)_(?P<n>\d+)$")
+# Longtime VFX replace the direction slot with the palette variant: <clip>_<palette>_<n>.png
+VFX_FRAME_RE = re.compile(r"^(?P<clip>[a-z]+)_(?P<dir>[a-z_]+)_(?P<n>\d+)$")
 
 
 @dataclass(frozen=True)
@@ -99,8 +101,15 @@ def select_assets(manifest: dict, wave: str | None = "wave_1", agent: str | None
     profiles = manifest["profiles"]
     rows = manifest["assets"]
     id_set = set(ids) if ids else None
-    wave_set = set(manifest.get(wave, [])) if wave else None
     out = []
+    # VFX entries are selected only by explicit ID: they are not wave_1 assets.
+    for v in manifest.get("vfx", {}).get("entries", []):
+        if id_set is not None and v["id"] in id_set:
+            out.append({"id": v["id"], "profile": "vfx", "chunk_group": v["chunk_group"], "_vfx": True,
+                        "_profile": {"category": "vfx", "native_px": v["native_px"], "pivot_px": v["pivot_px"],
+                                     "directions": list(v["palettes"]),
+                                     "clips": {c: (cd["n"], cd["ms"]) for c, cd in v["clips"].items()}}})
+    wave_set = set(manifest.get(wave, [])) if wave else None
     for row in rows:
         aid = row["id"]
         prof = profiles[row["profile"]]
@@ -126,7 +135,7 @@ def expected_frames_for_asset(asset: dict) -> dict[tuple[str, str, int], dict]:
                 out[(clip, d, n)] = {
                     "size": (w, h),
                     "pivot": (px, py),
-                    "duration_ms": ms,
+                    "duration_ms": ms[n] if isinstance(ms, list) else ms,
                     "key": f"longtime/{asset['id']}/{clip}_{d}_{n}",
                     "filename": f"{clip}_{d}_{n}.png",
                 }
@@ -152,7 +161,9 @@ def check_pixels(arr: np.ndarray, expect_size: tuple[int, int], palette: np.ndar
     a = arr[..., 3]
     opaque = a == 255
     if not (a > 0).any():
-        issues.append(("error", "empty_frame", 1, "fully transparent"))
+        # a one-shot VFX legitimately ends on an empty frame; everything else must draw something
+        if category != "vfx":
+            issues.append(("error", "empty_frame", 1, "fully transparent"))
         return issues
     partial = (a > 0) & (a < 255)
     if partial.any():
@@ -205,7 +216,8 @@ def validate_group(manifest: dict, processed_root: Path, palette: np.ndarray,
         issues.append({"severity": sev, "code": code, "where": where, "count": count, "detail": detail})
 
     by_id = {a["id"]: a for a in selected}
-    other_ids = {a["id"] for a in manifest["assets"]} - by_id.keys()
+    other_ids = ({a["id"] for a in manifest["assets"]} |
+                 {v["id"] for v in manifest.get("vfx", {}).get("entries", [])}) - by_id.keys()
     expected = {a["id"]: expected_frames_for_asset(a) for a in selected}
     found: dict[str, dict[tuple[str, str, int], Path]] = defaultdict(dict)
     sprites: dict[str, dict] = {}
@@ -241,7 +253,7 @@ def validate_group(manifest: dict, processed_root: Path, palette: np.ndarray,
             if aid not in by_id:
                 add("error", "orphan_asset", key, f"asset id '{aid}' not in selected manifest scope")
                 continue
-            mt = FRAME_RE.match(p.stem)
+            mt = (VFX_FRAME_RE if by_id[aid].get("_vfx") else FRAME_RE).match(p.stem)
             if not mt:
                 add("error", "bad_name", key, "filename must match <clip>_<direction>_<n>.png")
                 continue

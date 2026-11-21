@@ -12,6 +12,7 @@
     "lt_ember_fan_shot",
     "lt_ember_reed",
     "lt_ember_reed_shot",
+    "lt_fx_impact",
     "lt_ink_flute",
     "lt_ink_flute_shot",
     "lt_ink_orbit",
@@ -50,17 +51,17 @@
     "lt_tide_bell_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 120,
+  "frame_count": 136,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 120,
+      "frames": 136,
       "height": 64,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "e03f52ea9f03f26dc584daf4830f0f6f285952f7d217f4311090b46bb482cc01",
-      "png_sha256": "17f283e4b28b011613a744fdc39d21af5be29779fa3053bf0b2bf2a5ded25e80",
+      "json_sha256": "2cfad03217537a17b90f2d2acca4fefa836f2d7a4fec85ef15db65c3d8479146",
+      "png_sha256": "15053d436f0d0762ff975b107bae7b1b4cc63aad5ddc9a08c54eb173c3d62a71",
       "rgba8_bytes": 524288,
       "width": 2048
     }

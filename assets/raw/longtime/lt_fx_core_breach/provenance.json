@@ -1,0 +1,137 @@
+{
+ "producer": "Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11",
+ "tool": "spritefx",
+ "tool_pin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a",
+ "tool_license": "MIT",
+ "method": "deterministic JSON spec rendered by SpriteFX; no hand-painted pixels; no PixelLab",
+ "rights": "original project artwork; no third-party assets; tool output carries no external rights",
+ "palette": "tools/generators/palette.json (40 colours); ramps from tools/generators/vfx_specs/palettes/tien_nghich_40.json",
+ "parents": [],
+ "source": "specs/",
+ "source_sha256": "d35717b6c3f8d695df7c308cee1c9947f025df59208c3f9ef2cf6618d65b3a63",
+ "specs": {
+  "specs/breach_base.json": "ecaa67a4730425da3e72ab72ec6781587065a28cada46f3f64523fb1a7f0f8ec"
+ },
+ "render_sheets_sha256": {
+  "breach_base": "c743bb31e56ff7c5cb84ee6c530c0c4050cef513aee79e6a2236743f603d4486"
+ },
+ "generator": "tools/generators/longtime_vfx.py",
+ "generator_sha256": "ec23f24849dccc3fd4d2e54fb1f55261ecb51c3ac0fd32522932e118d60931c0",
+ "effects_sha256": "4db1e5895d034e2e7026f93741e4cc06c71defc0a62f947c7f70774955dd72fd",
+ "environment": "tools/.venvs/spritefx (CPython, numpy 2.4.6, Pillow 12.3.0, jsonschema 4.26.0)",
+ "review": "machine checks only; human 1x readability review pending",
+ "frames": [
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_0",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_0.png",
+   "duration_ms": 33,
+   "render_ms": 50,
+   "sha256": "af8dec20f6b3db9e876d976ed9001928eca57356dfbca79219be0e0885bc7f2f"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_1",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_1.png",
+   "duration_ms": 33,
+   "render_ms": 50,
+   "sha256": "962c38425d3e8f41a3930b0acc0c8627224129765a1b03bd5bdd972c81fc014b"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_2",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_2.png",
+   "duration_ms": 33,
+   "render_ms": 50,
+   "sha256": "b48554a972b8a6c506ae2b42936297a4105e3f2852dc3e0074998dfbc5acdace"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_3",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_3.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "60f8d984aae983855e763c4fcf878609218a5180a4a161ef921f04f55b0b0fe9"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_4",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_4.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "41c06a33204d78a21791c2570bebe40b94a1799da7ea59e40de77ae88c485e12"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_5",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_5.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "66233d346d7d7131b86c2010d269fc8c4cd9d8bb30a659c32dc22324d5b3f2d6"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_6",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_6.png",
+   "duration_ms": 40,
+   "render_ms": 50,
+   "sha256": "88f55bc9dc5794732457eb17fc4fa36322a1f9c5ab4f734dfffebb5b6e443f23"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_7",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_7.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "d52558e2daaa48154ef15333b471c22ead7a0827dfc5eb88ca4beebfc2f39a52"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_8",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_8.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "c6ee855244a59d6e64becdf9c3ec77fcbdcac9a8180fab7c121165ba27bb1007"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_9",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_9.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "b58700a1876a350239773c550a18664b5f6677d9e51cd245bc37efa18c2b23eb"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_10",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_10.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "0c15555df4ff2c0c75858f1391c0aa49644ddccbbc985545c6eced03c8f9970b"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_11",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_11.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "c2e92942e446464f5af847d68e7cf0b4c5c295862fac8474b20d3c0d793bf957"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_12",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_12.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "4e1ccdb427216d94992e4a5229fa24055e043fd83ccd387c2a6716a2e08c1ce3"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_13",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_13.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "6770b5ae315ef95b818a6d8e807de6d0d7e6561c2cf82a3bb40b523c95db6f0d"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_14",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_14.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "052c48aa8b5e4f2c40bcd0d1bb7a4b93276276285dfa3e8a971b435dc88fdfee"
+  },
+  {
+   "key": "longtime/lt_fx_core_breach/breach_base_15",
+   "path": "assets/processed_longtime/lt_fx_core_breach/breach_base_15.png",
+   "duration_ms": 70,
+   "render_ms": 50,
+   "sha256": "052c48aa8b5e4f2c40bcd0d1bb7a4b93276276285dfa3e8a971b435dc88fdfee"
+  }
+ ]
+}
