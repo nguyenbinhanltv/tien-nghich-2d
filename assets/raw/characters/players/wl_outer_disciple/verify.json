@@ -1,0 +1,1549 @@
+{
+ "summary": {
+  "files": 96,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 100.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 327,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 327,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 311,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 311,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 286,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 281,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 274,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 353,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 375,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 356,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 356,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 321,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 321,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/cast_attack/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 296,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 313,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 328,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 299,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 289,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 260,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 263,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 336,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 308,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 306,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 310,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/dash/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 311,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/east/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 295,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/east/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/east/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 290,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/east/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/north/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/north/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/north/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 289,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/north/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 244,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.5
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/south/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/south/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/south/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/south/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 236,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/west/frame_000.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/west/frame_001.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 304,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/west/frame_002.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 260,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/death/west/frame_003.png",
+   "size": [
+    44,
+    44
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 264,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 254,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 248,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 232,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 240,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 286,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 283,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 274,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.4
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 269,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 255,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 255,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 253,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/idle/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 269,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 20.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 310,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 328,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 350,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 297,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 265,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.5
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 267,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.4
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 263,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 277,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.9
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/east/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 267,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.4
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 272,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 268,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.8
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 277,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.4
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 270,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 261,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.1
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/north/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 271,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 279,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.5
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 280,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.0
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/south/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.2
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 239,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.6
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 287,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 254,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.5
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 258,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 271,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.3
+  },
+  {
+   "file": "assets/raw/characters/players/wl_outer_disciple/run/west/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 250,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 21.5
+  }
+ ]
+}

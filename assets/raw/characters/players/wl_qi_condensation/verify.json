@@ -1,0 +1,1549 @@
+{
+ "summary": {
+  "files": 96,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 0.0,
+  "mean_off_palette_pct": 100.0
+ },
+ "results": [
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/east/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/east/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 332,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/east/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 318,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/east/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/north/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 349,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/north/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 334,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/north/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 327,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/north/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 377,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 370,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 343,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 335,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/west/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/west/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 326,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/west/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/cast_attack/west/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 341,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/east/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/east/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 343,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/east/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 354,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/east/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/north/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 336,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/north/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 316,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/north/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 293,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/north/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 373,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 334,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 321,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 339,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/west/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 342,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/west/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 317,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/west/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 298,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/dash/west/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 324,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/east/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 325,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/east/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/east/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 321,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 30.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/east/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 277,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/north/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 324,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/north/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/north/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/north/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 220,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/south/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 375,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/south/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 340,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/south/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 319,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 31.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/south/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 230,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/west/frame_000.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 325,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/west/frame_001.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 308,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/west/frame_002.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 303,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/death/west/frame_003.png",
+   "size": [
+    48,
+    48
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 256,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 29.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 289,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 301,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 292,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 353,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 350,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 351,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 347,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 356,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 352,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 358,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 352,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 335,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 322,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.5
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 333,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/idle/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 323,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 315,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/north-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 337,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/north-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 334,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/north.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 367,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/south-east.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 372,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/south-west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 387,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/south.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 398,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 28.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/rotations/west.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 348,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 291,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 302,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.3
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 307,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/east/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 278,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 330,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 23.7
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 327,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 312,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 330,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 22.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 326,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.6
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/north/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 337,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.4
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 277,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 270,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 290,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 282,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 274,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/south/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 305,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.8
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_000.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 283,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.2
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_001.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 314,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.1
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_002.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 279,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 25.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_003.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 287,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 24.9
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_004.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 298,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 27.0
+  },
+  {
+   "file": "../../assets/raw/characters/players/wl_qi_condensation/run/west/frame_005.png",
+   "size": [
+    32,
+    32
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 270,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 0.0,
+   "off_palette_pct": 100.0,
+   "off_palette_mean_dist": 26.4
+  }
+ ]
+}
