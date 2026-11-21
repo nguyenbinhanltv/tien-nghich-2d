@@ -195,6 +195,158 @@
             <p>Input SHA-256 · <code data-role="digest"></code></p>
             <blockquote data-role="request"></blockquote>
           </details>
+
+          <section id="inspector-editor" class="editor-panel" aria-label="Asset Frame Editor and Review">
+            <div class="editor-header">
+              <div class="editor-title-group">
+                <h2>Frame Editor &amp; Review</h2>
+                <span id="editor-frame-key" class="editor-key-code"></span>
+                <span id="editor-frame-dims" class="muted small-note"></span>
+              </div>
+              <div class="editor-header-badges">
+                <span id="editor-rev-badge" class="status-chip chip-info"></span>
+                <span id="editor-status-badge" class="rev-status-badge rev-status-pending">Pending</span>
+                <span id="editor-dirty-badge" class="status-chip chip-fixture" hidden>Unsaved Draft</span>
+              </div>
+            </div>
+
+            <div id="editor-empty-notice" class="editor-empty-notice">
+              Loading local editor availability…
+            </div>
+
+            <div id="editor-body" class="editor-body" hidden>
+              <div id="editor-message" class="editor-message" hidden></div>
+
+              <div id="editor-conflict-banner" class="editor-conflict-banner" role="alert" hidden>
+                <div id="editor-conflict-text" class="editor-conflict-text"></div>
+                <div class="editor-conflict-actions">
+                  <button id="editor-btn-conflict-reload" type="button" class="btn-secondary">Reload Latest</button>
+                  <button id="editor-btn-conflict-rebase" type="button" class="btn-primary">Keep Draft &amp; Rebase</button>
+                </div>
+              </div>
+
+              <div id="editor-old-rev-banner" class="editor-old-rev-banner" hidden>
+                <span id="editor-old-rev-text"></span>
+                <button id="editor-btn-restore-viewed" type="button" class="btn-small">Restore This Revision</button>
+              </div>
+
+              <div class="editor-grid">
+                <!-- Pixel Editor Column -->
+                <div class="editor-card editor-pixel-card">
+                  <div class="editor-toolbar" role="toolbar" aria-label="Pixel editing tools">
+                    <button type="button" class="btn-secondary editor-tool-btn active" data-tool="pencil" aria-pressed="true" title="Pencil (B)">Pencil</button>
+                    <button type="button" class="btn-secondary editor-tool-btn" data-tool="eraser" aria-pressed="false" title="Eraser (E)">Eraser</button>
+                    <button type="button" class="btn-secondary editor-tool-btn" data-tool="eyedropper" aria-pressed="false" title="Eyedropper (I)">Pick</button>
+                    <button type="button" class="btn-secondary editor-tool-btn" data-tool="pivot" aria-pressed="false" title="Click canvas to set pivot">Set Pivot</button>
+                    <button id="editor-btn-undo" type="button" class="btn-secondary" title="Undo (Ctrl+Z)" disabled>Undo</button>
+                    <button id="editor-btn-redo" type="button" class="btn-secondary" title="Redo (Ctrl+Y)" disabled>Redo</button>
+                    <button id="editor-btn-reset" type="button" class="btn-secondary" disabled>Reset Draft</button>
+                    <button id="editor-btn-import-png" type="button" class="btn-secondary">Import PNG…</button>
+                    <input id="editor-png-input" type="file" accept="image/png,.png" hidden />
+                    <label class="inline-control">
+                      Zoom
+                      <select id="editor-zoom-select">
+                        <option value="2">2×</option>
+                        <option value="4">4×</option>
+                        <option value="6">6×</option>
+                        <option value="8" selected>8×</option>
+                        <option value="12">12×</option>
+                        <option value="16">16×</option>
+                      </select>
+                    </label>
+                    <label class="inline-toggle"><input id="editor-toggle-grid" type="checkbox" checked /> Grid</label>
+                  </div>
+
+                  <div class="editor-canvas-wrap">
+                    <canvas
+                      id="editor-canvas"
+                      class="pixel-canvas editor-canvas"
+                      tabindex="0"
+                      role="application"
+                      aria-label="Pixel editor canvas. Use arrow keys to move cursor, Space or Enter to paint, B for pencil, E for eraser, Ctrl+Z to undo."
+                    ></canvas>
+                  </div>
+
+                  <div class="editor-canvas-footer">
+                    <span id="editor-cursor-readout" class="muted small-note"></span>
+                    <span id="editor-asset-links" class="editor-asset-links small-note"></span>
+                  </div>
+
+                  <div class="editor-palette-section">
+                    <div class="editor-subhead">Project Palette (40 colors) <span class="muted">· Keys [ / ] cycle</span></div>
+                    <div id="editor-palette-grid" class="editor-palette-grid" role="group" aria-label="Project 40-color palette"></div>
+                  </div>
+                </div>
+
+                <!-- Preview, Metadata, Actions & History/Review Column -->
+                <div class="editor-side-stack">
+                  <div class="editor-card">
+                    <div class="editor-card-head">
+                      <h3>Before / After Preview</h3>
+                      <label class="inline-toggle"><input id="editor-toggle-diff" type="checkbox" checked /> Highlight diff</label>
+                    </div>
+                    <div class="editor-preview-pair">
+                      <figure class="editor-preview-fig">
+                        <canvas id="editor-before-canvas" class="pixel-canvas" aria-label="Saved revision preview"></canvas>
+                        <figcaption>Before (Saved)</figcaption>
+                      </figure>
+                      <figure class="editor-preview-fig">
+                        <canvas id="editor-after-canvas" class="pixel-canvas" aria-label="Working draft preview"></canvas>
+                        <figcaption>After (Draft)</figcaption>
+                      </figure>
+                    </div>
+                    <div id="editor-diff-summary" class="editor-diff-summary muted small-note">0 px changed</div>
+                  </div>
+
+                  <div class="editor-card">
+                    <h3>Allowed Metadata</h3>
+                    <div class="editor-meta-fields">
+                      <div id="editor-pivot-wrap" class="editor-field-row">
+                        <label class="inline-control">Pivot X <input id="editor-pivot-x" type="number" step="1" min="0" class="editor-num-input" /></label>
+                        <label class="inline-control">Pivot Y <input id="editor-pivot-y" type="number" step="1" min="0" class="editor-num-input" /></label>
+                      </div>
+                      <div id="editor-duration-wrap" class="editor-field-row" hidden>
+                        <label class="inline-control">Duration (ms) <input id="editor-duration-ms" type="number" step="1" min="1" max="60000" class="editor-num-input" /></label>
+                      </div>
+                    </div>
+                    <div class="editor-primary-actions">
+                      <button id="editor-btn-save" type="button" class="btn-primary">Save Revision</button>
+                      <button id="editor-btn-reload" type="button" class="btn-secondary">Reload Frame</button>
+                      <button id="editor-btn-export" type="button" class="btn-secondary">Export JSON</button>
+                    </div>
+                    <div id="editor-export-box" class="editor-export-box" hidden>
+                      <div class="editor-card-head">
+                        <span id="editor-export-summary" class="small-note ok-text"></span>
+                        <button id="editor-btn-copy-export" type="button" class="btn-small">Copy JSON</button>
+                      </div>
+                      <pre id="editor-export-preview" class="editor-export-preview"></pre>
+                    </div>
+                  </div>
+
+                  <div class="editor-card">
+                    <div class="editor-card-head">
+                      <h3>Review &amp; Comments</h3>
+                      <span id="editor-review-target" class="muted small-note">Reviewing Revision 0</span>
+                    </div>
+                    <div id="editor-comments-list" class="editor-comments-list"></div>
+                    <label class="editor-comment-label" for="editor-comment-input">Comment on viewed revision</label>
+                    <textarea id="editor-comment-input" class="editor-comment-input" rows="2" maxlength="2000" placeholder="Add a revision-bound review note..."></textarea>
+                    <div class="editor-review-actions">
+                      <button id="editor-btn-comment" type="button" class="btn-secondary">Post Comment</button>
+                      <button id="editor-btn-approve" type="button" class="btn-primary">Approve</button>
+                      <button id="editor-btn-request-changes" type="button" class="btn-danger">Request Changes</button>
+                      <button id="editor-btn-mark-pending" type="button" class="btn-secondary">Pending</button>
+                    </div>
+                  </div>
+
+                  <div class="editor-card">
+                    <h3>Revision History</h3>
+                    <div id="editor-history-list" class="editor-history-list"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
 
         <aside id="inspector-meta" class="inspector-meta-col"></aside>

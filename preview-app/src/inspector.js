@@ -42,9 +42,11 @@ function drawPose(ctx, frame, x, y, width, height, alpha = 1) {
 }
 
 export class InspectorController {
-  constructor(store, dom, onPlaybackChange = () => {}) {
+  constructor(store, dom, onPlaybackChange = () => {}, { onFrameChange = () => {}, isAssetEditable = () => false } = {}) {
     this.store = store;
     this.onPlaybackChange = onPlaybackChange;
+    this.onFrameChange = onFrameChange;
+    this.isAssetEditable = isAssetEditable;
     this.active = false;
     this.dom = dom;
     this.canvas = dom.canvas;
@@ -128,6 +130,7 @@ export class InspectorController {
     this.dom.btnPlay.addEventListener('click', () => {
       this.playing = !this.playing;
       this.renderTransport();
+      if (!this.playing) this.renderMetadata();
     });
     this.dom.btnPrev.addEventListener('click', () => {
       this.playing = false;
@@ -322,6 +325,7 @@ export class InspectorController {
         }
       }
 
+      const editableTag = this.isAssetEditable(a.id) ? '<span class="badge badge-editable">EDIT</span>' : '';
       const row = document.createElement('button');
       row.type = 'button';
       row.className = `asset-item ${a.id === this.selectedId ? 'selected' : ''}`;
@@ -329,7 +333,7 @@ export class InspectorController {
       row.innerHTML = `
         <div class="asset-item-top">
           <span class="asset-id">${a.id}</span>
-          <span class="badge ${badgeCls}">${badgeTxt}</span>
+          <span>${editableTag} <span class="badge ${badgeCls}">${badgeTxt}</span></span>
         </div>
         <div class="asset-name">${a.name?.vi || a.id} · <span class="muted">${a.name?.en || ''}</span></div>
         <div class="asset-sub">${a.category} · ${(a.size || [32, 32]).join('×')}px${a.biome ? ` · ${a.biome}` : ''}</div>
@@ -423,7 +427,7 @@ export class InspectorController {
     this.onPlaybackChange();
   }
 
-  renderMetadata() {
+  renderMetadata({ fromPlayback = false } = {}) {
     const asset = this.selectedAsset;
     if (!asset) return;
 
@@ -489,6 +493,40 @@ export class InspectorController {
         <div class="pal-chips">${paletteHtml || '<span class="muted">None</span>'}</div>
       </div>
     `;
+
+    if (!fromPlayback) {
+      this.onFrameChange({
+        asset,
+        frame,
+        key: frame?.key || key,
+      });
+    }
+  }
+
+  /**
+   * Apply a committed revision snapshot from EditorController directly into the live AssetStore
+   * so the main Inspector canvas reflects saved edits immediately.
+   */
+  applyCommittedFrame(snapshot) {
+    if (!snapshot?.key || !snapshot?.pngBase64) return;
+    const img = new Image();
+    img.onload = () => {
+      const existing = this.store.frames.get(snapshot.key);
+      this.store.frames.set(snapshot.key, {
+        ...(existing || {}),
+        type: 'png',
+        image: img,
+        sx: 0,
+        sy: 0,
+        sw: Number(snapshot.width || img.naturalWidth),
+        sh: Number(snapshot.height || img.naturalHeight),
+        url: `data:image/png;base64,${snapshot.pngBase64}`,
+        key: snapshot.key,
+        isFixture: false,
+      });
+      this.render();
+    };
+    img.src = `data:image/png;base64,${snapshot.pngBase64}`;
   }
 
   renderAttribution(frame) {
@@ -627,7 +665,7 @@ export class InspectorController {
       }
       if (this.frameIndex !== before) {
         this.renderTransport();
-        this.renderMetadata();
+        this.renderMetadata({ fromPlayback: true });
       }
       return;
     }
@@ -642,7 +680,7 @@ export class InspectorController {
         this.frameIndex = (this.frameIndex + 1) % count;
       }
       this.renderTransport();
-      this.renderMetadata();
+      this.renderMetadata({ fromPlayback: true });
     }
   }
 

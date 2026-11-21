@@ -37,9 +37,17 @@ Query parameters:
   3. **Cổ Thần Chi Địa** (`ancient_god`)
 
 ### (c) Asset Inspector (`Asset Inspector` tab)
-- Browse every asset from `assets/manifest.json` (plus VFX contract entries): players (4), mobs (15), bosses (3), tilesets (3), weapons (12), projectiles (12), props (19), VFX (6), icons (16), UI (6).
+- Browse every asset from `assets/manifest.json` (plus VFX contract entries): players (4), mobs (15), bosses (3), tilesets (3), weapons (12), projectiles (12), props (19), VFX (12 delivered), icons (16), UI (6).
 - Frame-by-frame controls: **Play / Pause / Step Back / Step Forward / Frame Scrubber**, **FPS** (`1–24`), **Speed** (`0.25×`–`2×`), **Direction** (`south`, `east`, `north`, `west` with mirror/reuse indicators), **Integer Zoom** (`1×`–`8×`), and a **47-Tile Blob Sheet** browser for tilesets.
 - **Hitbox Overlay Toggle**: reads `hitbox` / `hitboxes[anim]` from `manifest.json` when present, otherwise falls back to sprite bounds and explicitly labels the source (`Hitbox: manifest` vs `Hitbox: sprite bounds (fallback — none in manifest)`).
+
+### (d) Local Frame Editor & Review (Catalog UI & VFX)
+When served by a preview server exposing the local Inspector API v1 (`/api/editor/*`), editable catalog UI and VFX frames display an `EDIT` badge and unlock the **Frame Editor & Review** panel below the Inspector transport bar:
+- **Edit Pixels**: draw with **Pencil** (`B`), **Eraser** (`E`, binary alpha `0`), **Eyedropper** (`I`), or **Set Pivot**, using only the 40-color project palette (`[`/`]` cycles colors). Focus the editor canvas to navigate with Arrow keys, paint with `Space`/`Enter`, and undo/redo with `Ctrl+Z`/`Ctrl+Y`.
+- **PNG Import**: click **Import PNG…** to replace a frame with an 8-bit non-interlaced RGBA PNG matching exact frame dimensions, binary alpha, and the 40-color palette. Invalid PNGs are rejected with an inline error while leaving the current revision untouched.
+- **Before / After & Metadata**: inspect side-by-side Saved vs Draft previews with optional pixel diff highlight, and edit allowed metadata (`pivot` for UI; `pivot` and `durationMs` for VFX).
+- **Revisions, Restore & Conflicts**: click **Save Revision** to append a new `pending` revision (identical saves reuse `head`). Browse older revisions in **Revision History** and click **Restore** to append a new `pending` revision from an earlier version. If another tab saves first, a **409 conflict banner** lets you either **Reload Latest** or **Keep Draft & Rebase**.
+- **Revision-Bound Review & Export**: post comment-only notes or set **Approve**, **Request Changes**, or **Pending** on the currently viewed revision (editing an approved frame creates a new `pending` revision while preserving prior history and comments). Click **Export JSON** to download the reproducible single-frame atlas export.
 
 ## Asset Loading & Graceful Degradation
 

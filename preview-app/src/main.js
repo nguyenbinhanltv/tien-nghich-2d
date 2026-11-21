@@ -6,6 +6,7 @@ import { BIOMES } from './assetKeys.js';
 import { AssetStore } from './assetLoader.js';
 import { ArenaController } from './arena.js';
 import { InspectorController } from './inspector.js';
+import { EditorController } from './editorController.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -32,7 +33,77 @@ async function boot() {
     $('collection-label').textContent = 'Drowned Court assets';
     $('all-assets').hidden = false;
   }
-  const inspector = new InspectorController(inspectorStore, {
+  let inspector = null;
+  const editor = new EditorController(
+    inspectorStore,
+    {
+      root: $('inspector-editor'),
+      body: $('editor-body'),
+      emptyNotice: $('editor-empty-notice'),
+      message: $('editor-message'),
+      frameKey: $('editor-frame-key'),
+      frameDims: $('editor-frame-dims'),
+      revBadge: $('editor-rev-badge'),
+      statusBadge: $('editor-status-badge'),
+      dirtyBadge: $('editor-dirty-badge'),
+      conflictBanner: $('editor-conflict-banner'),
+      conflictText: $('editor-conflict-text'),
+      btnConflictReload: $('editor-btn-conflict-reload'),
+      btnConflictRebase: $('editor-btn-conflict-rebase'),
+      oldRevBanner: $('editor-old-rev-banner'),
+      oldRevText: $('editor-old-rev-text'),
+      btnRestoreViewed: $('editor-btn-restore-viewed'),
+      toolButtons: [...document.querySelectorAll('.editor-tool-btn')],
+      btnUndo: $('editor-btn-undo'),
+      btnRedo: $('editor-btn-redo'),
+      btnResetDraft: $('editor-btn-reset'),
+      btnImportPng: $('editor-btn-import-png'),
+      pngInput: $('editor-png-input'),
+      zoomSelect: $('editor-zoom-select'),
+      toggleGrid: $('editor-toggle-grid'),
+      editCanvas: $('editor-canvas'),
+      cursorReadout: $('editor-cursor-readout'),
+      assetLinks: $('editor-asset-links'),
+      paletteGrid: $('editor-palette-grid'),
+      toggleDiff: $('editor-toggle-diff'),
+      beforeCanvas: $('editor-before-canvas'),
+      afterCanvas: $('editor-after-canvas'),
+      diffSummary: $('editor-diff-summary'),
+      pivotWrap: $('editor-pivot-wrap'),
+      pivotX: $('editor-pivot-x'),
+      pivotY: $('editor-pivot-y'),
+      durationWrap: $('editor-duration-wrap'),
+      durationMs: $('editor-duration-ms'),
+      btnSave: $('editor-btn-save'),
+      btnReload: $('editor-btn-reload'),
+      btnExport: $('editor-btn-export'),
+      exportBox: $('editor-export-box'),
+      exportSummary: $('editor-export-summary'),
+      exportPreview: $('editor-export-preview'),
+      btnCopyExport: $('editor-btn-copy-export'),
+      reviewTargetLabel: $('editor-review-target'),
+      commentsList: $('editor-comments-list'),
+      commentInput: $('editor-comment-input'),
+      btnCommentOnly: $('editor-btn-comment'),
+      btnApprove: $('editor-btn-approve'),
+      btnRequestChanges: $('editor-btn-request-changes'),
+      btnMarkPending: $('editor-btn-mark-pending'),
+      historyList: $('editor-history-list'),
+    },
+    {
+      onIndexChange: () => {
+        if (inspector) {
+          inspector.renderAssetList();
+          inspector.renderMetadata();
+        }
+      },
+      onFrameCommitted: (snapshot) => {
+        inspector?.applyCommittedFrame(snapshot);
+      },
+    }
+  );
+
+  inspector = new InspectorController(inspectorStore, {
     canvas: $('inspector-canvas'),
     categoryBar: $('inspector-categories'),
     search: $('inspector-search'),
@@ -69,13 +140,23 @@ async function boot() {
     sourceCaption: $('insp-source-caption'), stage: $('insp-stage'),
     tilesetModeBtn: $('insp-tileset-mode'),
     metaPanel: $('inspector-meta'),
-  }, syncLoop);
+  }, syncLoop, {
+    isAssetEditable: (assetId) => inspectorStore === store && editor.isAssetEditable(assetId),
+    onFrameChange: ({ asset, key }) => {
+      if (inspectorStore !== store) {
+        editor.selectFrame(null, null);
+      } else {
+        editor.selectFrame(key, asset);
+      }
+    },
+  });
 
   // Expose lightweight debug hook for smoke tests & console inspection
   window.__TIEN_NGHICH_PREVIEW__ = {
     store,
     arena,
     inspector,
+    editor,
     setTab: (t) => switchTab(t),
   };
 
@@ -235,6 +316,9 @@ async function boot() {
     if (inspectorStore !== store) {
       inspector.store = await store.encounterCollection();
       inspector.selectAsset(inspector.selectedId);
+    } else {
+      await editor.loadIndex();
+      if (editor.currentKey) await editor.selectFrame(editor.currentKey, inspector.selectedAsset, { force: true });
     }
   });
 
@@ -261,6 +345,9 @@ async function boot() {
   renderWeaponSelector();
   syncArenaSidebar();
   inspector.init();
+  if (inspectorStore === store) {
+    await editor.loadIndex();
+  }
   if (initialTab === 'inspector' && inspectorStore !== store &&
       ['actor', 'clip', 'facing', 'frame'].some(key => params.has(key))) {
     inspector.restorePoseLink(params);
