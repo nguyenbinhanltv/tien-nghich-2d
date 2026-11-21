@@ -60,3 +60,65 @@ tools/.venvs/project/bin/python -I studio/forge/prototype/test_bake.py
 ```
 
 The trial reproduced all 32 baked frames, all four native turnaround frames, both comparison sheets and the metrics file byte for byte. The seven prototype checks cover the stable reference and injected slide, lost contact, wrong ear, drift, flicker and loop seam faults. Existing verification passed: 94 Python tests, Longtime, manifest and audio-plan checks, the preview smoke test and all six editor tests. The editor tests used `TMPDIR=/private/tmp` to meet the store’s canonical-path requirement on this Mac.
+
+## P2 production forge trial · Ink Marten follow from drawn poses
+
+**Verdict.** Use drawn key poses as the default starting point for locomotion and a rig as the default for idle. The sheet gives the marten a fuller stride and more visible weight shift in south, west and east. The shipped clip still has the strongest face at 1× and is the better ready-to-use follow clip. The pose-sheet trial loses the ear mark in 11 of 16 keys and trips the flicker gate in every key. The rig remains the strongest result for stable identity and the mark. The first trial established its idle behavior separately.
+
+### Source and first production run
+
+One built-in Codex ImageGen call used the forge [template](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/template.png) for placement and the first trial’s [turnaround](../assets/experiments/forge_bakeoff/lt_ink_marten/turnaround.png) for identity. The [verbatim prompt](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/prompt.txt) carries the original character card’s ink ramp and sole lilac left-ear mark. The [1254×1254 result](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/pose_sheet.png) is preserved byte for byte with its [SHA-256](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/pose_sheet.sha256). Columns are south, west, north and east. Rows are contact A, passing A, contact B and passing B. Each facing uses four keys at 120 ms on a 32×32 canvas with logical pivot `[16,29]`.
+
+- `node studio/forge/cli.mjs template --project . --profile pet --id ink-marten-follow --facings south,west,north,east --poses contact_a,passing_a,contact_b,passing_b --size 1024x1024 --out "$d/template.png" --layout-out "$d/template.layout.json"` should give each cell a readable label. The labels overrun the 256-pixel cells and overlap neighbors. The exported rectangles are correct. The prompt spelled out the row and column order and asked for a clean green sheet without labels.
+- `node studio/forge/cli.mjs import --layout "$d/template.layout.json" --sheet "$d/pose_sheet.png" --out "$tmp/default" --prompt "$d/prompt.txt" --project . --profile pet` should extract one complete drawing per cell or report when the cell crop may cut a drawing. It returned 16 cells with no diagnostic. At the north/east boundary (source x=940), the last column clipped four east tails and the third column took their fragments. The 13% label mask also cropped the tops of the south tail in both passing keys. `node studio/forge/cli.mjs pixelise --import "$tmp/default" --out "$tmp/default-native" --project . --profile pet --marks "$d/marks.json"` reported 16 sprites with no warnings. Its canvas warnings did not catch clipping that had already happened in the source crop.
+- The saved [import layout](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/layout.json) moves the north/east seam to x=903 on the generated sheet and reduces the label band to 9%. It uses one center and paw search window per facing, fixed across all four keys. These are supported layout fields. All PNGs in `frames/` are direct CLI outputs. The source and generated pixels received zero hand edits. The forge’s [pixelise record](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/frames/pixelize.json) records scale, source ground, visible marks and frame hashes.
+- The same `pixelise` command with the [first trial’s mark detector](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/marks.json) leaves 5/16 native keys with a dedicated mark on the correct ear. The high-resolution sheet shows it in 16/16. A diagnostic rerun with `minRgb: [140,0,155]` and `blueOverGreen: 12` recovered 7/16 with no stray marker pixels, still zero in north and east. The comparison retains the original detector. It thresholds after resampling and rebuilds the outline afterward, so tiny notches at the silhouette edge can disappear even when visible in the source.
+- `node studio/forge/cli.mjs qa` and `node studio/forge/cli.mjs compare` both return usage with exit 1. The CLI exposes template, import and pixelise. The [comparison helper](../studio/forge/prototype/compare-clips.mjs) calls the production gate and contact-sheet libraries, reads the three frame sets, and writes the preview PNGs and findings. It leaves the frames intact.
+
+### Three versions on the same rubric
+
+Compare the [native 1× strip](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/comparison_1x.png) and [4× nearest-neighbor sheet](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/comparison_4x.png). Each row is a facing with four successive keys per version. All share the same mid-tone background. Gait judgments are from the ordered keys. The [gate report](../assets/experiments/forge_bakeoff/lt_ink_marten_pose/gates.json) includes per-key findings, pixels and bounds.
+
+| Criterion | Shipped PixelLab | First trial’s rig | Pose sheet |
+| --- | --- | --- | --- |
+| South at 1× | Large distinct ears, bright face and chest, clear feet and side-swept tail. | The large plumed tail competes with the low face. Paw movement is small. | Forepaws read separately on contact. The tail still dominates and the small face gets lost under the ears. |
+| West at 1× | Upright stance, short dark flank, tail curl reads. | Long profile with a clearly separate muzzle and tail. Feet cluster under the body. | Long profile with a clear reaching paw and more space under the belly. Some paws merge in the passing keys. |
+| North at 1× | Back and plume merge into a dark silhouette. | Tight outline and readable pale ear and lit spine. | The body and tail curve are clear. The tail covers much of the hindquarter and hides the lead change. |
+| East at 1× | Bright chest and muzzle read. Tail length changes substantially. | Long low flank and distinct heavy tail. Small paw shifts make the outline look almost static. | Contact and passing shapes read immediately. Fine face detail and the far-ear notch drop out. |
+| Leg alternation and body motion | South shows a lead change and chest shift. Side feet are hard to separate during big body and tail changes. North mostly shows body motion. | Alternating paw shifts are present, but the body plate travels 0 px. South and north read as a glide. This is the committed first-trial bake. | South clearly trades the lead paw and dips into contact. West and east show stronger reach, tuck and shoulder/hip shape changes, though the side contacts sometimes look like the same near paw leads twice. North shows little readable alternation. |
+| Identity across keys and against the turnaround | Chest and ears carry the identity through the cycle. Side views differ from each other and from the turnaround’s long, low profile. | Coat, body proportions and tail placement are stable across keys and match the turnaround most closely. | Same cheek, lit ridge and plume shapes at a glance. Ear size, chest edges and fur clusters change between keys. Side proportions are close to the reference. North is higher in the frame after paw-window alignment. |
+| Left-ear mark (S/W/N/E) | Pale accent reads in S and E, with no unmistakable mark in W or N. The reserved swatch is absent in all 16. | Correct dedicated color in 4/4 keys for every facing. | Dedicated color in 3/4, 2/4, 0/4 and 0/4. Zero stray pixels. The west flash drops in and out. |
+| Interior flicker, same 10 px cutoff | 8/16 flagged. Max by facing 22/15/19/15 px. | 0/16 flagged. Max 4/6/2/1 px. | 16/16 flagged. Max 40/47/26/28 px. Chest, dorsal and face clusters visibly change along with the intended silhouette motion. |
+| Palette and other gates | Palette, binary alpha, size and outline pass 16/16. North exceeds the silhouette-center drift and wrap thresholds. The turnaround check finds extra colors in S/W/E and proportion changes in W/E. | Pixel gates pass 16/16. Shared pivot, seam and silhouette contrast pass. Planted-contact check passes, weight transfer fails all four facings. The repaired mark adds a color absent from the N/E native turnaround. | Pixel gates pass 16/16. Shared pivot, seam and silhouette contrast pass. Turnaround size check passes, with extra colors in all four facings. Contact and weight gates require data that sheet import does not emit. |
+| Effort | Shipped provenance records 21 credits, including a rejected character and a south follow retry. Author time is unrecorded. | First trial records one built-in generation, roughly seven minutes through reproducible comparison, and hand-authored cuts, joints, contact tracks and marker repair. That timing included idle as well. | One built-in generation from two references, one layout correction and no per-frame edits. About four minutes from initial inspection to the first three-way render, including generation, diagnosis and comparison scripting. No generation debit was visible. |
+
+The palette gate ran over each set separately with the project’s character size rule and with the Node gate at exactly 32×32. Silhouette contrast passed for all three sets on the sheet background. The same pivot, flicker, seam, turnaround stability and dedicated-color ear rules were applied to the three sets. The stability size threshold is 50% of the turnaround bounds, so a pass is a coarse check. For the old rig, the helper asserts 16/16 decoded PNG parity against the production bake before using its contact and body-offset data. The later contact-aware rig is outside the three-way comparison. Its existing production test reports improvement in south and north, with west and east still failing weight transfer. The shipped and sheet clips have no reliable per-paw contact tracks or body plate offsets. Feature-contrast boxes were unavailable for this comparison. Body travel and foot sliding on moving ground were unmeasured. Human art approval and independent replay remain pending.
+
+### What the forge needs for dependable locomotion sheets
+
+1. Warn when foreground touches a crop edge or crosses a label band, and show the source overlay before import. Fit template labels to both cell dimensions. Expose layout guides and native preview together so a seam or label correction is immediately visible.
+2. Let an artist lock per-facing scale from the turnaround or stable head/torso landmarks. Here the south scale floats from 0.093 to 0.099 per key because the full silhouette normalizes to a constant height. The west and east trials hit the lateral fit limit, using 30 of 32 columns. Normalizing every key independently can absorb a desired body dip or introduce size jitter. Leave headroom and lateral room for the stride.
+3. Let the input declare which paw plants in each key and carry those landmarks through conversion. The current lowest-pixel window can select a swing paw or a tail. In north, its narrow right-paw window still obscures the handoff. Support separate torso and foot tracks so a drawn body can move over an anchored contact. Check the result at animation speed on moving ground.
+4. Detect the left-ear mark in a region on the source, preserve it inside the native outline and validate the final anatomical box. Give the artist a 1× onion skin for ear, eye and fur clusters. The current flicker gate detects pixel reversals from intended motion as well as inconsistent shading. Show both the raw comparison and a landmark-aligned view so the artist can locate identity drift.
+
+### Rebuild the pose-sheet trial
+
+Run from the repository root under Node 24. The compare helper accepts the freshly rebuilt pose frame directory as its third argument.
+
+```sh
+set -e
+d=assets/experiments/forge_bakeoff/lt_ink_marten_pose
+tmp=$(mktemp -d /tmp/ink-marten-pose.XXXXXX)
+node studio/forge/cli.mjs import --layout "$d/layout.json" --sheet "$d/pose_sheet.png" \
+  --out "$tmp/import" --prompt "$d/prompt.txt" --project . --profile pet
+node studio/forge/cli.mjs pixelise --import "$tmp/import" --out "$tmp/frames" \
+  --project . --profile pet --marks "$d/marks.json"
+node studio/forge/prototype/compare-clips.mjs "$d/comparison.json" "$tmp" "$tmp/frames"
+diff -r "$d/frames" "$tmp/frames"
+for file in comparison_1x.png comparison_4x.png gates.json; do
+  cmp "$d/$file" "$tmp/$file"
+done
+tools/.venvs/project/bin/python -I tools/scripts/validate_palette.py --class character "$tmp/frames"
+```
+
+Baseline validation on this checkout passed 123 Python tests, all 204 non-browser Studio tests, the Longtime, manifest and audio-plan checks, Studio smoke, and the MCP self-test. Studio loopback tests ran with loopback access. The trial is confined to the bake-off data, the comparison helper and this write-up.

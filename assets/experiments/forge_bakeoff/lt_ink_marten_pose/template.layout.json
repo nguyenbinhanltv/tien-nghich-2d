@@ -1,0 +1,347 @@
+{
+  "schema": "forge.layout",
+  "version": 1,
+  "id": "ink-marten-follow",
+  "size": [
+    1024,
+    1024
+  ],
+  "key": {
+    "rgb": [
+      0,
+      255,
+      0
+    ],
+    "minChannel": 105,
+    "margin": 55
+  },
+  "labelBand": {
+    "fraction": 0.13
+  },
+  "ground": {
+    "fraction": 0.82
+  },
+  "landmarkBasis": "cell_width",
+  "cells": [
+    {
+      "id": "contact_a_south",
+      "facing": "south",
+      "pose": "contact_a",
+      "label": "CONTACT_A SOUTH",
+      "rect": [
+        0,
+        0,
+        0.25,
+        0.25
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_a_west",
+      "facing": "west",
+      "pose": "contact_a",
+      "label": "CONTACT_A WEST",
+      "rect": [
+        0.25,
+        0,
+        0.5,
+        0.25
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_a_north",
+      "facing": "north",
+      "pose": "contact_a",
+      "label": "CONTACT_A NORTH",
+      "rect": [
+        0.5,
+        0,
+        0.75,
+        0.25
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_a_east",
+      "facing": "east",
+      "pose": "contact_a",
+      "label": "CONTACT_A EAST",
+      "rect": [
+        0.75,
+        0,
+        1,
+        0.25
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_a_south",
+      "facing": "south",
+      "pose": "passing_a",
+      "label": "PASSING_A SOUTH",
+      "rect": [
+        0,
+        0.25,
+        0.25,
+        0.5
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_a_west",
+      "facing": "west",
+      "pose": "passing_a",
+      "label": "PASSING_A WEST",
+      "rect": [
+        0.25,
+        0.25,
+        0.5,
+        0.5
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_a_north",
+      "facing": "north",
+      "pose": "passing_a",
+      "label": "PASSING_A NORTH",
+      "rect": [
+        0.5,
+        0.25,
+        0.75,
+        0.5
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_a_east",
+      "facing": "east",
+      "pose": "passing_a",
+      "label": "PASSING_A EAST",
+      "rect": [
+        0.75,
+        0.25,
+        1,
+        0.5
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_b_south",
+      "facing": "south",
+      "pose": "contact_b",
+      "label": "CONTACT_B SOUTH",
+      "rect": [
+        0,
+        0.5,
+        0.25,
+        0.75
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_b_west",
+      "facing": "west",
+      "pose": "contact_b",
+      "label": "CONTACT_B WEST",
+      "rect": [
+        0.25,
+        0.5,
+        0.5,
+        0.75
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_b_north",
+      "facing": "north",
+      "pose": "contact_b",
+      "label": "CONTACT_B NORTH",
+      "rect": [
+        0.5,
+        0.5,
+        0.75,
+        0.75
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "contact_b_east",
+      "facing": "east",
+      "pose": "contact_b",
+      "label": "CONTACT_B EAST",
+      "rect": [
+        0.75,
+        0.5,
+        1,
+        0.75
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_b_south",
+      "facing": "south",
+      "pose": "passing_b",
+      "label": "PASSING_B SOUTH",
+      "rect": [
+        0,
+        0.75,
+        0.25,
+        1
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_b_west",
+      "facing": "west",
+      "pose": "passing_b",
+      "label": "PASSING_B WEST",
+      "rect": [
+        0.25,
+        0.75,
+        0.5,
+        1
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_b_north",
+      "facing": "north",
+      "pose": "passing_b",
+      "label": "PASSING_B NORTH",
+      "rect": [
+        0.5,
+        0.75,
+        0.75,
+        1
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    },
+    {
+      "id": "passing_b_east",
+      "facing": "east",
+      "pose": "passing_b",
+      "label": "PASSING_B EAST",
+      "rect": [
+        0.75,
+        0.75,
+        1,
+        1
+      ],
+      "landmarks": {
+        "centerX": 0.5,
+        "footWindow": [
+          0.25,
+          0.75
+        ],
+        "heightPx": 21
+      }
+    }
+  ]
+}
