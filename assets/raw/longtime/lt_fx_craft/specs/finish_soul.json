@@ -9,7 +9,7 @@
   28
  ],
  "fps": 20,
- "seed": 31,
+ "seed": 32,
  "ramps": {
   "A": {
    "colors": [
@@ -46,48 +46,23 @@
  ],
  "layers": [
   {
-   "id": "glint",
+   "id": "bead",
    "kind": "shape",
    "during": [
     "rise",
-    "done",
-    "fade",
-    "end"
+    "done"
    ],
    "ramp": "A",
    "outline": "dark",
    "shape": {
-    "sdf": "star",
-    "points": 4,
-    "r": {
-     "keys": [
-      [
-       0,
-       1
-      ],
-      [
-       0.12,
-       5.5
-      ],
-      [
-       1,
-       5.5
-      ]
-     ],
-     "ease": "out"
-    },
-    "inner": 0.3,
-    "at": [
+    "sdf": "capsule",
+    "from": [
      0,
      {
       "keys": [
        [
         0,
-        -6
-       ],
-       [
-        0.15,
-        -19
+        -2
        ],
        [
         1,
@@ -96,97 +71,78 @@
       ],
       "ease": "out"
      }
-    ]
+    ],
+    "to": [
+     0,
+     {
+      "keys": [
+       [
+        0,
+        -1
+       ],
+       [
+        1,
+        -9
+       ]
+      ],
+      "ease": "out"
+     }
+    ],
+    "r": 2.6,
+    "taper": 1
    },
-   "value": 1.0,
-   "break_up": {
-    "after": 0.85,
-    "noise": "angular",
-    "scale": 8,
-    "amount": 1.0
-   }
+   "value_mode": "radial",
+   "edge": 0.2,
+   "value": 1.15
   },
   {
-   "id": "streaks",
-   "kind": "particles",
+   "id": "flare",
+   "kind": "shape",
    "during": [
-    "rise",
     "done",
-    "fade",
-    "end"
+    "fade"
    ],
    "ramp": "A",
-   "tag": "sparkle",
    "outline": "dark",
-   "emit": {
-    "mode": "burst",
-    "count": [
-     3,
-     3
-    ],
-    "from": {
-     "area": "rect",
-     "size": [
-      6,
-      2
-     ],
-     "at": [
-      0,
-      -4
-     ]
-    }
-   },
-   "velocity": {
-    "speed": [
-     2.2,
-     3.2
-    ],
-    "angle": 270,
-    "spread": 16
-   },
-   "drag": 0.12,
-   "life": [
-    4,
-    5
-   ],
-   "stamp": {
-    "kind": "streak",
-    "size": {
+   "shape": {
+    "sdf": "circle",
+    "r": {
      "keys": [
       [
        0,
-       2
-      ],
-      [
-       0.3,
-       5
+       3
       ],
       [
        1,
-       2
+       1
       ]
-     ]
-    }
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     -19
+    ]
    },
-   "value_over_life": {
+   "value_mode": "radial",
+   "edge": 0.3,
+   "value": {
     "keys": [
      [
       0,
-      0.9
+      1.2
      ],
      [
       1,
-      0.3
+      0.7
      ]
-    ],
-    "ease": "in"
+    ]
    }
   },
   {
-   "id": "motes",
+   "id": "burst",
    "kind": "particles",
    "during": [
-    "rise",
     "done",
     "fade",
     "end"
@@ -197,33 +153,29 @@
    "emit": {
     "mode": "burst",
     "count": [
-     3,
-     3
+     6,
+     6
     ],
     "from": {
-     "area": "rect",
-     "size": [
-      8,
-      2
-     ],
+     "area": "ring",
+     "r": 2,
      "at": [
       0,
-      -3
+      -19
      ]
     }
    },
    "velocity": {
     "speed": [
      0.7,
-     1.2
+     1.1
     ],
-    "angle": 270,
-    "spread": 60
+    "angle": "out"
    },
-   "drag": 0.05,
+   "drag": 0.08,
    "life": [
-    7,
-    8
+    6,
+    6
    ],
    "stamp": {
     "kind": "dot",
@@ -233,7 +185,7 @@
     "keys": [
      [
       0,
-      0.9
+      1.0
      ],
      [
       1,
@@ -245,9 +197,9 @@
   }
  ],
  "order": [
-  "motes",
-  "streaks",
-  "glint"
+  "burst",
+  "flare",
+  "bead"
  ],
  "name": "finish_soul",
  "outline": "#14101a"
