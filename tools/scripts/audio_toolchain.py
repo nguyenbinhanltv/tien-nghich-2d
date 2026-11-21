@@ -23,19 +23,40 @@ def binary_sha256(exe: str) -> str:
     return hashlib.sha256(Path(exe).resolve().read_bytes()).hexdigest()
 
 
-def configure_line(exe: str) -> str:
-    """FFmpeg `configuration:` line with the machine-specific install prefix replaced by <prefix>."""
+def version_and_configure(exe: str) -> tuple[str, str]:
     out = subprocess.run([exe, "-hide_banner", "-version"], capture_output=True, check=True).stdout.decode("utf-8", "replace")
-    line = next(x for x in out.splitlines() if x.startswith("configuration:"))
-    prefix = str(Path(exe).resolve().parent.parent)
+    lines = out.splitlines()
+    return lines[0], next(x for x in lines if x.startswith("configuration:"))
+
+
+def normalise_configure(line: str, prefix: str) -> str:
+    """`configuration:` line with the machine-specific install prefix replaced by <prefix>."""
     return line[len("configuration:"):].strip().replace(prefix, "<prefix>")
 
 
+def configure_line(exe: str) -> str:
+    return normalise_configure(version_and_configure(exe)[1], str(Path(exe).resolve().parent.parent))
+
+
+def refusal_reason(version: str, configure: str) -> str | None:
+    """Why a binary is not the `native` 6.1.1 variant (None = acceptable). Pure, so it is unit-testable without FFmpeg."""
+    if not version.startswith("ffmpeg version 6.1.1 "):
+        return f"version must be 6.1.1 (got {version!r})"
+    if "--disable-autodetect" not in configure:
+        return "build must use --disable-autodetect (got a build that may link system libraries)"
+    if "--enable-libvorbis" not in configure:
+        return "build must use --enable-libvorbis"
+    if "--arch=x86_64" in configure or "ffp-contract=off" in configure:
+        return "nofma/x86 experiment variants are not allowed"
+    return None
+
+
 def require_native(exe: str) -> None:
-    """Refuse the nofma/x86 experiment builds and any non-6.1.1 or libvorbis-less binary."""
-    cfg = configure_line(exe)
-    if "--enable-libvorbis" not in cfg or "--arch=x86_64" in cfg or "ffp-contract=off" in cfg:
-        raise SystemExit(f"--ffmpeg must be the '{VARIANT}' variant built by {BUILD_SCRIPT} (got configuration: {cfg})")
+    """Refuse anything but the 6.1.1 `native` build from tools/scripts/build_ffmpeg_611_mac.sh."""
+    version, cfg = version_and_configure(exe)
+    why = refusal_reason(version, cfg)
+    if why:
+        raise SystemExit(f"--ffmpeg must be the '{VARIANT}' variant built by {BUILD_SCRIPT}: {why}")
 
 
 def record(exe: str, ffmpeg_banner: str) -> dict:

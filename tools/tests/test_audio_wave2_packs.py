@@ -132,6 +132,26 @@ class BuilderTableTests(unittest.TestCase):
         self.assertTrue(re.search(r"native\)", script))
 
 
+class ToolchainRefusalTests(unittest.TestCase):
+    V = "ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers"
+    C = "configuration: --prefix=/x --cc=clang --disable-autodetect --disable-doc --enable-libvorbis --enable-static"
+
+    def test_refusals(self):
+        tc = load("audio_toolchain")
+        self.assertIsNone(tc.refusal_reason(self.V, self.C))
+        self.assertIn("6.1.1", tc.refusal_reason("ffmpeg version 8.1.2 Copyright (c) 2000-2026", self.C))
+        self.assertIn("6.1.1", tc.refusal_reason("ffmpeg version 6.1.10 Copyright", self.C))
+        self.assertIn("6.1.1", tc.refusal_reason("ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright", self.C))
+        self.assertIn("autodetect", tc.refusal_reason(self.V, self.C.replace("--disable-autodetect ", "")))
+        self.assertIn("libvorbis", tc.refusal_reason(self.V, self.C.replace("--enable-libvorbis", "")))
+        self.assertIn("variants", tc.refusal_reason(self.V, self.C + " --arch=x86_64"))
+        self.assertIn("variants", tc.refusal_reason(self.V, self.C + " --extra-cflags=-ffp-contract=off"))
+
+    def test_normalise_configure_masks_prefix(self):
+        tc = load("audio_toolchain")
+        self.assertEqual(tc.normalise_configure(self.C, "/x"), "--prefix=<prefix> --cc=clang --disable-autodetect --disable-doc --enable-libvorbis --enable-static")
+
+
 class CompareOutputsTests(unittest.TestCase):
     def test_toolchain_only_differences_pass_and_codec_changes_fail(self):
         m = load("build_audio_wave2_pack")
