@@ -91,18 +91,18 @@ def ingest(aid, zpath):
     print("ingested", len(names), "files into", dst)
 
 
-def read_raw(aid, prof):
+def read_raw(aid, prof, raw_root=RAW):
     frames, raw_paths = {}, {}
     for clip, (count, _ms) in prof["clips"].items():
         for d in prof["directions"]:
             for n in range(count):
-                p = RAW / aid / clip / d / f"frame_{n:03d}.png"
+                p = raw_root / aid / clip / d / f"frame_{n:03d}.png"
                 if not p.is_file():
-                    raise SystemExit(f"missing raw frame {p.relative_to(REPO)}")
+                    raise SystemExit(f"missing raw frame {p}")
                 arr = np.array(Image.open(p).convert("RGBA"))
                 frames[(clip, d, n)] = arr
                 raw_paths[(clip, d, n)] = p
-            extra = sorted((RAW / aid / clip / d).glob("frame_*.png"))
+            extra = sorted((raw_root / aid / clip / d).glob("frame_*.png"))
             if len(extra) != count:
                 raise SystemExit(f"{aid}/{clip}/{d}: {len(extra)} raw frames, manifest wants {count}")
     return frames, raw_paths
@@ -145,11 +145,12 @@ def contact(frames, prof, scale, path, bg=(110, 104, 119)):
     return rows
 
 
-def build(aid):
+def build(aid, raw_root=RAW, out_root=OUT):
+    """Raw under raw_root/<aid> -> processed under out_root/<aid>. Recorded paths stay repo-relative."""
     a, prof = spec_for(aid)
     size = tuple(prof["native_px"])
     palette, outline = qa.load_palette(PALETTE)
-    raw, raw_paths = read_raw(aid, prof)
+    raw, raw_paths = read_raw(aid, prof, raw_root)
     stats = Counter()
     processed, lost_total = {}, 0
     for k, arr in raw.items():
@@ -161,7 +162,7 @@ def build(aid):
         processed[k] = bp.snap_character(placed, palette, outline, stats, speckle=False)
     if lost_total:
         raise SystemExit(f"{aid}: {lost_total} opaque pixels fall outside {size}; adjust before building")
-    folder = OUT / aid
+    folder = out_root / aid
     if folder.exists():
         shutil.rmtree(folder)
     folder.mkdir(parents=True)
@@ -178,7 +179,7 @@ def build(aid):
         for n in range(prof["clips"][c][0]):
             src.paste(Image.fromarray(raw[(c, d, n)], "RGBA"), (n * cell, r * cell))
             src_xy[(c, d, n)] = [n * cell, r * cell]
-    rd = RAW / aid
+    rd = raw_root / aid
     src.save(rd / "source.png")
     contact(processed, prof, 1, rd / "contact_1x.png")
     contact(processed, prof, 4, rd / "contact_4x.png")
@@ -189,7 +190,7 @@ def build(aid):
         frames.append({
             "key": f"longtime/{aid}/{c}_{d}_{n}",
             "path": f"assets/processed_longtime/{aid}/{c}_{d}_{n}.png",
-            "raw_path": raw_paths[(c, d, n)].relative_to(REPO).as_posix(),
+            "raw_path": f"assets/raw/longtime/{aid}/{c}/{d}/frame_{n:03d}.png",
             "raw_sha256": sha(raw_paths[(c, d, n)]),
             "source_xy": src_xy[(c, d, n)],
             "duration_ms": prof["clips"][c][1],
