@@ -1,0 +1,421 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "automated": {
+    "bgm": {
+      "bgm_blood_sea": {
+        "m4a": {
+          "loop_region_sample_peak_dbfs": -7.844
+        },
+        "master_loudness_remeasure": {
+          "recorded_in_provenance_ffmpeg_8_1_2": {
+            "integrated_lufs": -22.0,
+            "loudness_range_lu": 4.4,
+            "true_peak_dbtp": -7.5
+          },
+          "this_toolchain": {
+            "integrated_lufs": -22.0,
+            "loudness_range_lu": 4.4,
+            "true_peak_dbtp": -7.5
+          }
+        },
+        "ogg": {
+          "loop_region_sample_peak_dbfs": -7.375
+        }
+      }
+    },
+    "mix_comparison": {
+      "bgm_blood_sea": {
+        "bgm_master_integrated_lufs": -22.0,
+        "bgm_master_rms_dbfs": -23.763,
+        "bgm_master_true_peak_dbtp": -7.5,
+        "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+        "derived_mastering": null,
+        "reference_targets": {
+          "ebu_r128_programme_-23_lufs": {
+            "gain_db_needed": -1.0,
+            "peak_headroom_to_-1_dbtp_db": 7.5,
+            "target_lufs": -23.0,
+            "true_peak_after_gain_dbtp": -8.5,
+            "within_peak_ceiling": true
+          },
+          "mobile_loud_-16_lufs": {
+            "gain_db_needed": 6.0,
+            "peak_headroom_to_-1_dbtp_db": 0.5,
+            "target_lufs": -16.0,
+            "true_peak_after_gain_dbtp": -1.5,
+            "within_peak_ceiling": true
+          }
+        },
+        "sfx_levels": [
+          {
+            "active_rms_dbfs": -21.114,
+            "active_rms_minus_bgm_rms_db": 2.65,
+            "id": "sfx_boss_fall",
+            "sample_peak_dbfs": -3.002
+          },
+          {
+            "active_rms_dbfs": -20.081,
+            "active_rms_minus_bgm_rms_db": 3.68,
+            "id": "sfx_counter",
+            "sample_peak_dbfs": -4.967
+          },
+          {
+            "active_rms_dbfs": -22.15,
+            "active_rms_minus_bgm_rms_db": 1.61,
+            "id": "sfx_enemy_fall",
+            "sample_peak_dbfs": -5.967
+          },
+          {
+            "active_rms_dbfs": -22.57,
+            "active_rms_minus_bgm_rms_db": 1.19,
+            "id": "sfx_hit_spirit",
+            "sample_peak_dbfs": -6.071
+          },
+          {
+            "active_rms_dbfs": -20.831,
+            "active_rms_minus_bgm_rms_db": 2.93,
+            "id": "sfx_hit_stone",
+            "sample_peak_dbfs": -4.018
+          },
+          {
+            "active_rms_dbfs": -21.564,
+            "active_rms_minus_bgm_rms_db": 2.2,
+            "id": "sfx_player_hurt",
+            "sample_peak_dbfs": -6.096
+          },
+          {
+            "active_rms_dbfs": -18.697,
+            "active_rms_minus_bgm_rms_db": 5.07,
+            "id": "sfx_tell_boss",
+            "sample_peak_dbfs": -5.976
+          },
+          {
+            "active_rms_dbfs": -19.865,
+            "active_rms_minus_bgm_rms_db": 3.9,
+            "id": "sfx_tell_heavy",
+            "sample_peak_dbfs": -7.014
+          }
+        ]
+      }
+    },
+    "sfx": {
+      "m4a": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              8,
+              65663
+            ],
+            "decoded_peak_dbfs": -3.158,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -51.128,
+            "id": "sfx_boss_fall",
+            "master_active_start_end": [
+              8,
+              65660
+            ],
+            "master_peak_dbfs": -3.002,
+            "snr_db": 22.88,
+            "threshold_pcm": 231
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              13890
+            ],
+            "decoded_peak_dbfs": -4.945,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -49.247,
+            "id": "sfx_counter",
+            "master_active_start_end": [
+              2,
+              13890
+            ],
+            "master_peak_dbfs": -4.967,
+            "snr_db": 25.33,
+            "threshold_pcm": 184
+          },
+          {
+            "decoded_active_start_end": [
+              12,
+              24012
+            ],
+            "decoded_peak_dbfs": -6.143,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -54.051,
+            "id": "sfx_enemy_fall",
+            "master_active_start_end": [
+              12,
+              24012
+            ],
+            "master_peak_dbfs": -5.967,
+            "snr_db": 17.89,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              11,
+              13701
+            ],
+            "decoded_peak_dbfs": -5.281,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -51.224,
+            "id": "sfx_hit_spirit",
+            "master_active_start_end": [
+              6,
+              13762
+            ],
+            "master_peak_dbfs": -6.071,
+            "snr_db": 20.23,
+            "threshold_pcm": 162
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              5956
+            ],
+            "decoded_peak_dbfs": -4.084,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -46.787,
+            "id": "sfx_hit_stone",
+            "master_active_start_end": [
+              3,
+              5956
+            ],
+            "master_peak_dbfs": -4.018,
+            "snr_db": 17.12,
+            "threshold_pcm": 206
+          },
+          {
+            "decoded_active_start_end": [
+              1,
+              13773
+            ],
+            "decoded_peak_dbfs": -5.989,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -46.065,
+            "id": "sfx_player_hurt",
+            "master_active_start_end": [
+              3,
+              14000
+            ],
+            "master_peak_dbfs": -6.096,
+            "snr_db": 28.56,
+            "threshold_pcm": 162
+          },
+          {
+            "decoded_active_start_end": [
+              3,
+              50376
+            ],
+            "decoded_peak_dbfs": -5.732,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -52.247,
+            "id": "sfx_tell_boss",
+            "master_active_start_end": [
+              3,
+              50375
+            ],
+            "master_peak_dbfs": -5.976,
+            "snr_db": 32.45,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              148,
+              21947
+            ],
+            "decoded_peak_dbfs": -7.404,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -90.309,
+            "id": "sfx_tell_heavy",
+            "master_active_start_end": [
+              143,
+              21946
+            ],
+            "master_peak_dbfs": -7.014,
+            "snr_db": 20.08,
+            "threshold_pcm": 146
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      },
+      "ogg": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              9,
+              65658
+            ],
+            "decoded_peak_dbfs": -3.472,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -39.553,
+            "id": "sfx_boss_fall",
+            "master_active_start_end": [
+              8,
+              65660
+            ],
+            "master_peak_dbfs": -3.002,
+            "snr_db": 22.21,
+            "threshold_pcm": 231
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              13916
+            ],
+            "decoded_peak_dbfs": -5.173,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -84.288,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -24.553,
+            "id": "sfx_counter",
+            "master_active_start_end": [
+              2,
+              13890
+            ],
+            "master_peak_dbfs": -4.967,
+            "snr_db": 23.09,
+            "threshold_pcm": 184
+          },
+          {
+            "decoded_active_start_end": [
+              12,
+              24016
+            ],
+            "decoded_peak_dbfs": -6.13,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -46.119,
+            "id": "sfx_enemy_fall",
+            "master_active_start_end": [
+              12,
+              24012
+            ],
+            "master_peak_dbfs": -5.967,
+            "snr_db": 17.68,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              3,
+              13762
+            ],
+            "decoded_peak_dbfs": -5.791,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -41.428,
+            "id": "sfx_hit_spirit",
+            "master_active_start_end": [
+              6,
+              13762
+            ],
+            "master_peak_dbfs": -6.071,
+            "snr_db": 17.06,
+            "threshold_pcm": 162
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              5956
+            ],
+            "decoded_peak_dbfs": -3.2,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -23.192,
+            "id": "sfx_hit_stone",
+            "master_active_start_end": [
+              3,
+              5956
+            ],
+            "master_peak_dbfs": -4.018,
+            "snr_db": 14.33,
+            "threshold_pcm": 206
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              13773
+            ],
+            "decoded_peak_dbfs": -5.779,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -35.774,
+            "id": "sfx_player_hurt",
+            "master_active_start_end": [
+              3,
+              14000
+            ],
+            "master_peak_dbfs": -6.096,
+            "snr_db": 23.78,
+            "threshold_pcm": 162
+          },
+          {
+            "decoded_active_start_end": [
+              1,
+              50375
+            ],
+            "decoded_peak_dbfs": -5.734,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -36.399,
+            "id": "sfx_tell_boss",
+            "master_active_start_end": [
+              3,
+              50375
+            ],
+            "master_peak_dbfs": -5.976,
+            "snr_db": 30.75,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              148,
+              21947
+            ],
+            "decoded_peak_dbfs": -7.347,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -78.268,
+            "id": "sfx_tell_heavy",
+            "master_active_start_end": [
+              143,
+              21946
+            ],
+            "master_peak_dbfs": -7.014,
+            "snr_db": 19.48,
+            "threshold_pcm": 146
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      }
+    }
+  },
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack-evidence"
+}

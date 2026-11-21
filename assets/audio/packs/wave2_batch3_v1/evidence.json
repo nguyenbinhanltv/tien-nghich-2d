@@ -1,0 +1,421 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "automated": {
+    "bgm": {
+      "bgm_ancient_god": {
+        "m4a": {
+          "loop_region_sample_peak_dbfs": -7.258
+        },
+        "master_loudness_remeasure": {
+          "recorded_in_provenance_ffmpeg_8_1_2": {
+            "integrated_lufs": -22.5,
+            "loudness_range_lu": 5.3,
+            "true_peak_dbtp": -7.2
+          },
+          "this_toolchain": {
+            "integrated_lufs": -22.5,
+            "loudness_range_lu": 5.3,
+            "true_peak_dbtp": -7.2
+          }
+        },
+        "ogg": {
+          "loop_region_sample_peak_dbfs": -7.205
+        }
+      }
+    },
+    "mix_comparison": {
+      "bgm_ancient_god": {
+        "bgm_master_integrated_lufs": -22.5,
+        "bgm_master_rms_dbfs": -22.919,
+        "bgm_master_true_peak_dbtp": -7.2,
+        "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+        "derived_mastering": null,
+        "reference_targets": {
+          "ebu_r128_programme_-23_lufs": {
+            "gain_db_needed": -0.5,
+            "peak_headroom_to_-1_dbtp_db": 6.7,
+            "target_lufs": -23.0,
+            "true_peak_after_gain_dbtp": -7.7,
+            "within_peak_ceiling": true
+          },
+          "mobile_loud_-16_lufs": {
+            "gain_db_needed": 6.5,
+            "peak_headroom_to_-1_dbtp_db": -0.3,
+            "target_lufs": -16.0,
+            "true_peak_after_gain_dbtp": -0.7,
+            "within_peak_ceiling": false
+          }
+        },
+        "sfx_levels": [
+          {
+            "active_rms_dbfs": -22.285,
+            "active_rms_minus_bgm_rms_db": 0.63,
+            "id": "sfx_chime",
+            "sample_peak_dbfs": -5.524
+          },
+          {
+            "active_rms_dbfs": -22.291,
+            "active_rms_minus_bgm_rms_db": 0.63,
+            "id": "sfx_crush",
+            "sample_peak_dbfs": -5.011
+          },
+          {
+            "active_rms_dbfs": -19.963,
+            "active_rms_minus_bgm_rms_db": 2.96,
+            "id": "sfx_flame",
+            "sample_peak_dbfs": -5.062
+          },
+          {
+            "active_rms_dbfs": -20.971,
+            "active_rms_minus_bgm_rms_db": 1.95,
+            "id": "sfx_gust",
+            "sample_peak_dbfs": -5.663
+          },
+          {
+            "active_rms_dbfs": -22.188,
+            "active_rms_minus_bgm_rms_db": 0.73,
+            "id": "sfx_player_fall",
+            "sample_peak_dbfs": -5.945
+          },
+          {
+            "active_rms_dbfs": -18.283,
+            "active_rms_minus_bgm_rms_db": 4.64,
+            "id": "sfx_shade",
+            "sample_peak_dbfs": -6.018
+          },
+          {
+            "active_rms_dbfs": -21.998,
+            "active_rms_minus_bgm_rms_db": 0.92,
+            "id": "sfx_shock",
+            "sample_peak_dbfs": -4.446
+          },
+          {
+            "active_rms_dbfs": -22.303,
+            "active_rms_minus_bgm_rms_db": 0.62,
+            "id": "sfx_thorn",
+            "sample_peak_dbfs": -5.521
+          }
+        ]
+      }
+    },
+    "sfx": {
+      "m4a": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              1,
+              37086
+            ],
+            "decoded_peak_dbfs": -5.494,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -52.467,
+            "id": "sfx_chime",
+            "master_active_start_end": [
+              1,
+              37086
+            ],
+            "master_peak_dbfs": -5.524,
+            "snr_db": 37.62,
+            "threshold_pcm": 173
+          },
+          {
+            "decoded_active_start_end": [
+              122,
+              30657
+            ],
+            "decoded_peak_dbfs": -5.207,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -90.309,
+            "id": "sfx_crush",
+            "master_active_start_end": [
+              122,
+              30498
+            ],
+            "master_peak_dbfs": -5.011,
+            "snr_db": 20.07,
+            "threshold_pcm": 184
+          },
+          {
+            "decoded_active_start_end": [
+              41,
+              24865
+            ],
+            "decoded_peak_dbfs": -4.945,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -68.03,
+            "id": "sfx_flame",
+            "master_active_start_end": [
+              42,
+              24813
+            ],
+            "master_peak_dbfs": -5.062,
+            "snr_db": 18.93,
+            "threshold_pcm": 182
+          },
+          {
+            "decoded_active_start_end": [
+              157,
+              29922
+            ],
+            "decoded_peak_dbfs": -6.149,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -84.288,
+            "id": "sfx_gust",
+            "master_active_start_end": [
+              157,
+              29922
+            ],
+            "master_peak_dbfs": -5.663,
+            "snr_db": 10.49,
+            "threshold_pcm": 170
+          },
+          {
+            "decoded_active_start_end": [
+              3,
+              76213
+            ],
+            "decoded_peak_dbfs": -6.124,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -52.139,
+            "id": "sfx_player_fall",
+            "master_active_start_end": [
+              3,
+              76214
+            ],
+            "master_peak_dbfs": -5.945,
+            "snr_db": 25.57,
+            "threshold_pcm": 165
+          },
+          {
+            "decoded_active_start_end": [
+              311,
+              36932
+            ],
+            "decoded_peak_dbfs": -6.044,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -90.309,
+            "id": "sfx_shade",
+            "master_active_start_end": [
+              311,
+              36931
+            ],
+            "master_peak_dbfs": -6.018,
+            "snr_db": 20.53,
+            "threshold_pcm": 163
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              31803
+            ],
+            "decoded_peak_dbfs": -3.842,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -39.654,
+            "id": "sfx_shock",
+            "master_active_start_end": [
+              2,
+              31793
+            ],
+            "master_peak_dbfs": -4.446,
+            "snr_db": 17.94,
+            "threshold_pcm": 196
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              8532
+            ],
+            "decoded_peak_dbfs": -5.17,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -42.851,
+            "id": "sfx_thorn",
+            "master_active_start_end": [
+              2,
+              8532
+            ],
+            "master_peak_dbfs": -5.521,
+            "snr_db": 18.32,
+            "threshold_pcm": 173
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      },
+      "ogg": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              0,
+              37086
+            ],
+            "decoded_peak_dbfs": -5.825,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -30.449,
+            "id": "sfx_chime",
+            "master_active_start_end": [
+              1,
+              37086
+            ],
+            "master_peak_dbfs": -5.524,
+            "snr_db": 27.65,
+            "threshold_pcm": 173
+          },
+          {
+            "decoded_active_start_end": [
+              121,
+              30493
+            ],
+            "decoded_peak_dbfs": -4.247,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -84.288,
+            "id": "sfx_crush",
+            "master_active_start_end": [
+              122,
+              30498
+            ],
+            "master_peak_dbfs": -5.011,
+            "snr_db": 14.53,
+            "threshold_pcm": 184
+          },
+          {
+            "decoded_active_start_end": [
+              41,
+              24786
+            ],
+            "decoded_peak_dbfs": -4.957,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -60.767,
+            "id": "sfx_flame",
+            "master_active_start_end": [
+              42,
+              24813
+            ],
+            "master_peak_dbfs": -5.062,
+            "snr_db": 13.13,
+            "threshold_pcm": 182
+          },
+          {
+            "decoded_active_start_end": [
+              157,
+              29914
+            ],
+            "decoded_peak_dbfs": -6.161,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -72.247,
+            "id": "sfx_gust",
+            "master_active_start_end": [
+              157,
+              29922
+            ],
+            "master_peak_dbfs": -5.663,
+            "snr_db": 9.82,
+            "threshold_pcm": 170
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              76214
+            ],
+            "decoded_peak_dbfs": -6.236,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -34.602,
+            "id": "sfx_player_fall",
+            "master_active_start_end": [
+              3,
+              76214
+            ],
+            "master_peak_dbfs": -5.945,
+            "snr_db": 26.67,
+            "threshold_pcm": 165
+          },
+          {
+            "decoded_active_start_end": [
+              312,
+              36933
+            ],
+            "decoded_peak_dbfs": -6.196,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -58.945,
+            "id": "sfx_shade",
+            "master_active_start_end": [
+              311,
+              36931
+            ],
+            "master_peak_dbfs": -6.018,
+            "snr_db": 20.45,
+            "threshold_pcm": 163
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              31916
+            ],
+            "decoded_peak_dbfs": -4.725,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -23.289,
+            "id": "sfx_shock",
+            "master_active_start_end": [
+              2,
+              31793
+            ],
+            "master_peak_dbfs": -4.446,
+            "snr_db": 16.03,
+            "threshold_pcm": 196
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              8538
+            ],
+            "decoded_peak_dbfs": -5.731,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -26.587,
+            "id": "sfx_thorn",
+            "master_active_start_end": [
+              2,
+              8532
+            ],
+            "master_peak_dbfs": -5.521,
+            "snr_db": 19.43,
+            "threshold_pcm": 173
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      }
+    }
+  },
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack-evidence"
+}
