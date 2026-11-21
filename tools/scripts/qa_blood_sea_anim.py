@@ -25,6 +25,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw
 
+from blood_sea_qa_io import MARKUP_JS, package_path, report_path, script_json
+
 REPO = Path(__file__).resolve().parents[2]
 EXPECTED_POSES = {
     "wl_blood_foundation": ["idle", "stride", "windup", "impact"],
@@ -141,8 +143,8 @@ def inspect_runtime(runtime_dir: Path | None) -> dict:
     if not runtime_dir or not runtime_dir.is_dir():
         return info
 
-    combat_path = runtime_dir / "combat.mjs"
-    game_path = runtime_dir / "game.mjs"
+    combat_path = package_path(runtime_dir, "combat.mjs")
+    game_path = package_path(runtime_dir, "game.mjs")
     if not combat_path.is_file() or not game_path.is_file():
         return info
 
@@ -245,9 +247,9 @@ def _load_pose_sample(
     ov = _resolve_pose_override(encounter_dir, actor, direction, pose)
     if ov and ov.get("image"):
         img_rel = ov["image"]
-        ov_path = encounter_dir / img_rel if not Path(img_rel).is_absolute() else Path(img_rel)
+        ov_path = package_path(encounter_dir, img_rel)
         if not ov_path.is_file():
-            ov_path = encounter_dir / "source" / img_rel
+            ov_path = package_path(encounter_dir, "source/" + img_rel)
         oarr = np.array(Image.open(ov_path).convert("RGBA"))
         oh, ow = oarr.shape[:2]
         crop = ov.get("crop") or [0, 0, ow, oh]
@@ -269,7 +271,7 @@ def audit_encounter(
     runtime_dir: Path | None = None,
 ) -> dict:
     """Run all independent QA checks against an encounter directory (strictly read-only)."""
-    contract_path = encounter_dir / "contract.json"
+    contract_path = package_path(encounter_dir, "contract.json")
     spec = json.loads(contract_path.read_text(encoding="utf-8"))
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest_by_id = {a["id"]: a for a in manifest["assets"]}
@@ -293,6 +295,8 @@ def audit_encounter(
         exceptions.append(rec)
 
     for actor_id, actor in spec["actors"].items():
+        if not re.fullmatch(r"[a-zA-Z0-9_-]+", actor_id):
+            raise ValueError("Invalid actor ID")
         m_asset = manifest_by_id.get(actor_id)
         size = int(actor["size"])
         pivot = [int(actor["pivot"][0]), int(actor["pivot"][1])]
@@ -326,7 +330,7 @@ def audit_encounter(
 
         # 2. Load source PNG
         src_name = actor.get("source") or f"{actor_id}.png"
-        src_path = encounter_dir / "source" / src_name if not Path(src_name).is_absolute() else Path(src_name)
+        src_path = package_path(encounter_dir, "source/" + src_name)
         if not src_path.is_file():
             add_exc("error", "source_missing", actor_id, "source", f"Missing source sheet {src_path}")
             continue
@@ -653,8 +657,8 @@ def audit_encounter(
                     )
 
         # 4. Inspect Codex's exported native web sheet (read-only)
-        web_png_path = encounter_dir / "web" / f"{actor_id}.png"
-        web_json_path = encounter_dir / "web" / f"{actor_id}.json"
+        web_png_path = package_path(encounter_dir, f"web/{actor_id}.png")
+        web_json_path = package_path(encounter_dir, f"web/{actor_id}.json")
         web_report = {"present": False, "frames": []}
         eroded_blade_poses = []
 
@@ -827,6 +831,7 @@ def audit_encounter(
             }
 
         actor_reports[actor_id] = {
+            "source_file": src_name,
             "size": size,
             "pivot": pivot,
             "scale": scale,
@@ -885,9 +890,9 @@ def _checker_bg(w: int, h: int, step: int = 8) -> Image.Image:
 def _crop_cell_image(encounter_dir: Path, src_im: Image.Image, cm: dict) -> Image.Image:
     x0, y0, x1, y1 = cm["cell_rect"]
     if cm.get("source") and cm["source"] != "sheet":
-        p = encounter_dir / cm["source"]
+        p = package_path(encounter_dir, cm["source"])
         if not p.is_file():
-            p = encounter_dir / "source" / cm["source"]
+            p = package_path(encounter_dir, "source/" + cm["source"])
         return Image.open(p).convert("RGBA").crop((x0, y0, x1, y1))
     return src_im.crop((x0, y0, x1, y1))
 
@@ -899,8 +904,8 @@ def build_contact_sheet(encounter_dir: Path, report: dict, out_path: Path) -> No
     sections: list[Image.Image] = []
 
     for actor_id, arep in report["actors"].items():
-        src_im = Image.open(encounter_dir / "source" / f"{actor_id}.png").convert("RGBA")
-        web_path = encounter_dir / "web" / f"{actor_id}.png"
+        src_im = Image.open(package_path(encounter_dir, "source/" + arep.get("source_file", f"{actor_id}.png"))).convert("RGBA")
+        web_path = package_path(encounter_dir, f"web/{actor_id}.png")
         web_im = Image.open(web_path).convert("RGBA") if web_path.is_file() else None
         size = arep["size"]
         piv_x, piv_y = arep["pivot"]
@@ -1065,8 +1070,8 @@ def build_html_workbench(encounter_dir: Path, report: dict, out_path: Path) -> N
     """Generate a self-contained browser-based Animation QA Workbench with embedded frames."""
     embedded = {}
     for actor_id, arep in report["actors"].items():
-        web_png = encounter_dir / "web" / f"{actor_id}.png"
-        src_png = encounter_dir / "source" / f"{actor_id}.png"
+        web_png = package_path(encounter_dir, f"web/{actor_id}.png")
+        src_png = package_path(encounter_dir, "source/" + arep.get("source_file", f"{actor_id}.png"))
         entry = {
             "size": arep["size"],
             "pivot": arep["pivot"],
@@ -1089,11 +1094,12 @@ def build_html_workbench(encounter_dir: Path, report: dict, out_path: Path) -> N
                 )
         embedded[actor_id] = entry
 
-    payload_json = json.dumps({"report": report, "art": embedded}, ensure_ascii=False)
+    payload_json = script_json({"report": report, "art": embedded})
     html = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Tiên Nghịch 2D · Independent Animation QA Workbench</title>
 <style>
@@ -1204,8 +1210,10 @@ def build_html_workbench(encounter_dir: Path, report: dict, out_path: Path) -> N
     </div>
   </section>
 </main>
+<script type="application/json" id="qa-data">{payload_json}</script>
 <script>
-const DATA = {payload_json};
+{MARKUP_JS}
+const DATA = JSON.parse(document.getElementById("qa-data").textContent);
 const REPORT = DATA.report;
 const ART = DATA.art;
 
@@ -1254,12 +1262,12 @@ function getSeq() {{
 function renderSummary() {{
   const s = REPORT.summary;
   const rt = REPORT.runtime;
-  $('summary-chips').innerHTML = `
+  $('summary-chips').innerHTML = markup`
     <span class="chip ${{s.errors ? 'err' : 'ok'}}">Errors: ${{s.errors}}</span>
     <span class="chip ${{s.warnings ? 'warn' : 'ok'}}">Warnings: ${{s.warnings}}</span>
     <span class="chip ${{rt.west_mirror_verified ? 'ok' : 'warn'}}">Boss West Mirror: ${{rt.west_mirror_verified ? 'Verified' : 'Unchecked'}}</span>
   `;
-  $('exc-body').innerHTML = REPORT.exceptions.map(e => `
+  $('exc-body').innerHTML = REPORT.exceptions.map(e => markup`
     <tr>
       <td class="sev-${{e.severity}}">${{e.severity.toUpperCase()}}</td>
       <td class="mono">${{e.actor}}</td>
@@ -1272,7 +1280,7 @@ function renderSummary() {{
 }}
 
 function populateControls() {{
-  $('sel-actor').innerHTML = Object.keys(REPORT.actors).map(id => `<option value="${{id}}" ${{id===actorId?'selected':''}}>${{id}}</option>`).join('');
+  $('sel-actor').innerHTML = Object.keys(REPORT.actors).map(id => markup`<option value="${{id}}" ${{id===actorId?'selected':''}}>${{id}}</option>`).join('');
   updateActorDependent();
 }}
 
@@ -1280,10 +1288,10 @@ function updateActorDependent() {{
   const arep = REPORT.actors[actorId];
   const dirs = arep.uses_west_mirror ? [...arep.rows, 'west'] : arep.rows;
   if (!dirs.includes(dir)) dir = dirs[0];
-  $('sel-dir').innerHTML = dirs.map(d => `<option value="${{d}}" ${{d===dir?'selected':''}}>${{d}}${{arep.uses_west_mirror&&d==='west'?' (mirrored E)':''}}</option>`).join('');
+  $('sel-dir').innerHTML = dirs.map(d => markup`<option value="${{d}}" ${{d===dir?'selected':''}}>${{d}}${{arep.uses_west_mirror&&d==='west'?' (mirrored E)':''}}</option>`).join('');
   const seqs = buildSequences(actorId, arep.poses);
   seqId = seqs[0]?.id || '';
-  $('sel-seq').innerHTML = seqs.map(s => `<option value="${{s.id}}">${{s.label}}</option>`).join('');
+  $('sel-seq').innerHTML = seqs.map(s => markup`<option value="${{s.id}}">${{s.label}}</option>`).join('');
   $('sel-zoom').value = arep.size <= 32 ? '6' : '3';
   stepIdx = 0; elapsed = 0;
   drawFrame();
@@ -1408,7 +1416,7 @@ function drawFrame() {{
   }}
 
   if (cm) {{
-    $('pose-kv').innerHTML = `
+    $('pose-kv').innerHTML = markup`
       <span>Source Cell</span><code>${{cm.cell_rect.join(', ')}} (${{cm.source}})</code>
       <span>Contract Anchor</span><code>(${{cm.contract_anchor.join(', ')}})</code>
       <span>Measured Ground</span><code>(${{cm.measured_foot_mid_x_global}}, ${{cm.measured_bottom_y_global}})</code>
@@ -1422,7 +1430,7 @@ function drawFrame() {{
     `;
   }}
   const stab = arep.row_stability[srcDir];
-  $('row-kv').innerHTML = stab ? `
+  $('row-kv').innerHTML = stab ? markup`
     <span>Row</span><code>${{srcDir}}${{mirror?' → mirrored west':''}}</code>
     <span>Bottom Y Jitter</span><code>${{stab.projected_bottom_jitter_px}} nat px</code>
     <span>Head X Drift</span><code>${{stab.projected_head_x_drift_px}} nat px (${{stab.head_x_outlier_pose}})</code>
@@ -1505,11 +1513,11 @@ def main(argv: list[str] | None = None) -> int:
         if enc_dir in out_dir.parents or out_dir == enc_dir:
             ap.error("--out-dir must not write inside --encounter-dir (source tree stays read-only)")
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "blood-sea-qa-report.json").write_text(
+        report_path(out_dir, "blood-sea-qa-report.json").write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
-        build_contact_sheet(enc_dir, report, out_dir / "blood-sea-qa-contact-sheet.png")
-        build_html_workbench(enc_dir, report, out_dir / "blood-sea-animation-qa.html")
+        build_contact_sheet(enc_dir, report, report_path(out_dir, "blood-sea-qa-contact-sheet.png"))
+        build_html_workbench(enc_dir, report, report_path(out_dir, "blood-sea-animation-qa.html"))
 
     s = report["summary"]
     print(f"Blood Sea Animation QA: errors={s['errors']} warnings={s['warnings']} info={s['info']}")
@@ -1520,4 +1528,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except (OSError, ValueError) as exc:
+        sys.exit(f"QA failed: {exc}")

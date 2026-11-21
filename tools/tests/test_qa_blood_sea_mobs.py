@@ -6,6 +6,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 from pathlib import Path
 
@@ -193,7 +194,11 @@ class TestBloodSeaMobQA(unittest.TestCase):
             self.assertTrue(crow["assembly"]["clips"]["attack"]["directions"]["west"][2]["active_contact"])
 
             qa.build_contact_sheet(report, strips, out_dir / "sheet.png")
+            crow["name"] = "QA <label> & text"
             qa.build_html_workbench(report, strips, out_dir / "viewer.html")
+            viewer = (out_dir / "viewer.html").read_text(encoding="utf-8")
+            self.assertNotIn(crow["name"], viewer)
+            self.assertIn(r"QA \u003clabel> & text", viewer)
             self.assertTrue((out_dir / "sheet.png").is_file())
             self.assertTrue((out_dir / "viewer.html").is_file())
 
@@ -202,6 +207,52 @@ class TestBloodSeaMobQA(unittest.TestCase):
             self.assertTrue((out_dir / "blood-sea-trio-assembly-manifest.json").is_file())
             self.assertTrue((out_dir / "blood-sea-trio-qa-contact-sheet.png").is_file())
             self.assertTrue((out_dir / "blood-sea-trio-animation-qa.html").is_file())
+
+    def test_archive_pin_and_limits_apply_before_extraction(self):
+        with tempfile.TemporaryDirectory() as td:
+            archive = Path(td) / "fixture.zip"
+            with zipfile.ZipFile(archive, "w") as zf:
+                zf.writestr("first.png", b"abc")
+                zf.writestr("second.png", b"123")
+            with patch.object(qa, "_extract_archive") as extract:
+                with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
+                    qa._resolve_package_root(archive, "0" * 64)
+                extract.assert_not_called()
+            for limit in ("MAX_ARCHIVE_MEMBERS", "MAX_ARCHIVE_BYTES"):
+                with self.subTest(limit=limit), patch.object(qa, limit, 1), zipfile.ZipFile(archive) as zf:
+                    with self.assertRaisesRegex(ValueError, "extraction limits"):
+                        qa._extract_archive(zf, Path(td) / "out")
+            self.assertFalse((Path(td) / "out").exists())
+
+    def test_archive_member_and_assembly_paths_stay_in_package(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            archive = root / "fixture.zip"
+            with zipfile.ZipFile(archive, "w") as zf:
+                zf.writestr("../outside.png", b"fixture")
+            with self.assertRaisesRegex(ValueError, "Invalid package path"):
+                qa._resolve_package_root(archive)
+
+            _make_synthetic_blood_sea_zip(archive)
+            package, scratch, _ = qa._resolve_package_root(archive)
+            self.addCleanup(scratch.cleanup)
+            index = package / "assembly.json"
+            data = json.loads(index.read_text(encoding="utf-8"))
+            frames = data["assets"]["mob_blood_crow"]["clips"]["idle"]["directions"]["south"]
+            frames[0]["path"] = "../outside.png"
+            index.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Invalid package path"):
+                qa.audit_blood_sea_mobs(package, REPO / "assets/manifest.json",
+                                        REPO / "tools/generators/palette.json", run_repo_compat=False)
+
+    def test_unsafe_metadata_and_output_paths_are_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for name in ("../frame.png", "C:/frames/frame.png", "/frame.png", "NUL.png"):
+                with self.subTest(name=name), self.assertRaises(ValueError):
+                    qa.package_path(root, name)
+            with self.assertRaises(SystemExit):
+                qa.main(["--source", str(root), "--out-dir", str(root / "out"), "--out-prefix", "../other"])
 
     def test_detects_sha_clearance_and_drift_defects(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -217,10 +268,8 @@ class TestBloodSeaMobQA(unittest.TestCase):
                 REPO / "assets/manifest.json",
                 REPO / "tools/generators/palette.json",
                 run_repo_compat=False,
-                expected_sha256="f" * 64,
             )
             codes = {e["code"] for e in report["exceptions"]}
-            self.assertIn("archive_sha256_mismatch", codes)
             self.assertIn("frame_sha256_mismatch", codes)
             self.assertIn("clearance_mismatch", codes)
             self.assertIn("flyer_death_not_grounded", codes)

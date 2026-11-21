@@ -32,6 +32,7 @@ import io
 import json
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -41,6 +42,8 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageDraw
+
+from blood_sea_qa_io import MARKUP_JS, package_path, report_path, script_json
 
 REPO = Path(__file__).resolve().parents[2]
 CLIP_ORDER = ["idle", "move", "attack", "death"]
@@ -190,27 +193,62 @@ def default_blood_sea_durations(mob_id: str, archetype: str, state: str, count: 
     return [120] * count
 
 
-def _resolve_package_root(source_path: Path) -> tuple[Path, tempfile.TemporaryDirectory | None, str | None]:
-    """Return (package_root_with_assembly_json, tmp_ctx_or_none, archive_sha256_or_none)."""
-    if source_path.is_file() and source_path.suffix.lower() == ".zip":
-        archive_sha = hashlib.sha256(source_path.read_bytes()).hexdigest()
-        tmp = tempfile.TemporaryDirectory(prefix="blood_sea_mobs_qa_")
-        with zipfile.ZipFile(source_path) as zf:
-            zf.extractall(tmp.name)
-        extracted = Path(tmp.name)
-        if (extracted / "assembly.json").is_file():
-            return extracted, tmp, archive_sha
-        for child in sorted(extracted.iterdir()):
-            if child.is_dir() and (child / "assembly.json").is_file():
-                return child, tmp, archive_sha
-        return extracted, tmp, archive_sha
+MAX_ARCHIVE_BYTES = 512 * 1024**2
+MAX_ARCHIVE_MEMBERS = 10000
 
-    if (source_path / "assembly.json").is_file():
-        return source_path, None, None
-    for child in sorted(source_path.iterdir()):
-        if child.is_dir() and (child / "assembly.json").is_file():
-            return child, None, None
-    return source_path, None, None
+
+def _extract_archive(archive: zipfile.ZipFile, root: Path) -> None:
+    entries = archive.infolist()
+    if len(entries) > MAX_ARCHIVE_MEMBERS or sum(e.file_size for e in entries) > MAX_ARCHIVE_BYTES:
+        raise ValueError("Archive exceeds extraction limits")
+    seen = set()
+    for entry in entries:
+        name = entry.filename.removesuffix("/")
+        target = package_path(root, name)
+        kind = stat.S_IFMT(entry.external_attr >> 16)
+        if kind not in (0, stat.S_IFDIR, stat.S_IFREG) or name.casefold() in seen:
+            raise ValueError("Unsupported or duplicate ZIP member")
+        seen.add(name.casefold())
+        if entry.is_dir():
+            target.mkdir(parents=True, exist_ok=True)
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with archive.open(entry) as src, target.open("xb") as dst:
+                shutil.copyfileobj(src, dst)
+
+
+def _assembly_root(root: Path) -> Path:
+    if package_path(root, "assembly.json").is_file():
+        return root
+    for child in sorted(root.iterdir()):
+        if child.is_dir() and package_path(root, child.name + "/assembly.json").is_file():
+            return child
+    return root
+
+
+def _resolve_package_root(source_path: Path, expected_sha256: str | None = None):
+    if source_path.is_dir():
+        if expected_sha256:
+            raise ValueError("Digest verification requires a ZIP archive")
+        return _assembly_root(source_path), None, None
+    if source_path.suffix.lower() != ".zip" or source_path.stat().st_size > MAX_ARCHIVE_BYTES:
+        raise ValueError("Expected a ZIP archive within the size limit")
+    with source_path.open("rb") as src:
+        digest = hashlib.sha256()
+        for chunk in iter(lambda: src.read(1024 * 1024), b""):
+            digest.update(chunk)
+        actual = digest.hexdigest()
+        if expected_sha256 and actual != expected_sha256.lower():
+            raise ValueError("Archive SHA-256 mismatch")
+        src.seek(0)
+        tmp = tempfile.TemporaryDirectory(prefix="blood_sea_mobs_qa_")
+        try:
+            with zipfile.ZipFile(src) as archive:
+                _extract_archive(archive, Path(tmp.name))
+            return _assembly_root(Path(tmp.name)), tmp, actual
+        except BaseException:
+            tmp.cleanup()
+            raise
 
 
 def _check_repo_pipeline_compat(
@@ -233,24 +271,26 @@ def _check_repo_pipeline_compat(
         proc_root = td_path / "processed"
         mobs_dst = proc_root / "mobs"
         for mid in mob_ids:
-            src_dir = pkg_root / "assets" / "processed" / "mobs" / mid
+            src_dir = package_path(pkg_root, f"assets/processed/mobs/{mid}")
             if src_dir.is_dir():
                 dst = mobs_dst / mid
                 dst.mkdir(parents=True, exist_ok=True)
                 for png in sorted(src_dir.glob("*.png")):
-                    shutil.copy2(png, dst / png.name)
+                    shutil.copy2(package_path(src_dir, png.name), dst / png.name)
 
         qa_proc = subprocess.run(
-            [sys.executable, str(qa_script), "--root", str(proc_root)],
-            capture_output=True,
+            [sys.executable, "-E", "-B", str(qa_script), "--root", str(proc_root),
+             "--manifest", str(manifest_path.resolve()), "--palette", str(palette_path.resolve())],
+            cwd=td, timeout=120, capture_output=True,
             text=True,
             check=False,
         )
 
         atlas_out = td_path / "atlases"
         pack_proc = subprocess.run(
-            [sys.executable, str(pack_script), "--source", str(proc_root), "--output", str(atlas_out)],
-            capture_output=True,
+            [sys.executable, "-E", "-B", str(pack_script), "--source", str(proc_root), "--output", str(atlas_out),
+             "--manifest", str(manifest_path.resolve())],
+            cwd=td, timeout=120, capture_output=True,
             text=True,
             check=False,
         )
@@ -291,7 +331,7 @@ def audit_blood_sea_mobs(
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest_by_id = {a["id"]: a for a in manifest["assets"]}
 
-    pkg_root, tmp_ctx, archive_sha256 = _resolve_package_root(source_path)
+    pkg_root, tmp_ctx, archive_sha256 = _resolve_package_root(source_path, expected_sha256)
     exceptions: list[dict] = []
     mob_reports: dict[str, dict] = {}
     strip_images: dict[str, Image.Image] = {}
@@ -303,15 +343,6 @@ def audit_blood_sea_mobs(
         exceptions.append(rec)
 
     try:
-        if expected_sha256 and archive_sha256 and archive_sha256.lower() != expected_sha256.lower():
-            add_exc(
-                "error",
-                "archive_sha256_mismatch",
-                "package",
-                source_path.name,
-                f"Archive SHA-256 {archive_sha256} != expected {expected_sha256}",
-            )
-
         aj_path = pkg_root / "assembly.json"
         if not aj_path.is_file():
             add_exc("error", "assembly_json_missing", "package", "assembly.json", f"assembly.json not found in {source_path}")
@@ -352,6 +383,8 @@ def audit_blood_sea_mobs(
         total_dir_clips = 0
 
         for mob_id in sorted(assets.keys()):
+            if not re.fullmatch(r"mob_[a-z0-9_]+", mob_id):
+                raise ValueError("Invalid mob ID")
             aspec = assets[mob_id]
             m_asset = manifest_by_id.get(mob_id)
             ax, ay = int(aspec["anchor_px"][0]), int(aspec["anchor_px"][1])
@@ -373,7 +406,7 @@ def audit_blood_sea_mobs(
                     add_exc("error", "manifest_dir_mismatch", mob_id, "assembly.json", f"manifest directions {m_asset['directions']} != {AUTHORED_FACINGS}")
 
             # Optional raw source-map.json verification
-            sm_path = pkg_root / "assets" / "raw" / "characters" / "mobs" / mob_id / "source-map.json"
+            sm_path = package_path(pkg_root, f"assets/raw/characters/mobs/{mob_id}/source-map.json")
             sm_spec = None
             sm_by_key: dict[tuple[str, str, int], dict] = {}
             source_sha_ok = False
@@ -382,7 +415,7 @@ def audit_blood_sea_mobs(
             if sm_path.is_file():
                 sm_spec = json.loads(sm_path.read_text(encoding="utf-8"))
                 source_scale = float(sm_spec.get("scale", 0.0)) or None
-                src_png = sm_path.parent / sm_spec.get("source_file", "source.png")
+                src_png = package_path(sm_path.parent, sm_spec.get("source_file", "source.png"))
                 if not src_png.is_file():
                     add_exc("error", "source_missing", mob_id, str(src_png.name), f"Missing source sheet {src_png.name}")
                 else:
@@ -465,8 +498,8 @@ def audit_blood_sea_mobs(
                         if idx != expected_idx:
                             add_exc("error", "frame_index_order", mob_id, f"{cname}/{facing}[{expected_idx}]", f"index={idx} != {expected_idx}")
 
-                        rel_path = str(fentry.get("path", "")).lstrip("/")
-                        fp = pkg_root / rel_path
+                        rel_path = str(fentry.get("path", ""))
+                        fp = package_path(pkg_root, rel_path)
                         fname = fp.name
                         if not fp.is_file():
                             add_exc("error", "frame_file_missing", mob_id, rel_path, f"Missing PNG {rel_path}")
@@ -1137,11 +1170,12 @@ def _img_to_data_uri(im: Image.Image) -> str:
 def build_html_workbench(report: dict, strip_images: dict[str, Image.Image], out_path: Path) -> None:
     """Generate self-contained interactive dual-scale Blood Sea Mob Animation QA Workbench."""
     art_uris = {mid: _img_to_data_uri(im) for mid, im in strip_images.items()}
-    payload_json = json.dumps({"report": report, "sheets": art_uris}, ensure_ascii=False)
+    payload_json = script_json({"report": report, "sheets": art_uris})
     html = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Blood Sea Mobs · Independent Animation Assembly &amp; Terrain QA</title>
 <style>
@@ -1290,8 +1324,10 @@ def build_html_workbench(report: dict, strip_images: dict[str, Image.Image], out
     </div>
   </section>
 </main>
+<script type="application/json" id="qa-data">{payload_json}</script>
 <script>
-const DATA = {payload_json};
+{MARKUP_JS}
+const DATA = JSON.parse(document.getElementById("qa-data").textContent);
 const REPORT = DATA.report;
 const SHEETS = DATA.sheets;
 const imgs = {{}};
@@ -1340,7 +1376,7 @@ function updateClipOptions() {{
   const mob = REPORT.mobs[mobId];
   const entries = Object.entries(mob.assembly.clips);
   if (!entries.some(([k]) => k === clipName)) clipName = entries[0]?.[0] || 'idle';
-  $('sel-clip').innerHTML = entries.map(([k, c]) => `<option value="${{k}}" ${{k===clipName?'selected':''}}>${{k}} (${{c.mode}} · ${{c.frames_per_direction}}f · ${{c.total_duration_ms}}ms)</option>`).join('');
+  $('sel-clip').innerHTML = entries.map(([k, c]) => markup`<option value="${{k}}" ${{k===clipName?'selected':''}}>${{k}} (${{c.mode}} · ${{c.frames_per_direction}}f · ${{c.total_duration_ms}}ms)</option>`).join('');
 }}
 
 function renderSpriteOn(ctx, mob, fr, cx, cy, z, alpha = 1.0) {{
@@ -1454,7 +1490,7 @@ function drawStage() {{
     }}
   }}
 
-  $('timeline').innerHTML = frames.map((f, i) => `
+  $('timeline').innerHTML = frames.map((f, i) => markup`
     <span class="tl-step ${{i===idx?'active':''}} ${{f.active_contact?'hit':''}}" data-idx="${{i}}">${{i}}: ${{f.beat}} (${{f.duration_ms}}ms · c${{f.clearance_px}})${{f.active_contact?' [HIT]':''}}</span>
   `).join('');
   document.querySelectorAll('.tl-step').forEach(el => {{
@@ -1462,7 +1498,7 @@ function drawStage() {{
   }});
 
   const hyg = mob.hygiene;
-  $('frame-kv').innerHTML = `
+  $('frame-kv').innerHTML = markup`
     <span>Mob / Archetype</span><code>${{mob.id}} (${{mob.archetype}}${{mob.airborne_hover ? ' · airborne' : ' · grounded'}})</code>
     <span>Contract Key</span><code>${{fr.source_key}}</code>
     <span>Frame / SHA-256</span><code>${{fr.filename}} · ${{fr.sha256.slice(0,12)}}…</code>
@@ -1472,7 +1508,7 @@ function drawStage() {{
     <span>Pixel Hygiene</span><code>alpha=0/255, dirty0=${{hyg.dirty_transparent_px}}, offPal=${{hyg.off_global_palette_px}}, ink=${{(hyg.ink_outline_share*100).toFixed(1)}}% (${{hyg.thick_outline_frames}}f thick)</code>
   `;
 
-  $('terrain-swatches').innerHTML = Object.entries(mob.terrain_contrast).map(([name, t]) => `
+  $('terrain-swatches').innerHTML = Object.entries(mob.terrain_contrast).map(([name, t]) => markup`
     <div class="sw-card">
       <div class="sw-box" style="background:${{t.hex}}"></div>
       <div>
@@ -1482,7 +1518,7 @@ function drawStage() {{
     </div>
   `).join('');
 
-  $('cov-body').innerHTML = Object.entries(mob.assembly.clips).map(([cname, cdef]) => `
+  $('cov-body').innerHTML = Object.entries(mob.assembly.clips).map(([cname, cdef]) => markup`
     <tr>
       <td class="mono">${{cname}}</td>
       <td>${{cdef.mode}}</td>
@@ -1505,9 +1541,9 @@ function renderHeaderAndTable() {{
   `;
   $('sel-mob').innerHTML = s.mob_ids.map(id => {{
     const m = REPORT.mobs[id];
-    return `<option value="${{id}}" ${{id===mobId?'selected':''}}>${{id}} · ${{m.name}} (${{m.total_frames}}f · ${{m.archetype}})</option>`;
+    return markup`<option value="${{id}}" ${{id===mobId?'selected':''}}>${{id}} · ${{m.name}} (${{m.total_frames}}f · ${{m.archetype}})</option>`;
   }}).join('');
-  $('exc-body').innerHTML = REPORT.exceptions.length ? REPORT.exceptions.map(e => `
+  $('exc-body').innerHTML = REPORT.exceptions.length ? REPORT.exceptions.map(e => markup`
     <tr>
       <td class="sev-${{e.severity}}">${{e.severity.toUpperCase()}}</td>
       <td class="mono">${{e.mob}}</td>
@@ -1589,6 +1625,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--strict", action="store_true", help="Exit 1 if any error-level QA issues are found")
     args = ap.parse_args(argv)
 
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", args.out_prefix):
+        ap.error("--out-prefix must be a filename prefix")
     src = args.source.resolve()
     report, strip_images = audit_blood_sea_mobs(
         src,
@@ -1604,11 +1642,11 @@ def main(argv: list[str] | None = None) -> int:
             ap.error("--out-dir must not write inside --source (source tree stays read-only)")
         out_dir.mkdir(parents=True, exist_ok=True)
         pfx = args.out_prefix
-        (out_dir / f"{pfx}-assembly-manifest.json").write_text(
+        report_path(out_dir, f"{pfx}-assembly-manifest.json").write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
-        build_contact_sheet(report, strip_images, out_dir / f"{pfx}-qa-contact-sheet.png")
-        build_html_workbench(report, strip_images, out_dir / f"{pfx}-animation-qa.html")
+        build_contact_sheet(report, strip_images, report_path(out_dir, f"{pfx}-qa-contact-sheet.png"))
+        build_html_workbench(report, strip_images, report_path(out_dir, f"{pfx}-animation-qa.html"))
 
     s = report["summary"]
     aj = report.get("assembly_json_verification") or {}
@@ -1636,4 +1674,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, zipfile.BadZipFile, subprocess.TimeoutExpired) as exc:
+        sys.exit(f"QA failed: {exc}")

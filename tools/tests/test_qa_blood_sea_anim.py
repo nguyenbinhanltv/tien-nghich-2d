@@ -13,6 +13,7 @@ import numpy as np
 from PIL import Image
 
 REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO / "tools/scripts"))
 SPEC = importlib.util.spec_from_file_location("qa_blood_sea_anim", REPO / "tools/scripts/qa_blood_sea_anim.py")
 qa_anim = importlib.util.module_from_spec(SPEC)
 sys.modules["qa_blood_sea_anim"] = qa_anim
@@ -152,6 +153,29 @@ class TestBloodSeaAnimQA(unittest.TestCase):
             qa_anim.build_html_workbench(root, rep, out / "qa.html")
             self.assertTrue((out / "sheet.png").is_file())
             self.assertTrue((out / "qa.html").is_file())
+
+    def test_contract_source_is_confined_and_viewers_use_declared_name(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "enc"
+            rt = self._build_synthetic_encounter(root)
+            contract = root / "contract.json"
+            spec = json.loads(contract.read_text(encoding="utf-8"))
+            actor = spec["actors"]["wl_blood_foundation"]
+            original = root / "source/wl_blood_foundation.png"
+            original.rename(original.with_name("alternate.png"))
+            actor["source"] = "alternate.png"
+            contract.write_text(json.dumps(spec), encoding="utf-8")
+            args = (root, REPO / "assets/manifest.json", REPO / "tools/generators/palette.json", rt)
+            report = qa_anim.audit_encounter(*args)
+            qa_anim.build_contact_sheet(root, report, Path(td) / "sheet.png")
+            report["exceptions"][0]["detail"] = "QA <label> & text"
+            viewer = Path(td) / "viewer.html"
+            qa_anim.build_html_workbench(root, report, viewer)
+            self.assertIn(r"QA \u003clabel> & text", viewer.read_text(encoding="utf-8"))
+            actor["source"] = "../alternate.png"
+            contract.write_text(json.dumps(spec), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Invalid package path"):
+                qa_anim.audit_encounter(*args)
 
     def test_detects_clip_lean_and_dirty_transparent(self):
         with tempfile.TemporaryDirectory() as td:
