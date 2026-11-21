@@ -1,0 +1,28 @@
+{
+  "asset_ids": [
+    "lt_icon_ingot",
+    "lt_icon_kiln_heat",
+    "lt_icon_seed"
+  ],
+  "chunk_group": "interface",
+  "frame_count": 3,
+  "mobile_page_budget": 1,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 3,
+      "height": 32,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "e82593a1510db58ae455660dd7ba89bd6674f724a26f99004f31bd00b3aa3432",
+      "png_sha256": "d006c86b5723346f2b2642d3831c22d1bf737d8ebaf2cfc5832e1e9451a2bd98",
+      "rgba8_bytes": 16384,
+      "width": 128
+    }
+  ],
+  "platform": "mobile",
+  "readiness": "packed",
+  "rgba8_bytes": 16384,
+  "rgba8_mib": 0.0156,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}

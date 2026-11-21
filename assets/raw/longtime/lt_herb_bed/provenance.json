@@ -1,0 +1,55 @@
+{
+  "id": "lt_herb_bed",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing; no seed or external images.",
+  "brief": "Raised bed; bare soil, split leaf and hanging seed pod.",
+  "reference_ids": [
+    "prop_spirit_herb"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_abode.py",
+  "generator_sha256_lf": "71fc20eb947c36a92021d7767889b23de1485c50eff7287094f34ca0cf9a8c31",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    16
+  ],
+  "pivot_px": [
+    16,
+    13
+  ],
+  "source": "source.png",
+  "source_sha256": "80102877fc582dc95b73a313930df4bec2f332a2e60b34f6dae9b118adb83f37",
+  "frames": [
+    {
+      "key": "longtime/lt_herb_bed/bare_none_0",
+      "path": "assets/processed_longtime/lt_herb_bed/bare_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "a2c259e57eab38e5b326e7972d688cc10259a2d1b20f5b986dcd4766c6123b57"
+    },
+    {
+      "key": "longtime/lt_herb_bed/sprout_none_0",
+      "path": "assets/processed_longtime/lt_herb_bed/sprout_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "f4984d060fe52be70c1e2b967fe12da0b48bbd6b71fab63665daa9204c51e0d4"
+    },
+    {
+      "key": "longtime/lt_herb_bed/ripe_none_0",
+      "path": "assets/processed_longtime/lt_herb_bed/ripe_none_0.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "703342ab63193e34dce7f74c9505e27f1fe3df86481b3437929ac5412224ec9f"
+    }
+  ]
+}

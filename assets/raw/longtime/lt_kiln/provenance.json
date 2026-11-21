@@ -1,0 +1,75 @@
+{
+  "id": "lt_kiln",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing; no seed or external images.",
+  "brief": "Cold dark mouth; an orange crucible silhouette when hot.",
+  "reference_ids": [
+    "prop_alchemy_jar"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_abode.py",
+  "generator_sha256_lf": "71fc20eb947c36a92021d7767889b23de1485c50eff7287094f34ca0cf9a8c31",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "source": "source.png",
+  "source_sha256": "eb36f691f263a51db8a344eb14e012dcd917ae40a3fc832c18f0ebcc3fc69dd8",
+  "frames": [
+    {
+      "key": "longtime/lt_kiln/cold_none_0",
+      "path": "assets/processed_longtime/lt_kiln/cold_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6c7c62ffb3550536f9d11be45e9f68b410ed05e64515c468a508fde5970e9b39"
+    },
+    {
+      "key": "longtime/lt_kiln/hot_none_0",
+      "path": "assets/processed_longtime/lt_kiln/hot_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "515a5636e7c10e4ca51f2378babd9069ea906313261f2c5887e99a12c9db15e6"
+    },
+    {
+      "key": "longtime/lt_kiln/hot_none_1",
+      "path": "assets/processed_longtime/lt_kiln/hot_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "ad3dacac5e30af833f225dd5c8892a29f28da064a0a44e22daffcdbbc2f1dc5e"
+    },
+    {
+      "key": "longtime/lt_kiln/hot_none_2",
+      "path": "assets/processed_longtime/lt_kiln/hot_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b18bfa61d06d68a155e29f2369d4b1be176e84dd8aa0971debd3f9fc9eafd0e4"
+    },
+    {
+      "key": "longtime/lt_kiln/hot_none_3",
+      "path": "assets/processed_longtime/lt_kiln/hot_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b16223759fc66430dd7cf481df975b92fb324f37f5d0897139daef7eaddeb448"
+    }
+  ]
+}
