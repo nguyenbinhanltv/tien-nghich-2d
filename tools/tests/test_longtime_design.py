@@ -36,3 +36,52 @@ class DesignTests(unittest.TestCase):
                 change(data)
                 with self.assertRaises(ValueError):
                     design.validate(data)
+
+
+class VfxDesignTests(unittest.TestCase):
+    def test_planned_vfx(self):
+        data = design.read(design.CATALOG)
+        entries = data["vfx"]["entries"]
+        self.assertEqual(len(entries), 6)
+        self.assertEqual(sum(map(design.vfx_frames, entries)), 188)
+        self.assertEqual(len(data["vfx"]["reuse_inherited"]), 12)
+
+    def test_rejected_vfx_changes(self):
+        def entry(m):
+            return m["vfx"]["entries"][0]
+        def duplicate(m):
+            m["vfx"]["entries"].append(dict(entry(m)))
+        def inherited_id(m):
+            entry(m)["id"] = "hit_spark"
+        def readiness(m):
+            entry(m)["status"] = "authored"
+        def ramp(m):
+            entry(m)["palettes"]["anchor"]["ramps"] = ["magenta"]
+        def chunk(m):
+            entry(m)["chunk_group"] = "nowhere"
+        def event(m):
+            entry(m)["events"][0][2] = 99
+        def timing(m):
+            entry(m)["clips"]["place"]["ms"] = [40]
+        def pivot(m):
+            entry(m)["pivot_px"] = [48, 24]
+        def loop(m):
+            entry(m)["clips"]["place"]["kind"] = "loop"
+        def cue(m):
+            entry(m)["palettes"]["anchor"]["uses"][0][2] = "sfx_unknown"
+        def related(m):
+            entry(m)["related"] = ["missing_asset"]
+        def reuse(m):
+            del m["vfx"]["reuse_inherited"]["hit_spark"]
+        def budget(m):
+            entry(m)["native_px"] = [1000, 1000]
+            entry(m)["pivot_px"] = [500, 500]
+        def acceptance(m):
+            entry(m)["acceptance"]["peak_opaque_pct"] = [30, 10]
+        for change in (duplicate, inherited_id, readiness, ramp, chunk, event, timing, pivot,
+                       loop, cue, related, reuse, budget, acceptance):
+            with self.subTest(change=change.__name__):
+                data = design.read(design.CATALOG)
+                change(data)
+                with self.assertRaises(ValueError):
+                    design.validate(data)
