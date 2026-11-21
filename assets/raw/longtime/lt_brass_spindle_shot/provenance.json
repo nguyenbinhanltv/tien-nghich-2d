@@ -1,0 +1,66 @@
+{
+  "id": "lt_brass_spindle_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "A spinning brass whorl drawing an asymmetric curl of jade thread.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_brass_spindle.py",
+  "generator_sha256_lf": "683217284e6bd10e63f6f67961807e0e42fc48f34a68da86b77ade7ddb26af72",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "5c24212386633aed43e6e31fb6cb6272bfdca85fbd600d5dcbbd8efca03a0799",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_brass_spindle/contact_1x.png": "cfc656ba136d9be5327218c834f10ece8b30e9518041528b85fc223bdd88eefb",
+    "assets/raw/longtime/lt_brass_spindle/contact_6x.png": "7d073dfaec53e883c00550ffe8d6334a6275c17f40fd8d9e19cddda85a611673"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_brass_spindle_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_brass_spindle_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "bbda2270b2e5c92b9258c8f4698eef7f962e02d255ae978186bb62d5ac1ab88f"
+    },
+    {
+      "key": "longtime/lt_brass_spindle_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_brass_spindle_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "038dc3e3ddc79c636953b9e010729cd1432cbb15b279e7afc8cc8835dd788d25"
+    },
+    {
+      "key": "longtime/lt_brass_spindle_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_brass_spindle_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "008facb5c26c0b869d4cb8197e862e5c702e5528baf67a1fa0a18150bc03defd"
+    },
+    {
+      "key": "longtime/lt_brass_spindle_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_brass_spindle_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "0ee324af7b244387ed3e7a2d496f1e461a75d1e3f457828be4e54298b728a95f"
+    }
+  ]
+}
