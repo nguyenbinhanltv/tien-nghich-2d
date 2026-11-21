@@ -1,0 +1,506 @@
+{
+  "id": "lt_kiln_keeper",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Long tongs, one shoulder apron",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-2, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette) then animate_character v3 per direction. East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "25ff49d2-2e19-46f7-8dbd-c8bf287c6963",
+  "character_job_id": "3f87046f-4384-465f-97ab-22a23dde7b27",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Elderly xianxia kiln keeper, small human in a plain grey-blue robe, one leather apron strapped over the character's RIGHT shoulder only (asymmetric), holding a very long iron tongs in the RIGHT hand extending down and forward, bald head with a small grey topknot, soot-smudged, calm face. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "3daa3ac2-009a-46bf-8a7a-1af82557fceb",
+      "job_ids": {
+        "south": "97cb776f-d3cb-4edf-9852-cb4f204295f1",
+        "west": "d805e1a6-6e98-490e-acbc-a68cbc4f4b0f",
+        "north": "cdb987ee-c566-4ff8-8f5c-46c58c9937bb",
+        "east": "73fa2e6e-8a74-4ac0-a8c1-b712fd2e3566"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling, the long iron tongs stay held low in the same right hand and stay clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the long tongs stay held low in his right hand on the viewer's left, always visible",
+        "west": "facing left, breathes gently; the long tongs stay held low in front of him pointing left, always visible",
+        "north": "back to the viewer, breathes gently; the long tongs stay held low in his right hand on the viewer's right side, always visible",
+        "east": "facing right, breathes gently; the long tongs stay held low in front of him pointing right, always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "2b8dceb2-8a64-42ea-a9ed-cf755771e3c8",
+      "job_ids": {
+        "south": "93eec7d7-4a4c-48e1-bb45-1f76dedd5ee7",
+        "west": "cc07340b-65a5-4bfa-9df3-b12f6d10f472",
+        "north": "7e6bb78e-2384-417d-8ab6-a462609f5933",
+        "east": "e1091ed6-572f-4c33-a514-e6b325fac64c"
+      },
+      "action_description": "holds out the long iron tongs a little forward and up, as if presenting a hot ingot, then brings them back down; the tongs always stay in the same right hand and stay clearly visible; the other hand stays at his side",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the long tongs in his right hand (the viewer's left side of the screen) slightly forward and up, then lowers; tongs never cross to the viewer's right",
+        "west": "facing left, holds the long tongs out in front toward the left a little higher, then lowers them; tongs stay on the left",
+        "north": "seen from behind, his right arm is on the viewer's RIGHT; the long dark iron tongs are held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly upward and outward to the viewer's right, then lowered; nothing is held on the viewer's left (second attempt, north only)",
+        "east": "facing right, holds the long tongs out in front toward the right a little higher, then lowers them; tongs stay on the right and do not rise above his head"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "idle = template breathing-idle (4 dir), interact = v3 (4 dir), same character",
+      "credits": 8,
+      "result": "rejected: idle west and north lost the tongs, interact north on the wrong side, interact south frame 3 flipped, interact east tongs above head. Raw discarded (not shipped)."
+    },
+    {
+      "n": 2,
+      "what": "both clips re-generated as palette-locked v3 with explicit per-direction prompts (regeneration 1 of idle and interact)",
+      "credits": 8,
+      "result": "accepted except interact north"
+    },
+    {
+      "n": 3,
+      "what": "interact north only, re-generated and appended to the same group (regeneration 2 of interact)",
+      "credits": 1,
+      "result": "accepted"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_attempt_1": 8,
+    "animations_attempt_2": 8,
+    "animation_attempt_3": 1,
+    "total_generations": 23,
+    "balance_before": 848.26
+  },
+  "known_flaws": [
+    "idle west frames 1-3: the beard flicks out as a pale wisp (reads as beard sway at 1x)",
+    "tongs are a thin low-contrast silhouette at 1x in idle west/east"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "5a6490a170bbe8873baf6adda537ce0424d387688e7edaf36e10197ad15b7eb3",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2602,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "c206e7d77ff249439685b35e12e03c36f5b94b86946fb4a23b07227ae86b45d7",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_kiln_keeper/contact_1x.png": "e7dd8d92d466f83b19d2e6b6049622a1d4fc1be15cc9d92738ef4759d1bbcc31",
+    "assets/raw/longtime/lt_kiln_keeper/contact_4x.png": "c4cda71604aaf0a4b5464606e1c86e1044b3db1550beb4f98ade649a5eef02d1"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_kiln_keeper/idle_east_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/east/frame_000.png",
+      "raw_sha256": "0875836031c6b00e22e5cc16cef4ddfda8f4b999fdfc8d8d5a0659316f0c56f4",
+      "source_xy": [
+        0,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "bbcde4229f9cfa4d8b2477873df902f295c8df64d35d08da9ed6e5d5a0433bff"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_east_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/east/frame_001.png",
+      "raw_sha256": "a18e701d8122099abe1dd1d6f34add1d7a91b560068bde803d1c00d72cccc08b",
+      "source_xy": [
+        44,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "4e6cef2c2429f25bf84d814bee3a92e946e1eb423830fd3bd9c4e7a1e6b20535"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_east_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/east/frame_002.png",
+      "raw_sha256": "75b1a33f240d395d2089fca9c7cd583a0ead37fbfea55bef35f7b58af7b28946",
+      "source_xy": [
+        88,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "fab85adf8a4cb5772993506671270d7e57a4644793a18edc19271f3ab2d6e9df"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_east_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/east/frame_003.png",
+      "raw_sha256": "b0f30ca9ed55033f79858863c5acce278df9b22d7d0df4530ed1dbaaed43a7bf",
+      "source_xy": [
+        132,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "17008c99f35f6893e2b9e735677af172d41ab41d8fabb672687820914ba60695"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_north_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/north/frame_000.png",
+      "raw_sha256": "16ad8123d848c9b3f02e838fd76b55f8f2ac4228f99d2c1d6315b30adfcf0488",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "4de633f842dd25246724efbc5acb651d8067c2bb20f79c5d2088e64820a3ae40"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_north_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/north/frame_001.png",
+      "raw_sha256": "80f4ce2d31c5e44a84b46aa790fe89f84b4765fe6a90a6618ee596fb65d5a767",
+      "source_xy": [
+        44,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "cc651afb46d2fc8ab7598214d1f98ec1db43104fa47bfdc6cf7823891a77cfff"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_north_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/north/frame_002.png",
+      "raw_sha256": "0b39a9c31536a08ba09bad959625923e5e7c8e1b2cd842b1b4ef2253a2563fda",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "f8bcf3d8bce487ba3dfc0186003e7d2c46ea54a32bf251af4ca53f30f44f47c9"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_north_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/north/frame_003.png",
+      "raw_sha256": "9947cace2d3f90af4ca704429a950deb197fa5bc24571fd16912dd103a38bb12",
+      "source_xy": [
+        132,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "c573bc7be25bc179c60ef616f953fe95902b544b44a196ca4db742636b73bc3e"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_south_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/south/frame_000.png",
+      "raw_sha256": "f5260fb4b24e623ae1f855a83153ecc6821d320968574d399179c8e8e7293a4d",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "210f425fc5b6c49899fe190211d3716ff66ff05cada255fcd01b82371267076f"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_south_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/south/frame_001.png",
+      "raw_sha256": "8765b07198dd69333ee2b423b9aa86c729b9e539b2cccf376cd101370a67fcb7",
+      "source_xy": [
+        44,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "acb99606a9bcdc30fc7d308d24c1f085d19da0f259e036a756bc5a38f83a9e00"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_south_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/south/frame_002.png",
+      "raw_sha256": "2478f7ec67a3fc9b92577487f13738a831905f1f1474d9e37dd029634c89c06c",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "e1c6ac8ece2ed12217bf8d148ae07f55a4f9b8e12c6778422b39ac4a1e406fb7"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_south_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/south/frame_003.png",
+      "raw_sha256": "a416d6d8e685df2cc91870519ede69fed727eefee48e8c1dde75bfcbe3924765",
+      "source_xy": [
+        132,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "c5ab7a265189000f725cca4e531458404a724b082617ef011f9ee23d4618f563"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_west_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/west/frame_000.png",
+      "raw_sha256": "263369277dc47c85c7a4f7ee82f0cde96dfba2a0e8959da46a87382e3b75a4a8",
+      "source_xy": [
+        0,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "2bd2d33964a6b1efca2ec4cd33d4a07f01d44e8b1c25e5fb745aedb52891332f"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_west_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/west/frame_001.png",
+      "raw_sha256": "96b9edd60eaca4919a58449f2fc4845161f8c534ff10b6f74ffc7d82fcb1af98",
+      "source_xy": [
+        44,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "60631860507407481470e240445be1265b5b88f16104d1078f61283409e4d18e"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_west_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/west/frame_002.png",
+      "raw_sha256": "a93a426a863f0cf7a9f5488d81d425bf4e8daba1d8eaac098d7571c7e15c9db9",
+      "source_xy": [
+        88,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "2ca41503d59801c6a8aaaf9d5f276c66e2db97985f20faa26791e887fe1d89d6"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/idle_west_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/idle/west/frame_003.png",
+      "raw_sha256": "abbb74c9707fbe3f732caf4a3735bc7be148daebf128acd3199985a5f09ce845",
+      "source_xy": [
+        132,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "434b6eaf7ac194b6a127178ba5596313a8056cc08c2f2436023f6744bd137043"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_east_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/east/frame_000.png",
+      "raw_sha256": "33a9be3eb0cb1c879f073cb745f20abd5ba0076d6d6b59e09996ddb507f0f9cf",
+      "source_xy": [
+        0,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "5fffa7302f537f8e43eda1c46b93e2f7d79f6243464d11a598eacd9585192822"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_east_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/east/frame_001.png",
+      "raw_sha256": "c1ddce96050bea95d23806558f1b6e4e6b4cd4f6c0b28245f4fa78f8139d6718",
+      "source_xy": [
+        44,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "6d750759e89013e95a15e35d632ac529928d2812c38587896d4051dacc80cdca"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_east_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/east/frame_002.png",
+      "raw_sha256": "8912d58243ebbe4a20629908c2c2de52e15c9e6cce7f4ca4f2fdcd9e65823a3b",
+      "source_xy": [
+        88,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "d3353533cdf9d316cbf2714c1c9b058491a0ccf9657338c2cd8214a8d0407dd5"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_east_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/east/frame_003.png",
+      "raw_sha256": "b0409324aa7802415a9941a718d49df9f1a59359dd48d57d1e0cd37062f2580e",
+      "source_xy": [
+        132,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "7bedbf669de3f43e757b62ee55cf04d1053f352afe9a630a156982a2f2c33a89"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_north_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/north/frame_000.png",
+      "raw_sha256": "c777552aea7a1764ce44b1d274cb5e5c506ef6fa2769ae6a7f8c726e2554621f",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "5e156957cc9a8733f8e1f20974260e5c171dec5e8732861b9971c9ef18bd95b3"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_north_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/north/frame_001.png",
+      "raw_sha256": "bd8e104646a461e3d05f367b9a5259e848c60c5fdc7b34f79dc344763b543ec5",
+      "source_xy": [
+        44,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "416964d66a465cd2a95438a55604ed08c42c0daec6c9306080ee2345e39bf654"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_north_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/north/frame_002.png",
+      "raw_sha256": "81d4cca32e64c66ba28d57aef743a129bbb328393d968f184b2a88f9a6fede3c",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "dde1d8babb5e4d443c8c28fe73da980ed90662e329198de382f1b7ca34dbbd5a"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_north_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/north/frame_003.png",
+      "raw_sha256": "1f44b0ff99051638cb6181bfa1eaf40aacb8b357e9ec36f89707d9a03801084b",
+      "source_xy": [
+        132,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "5afde37e8e9adf14bdca9c9669149a4da8ed73655527c4696e1e18e32015b3c0"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_south_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/south/frame_000.png",
+      "raw_sha256": "9746e4d4b194ed4d196362b08dbd9a4b9fd65cc5d2a924aafe1b18e303bdcfc9",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "c555dfab4a538e4e96b48cbc512b50d0ce004d53a60cedbe6f1e1700db4777bb"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_south_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/south/frame_001.png",
+      "raw_sha256": "b7daa020d1c3bbf7d57a2d64436f78ba936a5449a76623f5f8e5b501c4f8f923",
+      "source_xy": [
+        44,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "198a6ab3699e0a226f48be502b0dcc1733cad455e05ef2ad66df065930b14189"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_south_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/south/frame_002.png",
+      "raw_sha256": "035ed85157c449d15c6cfed0688f51d1116834c8add389e735d8010bfa92b8b6",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "8529afbf7684cf0a7cf8c6b1891833b25117d59e2edea033f3a0eafd39931870"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_south_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/south/frame_003.png",
+      "raw_sha256": "b8cf2f274fb40da0d168ef8c3cdd57b67556c1fa3fcba977f245249af9043bd7",
+      "source_xy": [
+        132,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "1feb89cb3d663236c041e38f7a3b50605bb42b0c2d273039e38d61f6cafbab16"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_west_0",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/west/frame_000.png",
+      "raw_sha256": "475b74335f0ca04d1c6897e728f68dc8a6034542ee599350e06deb9616472789",
+      "source_xy": [
+        0,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "437958b42b73f0a32be1cd48d06a1d530cba633fec87ab561c2395d747f2672d"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_west_1",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/west/frame_001.png",
+      "raw_sha256": "ad7bb6f287e96a65348d5c2b38b9ff35a0194bfdf15c7baf5e1494d0e74bb615",
+      "source_xy": [
+        44,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "2045ebbf470b543ca8e4985bab9bd2a6372072717393dcf8e9be4790e7789b39"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_west_2",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/west/frame_002.png",
+      "raw_sha256": "b152881096736a674f4c165e7bb4911133009d823f4fd61238f265b181b0e4ec",
+      "source_xy": [
+        88,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "ac6d7b8f39c3e7dcb9ce594279f470e06e4483338bfae172026195c6aad6baa1"
+    },
+    {
+      "key": "longtime/lt_kiln_keeper/interact_west_3",
+      "path": "assets/processed_longtime/lt_kiln_keeper/interact_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_kiln_keeper/interact/west/frame_003.png",
+      "raw_sha256": "67d140817db7d0d2f8154863a851a15185e68c1c287d6267a1d2d420459b3a5f",
+      "source_xy": [
+        132,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "88d2acb0e479b23a95acece4a84485fd9269cbf83cf9b74231327251fa7ff11e"
+    }
+  ]
+}

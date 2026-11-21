@@ -2,28 +2,30 @@
   "asset_ids": [
     "lt_abode_stone",
     "lt_herb_bed",
+    "lt_ink_marten",
     "lt_kiln",
+    "lt_kiln_keeper",
     "lt_moon_gate"
   ],
   "chunk_group": "abode",
-  "frame_count": 34,
+  "frame_count": 98,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 34,
-      "height": 64,
+      "frames": 98,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "9967b7cd22ee1d0d6878ae42dfa15d0bd82a38d7e4ccd771449e4a084739010e",
-      "png_sha256": "5a46401c70e50fde7c236ba2c7687926fc88b7b4cea0f45b5d192ee33e948f5f",
-      "rgba8_bytes": 262144,
+      "json_sha256": "53caa9bfbabdfc48eb51c84a41aacde2d2e8a22140e1726f4b49ac382eb7ec12",
+      "png_sha256": "130472eb651acc93993e14d3861480480ddd4f0c050c92cf9554977cf82da68b",
+      "rgba8_bytes": 1048576,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 262144,
-  "rgba8_mib": 0.25,
+  "rgba8_bytes": 1048576,
+  "rgba8_mib": 1.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

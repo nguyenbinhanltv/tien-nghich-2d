@@ -6,9 +6,11 @@ Both schedules are paused until the user explicitly restarts them. A fresh clone
 
 [PR #50](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/50) shipped at `b6abede08b71f0e617c61cb013f7ea25c7c7b257`. Its seven web chunk manifests contain **93 Longtime IDs and 306 frames**. Counts below are IDs / frames. The 102 inherited core entries are accounted for separately.
 
+The first two PixelLab characters, `lt_kiln_keeper` (NPC) and `lt_ink_marten` (pet), add 64 frames to Abode (now 6 IDs / 98 frames, 95 IDs / 370 frames overall). Provenance, prompts, PixelLab ids and credits are in `assets/raw/longtime/<id>/provenance.json`; the pipeline is `tools/scripts/build_longtime_characters.py`. The art review is open: the marten's pale left-ear notch reads in south and east only.
+
 | Abode | Armory | Ember Delta | Interface | Mist Archive | Star Quarry | Wards |
 |---|---|---|---|---|---|---|
-| 4 / 34 | 48 / 120 | 1 / 24 | **32 / 32** | 1 / 24 | 1 / 24 | 6 / 48 |
+| **6 / 98** | 48 / 120 | 1 / 24 | **32 / 32** | 1 / 24 | 1 / 24 | 6 / 48 |
 
 ## Approved Hằng Nhạc audio on main
 
@@ -69,7 +71,7 @@ To replay the comparison, download the WAV and timing key from the [portable aud
 
 ## Backlog for a later user-directed restart
 
-- **PixelLab** has **30 IDs** in the production backlog recorded by the coordinator. Wave one has two subjects, `lt_kiln_keeper` and `lt_ink_marten`, with 28 later assignments. Confirm authorized access and available quota before allocating them. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
+- **PixelLab** has **28 IDs** left in the production backlog (wave one's `lt_kiln_keeper` and `lt_ink_marten` are produced, pending art review). Confirm authorized access and available quota before allocating them. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
 - **Longtime VFX** needs design first. Define IDs, visual purpose, frame profiles, budgets and acceptance criteria before producing art. Preserve the 12 inherited effects and the existing core delivery contract. [GDD](GDD.md) · [Core manifest](../assets/manifest.json) · [Art Bible](ART_BIBLE.md)
 - **Audio** has **4 BGM and 24 SFX** remaining in core after the pilot and first Wave 2 batch. The extensions reserve **5 BGM and 10 SFX** behind their design gates. [Audio design](AUDIO_DESIGN.md) · [Audio manifest](../assets/audio_manifest.json)
 - **Asset work:** use the versioned [routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md), [art QA](../.agents/skills/tien-nghich-art-qa/SKILL.md) and [AssetCat](../.agents/skills/tien-nghich-assetcat/SKILL.md) skills for source routing, palette/outline checks and rights records.
