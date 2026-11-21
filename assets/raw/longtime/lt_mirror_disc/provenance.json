@@ -1,0 +1,36 @@
+{
+  "id": "lt_mirror_disc",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Bronze-rimmed round mirror with rippled silver glass and a jade grip.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_mirror_disc.py",
+  "generator_sha256_lf": "5af9e22d0148febc2a19cd7cac4e05d9e2c220eb77c0c2f3bc80740b2097942e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "pivot_px": [
+    12,
+    18
+  ],
+  "source": "source.png",
+  "source_sha256": "113b0b3137a35732bfd14f0dc60733a82ab9639349bdd84ec6aac424cc38a25d",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_mirror_disc/contact_1x.png": "4bd30a128f7aef4fdeb8c676143117782080e6e7f40152cfd2e69f4f98caf13c",
+    "assets/raw/longtime/lt_mirror_disc/contact_6x.png": "db0aeedc6f509c377048bbc75e88527db52e18236c60fd3bef63127d39e728b3"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_mirror_disc/held_none_0",
+      "path": "assets/processed_longtime/lt_mirror_disc/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "113b0b3137a35732bfd14f0dc60733a82ab9639349bdd84ec6aac424cc38a25d"
+    }
+  ]
+}
