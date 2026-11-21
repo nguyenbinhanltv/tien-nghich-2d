@@ -1,0 +1,221 @@
+{
+ "name": "breakthrough_aura_luyen_khi",
+ "type": "aura",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 31,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "jade": {
+   "colors": [
+    "#17594b",
+    "#22795f",
+    "#2fa27a",
+    "#5cc796",
+    "#9ae3b8",
+    "#d2f5de"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "aura",
+   "ticks": 36
+  }
+ ],
+ "layers": [
+  {
+   "id": "base0",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    17
+   ],
+   "tag": "sparkle",
+   "outline": "dark",
+   "shape": {
+    "sdf": "ellipse",
+    "rx": 18,
+    "ry": 7,
+    "onion": 1
+   },
+   "value": 0.55
+  },
+  {
+   "id": "seg0_0",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    17
+   ],
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "r": 19,
+    "width": 3,
+    "taper": 0.5,
+    "from": 0,
+    "to": 70,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       120
+      ]
+     ]
+    }
+   },
+   "value": 1.1
+  },
+  {
+   "id": "seg0_1",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    17
+   ],
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "r": 19,
+    "width": 3,
+    "taper": 0.5,
+    "from": 120,
+    "to": 190,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       120
+      ]
+     ]
+    }
+   },
+   "value": 1.1
+  },
+  {
+   "id": "seg0_2",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    17
+   ],
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.4,
+    "r": 19,
+    "width": 3,
+    "taper": 0.5,
+    "from": 240,
+    "to": 310,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       120
+      ]
+     ]
+    }
+   },
+   "value": 1.1
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "jade",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.35,
+    "from": {
+     "area": "ring",
+     "r": 13,
+     "width": 3,
+     "at": [
+      0,
+      11
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.7,
+     1.2
+    ],
+    "angle": 270,
+    "spread": 10
+   },
+   "wiggle": {
+    "amp": 1,
+    "freq": 0.07
+   },
+   "life": [
+    18,
+    26
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "base0",
+  "seg0_0",
+  "seg0_1",
+  "seg0_2",
+  "motes"
+ ],
+ "loop": true
+}

@@ -1,0 +1,368 @@
+{
+ "name": "dash_afterimage",
+ "type": "other",
+ "canvas": [
+  32,
+  32
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 4,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "wraith": {
+   "colors": [
+    "#2d1b4e",
+    "#6a3fa8",
+    "#8f62cf",
+    "#b99aeb",
+    "#e3d6fb"
+   ]
+  },
+  "ash": {
+   "colors": [
+    "#2c2733",
+    "#49434f",
+    "#6e6877"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "streak",
+   "ticks": 1,
+   "fast": true,
+   "events": [
+    "dash"
+   ]
+  },
+  {
+   "name": "fade",
+   "ticks": 11
+  }
+ ],
+ "layers": [
+  {
+   "id": "band0",
+   "kind": "shape",
+   "during": [
+    "streak",
+    "fade"
+   ],
+   "ramp": "wraith",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "capsule",
+    "from": [
+     {
+      "keys": [
+       [
+        0,
+        3
+       ],
+       [
+        1,
+        -4
+       ]
+      ],
+      "ease": "out"
+     },
+     -6
+    ],
+    "to": [
+     {
+      "keys": [
+       [
+        0,
+        -9
+       ],
+       [
+        1,
+        -12
+       ]
+      ],
+      "ease": "out"
+     },
+     -6
+    ],
+    "r": 1.5,
+    "taper": 1
+   },
+   "value_mode": "radial",
+   "edge": 0.5,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.2
+     ],
+     [
+      0.4,
+      0.8
+     ],
+     [
+      1,
+      0.2
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.3,
+    "noise": "angular",
+    "scale": 4,
+    "bias": 0.3,
+    "amount": 1,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "band1",
+   "kind": "shape",
+   "during": [
+    "streak",
+    "fade"
+   ],
+   "ramp": "wraith",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "capsule",
+    "from": [
+     {
+      "keys": [
+       [
+        0,
+        3
+       ],
+       [
+        1,
+        -5
+       ]
+      ],
+      "ease": "out"
+     },
+     -1
+    ],
+    "to": [
+     {
+      "keys": [
+       [
+        0,
+        -12
+       ],
+       [
+        1,
+        -14
+       ]
+      ],
+      "ease": "out"
+     },
+     -1
+    ],
+    "r": 1.5,
+    "taper": 1
+   },
+   "value_mode": "radial",
+   "edge": 0.5,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0999999999999999
+     ],
+     [
+      0.4,
+      0.8
+     ],
+     [
+      1,
+      0.2
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.36,
+    "noise": "angular",
+    "scale": 4,
+    "bias": 0.3,
+    "amount": 1,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "band2",
+   "kind": "shape",
+   "during": [
+    "streak",
+    "fade"
+   ],
+   "ramp": "wraith",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "capsule",
+    "from": [
+     {
+      "keys": [
+       [
+        0,
+        3
+       ],
+       [
+        1,
+        -6
+       ]
+      ],
+      "ease": "out"
+     },
+     4
+    ],
+    "to": [
+     {
+      "keys": [
+       [
+        0,
+        -7
+       ],
+       [
+        1,
+        -16
+       ]
+      ],
+      "ease": "out"
+     },
+     4
+    ],
+    "r": 1.5,
+    "taper": 1
+   },
+   "value_mode": "radial",
+   "edge": 0.5,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      0.4,
+      0.8
+     ],
+     [
+      1,
+      0.2
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.42,
+    "noise": "angular",
+    "scale": 4,
+    "bias": 0.3,
+    "amount": 1,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "ghost",
+   "kind": "shape",
+   "during": [
+    "streak",
+    "fade"
+   ],
+   "ramp": "wraith",
+   "role": "flash",
+   "tag": "sparkle",
+   "shape": {
+    "sdf": "arc",
+    "r": 8,
+    "width": 2,
+    "taper": 0.6,
+    "from": 120,
+    "to": 240,
+    "at": [
+     3,
+     0
+    ]
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.1
+     ],
+     [
+      1,
+      0.2
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.2,
+    "noise": "angular",
+    "amount": 1
+   }
+  },
+  {
+   "id": "dust",
+   "kind": "particles",
+   "during": [
+    "fade"
+   ],
+   "ramp": "ash",
+   "role": "smoke",
+   "min_cluster": 3,
+   "tag": "debris",
+   "emit": {
+    "mode": "burst",
+    "count": 3,
+    "from": {
+     "area": "rect",
+     "size": [
+      6,
+      2
+     ],
+     "at": [
+      2,
+      10
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.3,
+     0.6
+    ],
+    "angle": 190,
+    "spread": 30
+   },
+   "life": [
+    8,
+    10
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": 2.5,
+    "erode": "crescent"
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      1,
+      0.0
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "band0",
+  "band1",
+  "band2",
+  "ghost",
+  "dust"
+ ]
+}

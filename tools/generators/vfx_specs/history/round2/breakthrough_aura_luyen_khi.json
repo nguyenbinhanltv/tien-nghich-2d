@@ -1,0 +1,151 @@
+{
+ "name": "breakthrough_aura_luyen_khi",
+ "type": "aura",
+ "canvas": [
+  64,
+  64
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 31,
+ "palette": "tien_nghich_40",
+ "outline": "#14101a",
+ "ramps": {
+  "jade": {
+   "colors": [
+    "#17594b",
+    "#22795f",
+    "#2fa27a",
+    "#5cc796",
+    "#9ae3b8",
+    "#d2f5de"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "aura",
+   "ticks": 36
+  }
+ ],
+ "layers": [
+  {
+   "id": "ring0",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    18
+   ],
+   "shape": {
+    "sdf": "rays",
+    "squash": 0.4,
+    "count": 6,
+    "inner": 16,
+    "length": 22,
+    "width": 2,
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       60
+      ]
+     ]
+    }
+   },
+   "value": 0.7
+  },
+  {
+   "id": "base0",
+   "kind": "shape",
+   "ramp": "jade",
+   "at": [
+    0,
+    18
+   ],
+   "shape": {
+    "sdf": "ellipse",
+    "rx": 19,
+    "ry": 7,
+    "onion": 1
+   },
+   "value": 0.55
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "jade",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.35,
+    "from": {
+     "area": "ring",
+     "r": 17,
+     "width": 4,
+     "at": [
+      0,
+      16
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.7,
+     1.2
+    ],
+    "angle": 270,
+    "spread": 10
+   },
+   "wiggle": {
+    "amp": 1,
+    "freq": 0.07
+   },
+   "life": [
+    18,
+    30
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "ring0",
+  "base0",
+  "motes"
+ ],
+ "loop": true
+}

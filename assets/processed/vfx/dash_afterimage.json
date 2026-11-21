@@ -1,0 +1,90 @@
+{
+ "id": "dash_afterimage",
+ "frame_size": [
+  32,
+  32
+ ],
+ "anchor": [
+  16,
+  16
+ ],
+ "fps": 30,
+ "loop": false,
+ "frame_count": 12,
+ "total_ms": 400,
+ "sheet": "assets/processed/vfx/dash_afterimage_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/dash_afterimage_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/dash_afterimage_11.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "streak",
+   "from": 0,
+   "to": 0,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "fade",
+   "from": 1,
+   "to": 11,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [
+  {
+   "frame": 0,
+   "name": "dash"
+  }
+ ],
+ "spec": "tools/generators/vfx_specs/dash_afterimage.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

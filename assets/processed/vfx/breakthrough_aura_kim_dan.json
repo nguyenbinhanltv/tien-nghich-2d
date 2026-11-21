@@ -1,0 +1,173 @@
+{
+ "id": "breakthrough_aura_kim_dan",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  32
+ ],
+ "fps": 30,
+ "loop": true,
+ "frame_count": 36,
+ "total_ms": 1200,
+ "sheet": "assets/processed/vfx/breakthrough_aura_kim_dan_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_29.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_30.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_31.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_32.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_33.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_34.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/breakthrough_aura_kim_dan_35.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "aura",
+   "from": 0,
+   "to": 35,
+   "direction": "forward"
+  }
+ ],
+ "events": [],
+ "spec": "tools/generators/vfx_specs/breakthrough_aura_kim_dan.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

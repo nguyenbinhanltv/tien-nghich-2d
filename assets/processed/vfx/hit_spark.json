@@ -1,0 +1,97 @@
+{
+ "id": "hit_spark",
+ "frame_size": [
+  32,
+  32
+ ],
+ "anchor": [
+  16,
+  16
+ ],
+ "fps": 30,
+ "loop": false,
+ "frame_count": 12,
+ "total_ms": 400,
+ "sheet": "assets/processed/vfx/hit_spark_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/hit_spark_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/hit_spark_11.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "flash",
+   "from": 0,
+   "to": 1,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "burst",
+   "from": 2,
+   "to": 4,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "fade",
+   "from": 5,
+   "to": 11,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [
+  {
+   "frame": 0,
+   "name": "hit"
+  }
+ ],
+ "spec": "tools/generators/vfx_specs/hit_spark.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

@@ -1,0 +1,169 @@
+{
+ "id": "charge_up",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  32
+ ],
+ "fps": 30,
+ "loop": true,
+ "frame_count": 30,
+ "total_ms": 1000,
+ "sheet": "assets/processed/vfx/charge_up_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/charge_up_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/charge_up_29.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "gather",
+   "from": 0,
+   "to": 17,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "hold",
+   "from": 18,
+   "to": 29,
+   "direction": "forward"
+  },
+  {
+   "name": "start",
+   "from": 0,
+   "to": 17,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "loop",
+   "from": 18,
+   "to": 29,
+   "direction": "forward"
+  }
+ ],
+ "events": [],
+ "spec": "tools/generators/vfx_specs/charge_up.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

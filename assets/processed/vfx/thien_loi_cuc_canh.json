@@ -1,0 +1,203 @@
+{
+ "id": "thien_loi_cuc_canh",
+ "frame_size": [
+  64,
+  64
+ ],
+ "anchor": [
+  32,
+  62
+ ],
+ "fps": 30,
+ "loop": false,
+ "frame_count": 34,
+ "total_ms": 1133,
+ "sheet": "assets/processed/vfx/thien_loi_cuc_canh_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_29.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_30.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_31.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_32.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/thien_loi_cuc_canh_33.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "contrast",
+   "from": 0,
+   "to": 0,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "flash",
+   "from": 1,
+   "to": 2,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "flicker",
+   "from": 3,
+   "to": 8,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "impact",
+   "from": 9,
+   "to": 16,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "linger",
+   "from": 17,
+   "to": 33,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [
+  {
+   "frame": 1,
+   "name": "hit"
+  },
+  {
+   "frame": 1,
+   "name": "shake:4"
+  }
+ ],
+ "spec": "tools/generators/vfx_specs/thien_loi_cuc_canh.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}
