@@ -1,0 +1,48 @@
+{
+  "id": "lt_jade_crucible",
+  "producer": "OpenAI Codex",
+  "method": "Original native-grid drawing from parent silhouette references; no random seed.",
+  "brief": "A leaf-shaped jade horn growing from the lip of a vented kiln hammer around one shared grip.",
+  "parent_sources": [
+    {
+      "id": "lt_jade_lance",
+      "path": "assets/raw/longtime/lt_jade_lance/source.png",
+      "sha256": "1f15abb67b4e65b9c535fd5c2c0a59183c088b9459fb8bd612a9d07509391337"
+    },
+    {
+      "id": "lt_kiln_hammer",
+      "path": "assets/raw/longtime/lt_kiln_hammer/source.png",
+      "sha256": "ccb7c0bb94ded8e91cbeac35b5a2debae7ec9f7261dc2c7bcbd16354bec81ab8"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_jade_crucible.py",
+  "generator_sha256_lf": "d2631b0b5a972fd668b922785e84fbbbf8f0a82ced780ec729a5f43feff3c7dc",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "source": "source.png",
+  "source_sha256": "e09c1443e87fa358f317d63ff91b81aae966fcd687e5471cf1a0f3b4c84cba1a",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_jade_crucible/contact_1x.png": "48bd6d5be190998b1be452f4d48c7df8a610e05267bb8c6a04ffb15f69437383",
+    "assets/raw/longtime/lt_jade_crucible/contact_6x.png": "85bad4e74708727aac4102d38d08ead2af0a5a3e67b9f0d0b628d69d9c08cf7a"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_jade_crucible/held_none_0",
+      "path": "assets/processed_longtime/lt_jade_crucible/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "e09c1443e87fa358f317d63ff91b81aae966fcd687e5471cf1a0f3b4c84cba1a"
+    }
+  ]
+}
