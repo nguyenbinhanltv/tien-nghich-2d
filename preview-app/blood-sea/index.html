@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Drowned Court · Tiên Nghịch</title>
+<link rel="stylesheet" href="court.css">
+</head>
+<body>
+<header class="mast"><div class="mast-inner"><a href="../index.html" class="brand"><span class="seal" aria-hidden="true">仙</span>Tiên Nghịch <small>2D</small></a>
+<nav aria-label="Game navigation"><a aria-current="page" href="./index.html">Encounter</a><a href="../index.html?tab=inspector">Asset inspector <span aria-hidden="true">↗</span></a></nav></div></header>
+<main>
+<div class="heading"><div><p class="chapter"><i></i> Chapter II <span>/</span> Huyết Hải</p><h1>The Drowned Court</h1></div><button id="start" disabled>Enter battle <span>→</span></button></div>
+<div class="spread"><section class="game" aria-label="Playable arena">
+<div class="vitals">
+<div class="fighter"><span class="role">Cultivator</span><strong>Vương Lâm</strong><div class="meter player-meter" role="meter" aria-label="Player health" aria-valuemin="0" aria-valuemax="6" aria-valuenow="6"><i></i></div></div>
+<span class="versus" aria-hidden="true">決</span>
+<div class="fighter foe"><span class="role" id="phase-label">Court guardian</span><strong>Oán Hồn Quỷ Vương</strong><div class="meter boss-meter" role="meter" aria-label="Boss health" aria-valuemin="0" aria-valuemax="12" aria-valuenow="12"><i></i></div></div>
+</div>
+<div class="viewport"><canvas id="field" width="384" height="256" aria-label="The sealed Blood Sea courtyard, with Vương Lâm and the Ghost King"></canvas>
+<button id="sound" aria-label="Combat sound" aria-pressed="false">Sound off</button>
+<button id="exit-replay" hidden>Exit replay</button>
+<span id="bead-cue" class="bead-cue" aria-hidden="true" hidden></span>
+<div class="ending" hidden><p class="role" id="result-category"></p><h2 id="result"></h2>
+<dl class="score"><div><dt>Fight time</dt><dd id="fight-time">—</dd></div><div><dt>Local best</dt><dd id="best-time">—</dd></div>
+<div><dt>Hits taken</dt><dd id="hits-taken">—</dd></div><div><dt>Counters landed</dt><dd id="counter-hits">—</dd></div></dl>
+<p id="result-detail"></p><button id="again">Fight again <span>↻</span></button>
+<button id="watch-best" hidden>Watch best</button></div></div>
+<div class="battlebar"><div class="status" role="status"><b class="lamp"></b><span id="status">Preparing the court…</span></div><span class="dodge-state" id="dodge-state">Dodge ready</span></div>
+<div class="touch" aria-label="Touch controls"><div class="pad"><button data-key="ArrowUp" aria-label="Move up">↑</button><button data-key="ArrowLeft" aria-label="Move left">←</button><button data-key="ArrowDown" aria-label="Move down">↓</button><button data-key="ArrowRight" aria-label="Move right">→</button></div><div class="actions"><button data-key="Space">Dodge</button><button data-key="KeyJ">Strike</button></div></div>
+</section>
+<aside aria-label="Encounter guide"><div class="journal"><div class="journal-head"><span class="role">Bestiary</span><a class="pose-link" href="../index.html?tab=inspector&amp;collection=court">Inspect poses ↗</a></div>
+<div class="specimen"><div class="halo"></div><canvas id="portrait" width="96" height="88" role="img" aria-label="The Ghost King's horned mask and jade soul flame"></canvas></div>
+<h2>Ghost King</h2><p class="native">Oán Hồn Quỷ Vương</p>
+<p class="lore">Beneath the seal, a king in borrowed bones feeds on the souls of the Blood Sea.</p>
+<div class="tactic"><span class="role">Battle note</span><p>Dodge through the blow as the gold seal closes. Strike while your bead glows for double damage. The wail leaves an open wedge.</p></div>
+<section class="controls" aria-label="Keyboard controls"><h2>Controls</h2><div><kbd>WASD</kbd><span>/</span><kbd>↑↓←→</kbd> Move</div><div><kbd>J</kbd> Hold to strike</div><div><kbd>Space</kbd> Dodge</div><div><kbd>P</kbd> Pause</div></section>
+</div></aside></div>
+</main><script type="module" src="./game.mjs"></script></body></html>

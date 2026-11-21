@@ -1,0 +1,313 @@
+{
+  "frames": {
+    "characters/boss_ghost_king/idle_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/windup_south_0": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/impact_south_0": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_south_0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_south_1": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_south_2": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_south_3": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_south_0": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_south_1": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_south_2": {
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_south_3": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/idle_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/windup_east_0": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/impact_east_0": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_east_0": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_east_1": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_east_2": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_claw_east_3": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_east_0": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_east_1": {
+      "frame": {
+        "x": 80,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_east_2": {
+      "frame": {
+        "x": 160,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    },
+    "characters/boss_ghost_king/attack_wail_east_3": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 80,
+        "h": 80
+      },
+      "ground": [
+        40,
+        75
+      ]
+    }
+  },
+  "meta": {
+    "image": "boss_ghost_king.png",
+    "timelines": {
+      "attack_claw": [
+        {
+          "ms": 0,
+          "label": "Start"
+        },
+        {
+          "ms": 900,
+          "label": "Claw warning"
+        },
+        {
+          "ms": 250,
+          "label": "Claw impact"
+        },
+        {
+          "ms": 560,
+          "label": "Recovery"
+        }
+      ],
+      "attack_wail": [
+        {
+          "ms": 920,
+          "label": "Wail warning"
+        },
+        {
+          "ms": 280,
+          "label": "Dodge window"
+        },
+        {
+          "ms": 250,
+          "label": "Wail impact"
+        },
+        {
+          "ms": 560,
+          "label": "Recovery"
+        }
+      ]
+    },
+    "companions": [
+      "ghost-release",
+      "ghost-wail"
+    ]
+  }
+}

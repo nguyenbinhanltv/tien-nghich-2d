@@ -18,6 +18,7 @@ async function boot() {
   await store.init({ useFixtures: initialFixtures });
 
   let activeTab = initialTab;
+  let frameId = null, lastTs = 0;
 
   const arena = new ArenaController(store, $('arena-canvas'), {
     onStateChange: () => syncArenaSidebar(),
@@ -26,7 +27,12 @@ async function boot() {
     },
   });
 
-  const inspector = new InspectorController(store, {
+  const inspectorStore = params.get('collection') === 'court' ? await store.encounterCollection() : store;
+  if (inspectorStore !== store) {
+    $('collection-label').textContent = 'Drowned Court assets';
+    $('all-assets').hidden = false;
+  }
+  const inspector = new InspectorController(inspectorStore, {
     canvas: $('inspector-canvas'),
     categoryBar: $('inspector-categories'),
     search: $('inspector-search'),
@@ -44,6 +50,11 @@ async function boot() {
     btnNext: $('insp-btn-next'),
     scrubber: $('insp-scrubber'),
     frameLabel: $('insp-frame-label'),
+    poseLink: inspectorStore !== store ? $('insp-pose-link') : null,
+    poseNotice: $('insp-pose-notice'),
+    attribution: $('insp-attribution'),
+    timingWrap: $('insp-timing-wrap'),
+    timingToggle: $('insp-use-timing'),
     fpsRange: $('insp-fps-range'),
     fpsValue: $('insp-fps-value'),
     speedSelect: $('insp-speed-select'),
@@ -51,9 +62,14 @@ async function boot() {
     toggleHitbox: $('insp-toggle-hitbox'),
     toggleGrid: $('insp-toggle-grid'),
     toggleOrigin: $('insp-toggle-origin'),
+    previousPose: $('insp-previous'),
+    previousWrap: $('insp-previous-wrap'),
+    sourceToggle: $('insp-source'), sourceWrap: $('insp-source-wrap'),
+    sourceFigure: $('insp-source-figure'), sourceCanvas: $('insp-source-canvas'),
+    sourceCaption: $('insp-source-caption'), stage: $('insp-stage'),
     tilesetModeBtn: $('insp-tileset-mode'),
     metaPanel: $('inspector-meta'),
-  });
+  }, syncLoop);
 
   // Expose lightweight debug hook for smoke tests & console inspection
   window.__TIEN_NGHICH_PREVIEW__ = {
@@ -66,6 +82,7 @@ async function boot() {
   function switchTab(tab) {
     activeTab = tab;
     arena.active = tab === 'arena';
+    inspector.active = tab === 'inspector';
     $('tab-btn-arena').classList.toggle('active', tab === 'arena');
     $('tab-btn-inspector').classList.toggle('active', tab === 'inspector');
     $('panel-arena').hidden = tab !== 'arena';
@@ -75,6 +92,7 @@ async function boot() {
     } else {
       inspector.renderMetadata();
     }
+    syncLoop();
   }
 
   function renderStatusBanner() {
@@ -214,6 +232,10 @@ async function boot() {
 
   $('btn-reload-index').addEventListener('click', async () => {
     await store.reloadAssets({ useFixtures: store.useFixtures });
+    if (inspectorStore !== store) {
+      inspector.store = await store.encounterCollection();
+      inspector.selectAsset(inspector.selectedId);
+    }
   });
 
   $('weapon-select').addEventListener('change', (e) => {
@@ -239,10 +261,27 @@ async function boot() {
   renderWeaponSelector();
   syncArenaSidebar();
   inspector.init();
+  if (initialTab === 'inspector' && inspectorStore !== store &&
+      ['actor', 'clip', 'facing', 'frame'].some(key => params.has(key))) {
+    inspector.restorePoseLink(params);
+  }
   switchTab(activeTab);
 
-  // Main animation loop
-  let lastTs = performance.now();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && inspector.active) inspector.renderMetadata();
+    syncLoop();
+  });
+
+  function syncLoop() {
+    if (document.hidden || (activeTab === 'inspector' && !inspector.canAnimate)) {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      frameId = null;
+    } else if (frameId === null) {
+      lastTs = performance.now();
+      frameId = requestAnimationFrame(tick);
+    }
+  }
+
   function tick(ts) {
     const dt = (ts - lastTs) / 1000;
     lastTs = ts;
@@ -251,11 +290,9 @@ async function boot() {
       arena.render();
     } else {
       inspector.update(dt);
-      inspector.render();
     }
-    requestAnimationFrame(tick);
+    frameId = requestAnimationFrame(tick);
   }
-  requestAnimationFrame(tick);
 }
 
 boot().catch((err) => {

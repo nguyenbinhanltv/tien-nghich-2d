@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "alphaThreshold": 128,
+  "timingMs": {
+    "start": 0, "runStep": 125,
+    "strikeWindup": 150, "strikeImpact": 190, "strikeRecovery": 90,
+    "clawWarning": 900, "wailCall": 920, "dodgeGuard": 280,
+    "bossImpact": 250, "bossRecovery": 560,
+    "dodgeCooldown": 850, "counterWindow": 900, "sealBreak": 700,
+    "releaseFracture": 200, "releaseUnbind": 260, "releaseHusk": 240,
+    "dashPush": 60, "dashSlide": 120, "hurtPose": 150, "kneelHold": 410
+  },
+  "actors": {
+    "wl_blood_foundation": {
+      "baseSource": "original-turnaround.png",
+      "size": 32,
+      "pivot": [16, 30],
+      "scale": 0.086,
+      "rows": [
+        "south",
+        "east",
+        "north",
+        "west"
+      ],
+      "poses": [
+        "idle",
+        "stride",
+        "windup",
+        "impact"
+      ],
+      "yEdges": [0, 312, 623, 938, 1254],
+      "xEdges": [[0, 310, 623, 935, 1254], [0, 310, 623, 938, 1254], [0, 310, 623, 938, 1254], [0, 310, 623, 923, 1254]],
+      "anchors": [
+        [[153, 294], [465, 297], [777, 294], [1088, 296]],
+        [[152, 608], [460, 607], [770, 607], [1076, 606]],
+        [[154, 920], [464, 921], [775, 920], [1099, 929]],
+        [[155, 1243], [458, 1243], [778, 1242], [1101, 1241]]
+      ],
+      "replacement": {
+        "direction": "north",
+        "pose": "impact",
+        "source": "north-impact.png",
+        "crop": [310, 142, 828, 1202],
+        "size": [145, 297],
+        "position": [1029, 632]
+      },
+      "clips": {
+        "run": [
+          "idle",
+          "stride"
+        ],
+        "cast_attack": [
+          "idle",
+          "windup",
+          "impact",
+          "idle"
+        ]
+      },
+      "timelines": {
+        "run": [["runStep", "Plant"], ["runStep", "Stride"]],
+        "cast_attack": [["start", "Start"], ["strikeWindup", "Windup"], ["strikeImpact", "Blade release"], ["strikeRecovery", "Recovery"]]
+      },
+      "nativeGrade": {
+        "gamma": 0.77,
+        "interiorInk": "ink_02",
+        "bladeFacets": [
+          [[11, 23, 8, 27], [10, 21, 7, 24], [11, 10, 13, 6], [15, 22, 15, 25]],
+          [[16, 24, 19, 28], [14, 21, 17, 24], [12, 9, 15, 6], [24, 19, 28, 19]],
+          [[21, 23, 23, 26], [22, 21, 24, 23], [20, 9, 17, 6], [19, 11, 19, 4]],
+          [[12, 23, 9, 25], [11, 21, 7, 22], [18, 8, 15, 5], [7, 18, 2, 18]]
+        ]
+      },
+      "bannerPatches": [
+        {
+          "direction": "south",
+          "sourcePolygon": [
+            [209, 115],
+            [220, 114],
+            [225, 107],
+            [231, 110],
+            [231, 119],
+            [237, 121],
+            [236, 127],
+            [231, 129],
+            [225, 177],
+            [219, 173],
+            [205, 166],
+            [197, 165],
+            [199, 142],
+            [203, 130]
+          ],
+          "placements": [
+            {
+              "pose": "impact",
+              "angle": -16,
+              "position": [1143, 105]
+            }
+          ]
+        },
+        {
+          "direction": "east",
+          "sourcePolygon": [
+            [108, 437],
+            [114, 433],
+            [122, 434],
+            [126, 428],
+            [133, 428],
+            [134, 435],
+            [138, 438],
+            [135, 445],
+            [131, 446],
+            [126, 477],
+            [123, 494],
+            [117, 497],
+            [116, 492],
+            [104, 493],
+            [94, 504],
+            [97, 489],
+            [101, 472],
+            [105, 448],
+            [100, 446],
+            [100, 439]
+          ],
+          "placements": [
+            {
+              "pose": "stride",
+              "angle": -32,
+              "position": [365, 434]
+            },
+            {
+              "pose": "windup",
+              "angle": -16,
+              "position": [652, 428]
+            }
+          ]
+        }
+      ]
+    },
+    "boss_ghost_king": {
+      "timelines": {
+        "attack_claw": [["start", "Start"], ["clawWarning", "Claw warning"], ["bossImpact", "Claw impact"], ["bossRecovery", "Recovery"]],
+        "attack_wail": [["wailCall", "Wail warning"], ["dodgeGuard", "Dodge window"], ["bossImpact", "Wail impact"], ["bossRecovery", "Recovery"]]
+      },
+      "size": 80,
+      "pivot": [40, 75],
+      "scale": 0.14,
+      "rows": [
+        "south",
+        "east"
+      ],
+      "poses": [
+        "idle",
+        "windup",
+        "impact"
+      ],
+      "yEdges": [0, 512, 1024],
+      "xEdges": [[0, 512, 1024, 1536], [0, 512, 1024, 1536]],
+      "anchors": [
+        [[254, 489], [771, 486], [1289, 477]],
+        [[253, 988], [764, 989], [1260, 980]]
+      ],
+      "clips": {
+        "attack_claw": [
+          "idle",
+          "windup",
+          "impact",
+          "idle"
+        ],
+        "attack_wail": [
+          "windup",
+          "windup",
+          "impact",
+          "idle"
+        ]
+      }
+    }
+  },
+  "supplements": {
+    "ghost-release": {
+      "actor": "boss_ghost_king",
+      "poses": ["fracture", "unbind", "husk"],
+      "yEdges": [0, 512, 1024],
+      "xEdges": [[0, 512, 1024, 1536], [0, 512, 1024, 1536]],
+      "anchors": [[[253, 484], [762, 484], [1275, 484]],
+                  [[248, 979], [750, 983], [1248, 978]]],
+      "clips": {"seal_release": ["fracture", "unbind", "husk"]},
+      "timelines": {"seal_release": [["releaseFracture", "Fracture"], ["releaseUnbind", "Unbind"], ["releaseHusk", "Empty mantle"]]}
+    },
+    "ghost-wail": {
+      "actor": "boss_ghost_king",
+      "poses": ["inhale", "cry", "spent"],
+      "yEdges": [0, 512, 1024],
+      "xEdges": [[0, 512, 1024, 1536], [0, 512, 1024, 1536]],
+      "anchors": [[[257, 490], [766, 491], [1279, 491]],
+                  [[250, 993], [758, 993], [1256, 993]]],
+      "clips": {"soul_wail": ["inhale", "inhale", "cry", "spent"]},
+      "timelines": {"soul_wail": [["wailCall", "Draw breath"], ["dodgeGuard", "Dodge window"],
+                                ["bossImpact", "Wail"], ["bossRecovery", "Exhale"]]}
+    },
+    "wl-reactions": {
+      "bannerGrade": {
+        "sourceBoxes": [
+          [[207, 148, 242, 219], [535, 130, 561, 186], [828, 116, 864, 183], [1139, 154, 1181, 233]],
+          [[74, 438, 145, 503], null, null, [1039, 464, 1106, 526]],
+          [[104, 771, 147, 837], [429, 763, 471, 834], [733, 752, 786, 823], [1046, 780, 1092, 854]],
+          [[169, 1061, 213, 1135], [471, 1062, 539, 1129], [790, 1056, 832, 1126], [1101, 1083, 1165, 1156]]
+        ],
+        "tones": [[58, "soul_03"], [94, "soul_04"], [145, "soul_05"], [201, "soul_06"]]
+      },
+      "actor": "wl_blood_foundation",
+      "poses": [
+        "push",
+        "slide",
+        "recoil",
+        "kneel"
+      ],
+      "yEdges": [0, 314, 627, 940, 1254],
+      "xEdges": [
+        [0, 313, 627, 940, 1254],
+        [0, 313, 627, 940, 1254],
+        [0, 313, 627, 940, 1254],
+        [0, 313, 627, 940, 1254]
+      ],
+      "anchors": [
+        [
+          [149, 299],
+          [463, 297],
+          [780, 297],
+          [1093, 299]
+        ],
+        [
+          [151, 600],
+          [458, 595],
+          [779, 597],
+          [1098, 604]
+        ],
+        [
+          [150, 917],
+          [465, 908],
+          [780, 914],
+          [1095, 917]
+        ],
+        [
+          [145, 1215],
+          [466, 1210],
+          [781, 1210],
+          [1090, 1216]
+        ]
+      ],
+      "bladeFacets": [
+        [
+          [11, 25, 8, 29],
+          [13, 24, 9, 26],
+          [9, 24, 6, 28],
+          [12, 29, 8, 29]
+        ],
+        [
+          [13, 25, 10, 29],
+          [15, 24, 11, 26],
+          [11, 23, 7, 27],
+          [16, 29, 11, 29]
+        ],
+        [
+          [22, 25, 26, 29],
+          null,
+          [24, 25, 27, 28],
+          [23, 28, 27, 28]
+        ],
+        [
+          [10, 25, 8, 28],
+          [15, 24, 12, 26],
+          [23, 24, 25, 27],
+          [11, 29, 7, 29]
+        ]
+      ],
+      "clips": {
+        "dash": [
+          "push",
+          "slide"
+        ],
+        "death": [
+          "recoil",
+          "kneel"
+        ]
+      },
+      "timelines": {
+        "dash": [
+          [
+            "dashPush",
+            "Push off"
+          ],
+          [
+            "dashSlide",
+            "Slide"
+          ]
+        ],
+        "death": [
+          [
+            "hurtPose",
+            "Stagger"
+          ],
+          [
+            "kneelHold",
+            "Kneel"
+          ]
+        ]
+      }
+    }
+  },
+  "sourcePrompts": {
+    "ghost-release.png": "ghost-release.prompt.txt",
+    "original-turnaround.png": "wl_blood_foundation.prompt.txt",
+    "north-impact.png": "north-impact.prompt.txt",
+    "boss_ghost_king.png": "boss_ghost_king.prompt.txt",
+    "court.png": "court.prompt.txt",
+    "wl-reactions.png": "wl-reactions.prompt.txt",
+    "ghost-wail.png": "ghost-wail.prompt.txt"
+  },
+  "sourceSha256": {
+    "ghost-release.png": "5c90e3b4aaf8f5600c4dd4add6e4967b48a3a3a28ffd200f928413c8144447b5",
+    "ghost-wail.png": "36f5195622f645c2ad136a067e07e3c9494a3ea30a16f1a37d69b7904510378b",
+    "wl-reactions.png": "d187ef5262886b55c9d5488c0802cf4918f4f9bb0ee146a3a6ed543be20a96ef",
+    "original-turnaround.png": "39797421f341e1a393e1262c1eb66dcf45cf0093ccfad209edd07938b59424c0",
+    "north-impact.png": "34058adbad99e9c881cfdcfa065d93d0ac3d5e5a565d56f7d7dd5bc271888b08",
+    "boss_ghost_king.png": "7f18894e4550604eaee73d915da995770c3bce12b52f1b3d682b12678c26cdc2",
+    "court.png": "fd4d0360fa17252ccb27e6cc3f058a742fab8692ca1f82cb55183538bc52072c"
+  }
+}
