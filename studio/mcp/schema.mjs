@@ -18,7 +18,7 @@ export function assertSupportedSchema(schema, path = 'inputSchema') {
     throw new TypeError(`${path} must be a JSON Schema object`);
   }
   for (const bad of ['$ref', '$defs', 'definitions', 'not', 'if', 'patternProperties']) {
-    if (bad in schema) throw new TypeError(`${path}: keyword "${bad}" is not supported by studio/mcp/schema.mjs`);
+    if (Object.hasOwn(schema, bad)) throw new TypeError(`${path}: keyword "${bad}" is not supported by studio/mcp/schema.mjs`);
   }
   for (const [k, s] of Object.entries(schema.properties ?? {})) assertSupportedSchema(s, `${path}.properties.${k}`);
   if (schema.items !== undefined) assertSupportedSchema(schema.items, `${path}.items`);
@@ -42,7 +42,7 @@ export function validate(value, schema, path = '$') {
   if (schema.enum && !schema.enum.some((e) => JSON.stringify(e) === JSON.stringify(value))) {
     errs.push(`${path}: must be one of ${schema.enum.map((e) => JSON.stringify(e)).join(', ')}`);
   }
-  if ('const' in schema && JSON.stringify(schema.const) !== JSON.stringify(value)) {
+  if (Object.hasOwn(schema, 'const') && JSON.stringify(schema.const) !== JSON.stringify(value)) {
     errs.push(`${path}: must equal ${JSON.stringify(schema.const)}`);
   }
   if (typeof value === 'string') {
@@ -61,11 +61,11 @@ export function validate(value, schema, path = '$') {
   }
   if (typeOf(value) === 'object') {
     for (const key of schema.required ?? []) {
-      if (!(key in value)) errs.push(`${path}: missing required property "${key}"`);
+      if (!Object.hasOwn(value, key)) errs.push(`${path}: missing required property "${key}"`);
     }
     const props = schema.properties ?? {};
     for (const [key, v] of Object.entries(value)) {
-      if (key in props) errs.push(...validate(v, props[key], `${path}.${key}`));
+      if (Object.hasOwn(props, key)) errs.push(...validate(v, props[key], `${path}.${key}`));
       else if (schema.additionalProperties === false) errs.push(`${path}: unexpected property "${key}"`);
       else if (schema.additionalProperties !== undefined && schema.additionalProperties !== true) {
         errs.push(...validate(v, schema.additionalProperties, `${path}.${key}`));

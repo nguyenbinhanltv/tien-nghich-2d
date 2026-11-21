@@ -287,6 +287,17 @@ test('schema validator subset', () => {
   assert.throws(() => assertSupportedSchema({ type: 'object', properties: { a: { not: {} } } }), /not/);
 });
 
+test('schema validator ignores inherited Object.prototype members', () => {
+  const closed = { type: 'object', properties: {}, additionalProperties: false };
+  for (const key of ['toString', 'constructor', 'hasOwnProperty', 'valueOf']) {
+    const errs = validate(JSON.parse(`{"${key}": 1}`), closed);
+    assert.deepEqual(errs, [`$: unexpected property "${key}"`]);
+  }
+  assert.equal(validate({}, { type: 'object', required: ['toString'] }).length, 1, 'inherited toString does not satisfy required');
+  assert.equal(validate({ toString: 'x' }, { type: 'object', required: ['toString'], properties: { toString: { type: 'integer' } } }).length, 1, 'own toString is validated against its schema');
+  assert.deepEqual(validate(JSON.parse('{"__proto__": 1}'), closed), ['$: unexpected property "__proto__"']);
+});
+
 test('project module: opens the repo and rejects a bad root', () => {
   const p = openProject(ROOT);
   assert.equal(p.source, 'legacy-files');
