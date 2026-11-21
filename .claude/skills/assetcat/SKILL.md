@@ -8,7 +8,7 @@ description: Wrapper for the cloned assetcat skill. Search the user's local inde
 The real skill: `tools/skills/assetcat/skills/assetcat/SKILL.md` (clone pinned in `docs/SKILLS_INSTALLED.md`).
 
 1. Read that SKILL.md and `tools/skills/assetcat/README.md` first.
-2. It needs the `assetcat` CLI and a user-indexed library. Neither is installed. Do not run an installer blindly: read `pyproject.toml`, then propose `uv tool install` from the reviewed local path and ask the user.
+2. It needs the `assetcat` CLI and a user-indexed library. Check the current CLI and configured library separately. The verified setup and scratch example are in `docs/SKILLS_INSTALLED.md`. Do not run an installer blindly: read `pyproject.toml`, then propose `uv tool install` from the reviewed local path and ask the user.
 3. `assetcat pull` must target a staging dir (e.g. temp), never `assets/raw/characters/`. Pulled third-party art may be used for sfx/music/fonts/reference only; any sprite that enters the game must pass `tools/scripts/validate_palette.py` after palette-remap and be routed per `orchestrator-asset-routing`.
 
 Pipeline stage: asset discovery / licensing / audio + font sourcing.
