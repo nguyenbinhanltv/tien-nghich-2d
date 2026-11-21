@@ -469,6 +469,19 @@ input[type='search'] {
 }
 
 /* INSPECTOR TAB */
+.inspector-collections {
+  grid-column: 1 / -1;
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 10px 16px;
+  background: #221c2a;
+  border-bottom: 1px solid #443847;
+}
+.inspector-collections a { color: #d8c99d; text-underline-offset: 3px; }
+.inspector-layout { grid-template-rows: auto 1fr; }
 .inspector-layout {
   display: grid;
   grid-template-columns: 310px 1fr 310px;

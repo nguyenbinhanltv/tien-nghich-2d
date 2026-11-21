@@ -13,7 +13,6 @@ import http.server
 import json
 import pathlib
 import re
-import socketserver
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -78,7 +77,7 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=4173)
     args = parser.parse_args()
 
-    with socketserver.TCPServer((args.host, args.port), PreviewHandler) as httpd:
+    with http.server.ThreadingHTTPServer((args.host, args.port), PreviewHandler) as httpd:
         print(f"Tien Nghich 2D Previewer (Python) serving at http://{args.host}:{args.port}/preview-app/")
         httpd.serve_forever()
 
