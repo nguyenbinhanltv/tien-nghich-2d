@@ -1,0 +1,26 @@
+{
+  "asset_ids": [
+    "lt_star_quarry"
+  ],
+  "chunk_group": "star_quarry",
+  "frame_count": 24,
+  "mobile_page_budget": null,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 24,
+      "height": 16,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "836820be2dcf8b240947b7b1274de999ed957f6803b10cf38fd89501746cc925",
+      "png_sha256": "fd6638047ba859fd36b5155ed2bb5bbd9b609f034528c6a6d1d6f4775cad0576",
+      "rgba8_bytes": 32768,
+      "width": 512
+    }
+  ],
+  "platform": "web",
+  "readiness": "packed",
+  "rgba8_bytes": 32768,
+  "rgba8_mib": 0.0312,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}
