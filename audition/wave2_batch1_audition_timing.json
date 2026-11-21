@@ -1,0 +1,281 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "channels": 2,
+  "duration": "01:02.876",
+  "entries": [
+    {
+      "end_frame": 352800,
+      "end_time": "00:08.000",
+      "label": "bgm_hengyue_master_seam_8s",
+      "seam_frame": 176400,
+      "seam_time": "00:04.000",
+      "start_frame": 0,
+      "start_time": "00:00.000"
+    },
+    {
+      "end_frame": 740880,
+      "end_time": "00:16.800",
+      "label": "bgm_hengyue_ogg_seam_8s",
+      "seam_frame": 564480,
+      "seam_time": "00:12.800",
+      "start_frame": 388080,
+      "start_time": "00:08.800"
+    },
+    {
+      "end_frame": 1128960,
+      "end_time": "00:25.600",
+      "label": "bgm_hengyue_m4a_seam_8s",
+      "seam_frame": 952560,
+      "seam_time": "00:21.600",
+      "start_frame": 776160,
+      "start_time": "00:17.600"
+    },
+    {
+      "end_frame": 1170590,
+      "end_time": "00:26.544",
+      "label": "sfx_bolt_ogg_solo",
+      "start_frame": 1164240,
+      "start_time": "00:26.400"
+    },
+    {
+      "end_frame": 1198285,
+      "end_time": "00:27.172",
+      "label": "sfx_cancel_ogg_solo",
+      "start_frame": 1190435,
+      "start_time": "00:26.994"
+    },
+    {
+      "end_frame": 1231757,
+      "end_time": "00:27.931",
+      "label": "sfx_cast_ogg_solo",
+      "start_frame": 1218130,
+      "start_time": "00:27.622"
+    },
+    {
+      "end_frame": 1260731,
+      "end_time": "00:28.588",
+      "label": "sfx_deny_ogg_solo",
+      "start_frame": 1251602,
+      "start_time": "00:28.381"
+    },
+    {
+      "end_frame": 1289043,
+      "end_time": "00:29.230",
+      "label": "sfx_evade_ogg_solo",
+      "start_frame": 1280576,
+      "start_time": "00:29.038"
+    },
+    {
+      "end_frame": 1311358,
+      "end_time": "00:29.736",
+      "label": "sfx_focus_ogg_solo",
+      "start_frame": 1308888,
+      "start_time": "00:29.680"
+    },
+    {
+      "end_frame": 1336407,
+      "end_time": "00:30.304",
+      "label": "sfx_step_ogg_solo",
+      "start_frame": 1331203,
+      "start_time": "00:30.186"
+    },
+    {
+      "end_frame": 1366571,
+      "end_time": "00:30.988",
+      "label": "sfx_tell_light_ogg_solo",
+      "start_frame": 1356252,
+      "start_time": "00:30.754"
+    },
+    {
+      "end_frame": 1428046,
+      "end_time": "00:32.382",
+      "label": "sfx_bolt_m4a_solo",
+      "start_frame": 1421696,
+      "start_time": "00:32.238"
+    },
+    {
+      "end_frame": 1455741,
+      "end_time": "00:33.010",
+      "label": "sfx_cancel_m4a_solo",
+      "start_frame": 1447891,
+      "start_time": "00:32.832"
+    },
+    {
+      "end_frame": 1489213,
+      "end_time": "00:33.769",
+      "label": "sfx_cast_m4a_solo",
+      "start_frame": 1475586,
+      "start_time": "00:33.460"
+    },
+    {
+      "end_frame": 1518187,
+      "end_time": "00:34.426",
+      "label": "sfx_deny_m4a_solo",
+      "start_frame": 1509058,
+      "start_time": "00:34.219"
+    },
+    {
+      "end_frame": 1546499,
+      "end_time": "00:35.068",
+      "label": "sfx_evade_m4a_solo",
+      "start_frame": 1538032,
+      "start_time": "00:34.876"
+    },
+    {
+      "end_frame": 1568814,
+      "end_time": "00:35.574",
+      "label": "sfx_focus_m4a_solo",
+      "start_frame": 1566344,
+      "start_time": "00:35.518"
+    },
+    {
+      "end_frame": 1593863,
+      "end_time": "00:36.142",
+      "label": "sfx_step_m4a_solo",
+      "start_frame": 1588659,
+      "start_time": "00:36.024"
+    },
+    {
+      "end_frame": 1624027,
+      "end_time": "00:36.826",
+      "label": "sfx_tell_light_m4a_solo",
+      "start_frame": 1613708,
+      "start_time": "00:36.592"
+    },
+    {
+      "cue_onset_time": "00:38.276",
+      "end_frame": 1723252,
+      "end_time": "00:39.076",
+      "label": "sfx_bolt_ogg_over_bgm",
+      "start_frame": 1679152,
+      "start_time": "00:38.076"
+    },
+    {
+      "cue_onset_time": "00:39.726",
+      "end_frame": 1787197,
+      "end_time": "00:40.526",
+      "label": "sfx_cancel_ogg_over_bgm",
+      "start_frame": 1743097,
+      "start_time": "00:39.526"
+    },
+    {
+      "cue_onset_time": "00:41.176",
+      "end_frame": 1851142,
+      "end_time": "00:41.976",
+      "label": "sfx_cast_ogg_over_bgm",
+      "start_frame": 1807042,
+      "start_time": "00:40.976"
+    },
+    {
+      "cue_onset_time": "00:42.626",
+      "end_frame": 1915087,
+      "end_time": "00:43.426",
+      "label": "sfx_deny_ogg_over_bgm",
+      "start_frame": 1870987,
+      "start_time": "00:42.426"
+    },
+    {
+      "cue_onset_time": "00:44.076",
+      "end_frame": 1979032,
+      "end_time": "00:44.876",
+      "label": "sfx_evade_ogg_over_bgm",
+      "start_frame": 1934932,
+      "start_time": "00:43.876"
+    },
+    {
+      "cue_onset_time": "00:45.526",
+      "end_frame": 2042977,
+      "end_time": "00:46.326",
+      "label": "sfx_focus_ogg_over_bgm",
+      "start_frame": 1998877,
+      "start_time": "00:45.326"
+    },
+    {
+      "cue_onset_time": "00:46.976",
+      "end_frame": 2106922,
+      "end_time": "00:47.776",
+      "label": "sfx_step_ogg_over_bgm",
+      "start_frame": 2062822,
+      "start_time": "00:46.776"
+    },
+    {
+      "cue_onset_time": "00:48.426",
+      "end_frame": 2170867,
+      "end_time": "00:49.226",
+      "label": "sfx_tell_light_ogg_over_bgm",
+      "start_frame": 2126767,
+      "start_time": "00:48.226"
+    },
+    {
+      "cue_onset_time": "00:50.676",
+      "end_frame": 2270092,
+      "end_time": "00:51.476",
+      "label": "sfx_bolt_m4a_over_bgm",
+      "start_frame": 2225992,
+      "start_time": "00:50.476"
+    },
+    {
+      "cue_onset_time": "00:52.126",
+      "end_frame": 2334037,
+      "end_time": "00:52.926",
+      "label": "sfx_cancel_m4a_over_bgm",
+      "start_frame": 2289937,
+      "start_time": "00:51.926"
+    },
+    {
+      "cue_onset_time": "00:53.576",
+      "end_frame": 2397982,
+      "end_time": "00:54.376",
+      "label": "sfx_cast_m4a_over_bgm",
+      "start_frame": 2353882,
+      "start_time": "00:53.376"
+    },
+    {
+      "cue_onset_time": "00:55.026",
+      "end_frame": 2461927,
+      "end_time": "00:55.826",
+      "label": "sfx_deny_m4a_over_bgm",
+      "start_frame": 2417827,
+      "start_time": "00:54.826"
+    },
+    {
+      "cue_onset_time": "00:56.476",
+      "end_frame": 2525872,
+      "end_time": "00:57.276",
+      "label": "sfx_evade_m4a_over_bgm",
+      "start_frame": 2481772,
+      "start_time": "00:56.276"
+    },
+    {
+      "cue_onset_time": "00:57.926",
+      "end_frame": 2589817,
+      "end_time": "00:58.726",
+      "label": "sfx_focus_m4a_over_bgm",
+      "start_frame": 2545717,
+      "start_time": "00:57.726"
+    },
+    {
+      "cue_onset_time": "00:59.376",
+      "end_frame": 2653762,
+      "end_time": "01:00.176",
+      "label": "sfx_step_m4a_over_bgm",
+      "start_frame": 2609662,
+      "start_time": "00:59.176"
+    },
+    {
+      "cue_onset_time": "01:00.826",
+      "end_frame": 2717707,
+      "end_time": "01:01.626",
+      "label": "sfx_tell_light_m4a_over_bgm",
+      "start_frame": 2673607,
+      "start_time": "01:00.626"
+    }
+  ],
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "sample_rate_hz": 44100,
+  "schema": "tien-nghich-2d.audio-wave2-batch1-pack-audition",
+  "total_frames": 2772832,
+  "wav_file": "wave2_batch1_audition.wav",
+  "wav_sha256": "d998e86a3bd1451c449abc299ceea6c807ab194dd4396b8c87a7ca7b9cc832e6"
+}
