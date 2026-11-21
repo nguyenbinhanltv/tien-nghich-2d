@@ -1,0 +1,86 @@
+{
+  "sfx_dash": {
+    "seed": 7021, "duration_ms": 242, "trim": 0.60,
+    "design": "Immediate wide rush of cloth and air. A lower gust follows the leading hiss.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 180, "gain": 1.55, "low_hz": 460, "high_hz": 6800, "attack_ms": 4, "decay_ms": 73, "release_ms": 55},
+      {"voice": "noise", "start_ms": 11, "ms": 210, "gain": 1.22, "low_hz": 90, "high_hz": 1150, "attack_ms": 15, "decay_ms": 88, "release_ms": 60},
+      {"voice": "tone", "start_ms": 1, "ms": 110, "gain": 0.14, "hz": 210, "end_hz": 74, "attack_ms": 4, "decay_ms": 36, "release_ms": 26}
+    ]
+  },
+  "sfx_blade": {
+    "seed": 7079, "duration_ms": 317, "trim": 0.72,
+    "design": "Passing steel, with a narrow rising whistle that turns down into a metallic tail.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 164, "gain": 0.53, "low_hz": 2100, "high_hz": 7200, "attack_ms": 9, "decay_ms": 90, "release_ms": 54},
+      {"voice": "tone", "start_ms": 5, "ms": 89, "gain": 0.33, "hz": 830, "end_hz": 2480, "attack_ms": 26, "decay_ms": 500, "release_ms": 20},
+      {"voice": "tone", "start_ms": 74, "ms": 221, "gain": 0.38, "hz": 2410, "end_hz": 570, "attack_ms": 17, "decay_ms": 92, "release_ms": 66, "fm_ratio": 1.491, "fm_index": 0.38},
+      {"voice": "tone", "start_ms": 83, "ms": 115, "gain": 0.1, "hz": 3660, "end_hz": 2050, "attack_ms": 8, "decay_ms": 52, "release_ms": 35}
+    ]
+  },
+  "sfx_hit_flesh": {
+    "seed": 7103, "duration_ms": 156, "trim": 0.55,
+    "design": "Muted skin slap and short flexing membrane. The pitched body collapses immediately.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 45, "gain": 1.4, "low_hz": 380, "high_hz": 4800, "attack_ms": 1, "decay_ms": 12, "release_ms": 12},
+      {"voice": "tone", "start_ms": 1, "ms": 122, "gain": 0.78, "hz": 172, "end_hz": 46, "attack_ms": 2, "decay_ms": 32, "release_ms": 28},
+      {"voice": "tone", "start_ms": 2, "ms": 63, "gain": 0.22, "hz": 327, "end_hz": 130, "attack_ms": 2, "decay_ms": 17, "release_ms": 17},
+      {"voice": "noise", "start_ms": 14, "ms": 120, "gain": 0.52, "low_hz": 65, "high_hz": 740, "attack_ms": 4, "decay_ms": 37, "release_ms": 34}
+    ]
+  },
+  "sfx_seal_lock": {
+    "seed": 7211, "duration_ms": 537, "trim": 0.72,
+    "design": "Two taut binding pulses pull upward, then a dry iron clasp closes.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 120, "gain": 0.42, "hz": 170, "end_hz": 295, "attack_ms": 6, "decay_ms": 62, "release_ms": 29, "fm_ratio": 2.4, "fm_index": 1.5},
+      {"voice": "tone", "start_ms": 162, "ms": 95, "gain": 0.5, "hz": 245, "end_hz": 455, "attack_ms": 4, "decay_ms": 49, "release_ms": 20, "fm_ratio": 2.4, "fm_index": 1.7},
+      {"voice": "noise", "start_ms": 299, "ms": 46, "gain": 0.97, "low_hz": 850, "high_hz": 6800, "attack_ms": 1, "decay_ms": 14, "release_ms": 10},
+      {"voice": "tone", "start_ms": 299, "ms": 217, "gain": 0.54, "hz": 548, "end_hz": 545, "attack_ms": 2, "decay_ms": 42, "release_ms": 54, "fm_ratio": 2.73, "fm_index": 1.2},
+      {"voice": "tone", "start_ms": 304, "ms": 115, "gain": 0.21, "hz": 163, "end_hz": 122, "attack_ms": 2, "decay_ms": 27, "release_ms": 25}
+    ]
+  },
+  "sfx_pickup": {
+    "seed": 7351, "duration_ms": 452, "trim": 0.6,
+    "design": "D5 to A5. A bright stone facet rings above each step of the rising fifth.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 193, "gain": 0.52, "hz": 587.33, "end_hz": 587.33, "attack_ms": 3, "decay_ms": 73, "release_ms": 42, "fm_ratio": 2.61, "fm_index": 0.58},
+      {"voice": "tone", "start_ms": 102, "ms": 332, "gain": 0.65, "hz": 880, "end_hz": 880, "attack_ms": 3, "decay_ms": 108, "release_ms": 73, "fm_ratio": 2.61, "fm_index": 0.52},
+      {"voice": "tone", "start_ms": 105, "ms": 139, "gain": 0.14, "hz": 2439, "end_hz": 2439, "attack_ms": 2, "decay_ms": 34, "release_ms": 36}
+    ]
+  },
+  "sfx_chest": {
+    "seed": 7481, "duration_ms": 743, "trim": 0.89,
+    "design": "Dry hardwood catch, slow rasp of the lifting lid, then a hollow stop.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 43, "gain": 1.2, "low_hz": 540, "high_hz": 5800, "attack_ms": 1, "decay_ms": 12, "release_ms": 10},
+      {"voice": "tone", "start_ms": 0, "ms": 95, "gain": 0.52, "hz": 398, "end_hz": 255, "attack_ms": 2, "decay_ms": 26, "release_ms": 23},
+      {"voice": "tone", "start_ms": 9, "ms": 112, "gain": 0.29, "hz": 692, "end_hz": 524, "attack_ms": 2, "decay_ms": 31, "release_ms": 29},
+      {"voice": "noise", "start_ms": 111, "ms": 430, "gain": 0.86, "low_hz": 330, "high_hz": 2770, "attack_ms": 65, "decay_ms": 900, "release_ms": 98, "flutter_hz": 21, "flutter_depth": 0.88},
+      {"voice": "tone", "start_ms": 135, "ms": 355, "gain": 0.18, "hz": 117, "end_hz": 180, "attack_ms": 58, "decay_ms": 790, "release_ms": 91, "fm_ratio": 2.1, "fm_index": 1.5, "flutter_hz": 21, "flutter_depth": 0.84},
+      {"voice": "tone", "start_ms": 540, "ms": 181, "gain": 0.43, "hz": 152, "end_hz": 79, "attack_ms": 4, "decay_ms": 50, "release_ms": 49},
+      {"voice": "noise", "start_ms": 539, "ms": 70, "gain": 0.52, "low_hz": 140, "high_hz": 1870, "attack_ms": 2, "decay_ms": 22, "release_ms": 15}
+    ]
+  },
+  "sfx_confirm": {
+    "seed": 7523, "duration_ms": 184, "trim": 0.54,
+    "design": "Single quiet D5 pluck with a short bamboo-like upper resonance.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 160, "gain": 0.47, "hz": 589, "end_hz": 587.33, "attack_ms": 3, "decay_ms": 47, "release_ms": 35},
+      {"voice": "tone", "start_ms": 0, "ms": 90, "gain": 0.22, "hz": 1190, "end_hz": 1174.66, "attack_ms": 2, "decay_ms": 22, "release_ms": 17},
+      {"voice": "noise", "start_ms": 0, "ms": 19, "gain": 0.16, "low_hz": 930, "high_hz": 3950, "attack_ms": 1, "decay_ms": 6, "release_ms": 4}
+    ]
+  },
+  "sfx_breakthrough": {
+    "seed": 7639, "duration_ms": 1580, "trim": 0.62,
+    "design": "A low breath draws inward. The D and A open fifth rises into a bright sustained D.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 482, "gain": 0.85, "low_hz": 110, "high_hz": 1850, "attack_ms": 216, "decay_ms": 1200, "release_ms": 110},
+      {"voice": "tone", "start_ms": 15, "ms": 480, "gain": 0.29, "hz": 87, "end_hz": 146.83, "attack_ms": 167, "decay_ms": 1300, "release_ms": 116, "fm_ratio": 1.5, "fm_index": 1},
+      {"voice": "tone", "start_ms": 365, "ms": 1134, "gain": 0.48, "hz": 286, "end_hz": 293.66, "attack_ms": 89, "decay_ms": 1500, "release_ms": 455},
+      {"voice": "tone", "start_ms": 399, "ms": 1090, "gain": 0.32, "hz": 432, "end_hz": 440, "attack_ms": 127, "decay_ms": 1360, "release_ms": 393},
+      {"voice": "tone", "start_ms": 478, "ms": 1070, "gain": 0.28, "hz": 582, "end_hz": 587.33, "attack_ms": 166, "decay_ms": 1560, "release_ms": 395},
+      {"voice": "tone", "start_ms": 529, "ms": 843, "gain": 0.13, "hz": 1172, "end_hz": 1174.66, "attack_ms": 192, "decay_ms": 950, "release_ms": 329},
+      {"voice": "noise", "start_ms": 406, "ms": 492, "gain": 0.16, "low_hz": 2500, "high_hz": 6500, "attack_ms": 135, "decay_ms": 680, "release_ms": 180}
+    ]
+  }
+}

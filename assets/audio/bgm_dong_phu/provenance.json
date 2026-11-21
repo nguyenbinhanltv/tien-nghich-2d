@@ -1,0 +1,55 @@
+{
+  "id": "bgm_dong_phu",
+  "creator": "OpenAI Codex for the Tien Nghich 2D audio pilot",
+  "source_revision": 1,
+  "brief": "An original quiet courtyard return, with a muted string answering a breath tone over a sustained D/A fifth. Space between phrases leaves room for short UI and reward cues.",
+  "rights": "Original score and procedural instrument patches authored for this project. All audio is synthesized locally. No third-party samples, recordings, MIDI or soundfonts were incorporated.",
+  "route": "Explicit note data and deterministic additive/noise synthesis. No audited, locally available FluidSynth and licensed SF2 pair was identified.",
+  "catalog_check": "AssetCat 1.0.2, scoped fixture project/ember-delta-qa. Soundfont search returned no matches. Project/Ember Delta QA/ash-check.wav is a setup fixture, excluded. Its license and AI status are unknown, with no license file or AI reason recorded.",
+  "inputs_sha256_utf8_lf": {
+    "score.json": "e304c26919ad720a3727fa38c2f4ca5312ecfeae0ba67a6ff595762e07c05f02",
+    "render.py": "3538f8bf0c8a0690d95db654ff0035e75db40cebbeea447647bf7df3010f971e"
+  },
+  "rebuild": {
+    "working_directory": "repository root",
+    "command": "python -B assets/audio/bgm_dong_phu/render.py output/master.wav",
+    "environment": "CPython 3.14.0 x64, NumPy 2.5.5, Windows",
+    "prng": "NumPy PCG64, instrument seed 173521, room seed 173522",
+    "evidence": "Two separate processes rendered into empty output directories. Both files matched the delivered WAV byte for byte."
+  },
+  "music": {
+    "tempo_bpm": 80,
+    "meter": "4/4",
+    "bars": 24,
+    "pitch_classes": ["D", "F", "G", "A", "C"],
+    "tuning": "A4 = 440 Hz. The D3/A3 drone oscillators round to whole cycles over 72 seconds for continuous phase.",
+    "attacks": {"pluck": 39, "breath": 14}
+  },
+  "master": {
+    "path": "master.wav",
+    "encoding": "RIFF/WAVE PCM signed 16-bit little-endian, interleaved L/R",
+    "sample_rate_hz": 44100,
+    "sample_frames_per_channel": 3175200,
+    "duration_seconds": 72,
+    "onset_frame": 0,
+    "first_pluck_frame": 16538,
+    "tail_end_exclusive": 3175200,
+    "loopStart": 0,
+    "loopEnd": 3175200,
+    "marker_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+    "tail": "Final bar has no new pluck or breath attacks. The drone continues and circular stereo reflections carry the decay into bar one.",
+    "file_sha256": "e1e1bfe6b76a6d096ca6d837b9e7717ac6e5b544ae27d3b2cef79b998c854f71",
+    "pcm_sha256": "cf309f6be46702f06fe6c631010ec4cb5efe2a9b8a8cdfc358fbc6fefca66e0c"
+  },
+  "qa": {
+    "meter": "FFmpeg 21.7.0-9c087b133d, ebur128=peak=true",
+    "meter_command": "ffmpeg -hide_banner -nostdin -i master.wav -af ebur128=peak=true -f null -",
+    "integrated_lufs": -23.2,
+    "loudness_range_lu": 3.8,
+    "true_peak_dbtp": -7.4,
+    "sample_peak_dbfs_lr": [-7.47, -9.78],
+    "mono_fold_down_rms_dbfs": -25.52,
+    "waveform_seam": "Three contiguous passes. At each join the successive L/R changes in PCM counts are [97,95], [96,96] at the boundary, then [97,96]. No frames added or removed.",
+    "human_listening": "Pending three-pass stereo master and decoded derivative auditions, and matched monitoring with the pilot effects."
+  }
+}
