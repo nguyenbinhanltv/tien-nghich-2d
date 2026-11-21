@@ -1,5 +1,5 @@
 /**
- * Main entrypoint for Tien Nghich 2D Previewer (/preview-app/).
+ * Main entrypoint for Tien Nghich 2D Previewer (/studio/).
  */
 
 import { BIOMES } from './assetKeys.js';

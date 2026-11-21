@@ -67,7 +67,7 @@ class PromotionTest(unittest.TestCase):
           console.log(JSON.stringify(snap));store.close();
         """
         for label, name in (("CATALOG", "editor-catalog"), ("STORE", "editor-store"), ("PNG", "editor-png")):
-            script = script.replace(label, (pack.ROOT / f"preview-app/server/{name}.mjs").as_uri())
+            script = script.replace(label, (pack.ROOT / f"studio/server/{name}.mjs").as_uri())
         library = self.library if mode != "fresh" else self.root.parent / "fresh"
         result = subprocess.run(["node", "--input-type=module", "-e", script, str(self.root), str(library), key, mode],
                                 capture_output=True, text=True, check=True)

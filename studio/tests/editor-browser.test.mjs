@@ -7,7 +7,7 @@
  * and `--revision-dir <abs-dir>` are provided so restart persistence is verified end-to-end.
  *
  * Usage:
- *   node preview-app/tests/editor-browser.test.mjs \
+ *   node studio/tests/editor-browser.test.mjs \
  *     --server <abs-path-to-serve.mjs> \
  *     --revision-dir <abs-private-scratch-dir> \
  *     [--playwright <path-to-playwright-core>]
@@ -203,7 +203,7 @@ async function openInspectorPage(context, origin, { viewport = { width: 1400, he
     if (msg.type() === 'error') errors.push(`console.error: ${msg.text()}`);
     else if (msg.type() === 'warning') warnings.push(`console.warn: ${msg.text()}`);
   });
-  await page.goto(`${origin}/preview-app/?tab=inspector`, { waitUntil: 'networkidle' });
+  await page.goto(`${origin}/studio/?tab=inspector`, { waitUntil: 'networkidle' });
   await page.waitForSelector('#inspector-asset-list .asset-item');
   return { page, errors, warnings };
 }

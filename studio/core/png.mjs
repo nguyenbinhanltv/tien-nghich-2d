@@ -3,6 +3,7 @@ import { problem } from './errors.mjs';
 
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 export const maxPngBytes = 128 * 1024;
+const maxGatePixels = 4096 * 4096;
 
 function invalid(message) {
   throw problem(422, 'invalid_png', message);
@@ -123,6 +124,7 @@ export function decodeRgba(png) {
   while (pos + 8 <= png.length) {
     const size = png.readUInt32BE(pos);
     const type = png.toString('latin1', pos + 4, pos + 8);
+    if (pos + 8 + size > png.length) throw new Error('truncated PNG chunk');
     const data = png.subarray(pos + 8, pos + 8 + size);
     pos += 12 + size;
     if (type === 'IHDR') header = {width: data.readUInt32BE(), height: data.readUInt32BE(4), depth: data[8], color: data[9], interlace: data[12]};
@@ -137,8 +139,14 @@ export function decodeRgba(png) {
   if (depth !== 8 || interlace !== 0 || !channels) throw new Error('decoder supports 8-bit non-interlaced PNG only');
   if (trns && (color === 0 || color === 2)) throw new Error('colour-key transparency is not supported');
   if (color === 3 && !palette) throw new Error('indexed PNG without palette');
+  if (!width || !height || width * height > maxGatePixels) throw new Error('image size is out of bounds');
   const stride = width * channels;
-  const raw = unfilter(inflateSync(Buffer.concat(blocks)), stride, height, channels, message => { throw new Error(message); });
+  const expected = height * (stride + 1);
+  let scan;
+  try { scan = inflateSync(Buffer.concat(blocks), {maxOutputLength: expected}); }
+  catch { throw new Error('invalid compressed PNG data'); }
+  if (scan.length !== expected) throw new Error('invalid scanline size');
+  const raw = unfilter(scan, stride, height, channels, message => { throw new Error(message); });
   const pixels = Buffer.alloc(width * height * 4);
   for (let i = 0; i < width * height; i++) {
     const s = i * channels, d = i * 4;

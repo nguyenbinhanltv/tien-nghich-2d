@@ -80,7 +80,7 @@ def approved_inputs(root):
     if not overlay.exists():
         return {}
     entries = read_json(overlay)
-    bridge = ROOT / "preview-app/server/pack-input.mjs"
+    bridge = ROOT / "studio/server/pack-input.mjs"
     result = subprocess.run(["node", str(bridge), str(root)], capture_output=True, text=True)
     if result.returncode:
         raise ValueError("Approved frame validation failed: " + result.stderr)

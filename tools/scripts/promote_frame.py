@@ -85,7 +85,7 @@ def rollback(root):
 
 def approved(root, library, key, revision):
     # The parent holds the SQLite writer lock while the Inspector resolves the exact snapshot.
-    bridge = ROOT / "preview-app/server/pack-input.mjs"
+    bridge = ROOT / "studio/server/pack-input.mjs"
     result = subprocess.run(["node", str(bridge), str(root), key, str(library), str(revision)],
                             capture_output=True, text=True)
     if result.returncode:

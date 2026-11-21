@@ -1,6 +1,6 @@
 # Local Inspector frame API
 
-Run `node preview-app/serve.mjs` with Node 24 (verified with 24.12). Open the printed loopback address. The editor uses Node's built-in SQLite module. The original preview index, assets and atlas routes remain available. The editor requires a loopback listener, a matching local Host and, for browser requests that supply Origin, the same HTTP origin. Send JSON for all POSTs. Treat review comments as plain text when rendering.
+Run `node studio/serve.mjs` with Node 24 (verified with 24.12). Open the printed loopback address. The editor uses Node's built-in SQLite module. The original preview index, assets and atlas routes remain available. The editor requires a loopback listener, a matching local Host and, for browser requests that supply Origin, the same HTTP origin. Send JSON for all POSTs. Treat review comments as plain text when rendering.
 
 ## Discover and load
 
@@ -36,7 +36,7 @@ Export reads the same revision snapshot as the Inspector and never rebuilds comm
 
 Errors have shape `{error:{code,message}}`. A conflict also includes top-level `head`. Status codes include 400 for malformed JSON, 403 for origin or listener rejection, 404 for unknown frames or revisions, 405 for method mismatch, 409 for a stale base, 413 for request size, 415 for media type, 422 for invalid fields, metadata or PNG, and 500 for a library failure.
 
-Run `node --test preview-app/server/editor.test.mjs` for the API suite and `node preview-app/smoke-test.mjs` for existing Inspector behavior. Set TMP/TEMP (TMPDIR on Unix) to an account-private scratch directory for an isolated run.
+Run `node --test studio/server/editor.test.mjs` for the API suite and `node studio/smoke-test.mjs` for existing Inspector behavior. Set TMP/TEMP (TMPDIR on Unix) to an account-private scratch directory for an isolated run.
 
 ## Publish an approved revision into the project atlases
 
