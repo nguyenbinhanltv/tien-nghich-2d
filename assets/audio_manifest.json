@@ -1,0 +1,420 @@
+{
+  "schema_version": 1,
+  "status": "planned",
+  "staging": "staged",
+  "delivery_default": "Approved",
+  "core": {
+    "bgm": ["bgm_dong_phu", "bgm_hengyue", "bgm_blood_sea", "bgm_ancient_god", "bgm_boss_trial", "bgm_endless"],
+    "combat": ["sfx_step", "sfx_dash", "sfx_evade", "sfx_blade", "sfx_cast", "sfx_bolt", "sfx_chime", "sfx_crush", "sfx_gust", "sfx_thorn", "sfx_flame", "sfx_shade", "sfx_shock", "sfx_tell_light", "sfx_tell_heavy", "sfx_tell_boss", "sfx_hit_flesh", "sfx_hit_stone", "sfx_hit_spirit", "sfx_seal_lock", "sfx_counter", "sfx_player_hurt", "sfx_enemy_fall", "sfx_boss_fall", "sfx_player_fall"],
+    "progression_ui": ["sfx_focus", "sfx_confirm", "sfx_cancel", "sfx_deny", "sfx_pickup", "sfx_chest", "sfx_seed", "sfx_harvest", "sfx_kiln", "sfx_craft", "sfx_gate", "sfx_bond", "sfx_ward_place", "sfx_breakthrough", "sfx_reward"]
+  },
+  "extensions": {
+    "branches": {
+      "gate": "Core masters accepted; three branch art briefs and encounter rhythms locked.",
+      "bgm": ["bgm_mist_archive", "bgm_ember_delta", "bgm_star_quarry"],
+      "sfx": ["sfx_paper_rustle", "sfx_slag_shift", "sfx_crystal_ring"]
+    },
+    "modes": {
+      "gate": "Branch wave accepted; trial round and defense wave milestones signed off.",
+      "bgm": ["bgm_aftermath", "bgm_defense"],
+      "sfx": ["sfx_floor_mark", "sfx_oath", "sfx_wave_call", "sfx_core_crack"]
+    },
+    "characters": {
+      "gate": "Mode wave accepted; NPC handoffs, pet bond and form silhouettes approved.",
+      "bgm": [],
+      "sfx": ["sfx_keeper_call", "sfx_pet_reply", "sfx_form_shift"]
+    }
+  },
+  "pilot": {
+    "music": "bgm_dong_phu",
+    "duration_seconds": [60, 90],
+    "effects": {
+      "dash": "sfx_dash",
+      "flying_sword_whoosh": "sfx_blade",
+      "hit": "sfx_hit_flesh",
+      "restriction_seal_lock": "sfx_seal_lock",
+      "spirit_stone_pickup": "sfx_pickup",
+      "chest_open": "sfx_chest",
+      "skill_card_select": "sfx_confirm",
+      "realm_breakthrough": "sfx_breakthrough"
+    }
+  },
+  "families": {
+    "form": {
+      "stride": "sfx_step",
+      "dash": "sfx_dash",
+      "evade": "sfx_evade",
+      "counter": "sfx_counter",
+      "hurt": "sfx_player_hurt",
+      "fall": "sfx_player_fall",
+      "advance": "sfx_breakthrough"
+    },
+    "future_form": {
+      "stride": "sfx_step",
+      "dash": "sfx_dash",
+      "evade": "sfx_evade",
+      "counter": "sfx_counter",
+      "hurt": "sfx_player_hurt",
+      "fall": "sfx_player_fall",
+      "advance": "sfx_breakthrough",
+      "change": "sfx_form_shift"
+    },
+    "enemy_flesh": {
+      "tell": "sfx_tell_light",
+      "impact": "sfx_hit_flesh",
+      "outcome": "sfx_enemy_fall"
+    },
+    "boss_flesh": {
+      "tell": "sfx_tell_boss",
+      "impact": "sfx_hit_flesh",
+      "stagger": "sfx_hit_stone",
+      "outcome": "sfx_boss_fall"
+    },
+    "enemy_stone": {
+      "tell": "sfx_tell_heavy",
+      "impact": "sfx_hit_stone",
+      "outcome": "sfx_enemy_fall"
+    },
+    "boss_stone": {
+      "tell": "sfx_tell_boss",
+      "impact": "sfx_hit_stone",
+      "stagger": "sfx_hit_stone",
+      "outcome": "sfx_boss_fall"
+    },
+    "enemy_spirit": {
+      "tell": "sfx_tell_light",
+      "impact": "sfx_hit_spirit",
+      "outcome": "sfx_enemy_fall"
+    },
+    "boss_spirit": {
+      "tell": "sfx_tell_boss",
+      "impact": "sfx_hit_spirit",
+      "stagger": "sfx_hit_stone",
+      "outcome": "sfx_boss_fall"
+    },
+    "arm_blade": {
+      "release": "sfx_blade",
+      "impact": "sfx_hit_flesh"
+    },
+    "arm_seal": {
+      "lock": "sfx_seal_lock",
+      "release": "sfx_cast",
+      "impact": "sfx_hit_spirit"
+    },
+    "arm_wind": {
+      "release": "sfx_gust",
+      "impact": "sfx_hit_flesh"
+    },
+    "arm_mirror": {
+      "release": "sfx_chime",
+      "impact": "sfx_hit_stone"
+    },
+    "arm_bell": {
+      "release": "sfx_chime",
+      "impact": "sfx_hit_spirit"
+    },
+    "arm_stone": {
+      "release": "sfx_crush",
+      "impact": "sfx_hit_stone"
+    },
+    "arm_needle": {
+      "release": "sfx_thorn",
+      "impact": "sfx_hit_flesh"
+    },
+    "arm_bow": {
+      "release": "sfx_bolt",
+      "impact": "sfx_hit_flesh"
+    },
+    "arm_hook": {
+      "release": "sfx_blade",
+      "impact": "sfx_hit_stone"
+    },
+    "arm_soul": {
+      "release": "sfx_shade",
+      "impact": "sfx_hit_spirit"
+    },
+    "arm_jade": {
+      "release": "sfx_bolt",
+      "impact": "sfx_hit_stone"
+    },
+    "arm_kiln": {
+      "release": "sfx_flame",
+      "impact": "sfx_hit_stone"
+    },
+    "arm_thunder": {
+      "release": "sfx_shock",
+      "impact": "sfx_hit_spirit"
+    },
+    "chest": {
+      "activate": "sfx_chest"
+    },
+    "gate": {
+      "activate": "sfx_gate"
+    },
+    "altar": {
+      "activate": "sfx_confirm"
+    },
+    "herb": {
+      "activate": "sfx_harvest"
+    },
+    "pickup": {
+      "activate": "sfx_pickup"
+    },
+    "charge": {
+      "activate": "sfx_cast"
+    },
+    "strike": {
+      "activate": "sfx_hit_flesh"
+    },
+    "glint": {
+      "activate": "sfx_pickup"
+    },
+    "breakthrough": {
+      "activate": "sfx_breakthrough"
+    },
+    "dash": {
+      "activate": "sfx_dash"
+    },
+    "lightning": {
+      "activate": "sfx_shock"
+    },
+    "slash": {
+      "activate": "sfx_blade"
+    },
+    "shadow": {
+      "activate": "sfx_shade"
+    },
+    "ward": {
+      "activate": "sfx_ward_place"
+    },
+    "kiln": {
+      "ignite": "sfx_kiln",
+      "complete": "sfx_craft"
+    },
+    "garden": {
+      "plant": "sfx_seed",
+      "collect": "sfx_harvest"
+    },
+    "npc": {
+      "first_contact": "sfx_keeper_call",
+      "handoff": "sfx_confirm"
+    },
+    "pet": {
+      "bond": "sfx_bond",
+      "reply": "sfx_pet_reply"
+    },
+    "menu": {
+      "focus": "sfx_focus",
+      "accept": "sfx_confirm",
+      "back": "sfx_cancel",
+      "locked": "sfx_deny"
+    },
+    "abode": {
+      "enter": "bgm_dong_phu"
+    },
+    "hengyue": {
+      "enter": "bgm_hengyue"
+    },
+    "blood": {
+      "enter": "bgm_blood_sea"
+    },
+    "ruins": {
+      "enter": "bgm_ancient_god"
+    },
+    "mist": {
+      "enter": "bgm_mist_archive",
+      "landmark": "sfx_paper_rustle"
+    },
+    "ember": {
+      "enter": "bgm_ember_delta",
+      "landmark": "sfx_slag_shift"
+    },
+    "quarry": {
+      "enter": "bgm_star_quarry",
+      "landmark": "sfx_crystal_ring"
+    },
+    "arm_flame": {
+      "release": "sfx_flame",
+      "impact": "sfx_hit_spirit"
+    },
+    "ward_anchor": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_crush",
+      "break": "sfx_core_crack"
+    },
+    "ward_mirror": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_chime",
+      "break": "sfx_core_crack"
+    },
+    "ward_thorn": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_thorn",
+      "break": "sfx_core_crack"
+    },
+    "ward_tide": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_gust",
+      "break": "sfx_core_crack"
+    },
+    "ward_flare": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_flame",
+      "break": "sfx_core_crack"
+    },
+    "ward_bell": {
+      "place": "sfx_ward_place",
+      "pulse": "sfx_chime",
+      "break": "sfx_core_crack"
+    }
+  },
+  "asset_groups": {
+    "form": ["wl_outer_disciple", "wl_qi_condensation", "wl_blood_foundation", "wl_extreme_jing"],
+    "enemy_flesh": ["mob_rogue_disciple", "mob_courtyard_guard", "mob_sword_acolyte", "mob_herb_viper", "mob_blood_wolf", "mob_blood_crow", "mob_blood_corpse", "mob_blood_pool_lurker", "lt_scroll_moth", "lt_folio_hound", "lt_ash_skater", "lt_cinder_heron", "lt_ember_diver", "lt_orbit_wasp", "lt_seam_stalker"],
+    "enemy_spirit": ["mob_demonic_talisman", "mob_vengeful_soul", "mob_void_eater", "lt_ink_leech"],
+    "enemy_stone": ["mob_stone_puppet", "mob_stone_archer_puppet", "mob_chain_warden", "mob_rune_sentinel", "lt_wax_sentinel", "lt_kiln_crab", "lt_shard_mole", "lt_slate_carrier"],
+    "boss_flesh": ["boss_teng_huayuan", "lt_furnace_ferryman"],
+    "boss_spirit": ["boss_ghost_king", "lt_binding_archivist"],
+    "boss_stone": ["boss_ancient_god_remnant", "lt_hollow_astrolabe", "lt_mirror_adjudicator"],
+    "hengyue": ["ts_hengyue"],
+    "blood": ["ts_blood_valley"],
+    "ruins": ["ts_ancient_god"],
+    "arm_seal": ["wp_heaven_defying_bead", "wp_restriction_talisman", "pj_heaven_defying_bead", "pj_restriction_talisman", "lt_seal_chisel", "lt_seal_chisel_shot"],
+    "arm_soul": ["wp_soul_banner", "wp_blood_fiend_banner", "wp_soul_lamp", "pj_soul_banner", "pj_blood_fiend_banner", "pj_soul_lamp", "lt_ink_flute", "lt_ink_flute_shot"],
+    "arm_wind": ["wp_azure_wind_sword", "pj_azure_wind_sword"],
+    "arm_blade": ["wp_slaughter_sword", "wp_blood_jade_blade", "pj_slaughter_sword", "pj_blood_jade_blade", "lt_reed_blade", "lt_reed_blade_shot", "lt_moon_glaive", "lt_moon_glaive_shot"],
+    "arm_thunder": ["wp_thunder_seal", "pj_thunder_seal"],
+    "arm_stone": ["wp_ancient_god_hammer", "pj_ancient_god_hammer", "lt_stone_flail", "lt_stone_flail_shot"],
+    "arm_needle": ["wp_five_element_needles", "pj_five_element_needles", "lt_mist_needle", "lt_mist_needle_shot", "lt_brass_spindle", "lt_brass_spindle_shot"],
+    "arm_jade": ["wp_spirit_stone_beads", "pj_spirit_stone_beads", "lt_jade_lance", "lt_jade_lance_shot"],
+    "chest": ["prop_spirit_chest"],
+    "kiln": ["prop_alchemy_jar", "lt_kiln"],
+    "gate": ["prop_teleport_array", "prop_room_door", "lt_moon_gate"],
+    "altar": ["prop_shrine_altar"],
+    "silent": ["prop_spawn_circle", "prop_stone_lantern", "prop_bamboo_cluster", "prop_courtyard_pillar", "prop_sect_banner", "prop_bone_altar", "prop_restriction_pillar", "prop_blood_pool_decor", "prop_mist_ravine_rock", "prop_petrified_chain", "prop_golden_rune_glyph", "prop_void_crack_decor", "prop_ancient_statue", "icon_sinh_tu_cam", "icon_tue_nguyet_cam", "icon_thien_loi_dan", "icon_van_hon_phe_tam", "icon_huyet_hai_cuong_trieu", "icon_thanh_phong_don", "icon_ho_the_cuong_khi", "icon_ngung_khi_quyet", "icon_truc_co_dan", "icon_thien_nghich_chi_luc", "icon_co_than_the", "icon_hu_khong_liet_phung", "icon_phong_an_cam", "icon_cuc_canh_hoa_than", "icon_huyet_te", "icon_tu_linh_tran", "ui_hud_bars", "ui_minimap", "ui_form_portraits", "lt_icon_seed", "lt_icon_ingot", "lt_icon_kiln_heat", "lt_icon_dew", "lt_icon_pellet", "lt_icon_flask", "lt_icon_temper", "lt_icon_slag", "lt_icon_fusion_pair", "lt_icon_fusion_lock", "lt_icon_extract", "lt_icon_oath", "lt_icon_reroll", "lt_icon_seal", "lt_icon_breach", "lt_icon_trial_ticket", "lt_icon_ward_core", "lt_icon_ward_charge", "lt_icon_ward_repair", "lt_icon_wave_clock", "lt_icon_floor_five", "lt_icon_pressure", "lt_icon_respite", "lt_icon_bank", "lt_icon_quit", "lt_icon_risk", "lt_icon_route_mist", "lt_icon_route_ember", "lt_icon_route_star", "lt_icon_pet_bond", "lt_icon_realm_step", "lt_icon_ingot_preview"],
+    "herb": ["prop_spirit_herb"],
+    "menu": ["ui_card_frame", "ui_panel_cursor"],
+    "pickup": ["ui_spirit_stone"],
+    "abode": ["lt_abode_stone"],
+    "garden": ["lt_herb_bed"],
+    "npc": ["lt_kiln_keeper", "lt_seed_broker", "lt_seal_scribe", "lt_chart_reader", "lt_bell_founder", "lt_ward_mason"],
+    "pet": ["lt_ink_marten", "lt_reed_crane", "lt_coal_toad", "lt_star_hare", "lt_bronze_cicada", "lt_mist_carp"],
+    "future_form": ["lt_ink_veil", "lt_river_oath", "lt_star_vessel", "lt_ashen_crown"],
+    "mist": ["lt_mist_archive"],
+    "ember": ["lt_ember_delta"],
+    "quarry": ["lt_star_quarry"],
+    "arm_flame": ["lt_ember_fan", "lt_ember_fan_shot"],
+    "arm_mirror": ["lt_mirror_disc", "lt_mirror_disc_shot"],
+    "arm_bell": ["lt_tide_bell", "lt_tide_bell_shot"],
+    "arm_bow": ["lt_ash_bow", "lt_ash_bow_shot"],
+    "arm_hook": ["lt_star_hook", "lt_star_hook_shot"],
+    "arm_kiln": ["lt_kiln_hammer", "lt_kiln_hammer_shot"],
+    "ward_anchor": ["lt_ward_anchor"],
+    "ward_mirror": ["lt_ward_mirror"],
+    "ward_thorn": ["lt_ward_thorn"],
+    "ward_tide": ["lt_ward_tide"],
+    "ward_flare": ["lt_ward_flare"],
+    "ward_bell": ["lt_ward_bell"],
+    "breakthrough": ["breakthrough_aura_kim_dan", "breakthrough_aura_luyen_khi", "breakthrough_aura_nguyen_anh", "breakthrough_aura_truc_co"],
+    "ward": ["cam_che_tran_phap"],
+    "charge": ["charge_up"],
+    "dash": ["dash_afterimage"],
+    "strike": ["hit_spark"],
+    "slash": ["huyet_hai_kiem_khi"],
+    "glint": ["spirit_stone_glint"],
+    "lightning": ["thien_loi_cuc_canh"],
+    "shadow": ["ton_hon_phan_hac_vu"]
+  },
+  "fusions": {
+    "lt_reed_verdict": {
+      "parents": ["lt_reed_blade", "lt_seal_chisel"],
+      "shot": "lt_reed_verdict_shot"
+    },
+    "lt_cinder_mirror": {
+      "parents": ["lt_ember_fan", "lt_mirror_disc"],
+      "shot": "lt_cinder_mirror_shot"
+    },
+    "lt_tidal_chain": {
+      "parents": ["lt_tide_bell", "lt_stone_flail"],
+      "shot": "lt_tidal_chain_shot"
+    },
+    "lt_mist_string": {
+      "parents": ["lt_mist_needle", "lt_ash_bow"],
+      "shot": "lt_mist_string_shot"
+    },
+    "lt_ink_orbit": {
+      "parents": ["lt_star_hook", "lt_ink_flute"],
+      "shot": "lt_ink_orbit_shot"
+    },
+    "lt_jade_crucible": {
+      "parents": ["lt_jade_lance", "lt_kiln_hammer"],
+      "shot": "lt_jade_crucible_shot"
+    },
+    "lt_lunar_loom": {
+      "parents": ["lt_moon_glaive", "lt_brass_spindle"],
+      "shot": "lt_lunar_loom_shot"
+    },
+    "lt_ember_reed": {
+      "parents": ["lt_reed_blade", "lt_mirror_disc"],
+      "shot": "lt_ember_reed_shot"
+    },
+    "lt_echo_prism": {
+      "parents": ["lt_ember_fan", "lt_stone_flail"],
+      "shot": "lt_echo_prism_shot"
+    },
+    "lt_shard_needle": {
+      "parents": ["lt_tide_bell", "lt_ash_bow"],
+      "shot": "lt_shard_needle_shot"
+    }
+  },
+  "modes": {
+    "core": {
+      "anchors": ["wl_outer_disciple", "ts_hengyue", "ts_blood_valley", "ts_ancient_god", "ui_card_frame", "lt_mist_archive", "lt_ember_delta", "lt_star_quarry"],
+      "events": {
+        "entry": "bgm_hengyue",
+        "boss": "bgm_boss_trial",
+        "exit": "bgm_aftermath",
+        "bank": "sfx_reward"
+      }
+    },
+    "abode": {
+      "anchors": ["wp_heaven_defying_bead", "prop_alchemy_jar", "lt_kiln_keeper", "lt_ink_marten", "lt_kiln", "lt_herb_bed", "lt_moon_gate", "lt_icon_seed"],
+      "events": {
+        "entry": "bgm_dong_phu",
+        "door": "sfx_gate"
+      }
+    },
+    "endless": {
+      "anchors": ["cam_che_tran_phap", "lt_icon_floor_five", "lt_icon_pressure", "lt_icon_bank", "lt_ashen_crown"],
+      "events": {
+        "entry": "bgm_endless",
+        "checkpoint": "sfx_floor_mark",
+        "bank": "sfx_reward",
+        "defeat": "sfx_player_fall"
+      }
+    },
+    "trial": {
+      "anchors": ["charge_up", "lt_mirror_adjudicator", "lt_icon_trial_ticket", "lt_icon_oath"],
+      "events": {
+        "entry": "bgm_boss_trial",
+        "vow": "sfx_oath",
+        "round": "sfx_tell_boss",
+        "win": "sfx_boss_fall"
+      }
+    },
+    "defense": {
+      "anchors": ["ui_hud_bars", "lt_ward_anchor", "lt_ward_mirror", "lt_ward_thorn", "lt_ward_tide", "lt_ward_flare", "lt_ward_bell", "lt_icon_wave_clock"],
+      "events": {
+        "entry": "bgm_defense",
+        "wave": "sfx_wave_call",
+        "repair": "sfx_craft",
+        "breach": "sfx_core_crack"
+      }
+    }
+  },
+  "scenes": {
+    "preview-app/courtyard/index.html": "bgm_hengyue",
+    "preview-app/courtyard/hall.html": "bgm_hengyue",
+    "preview-app/blood-sea/index.html": "bgm_blood_sea"
+  }
+}
