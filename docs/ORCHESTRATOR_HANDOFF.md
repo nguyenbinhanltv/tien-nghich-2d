@@ -19,7 +19,15 @@ The approved Động Phủ pilot (one bed and eight cues) remains the listening 
 | [Hằng Nhạc score](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/ao/skills-arena-prs/hengyue-score) | [55dd32c9625a5e213312380ca01992d64ba60db6](https://github.com/nguyenbinhanltv/tien-nghich-2d/commit/55dd32c9625a5e213312380ca01992d64ba60db6). Two byte-identical renders. Stereo PCM16 at 44,100 Hz, loop [0, 3087000) frames, 70 s, −21.66 LUFS and −7.06 dBTP. |
 | [Wave 2 effects](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/ao/ember-delta-tiles/wave2-first-sfx) | [b20ef09b802f84c207d895db0752090eeb62db1d](https://github.com/nguyenbinhanltv/tien-nghich-2d/commit/b20ef09b802f84c207d895db0752090eeb62db1d). Eight mono masters reproduced twice. Step, evade, cast, bolt, light tell, focus, cancel and deny have individual PCM and WAV hashes. |
 
-**Integration checkpoint.** The pack and portable A/B audition are in preparation. The source commits above are available now. Human listening is pending. At matched volume, audition the marked Hằng Nhạc loop across three joins in master and decoded Ogg/AAC. Compare all eight cues alone and over the bed, including mono. Record listener, exact pack head, codec, confusing pairs and any seam or timing defect before accepting the audio.
+**Open audio integration.** [PR #52](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52), branch `ao/ember-delta-atlas/audio-wave2-batch1`, head `b27eb12c34a9d0786d535b750993dc3140b54a04`. The integrator reports 7/7 deterministic pack outputs, 4/4 Wave 2 tests, 5/5 pilot tests, the audio plan check passing and all 23 pilot files byte-identical. Independent technical QA was underway at handoff. [Versioned pack, manifest and report](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/b27eb12c34a9d0786d535b750993dc3140b54a04/assets/audio/packs/wave2_batch1_v1)
+
+**Human audition pending.** Download the WAV and timing key from [the portable audition folder](https://github.com/nguyenbinhanltv/tien-nghich-2d/tree/cb0181eb463848efec0bec43ffbef41cfa2b7e29/audition) on `ao/ember-delta-atlas/audio-wave2-batch1-audition`, commit `cb0181eb463848efec0bec43ffbef41cfa2b7e29`. Compare the master, Ogg and AAC seams at 4.0, 12.8 and 21.6 seconds, then follow the key for all eight effects solo and over the bed. Check mono and record the listener's decision against the exact audio head before merging #52.
+
+| File under `audition/` | SHA-256 of Git blob contents |
+|---|---|
+| `wave2_batch1_audition.wav` | `d998e86a3bd1451c449abc299ceea6c807ab194dd4396b8c87a7ca7b9cc832e6` |
+| `wave2_batch1_audition_timing.json` | `e2aa0fd7ffc501b7fb80f50eb0e205b2369bb88c87ea056b69f1207936e529e2` |
+| `wave2_batch1_audition_timing.md` | `f5d6f310938ceea91e44b47b8bd2da902fb9fdc66543e8ce7b50e3670ea7b2cf` |
 
 ## Bring up a fresh machine
 
@@ -54,9 +62,10 @@ The approved Động Phủ pilot (one bed and eight cues) remains the listening 
 3. To adopt an **open** audio PR after ownership transfer is authorized, use a clean worker checkout. Record the live head, compare it with the reviewed SHA, then attach ownership and check out the verified branch. If the head moved, inspect the new diff and repeat its checks before carrying forward earlier evidence.
 
    ```powershell
-   $pr = Read-Host 'Open audio PR number'
+   $pr = 52
    $info = gh pr view $pr --json state,headRefName,headRefOid,url | ConvertFrom-Json
    if ($info.state -ne 'OPEN' -or (git status --porcelain)) { throw 'Check PR state and worktree' }
+   if ($info.headRefOid -ne 'b27eb12c34a9d0786d535b750993dc3140b54a04') { throw 'Review updated audio head first' }
    git fetch origin $info.headRefName
    if ((git rev-parse "origin/$($info.headRefName)") -ne $info.headRefOid) { throw 'Remote head moved' }
    ao session claim-pr $info.url
@@ -65,11 +74,11 @@ The approved Động Phủ pilot (one bed and eight cues) remains the listening 
    git rev-parse HEAD
    ```
 
-   Confirm the final HEAD equals the recorded full SHA. For a merged PR, use the merged main checkout and its recorded pack hash.
+   Confirm the final HEAD equals the recorded full SHA. On that audio head, run `python -B tools/scripts/build_audio_wave2_batch1_pack.py --ffmpeg (Get-Command ffmpeg).Source --check`. The reference FFmpeg 6.1.1 binary SHA-256 is `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`. For a merged PR, use the merged main checkout and its recorded pack hash.
 
 ## Backlog for a later user-directed restart
 
-- **PixelLab:** 30 later character/animation IDs need authorized access and quota. Two additional wave-one subjects, kiln keeper and ink marten, also belong to the PixelLab lane. Confirm their delivery from committed chunks before counting them as shipped. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
+- **PixelLab:** The coordinator?s production backlog is **30 IDs total**: two wave-one subjects (kiln keeper and ink marten) and 28 later assignments. Confirm authorized access and available quota before allocating them. [Longtime GDD](LONGTIME_GDD.md) · [Longtime manifest](../assets/manifest_longtime.json)
 - **Longtime VFX:** scope IDs, visual purpose, frame profiles, budgets and acceptance in design before producing art. Preserve the 12 inherited effects and the existing core delivery contract. [GDD](GDD.md) · [Core manifest](../assets/manifest.json) · [Art Bible](ART_BIBLE.md)
 - **Audio:** after this sub-batch is accepted, core production has four beds and 24 effects outstanding. Later waves reserve five beds and ten effects behind their design gates. [Audio design](AUDIO_DESIGN.md) · [Audio manifest](../assets/audio_manifest.json)
 - **Asset work:** use the versioned [routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md), [art QA](../.agents/skills/tien-nghich-art-qa/SKILL.md) and [AssetCat](../.agents/skills/tien-nghich-assetcat/SKILL.md) skills for source routing, palette/outline checks and rights records.
