@@ -11,6 +11,8 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { loadPackSync, packFileName } from '../core/pack.mjs';
+import { openWorkspace } from '../core/workspace.mjs';
+import { loadAssetIndex } from './asset-index.mjs';
 import { ToolError } from './registry.mjs';
 
 // A ToolError so a missing or half-written file reaches the model as an actionable isError result
@@ -54,7 +56,7 @@ const tally = (items, keyFn) => {
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => (a < b ? -1 : 1)));
 };
 
-export function openProject(rootArg) {
+export function openProject(rootArg, { libraryDir } = {}) {
   const root = resolve(rootArg);
   if (!existsSync(root) || !statSync(root).isDirectory()) throw new ProjectError(`project path is not a directory: ${root}`);
 
@@ -239,5 +241,8 @@ export function openProject(rootArg) {
   };
 
   snapshot(); // fail fast at startup: a bad project root is clearer on stderr than at the first call
-  return { root, source: 'project-pack', snapshot };
+  // The workspace is the studio core's view of the same directory (pack, palette, asset index, revision
+  // store, studio database). It is built lazily, so a read-only project_info never opens SQLite.
+  let workspace;
+  return { root, source: 'project-pack', snapshot, get workspace() { return workspace ??= openWorkspace(root, { libraryDir, indexer: loadAssetIndex }); }, close() { workspace?.close(); } };
 }

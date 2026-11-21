@@ -44,10 +44,18 @@ for (const [file, parse] of Object.entries(CONFIGS)) {
   });
 }
 
-test('the agent name in each config matches its harness', () => {
-  assert.deepEqual(CONFIGS['.codex/config.toml']().args.slice(1), ['--agent', 'codex']);
-  assert.deepEqual(CONFIGS['.agents/mcp_config.json']().args.slice(1), ['--agent', 'antigravity']);
-  assert.deepEqual(CONFIGS['.mcp.json']().args, ['studio/mcp.mjs'], 'Claude Code identifies itself via clientInfo');
+test('the agent name and scope in each config match its harness', () => {
+  assert.deepEqual(CONFIGS['.codex/config.toml']().args.slice(1), ['--scope', 'author', '--agent', 'codex']);
+  assert.deepEqual(CONFIGS['.agents/mcp_config.json']().args.slice(1), ['--scope', 'author', '--agent', 'antigravity']);
+  assert.deepEqual(CONFIGS['.mcp.json']().args, ['studio/mcp.mjs', '--scope', 'author'], 'Claude Code identifies itself via clientInfo');
+});
+
+test('no committed config grants more than author scope or weakens a policy', () => {
+  for (const [file, parse] of Object.entries(CONFIGS)) {
+    const { args } = parse();
+    assert.equal(args[args.indexOf('--scope') + 1], 'author', `${file}: pack scope is an operator decision at launch, never committed`);
+    assert.ok(!args.includes('--skip-independent-check'), `${file}: the independent-check policy stays on`);
+  }
 });
 
 test('launching exactly as a config does, from the repo root, serves this checkout', async () => {

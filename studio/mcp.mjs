@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Studio MCP server entry point.  node studio/mcp.mjs --project <path> [--scope read|author|pack]
-//   [--agent <name>] [--audit-log <file>] [--max-line-bytes <n>] [--self-test] [--help]
+//   [--agent <name>] [--audit-log <file>] [--max-line-bytes <n>] [--library-dir <abs>] [--skip-independent-check]
+//   [--self-test] [--help]
+//   node studio/mcp.mjs --issue-token --agent <name> --scope <scope> | --list-tokens | --revoke-token <id>   (HTTP bearer tokens)
 // Speaks MCP over stdio. stdout carries protocol messages ONLY; everything else goes to stderr.
 
 import { parseArgs } from 'node:util';
@@ -10,6 +12,7 @@ import { DEFAULT_MAX_LINE_BYTES, McpServer, makeAudit, serveStdio } from './mcp/
 import { SCOPES } from './mcp/registry.mjs';
 import { ProjectError, openProject } from './mcp/project.mjs';
 import { buildRegistry } from './mcp/tools/index.mjs';
+import { JobRunner } from './core/jobs.mjs';
 
 // Guard: nothing may reach stdout by accident (a stray console.log would corrupt the stream).
 console.log = console.info = console.debug = (...a) => console.error(...a);
@@ -20,6 +23,11 @@ const HELP = `Usage: node studio/mcp.mjs [options]
   --agent <name>        agent name to record (default: the client's self-reported name)
   --audit-log <file>    append one JSON line per tool call
   --max-line-bytes <n>  refuse input lines longer than n bytes (default ${DEFAULT_MAX_LINE_BYTES})
+  --library-dir <abs>   revision library directory (default: the pack's revisions directory under the project)
+  --skip-independent-check   LOCAL EXPERIMENTS ONLY: let studio_review_request run without another session's check
+  --issue-token         print a new HTTP bearer token for --agent and --scope (shown once), then exit
+  --list-tokens         list issued tokens (never the secrets), then exit
+  --revoke-token <id>   revoke a token, then exit
   --self-test           spawn this server, run a real handshake and call, print a report
   --help
 `;
@@ -29,7 +37,7 @@ try {
   ({ values } = parseArgs({
     options: {
       project: { type: 'string' }, scope: { type: 'string', default: 'read' }, agent: { type: 'string' },
-      'audit-log': { type: 'string' }, 'max-line-bytes': { type: 'string' }, 'self-test': { type: 'boolean' }, help: { type: 'boolean' },
+      'audit-log': { type: 'string' }, 'max-line-bytes': { type: 'string' }, 'library-dir': { type: 'string' }, 'skip-independent-check': { type: 'boolean' }, 'issue-token': { type: 'boolean' }, 'list-tokens': { type: 'boolean' }, 'revoke-token': { type: 'string' }, 'self-test': { type: 'boolean' }, help: { type: 'boolean' },
     },
     strict: true,
   }));
@@ -54,14 +62,35 @@ if (values['self-test']) {
 
 let project;
 try {
-  project = openProject(projectRoot);
+  project = openProject(projectRoot, { libraryDir: values['library-dir'] });
 } catch (e) {
   if (!(e instanceof ProjectError)) throw e;
   console.error(`studio-mcp: ${e.message}`);
   process.exit(2);
 }
+if (values['issue-token'] || values['list-tokens'] || values['revoke-token']) {
+  const { TokenStore } = await import('./mcp/tokens.mjs');
+  const tokens = new TokenStore(project.workspace.libraryDir());
+  try {
+    if (values['issue-token']) {
+      if (!values.agent) throw new Error('--issue-token needs --agent <name>');
+      const t = tokens.issue({ agent: values.agent, scope: values.scope });
+      process.stdout.write(`Token for ${t.agent} (scope ${t.scope}), id ${t.id}. It is shown once and only its hash is kept.\nKeep it in an environment variable, never in a file that is committed:\n\n  ${t.token}\n`);
+    } else if (values['list-tokens']) {
+      process.stdout.write(JSON.stringify(tokens.list(), null, 2) + '\n');
+    } else {
+      if (!tokens.revoke(values['revoke-token'])) throw new Error(`no token with id ${values['revoke-token']}`);
+      process.stdout.write(`revoked ${values['revoke-token']}\n`);
+    }
+  } catch (e) { console.error(`studio-mcp: ${e.message}`); process.exit(2); }
+  project.close();
+  process.exit(0);
+}
+
 const server = new McpServer({
   registry: buildRegistry(), project, scope: values.scope, agent: values.agent, audit: makeAudit(values['audit-log']),
+  jobs: new JobRunner(), policy: { requireIndependentCheck: !values['skip-independent-check'] },
 });
 console.error(`studio-mcp: serving ${project.root} (scope ${values.scope}) on stdio`);
 await serveStdio({ input: process.stdin, output: process.stdout, server, maxLineBytes });
+project.close();
