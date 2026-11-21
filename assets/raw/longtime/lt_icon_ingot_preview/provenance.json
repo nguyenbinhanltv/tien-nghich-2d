@@ -1,0 +1,43 @@
+{
+  "id": "lt_icon_ingot_preview",
+  "producer": "OpenAI Codex",
+  "rights": "Original project artwork.",
+  "method": "palette_variant",
+  "brief": "Ghosted bronze-to-ink ingot; pair with a Preview label.",
+  "canonical_review_default": "approved",
+  "generator": "tools/generators/lt_longtime_expedition_glyphs.py",
+  "generator_sha256_lf": "e5b2a1805b75884f43a450ab66a305e37b363fe7d9aa85498c0a917d167f3b02",
+  "palette": "tools/generators/palette.json",
+  "parent_sources": [
+    {
+      "id": "lt_icon_ingot",
+      "path": "assets/raw/longtime/lt_icon_ingot/source.png",
+      "sha256": "b1b50b567f720fe0dd8defbc332c9c2420cdc7b69dc91dcd50961ee47b6f1353"
+    }
+  ],
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "59fc521e76c332743c7f2e847dedcb3dbd6401e2687e08a1d0c6f32e28ccb544",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_icon_ingot_preview/contact.png": "8d4ab78604b01fab50a37a9248bd89478cd48da0401c1cae4027de5d35c728a4"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_icon_ingot_preview/glyph_none_0",
+      "path": "assets/processed_longtime/lt_icon_ingot_preview/glyph_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "59fc521e76c332743c7f2e847dedcb3dbd6401e2687e08a1d0c6f32e28ccb544"
+    }
+  ]
+}

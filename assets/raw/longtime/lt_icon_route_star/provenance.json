@@ -1,0 +1,37 @@
+{
+  "id": "lt_icon_route_star",
+  "producer": "OpenAI Codex",
+  "rights": "Original project artwork.",
+  "method": "new_source",
+  "brief": "A bright four-point star over two smaller quarry stars.",
+  "canonical_review_default": "approved",
+  "generator": "tools/generators/lt_longtime_expedition_glyphs.py",
+  "generator_sha256_lf": "e5b2a1805b75884f43a450ab66a305e37b363fe7d9aa85498c0a917d167f3b02",
+  "palette": "tools/generators/palette.json",
+  "parent_sources": [],
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "171ae5970941d19e4adb9585ce921a0c30a3864e9d54dd5b609b6a0b87da83a2",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_icon_ingot_preview/contact.png": "8d4ab78604b01fab50a37a9248bd89478cd48da0401c1cae4027de5d35c728a4"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_icon_route_star/glyph_none_0",
+      "path": "assets/processed_longtime/lt_icon_route_star/glyph_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "171ae5970941d19e4adb9585ce921a0c30a3864e9d54dd5b609b6a0b87da83a2"
+    }
+  ]
+}

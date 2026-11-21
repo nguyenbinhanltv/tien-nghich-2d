@@ -1,0 +1,37 @@
+{
+  "id": "lt_icon_bank",
+  "producer": "OpenAI Codex",
+  "rights": "Original project artwork.",
+  "method": "new_source",
+  "brief": "A tied deposit purse with a square-holed cash seal.",
+  "canonical_review_default": "approved",
+  "generator": "tools/generators/lt_longtime_expedition_glyphs.py",
+  "generator_sha256_lf": "e5b2a1805b75884f43a450ab66a305e37b363fe7d9aa85498c0a917d167f3b02",
+  "palette": "tools/generators/palette.json",
+  "parent_sources": [],
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "6328b4fdbdd1781cc61e4d610f5e9ca17445205f9e8aa4acdc90bfbb08d91e20",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_icon_ingot_preview/contact.png": "8d4ab78604b01fab50a37a9248bd89478cd48da0401c1cae4027de5d35c728a4"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_icon_bank/glyph_none_0",
+      "path": "assets/processed_longtime/lt_icon_bank/glyph_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6328b4fdbdd1781cc61e4d610f5e9ca17445205f9e8aa4acdc90bfbb08d91e20"
+    }
+  ]
+}
