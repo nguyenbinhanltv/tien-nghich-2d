@@ -5,6 +5,13 @@ Rebuild: `python -B tools/scripts/build_audio_pilot_pack.py --ffmpeg <ffmpeg> [-
 Toolchain: pre-existing `ffmpeg-static` b6.1.1 (FFmpeg 6.1.1 gyan.dev essentials, libvorbis + native AAC-LC) found under `D:/Temp`; no ffprobe exists there, so container facts are parsed from bytes by the script and stream facts come from FFmpeg decode. Nothing installed, nothing on PATH.
 
 ## Files
+
+Verification on Windows x64 used CPython 3.14.0, NumPy 2.5.5 and FFmpeg 6.1.1 (executable SHA-256 `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`). With temp storage under `D:/Temp`, `--check` rebuilt the seven generated files below in scratch and compared their bytes to the target. Git checks out the two generated JSON files with LF. The handwritten report is outside the comparison.
+
+The intact pack returned 0. A scratch copy with an altered Ogg and missing evidence JSON returned 1 and named both files. Target contents and modification times were preserved in both runs. The pack and plan suites passed 11 tests, and the audio-plan validator passed.
+
+All 14 WAV, Ogg and M4A file hashes matched PR head `5fd81839`. The SHA-256 of the inventory is `2791a11da644e5a3fcee5521b1f5665116a0d4c85a041756678de25da4af3184` (sorted repo-relative paths, each line formatted as lowercase SHA-256, two spaces, path, LF). Individual file hashes are recorded in `pack.json`.
+
 | File | Content |
 |---|---|
 | `sfx_sprite_master.wav` | Lossless 8-cue sprite: 8192-frame guards, every cue start 1024-aligned |

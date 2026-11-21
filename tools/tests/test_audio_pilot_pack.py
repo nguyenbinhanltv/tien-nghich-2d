@@ -5,10 +5,14 @@ guard silence in the lossless sprite master, loop bounds, and the no-source-rewr
 Codec decode evidence is produced by tools/scripts/build_audio_pilot_pack.py (--check rebuilds).
 """
 import hashlib
+import io
 import json
+import tempfile
 import unittest
 import wave
+from contextlib import redirect_stderr
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
@@ -90,6 +94,47 @@ class AudioPilotPackTests(unittest.TestCase):
                 for k in ("guard_after_core_peak_dbfs", "guard_before_core_peak_dbfs"):
                     self.assertLess(row[k], -60.0, (codec, row["id"], k))
                 self.assertGreater(row["snr_db"], 8.0, (codec, row["id"]))
+
+
+class CheckModeTests(unittest.TestCase):
+    def test_read_only_comparison(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("packer", ROOT / "tools/scripts/build_audio_pilot_pack.py")
+        packer = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(packer)
+
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "pack"
+            def render(_ff, dest):
+                self.assertFalse(dest.resolve().is_relative_to(target.resolve()))
+                for name in packer.GENERATED_FILES:
+                    (dest / name).write_bytes(name.encode())
+
+            def check():
+                return packer.main(["--check", "--ffmpeg", "fixture", "--out", str(target)])
+
+            errors = io.StringIO()
+            with patch.object(packer, "FF"), patch.object(packer, "build_pack", side_effect=render), redirect_stderr(errors):
+                self.assertEqual(check(), 1)
+                self.assertFalse(target.exists())
+                target.mkdir()
+                for name in packer.GENERATED_FILES:
+                    (target / name).write_bytes(name.encode())
+                report = target / "PACK_REPORT.md"
+                report.write_bytes(b"handwritten review")
+                times = {p: p.stat().st_mtime_ns for p in target.iterdir()}
+                self.assertEqual(check(), 0)
+                self.assertEqual(times, {p: p.stat().st_mtime_ns for p in target.iterdir()})
+                (target / "pack.json").write_bytes(b"modified")
+                (target / "sfx_sprite.ogg").unlink()
+                errors.truncate(0)
+                errors.seek(0)
+                self.assertEqual(check(), 1)
+                self.assertIn("pack.json: SHA-256 mismatch", errors.getvalue())
+                self.assertIn("sfx_sprite.ogg: missing target file", errors.getvalue())
+                self.assertEqual((target / "pack.json").read_bytes(), b"modified")
+                self.assertFalse((target / "sfx_sprite.ogg").exists())
+                self.assertEqual(report.read_bytes(), b"handwritten review")
 
 
 if __name__ == "__main__":

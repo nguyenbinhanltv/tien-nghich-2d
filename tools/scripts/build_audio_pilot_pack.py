@@ -24,6 +24,7 @@ import re
 import struct
 import subprocess
 import sys
+import tempfile
 import wave
 from pathlib import Path
 
@@ -351,14 +352,13 @@ def mix_comparison(bgm: dict, sfx: dict) -> dict:
     return out
 
 
-def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--ffmpeg", required=True, help="path to an existing FFmpeg executable (not installed by this script)")
-    ap.add_argument("--out", default=str(ROOT / "assets/audio/packs/pilot_v1"))
-    ap.add_argument("--check", action="store_true", help="rebuild to a temp dir and require byte-identical outputs")
-    a = ap.parse_args(argv)
-    ff = FF(a.ffmpeg)
-    out = Path(a.out)
+GENERATED_FILES = (
+    "pack.json", "evidence.json", "sfx_sprite_master.wav", "sfx_sprite.ogg",
+    "sfx_sprite.m4a", f"{BGM_ID}.ogg", f"{BGM_ID}.m4a",
+)
+
+
+def build_pack(ff: FF, out: Path) -> None:
     sfx, sfx_ev = build_sfx(ff, out, True)
     bgm, bgm_ev = build_bgm(ff, out)
     mix = mix_comparison(bgm, sfx)
@@ -383,13 +383,38 @@ def main(argv=None) -> int:
                 "agent_listening": "not supported by this agent; no audio was auditioned",
                 "human_listening": "pending"}
     (out / "evidence.json").write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--ffmpeg", required=True, help="path to an existing FFmpeg executable (not installed by this script)")
+    ap.add_argument("--out", default=str(ROOT / "assets/audio/packs/pilot_v1"))
+    ap.add_argument("--check", action="store_true", help="rebuild to a temp dir and require byte-identical outputs")
+    a = ap.parse_args(argv)
+    ff = FF(a.ffmpeg)
+    out = Path(a.out)
     if a.check:
-        import tempfile
-        with tempfile.TemporaryDirectory() as td:
-            main(["--ffmpeg", a.ffmpeg, "--out", td])
-            bad = [p.name for p in out.iterdir() if p.is_file() and sha256(p) != sha256(Path(td) / p.name)]
-            print("deterministic rebuild:", "OK" if not bad else f"MISMATCH {bad}")
-            return 1 if bad else 0
+        scratch = Path(tempfile.gettempdir()).resolve()
+        if scratch.is_relative_to(out.resolve()):
+            ap.error("choose a temporary directory outside the comparison target")
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            rebuilt = Path(directory)
+            build_pack(ff, rebuilt)
+            problems = []
+            for name in GENERATED_FILES:
+                target = out / name
+                if not target.is_file():
+                    problems.append(f"{name}: missing target file")
+                elif not (rebuilt / name).is_file():
+                    problems.append(f"{name}: missing rebuilt file")
+                elif sha256(target) != sha256(rebuilt / name):
+                    problems.append(f"{name}: SHA-256 mismatch")
+            if problems:
+                print("\n".join(problems), file=sys.stderr)
+                return 1
+        print(f"deterministic rebuild: OK ({len(GENERATED_FILES)} files)")
+        return 0
+    build_pack(ff, out)
     print(json.dumps({"ffmpeg": ff.version, "out": str(out)}))
     return 0
 
