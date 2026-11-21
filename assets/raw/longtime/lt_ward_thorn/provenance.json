@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_thorn",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "rights": "Original artwork created for this project.",
+  "brief": "Ground socket and visible thorn charge marker.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/longtime_ward_anchor_mirror_thorn.py",
+  "generator_sha256_lf": "26536d3101a4521bea760dbdd87ca62b5a1b7e07db42e1e44c93d1928f8a0d6d",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "directions": [
+    "none"
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "6bcc72abfcbcc4b50e207c34e12bd9d071059fdef2620a8e953c59c6e7596036",
+  "frames": [
+    {
+      "key": "longtime/lt_ward_thorn/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_thorn/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "703535c1e9368c89479b5786aca809da9b63b374c53ee25432c10ef875bf7cad"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_thorn/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "59272ebd7199d7ebf16b176301e513d591a8b94d3e4e084ee75eff07ae215029"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_thorn/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "dcdd56223c880ab5cabf390a2fb38efc795e473eb5e05c7314aa0405b85b4bee"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_thorn/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "9975453d4f56f3e5bd9a843b3e16818425817b5c8f5717f229f2c8c428b58db8"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_thorn/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "8b28f4b512c8eccb9d5cbeb7550f15b7dfcd131ef593f44968bfea6a279f9110"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_thorn/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "29857e63c4b38918f6e875abc6cc6de7c6d563c044187a4920110e2a77e97a3d"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_thorn/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "44e05af6a24a32fa1f4784e57e1949b25546b7f044386e7c895421616e01a39d"
+    },
+    {
+      "key": "longtime/lt_ward_thorn/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_thorn/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "1639178eff7945846acbb92a30080108719944dcf0f2e3dcbf2770a456f87541"
+    }
+  ]
+}

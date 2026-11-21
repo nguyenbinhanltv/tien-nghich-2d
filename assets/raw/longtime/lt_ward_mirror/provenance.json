@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_mirror",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "rights": "Original artwork created for this project.",
+  "brief": "Ground socket and visible mirror charge marker.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/longtime_ward_anchor_mirror_thorn.py",
+  "generator_sha256_lf": "26536d3101a4521bea760dbdd87ca62b5a1b7e07db42e1e44c93d1928f8a0d6d",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "directions": [
+    "none"
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "4dfb2a3d482ad44f9a20adf993ff34b04c29e0599968cf71f254d8511cf30ad7",
+  "frames": [
+    {
+      "key": "longtime/lt_ward_mirror/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_mirror/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "2a42f3998e0d2fb35ef5ec6972f6f532e512ca6970b0a088f9d527f5fad6d871"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_mirror/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "e58fc13f41e58e52816117861f215c4a2bf7358064df8c67b11bdd00bdd0959f"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_mirror/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "e8088588d175e1dba527880655325228750da488835b5d65e51fb8724f25500c"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_mirror/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "1389d08fda094d8286c6ed7b63ffa2e3942a3471453fa0c4e36514a36c893b03"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_mirror/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "e30afe6fa6c0111b37b1bf72cc74a80ca2b6bf08e122307144203017f073c2cd"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_mirror/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "1cbc6fc48a7481f2620fba9b2cc1fa1fcd681e5456f5233e59405db430c03895"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_mirror/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "4a90f729ef4d8766eff6b75b3ba4e26e9a63249bcef9401433f2f8c283b036fd"
+    },
+    {
+      "key": "longtime/lt_ward_mirror/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_mirror/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "f6693ae9023b6eea5c61f50162b5d76af41904f59db918a83fc0e0b8df2292eb"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "id": "lt_ward_anchor",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "rights": "Original artwork created for this project.",
+  "brief": "Ground socket and visible anchor charge marker.",
+  "parent_sources": [
+    {
+      "id": "prop_restriction_pillar",
+      "path": "assets/raw/environment_items/props/prop_restriction_pillar/idle_00.png",
+      "sha256": "f231c12241400ef0dbbdb0402b4dbf5c85fa945ac9e493e44f01ae1f8cdb0be1"
+    }
+  ],
+  "generator": "tools/generators/longtime_ward_anchor_mirror_thorn.py",
+  "generator_sha256_lf": "26536d3101a4521bea760dbdd87ca62b5a1b7e07db42e1e44c93d1928f8a0d6d",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "directions": [
+    "none"
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "18e05842f0fc197d0f6dcd005b8a56f5134e3e6d1fcfca45bc17c12c065b9c22",
+  "frames": [
+    {
+      "key": "longtime/lt_ward_anchor/idle_none_0",
+      "path": "assets/processed_longtime/lt_ward_anchor/idle_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6c604903e6dec65eb3ce658325a0e4339feded67309edfabe6d1582a21326de1"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/charge_none_0",
+      "path": "assets/processed_longtime/lt_ward_anchor/charge_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "681260d3e73a42f97eb5938009d45b4a9fbc77f02285feca094dd7934efb90dd"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/charge_none_1",
+      "path": "assets/processed_longtime/lt_ward_anchor/charge_none_1.png",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "6e586dd6ac5731abd4c6ff48d0349b4bb836e273974d98ef5b3535584d843743"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/charge_none_2",
+      "path": "assets/processed_longtime/lt_ward_anchor/charge_none_2.png",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "abf0e42b81a88081c1679436f16a978e3bd25cd3e4ef821eeb8b2e5770d7b4a1"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/charge_none_3",
+      "path": "assets/processed_longtime/lt_ward_anchor/charge_none_3.png",
+      "source_xy": [
+        128,
+        0
+      ],
+      "duration_ms": 120,
+      "sha256": "4e91606a87d7b5a8e78f41282cae29b33377c02bda1cbad2f2a41ae2b70e3b77"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/release_none_0",
+      "path": "assets/processed_longtime/lt_ward_anchor/release_none_0.png",
+      "source_xy": [
+        160,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "c5f0804c69c34afec2b61e639addab094dc943f8624ae1777b424946842d0a03"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/release_none_1",
+      "path": "assets/processed_longtime/lt_ward_anchor/release_none_1.png",
+      "source_xy": [
+        192,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "1b6cb716deb9b06aa5558a7b9d4277f94ba7bf67712f3a3a19fcd6e36852acc5"
+    },
+    {
+      "key": "longtime/lt_ward_anchor/release_none_2",
+      "path": "assets/processed_longtime/lt_ward_anchor/release_none_2.png",
+      "source_xy": [
+        224,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "438e4649e71fcc6fb6ed273a9d566e77bad5d70865e97143b56a1ec2d045c5fc"
+    }
+  ]
+}
