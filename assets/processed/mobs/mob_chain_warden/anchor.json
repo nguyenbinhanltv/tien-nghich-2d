@@ -1,34 +1,50 @@
 {
- "anchor_px": [
-  15,
-  31
- ],
- "bbox_size": [
-  32,
-  33
- ],
  "canvas": [
   32,
   32
  ],
- "common_bbox_ref48": [
-  7,
-  7,
-  38,
-  39
- ],
  "frames": 44,
+ "anchor_px": [
+  15,
+  31
+ ],
  "origin": [
-  0.4844,
+  0.46875,
   1.0
  ],
- "out_size": [
-  31,
-  32
- ],
- "paste_offset": [
-  0,
-  0
- ],
- "scale": 0.9697
+ "release": "Chain-Warden.zip",
+ "facings": {
+  "south": {
+   "source": "south",
+   "flip_x": false,
+   "anchor_px": [
+    15,
+    31
+   ]
+  },
+  "east": {
+   "source": "east",
+   "flip_x": false,
+   "anchor_px": [
+    15,
+    31
+   ]
+  },
+  "north": {
+   "source": "south",
+   "flip_x": false,
+   "anchor_px": [
+    15,
+    31
+   ]
+  },
+  "west": {
+   "source": "east",
+   "flip_x": true,
+   "anchor_px": [
+    16,
+    31
+   ]
+  }
+ }
 }

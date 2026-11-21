@@ -36,16 +36,17 @@ from PIL import Image
 REPO = Path(__file__).resolve().parents[2]
 
 
-def _load_qa():
-    """qa_assets.py is a sibling script; `python -I` does not put its folder on sys.path."""
-    spec = importlib.util.spec_from_file_location("qa_assets", Path(__file__).with_name("qa_assets.py"))
+def _load_sibling(name):
+    """Isolated Python does not put the script directory on sys.path."""
+    spec = importlib.util.spec_from_file_location(name, Path(__file__).with_name(name + ".py"))
     mod = importlib.util.module_from_spec(spec)
-    sys.modules["qa_assets"] = mod
+    sys.modules[name] = mod
     spec.loader.exec_module(mod)
     return mod
 
 
-qa = _load_qa()
+qa = _load_sibling("qa_assets")
+mob_releases = _load_sibling("import_mob_releases")
 PIXELLAB_OUTLINE = (0x02, 0x01, 0x05)
 CHAR_CATS = ("player", "mob", "boss")
 GROUP = qa.GROUP_OF_CATEGORY
@@ -300,8 +301,27 @@ def build(args):
                 fixed.append((name, snap(arr, palette, outline, a["category"], stats)))
             emit(a, aid, fixed)
     if args.char_src and Path(args.char_src).is_dir():
+        canonical = REPO / "assets/processed"
+        pinned = {}
+        if Path(args.char_src).resolve() == REPO / "assets/raw/characters" or out_root == canonical:
+            for release in json.loads(mob_releases.LOCK.read_bytes()).values():
+                pinned.update(release["mobs"])
         for aid, a in sorted(assets.items()):
             if a["category"] not in CHAR_CATS or (todo and aid not in todo):
+                continue
+            if aid in pinned:
+                source = canonical / "mobs" / aid
+                files = {p.name: p.read_bytes() for p in source.glob("*.png")}
+                if mob_releases.frame_set_digest(files) != pinned[aid]:
+                    raise ValueError(f"Restore {aid} with import_mob_releases.py before building")
+                info = json.loads((source / "anchor.json").read_bytes())
+                if out_root != canonical:
+                    folder = out_root / "mobs" / aid
+                    if folder.exists():
+                        shutil.rmtree(folder)
+                    shutil.copytree(source, folder)
+                report["anchors"][aid] = info
+                report["written"]["mobs"] += len(files)
                 continue
             d = Path(args.char_src) / GROUP[a["category"]] / aid
             if not d.is_dir():

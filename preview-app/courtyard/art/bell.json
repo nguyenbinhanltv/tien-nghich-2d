@@ -1,0 +1,20 @@
+{
+  "fps": 20,
+  "frameSize": 64,
+  "pivot": [
+    32,
+    8
+  ],
+  "clips": {
+    "idle": {
+      "frames": 48,
+      "unique": 43,
+      "sheet": "bell-idle.png"
+    },
+    "activation": {
+      "frames": 30,
+      "unique": 30,
+      "sheet": "bell-activation.png"
+    }
+  }
+}

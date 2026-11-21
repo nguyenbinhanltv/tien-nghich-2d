@@ -1,0 +1,151 @@
+{
+  "schema": "generate2dmap.map_bundle.v2",
+  "tile_size": [
+    16,
+    16
+  ],
+  "world": {
+    "width": 384,
+    "height": 224,
+    "unit": "px"
+  },
+  "layers": [
+    {
+      "name": "Courtyard",
+      "kind": "image",
+      "image": "art/images/courtyard.png",
+      "sha256": "e6248e5edc5afc2f6b165866a33233602db3e34803b1f6a111e95fc7c566f51e"
+    }
+  ],
+  "tilesets": [],
+  "objects": [],
+  "collision": {
+    "actorRadius": 4,
+    "ySquash": 1,
+    "walkRegions": [
+      {
+        "polygon": [
+          [
+            8,
+            55
+          ],
+          [
+            376,
+            55
+          ],
+          [
+            376,
+            215
+          ],
+          [
+            8,
+            215
+          ]
+        ]
+      }
+    ],
+    "rects": [
+      [
+        42,
+        91,
+        96,
+        62
+      ],
+      [
+        246,
+        91,
+        96,
+        62
+      ],
+      [
+        142,
+        54,
+        100,
+        36
+      ],
+      [
+        13,
+        74,
+        18,
+        22
+      ],
+      [
+        357,
+        80,
+        8,
+        15
+      ],
+      [
+        14,
+        167,
+        19,
+        18
+      ],
+      [
+        351,
+        169,
+        17,
+        18
+      ],
+      [
+        49,
+        175,
+        15,
+        11
+      ],
+      [
+        320,
+        175,
+        15,
+        11
+      ],
+      [
+        57,
+        57,
+        17,
+        17
+      ],
+      [
+        310,
+        57,
+        17,
+        17
+      ]
+    ]
+  },
+  "spawns": [
+    {
+      "id": "south-gate",
+      "x": 192,
+      "y": 201,
+      "facing": "north"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "evening-bell",
+      "x": 192,
+      "y": 86,
+      "reach": 22
+    }
+  ],
+  "anchors": {
+    "bell-steps": {
+      "point": [
+        192,
+        86
+      ],
+      "approach": [
+        192,
+        99
+      ],
+      "slots": [
+        [
+          192,
+          99
+        ]
+      ]
+    }
+  },
+  "art_source": "code"
+}

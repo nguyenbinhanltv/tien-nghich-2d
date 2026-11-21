@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Evening Bell · Heng Yue</title><link rel="stylesheet" href="courtyard.css">
+</head>
+<body>
+  <header><span class="seal" aria-hidden="true">山</span><strong>Tiên Nghịch</strong><span class="division"></span><span class="world">Heng Yue Sect</span></header>
+  <main>
+    <div class="heading"><div><p class="eyebrow">Training courtyard</p><h1>The Evening Bell</h1></div><div class="status"><i></i><span id="state">Dusk</span></div></div>
+    <section aria-label="Playable courtyard">
+      <div class="frame"><canvas id="room" width="384" height="224" tabindex="0" aria-label="Heng Yue courtyard. Move with arrow keys or click a destination.">Heng Yue training courtyard</canvas></div>
+      <div class="journal"><div class="diamond" aria-hidden="true">◇</div><div><h2 id="objective">Ring the shrine bell</h2><p id="hint" role="status">Enter through the south gate and follow the stone path.</p></div>
+      <button id="action" disabled>Loading…</button><a id="passage" href="hall.html" hidden>Enter the training hall →</a></div>
+    </section>
+    <footer><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows to move</span><span><kbd>E</kbd> Ring bell</span><span class="tap">Click or tap the ground to walk</span></footer>
+  </main><script type="module" src="room.js"></script>
+</body></html>

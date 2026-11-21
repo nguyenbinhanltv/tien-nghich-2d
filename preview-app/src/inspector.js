@@ -391,7 +391,8 @@ export class InspectorController {
       <div class="meta-kv">
         <span>Asset ID</span><code>${asset.id}</code>
         <span>Category</span><code>${asset.category}</code>
-        <span>Producer</span><code>${asset.assigned_agent || 'codex_antigravity'}</code>
+        <span>Producer</span><code>${frame?.anchorPx ? 'Codex' : asset.assigned_agent || 'codex_antigravity'}</code>
+        ${frame?.anchorPx ? `<span>Ground anchor</span><code>${frame.anchorPx.join(', ')} px</code>` : ''}
         <span>Canvas Size</span><code>${(asset.size || [32, 32]).join(' × ')} px</code>
         <span>Contract Key</span><code>${key}</code>
         <span>Resolved Frame</span><code>${frame ? frame.key : '— (missing)'}</code>
@@ -420,7 +421,11 @@ export class InspectorController {
     let dir = this.direction;
     let mirrorX = false;
     const genDirs = asset.directions || ['south'];
-    if (dir === 'west' && !genDirs.includes('west') && genDirs.includes('east')) {
+    const facing = this.store.mobRuntime[asset.id]?.facings[dir];
+    if (facing) {
+      dir = facing.source;
+      mirrorX = facing.flip_x;
+    } else if (dir === 'west' && !genDirs.includes('west') && genDirs.includes('east')) {
       dir = 'east';
       mirrorX = true;
     } else if (dir === 'north' && !genDirs.includes('north') && genDirs.includes('south')) {
@@ -432,7 +437,7 @@ export class InspectorController {
       dir,
       frameIndex: this.frameIndex,
     });
-    return hit ? { ...hit, mirrorX } : null;
+    return hit ? { ...hit, mirrorX, anchorPx: hit.isFixture ? null : facing?.anchor_px } : null;
   }
 
   update(dt) {

@@ -1,0 +1,57 @@
+{
+  "Blood-Sea-Trio.zip": {
+    "sha256": "fd469ef92da13352085daf0d9c4571b3b641afa3688327ca50e7fd414ac745c7",
+    "mobs": {
+      "mob_blood_corpse": "cbca102cfffbfcbb20e1eb2212355ca6d924a33a45305752885a5ce18e8f1723",
+      "mob_blood_pool_lurker": "b4d2b3795e0dc6ff21f3eafc86e7868eb6bbd66678e8b9de1c6ba58c8c87907c",
+      "mob_vengeful_soul": "3a5925c1b282f6cdfe3a90157357fb0904faae3b0f4cbb9be886e0759e1ffe20"
+    }
+  },
+  "Blood-Sea.zip": {
+    "sha256": "945368883b30ed272e7d6c2ed02e6b299a20eb34880149c4d449c142d643f557",
+    "mobs": {
+      "mob_blood_crow": "0b12995611d59e3744e9eb3fc90b61bfda5ba6f84120b7ac1535c83e8a8511fd",
+      "mob_blood_wolf": "fdf97860a8973e3fc90d5f6d94c34b9d430198fa59bef723ba1740a10839f9c8"
+    }
+  },
+  "Chain-Warden.zip": {
+    "sha256": "3d9debb93a081a3b8235131241ca8c690f87d7996fca54d1b1efad4706b08eb7",
+    "mobs": {
+      "mob_chain_warden": "1d3d81c74ac05678aa18ae791b62995489643ee20caae7b9af0e512688706919"
+    }
+  },
+  "Heng-Yue.zip": {
+    "sha256": "20ec3c144e82ff791875a259a704722a2a7c0b1ce6a6bfd9a841606db57c04c9",
+    "mobs": {
+      "mob_courtyard_guard": "360b8fc83314f4ed110ec40bb194dee39a953b881145b9499bd62129998b661f",
+      "mob_demonic_talisman": "0294605e01bea283bdcba01d168c32a969d75ab3c03b8d706d64777e65adde44",
+      "mob_herb_viper": "11cf069f4b580262cb79b0db8e5442cce9ce8275879b0d0140016b3e1b902ff0",
+      "mob_rogue_disciple": "b072345160b4cb4aaaeb90c9e8eecb9f084b77cc123a219a7d015c53ecbd431d",
+      "mob_sword_acolyte": "002295a183cb675f6e5b2a71b5adec1c2b86b4e155841ec49ebf16287ec24b81"
+    }
+  },
+  "Rune-Sentinel.zip": {
+    "sha256": "25dd30cebea097f9a6429d3f68b614b84364a6c01f7589312dc5adf17bb697e8",
+    "mobs": {
+      "mob_rune_sentinel": "b61e7c0e28f0d869d64960eb678791c5349dbdf5cba166208bc5313ffb0c31fc"
+    }
+  },
+  "Stone-Archer.zip": {
+    "sha256": "a218f4a7208fd542237ac72f5a234b0e6f901ad365b3da0bbccac68e25ee3e18",
+    "mobs": {
+      "mob_stone_archer_puppet": "ae88dbf33d61a466f87800cdfbf2f75f2d3f9ec73fed0d61e462a458025cbffa"
+    }
+  },
+  "Stone-Puppet.zip": {
+    "sha256": "d05e7e56a4ba107a084c3b216c7193549f95adca7961b09bf01a75f6e448c6a8",
+    "mobs": {
+      "mob_stone_puppet": "5936ddae52e2a2c2042332d85a9647c4ea1c850af64b39596c664570b31886b8"
+    }
+  },
+  "Void-Eater.zip": {
+    "sha256": "281e7743746dbe0bf8fa65e1d017279a2a73ee03924511027fc9ea8c98d0a42e",
+    "mobs": {
+      "mob_void_eater": "19d9fbe4ba6d73058ffdbb1f32f41228dfbe2c27d8557c9cbb8f191893e9b61c"
+    }
+  }
+}

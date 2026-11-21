@@ -1,0 +1,74 @@
+{
+  "name": "bronze_chime",
+  "type": "sparkle",
+  "canvas": [
+    48,
+    48
+  ],
+  "anchor": "center",
+  "fps": 18,
+  "seed": 81,
+  "palette": "hengyue",
+  "outline": "#14101a",
+  "phases": [
+    {
+      "name": "ring",
+      "ticks": 9,
+      "fast": true
+    },
+    {
+      "name": "rest",
+      "ticks": 1
+    }
+  ],
+  "layers": [
+    {
+      "id": "resonance",
+      "kind": "shape",
+      "during": [
+        "ring"
+      ],
+      "ramp": "bronze",
+      "outline": "dark",
+      "shape": {
+        "sdf": "star",
+        "points": 4,
+        "inner": 0.33,
+        "r": {
+          "keys": [
+            [
+              0,
+              5
+            ],
+            [
+              0.2,
+              17
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        },
+        "rotate": 45
+      },
+      "value_mode": "radial",
+      "value": {
+        "keys": [
+          [
+            0,
+            1
+          ],
+          [
+            0.35,
+            0.95
+          ],
+          [
+            1,
+            0.45
+          ]
+        ]
+      }
+    }
+  ]
+}

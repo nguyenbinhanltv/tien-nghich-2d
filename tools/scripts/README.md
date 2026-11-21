@@ -5,6 +5,27 @@ and Pillow with WebP support (Pillow 10 or later). Use `--check` to validate
 existing output against the current source and manifest. A normal pack also
 validates its output.
 
+The shipped project profiles cover 2,437 frames. VFX ships separately in
+`assets/processed/vfx`. Pass `--include-vfx` for a pack that also includes
+individual VFX frames. Horizontal contact sheets are excluded.
+
+The 15 standard mobs use native Codex releases. Restore them with
+`python tools/scripts/import_mob_releases.py ARCHIVE_DIRECTORY`. Add
+`--check` to verify the installed PNGs and anchors without writing. The
+archive names, SHA-256 pins and per-mob frame set digests are in
+`assets/mob-releases.json`. Each pinned ZIP contains the assembly manifest,
+individual frame hashes and source provenance. The importer reads members
+directly and verifies both the release hashes and the project clip contract.
+The normal processed build reuses the checked-in native mob frames. The
+historical PixelLab inputs remain available under `assets/raw/characters`.
+
+The shared `assets/atlases/mob-runtime.json` supplies each facing's source,
+horizontal flip and ground pixel on the untrimmed canvas. North uses south.
+West mirrors east and maps anchor x to `width - 1 - x`. Frame order and
+loop flags remain in `CharacterAnimations`. The releases specify no global
+frame rate. Rune Sentinel's six suggested attack durations and release index
+are included in its runtime metadata.
+
 Frame keys are paths relative to `assets/processed/` with the extension removed
 and forward slashes as separators. The file layout defines the public keys:
 
