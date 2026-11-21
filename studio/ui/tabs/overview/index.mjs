@@ -1,18 +1,13 @@
 // Overview: every asset by readiness, atlas budget per chunk and wave progress.
 // All numbers come from GET /api/studio/overview; nothing here is hard-coded.
 
+import { h } from './dom.mjs';
+
 const stages = ['packed', 'authored', 'planned'];
 const MiB = 1024 * 1024;
 const num = new Intl.NumberFormat('en');
 
 const humanize = id => id.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
-
-function h(tag, cls, ...kids) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  for (const kid of kids) if (kid != null && kid !== false) el.append(kid);
-  return el;
-}
 
 function bar(ctx, counts, total, name) {
   const wrap = h('div', 'bar');
