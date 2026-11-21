@@ -4,7 +4,7 @@
 
 ## Build (recorded, reproducible)
 
-`tools/scripts/build_ffmpeg_611_mac.sh [native|nofma|x86]` downloads, hash-verifies and builds into `tools/.toolchains/ffmpeg-6.1.1/` of the **main checkout** (git-ignored through `.git/info/exclude`, like `tools/.venvs`; worktrees reach it through a `tools/.toolchains` symlink). Nothing is installed system-wide; Homebrew and PATH are unchanged. Host: macOS 15 (Darwin 24.1), Apple clang 16.0.0, arm64.
+`tools/scripts/build_ffmpeg_611_mac.sh [native|nofma|x86]` downloads, hash-verifies and builds into `tools/.toolchains/ffmpeg-6.1.1/` of the **main checkout** (git-ignored by the committed `.gitignore` entry `tools/.toolchains` (no trailing slash, so it also covers the worktree symlink); worktrees reach it through a `tools/.toolchains` symlink). Nothing is installed system-wide; Homebrew and PATH are unchanged. Host: macOS 15 (Darwin 24.1), Apple clang 16.0.0, arm64.
 
 | Source | SHA-256 | Verified against |
 |---|---|---|

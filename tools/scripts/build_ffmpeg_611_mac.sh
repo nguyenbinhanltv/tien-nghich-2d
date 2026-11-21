@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build FFmpeg 6.1.1 (libvorbis 1.3.7 + native AAC) from official upstream tarballs on macOS.
 # Installs nothing system-wide and never touches Homebrew or PATH: everything goes under
-#   <main checkout>/tools/.toolchains/ffmpeg-6.1.1/   (git-ignored via .git/info/exclude)
+#   <main checkout>/tools/.toolchains/ffmpeg-6.1.1/   (git-ignored by the committed .gitignore)
 # Usage: tools/scripts/build_ffmpeg_611_mac.sh [native|nofma|x86]
 #   native  arm64, default flags                      -> prefix/
 #   nofma   arm64, -ffp-contract=off                  -> prefix-nofma/

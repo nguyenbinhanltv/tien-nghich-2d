@@ -6,3 +6,5 @@ __pycache__/
 *.pyc
 .venv/
 /.inspector-revisions/
+# Local audio codec toolchain builds (tools/scripts/build_ffmpeg_611_mac.sh); also matches the worktree symlink.
+tools/.toolchains
