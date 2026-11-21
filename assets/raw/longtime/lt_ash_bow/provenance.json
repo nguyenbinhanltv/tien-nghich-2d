@@ -1,0 +1,36 @@
+{
+  "id": "lt_ash_bow",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Crescent ashwood limbs, a pale string and a rust-red wrapped grip.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_ash_bow.py",
+  "generator_sha256_lf": "b8ec2b49e9c28b1e4d140b8130e579aab5468335acb6425e3b5281bc5ee1dd45",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "pivot_px": [
+    12,
+    18
+  ],
+  "source": "source.png",
+  "source_sha256": "4161ae9cd0e2f9a47ff24c6311299c60112480cd057758001029447eba4924ef",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ash_bow/contact_1x.png": "d1a69df7e362b56efb9b30f5bb90605aee6f54b5c2a3213cf221f1151d61601c",
+    "assets/raw/longtime/lt_ash_bow/contact_6x.png": "3c8778fbae399c84996286f0443d510016c1d579180f5db7549b9a056fdd8f92"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ash_bow/held_none_0",
+      "path": "assets/processed_longtime/lt_ash_bow/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "4161ae9cd0e2f9a47ff24c6311299c60112480cd057758001029447eba4924ef"
+    }
+  ]
+}
