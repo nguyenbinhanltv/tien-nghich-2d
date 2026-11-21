@@ -20,17 +20,35 @@ test('catalog lists every asset: 90 core, 125 Longtime, 12 VFX, plus planned eff
   assert.equal(new Set(assets.map(a => a.source + '/' + a.id)).size, assets.length);
 });
 
-test('the editable set is exactly today\'s UI and VFX frames', async () => {
+test('the editable set covers every category that has processed frames, and still starts with UI then VFX', async () => {
   const pack = await loadPack(root);
   const {frames} = await loadEditableCatalog(pack, root);
   const keys = [...frames.keys()];
-  assert.equal(keys.length, 421);
-  assert.deepEqual([...new Set([...frames.values()].map(f => f.info.category))].sort(), ['ui', 'vfx']);
+  const byCategory = {};
+  for (const f of frames.values()) byCategory[f.info.category] = (byCategory[f.info.category] ?? 0) + 1;
+  // Pinned: today's frame counts per category (core processed frames, VFX frames, Longtime processed frames).
+  assert.equal(byCategory.ui, 30);
+  assert.equal(byCategory.vfx, 579);
+  for (const category of ['player', 'mob', 'boss', 'tileset', 'weapon', 'projectile', 'prop', 'icon', 'npc', 'pet', 'facility', 'tower'])
+    assert.ok(byCategory[category] > 0, category);
   assert.equal(keys.indexOf('ui/ui_minimap/room_none_0') >= 0, true);
   assert.equal(keys.indexOf('vfx/hit_spark_0') >= 0, true);
-  // UI frames come first, then VFX, each in manifest order.
   assert.equal(frames.get(keys[0]).info.category, 'ui');
-  assert.equal(frames.get(keys.at(-1)).info.category, 'vfx');
+  // Original UI and VFX frames keep their exact shape and stay publishable.
+  const ui = frames.get('ui/ui_minimap/room_none_0').info;
+  assert.deepEqual(Object.keys(ui), ['key', 'assetId', 'category', 'width', 'height', 'sourceUrl', 'processedUrl', 'editableFields']);
+  assert.equal(frames.get('vfx/hit_spark_0').publish.mode, 'atlas');
+  assert.equal(frames.get(ui.key).publish.mode, 'atlas');
+  // Character frames use the atlas key, a pivot from the anchor file, and are not publishable.
+  const hero = frames.get('characters/wl_outer_disciple/idle_south_0');
+  assert.equal(hero.info.sourceUrl, '/assets/processed/players/wl_outer_disciple/idle_south_0.png');
+  assert.deepEqual(hero.metadata.pivot, [16, 31]);
+  assert.equal(hero.publish.mode, 'none');
+  assert.match(hero.info.publish.reason, /characters\//);
+  // Every non-publishable frame says why; keys are unique by construction.
+  for (const f of frames.values()) if (f.publish.mode === 'none') assert.ok(f.info.publish.reason.length > 20, f.info.key);
+  assert.equal(frames.get('longtime/lt_kiln/hot_none_0').info.category, 'facility');
+  assert.deepEqual(frames.get('longtime/lt_ink_marten/follow_south_0').metadata.pivot.length, 2);
 });
 
 test('every asset has a readiness, and Longtime readiness follows the chunk atlases', async () => {

@@ -9,6 +9,7 @@ if (!key) {
 } else {
   const frame = catalog.frames.get(key);
   if (!frame || frame.processed !== 'assets/processed/'+key+'.png') throw new Error('Unknown canonical frame');
+  if (frame.publish.mode === 'none') throw new Error('This category cannot be published into the atlases yet: '+frame.publish.reason);
   const { revisionStore } = await import('./editor-store.mjs');
   const store = revisionStore(root, library);
   try {

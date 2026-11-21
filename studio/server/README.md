@@ -55,3 +55,19 @@ Inspect the listed files with Git and run `python tools/scripts/pack_atlases.py 
 ## Studio catalog API (read-only)
 
 `catalog-api.mjs` serves `/api/studio/{project,assets,assets/<id>,overview}` from `studio/core` and the project pack, and `tab-api.mjs` serves `/api/tabs/<id>/…` from an optional `studio/ui/tabs/<id>/server.mjs`. Both enforce the same loopback and same-origin rule as the editor API (`loopback.mjs`), accept only GET and HEAD (the catalog), and cache the catalog for two seconds. Routes, filters and response shapes are listed in [`../ui/README.md`](../ui/README.md#server-side); tests are in `catalog-api.test.mjs`.
+
+## Editable frames and publishing
+
+The editor API serves every frame the pack's `editable.groups` list, not only UI and VFX: character, mob and boss frames (key `characters/<id>/<clip>_<dir>_<n>`, the atlas key), tilesets, props, weapons, projectiles, icons (`ui/<id>/…`) and all Longtime frames that exist on disk (`longtime/<id>/<clip>_<dir|variant>_<n>`). All of them use the same revision store and guards (palette, binary alpha, exact native size, optimistic revisions, canonical frame approved at revision 0). `GET /api/editor/frames` takes optional `assetId` and `category` filters. Where the processed frame is the only input (every group but UI and VFX), the frame is its own source for the stamp that pins an approval.
+
+**Publishing** (`tools/scripts/promote_frame.py`, `pack_atlases.py` via `pack-input.mjs`) is per group, from `publish` in the pack:
+
+| Frames | Publish | Why |
+|---|---|---|
+| UI, VFX | atlas | verified by `tools/tests/test_promote_frame.py` |
+| Characters, mobs, bosses | not yet | atlas keys are `characters/…` but files live under `players|mobs|bosses/`; the bridge needs key == processed path, and character atlases carry no per-frame pivot |
+| Icons | not yet | files live under `icons/`, packed as `ui/…` |
+| Tilesets, props, weapons, projectiles | not yet | keys equal atlas keys, but promotion has only been verified for UI and VFX; flip `publish` in the pack once a test proves a byte-exact rebuild |
+| Longtime | not yet | packed into per-chunk atlases by `qa_longtime.py`, which does not read approved frames |
+
+Frames that cannot be published carry `publish: {mode: "none", reason}` in their frame info; the promotion bridge refuses them with that reason, and an approved-frames overlay naming one is rejected.

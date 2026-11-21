@@ -844,8 +844,8 @@ export class EditorController {
         d.emptyNotice.textContent = 'Local Editor API is not connected (read-only Atlas Inspector mode).';
       } else {
         d.emptyNotice.textContent = this.currentKey
-          ? `Read-only frame (${this.currentKey}) — editing is enabled for catalog UI and VFX frames.`
-          : 'Select a catalog UI or VFX frame to edit pixels, metadata, revisions, and reviews.';
+          ? `Read-only frame (${this.currentKey}) — this frame is not in the editable catalog.`
+          : 'Select a catalog frame to edit pixels, metadata, revisions, and reviews.';
       }
     }
   }

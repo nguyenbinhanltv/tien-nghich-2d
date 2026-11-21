@@ -338,14 +338,14 @@
             "type": "object",
             "required": [
               "kind",
-              "source",
-              "frameKey"
+              "source"
             ],
             "properties": {
               "kind": {
                 "enum": [
                   "asset-animations",
-                  "vfx-descriptor"
+                  "vfx-descriptor",
+                  "processed-frames"
                 ]
               },
               "source": {
@@ -362,6 +362,68 @@
               },
               "processed": {
                 "type": "string"
+              },
+              "categories": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                },
+                "description": "processed-frames: only catalog entries of these categories (default: all of the source)."
+              },
+              "keyPrefix": {
+                "type": "string",
+                "description": "processed-frames: prepended to each frame key."
+              },
+              "keyMap": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "processed-frames: rename the first directory of the processed path in the key (e.g. the atlas key group)."
+              },
+              "pivot": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "from"
+                ],
+                "description": "processed-frames: default pivot; falls back to the frame centre.",
+                "properties": {
+                  "from": {
+                    "enum": [
+                      "center",
+                      "file",
+                      "profile"
+                    ]
+                  },
+                  "file": {
+                    "type": "string"
+                  },
+                  "field": {
+                    "type": "string"
+                  }
+                }
+              },
+              "publish": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "mode"
+                ],
+                "description": "Whether an approved revision can be published into atlases. mode \"none\" must say why.",
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "atlas",
+                      "none"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
               }
             }
           }
