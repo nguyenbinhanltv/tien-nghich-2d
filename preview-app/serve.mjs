@@ -12,10 +12,14 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadPackSync } from '../studio/core/pack.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
+// Project-specific directories come from the project pack (studio.project.json).
+const PACK = loadPackSync(REPO_ROOT);
+const DIRS = PACK.directories;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -72,14 +76,14 @@ export async function buildPreviewIndex() {
     fixtureAtlases,
     fixturePngs,
   ] = await Promise.all([
-    walkFiles('assets/atlases/web', (f) => /atlas-\d+\.json$/.test(f)),
-    walkFiles('assets/processed', (f) => f.endsWith('.png')),
-    walkFiles('assets/raw/environment_items', (f) => f.endsWith('.png')),
-    walkFiles('assets/raw/characters', (f) => f.endsWith('.png')),
-    walkFiles('assets/processed', (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
-    walkFiles('assets/raw/environment_items', (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
-    walkFiles('assets/_fixtures/atlases/web', (f) => f.endsWith('.json')),
-    walkFiles('assets/_fixtures/pngs', (f) => f.endsWith('.png')),
+    walkFiles(DIRS.atlases.core + '/web', (f) => /atlas-\d+\.json$/.test(f)),
+    walkFiles(DIRS.processed.core, (f) => f.endsWith('.png')),
+    walkFiles(DIRS.raw.environment, (f) => f.endsWith('.png')),
+    walkFiles(DIRS.raw.characters, (f) => f.endsWith('.png')),
+    walkFiles(DIRS.processed.core, (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
+    walkFiles(DIRS.raw.environment, (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
+    walkFiles(DIRS.fixtures.atlases, (f) => f.endsWith('.json')),
+    walkFiles(DIRS.fixtures.pngs, (f) => f.endsWith('.png')),
   ]);
 
   return {
@@ -97,7 +101,7 @@ export async function buildPreviewIndex() {
 
 function publicPath(relative) {
   return !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>
-    !['..', '.git', '.inspector-revisions'].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
+    !['..', '.git', DIRS.revisions].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
 }
 
 export function createPreviewServer({ revisionDir } = {}) {
