@@ -12,7 +12,7 @@ Two renders from empty output directories (beds with `python -I -B assets/audio/
 
 | Asset | WAV SHA-256 |
 |---|---|
-| bgm_boss_trial master | `2c6a5b067a4a2d2a50c3efefc55c76502c0ec3ba5fb7aa97dfd692ef082c704f` |
+| bgm_boss_trial master | `39f85bb9a406810d8dadd364cf917f27b43cb1124bab5bc7d5aa99282b44cf0b` |
 | bgm_endless master | `6e938f93277a85093a34b6ffff19527b730bff4bcf5145924d1ffb6464f327f2` |
 
 | Cue | PCM SHA-256 (prefix) | WAV SHA-256 (prefix) |
@@ -28,9 +28,9 @@ Two renders from empty output directories (beds with `python -I -B assets/audio/
 
 ## Bed: `bgm_boss_trial`
 
-Stereo PCM16, 44,100 Hz, 24 bars of 4/4 at 96 BPM (60 s; a beat is 27,562.5 frames, a bar 110,250). Loop is half-open `[0, 2646000)`. One loop serves all three Trảm Tiên rounds. Tonal centre D with a flat second (D Eb F G A). A fast-bowed growl (A1-Eb2) and skin drums (a pitch-falling boom and a noise rim crack) drive the pulse; struck bronze enters from bar 5 and thickens to bar 17; seeded noise risers lead into six **cut bars** (bars 4, 8, 12, 16, 20, 24) that keep one drum beat and no bronze, as gaps for the adjudicator's tell. Cue frames: `breath_bars` in the ledger. The reverb is a circular convolution and tails wrap, so frame 0 continues frame 2,645,999 (signed seam step [49, -130] LSB; largest step within 10 ms either side [687, 631], drum-attack scale).
+Stereo PCM16, 44,100 Hz, 24 bars of 4/4 at 96 BPM (60 s; a beat is 27,562.5 frames, a bar 110,250). Loop is half-open `[0, 2646000)`. One loop serves all three Trảm Tiên rounds. Tonal centre D with a flat second (D Eb F G A). A fast-bowed growl (A1-Eb2) and skin drums (a pitch-falling boom settling on A1 = 55 Hz and a noise rim crack with a G3 = 196 Hz body) drive the pulse; struck bronze enters from bar 5 and thickens to bar 17; seeded noise risers lead into six **cut bars** (bars 4, 8, 12, 16, 20, 24) that keep one drum beat and no bronze, as gaps for the adjudicator's tell. Cue frames: `breath_bars` in the ledger. **Drum tuning (revision 2):** the drum bodies are tuned, not free: the renderer scale-checks both against D Eb F G A, as it does the growl and bronze. Revision 1 had the boom settling at 52 Hz (G#1, a tritone from D and outside the scale) and the tak at 190 Hz; both were moved onto scale tones after review. The reverb is a circular convolution and tails wrap, so frame 0 continues frame 2,645,999 (signed seam step [54, -119] LSB; largest step within 10 ms either side [662, 617], drum-attack scale).
 
-Meter (FFmpeg 8.1.2, not the pinned 6.1.1): **-21.7 LUFS**, **-7.8 dBTP**, LRA 1.7 LU. Measured mono energy share: below 100 Hz -1.1 dB, 100-450 Hz -8.7 dB, 450-1600 Hz -11.9 dB, 1.6-5 kHz -17.3 dB, above 5 kHz -20.5 dB of total. Low skin drum and growl carry the bed; bronze hits sit above and avoid the first beat of every bar, and the six cut bars leave the boss tell room.
+Meter (FFmpeg 8.1.2, not the pinned 6.1.1): **-21.6 LUFS**, **-8.4 dBTP**, LRA 1.9 LU. Measured mono energy share: below 100 Hz -1.2 dB, 100-450 Hz -8.4 dB, 450-1600 Hz -12.0 dB, 1.6-5 kHz -17.5 dB, above 5 kHz -20.7 dB of total. Low skin drum and growl carry the bed; bronze hits sit above and avoid the first beat of every bar, and the six cut bars leave the boss tell room.
 
 **Plain caveat on the boss tell:** this bed is dense in 100-1600 Hz. It is not an open bronze register like the Blood Sea bed; the room for `sfx_tell_boss` comes from the cut bars and the bronze hits avoiding beat one. Whether the tell is clear over the bed is the first thing to judge.
 
@@ -78,10 +78,11 @@ Mono and stereo, matched monitoring gain, solo and over the matching bed.
 6. `sfx_bond` vs `sfx_confirm` vs `sfx_pickup`: soft paired thirds with a purr vs one pluck vs bright rising fifth. Check that the purr does not read as a motor.
 7. `sfx_seed` vs `sfx_step` vs `sfx_chest`: damp soil pat vs heel and scuff vs wooden catch. `sfx_harvest` vs `sfx_pickup` vs `sfx_gust`: rustle and falling third vs bright stone vs wind.
 8. `sfx_tell_boss` over `bgm_boss_trial`: judge clarity, especially on a cut bar and on a full bar.
-9. `bgm_boss_trial` looped three times (one per round) at the seam, then against the other beds at matched gain: no click, added beat or level jump; check that it escalates but does not tire over three rounds.
-10. `bgm_endless` over several loops: do the five-bar cycles read as floors, is the bar-5 room audible as a pause, and does `sfx_reward` read cleanly on a room bar and on a floor bar? Judge a game-side duck as well.
-11. `bgm_endless` vs `bgm_dong_phu` and `bgm_hengyue`: both are plucked beds; check that Endless is distinct.
-12. Mono fold-down of both beds and every cue.
+9. `bgm_boss_trial` drum pitch: with the growl on D2, then in the `a` phrase on A1 (bars 8, 16), do the boom (A1) and the growl sound like one open-fifth foundation, with no sour or detuned low note? Compare against the previous G#1 boom if a listener has it.
+10. `bgm_boss_trial` looped three times (one per round) at the seam, then against the other beds at matched gain: no click, added beat or level jump; check that it escalates but does not tire over three rounds.
+11. `bgm_endless` over several loops: do the five-bar cycles read as floors, is the bar-5 room audible as a pause, and does `sfx_reward` read cleanly on a room bar and on a floor bar? Judge a game-side duck as well.
+12. `bgm_endless` vs `bgm_dong_phu` and `bgm_hengyue`: both are plucked beds; check that Endless is distinct.
+13. Mono fold-down of both beds and every cue.
 
 Log any confusion; retune the score or presets and bump the revision if a pair is not distinguishable.
 

@@ -1,21 +1,21 @@
 {
   "id": "bgm_boss_trial",
-  "revision": 1,
+  "revision": 2,
   "base": "be13f3527a355d53f8dcba609ac3da98d3f25d3d",
   "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
   "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/FM/noise patch. No recordings, samples, soundfont or generative-audio model.",
   "inputs": {
-    "score.json": "36a29761cea4595b561daf6373eafebc65de72013e433a7b5be8353a9d0f3127",
-    "render.py": "d939a755b0d104b6f15452bcd3597d90f722d073691fdeb705643899320e310c"
+    "score.json": "af86ea00e1e51a2ed2e53a7faae025815cbe0e270fa8f8648980c91d4d93ce64",
+    "render.py": "558fc26cb769208d372cc7fb92cd41cc394c779ad386447bd6924b1c0048316f"
   },
   "input_hash_convention": "SHA-256, text normalized to LF",
   "render": "From the checkout root, run python -I -B assets/audio/bgm_boss_trial/render.py <output.wav> with CPython 3.14.5 and NumPy 2.5.5 (tools/.venvs/project/bin/python). The output parent directory must exist.",
-  "patch": "PCG64 seed 7121. Growl: twelve-partial additive voice with a 5.1 Hz vibrato and seeded grit, fast swell. Drums: a pitch-falling skin boom (52 Hz) and a high-passed noise rim crack (tak), panned. Struck bronze: four inharmonic partials (1, 2.76, 5.4, 8.93) with separate decays. Seeded noise risers on cut bars. 1.5 s seeded-noise reverb applied by circular FFT convolution, wet 0.3, so tails cross the loop boundary. Events and releases wrap modulo the loop. Master gain 1.38, nearest-even PCM16 quantization without dither.",
+  "patch": "PCG64 seed 7121. Growl: twelve-partial additive voice with a 5.1 Hz vibrato and seeded grit, fast swell. Drums: a pitch-falling skin boom that settles on A1 (55 Hz, MIDI 33) and a high-passed noise rim crack (tak) with a short body on G3 (196 Hz, MIDI 55), panned; both drum pitches are scale-checked in the renderer. Struck bronze: four inharmonic partials (1, 2.76, 5.4, 8.93) with separate decays. Seeded noise risers on cut bars. 1.5 s seeded-noise reverb applied by circular FFT convolution, wet 0.3, so tails cross the loop boundary. Events and releases wrap modulo the loop. Master gain 1.33, nearest-even PCM16 quantization without dither.",
   "tempo_bpm": 96,
   "meter": "4/4",
   "bars": 24,
-  "tuning": "D with a flat second (D Eb F G A); growl A1-Eb2 (MIDI 33-39), bronze D4-Eb5 (MIDI 62-75), A4 = 440 Hz",
-  "register_note": "Measured mono energy share: below 100 Hz -1.1 dB, 100-450 Hz -8.7 dB, 450-1600 Hz -11.9 dB, 1.6-5 kHz -17.3 dB, above 5 kHz -20.5 dB of total. Low skin drum and growl carry the bed; bronze hits sit above and avoid the first beat of every bar, and the six cut bars leave the boss tell room.",
+  "tuning": "D with a flat second (D Eb F G A); drum body A1 (boom) and G3 (tak), tuned to the scale; growl A1-Eb2 (MIDI 33-39), bronze D4-Eb5 (MIDI 62-75), A4 = 440 Hz",
+  "register_note": "Measured mono energy share: below 100 Hz -1.2 dB, 100-450 Hz -8.4 dB, 450-1600 Hz -12.0 dB, 1.6-5 kHz -17.5 dB, above 5 kHz -20.7 dB of total. Low skin drum and growl carry the bed; bronze hits sit above and avoid the first beat of every bar, and the six cut bars leave the boss tell room.",
   "loop_use": "One loop serves all three Tram Tien Dai rounds; the game restarts or continues it, no per-round variant exists.",
   "breath_bars": {
     "note": "Bars 4, 8, 12, 16, 20, 24 (1-based) are cut bars: one drum beat and a noise riser, no bronze. They leave a gap in the pulse where sfx_tell_boss and the adjudicator's tell can sit.",
@@ -37,14 +37,14 @@
   "frames": 2646000,
   "duration_seconds": 60.0,
   "onset_tail": "The reverb and drum tails of the last bar are still sounding across the final frame and continue into bar 1; frame 0 equals the continuation of frame 2645999.",
-  "wav_sha256": "2c6a5b067a4a2d2a50c3efefc55c76502c0ec3ba5fb7aa97dfd692ef082c704f",
-  "pcm_sha256": "b2b8144936540f615eac951b41ce1b85eefd15772bd5c7e692df87f9f312a7ec",
+  "wav_sha256": "39f85bb9a406810d8dadd364cf917f27b43cb1124bab5bc7d5aa99282b44cf0b",
+  "pcm_sha256": "3f427051a5d2f7793bf12191a32d650053ad2ac05f79d60c90c4c0b3b87ff65b",
   "verification": {
     "rebuild": "Two independent render processes wrote to separate empty directories (together with the other bed and the eight SFX). Master WAVs, all SFX WAVs and the SFX ledger matched (diff -r).",
     "meter": "FFmpeg 8.1.2 ebur128 (peak=true) on the master WAV; not the pinned 6.1.1 build, which this machine lacks. Re-measure on the pinned build in the packing step.",
-    "integrated_lufs": -21.7,
-    "true_peak_dbtp": -7.8,
-    "loudness_range_lu": 1.7,
+    "integrated_lufs": -21.6,
+    "true_peak_dbtp": -8.4,
+    "loudness_range_lu": 1.9,
     "reference_beds": {
       "bgm_dong_phu": {
         "integrated_lufs": -23.2,
@@ -64,25 +64,26 @@
       }
     },
     "sample_peak_abs_lr": [
-      13344,
-      12233
+      11912,
+      11772
     ],
     "last_pcm_lr": [
-      -1177,
-      448
+      -1134,
+      437
     ],
     "first_pcm_lr": [
-      -1128,
+      -1080,
       318
     ],
     "signed_seam_step_lr": [
-      49,
-      -130
+      54,
+      -119
     ],
     "max_abs_step_within_10ms_either_side_lr": [
-      687,
-      631
+      662,
+      617
     ],
-    "human_listening": "Pending. No agent listened to this audio."
+    "human_listening": "Pending. No agent listened to this audio.",
+    "revision_note": "Revision 2: boom and tak bodies moved onto scale tones (A1, G3) after review; previously 52 Hz and 190 Hz were off-scale."
   }
 }

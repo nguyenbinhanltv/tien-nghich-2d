@@ -81,9 +81,12 @@ def render(score, destination):
             place(growl(t, hz, gate, rng, sr), bar, offset, (.05, .048), velocity)
         for offset, name, velocity, pan in score["drum_figures"][kit]:
             spec = score["drums"][name]
+            if spec["midi"] % 12 not in ALLOWED:
+                raise ValueError(f"Outside D scale: {spec['midi']}")
+            drum_hz = score["tuning_A4_hz"] * 2 ** ((spec["midi"] - 69) / 12)
             t = np.arange(round(sr * (spec["decay_s"] * 5 + .1))) / sr
             angle = (pan + 1) * np.pi / 4
-            place(drum(t, spec["hz"], spec["decay_s"], spec["grit"], rng, sr), bar, offset,
+            place(drum(t, drum_hz, spec["decay_s"], spec["grit"], rng, sr), bar, offset,
                   (np.cos(angle) * stage, np.sin(angle) * stage), velocity)
         for offset, note, velocity in score["bronze"][metal]:
             if note % 12 not in ALLOWED:

@@ -8,13 +8,13 @@
   "tonal_center": "D",
   "scale": ["D", "Eb", "F", "G", "A"],
   "seed": 7121,
-  "master_gain": 1.38,
+  "master_gain": 1.33,
   "stage_gain": 0.2,
   "reverb": {"seconds": 1.5, "decay_per_second": 3.4, "wet": 0.3, "seeds": [303, 404]},
-  "notation": "Each growl event is [beat from zero, MIDI note, gate in beats, amplitude]. Each drum event is [beat within the bar, drum, velocity, pan -1..1]. Each bronze event is [beat within the bar, MIDI note, velocity]. Each riser is [beat, gate in beats, amplitude]. Each bar selects a growl, drum, bronze and riser figure. Everything wraps modulo the loop; the reverb is a circular convolution.",
+  "notation": "Each growl event is [beat from zero, MIDI note, gate in beats, amplitude]. Each drum event is [beat within the bar, drum, velocity, pan -1..1]; each drum body settles on a scale tone given as MIDI (boom A1 = 55 Hz, tak G3 = 196 Hz) and is checked against the scale. Each bronze event is [beat within the bar, MIDI note, velocity]. Each riser is [beat, gate in beats, amplitude]. Each bar selects a growl, drum, bronze and riser figure. Everything wraps modulo the loop; the reverb is a circular convolution.",
   "drums": {
-    "boom": {"hz": 52, "decay_s": 0.34, "grit": 0.0},
-    "tak": {"hz": 190, "decay_s": 0.07, "grit": 1.0}
+    "boom": {"midi": 33, "decay_s": 0.34, "grit": 0.0},
+    "tak": {"midi": 55, "decay_s": 0.07, "grit": 1.0}
   },
   "growl": {
     "d": [[0, 38, 3.8, 0.9]],
