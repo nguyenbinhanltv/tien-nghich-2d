@@ -49,8 +49,10 @@ function importCell(sheet, layout, cell) {
     heightPx: m.heightPx, foregroundPx: pixels, crop: `cells/${cell.id}.png`}};
 }
 
+export const defaultScaleOptions = {mode: 'cell', groundLift: 4, margin: 1};
+
 /**
- * Scale each figure to its target height while keeping it inside the room the profile leaves around
+ * Scale one figure to its target height while keeping it inside the room the profile leaves around
  * the pivot. `profile` is {nativePx: [w, h], pivotPx: [x, y]}. Ratios that bind are recorded so a
  * reviewer can see why a facing came out smaller than its height target.
  */
@@ -69,26 +71,60 @@ export function normalizeScale(cell, profile, {groundLift = 4, margin = 1} = {})
   return {scale, limit, targetY};
 }
 
+const median = values => { const v = [...values].sort((a, b) => a - b), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+
+/**
+ * Fit every cell of an import. mode "cell" (default) gives each figure its own scale, the right thing for a
+ * turnaround whose facings differ in size. mode "sheet" is for pose sheets: ONE scale for every cell (the smallest
+ * any cell needs, so all of them fit), and ONE ground line (the median of the cells' measured ground rows as a
+ * fraction of the cell height) so a pose that is drawn a little low or high does not jump when played. The pose
+ * keeps the template's centre column. Each entry gets scale, limit, targetY and alignGround (the ground point
+ * the figure is pinned to the pivot by); sheet mode also records groundMeasured and groundShiftPx (native px).
+ */
+export function normalizeEntries(entries, profile, options = {}) {
+  const o = {...defaultScaleOptions, ...options};
+  if (!['cell', 'sheet'].includes(o.mode)) throw new RangeError(`unknown scale mode "${o.mode}"`);
+  const frac = entries.map(e => e.ground[1] / (e.rect[3] - e.rect[1]));
+  const sharedFrac = o.mode === 'sheet' ? median(frac) : null;
+  const fits = entries.map(e => {
+    const alignGround = o.mode === 'sheet' ? [e.ground[0], roundHalfEven(sharedFrac * (e.rect[3] - e.rect[1]))] : [...e.ground];
+    return {alignGround, ...normalizeScale({...e, ground: alignGround}, profile, o)};
+  });
+  let binding = null;
+  if (o.mode === 'sheet') binding = fits.reduce((best, f, i) => f.scale < fits[best].scale ? i : best, 0);
+  return entries.map((e, i) => {
+    const fit = o.mode === 'sheet' ? {...fits[i], scale: fits[binding].scale, limit: fits[binding].limit, limitCell: entries[binding].id} : fits[i];
+    const out = {...e, scale: fit.scale, limit: fit.limit, targetY: fit.targetY, alignGround: fit.alignGround};
+    if (o.mode === 'sheet') {
+      out.limitCell = fit.limitCell;
+      out.groundMeasured = [...e.ground];
+      out.groundShiftPx = Number(((fit.alignGround[1] - e.ground[1]) * fit.scale).toFixed(2));
+    }
+    return out;
+  });
+}
+
 /**
  * Import a drawn sheet. `sheet` is a decoded image; pass `sheetBytes` (the file as read) so the record
  * carries the hash of the real input. `prompt` is stored verbatim with its hash. With `profile`
- * each cell also gets its normalised scale.
+ * each cell also gets its normalised scale; `scaleOptions` ({mode, groundLift, margin}) are recorded with it.
  */
-export function importSheet({layout: layoutDoc, sheet, sheetBytes, source, prompt = '', profile, scaleOptions}) {
+export function importSheet({layout: layoutDoc, sheet, sheetBytes, source, prompt = '', profile, scaleOptions = {}}) {
   const layout = assertLayout(layoutDoc);
   const cells = new Map(), entries = [];
   for (const cell of layout.cells) {
     const {figure, entry} = importCell(sheet, layout, cell);
-    if (profile) Object.assign(entry, normalizeScale(entry, profile, scaleOptions));
     cells.set(cell.id, figure);
     entries.push(entry);
   }
+  const options = {...defaultScaleOptions, ...scaleOptions};
+  const fitted = profile ? normalizeEntries(entries, profile, options) : entries;
   const record = {
     schema: importSchema, version: 1, layoutId: layout.id, landmarkBasis: layout.landmarkBasis,
     sheet: {sha256: sha256(sheetBytes ?? encodePng(sheet)), width: sheet.width, height: sheet.height, ...(source ? {source} : {})},
     prompt: {text: prompt, sha256: sha256(Buffer.from(prompt, 'utf8'))},
-    ...(profile ? {profile: {nativePx: [...profile.nativePx], pivotPx: [...profile.pivotPx]}} : {}),
-    cells: entries,
+    ...(profile ? {profile: {nativePx: [...profile.nativePx], pivotPx: [...profile.pivotPx]}, scaleOptions: options} : {}),
+    cells: fitted,
   };
   return {record, cells, layout};
 }

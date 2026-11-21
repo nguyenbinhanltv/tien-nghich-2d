@@ -62,7 +62,7 @@ export function bakeKey(prepared, facing, pose, palette, {edgeSafe = true} = {})
   return {frame: outline(frame, palette.outline), contacts};
 }
 
-function mirrorFacing(source, facing, palette, canvasWidth) {
+export function mirrorFacing(source, facing, palette, canvasWidth) {
   const swap = Object.entries(facing.swapColors ?? {}).map(([from, to]) => [palette.rgb(from), palette.rgb(to)]);
   const frames = source.frames.map(f => {
     const flipped = flipHorizontal(f);

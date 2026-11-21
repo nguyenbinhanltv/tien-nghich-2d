@@ -6,12 +6,20 @@
 //   node studio/forge/cli.mjs import    --layout layout.json --sheet sheet.png --out dir [--prompt file | --prompt-text s]
 //        [--project root --profile <name>]            (profile adds the normalised scale to the record)
 //   node studio/forge/cli.mjs pixelise  --import dir --out dir --project root --profile <name> [--marks marks.json]
+//        (writes <cell>.png, indexed/<cell>.png - the outline-free layers the rig baker takes - and pixelize.json)
+//   node studio/forge/cli.mjs bake      --pixelize dir --out dir --project root --profile <name> [--rig rig.json]
+//        [--poses poseclips.json] [--pose-rig rig.json] [--patch patch.json] [--library lib.json] [--clips a,b] [--qa gates.json]
+//        rig bake + pose-sheet clips, patches, then the gates; writes frames, bake.json, gates.json; exit 2 on a gate error
+//   node studio/forge/cli.mjs gates     --bake dir --project root --profile <name> [--rig rig.json] [--pose-rig rig.json] [--qa gates.json]
+//   node studio/forge/cli.mjs run       --layout layout.json --sheet sheet.png --out dir --project root --profile <name>
+//        [--prompt file] [--marks marks.json] [bake options] [import options]   the whole chain; writes import/ pixelize/ bake/ pipeline.json
+// import and run also take --scale-mode cell|sheet [--ground-lift n] [--margin n] (recorded in import.json).
 // `pixelize` is accepted as an alias. Output directories are created; inputs are never modified.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { loadPack } from '../core/pack.mjs';
-import { encodePng, importSheet, normalizeLayout, pixelizeImport, readImport, readSheetFile, renderTemplate,
-  resolveMarks, settingsFromPack, turnaroundLayout, writeImport, writePixelized } from './index.mjs';
+import { bakeStage, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
+  resolveMarks, rigPalette, runPipeline, settingsFromPack, summarizeBake, turnaroundLayout, writeBakeDir, writeImport, writePixelized } from './index.mjs';
 
 const usage = 'usage: cli.mjs template|import|pixelise [options]  (see the header of studio/forge/cli.mjs)';
 
@@ -37,6 +45,19 @@ async function project(opts) {
   return settingsFromPack(pack, root, opts.profile);
 }
 
+const scaleOptionsOf = opts => ({
+  ...(opts['scale-mode'] ? {mode: opts['scale-mode']} : {}),
+  ...(opts['ground-lift'] ? {groundLift: Number(opts['ground-lift'])} : {}),
+  ...(opts.margin ? {margin: Number(opts.margin)} : {}),
+});
+const optionalJson = async file => (file ? readJson(file) : undefined);
+const reportGates = gates => {
+  const errors = gates.findings.filter(f => f.severity === 'error');
+  console.log(`gates: ${gates.pass ? 'pass' : 'FAIL'} (${errors.length} error(s), ${gates.findings.length - errors.length} warning(s))`);
+  for (const f of gates.findings) console.log(`  ${f.severity} ${f.gate} ${f.clip}/${f.facing} key ${f.frame}: ${f.message}`);
+  if (!gates.pass) process.exitCode = 2;
+};
+
 const commands = {
   async template(opts) {
     const settings = await project(opts);
@@ -59,7 +80,7 @@ const commands = {
     const layout = normalizeLayout(await readJson(need(opts, 'layout')));
     const sheetFile = need(opts, 'sheet'), {bytes, image} = await readSheetFile(sheetFile);
     const prompt = opts.prompt ? await fs.readFile(opts.prompt, 'utf8') : opts['prompt-text'] ?? '';
-    const result = importSheet({layout, sheet: image, sheetBytes: bytes, source: path.basename(sheetFile), prompt, profile: settings?.profile});
+    const result = importSheet({layout, sheet: image, sheetBytes: bytes, source: path.basename(sheetFile), prompt, profile: settings?.profile, scaleOptions: scaleOptionsOf(opts)});
     await writeImport(need(opts, 'out'), result, {protect: [sheetFile]});
     console.log(`import ${layout.id}: ${result.cells.size} cells, sheet sha256 ${result.record.sheet.sha256} -> ${opts.out}`);
   },
@@ -74,6 +95,52 @@ const commands = {
     const warned = result.record.cells.filter(c => c.warnings.length);
     console.log(`pixelise ${result.record.profile.name}: ${result.cells.size} sprites at ${result.record.profile.nativePx.join('x')} -> ${opts.out}`);
     for (const c of warned) console.warn(`warning ${c.id}: ${c.warnings.join('; ')}`);
+  },
+
+  async bake(opts) {
+    const settings = await project({project: '.', ...opts});
+    if (!settings) throw new Error('missing --profile');
+    const pixelized = await readPixelized(need(opts, 'pixelize'));
+    const rig = await optionalJson(opts.rig), poseRig = await optionalJson(opts['pose-rig']), poseClips = await optionalJson(opts.poses);
+    if (!rig && !poseClips) throw new Error('give --rig and/or --poses');
+    const palette = rigPalette(settings);
+    const result = bakeStage({settings, palette, cells: pixelized.cells, rig, poseRig, poseClips, patch: await optionalJson(opts.patch),
+      library: await optionalJson(opts.library), clips: opts.clips?.split(',')});
+    const gates = qaStage(result, {settings, palette, rig, poseRig, options: await optionalJson(opts.qa)});
+    const out = need(opts, 'out');
+    const names = await writeBakeDir(result, out);
+    await fs.writeFile(path.join(out, 'gates.json'), JSON.stringify(gates, null, 2) + '\n');
+    console.log(`bake ${result.profile}: ${Object.keys(result.clips).length} clip(s), ${names.length} frames -> ${out}`);
+    reportGates(gates);
+  },
+
+  async gates(opts) {
+    const settings = await project({project: '.', ...opts});
+    if (!settings) throw new Error('missing --profile');
+    const result = await readBakeDir(need(opts, 'bake'));
+    const gates = qaStage(result, {settings, palette: rigPalette(settings), rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']),
+      options: await optionalJson(opts.qa)});
+    reportGates(gates);
+  },
+
+  async run(opts) {
+    if (!opts.profile) throw new Error('missing --profile');
+    const sheetFile = need(opts, 'sheet'), {bytes} = await readSheetFile(sheetFile);
+    const {summary} = await runPipeline({
+      project: {root: path.resolve(opts.project ?? '.'), profile: opts.profile},
+      layout: await readJson(need(opts, 'layout')), sheet: {bytes, source: sheetFile},
+      prompt: opts.prompt ? await fs.readFile(opts.prompt, 'utf8') : opts['prompt-text'] ?? '',
+      marks: await optionalJson(opts.marks), scaleOptions: scaleOptionsOf(opts),
+      rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']), poseClips: await optionalJson(opts.poses),
+      patch: await optionalJson(opts.patch), library: await optionalJson(opts.library), clips: opts.clips?.split(','),
+      qa: await optionalJson(opts.qa), out: need(opts, 'out'),
+    });
+    if (summary.ok) console.log(`pipeline ok: ${Object.keys(summary.stages).join(' -> ')} -> ${opts.out}`);
+    else {
+      console.error(`pipeline failed at ${summary.failed}: ${summary.error}`);
+      if (summary.stages.gates) reportGates(summary.stages.gates);
+      process.exitCode = process.exitCode || 1;
+    }
   },
 };
 commands.pixelize = commands.pixelise;
