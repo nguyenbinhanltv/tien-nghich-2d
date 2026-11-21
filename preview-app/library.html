@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Inspector · Tiên Nghịch 2D</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./library.css">
+</head>
+<body class="library">
+  <header><a href="./?tab=inspector">Tiên Nghịch 2D</a><h1>Asset Inspector</h1></header>
+  <nav class="inspector-collections" aria-label="Inspector collections">
+    <a href="./?tab=inspector">Core catalog</a><a href="#art">Longtime art</a><a href="#audio">Audio pilot</a>
+  </nav>
+  <main>
+    <section id="art" hidden>
+      <h2>Longtime art</h2><p id="catalog-status" role="status"></p>
+      <div class="art-layout">
+        <aside>
+          <label>Atlas group<select id="group"></select></label>
+          <label>Find asset<input id="filter" type="search" placeholder="Name or ID"></label>
+          <label>Delivered assets<select id="asset" size="10"></select></label>
+        </aside>
+        <article>
+          <h3 id="asset-name">Frame preview</h3>
+          <div class="controls">
+            <label>Clip<select id="clip"></select></label>
+            <label>Zoom<select id="zoom"><option value="1">1×</option><option value="2">2×</option><option selected value="4">4×</option><option value="8">8×</option></select></label>
+          </div>
+          <div class="art-stage"><canvas id="crop" hidden aria-label="Selected atlas frame"></canvas></div>
+          <div class="controls"><button id="prev" disabled>Previous</button><button id="play" disabled>Play</button><button id="next" disabled>Next</button></div>
+          <p id="frame"></p><code id="key"></code>
+        </article>
+      </div>
+    </section>
+    <section id="audio" hidden>
+      <h2>Audio pilot</h2><p id="audio-status" role="status"></p>
+      <div class="controls">
+        <label>Codec<select id="codec"><option value="ogg">Ogg Vorbis</option><option value="m4a">AAC / M4A</option></select></label>
+        <label>Volume<input type="range" id="volume" min="0" max="100" value="50"></label>
+        <button id="stop" disabled>Stop</button>
+      </div>
+      <h3>Music loop</h3><div id="music"></div>
+      <h3>Sound effects</h3><div id="effects" class="cue-grid"></div>
+    </section>
+  </main>
+  <script type="module" src="./src/library.js"></script>
+</body>
+</html>

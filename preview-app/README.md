@@ -37,6 +37,7 @@ Query parameters:
   3. **Cổ Thần Chi Địa** (`ancient_god`)
 
 ### (c) Asset Inspector (`Asset Inspector` tab)
+- Open **Longtime art** to filter delivered web-atlas entries by group or ID, inspect native and zoomed frames, and step or play a timed clip. **Audio pilot** auditions the published music loop and individual sprite cues in Ogg or AAC. Playback starts on click. Both collections are read-only and work with either preview server. Direct links: [Longtime art](library.html#art) and [Audio pilot](library.html#audio).
 - Browse every asset from `assets/manifest.json` (plus VFX contract entries): players (4), mobs (15), bosses (3), tilesets (3), weapons (12), projectiles (12), props (19), VFX (12 delivered), icons (16), UI (6).
 - Frame-by-frame controls: **Play / Pause / Step Back / Step Forward / Frame Scrubber**, **FPS** (`1–24`), **Speed** (`0.25×`–`2×`), **Direction** (`south`, `east`, `north`, `west` with mirror/reuse indicators), **Integer Zoom** (`1×`–`8×`), and a **47-Tile Blob Sheet** browser for tilesets.
 - **Hitbox Overlay Toggle**: reads `hitbox` / `hitboxes[anim]` from `manifest.json` when present, otherwise falls back to sprite bounds and explicitly labels the source (`Hitbox: manifest` vs `Hitbox: sprite bounds (fallback — none in manifest)`).
