@@ -1,34 +1,50 @@
 {
- "anchor_px": [
-  16,
-  31
- ],
- "bbox_size": [
-  28,
-  31
- ],
  "canvas": [
   32,
   32
  ],
- "common_bbox_ref48": [
-  11,
-  8,
-  38,
-  38
- ],
  "frames": 40,
+ "anchor_px": [
+  16,
+  31
+ ],
  "origin": [
   0.5,
   1.0
  ],
- "out_size": [
-  28,
-  31
- ],
- "paste_offset": [
-  2,
-  1
- ],
- "scale": 1.0
+ "release": "Blood-Sea-Trio.zip",
+ "facings": {
+  "south": {
+   "source": "south",
+   "flip_x": false,
+   "anchor_px": [
+    16,
+    31
+   ]
+  },
+  "east": {
+   "source": "east",
+   "flip_x": false,
+   "anchor_px": [
+    16,
+    31
+   ]
+  },
+  "north": {
+   "source": "south",
+   "flip_x": false,
+   "anchor_px": [
+    16,
+    31
+   ]
+  },
+  "west": {
+   "source": "east",
+   "flip_x": true,
+   "anchor_px": [
+    15,
+    31
+   ]
+  }
+ }
 }

@@ -19,6 +19,8 @@ import { execFileSync } from 'node:child_process';
 import { createPreviewServer } from './serve.mjs';
 import { CANONICAL_47_MASKS, computeBlob47Mask, createDefaultBitmaskMap, generateFloor } from './src/blob47.js';
 import { buildCandidateFrameKeys, primaryContractKey } from './src/assetKeys.js';
+import { InspectorController } from './src/inspector.js';
+import { AssetStore } from './src/assetLoader.js';
 
 function parseArgs(argv) {
   let url = null;
@@ -80,7 +82,9 @@ async function run() {
     const index = await (await fetchOk(`${origin}/__preview_index.json`)).json();
     assert.ok(Array.isArray(index.atlases), 'index.atlases must be array');
     assert.ok(Array.isArray(index.fixtureAtlases), 'index.fixtureAtlases must be array');
-    assert.equal(index.rawCharacterPngs.length, 0, 'PixelLab characters must not be fabricated in assets/raw/characters');
+    assert.ok(index.rawCharacterPngs.every((p) => p.startsWith('assets/raw/characters/')));
+    assert.ok(index.fixturePngs.every((p) => p.startsWith('assets/_fixtures/pngs/')));
+    assert.ok(index.processedPngs.every((p) => p.startsWith('assets/processed/')));
 
     // 4. Verify fixture atlas hash schema if fixtures exist
     if (index.fixtureAtlases.length > 0) {
@@ -144,14 +148,36 @@ async function run() {
       }
       assert.deepEqual(miss, [], `Atlas frames not resolvable via AssetKeys candidates: ${miss.slice(0, 8).join(', ')}`);
       console.log(`atlas check: ${frames.size} frames, ${checked} manifest assets resolve`);
+      const store = new AssetStore();
+      for (const key of frames) store.frames.set(key, { key, type: 'atlas' });
+      store.mobRuntime = await (await fetchOk(`${origin}/assets/atlases/mob-runtime.json`)).json();
+      let poses = 0;
+      for (const asset of manifest.assets.filter((a) => a.category === 'mob')) {
+        const [x, y] = store.mobRuntime[asset.id].anchor_px;
+        for (const [animName, clip] of Object.entries(asset.animations)) {
+          for (let frameIndex = 0; frameIndex < clip.frames; frameIndex++) {
+            for (const [direction, source] of Object.entries({ south: 'south', east: 'east', north: 'south', west: 'east' })) {
+              const hit = InspectorController.prototype._resolveCurrentFrame.call({ store, direction, animName, frameIndex }, asset);
+              assert.equal(hit?.key, `characters/${asset.id}/${animName}_${source}_${frameIndex}`);
+              assert.equal(hit.mirrorX, direction === 'west');
+              assert.deepEqual(hit.anchorPx, [direction === 'west' ? asset.size[0] - 1 - x : x, y]);
+              poses++;
+            }
+          }
+        }
+      }
+      console.log(`inspector: ${poses} directional mob frames resolved with ground anchors`);
     }
 
     // 7. Optional live browser verification via `ao browser`
     if (useAoBrowser) {
-      const targetUrl = externalUrl || `${origin}/preview-app/`;
+      const targetUrl = new URL(externalUrl || `${origin}/preview-app/`);
+      targetUrl.searchParams.set('tab', 'inspector');
       const startedAt = Date.now() - 250;
-      execFileSync('ao', ['browser', 'open', targetUrl], { stdio: 'inherit' });
-      execFileSync('ao', ['browser', 'wait', '--text', 'missing: pixellab not generated', '--timeout', '10000'], { stdio: 'inherit' });
+      execFileSync('ao', ['browser', 'open', targetUrl.href], { stdio: 'inherit' });
+      execFileSync('ao', ['browser', 'wait', '--text', 'mob_chain_warden', '--timeout', '10000'], { stdio: 'inherit' });
+      execFileSync('ao', ['browser', 'act', 'mob_chain_warden'], { stdio: 'inherit' });
+      execFileSync('ao', ['browser', 'wait', '--text', 'Ground anchor', '--timeout', '10000'], { stdio: 'inherit' });
 
       const isFresh = (m) => !m?.timestamp || Date.parse(m.timestamp) >= startedAt;
 

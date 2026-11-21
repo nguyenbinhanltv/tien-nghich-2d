@@ -49,9 +49,11 @@ class Profile:
 PROFILES = {"web": Profile(2048, 0, 0, True), "mobile": Profile(1024, 2, 1)}
 
 
-def read_sprites(source):
+def read_sprites(source, include_vfx=True):
     sprites = {}
     for path in sorted(source.rglob("*")):
+        if path.relative_to(source).parts[0] == "vfx" and (not include_vfx or path.stem.endswith("_sheet")):
+            continue
         if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES:
             continue
         key = path.relative_to(source).with_suffix("").as_posix()
@@ -345,11 +347,19 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "assets/atlases")
     parser.add_argument("--manifest", type=Path, default=ROOT / "assets/manifest.json")
     parser.add_argument("--check", action="store_true", help="Validate existing outputs without writing")
+    parser.add_argument("--include-vfx", action="store_true",
+                        help="Include standalone VFX frames in the project atlas")
     args = parser.parse_args()
     if args.source.resolve() != (ROOT / "assets/processed").resolve() and args.output.resolve() == (ROOT / "assets/atlases").resolve():
         parser.error("An alternate source requires an alternate --output directory")
     try:
-        sprites = read_sprites(args.source)
+        project_source = args.source.resolve() == (ROOT / "assets/processed").resolve()
+        sprites = read_sprites(args.source, args.include_vfx or not project_source)
+        mob_runtime = {}
+        for path in sorted((args.source / "mobs").glob("*/anchor.json")):
+            anchor = read_json(path)
+            if "facings" in anchor:
+                mob_runtime[path.parent.name] = anchor
         manifest = read_json(args.manifest) if args.manifest.is_file() else {}
         keys = typescript(sprites, manifest)
         for group, frames in group_keys(sprites).items():
@@ -360,10 +370,17 @@ def main():
             for name, profile in PROFILES.items():
                 write_profile(args.output / name, layouts[name], profile, name == "web")
             (args.output / "AssetKeys.ts").write_text(keys, encoding="utf-8", newline="\n")
+            if mob_runtime:
+                write_json(args.output / "mob-runtime.json", mob_runtime)
+            else:
+                (args.output / "mob-runtime.json").unlink(missing_ok=True)
         for name, profile in PROFILES.items():
             check_profile(args.output / name, sprites, profile, name == "web")
         if (args.output / "AssetKeys.ts").read_text(encoding="utf-8") != keys:
             raise ValueError("AssetKeys.ts differs from source frames or manifest")
+        runtime_path = args.output / "mob-runtime.json"
+        if (read_json(runtime_path) if runtime_path.exists() else {}) != mob_runtime:
+            raise ValueError("mob-runtime.json differs from processed anchor metadata")
         print(f"Validated {len(sprites)} frames on both profiles")
     except (OSError, ValueError, KeyError, TypeError) as error:
         parser.exit(1, f"Atlas error: {error}\n")

@@ -108,6 +108,7 @@ export class AssetStore {
     this.manifest = null;
     this.assets = [];
     this.assetsById = new Map();
+    this.mobRuntime = {};
     this.index = null;
     this.bitmaskMap = createDefaultBitmaskMap();
     this.useFixtures = false;
@@ -131,13 +132,15 @@ export class AssetStore {
 
   async init({ useFixtures = false } = {}) {
     this.useFixtures = useFixtures;
-    const [palette, manifest, index] = await Promise.all([
+    const [palette, manifest, index, mobRuntime] = await Promise.all([
       fetchJsonSafe('/tools/generators/palette.json'),
       fetchJsonSafe('/assets/manifest.json'),
       fetchJsonSafe('/__preview_index.json'),
+      fetchJsonSafe('/assets/atlases/mob-runtime.json'),
     ]);
 
     this.palette = palette;
+    this.mobRuntime = mobRuntime || {};
     this.paletteById.clear();
     if (palette?.colors) {
       for (const c of palette.colors) {

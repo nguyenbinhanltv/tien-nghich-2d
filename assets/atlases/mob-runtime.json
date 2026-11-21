@@ -1,0 +1,761 @@
+{
+  "mob_blood_corpse": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Blood-Sea-Trio.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_blood_crow": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 36,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Blood-Sea.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_blood_pool_lurker": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      15,
+      31
+    ],
+    "origin": [
+      0.46875,
+      1.0
+    ],
+    "release": "Blood-Sea-Trio.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          16,
+          31
+        ]
+      }
+    }
+  },
+  "mob_blood_wolf": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 36,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Blood-Sea.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_chain_warden": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 44,
+    "anchor_px": [
+      15,
+      31
+    ],
+    "origin": [
+      0.46875,
+      1.0
+    ],
+    "release": "Chain-Warden.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          16,
+          31
+        ]
+      }
+    }
+  },
+  "mob_courtyard_guard": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Heng-Yue.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_demonic_talisman": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Heng-Yue.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_herb_viper": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 36,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Heng-Yue.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_rogue_disciple": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 36,
+    "anchor_px": [
+      15,
+      31
+    ],
+    "origin": [
+      0.46875,
+      1.0
+    ],
+    "release": "Heng-Yue.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          15,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          16,
+          31
+        ]
+      }
+    }
+  },
+  "mob_rune_sentinel": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 44,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Rune-Sentinel.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    },
+    "suggested_attack_ms": [
+      140,
+      135,
+      170,
+      85,
+      110,
+      145
+    ],
+    "attack_release_index": 3
+  },
+  "mob_stone_archer_puppet": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Stone-Archer.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_stone_puppet": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Stone-Puppet.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_sword_acolyte": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 36,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Heng-Yue.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_vengeful_soul": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 40,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Blood-Sea-Trio.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  },
+  "mob_void_eater": {
+    "canvas": [
+      32,
+      32
+    ],
+    "frames": 44,
+    "anchor_px": [
+      16,
+      31
+    ],
+    "origin": [
+      0.5,
+      1.0
+    ],
+    "release": "Void-Eater.zip",
+    "facings": {
+      "south": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "east": {
+        "source": "east",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "north": {
+        "source": "south",
+        "flip_x": false,
+        "anchor_px": [
+          16,
+          31
+        ]
+      },
+      "west": {
+        "source": "east",
+        "flip_x": true,
+        "anchor_px": [
+          15,
+          31
+        ]
+      }
+    }
+  }
+}
