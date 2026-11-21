@@ -119,31 +119,30 @@ WARD_PALETTES = {
 
 # ---------------------------------------------------------------- lt_fx_craft
 def craft_finish(pal, slots):
-    tip = keys((0, -6), (0.15, -19), (1, -19), ease="out")
+    """A teardrop spark travels up from the source (frames 0-3), arrives at the top (event `done`) and
+    resolves into a small outward burst that drifts up and fades. Motion up, then out: not a pickup glint."""
+    head = keys((0, -2), (1, -19), ease="out")
+    tail = keys((0, -1), (1, -9), ease="out")
     return {
-        "type": "sparkle", "canvas": [32, 32], "anchor": [16, 28], "fps": 20, "seed": 31,
+        "type": "sparkle", "canvas": [32, 32], "anchor": [16, 28], "fps": 20, "seed": 32,
         "ramps": ramps(slots),
-        "phases": phases(("rise", 3, True, None), ("done", 1, True, ["done"]), ("fade", 4, False, None), ("end", 2, True, None)),
+        "phases": phases(("rise", 3, True, None), ("done", 1, True, ["done"]), ("fade", 4, False, None),
+                         ("end", 2, True, None)),
         "layers": [
-            {"id": "glint", "kind": "shape", "during": ["rise", "done", "fade", "end"], "ramp": "A", "outline": "dark",
-             "shape": {"sdf": "star", "points": 4, "r": keys((0, 1), (0.12, 5.5), (1, 5.5), ease="out"),
-                       "inner": 0.3, "at": [0, tip]},
-             "value": 1.0,
-             "break_up": {"after": 0.85, "noise": "angular", "scale": 8, "amount": 1.0}},
-            {"id": "streaks", "kind": "particles", "during": ["rise", "done", "fade", "end"], "ramp": "A",
-             "tag": "sparkle", "outline": "dark",
-             "emit": {"mode": "burst", "count": [3, 3], "from": {"area": "rect", "size": [6, 2], "at": [0, -4]}},
-             "velocity": {"speed": [2.2, 3.2], "angle": 270, "spread": 16}, "drag": 0.12, "life": [4, 5],
-             "stamp": {"kind": "streak", "size": keys((0, 2), (0.3, 5), (1, 2))},
-             "value_over_life": keys((0, 0.9), (1, 0.3), ease="in")},
-            {"id": "motes", "kind": "particles", "during": ["rise", "done", "fade", "end"], "ramp": "A",
-             "tag": "sparkle", "outline": "dark",
-             "emit": {"mode": "burst", "count": [3, 3], "from": {"area": "rect", "size": [8, 2], "at": [0, -3]}},
-             "velocity": {"speed": [0.7, 1.2], "angle": 270, "spread": 60}, "drag": 0.05, "life": [7, 8],
+            {"id": "bead", "kind": "shape", "during": ["rise", "done"], "ramp": "A", "outline": "dark",
+             "shape": {"sdf": "capsule", "from": [0, head], "to": [0, tail], "r": 2.6, "taper": 1},
+             "value_mode": "radial", "edge": 0.2, "value": 1.15},
+            {"id": "flare", "kind": "shape", "during": ["done", "fade"], "ramp": "A", "outline": "dark",
+             "shape": {"sdf": "circle", "r": keys((0, 3), (1, 1), ease="out"), "at": [0, -19]},
+             "value_mode": "radial", "edge": 0.3, "value": keys((0, 1.2), (1, 0.7))},
+            {"id": "burst", "kind": "particles", "during": ["done", "fade", "end"], "ramp": "A", "tag": "sparkle",
+             "outline": "dark",
+             "emit": {"mode": "burst", "count": [6, 6], "from": {"area": "ring", "r": 2, "at": [0, -19]}},
+             "velocity": {"speed": [0.7, 1.1], "angle": "out"}, "drag": 0.08, "life": [6, 6],
              "stamp": {"kind": "dot", "size": 2},
-             "value_over_life": keys((0, 0.9), (1, 0.3), ease="in")},
+             "value_over_life": keys((0, 1.0), (1, 0.3), ease="in")},
         ],
-        "order": ["motes", "streaks", "glint"],
+        "order": ["burst", "flare", "bead"],
     }
 
 
