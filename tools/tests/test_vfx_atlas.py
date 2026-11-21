@@ -57,6 +57,28 @@ class VfxAtlasTests(unittest.TestCase):
             self.assertEqual(self.atlas["web"][key], src.tobytes(), key)
             self.assertLessEqual(set(src.getchannel("A").tobytes()), {0, 255}, key)
 
+    def test_five_ui_families_pack_exactly_26_native_frames(self):
+        doc = json.loads((ROOT / "assets/manifest.json").read_text(encoding="utf-8"))
+        sizes = {"ui_card_frame": (32, 40, 6), "ui_hud_bars": (64, 8, 3), "ui_minimap": (8, 8, 7),
+                 "ui_form_portraits": (48, 48, 4), "ui_panel_cursor": (16, 16, 6)}
+        expected = {}
+        for asset in doc["assets"]:
+            if asset["id"] in sizes:
+                self.assertEqual(asset["readiness"], "packed")
+                for clip, cfg in asset["animations"].items():
+                    for n in range(cfg["frames"]):
+                        expected[f"ui/{asset['id']}/{clip}_none_{n}"] = asset["id"]
+        self.assertEqual(len(expected), 26)
+        for profile, frames in self.atlas.items():
+            for key, owner in expected.items():
+                w, h, _ = sizes[owner]
+                path = ROOT / "assets/processed/ui" / owner / (key.rsplit("/", 1)[1] + ".png")
+                with Image.open(path) as src:
+                    src = src.convert("RGBA")
+                self.assertEqual(src.size, (w, h), key)
+                self.assertEqual(frames[key], src.tobytes(), (profile, key))
+                self.assertLessEqual(set(src.getchannel("A").tobytes()), {0, 255}, key)
+
     def test_timing_comes_from_descriptor_durations(self):
         for entry in CATALOG:
             desc = json.loads((ROOT / entry["descriptor"]).read_text(encoding="utf-8"))

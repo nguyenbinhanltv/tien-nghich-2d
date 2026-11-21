@@ -19,13 +19,11 @@ class DesignManifestTests(unittest.TestCase):
 
     def test_declared_scope_and_actual_shipping_state(self):
         records = self.validate()
-        planned = {i for i, (_, s) in records.items() if s["source"] == "absent"}
-        self.assertEqual(planned, {"ui_card_frame", "ui_hud_bars", "ui_minimap",
-                                   "ui_form_portraits", "ui_panel_cursor"})
+        self.assertEqual({i for i, (_, s) in records.items() if s["source"] == "absent"}, set())
         self.assertEqual(len(records), 102)
-        self.assertEqual(sum(s["processed"] == "complete" for _, s in records.values()), 97)
+        self.assertEqual(sum(s["processed"] == "complete" for _, s in records.values()), 102)
         for profile in ("web", "mobile"):
-            self.assertEqual(sum(s[profile] == "complete" for _, s in records.values()), 97)
+            self.assertEqual(sum(s[profile] == "complete" for _, s in records.values()), 102)
         self.assertEqual(check.coverage({"frame0", "frame1"}, {"frame1"}), "partial")
 
     def test_packed_effects_cannot_be_downgraded_or_mislabelled(self):

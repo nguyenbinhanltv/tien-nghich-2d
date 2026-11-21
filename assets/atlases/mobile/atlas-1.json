@@ -2999,6 +2999,26 @@
         "w": 16,
         "h": 48
       }
+    },
+    "ui/ui_minimap/boss_none_0": {
+      "frame": {
+        "x": 1013,
+        "y": 3,
+        "w": 8,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      }
     }
   },
   "meta": {

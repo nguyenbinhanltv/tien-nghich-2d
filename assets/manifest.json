@@ -3744,7 +3744,7 @@
   },
   {
    "id": "ui_card_frame",
-   "readiness": "planned",
+   "readiness": "packed",
    "frame_roles": {
     "common": [
      "plain bronze rim"
@@ -3796,7 +3796,7 @@
   },
   {
    "id": "ui_hud_bars",
-   "readiness": "planned",
+   "readiness": "packed",
    "frame_roles": {
     "hp": [
      "blood-red vitality fill"
@@ -3874,7 +3874,7 @@
   },
   {
    "id": "ui_minimap",
-   "readiness": "planned",
+   "readiness": "packed",
    "frame_roles": {
     "room": [
      "discovered room"
@@ -3939,7 +3939,7 @@
   },
   {
    "id": "ui_form_portraits",
-   "readiness": "planned",
+   "readiness": "packed",
    "frame_roles": {
     "form1": [
      "wl_outer_disciple"
@@ -3996,7 +3996,7 @@
   },
   {
    "id": "ui_panel_cursor",
-   "readiness": "planned",
+   "readiness": "packed",
    "frame_roles": {
     "nine_slice": [
      "panel with 4px invariant corners"
