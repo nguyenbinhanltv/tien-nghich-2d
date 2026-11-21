@@ -1,0 +1,48 @@
+{
+  "id": "lt_ember_reed",
+  "producer": "OpenAI Codex",
+  "method": "Original native-grid drawing from parent silhouette references; no random seed.",
+  "brief": "A curved reed blade clasping a round mirror guard above a single corded grip.",
+  "parent_sources": [
+    {
+      "id": "lt_reed_blade",
+      "path": "assets/raw/longtime/lt_reed_blade/source.png",
+      "sha256": "98c672d8333265805169d33e7cfcee923359c934779f2e776f46ff280ca99ffb"
+    },
+    {
+      "id": "lt_mirror_disc",
+      "path": "assets/raw/longtime/lt_mirror_disc/source.png",
+      "sha256": "113b0b3137a35732bfd14f0dc60733a82ab9639349bdd84ec6aac424cc38a25d"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_ember_reed.py",
+  "generator_sha256_lf": "d04bc0ccfaf7a2df8a504e7cba98f0b1a2cbdb5f2da9f49f27217125e85f7f2c",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "source": "source.png",
+  "source_sha256": "c0c0a1296188cfaee0bf907b91aa22458b6039c1747c1c3add862290fe6b3297",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ember_reed/contact_1x.png": "c13e9e84d000537e3184c7cd821e368e782f512ddb7fd252d17070d30a05e257",
+    "assets/raw/longtime/lt_ember_reed/contact_6x.png": "0e62bc5d4ddebc115e0e677737ea5b91f17a6c2ad0c1314ba1462ee58a64d444"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ember_reed/held_none_0",
+      "path": "assets/processed_longtime/lt_ember_reed/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "c0c0a1296188cfaee0bf907b91aa22458b6039c1747c1c3add862290fe6b3297"
+    }
+  ]
+}
