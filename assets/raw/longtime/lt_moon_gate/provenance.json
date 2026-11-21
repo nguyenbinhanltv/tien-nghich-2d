@@ -1,0 +1,45 @@
+{
+  "id": "lt_moon_gate",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing; no seed or external images.",
+  "brief": "Unbroken seal disk when shut; clear walk-through opening when unlocked.",
+  "reference_ids": [
+    "prop_teleport_array"
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_abode.py",
+  "generator_sha256_lf": "71fc20eb947c36a92021d7767889b23de1485c50eff7287094f34ca0cf9a8c31",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    48
+  ],
+  "pivot_px": [
+    16,
+    45
+  ],
+  "source": "source.png",
+  "source_sha256": "770d2e7b924cc2d0c46e65f992d208bc1ec3fd49cfc1df1f6846eb657c7c6054",
+  "frames": [
+    {
+      "key": "longtime/lt_moon_gate/sealed_none_0",
+      "path": "assets/processed_longtime/lt_moon_gate/sealed_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "5f12d3a8d128ffa0e7f92febe512a63219e583cc10520c33785271a1319ebc07"
+    },
+    {
+      "key": "longtime/lt_moon_gate/open_none_0",
+      "path": "assets/processed_longtime/lt_moon_gate/open_none_0.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "be41914e2594f2825adc6466de4de363bcc256384d91646f1e26d6c183b1ef6d"
+    }
+  ]
+}
