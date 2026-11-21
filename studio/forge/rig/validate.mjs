@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { validateSchema } from '../../core/json-schema.mjs';
 import { bodyPlans } from '../motion/library.mjs';
-import { polygonMask } from './raster.mjs';
+import { polygonMask } from '../image.mjs';
 
 export const rigSchema = () => JSON.parse(readFileSync(new URL('rig.schema.json', import.meta.url), 'utf8'));
 

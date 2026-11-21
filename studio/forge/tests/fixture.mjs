@@ -42,7 +42,7 @@ export function drawFigure(img, layout, cellId, {width, height, body, head, mark
   const [x0, y0, x1, y1] = cellRect(cell, img.width, img.height);
   const ground = y0 + Math.round((y1 - y0) * layout.ground.fraction);
   const cx = x0 + Math.round((layout.landmarkBasis === 'cell_width' ? x1 - x0 : y1 - y0) * cell.landmarks.centerX);
-  const put = (x, y, rgb) => img.data.set([...rgb, 255], (y * img.width + x) * 4);
+  const put = (x, y, rgb) => img.pixels.set([...rgb, 255], (y * img.width + x) * 4);
   const left = cx - Math.floor(width / 2), top = ground - height;
   for (let y = top; y < ground; y++) for (let x = left; x < left + width; x++) {
     const edge = x === left || x === left + width - 1 || y === top;

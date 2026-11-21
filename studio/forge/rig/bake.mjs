@@ -1,7 +1,7 @@
 // Rig baker: native turnaround frames + rig + resolved motion -> native frames per facing.
 // Everything composites at native resolution, the outline is rebuilt on every key, the canvas (and so the
 // pivot) never moves, and a facing is mirrored only when the rig says it is a mirror of another facing.
-import { cloneFrame, createFrame, flipHorizontal, isColor, maskPart, outline, place, polygonMask, rotateNearest, setPixel, alphaAt } from './raster.mjs';
+import { cloneFrame, createFrame, flipHorizontal, isColor, maskPart, outline, place, polygonMask, rotateNearest, setPixel, alphaAt } from '../image.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
 import { applyPatch, patchKey } from './patch.mjs';
 

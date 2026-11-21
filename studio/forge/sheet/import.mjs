@@ -25,7 +25,7 @@ function keyTest(layout) {
 function importCell(sheet, layout, cell) {
   const rect = cellRect(cell, sheet.width, sheet.height);
   const view = crop(sheet, ...rect);
-  const isKey = keyTest(layout), d = view.data;
+  const isKey = keyTest(layout), d = view.pixels;
   const band = roundHalfEven(view.height * layout.labelBand.fraction);
   const foreground = i => (i / 4 / view.width | 0) >= band && !isKey(d, i);
   const bounds = boundsOf(view, foreground);
@@ -42,7 +42,7 @@ function importCell(sheet, layout, cell) {
   for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
     const i = (y * view.width + x) * 4;
     if (!foreground(i)) continue;
-    figure.data.set([d[i], d[i + 1], d[i + 2], 255], ((y - y0) * figure.width + (x - x0)) * 4);
+    figure.pixels.set([d[i], d[i + 1], d[i + 2], 255], ((y - y0) * figure.width + (x - x0)) * 4);
     pixels++;
   }
   return {figure, entry: {id: cell.id, facing: cell.facing, pose: cell.pose, label: cell.label, rect, bounds, ground,

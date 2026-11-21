@@ -53,7 +53,7 @@ test('template -> import -> pixelise on a 1200x800 green-key sheet with other si
     const sprite = result.cells.get(info.id).native;
     assert.equal(sprite.width, 48); assert.equal(sprite.height, 40);
     assert.deepEqual(info.warnings, [], info.id);
-    const gate = checkPixels({width: 48, height: 40, pixels: Buffer.from(sprite.data)}, options);
+    const gate = checkPixels({width: 48, height: 40, pixels: Buffer.from(sprite.pixels)}, options);
     assert.deepEqual(gate.errors, [], info.id);
     // Foot anchored: lowest opaque row is the support line (pivot y - groundLift - 1), centred near pivot x.
     const box = boundsOf(sprite);

@@ -29,12 +29,12 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
   const ordinary = palette.colors.map(c => c.rgb).filter(rgb => !reserved.some(r => sameRgb(r, rgb)));
   const indexed = snapPalette(sampled, ordinary);
   const markPixels = marks.map(() => 0);
-  const d = sampled.data;
+  const d = sampled.pixels;
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] !== 255) continue;
     marks.forEach((m, k) => {
       if (d[i] >= m.minRgb[0] && d[i + 1] >= m.minRgb[1] && d[i + 2] >= m.minRgb[2] && d[i + 2] - d[i + 1] >= m.blueOverGreen) {
-        indexed.data.set(m.rgb, i);
+        indexed.pixels.set(m.rgb, i);
         markPixels[k]++;
       }
     });
@@ -45,7 +45,7 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
   if (!box) warnings.push('sprite is empty after reduction');
   else if (box[0] === 0 || box[1] === 0 || box[2] === width || box[3] === height) warnings.push('sprite touches the canvas boundary');
   if (origin[0] < 0 || origin[1] < 0 || origin[0] + dims[0] > width || origin[1] + dims[1] > height) warnings.push('reduced figure was clipped by the canvas');
-  const marksVisible = marks.map(m => { let n = 0; for (let i = 0; i < native.data.length; i += 4) if (native.data[i + 3] === 255 && sameRgb(native.data.subarray(i, i + 3), m.rgb)) n++; return {id: m.id, hex: m.hex, sourcePx: markPixels[marks.indexOf(m)], visiblePx: n}; });
+  const marksVisible = marks.map(m => { let n = 0; for (let i = 0; i < native.pixels.length; i += 4) if (native.pixels[i + 3] === 255 && sameRgb(native.pixels.subarray(i, i + 3), m.rgb)) n++; return {id: m.id, hex: m.hex, sourcePx: markPixels[marks.indexOf(m)], visiblePx: n}; });
   return {indexed, native, info: {id: entry.id, facing: entry.facing, pose: entry.pose, sourceGround: [gx, gy], sourceBounds: entry.bounds,
     nativeOrigin: origin, scale: fit.scale, scaleLimit: fit.limit, reducedSize: dims, bounds: box, marks: marksVisible, warnings}};
 }

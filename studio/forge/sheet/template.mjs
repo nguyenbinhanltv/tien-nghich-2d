@@ -11,7 +11,7 @@ export function renderTemplate(layoutDoc) {
   const guide = layout.key.rgb.map(v => Math.round(v * 0.7));
   const plot = (x, y, color = [0, 0, 0]) => {
     if (x < 0 || y < 0 || x >= width || y >= height) return;
-    img.data.set([...color, 255], (y * width + x) * 4);
+    img.pixels.set([...color, 255], (y * width + x) * 4);
   };
   const line = (x0, y0, x1, y1) => { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) plot(x, y, guide); };
   for (const cell of layout.cells) {

@@ -52,7 +52,7 @@ test('the template PNG is key-coloured with black labels and keyed-out guides', 
   const img = renderTemplate(layout);
   assert.deepEqual([img.width, img.height], [1024, 1024]);
   assert.deepEqual([...getPixel(img, 300, 300)], [0, 255, 0, 255]);
-  const black = boundsOf(img, i => img.data[i] === 0 && img.data[i + 1] === 0 && img.data[i + 2] === 0);
+  const black = boundsOf(img, i => img.pixels[i] === 0 && img.pixels[i + 1] === 0 && img.pixels[i + 2] === 0);
   assert.ok(black[1] < 20 && black[0] < 20, 'label drawn at the top left of the first cell');
   // A blank template has no foreground: importing it fails with a cell-specific error.
   assert.throws(() => importSheet({layout, sheet: img}), error => error.code === 'empty_cell' && error.cell === 'south');
@@ -62,7 +62,7 @@ test('an empty foot window is reported, not guessed', () => {
   const layout = base();
   const sheet = renderTemplate(layout);
   // a figure far from the foot window of the first cell
-  for (let y = 200; y < 300; y++) for (let x = 20; x < 60; x++) sheet.data.set([200, 0, 0, 255], (y * 1024 + x) * 4);
+  for (let y = 200; y < 300; y++) for (let x = 20; x < 60; x++) sheet.pixels.set([200, 0, 0, 255], (y * 1024 + x) * 4);
   layout.cells[0].landmarks.footWindow = [0.6, 0.9];
   assert.throws(() => importSheet({layout, sheet}), error => error.code === 'empty_foot_window');
   assert.ok(createImage(1, 1));
