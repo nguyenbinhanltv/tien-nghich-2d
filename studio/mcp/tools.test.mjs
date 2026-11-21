@@ -272,14 +272,19 @@ test('frames_submit and metadata_set: inherited Object.prototype names are not c
   }
   assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker')), false, 'no directory, no frame, no log line, no revision history');
   assert.equal(existsSync(join(p.root, '.inspector-revisions')), false);
-  // The same names as metadata clip keys; JSON.parse makes __proto__ a real own key, as a client's JSON would.
-  for (const clip of ['constructor', 'toString', '__proto__']) {
-    const args = JSON.parse(`{"assetId":"lt_seed_broker","clips":{"${clip}":{"frameMs":[100,100,100,100]}}}`);
-    const r = await call('studio_metadata_set', args);
-    assert.equal(r.isError, true, clip);
-    assert.match(text(r), new RegExp(`no clip "${clip}"`), clip);
+  // The same names as metadata clip keys, in every shape a patch can take: a real payload, an empty object
+  // (which would pass every other check) and null (a "clear"). JSON.parse makes __proto__ a real own key,
+  // as a client's JSON would.
+  for (const clip of ['constructor', 'toString', 'hasOwnProperty', '__proto__']) {
+    for (const value of ['{"frameMs":[100,100,100,100]}', '{}', 'null']) {
+      const r = await call('studio_metadata_set', JSON.parse(`{"assetId":"lt_seed_broker","clips":{"${clip}":${value}}}`));
+      assert.equal(r.isError, true, `${clip}: ${value}`);
+      assert.match(text(r), new RegExp(`no clip "${clip}"`), `${clip}: ${value}`);
+    }
   }
-  assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker/studio-metadata.json')), false, 'no metadata file was created');
+  const mixed = await call('studio_metadata_set', JSON.parse('{"assetId":"lt_seed_broker","clips":{"idle":{"frameMs":[1,1,1,1]},"constructor":{}}}'));
+  assert.match(text(mixed), /no clip "constructor"/, 'one bad name refuses the whole patch');
+  assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker/studio-metadata.json')), false, 'no metadata file was created, not even by the mixed patch that contained a valid clip');
   assert.equal(Object.keys(Object.prototype).length, 0, 'Object.prototype was not polluted');
 }));
 
@@ -302,7 +307,9 @@ test('metadata_set: pivot, hitbox, durations and events, with bounds and etags',
   assert.deepEqual(second.metadata.pivot, [15, 29]);
   assert.deepEqual(second.metadata.hitbox, { x: 8, y: 6, w: 16, h: 24 }, 'unmentioned fields keep their value');
   assert.deepEqual(second.metadata.clips.idle.frameMs, [200, 200, 220, 200], 'unmentioned clips keep theirs');
-  const cleared = await ok('studio_metadata_set', { assetId: 'lt_seed_broker', etag: second.etag, hitbox: null });
+  const clearedClip = await ok('studio_metadata_set', { assetId: 'lt_seed_broker', etag: second.etag, clips: { interact: null } });
+  assert.equal('interact' in clearedClip.metadata.clips, false, 'null still clears a real clip');
+  const cleared = await ok('studio_metadata_set', { assetId: 'lt_seed_broker', etag: clearedClip.etag, hitbox: null });
   assert.equal('hitbox' in cleared.metadata, false, 'null clears a field');
 
   const bad = (args) => call('studio_metadata_set', { assetId: 'lt_seed_broker', etag: cleared.etag, ...args }).then(text);

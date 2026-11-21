@@ -34,6 +34,7 @@ function checkHitbox(asset, box) {
 function checkClip(asset, name, clip) {
   const spec = clipSpec(asset, name);
   if (!spec) invalid(`${asset.id} has no clip "${name}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
+  if (clip === null) return; // null clears a real clip's entry
   if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events'].includes(k)))
     invalid(`clips.${name} may only contain frameMs and events`);
   if ('frameMs' in clip) {
@@ -67,7 +68,8 @@ export async function setMetadata({root, asset, caller, patch, etag}) {
   if (patch.hitbox) checkHitbox(asset, patch.hitbox);
   if (patch.clips) {
     if (typeof patch.clips !== 'object' || Array.isArray(patch.clips)) invalid('clips must be an object keyed by clip name');
-    for (const [name, clip] of Object.entries(patch.clips)) if (clip !== null) checkClip(asset, name, clip);
+    // Every name must be a real clip, including when the value is null (a clear): no name reaches the file unchecked.
+    for (const [name, clip] of Object.entries(patch.clips)) checkClip(asset, name, clip);
   }
   const rel = `${asset.layout.rawDir}/${METADATA_FILE}`;
   return withLock(path.join(root, rel), async () => {
@@ -78,6 +80,7 @@ export async function setMetadata({root, asset, caller, patch, etag}) {
     const data = current?.data ?? {schema: METADATA_SCHEMA, version: 1, id: asset.id, clips: {}};
     for (const f of ['pivot', 'hitbox']) if (f in patch) { if (patch[f] === null) delete data[f]; else data[f] = patch[f]; }
     for (const [name, clip] of Object.entries(patch.clips ?? {})) {
+      if (!clipSpec(asset, name)) throw problem(500, 'internal_error', 'unvalidated clip name'); // unreachable: checkClip ran; never assign an unchecked key (__proto__)
       if (clip === null) { delete data.clips[name]; continue; }
       data.clips[name] = {...data.clips[name], ...clip};
     }
