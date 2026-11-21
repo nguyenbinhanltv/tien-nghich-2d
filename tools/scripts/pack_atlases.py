@@ -68,6 +68,24 @@ def read_sprites(source, include_vfx=True):
     return sprites
 
 
+def vfx_contract(source):
+    """Frame keys that the VFX catalog says must be packed (contact sheets excluded)."""
+    index = read_json(source / "vfx" / "vfx_index.json")
+    keys = set()
+    for effect in index["effects"]:
+        keys.update(f"vfx/{effect['id']}_{n}" for n in range(effect["frame_count"]))
+    return keys
+
+
+def check_vfx_contract(sprites, source):
+    expected = vfx_contract(source)
+    found = {key for key in sprites if key.startswith("vfx/")}
+    if found != expected:
+        raise ValueError(f"VFX frames differ from vfx_index: missing {sorted(expected - found)[:5]}, "
+                         f"unexpected {sorted(found - expected)[:5]}")
+    return len(found)
+
+
 def pack(sprites, profile):
     """First-fit decreasing-height shelves, including reserved borders."""
     ordered = sorted(sprites.values(), key=lambda s: (-s.pixels.height, -s.pixels.width, s.key))
@@ -348,13 +366,17 @@ def main():
     parser.add_argument("--manifest", type=Path, default=ROOT / "assets/manifest.json")
     parser.add_argument("--check", action="store_true", help="Validate existing outputs without writing")
     parser.add_argument("--include-vfx", action="store_true",
-                        help="Include standalone VFX frames in the project atlas")
+                        help="Compatibility no-op: project VFX frames are packed by default")
+    parser.add_argument("--exclude-vfx", action="store_true",
+                        help="Debug only: omit VFX frames and skip the VFX catalog check")
     args = parser.parse_args()
     if args.source.resolve() != (ROOT / "assets/processed").resolve() and args.output.resolve() == (ROOT / "assets/atlases").resolve():
         parser.error("An alternate source requires an alternate --output directory")
     try:
         project_source = args.source.resolve() == (ROOT / "assets/processed").resolve()
-        sprites = read_sprites(args.source, args.include_vfx or not project_source)
+        sprites = read_sprites(args.source, not args.exclude_vfx)
+        if project_source and not args.exclude_vfx:
+            check_vfx_contract(sprites, args.source)
         mob_runtime = {}
         for path in sorted((args.source / "mobs").glob("*/anchor.json")):
             anchor = read_json(path)
