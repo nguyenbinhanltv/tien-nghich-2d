@@ -127,10 +127,11 @@ The earlier version of these steps was written for PowerShell on Windows. These 
 
 5. MCP: `.mcp.json`, `.codex/config.toml` and `.agents/mcp_config.json` start `node studio/mcp.mjs` for Claude Code, Codex and Antigravity with no user-level edits. The server exposes one tool today (`studio_project_info`); the 25-tool plan is P3. One connected agent is enough.
 
-6. Audio pack checks need the exact Windows FFmpeg build (see the toolchain section). On this Mac, only exploration builds are possible today:
+6. Audio pack checks need the exact Windows FFmpeg build (see the toolchain section). On this Mac only exploration builds are possible today. Build the 6.1.1 toolchain once (`bash tools/scripts/build_ffmpeg_611_mac.sh native`; it writes `tools/.toolchains/ffmpeg-6.1.1/prefix/bin/ffmpeg`, with `prefix-nofma` and `prefix-x86` for the other variants), then run the check with the project Python, because the packer imports NumPy:
 
    ```sh
-   python -B tools/scripts/build_audio_wave2_batch1_pack.py --ffmpeg <ffmpeg-6.1.1> --check   # fails here, see AUDIO_TOOLCHAIN_MAC.md
+   tools/.venvs/project/bin/python -B tools/scripts/build_audio_wave2_batch1_pack.py \
+     --ffmpeg tools/.toolchains/ffmpeg-6.1.1/prefix/bin/ffmpeg --check   # fails here: codec files differ, see AUDIO_TOOLCHAIN_MAC.md
    ```
 
 ## Backlog for a later user-directed restart
