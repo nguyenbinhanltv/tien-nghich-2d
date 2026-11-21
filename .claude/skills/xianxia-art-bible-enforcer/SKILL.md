@@ -17,5 +17,5 @@ Authoritative spec: `docs/ART_BIBLE.md`. Machine palette: `tools/generators/pale
 ## Procedure
 - Generators must read `palette.json`; never hardcode other hex values.
 - Gate every file: `python -I tools/scripts/validate_palette.py <png|dir>`; add `--class tile|character|weapon|boss|icon` to check canvas size; `--outline-optional` only for seamless tiles and flat UI fills. Non-zero exit = reject; fix the source/generator, not the PNG by hand.
-- PixelLab character output is off-palette by nature: remap to the nearest palette color (in `assets/processed/`, never mutating `raw/`), add the outline, then validate.
+- Character output that arrives off-palette (image-model sheets after pixelisation, or older PixelLab frames): remap to the nearest palette color (in `assets/processed/`, never mutating `raw/`), add the outline, then validate.
 - Review perspective by eye (the validator cannot check it); reject anything violating rule 1.

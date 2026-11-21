@@ -58,6 +58,26 @@ After a successful doctor check, replace `doctor --out "<scratch>"` with `build 
 
 A scratch jade pulse authored by Codex (seed 20) produced six 16×16 frames in a 96×16 sheet. Two builds reported zero faults and identical sheet SHA-256 `549f40ebe5aeeada6734a2c406c164ac6c1b9af50fb1144625c227f6d143840c`. The project palette validator passed with a thickness warning. An independent pixel check found five project colors and alpha values of 0 and 255.
 
+## Anthropic skills (added 2026-11-22)
+
+One clone serves three skills: [anthropics/skills](https://github.com/anthropics/skills) at `e4bb5d960d87126ff3b3a8af1a104b7db67560ba` (commit dated 2026-11-16), cloned into `tools/skills/anthropic-skills/`. The script names a clone by URL basename, which would be the unclear `skills`, so `tools/scripts/fetch_skills.sh` now accepts an optional third column for the directory name; the four earlier lines are unchanged and keep their basename directories. Create it with `bash tools/scripts/fetch_skills.sh` (clone only). The clone is git-ignored like the others. Each skill is third-party and untrusted: it was read, and none of its scripts was run.
+
+| Skill | Wrappers | Licence terms read in its `LICENSE.txt` | Use in this project and limits |
+|---|---|---|---|
+| `skills/mcp-builder` | [Claude](../.claude/skills/mcp-builder/SKILL.md) · [Codex/Antigravity](../.agents/skills/tien-nghich-mcp-builder/SKILL.md) | Apache License 2.0, full text plus the appendix carrying "Copyright 2026 Anthropic, PBC.". File is 11,345 bytes (SHA-1 `d2e37f65563a8dbdac7f6b3b4283a9a34c7b0967`). | Tool design, naming, error messages and the ten-question evaluation method for the studio MCP. Its recommended stack (TypeScript MCP SDK, FastMCP) conflicts with the zero-dependency Node 24 rule, so no SDK is added. `scripts/evaluation.py` and `scripts/connections.py` need pip packages `anthropic` and `mcp` plus an API key: not run. |
+| `skills/frontend-design` | [Claude](../.claude/skills/frontend-design/SKILL.md) · [Codex/Antigravity](../.agents/skills/tien-nghich-frontend-design/SKILL.md) | Apache License 2.0, terms only: no appendix and no copyright line in this file (10,174 bytes, SHA-1 `598f87f072f66e2269dd6919292b2934dbb20492`). The `SKILL.md` header points to the file for the full terms. | Visual direction for studio screens. One instruction file, no scripts. Guidance only: the UI stays zero-build ES modules, with local fonts and no remote assets. Because the file has no copyright holder line, rely on the upstream repository's attribution if redistribution is ever needed. |
+| `skills/webapp-testing` | [Claude](../.claude/skills/webapp-testing/SKILL.md) · [Codex/Antigravity](../.agents/skills/tien-nghich-webapp-testing/SKILL.md) | Apache License 2.0, same file as mcp-builder (identical SHA-1 `d2e37f65563a8dbdac7f6b3b4283a9a34c7b0967`), with "Copyright 2026 Anthropic, PBC.". | Patterns for Playwright-driven checks of local pages. Playwright is not installed and the project forbids ad-hoc installs, so the existing Node smoke and editor tests remain the baseline. `scripts/with_server.py` launches commands with `shell=True`: not run; start the server yourself on loopback. |
+
+Apache-2.0 permits use, modification and redistribution with the licence text and notices preserved and changes marked; it grants no trademark rights and gives no warranty. The wrappers link to the clone and copy no upstream text, so nothing is redistributed. The repository root also holds a `THIRD_PARTY_NOTICES.md` that was not audited for these three skills.
+
+## This machine (macOS, recorded 2026-11-22)
+
+- The third-party clones live once, in the main checkout's `tools/skills/`, and are symlinked into each worktree. Do not commit those symlinks. Git ignores the directories but not symlinks, so exclude them locally if they show as untracked.
+- Python environments: `tools/.venvs/project` (CPython 3.14, NumPy 2.5.5, Pillow 12.3.0) runs the project checks and tests, and `tools/.venvs/spritefx` runs SpriteFX. Both are git-ignored and live in the main checkout. Run Python as `tools/.venvs/project/bin/python -I`; the system `python3` lacks NumPy and Pillow and there is no `python` on PATH.
+- AssetCat CLI 1.0.2 is installed. No library or profile is configured, so searches return nothing until one is set up.
+- FFmpeg is 8.1.2 without libvorbis, which differs from the 6.1.1 pin the audio packaging notes expect.
+- The commands elsewhere in these documents are written for PowerShell on Windows. On this Mac, translate them: use `bash`/`zsh`, forward slashes, `tools/.venvs/<name>/bin/python` instead of `.venv\Scripts\python.exe`, `$VAR` or `export` instead of `$env:VAR`, and `ln -s` instead of `New-Item -ItemType SymbolicLink`.
+
 ## Historical Claude installation record
 
 The following inventory and caveats record the original installation. The pins identify the versions audited above.
