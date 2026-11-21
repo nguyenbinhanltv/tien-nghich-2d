@@ -5,11 +5,14 @@ import { alphaAt, getRgb, isColor, sameRgb } from '../image.mjs';
 
 export const defaultDrift = {maxInteriorChange: 0.6, maxColorShift: null};
 
+// `ink` is null for a project without an outline: nothing is excluded then.
+const isInk = (frame, x, y, ink) => ink !== null && ink !== undefined && isColor(frame, x, y, ink);
+
 function histogram(frame, ink) {
   const counts = new Map();
   let total = 0;
   for (let y = 0; y < frame.height; y++) for (let x = 0; x < frame.width; x++) {
-    if (alphaAt(frame, x, y) !== 255 || isColor(frame, x, y, ink)) continue;
+    if (alphaAt(frame, x, y) !== 255 || isInk(frame, x, y, ink)) continue;
     const key = getRgb(frame, x, y).join(',');
     counts.set(key, (counts.get(key) ?? 0) + 1);
     total++;
@@ -33,7 +36,7 @@ export function identityDrift(unit, {palette}, options = {}) {
     let shared = 0, changed = 0;
     const pixels = [];
     for (let y = 0; y < fa.height; y++) for (let x = 0; x < fa.width; x++) {
-      if (alphaAt(fa, x, y) !== 255 || alphaAt(fb, x, y) !== 255 || isColor(fa, x, y, ink) || isColor(fb, x, y, ink)) continue;
+      if (alphaAt(fa, x, y) !== 255 || alphaAt(fb, x, y) !== 255 || isInk(fa, x, y, ink) || isInk(fb, x, y, ink)) continue;
       shared++;
       if (!sameRgb(getRgb(fa, x, y), getRgb(fb, x, y))) { changed++; pixels.push([x, y]); }
     }

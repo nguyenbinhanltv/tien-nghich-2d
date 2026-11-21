@@ -7,7 +7,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { loadPack } from '../../core/pack.mjs';
-import { bakeStage, boundsOf, compareSets, decodePng, encodePng, importSheet, pixelizeImport, qaStage, renderTemplate, resolveMarks, rigPalette,
+import { runPipeline, bakeStage, boundsOf, compareSets, decodePng, encodePng, importSheet, pixelizeImport, qaStage, renderTemplate, resolveMarks, rigPalette,
   scalesByFacing, settingsFromPack, writeBakeDir, turnaroundLayout, validateLayout, normalizeEntries } from '../index.mjs';
 import { drawFigure, makeProject, palette } from './fixture.mjs';
 
@@ -226,4 +226,20 @@ test('compare puts bake directories side by side, summarises their gates, and th
   assert.match(stdout, /one: 4 frames, gates pass/);
   assert.equal(decodePng(await fs.readFile(path.join(out, 'sheet.png'))).width > 0, true);
   assert.equal(JSON.parse(await fs.readFile(path.join(out, 'r.json'), 'utf8')).sets.two.frames, 4);
+});
+
+test('drawn pose clips run the gates in a project without an outline', async t => {
+  const dir = await makeProject({clips: {walk: [4, 100]}, outline: {mode: 'none', color: 'palette', borderIsEdge: false}});
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const settings = await settingsFromPack(await loadPack(dir), dir, 'critter');
+  assert.equal(settings.outline.mode, 'none');
+  const layout = turnaroundLayout({id: 'n', facings: ['front'], poses: ['a', 'b'], size: [600, 400], heightPx: 26, columns: 2});
+  const sheet = renderTemplate(layout);
+  for (const cell of layout.cells) drawFigure(sheet, layout, cell.id, {width: 120, height: 150, body: rgb(cell.pose === 'a' ? 'moss' : 'clay'), head: rgb('rose')});
+  const pal = rigPalette(settings);
+  assert.equal(pal.outline, null);
+  const {summary} = await runPipeline({project: {settings, palette: pal}, layout, sheet: {bytes: encodePng(sheet)}, scaleOptions: {mode: 'sheet'},
+    poseClips: {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['a', 'b', 'a', 'b']}}}, qa: {pivotDrift: false}});
+  assert.equal(summary.stages.gates.ok, true, summary.error);
+  assert.ok(summary.stages.gates.metrics['walk/front'].interiorChange > 0, 'identity drift measured without an outline');
 });

@@ -16,14 +16,14 @@ export const palette = {
 export const profile = {native_px: [48, 40], pivot_px: [24, 34], directions: ['front', 'side', 'back']};
 
 /** Write a pack, palette and design manifest for another project into a fresh temp dir. */
-export async function makeProject({clips} = {}) {
+export async function makeProject({clips, outline} = {}) {
   const dir = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'forge-second-'));
   const pack = structuredClone(real);
   pack.id = 'second-game'; pack.name = 'Second Game';
   pack.palette.file = 'pal.json';
   pack.catalog.sources = [{id: 'main', kind: 'design-manifest', file: 'design.json'}];
   pack.editable = {overlay: 'approved.json', groups: []};
-  pack.rules.outline = {mode: 'silhouette', color: 'palette', borderIsEdge: false};
+  pack.rules.outline = outline ?? {mode: 'silhouette', color: 'palette', borderIsEdge: false};
   await fs.writeFile(path.join(dir, 'studio.project.json'), JSON.stringify(pack));
   await fs.writeFile(path.join(dir, 'pal.json'), JSON.stringify(palette));
   await fs.writeFile(path.join(dir, 'design.json'), JSON.stringify({profiles: {critter: clips ? {...profile, clips} : profile}, assets: []}));
