@@ -80,7 +80,25 @@
         "kind": "asset-animations", "source": "core", "category": "ui", "frameKey": "ui",
         "raw": "{output_path}{id}_{clip}_{n}.png", "processed": "assets/processed/{key}.png"
       },
-      {"kind": "vfx-descriptor", "source": "vfx", "category": "vfx", "frameKey": "vfx"}
+      {"kind": "vfx-descriptor", "source": "vfx", "category": "vfx", "frameKey": "vfx"},
+      {
+        "kind": "processed-frames", "source": "core", "categories": ["player", "mob", "boss"],
+        "keyMap": {"players": "characters", "mobs": "characters", "bosses": "characters"},
+        "pivot": {"from": "file", "file": "anchor.json", "field": "anchor_px"},
+        "publish": {"mode": "none", "reason": "Character frames live under players/, mobs/ and bosses/ but are packed as characters/…; the promotion bridge needs the frame key to equal the processed path, and character atlases carry no per-frame pivot yet. Edit, review and restore work; publishing is not wired."}
+      },
+      {
+        "kind": "processed-frames", "source": "core", "categories": ["tileset", "weapon", "projectile", "prop"],
+        "publish": {"mode": "none", "reason": "Their keys equal the atlas keys, but promotion into the atlases has only been verified for UI and VFX frames. Enable it here once a promotion test passes for the category."}
+      },
+      {
+        "kind": "processed-frames", "source": "core", "categories": ["icon"], "keyMap": {"icons": "ui"},
+        "publish": {"mode": "none", "reason": "Icons live under icons/ but are packed with the UI group (ui/…), so the frame key differs from the processed path the promotion bridge requires."}
+      },
+      {
+        "kind": "processed-frames", "source": "longtime", "keyPrefix": "longtime/", "pivot": {"from": "profile", "field": "pivot_px"},
+        "publish": {"mode": "none", "reason": "Longtime assets are packed into per-chunk atlases by the Longtime QA packer (qa_longtime.py), which does not read approved frames."}
+      }
     ]
   },
   "ui": {

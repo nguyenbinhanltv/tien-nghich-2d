@@ -18,7 +18,7 @@ const ids = list => Array.isArray(list) ? list.filter(item => typeof item === 's
 const frameFile = /^(.+)_([a-z]+)_(\d+)\.png$/;
 
 /** Frame files below `dir` grouped by asset id (the directory the frames sit in). */
-async function framesByDirectory(root, dir) {
+export async function framesByDirectory(root, dir) {
   const byId = new Map();
   for (const file of await walkFiles(root, dir, f => f.endsWith('.png'))) {
     const parts = file.split('/');
@@ -139,13 +139,9 @@ export async function buildCatalog(pack, root) {
   root = await fs.realpath(root);
   const assets = [], chunks = [];
   for (const source of pack.catalog.sources) {
-    const data = await readJson(root, source.file);
-    let entries = await readers[source.kind](source, data, {root, pack});
-    if (!Array.isArray(entries)) { chunks.push(...Object.values(entries.chunks)); entries = entries.entries; }
-    for (const entry of entries) {
-      if (typeof entry.id !== 'string' || !entry.id) throw new Error(`Catalog source "${source.id}" has an entry without an id`);
-      assets.push({source: source.id, ...entry});
-    }
+    const read = await catalogSource(pack, root, source);
+    chunks.push(...read.chunks);
+    assets.push(...read.assets);
   }
   const count = key => assets.reduce((all, a) => (all[a[key]] = (all[a[key]] ?? 0) + 1, all), {});
   const seen = new Set();
@@ -156,6 +152,18 @@ export async function buildCatalog(pack, root) {
   }
   return {assets, chunks: chunks.map(({packedIds, ...c}) => ({...c, assetIds: [...packedIds].sort()})),
     totals: {total: assets.length, bySource: count('source'), byCategory: count('category')}};
+}
+
+/** Entries (and chunk budgets) of one catalog source, so callers can read a single manifest. */
+export async function catalogSource(pack, root, source) {
+  root = await fs.realpath(root);
+  const data = await readJson(root, source.file);
+  let entries = await readers[source.kind](source, data, {root, pack});
+  let chunks = [];
+  if (!Array.isArray(entries)) { chunks = Object.values(entries.chunks); entries = entries.entries; }
+  for (const entry of entries)
+    if (typeof entry.id !== 'string' || !entry.id) throw new Error(`Catalog source "${source.id}" has an entry without an id`);
+  return {assets: entries.map(entry => ({source: source.id, ...entry})), chunks};
 }
 
 const tally = (items, key) => items.reduce((all, item) => {

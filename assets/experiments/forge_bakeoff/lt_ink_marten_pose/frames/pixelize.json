@@ -1,0 +1,690 @@
+{
+  "schema": "forge.pixelize",
+  "version": 1,
+  "sheetSha256": "a3c8acc69eff2c75fe322ded4d1a961c71a3cfa01e22d36a984036f9fa5db6b8",
+  "promptSha256": "fbc9787a40826be6e1a5037893e9f4992f9609414c7c2b4250c4da9f79bbd7fc",
+  "layoutId": "ink-marten-follow",
+  "landmarkBasis": "cell_width",
+  "profile": {
+    "name": "pet",
+    "nativePx": [
+      32,
+      32
+    ],
+    "pivotPx": [
+      16,
+      29
+    ]
+  },
+  "palette": {
+    "name": "tien-nghich-xianxia-40",
+    "colors": 40,
+    "sha256": "f7ac8d80eafac0e9d7178e4e1b398064a02cc9c36008378c770088aa13314734"
+  },
+  "outline": {
+    "mode": "silhouette",
+    "hex": "#14101a",
+    "borderIsEdge": false
+  },
+  "marks": [
+    "#e3d6fb"
+  ],
+  "cells": [
+    {
+      "id": "contact_a_south",
+      "facing": "south",
+      "pose": "contact_a",
+      "sourceGround": [
+        140,
+        280
+      ],
+      "sourceBounds": [
+        70,
+        67,
+        266,
+        280
+      ],
+      "nativeOrigin": [
+        9,
+        4
+      ],
+      "scale": 0.09859154929577464,
+      "scaleLimit": "height",
+      "reducedSize": [
+        19,
+        21
+      ],
+      "bounds": [
+        9,
+        4,
+        28,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "ad0a5ab7b4d62c97fa42bbd529e33b7ed665373b4590afd1d9cd6e13d88e899e"
+    },
+    {
+      "id": "contact_a_west",
+      "facing": "west",
+      "pose": "contact_a",
+      "sourceGround": [
+        164,
+        261
+      ],
+      "sourceBounds": [
+        21,
+        114,
+        308,
+        261
+      ],
+      "nativeOrigin": [
+        1,
+        10
+      ],
+      "scale": 0.10416666666666667,
+      "scaleLimit": "right",
+      "reducedSize": [
+        30,
+        15
+      ],
+      "bounds": [
+        1,
+        10,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 2,
+          "visiblePx": 1
+        }
+      ],
+      "warnings": [],
+      "sha256": "6091556e405faabc470f5a494232e38d81916ce5fb0e96873eddac18d7a66e64"
+    },
+    {
+      "id": "contact_a_north",
+      "facing": "north",
+      "pose": "contact_a",
+      "sourceGround": [
+        153,
+        267
+      ],
+      "sourceBounds": [
+        33,
+        72,
+        223,
+        287
+      ],
+      "nativeOrigin": [
+        3,
+        4
+      ],
+      "scale": 0.1076923076923077,
+      "scaleLimit": "height",
+      "reducedSize": [
+        20,
+        23
+      ],
+      "bounds": [
+        3,
+        4,
+        23,
+        27
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "f22223fa8275ab647c85510f70c6a1718dcb97c3eb1d91513de50df627bb0fd4"
+    },
+    {
+      "id": "contact_a_east",
+      "facing": "east",
+      "pose": "contact_a",
+      "sourceGround": [
+        177,
+        269
+      ],
+      "sourceBounds": [
+        24,
+        111,
+        333,
+        269
+      ],
+      "nativeOrigin": [
+        1,
+        10
+      ],
+      "scale": 0.09615384615384616,
+      "scaleLimit": "right",
+      "reducedSize": [
+        30,
+        15
+      ],
+      "bounds": [
+        1,
+        10,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "2a97073b2b25f599313ade71e39472a71cd00fd54d4a7ab07a5390172a259c60"
+    },
+    {
+      "id": "passing_a_south",
+      "facing": "south",
+      "pose": "passing_a",
+      "sourceGround": [
+        140,
+        263
+      ],
+      "sourceBounds": [
+        74,
+        38,
+        269,
+        263
+      ],
+      "nativeOrigin": [
+        10,
+        4
+      ],
+      "scale": 0.09333333333333334,
+      "scaleLimit": "height",
+      "reducedSize": [
+        18,
+        21
+      ],
+      "bounds": [
+        10,
+        4,
+        28,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 1,
+          "visiblePx": 1
+        }
+      ],
+      "warnings": [],
+      "sha256": "f92048827f03ac81f4dc44ba674ab94813bcfdc09b72efaeb73ac968c2a29808"
+    },
+    {
+      "id": "passing_a_west",
+      "facing": "west",
+      "pose": "passing_a",
+      "sourceGround": [
+        164,
+        251
+      ],
+      "sourceBounds": [
+        18,
+        83,
+        310,
+        251
+      ],
+      "nativeOrigin": [
+        1,
+        8
+      ],
+      "scale": 0.10273972602739725,
+      "scaleLimit": "left",
+      "reducedSize": [
+        30,
+        17
+      ],
+      "bounds": [
+        1,
+        8,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 2,
+          "visiblePx": 1
+        }
+      ],
+      "warnings": [],
+      "sha256": "4caf498d4b14f235f9a47f3c2d71e2e4afa5bbf7a5a8ddc3135a3a49c6f4f9f7"
+    },
+    {
+      "id": "passing_a_north",
+      "facing": "north",
+      "pose": "passing_a",
+      "sourceGround": [
+        153,
+        243
+      ],
+      "sourceBounds": [
+        30,
+        46,
+        223,
+        267
+      ],
+      "nativeOrigin": [
+        3,
+        4
+      ],
+      "scale": 0.1065989847715736,
+      "scaleLimit": "height",
+      "reducedSize": [
+        21,
+        24
+      ],
+      "bounds": [
+        3,
+        4,
+        24,
+        28
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 1,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "f77e5209d5507aaa77a5fdc8a07618f8d636a0ccaa11aca2b287f49dc880e99e"
+    },
+    {
+      "id": "passing_a_east",
+      "facing": "east",
+      "pose": "passing_a",
+      "sourceGround": [
+        177,
+        248
+      ],
+      "sourceBounds": [
+        23,
+        80,
+        330,
+        248
+      ],
+      "nativeOrigin": [
+        1,
+        9
+      ],
+      "scale": 0.09740259740259741,
+      "scaleLimit": "left",
+      "reducedSize": [
+        30,
+        16
+      ],
+      "bounds": [
+        1,
+        9,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "65465d61fc245e208ae45bab070c5478d5637d1f107c76e7e0ca7563bb7309bb"
+    },
+    {
+      "id": "contact_b_south",
+      "facing": "south",
+      "pose": "contact_b",
+      "sourceGround": [
+        140,
+        257
+      ],
+      "sourceBounds": [
+        62,
+        40,
+        266,
+        257
+      ],
+      "nativeOrigin": [
+        8,
+        4
+      ],
+      "scale": 0.0967741935483871,
+      "scaleLimit": "height",
+      "reducedSize": [
+        20,
+        21
+      ],
+      "bounds": [
+        8,
+        4,
+        28,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 1,
+          "visiblePx": 1
+        }
+      ],
+      "warnings": [],
+      "sha256": "f85bf2da794c4ff78a953b25b43fde46650ceef4f54ea978f3c8224b39081fd5"
+    },
+    {
+      "id": "contact_b_west",
+      "facing": "west",
+      "pose": "contact_b",
+      "sourceGround": [
+        164,
+        239
+      ],
+      "sourceBounds": [
+        19,
+        88,
+        307,
+        239
+      ],
+      "nativeOrigin": [
+        1,
+        9
+      ],
+      "scale": 0.10344827586206896,
+      "scaleLimit": "left",
+      "reducedSize": [
+        30,
+        16
+      ],
+      "bounds": [
+        1,
+        9,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 2,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "8740deff0eb496ce9eeecb14af419b6cc26cb774c52ad8ffba8c55bdf0c2d225"
+    },
+    {
+      "id": "contact_b_north",
+      "facing": "north",
+      "pose": "contact_b",
+      "sourceGround": [
+        153,
+        243
+      ],
+      "sourceBounds": [
+        26,
+        44,
+        224,
+        270
+      ],
+      "nativeOrigin": [
+        3,
+        4
+      ],
+      "scale": 0.10552763819095477,
+      "scaleLimit": "height",
+      "reducedSize": [
+        21,
+        24
+      ],
+      "bounds": [
+        3,
+        4,
+        24,
+        28
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "ef9fda0e678020db356f752d8a6856ab9a010cad28194117937476a6fdd1e290"
+    },
+    {
+      "id": "contact_b_east",
+      "facing": "east",
+      "pose": "contact_b",
+      "sourceGround": [
+        177,
+        245
+      ],
+      "sourceBounds": [
+        24,
+        89,
+        335,
+        245
+      ],
+      "nativeOrigin": [
+        1,
+        10
+      ],
+      "scale": 0.0949367088607595,
+      "scaleLimit": "right",
+      "reducedSize": [
+        30,
+        15
+      ],
+      "bounds": [
+        1,
+        10,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "6630d20bf43a0fec158204a36889f7f1302bffae57cfcd1a6a1b8481b5178a3d"
+    },
+    {
+      "id": "passing_b_south",
+      "facing": "south",
+      "pose": "passing_b",
+      "sourceGround": [
+        140,
+        260
+      ],
+      "sourceBounds": [
+        65,
+        38,
+        266,
+        260
+      ],
+      "nativeOrigin": [
+        9,
+        4
+      ],
+      "scale": 0.0945945945945946,
+      "scaleLimit": "height",
+      "reducedSize": [
+        19,
+        21
+      ],
+      "bounds": [
+        9,
+        4,
+        28,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 1,
+          "visiblePx": 1
+        }
+      ],
+      "warnings": [],
+      "sha256": "655c989019605c2592e8c532b125b493c58d39b7a749e27af8c7acb76abde4a8"
+    },
+    {
+      "id": "passing_b_west",
+      "facing": "west",
+      "pose": "passing_b",
+      "sourceGround": [
+        164,
+        250
+      ],
+      "sourceBounds": [
+        17,
+        83,
+        307,
+        250
+      ],
+      "nativeOrigin": [
+        1,
+        8
+      ],
+      "scale": 0.10204081632653061,
+      "scaleLimit": "left",
+      "reducedSize": [
+        30,
+        17
+      ],
+      "bounds": [
+        1,
+        8,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 1,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "7ff715034965514981c716b6efad6bfaa8c8b4a05b72ea7415d1d4e98d815aa7"
+    },
+    {
+      "id": "passing_b_north",
+      "facing": "north",
+      "pose": "passing_b",
+      "sourceGround": [
+        153,
+        239
+      ],
+      "sourceBounds": [
+        27,
+        47,
+        227,
+        270
+      ],
+      "nativeOrigin": [
+        2,
+        4
+      ],
+      "scale": 0.109375,
+      "scaleLimit": "height",
+      "reducedSize": [
+        22,
+        24
+      ],
+      "bounds": [
+        2,
+        4,
+        24,
+        28
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "123b168ed1cad8f3688e6ed51983728e8f933fa4bba78a662fbb7c4f37407e6f"
+    },
+    {
+      "id": "passing_b_east",
+      "facing": "east",
+      "pose": "passing_b",
+      "sourceGround": [
+        177,
+        250
+      ],
+      "sourceBounds": [
+        24,
+        83,
+        334,
+        250
+      ],
+      "nativeOrigin": [
+        1,
+        9
+      ],
+      "scale": 0.09554140127388536,
+      "scaleLimit": "right",
+      "reducedSize": [
+        30,
+        16
+      ],
+      "bounds": [
+        1,
+        9,
+        31,
+        25
+      ],
+      "marks": [
+        {
+          "id": "soul_07",
+          "hex": "#e3d6fb",
+          "sourcePx": 0,
+          "visiblePx": 0
+        }
+      ],
+      "warnings": [],
+      "sha256": "0ad8477deff34ce79c2c741edc2eb44510f4a23a91d83aac215e8d3cfd5f393a"
+    }
+  ]
+}

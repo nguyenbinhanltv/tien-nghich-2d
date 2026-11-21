@@ -29,7 +29,7 @@ async function body(req) {
   catch { throw problem(400,'invalid_json','Invalid JSON'); }
 }
 const actions = {
-  frames:[], frame:['key','revision'],image:['key','revision'],export:['key','revision'],
+  frames:['assetId','category'], frame:['key','revision'],image:['key','revision'],export:['key','revision'],
   save:['key','baseRevision','pngBase64','metadata'],restore:['key','baseRevision','targetRevision'],
   review:['key','revision','status','text']
 };
@@ -96,7 +96,8 @@ export function editorApi(root,dir) {
       fields(args,actions[action]);
       catalog ??= loadCatalog(root).catch(error=>{catalog=undefined;throw error;});
       const library=await catalog;
-      if (action==='frames') send(200,{frames:[...library.frames.values()].map(f=>f.info)});
+      if (action==='frames') send(200,{frames:[...library.frames.values()].map(f=>f.info)
+        .filter(f=>(args.assetId===undefined||f.assetId===args.assetId)&&(args.category===undefined||f.category===args.category))});
       else {
         const frame=library.frames.get(args.key);
         if (!frame) throw problem(404,'unknown_frame','Frame is outside the editable catalog');
