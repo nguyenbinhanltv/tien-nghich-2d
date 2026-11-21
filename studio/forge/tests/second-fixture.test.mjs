@@ -89,3 +89,15 @@ test('the CLI runs the same steps against the second project', async t => {
   assert.equal(decodePng(await fs.readFile(path.join(dir, 'native/front.png'))).width, 48);
   assert.ok(before.equals(await fs.readFile(path.join(dir, 'sheet.png'))), 'raw sheet untouched');
 });
+
+test('a scale recorded for one profile is recomputed for another, never reused', async t => {
+  const {dir, settings, layout, sheet} = await build();
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const other = {...settings, profile: {...settings.profile, nativePx: [64, 56], pivotPx: [32, 48]}};
+  const imported = importSheet({layout, sheet, profile: settings.profile});
+  const viaOther = pixelizeImport(imported, other);
+  const direct = pixelizeImport(importSheet({layout, sheet, profile: other.profile}), other);
+  assert.deepEqual(viaOther.record.cells.map(c => [c.scale, c.nativeOrigin]), direct.record.cells.map(c => [c.scale, c.nativeOrigin]));
+  assert.notDeepEqual(viaOther.record.cells[0].nativeOrigin, pixelizeImport(imported, settings).record.cells[0].nativeOrigin);
+  assert.equal(viaOther.cells.get('idle_front').native.width, 64);
+});

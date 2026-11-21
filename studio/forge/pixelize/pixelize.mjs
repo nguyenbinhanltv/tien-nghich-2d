@@ -53,8 +53,14 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
 /** Pixelise every cell of an import ({record, cells}); returns {record, cells: Map id -> {indexed, native}}. */
 export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = {}) {
   const cells = new Map(), infos = [];
-  for (const entry of imported.record.cells) {
-    const {indexed, native, info} = pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions});
+  // A recorded scale and support line belong to the profile the import ran with (and its scaleOptions);
+  // for any other profile, or when scaleOptions are given here, they are recomputed.
+  const rp = imported.record.profile, p = settings.profile;
+  const reusable = !scaleOptions && rp && rp.nativePx.join() === p.nativePx.join() && rp.pivotPx.join() === p.pivotPx.join();
+  for (const recorded of imported.record.cells) {
+    const {scale, limit, targetY, ...bare} = recorded;
+    const entry = reusable ? recorded : bare;
+    const {indexed, native, info} = pixelizeCell(entry, imported.cells.get(recorded.id), settings, {marks, scaleOptions});
     cells.set(entry.id, {indexed, native});
     infos.push({...info, sha256: sha256(encodePng(native))});
   }
