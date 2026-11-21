@@ -1,0 +1,571 @@
+{
+  "bgm": {
+    "channels": 2,
+    "codecs": {
+      "m4a": {
+        "bytes": 1487355,
+        "container": {
+          "edit_list": [
+            {
+              "media_time": 1024,
+              "segment_duration_movie_units": 72743
+            }
+          ],
+          "itunsmpb_present": false,
+          "media_duration_units": 3208992,
+          "media_timescale": 44100
+        },
+        "decoded_frames": 3208192,
+        "decoded_loop_frames": {
+          "loopEnd": 3191584,
+          "loopStart": 16384
+        },
+        "decoded_sample_peak_dbfs": -7.469,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers)",
+        "encoded_layout": {
+          "body_frames": 3175200,
+          "lead_in_frames": 16384,
+          "lead_out_frames": 16384
+        },
+        "expected_frames": 3207968,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "<wrapped loop wav>",
+          "-c:a",
+          "aac",
+          "-b:a",
+          "160k",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "bgm_dong_phu.m4a"
+        ],
+        "file": "bgm_dong_phu.m4a",
+        "loop_source_frames": {
+          "loopEnd": 3175200,
+          "loopStart": 0
+        },
+        "loudness": {
+          "integrated_lufs": -23.2,
+          "loudness_range_lu": 3.9,
+          "true_peak_dbtp": -7.4
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 1024,
+        "seam_three_repeats": {
+          "body_max_error_pcm": 3778.0,
+          "body_rms_error_dbfs": -58.419,
+          "decoded_body_step_max_pcm": 2573.0,
+          "decoded_body_step_p9999_pcm": 1660.0,
+          "decoded_join_step_pcm": [
+            97.0,
+            97.0
+          ],
+          "frames_added_or_removed": 0,
+          "joins_loop_relative_frames": [
+            3175200,
+            6350400
+          ],
+          "loop_snr_db": 32.98,
+          "master_join_step_pcm": [
+            96.0,
+            96.0
+          ],
+          "pass": true,
+          "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+          "repeat_frames_each": 3175200,
+          "seam_window_max_error_pcm": [
+            39.0,
+            39.0
+          ]
+        },
+        "sha256": "11d0d1a8dc99f780efe29757a338a4e421aca3893e500c2d916018f16235546f",
+        "trailing_extra_frames": 224
+      },
+      "ogg": {
+        "bytes": 966590,
+        "container": {
+          "final_granule_position": 3207968,
+          "pages": 74,
+          "serial_number": 0
+        },
+        "decoded_frames": 3207968,
+        "decoded_loop_frames": {
+          "loopEnd": 3191584,
+          "loopStart": 16384
+        },
+        "decoded_sample_peak_dbfs": -7.493,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers)",
+        "encoded_layout": {
+          "body_frames": 3175200,
+          "lead_in_frames": 16384,
+          "lead_out_frames": 16384
+        },
+        "expected_frames": 3207968,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "<wrapped loop wav>",
+          "-c:a",
+          "libvorbis",
+          "-q:a",
+          "5",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "bgm_dong_phu.ogg"
+        ],
+        "file": "bgm_dong_phu.ogg",
+        "loop_source_frames": {
+          "loopEnd": 3175200,
+          "loopStart": 0
+        },
+        "loudness": {
+          "integrated_lufs": -23.2,
+          "loudness_range_lu": 3.8,
+          "true_peak_dbtp": -7.5
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 0,
+        "seam_three_repeats": {
+          "body_max_error_pcm": 804.0,
+          "body_rms_error_dbfs": -60.209,
+          "decoded_body_step_max_pcm": 2661.0,
+          "decoded_body_step_p9999_pcm": 1672.0,
+          "decoded_join_step_pcm": [
+            99.0,
+            99.0
+          ],
+          "frames_added_or_removed": 0,
+          "joins_loop_relative_frames": [
+            3175200,
+            6350400
+          ],
+          "loop_snr_db": 34.77,
+          "master_join_step_pcm": [
+            96.0,
+            96.0
+          ],
+          "pass": true,
+          "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+          "repeat_frames_each": 3175200,
+          "seam_window_max_error_pcm": [
+            46.0,
+            46.0
+          ]
+        },
+        "sha256": "5eada90bf7267218096843f27d23971b234355dab53fa94bd849cd16881e22da",
+        "trailing_extra_frames": 0
+      }
+    },
+    "id": "bgm_dong_phu",
+    "master": {
+      "file": "assets/audio/bgm_dong_phu/master.wav",
+      "frames": 3175200,
+      "loopEnd": 3175200,
+      "loopStart": 0,
+      "loudness": {
+        "integrated_lufs": -23.2,
+        "loudness_range_lu": 3.8,
+        "true_peak_dbtp": -7.4
+      },
+      "marker_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+      "rms_dbfs": -25.439,
+      "sample_peak_dbfs": -7.467,
+      "sha256": "e1e1bfe6b76a6d096ca6d837b9e7717ac6e5b544ae27d3b2cef79b998c854f71"
+    },
+    "sample_rate_hz": 44100
+  },
+  "inputs": {
+    "base": "46e6ae48296855fdb9fd367b36e7f3c0f56d5f48",
+    "bgm_source_commit": "fd8f2f741606bf3025209aeb07d1ad0adf96ad85",
+    "sfx_source_commit": "ff1974c6989a0c48ec3695f33256860cc467ab7b"
+  },
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-pilot-pack",
+  "sfx": {
+    "aac_frame_alignment": 1024,
+    "channels": 1,
+    "codecs": {
+      "m4a": {
+        "bytes": 68048,
+        "container": {
+          "edit_list": [
+            {
+              "media_time": 1024,
+              "segment_duration_movie_units": 5967
+            }
+          ],
+          "itunsmpb_present": false,
+          "media_duration_units": 264192,
+          "media_timescale": 44100
+        },
+        "decoded_frames": 263168,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8193,
+              "sprite_end_exclusive": 22172,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 21191
+            },
+            "id": "sfx_blade"
+          },
+          {
+            "decoded": {
+              "onset": 30723,
+              "sprite_end_exclusive": 100398,
+              "sprite_start": 30720,
+              "tail_end_exclusive": 98977
+            },
+            "id": "sfx_breakthrough"
+          },
+          {
+            "decoded": {
+              "onset": 109569,
+              "sprite_end_exclusive": 142334,
+              "sprite_start": 109568,
+              "tail_end_exclusive": 141360
+            },
+            "id": "sfx_chest"
+          },
+          {
+            "decoded": {
+              "onset": 150529,
+              "sprite_end_exclusive": 158642,
+              "sprite_start": 150528,
+              "tail_end_exclusive": 157573
+            },
+            "id": "sfx_confirm"
+          },
+          {
+            "decoded": {
+              "onset": 166913,
+              "sprite_end_exclusive": 177584,
+              "sprite_start": 166912,
+              "tail_end_exclusive": 176651
+            },
+            "id": "sfx_dash"
+          },
+          {
+            "decoded": {
+              "onset": 186369,
+              "sprite_end_exclusive": 193248,
+              "sprite_start": 186368,
+              "tail_end_exclusive": 192268
+            },
+            "id": "sfx_hit_flesh"
+          },
+          {
+            "decoded": {
+              "onset": 201729,
+              "sprite_end_exclusive": 221661,
+              "sprite_start": 201728,
+              "tail_end_exclusive": 220863
+            },
+            "id": "sfx_pickup"
+          },
+          {
+            "decoded": {
+              "onset": 230401,
+              "sprite_end_exclusive": 254082,
+              "sprite_start": 230400,
+              "tail_end_exclusive": 253135
+            },
+            "id": "sfx_seal_lock"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -1.037,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 263168,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "aac",
+          "-b:a",
+          "96k",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.m4a"
+        ],
+        "file": "sfx_sprite.m4a",
+        "loudness": {
+          "integrated_lufs": -19.1,
+          "loudness_range_lu": 3.0,
+          "true_peak_dbtp": -0.8
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 1024,
+        "sha256": "62cb9ab15effe6dea51bc7cd15e14f3e19527b933757dc0d2dc2081b71509548",
+        "trailing_extra_frames": 0
+      },
+      "ogg": {
+        "bytes": 38180,
+        "container": {
+          "final_granule_position": 263168,
+          "pages": 8,
+          "serial_number": 0
+        },
+        "decoded_frames": 263168,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8193,
+              "sprite_end_exclusive": 22172,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 21191
+            },
+            "id": "sfx_blade"
+          },
+          {
+            "decoded": {
+              "onset": 30723,
+              "sprite_end_exclusive": 100398,
+              "sprite_start": 30720,
+              "tail_end_exclusive": 98977
+            },
+            "id": "sfx_breakthrough"
+          },
+          {
+            "decoded": {
+              "onset": 109569,
+              "sprite_end_exclusive": 142334,
+              "sprite_start": 109568,
+              "tail_end_exclusive": 141360
+            },
+            "id": "sfx_chest"
+          },
+          {
+            "decoded": {
+              "onset": 150529,
+              "sprite_end_exclusive": 158642,
+              "sprite_start": 150528,
+              "tail_end_exclusive": 157573
+            },
+            "id": "sfx_confirm"
+          },
+          {
+            "decoded": {
+              "onset": 166913,
+              "sprite_end_exclusive": 177584,
+              "sprite_start": 166912,
+              "tail_end_exclusive": 176651
+            },
+            "id": "sfx_dash"
+          },
+          {
+            "decoded": {
+              "onset": 186369,
+              "sprite_end_exclusive": 193248,
+              "sprite_start": 186368,
+              "tail_end_exclusive": 192268
+            },
+            "id": "sfx_hit_flesh"
+          },
+          {
+            "decoded": {
+              "onset": 201729,
+              "sprite_end_exclusive": 221661,
+              "sprite_start": 201728,
+              "tail_end_exclusive": 220863
+            },
+            "id": "sfx_pickup"
+          },
+          {
+            "decoded": {
+              "onset": 230401,
+              "sprite_end_exclusive": 254082,
+              "sprite_start": 230400,
+              "tail_end_exclusive": 253135
+            },
+            "id": "sfx_seal_lock"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -1.637,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 263168,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "libvorbis",
+          "-q:a",
+          "5",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.ogg"
+        ],
+        "file": "sfx_sprite.ogg",
+        "loudness": {
+          "integrated_lufs": -19.0,
+          "loudness_range_lu": 3.0,
+          "true_peak_dbtp": -0.5
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 0,
+        "sha256": "f1ea75036d1027d59a0801f3c630a703e28422f415529574eb655e964e5b33e0",
+        "trailing_extra_frames": 0
+      }
+    },
+    "cues": [
+      {
+        "id": "sfx_blade",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_blade.wav",
+        "master_frames": 13980,
+        "master_onset_frame": 1,
+        "master_sha256": "2eeebb35ae5a707baf182bc02c710b5503984d990e4fe9e985f8cb1c1a7f6507",
+        "master_tail_end_exclusive": 12999,
+        "source": {
+          "onset": 8193,
+          "sprite_end_exclusive": 22172,
+          "sprite_start": 8192,
+          "tail_end_exclusive": 21191
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_breakthrough",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_breakthrough.wav",
+        "master_frames": 69678,
+        "master_onset_frame": 3,
+        "master_sha256": "91c559744f1545f3d4762a9d67a84ac455f9b2ad48b17ab06f7fec49466203bd",
+        "master_tail_end_exclusive": 68257,
+        "source": {
+          "onset": 30723,
+          "sprite_end_exclusive": 100398,
+          "sprite_start": 30720,
+          "tail_end_exclusive": 98977
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_chest",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_chest.wav",
+        "master_frames": 32766,
+        "master_onset_frame": 1,
+        "master_sha256": "152fe0ff3eeacb9b3fa30cc0b57ce350518b48864709499f05c7f439d24610b5",
+        "master_tail_end_exclusive": 31792,
+        "source": {
+          "onset": 109569,
+          "sprite_end_exclusive": 142334,
+          "sprite_start": 109568,
+          "tail_end_exclusive": 141360
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_confirm",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_confirm.wav",
+        "master_frames": 8114,
+        "master_onset_frame": 1,
+        "master_sha256": "e7a5fe3e417c8667a39742958eaf7242991102b2a7c37ce6e8975d15dfbf702b",
+        "master_tail_end_exclusive": 7045,
+        "source": {
+          "onset": 150529,
+          "sprite_end_exclusive": 158642,
+          "sprite_start": 150528,
+          "tail_end_exclusive": 157573
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_dash",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_dash.wav",
+        "master_frames": 10672,
+        "master_onset_frame": 1,
+        "master_sha256": "d41b3776b2a5160ca0540fed0e80993ac91a9cd30c3a11ff8092798de8506d47",
+        "master_tail_end_exclusive": 9739,
+        "source": {
+          "onset": 166913,
+          "sprite_end_exclusive": 177584,
+          "sprite_start": 166912,
+          "tail_end_exclusive": 176651
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_hit_flesh",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_hit_flesh.wav",
+        "master_frames": 6880,
+        "master_onset_frame": 1,
+        "master_sha256": "a02d13cc69b6166527007757b52a80173aa422d8f492c84e89ef824c6c91ed7d",
+        "master_tail_end_exclusive": 5900,
+        "source": {
+          "onset": 186369,
+          "sprite_end_exclusive": 193248,
+          "sprite_start": 186368,
+          "tail_end_exclusive": 192268
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_pickup",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_pickup.wav",
+        "master_frames": 19933,
+        "master_onset_frame": 1,
+        "master_sha256": "61f9337ff4dc5db0f21d26702593a2bf6a8e644e5c92fad2eaccc2ccbcd06389",
+        "master_tail_end_exclusive": 19135,
+        "source": {
+          "onset": 201729,
+          "sprite_end_exclusive": 221661,
+          "sprite_start": 201728,
+          "tail_end_exclusive": 220863
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_seal_lock",
+        "master_file": "assets/audio/masters/pilot_sfx/sfx_seal_lock.wav",
+        "master_frames": 23682,
+        "master_onset_frame": 1,
+        "master_sha256": "a09c6ef8183ac15d27d0ad7d94c113e5cdf58a40d60d430546d0ef81f65e992b",
+        "master_tail_end_exclusive": 22735,
+        "source": {
+          "onset": 230401,
+          "sprite_end_exclusive": 254082,
+          "sprite_start": 230400,
+          "tail_end_exclusive": 253135
+        },
+        "variant": "default"
+      }
+    ],
+    "guard_frames": 8192,
+    "id": "sfx_sprite",
+    "sample_rate_hz": 44100,
+    "sprite_master": {
+      "file": "sfx_sprite_master.wav",
+      "frames": 263168,
+      "sha256": "10e394f71c1847e3505f7c6f5680ef20e142251fe3b96292e60ed4ec44232c5f"
+    }
+  },
+  "toolchain": {
+    "aac_encoder": "FFmpeg native aac (AAC-LC) 96k mono SFX / 160k stereo BGM",
+    "ffmpeg": "ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers",
+    "numpy": "2.5.5",
+    "python": "3.14.0",
+    "rebuild": "python -B tools/scripts/build_audio_pilot_pack.py --ffmpeg <ffmpeg>",
+    "vorbis_encoder": "libvorbis -q:a 5"
+  }
+}
