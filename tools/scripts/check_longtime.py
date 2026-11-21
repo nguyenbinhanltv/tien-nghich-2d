@@ -49,6 +49,98 @@ def estimate_pages(rectangles):
     return len(pages)
 
 
+VFX_MODES = {"core", "abode", "endless", "trial", "defense"}
+VFX_TOP = {"status", "provenance", "routing", "assigned_agent", "palette_ramps", "outline", "paths",
+           "reuse_inherited", "common_acceptance", "entries"}
+VFX_FIELDS = {"id", "status", "method", "modes", "chunk_group", "related", "event", "reads", "why_new",
+              "native_px", "pivot_px", "loop", "clips", "events", "palettes", "acceptance"}
+VFX_ACCEPTANCE = {"first_frame_max_opaque_pct", "last_frame_max_opaque_pct", "peak_opaque_pct",
+                  "max_frame_jump_pct", "max_colors_per_palette", "readability_1x"}
+
+
+def audio_cues():
+    plan = read(ROOT / "assets/audio_manifest.json")
+    cues = set(plan["core"]["bgm"] + plan["core"]["combat"] + plan["core"]["progression_ui"])
+    for row in plan["extensions"].values():
+        cues.update(row["bgm"] + row["sfx"])
+    return cues
+
+
+def vfx_frames(entry):
+    """Planned frames of one VFX entry: clip frames times palette variants."""
+    return sum(c["n"] for c in entry["clips"].values()) * len(entry["palettes"])
+
+
+def validate_vfx(m, inherited_effects, known, rectangles):
+    """Validate the planned Longtime VFX block and add its frames to the chunk rectangles."""
+    v = m["vfx"]
+    require(set(v) == VFX_TOP and v["status"] == "planned" and v["provenance"].strip(), "Bad VFX block")
+    require(v["assigned_agent"] == "codex_antigravity" and v["outline"] == "ink_01", "Bad VFX routing")
+    require(set(v["paths"]) == {"source", "processed", "key"} and "{palette}" in v["paths"]["key"] and
+            "{direction}" not in v["paths"]["key"], "VFX paths must key variants by palette")
+    ramps = read(ROOT / v["palette_ramps"])["ramps"]
+    require(v["reuse_inherited"].keys() == inherited_effects and
+            all(isinstance(x, list) and x for x in v["reuse_inherited"].values()),
+            "Every inherited effect needs a reuse note")
+    require(v["common_acceptance"] and all(str(x).strip() for x in v["common_acceptance"].values()),
+            "Missing common acceptance")
+    cues = audio_cues()
+    entries = v["entries"]
+    ids = [e["id"] for e in entries]
+    require(entries and len(set(ids)) == len(ids) and not set(ids) & (known | inherited_effects),
+            "Duplicate or colliding VFX ID")
+    for e in entries:
+        key = e["id"]
+        require(set(e) == VFX_FIELDS, f"Unknown or missing VFX fields in {key}")
+        require(re.fullmatch(r"lt_fx_[a-z0-9_]+", key) and e["status"] == "planned" and e["method"] == "new_source",
+                f"Invalid VFX ID, status or method: {key}")
+        require(all(str(e[f]).strip() for f in ("event", "reads", "why_new")), "Missing VFX prose: " + key)
+        require(e["modes"] and set(e["modes"]) <= VFX_MODES and len(set(e["modes"])) == len(e["modes"]),
+                "Bad VFX mode: " + key)
+        require(e["chunk_group"] in m["chunks"], "Missing VFX chunk: " + key)
+        require(e["related"] and set(e["related"]) <= known, "Bad VFX related asset: " + key)
+        w, h = e["native_px"]
+        x, y = e["pivot_px"]
+        require(all(type(n) is int for n in (w, h, x, y)) and 0 < w <= 1018 and 0 < h <= 1018 and
+                0 <= x < w and 0 <= y < h, "Invalid VFX canvas/pivot: " + key)
+        require(e["loop"] in {"one_shot", "loop", "start_loop_end"}, "Bad VFX loop structure: " + key)
+        clips = e["clips"]
+        require(clips and all(re.fullmatch(r"[a-z_]+", n) and set(c) == {"n", "ms", "kind"}
+                              for n, c in clips.items()), "Bad VFX clips: " + key)
+        kinds = [c["kind"] for c in clips.values()]
+        if e["loop"] == "one_shot":
+            require(set(kinds) == {"once"}, "One-shot VFX has a looping clip: " + key)
+        elif e["loop"] == "loop":
+            require("loop" in kinds, "Loop VFX without a loop clip: " + key)
+        else:
+            require(list(clips) == ["start", "loop", "end"] and kinds == ["once", "loop", "once"],
+                    "start/loop/end VFX needs those three clips in order: " + key)
+        for name, c in clips.items():
+            n, ms = c["n"], c["ms"]
+            require(type(n) is int and 0 < n <= 128 and c["kind"] in {"once", "loop"}, "Bad VFX clip size: " + key)
+            durations = ms if isinstance(ms, list) else [ms] * n
+            require(len(durations) == n and all(type(d) is int and 16 <= d <= 2000 for d in durations),
+                    f"Bad VFX frame timing: {key}/{name}")
+        for event, clip_name, frame in e["events"]:
+            require(clip_name in clips and type(frame) is int and 0 <= frame < clips[clip_name]["n"] and
+                    event.strip(), "Bad VFX event: " + key)
+        palettes = e["palettes"]
+        require(palettes and all(re.fullmatch(r"[a-z_]+", p) and set(r) == {"ramps", "uses"} and
+                                 r["ramps"] and set(r["ramps"]) <= set(ramps) and r["uses"]
+                                 for p, r in palettes.items()), "Bad VFX palette: " + key)
+        for r in palettes.values():
+            for mode, event, cue in r["uses"]:
+                require(mode in e["modes"] and event.strip() and cue in cues, "Bad VFX palette use or cue: " + key)
+        a = e["acceptance"]
+        require(set(a) == VFX_ACCEPTANCE, "Bad VFX acceptance fields: " + key)
+        lo, hi = a["peak_opaque_pct"]
+        require(0 < lo < hi <= 100 and 0 <= a["last_frame_max_opaque_pct"] <= 5 and
+                0 <= a["first_frame_max_opaque_pct"] <= hi and 0 < a["max_frame_jump_pct"] <= 100 and
+                2 <= a["max_colors_per_palette"] <= 8 and a["readability_1x"] and
+                all(str(s).strip() for s in a["readability_1x"]), "Bad VFX acceptance: " + key)
+        rectangles[e["chunk_group"]].extend([(h + 6, w + 6)] * vfx_frames(e))
+
+
 def validate(m):
     require((m["version"], m["phase"], m["schema"]) ==
             ("1.0.0", "A", "tien-nghich-2d.longtime-design"), "Unexpected design contract")
@@ -130,8 +222,14 @@ def validate(m):
     require(set(m["mode_assets"]) == {"core","abode","endless","trial","defense"}, "Missing mode")
     for mode, ids in m["mode_assets"].items():
         require(ids and set(ids)<=known, "Bad mode link: "+mode)
+    inherited_effects = {a["id"] for a in read(ROOT / "assets/processed/vfx/vfx_index.json")["effects"]}
+    validate_vfx(m, inherited_effects, known, rectangles)
+    vfx = {e["id"] for e in m["vfx"]["entries"]}
     docs = (ROOT / "docs/LONGTIME_GDD.md").read_text(encoding="utf-8")
     require(set(re.findall(r"`(lt_[a-z0-9_]+)`", docs)) <= set(assets), "Unknown GDD asset link")
+    vfx_doc = (ROOT / "docs/LONGTIME_VFX.md").read_text(encoding="utf-8")
+    mentioned = set(re.findall(r"`(lt_[a-z0-9_]+)`", vfx_doc))
+    require(vfx <= mentioned and mentioned <= set(assets) | vfx, "VFX design doc and manifest disagree")
     pages = {key:estimate_pages(rects) for key,rects in rectangles.items()}
     require(pages.keys()==m["chunks"].keys() and all(0 < pages[k] <= m["chunks"][k] for k in pages), "Chunk over budget")
     return pages
@@ -143,4 +241,6 @@ if __name__ == "__main__":
     except (OSError, KeyError, TypeError, ValueError) as error:
         sys.exit(f"Design catalog error: {error}")
     print("102 inherited IDs; 125 planned IDs; wave 1: 9 IDs / 101 frames")
-    print("Estimated mobile pages by chunk:", json.dumps(pages, sort_keys=True))
+    effects = read(CATALOG)["vfx"]["entries"]
+    print(f"Planned VFX: {len(effects)} new IDs / {sum(map(vfx_frames, effects))} frames; 12 inherited reused")
+    print("Estimated mobile pages by chunk (assets + VFX):", json.dumps(pages, sort_keys=True))

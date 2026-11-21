@@ -651,5 +651,751 @@
     {"id":"lt_icon_pet_bond","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for pet bond.","dependencies":[]},
     {"id":"lt_icon_realm_step","profile":"icon","chunk_group":"interface","phase":"later","method":"new_source","brief":"Single glyph for realm step.","dependencies":[]},
     {"id":"lt_icon_ingot_preview","profile":"icon","chunk_group":"interface","phase":"later","method":"palette_variant","brief":"Ghosted bronze-to-ink preview of the same ingot. Pair with a preview label.","dependencies":["lt_icon_ingot"]}
-  ]
+  ],
+  "vfx": {
+    "status": "planned",
+    "provenance": "Design contract written by Claude Code (Sonnet 5.5) worker session tien-nghich-2d-3; no art produced. Numbers are untested design guesses.",
+    "routing": "programmatic spritefx with the 40-colour palette; never PixelLab",
+    "assigned_agent": "codex_antigravity",
+    "palette_ramps": "tools/generators/vfx_specs/palettes/tien_nghich_40.json",
+    "outline": "ink_01",
+    "paths": {
+      "source": "assets/raw/longtime/{id}/",
+      "processed": "assets/processed_longtime/{id}/{clip}_{palette}_{n}.png",
+      "key": "longtime/{id}/{clip}_{palette}_{n}"
+    },
+    "reuse_inherited": {
+      "hit_spark": [
+        "Flesh-class contact and generic hit; ward break; core damage"
+      ],
+      "dash_afterimage": [
+        "Dash and evade for all forms"
+      ],
+      "spirit_stone_glint": [
+        "Spirit-stone and seed/ingot pickup"
+      ],
+      "charge_up": [
+        "Boss and adjudicator tells in trial"
+      ],
+      "cam_che_tran_phap": [
+        "Endless hazard zones and wave spawn telegraph"
+      ],
+      "thien_loi_cuc_canh": [
+        "Core boss strike; trial verdict strike pending reviewer decision"
+      ],
+      "huyet_hai_kiem_khi": [
+        "Blade-family release in Blood Sea"
+      ],
+      "ton_hon_phan_hac_vu": [
+        "Spirit-family mob and boss aura"
+      ],
+      "breakthrough_aura_luyen_khi": [
+        "First in-run realm step"
+      ],
+      "breakthrough_aura_truc_co": [
+        "Second in-run realm step and profile milestone Khai Lo"
+      ],
+      "breakthrough_aura_kim_dan": [
+        "Profile milestone Lap Tran"
+      ],
+      "breakthrough_aura_nguyen_anh": [
+        "Reserved: no Longtime need"
+      ]
+    },
+    "common_acceptance": {
+      "palette": "every opaque pixel is one of the 40 palette colours and belongs to the palette variant's declared ramps or ink_01",
+      "alpha": "binary 0/255; transparent RGB is (0,0,0)",
+      "size": "every frame equals native_px; pivot lies inside the canvas",
+      "border_clear": "no opaque pixel in the outer 1 px ring of any frame",
+      "frame_count_and_timing": "frame counts and per-frame ms equal the clip entry; no zero-padded indices",
+      "palette_variants": "variants of one ID are recolours: identical alpha masks per frame, same tone order",
+      "loop_seam": "one_shot clips fade to the last_frame bound; loop clips differ between last and first frame by at most the inherited loop maximum of 1% of canvas opaque change",
+      "audits": "spritefx build with every audit enabled and no relaxed threshold; deterministic rebuild gives identical bytes"
+    },
+    "entries": [
+      {
+        "id": "lt_fx_ward_pulse",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "defense"
+        ],
+        "chunk_group": "wards",
+        "related": [
+          "lt_ward_anchor",
+          "lt_ward_mirror",
+          "lt_ward_thorn",
+          "lt_ward_tide",
+          "lt_ward_flare",
+          "lt_ward_bell"
+        ],
+        "event": "A ward is placed on its socket (place) and when it fires its area pulse (release).",
+        "reads": "Where the pulse lands and which ward fired it; the ring's outer edge is the hit area.",
+        "why_new": "Wards are ground-fixed area sources; no inherited effect is a ground ring and none carries six identities.",
+        "native_px": [
+          48,
+          48
+        ],
+        "pivot_px": [
+          24,
+          24
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "place": {
+            "n": 5,
+            "ms": [
+              40,
+              40,
+              50,
+              50,
+              60
+            ],
+            "kind": "once"
+          },
+          "release": {
+            "n": 8,
+            "ms": [
+              40,
+              40,
+              45,
+              45,
+              50,
+              55,
+              60,
+              70
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "place",
+            "place",
+            0
+          ],
+          [
+            "pulse",
+            "release",
+            0
+          ],
+          [
+            "edge_final",
+            "release",
+            3
+          ]
+        ],
+        "palettes": {
+          "anchor": {
+            "ramps": [
+              "bronze"
+            ],
+            "uses": [
+              [
+                "defense",
+                "anchor ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "anchor ward pulse",
+                "sfx_crush"
+              ]
+            ]
+          },
+          "mirror": {
+            "ramps": [
+              "ink"
+            ],
+            "uses": [
+              [
+                "defense",
+                "mirror ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "mirror ward pulse",
+                "sfx_chime"
+              ]
+            ]
+          },
+          "thorn": {
+            "ramps": [
+              "jade"
+            ],
+            "uses": [
+              [
+                "defense",
+                "thorn ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "thorn ward pulse",
+                "sfx_thorn"
+              ]
+            ]
+          },
+          "tide": {
+            "ramps": [
+              "bolt"
+            ],
+            "uses": [
+              [
+                "defense",
+                "tide ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "tide ward pulse",
+                "sfx_gust"
+              ]
+            ]
+          },
+          "flare": {
+            "ramps": [
+              "blood"
+            ],
+            "uses": [
+              [
+                "defense",
+                "flare ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "flare ward pulse",
+                "sfx_flame"
+              ]
+            ]
+          },
+          "bell": {
+            "ramps": [
+              "soul"
+            ],
+            "uses": [
+              [
+                "defense",
+                "bell ward place",
+                "sfx_ward_place"
+              ],
+              [
+                "defense",
+                "bell ward pulse",
+                "sfx_chime"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 4,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            5,
+            18
+          ],
+          "max_frame_jump_pct": 8,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x the six palettes are told apart by hue alone when shown on a gray floor.",
+            "The ring's outer edge is readable as a hit boundary and reaches about 90% of its final extent by release frame 3.",
+            "The ground ellipse never hides the ward silhouette beyond frame 1 of place."
+          ]
+        }
+      },
+      {
+        "id": "lt_fx_impact",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "core",
+          "endless",
+          "trial",
+          "defense"
+        ],
+        "chunk_group": "armory",
+        "related": [
+          "lt_reed_blade_shot",
+          "lt_seal_chisel_shot",
+          "lt_stone_flail_shot",
+          "lt_ink_flute_shot",
+          "lt_jade_lance_shot"
+        ],
+        "event": "A treasure shot or fusion shot lands on a stone-class or spirit-class receiver.",
+        "reads": "That contact happened and what class the receiver is: stone (cool grit) or spirit (violet bloom). Flesh contact reuses hit_spark.",
+        "why_new": "hit_spark has one palette; the audio plan already splits contact into flesh, stone and spirit, so sight must split the same way.",
+        "native_px": [
+          32,
+          32
+        ],
+        "pivot_px": [
+          16,
+          16
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "hit": {
+            "n": 8,
+            "ms": [
+              33,
+              33,
+              40,
+              40,
+              40,
+              40,
+              50,
+              60
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "hit",
+            "hit",
+            0
+          ]
+        ],
+        "palettes": {
+          "stone": {
+            "ramps": [
+              "ink",
+              "bronze"
+            ],
+            "uses": [
+              [
+                "core",
+                "stone-class receiver contact",
+                "sfx_hit_stone"
+              ]
+            ]
+          },
+          "spirit": {
+            "ramps": [
+              "soul",
+              "jade"
+            ],
+            "uses": [
+              [
+                "core",
+                "spirit-class receiver contact",
+                "sfx_hit_spirit"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 20,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            8,
+            22
+          ],
+          "max_frame_jump_pct": 8,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x stone and spirit are told apart at a glance; both read as contact, not as a pickup.",
+            "Frame 0 is the brightest and sits on the contact point; no stray pixels read as a projectile."
+          ]
+        }
+      },
+      {
+        "id": "lt_fx_craft",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "abode",
+          "defense"
+        ],
+        "chunk_group": "interface",
+        "related": [
+          "lt_kiln",
+          "lt_herb_bed",
+          "lt_icon_ingot"
+        ],
+        "event": "A craft step finishes: ingot ready at the kiln, herb harvested, ward core repaired, fusion recipe recorded.",
+        "reads": "The step completed and its result is ready to take; hue says which kind (ingot, growth, repair, fusion).",
+        "why_new": "spirit_stone_glint means pickup; completion of a crafted result needs a rising burst that cannot be mistaken for loot.",
+        "native_px": [
+          32,
+          32
+        ],
+        "pivot_px": [
+          16,
+          28
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "finish": {
+            "n": 10,
+            "ms": [
+              50,
+              50,
+              50,
+              50,
+              60,
+              60,
+              60,
+              60,
+              70,
+              70
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "done",
+            "finish",
+            3
+          ]
+        ],
+        "palettes": {
+          "bronze": {
+            "ramps": [
+              "bronze"
+            ],
+            "uses": [
+              [
+                "abode",
+                "ingot ready at kiln",
+                "sfx_craft"
+              ]
+            ]
+          },
+          "jade": {
+            "ramps": [
+              "jade"
+            ],
+            "uses": [
+              [
+                "abode",
+                "herb harvested",
+                "sfx_harvest"
+              ],
+              [
+                "defense",
+                "ward core repaired",
+                "sfx_craft"
+              ]
+            ]
+          },
+          "soul": {
+            "ramps": [
+              "soul"
+            ],
+            "uses": [
+              [
+                "abode",
+                "fusion recipe recorded",
+                "sfx_craft"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 3,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            3,
+            12
+          ],
+          "max_frame_jump_pct": 6,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x the burst rises above its source object and does not cover the kiln mouth or fruit.",
+            "Bronze, jade and soul are told apart without the surrounding scene."
+          ]
+        }
+      },
+      {
+        "id": "lt_fx_stamp",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "core",
+          "endless",
+          "trial"
+        ],
+        "chunk_group": "interface",
+        "related": [
+          "lt_icon_floor_five",
+          "lt_icon_oath",
+          "lt_icon_bank"
+        ],
+        "event": "A committing decision lands: five-floor marker, oath chosen, reward banked.",
+        "reads": "The decision is locked; hue says which commitment (mark, oath, bank).",
+        "why_new": "Three decisions need one shared seal-landing beat; charge_up and cam_che_tran_phap read as danger, not commitment.",
+        "native_px": [
+          48,
+          48
+        ],
+        "pivot_px": [
+          24,
+          24
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "press": {
+            "n": 12,
+            "ms": [
+              40,
+              40,
+              40,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              50
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "land",
+            "press",
+            3
+          ]
+        ],
+        "palettes": {
+          "mark": {
+            "ramps": [
+              "bronze"
+            ],
+            "uses": [
+              [
+                "endless",
+                "five-floor marker reached",
+                "sfx_floor_mark"
+              ]
+            ]
+          },
+          "oath": {
+            "ramps": [
+              "soul"
+            ],
+            "uses": [
+              [
+                "trial",
+                "oath chosen",
+                "sfx_oath"
+              ]
+            ]
+          },
+          "bank": {
+            "ramps": [
+              "jade"
+            ],
+            "uses": [
+              [
+                "core",
+                "reward banked",
+                "sfx_reward"
+              ],
+              [
+                "endless",
+                "reward banked",
+                "sfx_reward"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 2,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            8,
+            30
+          ],
+          "max_frame_jump_pct": 12,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x the landing frame is the clearest frame and the effect is gone before the next input prompt.",
+            "It does not resemble a hazard zone: no red, no ring that could be read as a danger area."
+          ]
+        }
+      },
+      {
+        "id": "lt_fx_gate_unseal",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "abode"
+        ],
+        "chunk_group": "abode",
+        "related": [
+          "lt_moon_gate"
+        ],
+        "event": "The moon gate changes from sealed to open when its icon check passes.",
+        "reads": "The gate was locked and is now walkable.",
+        "why_new": "lt_moon_gate has two static states and no transition; the change has to be seen, not inferred.",
+        "native_px": [
+          48,
+          64
+        ],
+        "pivot_px": [
+          24,
+          61
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "unseal": {
+            "n": 12,
+            "ms": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "swap",
+            "unseal",
+            6
+          ],
+          [
+            "walkable",
+            "unseal",
+            8
+          ]
+        ],
+        "palettes": {
+          "base": {
+            "ramps": [
+              "jade",
+              "ink"
+            ],
+            "uses": [
+              [
+                "abode",
+                "gate opens",
+                "sfx_gate"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 2,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            4,
+            20
+          ],
+          "max_frame_jump_pct": 10,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x the seal disk visibly breaks before the opening appears.",
+            "Frame 6 hides the sealed-to-open sprite swap; no pop is visible at the swap."
+          ]
+        }
+      },
+      {
+        "id": "lt_fx_core_breach",
+        "status": "planned",
+        "method": "new_source",
+        "modes": [
+          "defense"
+        ],
+        "chunk_group": "wards",
+        "related": [
+          "lt_icon_wave_clock"
+        ],
+        "event": "The defended core breaks and the defense ends.",
+        "reads": "The defense is lost: a sharp, final event unlike a ward pulse.",
+        "why_new": "A loss needs its own one-time crack; reusing a hit or pulse would not tell failure from damage.",
+        "native_px": [
+          64,
+          64
+        ],
+        "pivot_px": [
+          32,
+          32
+        ],
+        "loop": "one_shot",
+        "clips": {
+          "breach": {
+            "n": 16,
+            "ms": [
+              33,
+              33,
+              33,
+              40,
+              40,
+              40,
+              40,
+              50,
+              50,
+              50,
+              50,
+              60,
+              60,
+              60,
+              60,
+              70
+            ],
+            "kind": "once"
+          }
+        },
+        "events": [
+          [
+            "breach",
+            "breach",
+            0
+          ],
+          [
+            "shake:3",
+            "breach",
+            0
+          ]
+        ],
+        "palettes": {
+          "base": {
+            "ramps": [
+              "blood",
+              "ink"
+            ],
+            "uses": [
+              [
+                "defense",
+                "core breached",
+                "sfx_core_crack"
+              ]
+            ]
+          }
+        },
+        "acceptance": {
+          "first_frame_max_opaque_pct": 10,
+          "last_frame_max_opaque_pct": 1,
+          "peak_opaque_pct": [
+            10,
+            32
+          ],
+          "max_frame_jump_pct": 15,
+          "max_colors_per_palette": 6,
+          "readability_1x": [
+            "At 1x it reads as failure within the first three frames and is unlike hit_spark.",
+            "Nothing covers the reload or retry prompt after the last frame."
+          ]
+        }
+      }
+    ]
+  }
 }
