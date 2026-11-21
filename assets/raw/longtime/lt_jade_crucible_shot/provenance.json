@@ -1,0 +1,78 @@
+{
+  "id": "lt_jade_crucible_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original native-grid drawing from parent silhouette references; no random seed.",
+  "brief": "An incandescent crucible bead tumbling inside a hooked jade shell.",
+  "parent_sources": [
+    {
+      "id": "lt_jade_lance",
+      "path": "assets/raw/longtime/lt_jade_lance/source.png",
+      "sha256": "1f15abb67b4e65b9c535fd5c2c0a59183c088b9459fb8bd612a9d07509391337"
+    },
+    {
+      "id": "lt_kiln_hammer",
+      "path": "assets/raw/longtime/lt_kiln_hammer/source.png",
+      "sha256": "ccb7c0bb94ded8e91cbeac35b5a2debae7ec9f7261dc2c7bcbd16354bec81ab8"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_jade_crucible.py",
+  "generator_sha256_lf": "d2631b0b5a972fd668b922785e84fbbbf8f0a82ced780ec729a5f43feff3c7dc",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "7f853708101f6769eb9f6c127d227af9fdd8186ceb81ada72bd3f15cbcf4dfc6",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_jade_crucible/contact_1x.png": "48bd6d5be190998b1be452f4d48c7df8a610e05267bb8c6a04ffb15f69437383",
+    "assets/raw/longtime/lt_jade_crucible/contact_6x.png": "85bad4e74708727aac4102d38d08ead2af0a5a3e67b9f0d0b628d69d9c08cf7a"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_jade_crucible_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_jade_crucible_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "9e66c2e782f623927d32650548b64e67df597c763c0ad01409387c6929cf72fe"
+    },
+    {
+      "key": "longtime/lt_jade_crucible_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_jade_crucible_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "82d0fffb8016b9e487a621e45848ecfa4dc50cc6d6b5c40c049874868f282a59"
+    },
+    {
+      "key": "longtime/lt_jade_crucible_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_jade_crucible_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "8217d950aebb838d35cb67a6671fd4c7e56cc18faea18275da4800330b312e6d"
+    },
+    {
+      "key": "longtime/lt_jade_crucible_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_jade_crucible_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "efc79f82f60b907aab48f792642d7cd4d86e1cc0d07b342e0eb05a7ea22ca551"
+    }
+  ]
+}

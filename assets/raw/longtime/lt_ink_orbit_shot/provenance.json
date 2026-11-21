@@ -1,0 +1,78 @@
+{
+  "id": "lt_ink_orbit_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Separate flight silhouette for ink orbit.",
+  "reference_ids": [
+    "lt_ink_orbit"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_star_hook",
+      "path": "assets/raw/longtime/lt_star_hook/source.png",
+      "sha256": "2c54f21f5ef6806f621ca8695b224e95deea9673ccaa83531b663811b7763e0a"
+    },
+    {
+      "id": "lt_ink_flute",
+      "path": "assets/raw/longtime/lt_ink_flute/source.png",
+      "sha256": "4216b908924fbd81f27480a0aa224bb20ebe3427fc6836e13133c44c9fb7909c"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_ink_orbit.py",
+  "generator_sha256_lf": "586ac42c7ac61b2d201c5b3c9d166317dcfe9568655e2aed12868714d165fc90",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "f3923679aa897a02ea4212785aa9f6b3a214d3e0c2773ce594628b67e6f95125",
+  "frames": [
+    {
+      "key": "longtime/lt_ink_orbit_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_ink_orbit_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "1df98c93713ff3e46b5404564e4e4a36a5ca1b6181f182bfa6d017d2b925f723"
+    },
+    {
+      "key": "longtime/lt_ink_orbit_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_ink_orbit_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "2782ae35d2ee5c532e9289d777572004b61bf6941cbe87c14ce9d45fe4e3bf42"
+    },
+    {
+      "key": "longtime/lt_ink_orbit_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_ink_orbit_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "1e1a489d846924c677c3fa2dbc9dd2a7c6c4514f96ee529adfc9e76af96ec793"
+    },
+    {
+      "key": "longtime/lt_ink_orbit_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_ink_orbit_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "b9c1e6f29382dbb209d10b82989d98a2523a61d673fe60e491f2fc2bf5469647"
+    }
+  ]
+}
