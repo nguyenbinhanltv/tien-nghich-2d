@@ -1,0 +1,405 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "automated": {
+    "bgm": {
+      "m4a": {
+        "loop_region_sample_peak_dbfs": -7.061
+      },
+      "ogg": {
+        "loop_region_sample_peak_dbfs": -6.911
+      }
+    },
+    "mix_comparison": {
+      "bgm_master_integrated_lufs": -21.6,
+      "bgm_master_rms_dbfs": -25.555,
+      "bgm_master_true_peak_dbtp": -7.1,
+      "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+      "derived_mastering": null,
+      "reference_targets": {
+        "ebu_r128_programme_-23_lufs": {
+          "gain_db_needed": -1.4,
+          "peak_headroom_to_-1_dbtp_db": 7.5,
+          "target_lufs": -23.0,
+          "true_peak_after_gain_dbtp": -8.5,
+          "within_peak_ceiling": true
+        },
+        "mobile_loud_-16_lufs": {
+          "gain_db_needed": 5.6,
+          "peak_headroom_to_-1_dbtp_db": 0.5,
+          "target_lufs": -16.0,
+          "true_peak_after_gain_dbtp": -1.5,
+          "within_peak_ceiling": true
+        }
+      },
+      "sfx_levels": [
+        {
+          "active_rms_dbfs": -16.847,
+          "active_rms_minus_bgm_rms_db": 8.71,
+          "id": "sfx_bolt",
+          "sample_peak_dbfs": -3.484
+        },
+        {
+          "active_rms_dbfs": -21.008,
+          "active_rms_minus_bgm_rms_db": 4.55,
+          "id": "sfx_cancel",
+          "sample_peak_dbfs": -11.414
+        },
+        {
+          "active_rms_dbfs": -18.433,
+          "active_rms_minus_bgm_rms_db": 7.12,
+          "id": "sfx_cast",
+          "sample_peak_dbfs": -6.495
+        },
+        {
+          "active_rms_dbfs": -14.43,
+          "active_rms_minus_bgm_rms_db": 11.12,
+          "id": "sfx_deny",
+          "sample_peak_dbfs": -9.428
+        },
+        {
+          "active_rms_dbfs": -20.906,
+          "active_rms_minus_bgm_rms_db": 4.65,
+          "id": "sfx_evade",
+          "sample_peak_dbfs": -9.165
+        },
+        {
+          "active_rms_dbfs": -29.265,
+          "active_rms_minus_bgm_rms_db": -3.71,
+          "id": "sfx_focus",
+          "sample_peak_dbfs": -12.728
+        },
+        {
+          "active_rms_dbfs": -25.245,
+          "active_rms_minus_bgm_rms_db": 0.31,
+          "id": "sfx_step",
+          "sample_peak_dbfs": -12.141
+        },
+        {
+          "active_rms_dbfs": -20.617,
+          "active_rms_minus_bgm_rms_db": 4.94,
+          "id": "sfx_tell_light",
+          "sample_peak_dbfs": -5.717
+        }
+      ]
+    },
+    "sfx": {
+      "m4a": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              3,
+              5772
+            ],
+            "decoded_peak_dbfs": -2.879,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -78.268,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -42.11,
+            "id": "sfx_bolt",
+            "master_active_start_end": [
+              1,
+              5771
+            ],
+            "master_peak_dbfs": -3.484,
+            "snr_db": 25.59,
+            "threshold_pcm": 219
+          },
+          {
+            "decoded_active_start_end": [
+              4,
+              7387
+            ],
+            "decoded_peak_dbfs": -11.438,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -67.386,
+            "id": "sfx_cancel",
+            "master_active_start_end": [
+              4,
+              7389
+            ],
+            "master_peak_dbfs": -11.414,
+            "snr_db": 49.63,
+            "threshold_pcm": 88
+          },
+          {
+            "decoded_active_start_end": [
+              81,
+              12860
+            ],
+            "decoded_peak_dbfs": -6.573,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -62.705,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -74.746,
+            "id": "sfx_cast",
+            "master_active_start_end": [
+              77,
+              12860
+            ],
+            "master_peak_dbfs": -6.495,
+            "snr_db": 20.5,
+            "threshold_pcm": 155
+          },
+          {
+            "decoded_active_start_end": [
+              5,
+              8892
+            ],
+            "decoded_peak_dbfs": -9.429,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -71.224,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -66.787,
+            "id": "sfx_deny",
+            "master_active_start_end": [
+              6,
+              8892
+            ],
+            "master_peak_dbfs": -9.428,
+            "snr_db": 57.02,
+            "threshold_pcm": 110
+          },
+          {
+            "decoded_active_start_end": [
+              15,
+              7740
+            ],
+            "decoded_peak_dbfs": -9.199,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -61.061,
+            "id": "sfx_evade",
+            "master_active_start_end": [
+              14,
+              7741
+            ],
+            "master_peak_dbfs": -9.165,
+            "snr_db": 21.83,
+            "threshold_pcm": 114
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              1884
+            ],
+            "decoded_peak_dbfs": -12.71,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -63.461,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -41.877,
+            "id": "sfx_focus",
+            "master_active_start_end": [
+              4,
+              1886
+            ],
+            "master_peak_dbfs": -12.728,
+            "snr_db": 13.44,
+            "threshold_pcm": 75
+          },
+          {
+            "decoded_active_start_end": [
+              3,
+              4883
+            ],
+            "decoded_peak_dbfs": -12.194,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -61.366,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -58.713,
+            "id": "sfx_step",
+            "master_active_start_end": [
+              4,
+              4847
+            ],
+            "master_peak_dbfs": -12.141,
+            "snr_db": 19.18,
+            "threshold_pcm": 80
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              9627
+            ],
+            "decoded_peak_dbfs": -5.615,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -53.407,
+            "id": "sfx_tell_light",
+            "master_active_start_end": [
+              2,
+              9616
+            ],
+            "master_peak_dbfs": -5.717,
+            "snr_db": 31.35,
+            "threshold_pcm": 169
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      },
+      "ogg": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              1,
+              5777
+            ],
+            "decoded_peak_dbfs": -3.231,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -78.268,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -27.399,
+            "id": "sfx_bolt",
+            "master_active_start_end": [
+              1,
+              5771
+            ],
+            "master_peak_dbfs": -3.484,
+            "snr_db": 18.9,
+            "threshold_pcm": 219
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              7390
+            ],
+            "decoded_peak_dbfs": -11.244,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -50.137,
+            "id": "sfx_cancel",
+            "master_active_start_end": [
+              4,
+              7389
+            ],
+            "master_peak_dbfs": -11.414,
+            "snr_db": 36.27,
+            "threshold_pcm": 88
+          },
+          {
+            "decoded_active_start_end": [
+              77,
+              12928
+            ],
+            "decoded_peak_dbfs": -6.922,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -66.227,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -66.787,
+            "id": "sfx_cast",
+            "master_active_start_end": [
+              77,
+              12860
+            ],
+            "master_peak_dbfs": -6.495,
+            "snr_db": 18.1,
+            "threshold_pcm": 155
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              8904
+            ],
+            "decoded_peak_dbfs": -9.385,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -59.183,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -39.992,
+            "id": "sfx_deny",
+            "master_active_start_end": [
+              6,
+              8892
+            ],
+            "master_peak_dbfs": -9.428,
+            "snr_db": 32.73,
+            "threshold_pcm": 110
+          },
+          {
+            "decoded_active_start_end": [
+              8,
+              7741
+            ],
+            "decoded_peak_dbfs": -8.684,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -55.192,
+            "id": "sfx_evade",
+            "master_active_start_end": [
+              14,
+              7741
+            ],
+            "master_peak_dbfs": -9.165,
+            "snr_db": 17.53,
+            "threshold_pcm": 114
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              2325
+            ],
+            "decoded_peak_dbfs": -12.94,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -55.989,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -39.304,
+            "id": "sfx_focus",
+            "master_active_start_end": [
+              4,
+              1886
+            ],
+            "master_peak_dbfs": -12.728,
+            "snr_db": 11.81,
+            "threshold_pcm": 75
+          },
+          {
+            "decoded_active_start_end": [
+              4,
+              5061
+            ],
+            "decoded_peak_dbfs": -11.913,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -60.767,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -43.741,
+            "id": "sfx_step",
+            "master_active_start_end": [
+              4,
+              4847
+            ],
+            "master_peak_dbfs": -12.141,
+            "snr_db": 14.05,
+            "threshold_pcm": 80
+          },
+          {
+            "decoded_active_start_end": [
+              2,
+              9607
+            ],
+            "decoded_peak_dbfs": -5.411,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -76.33,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -39.207,
+            "id": "sfx_tell_light",
+            "master_active_start_end": [
+              2,
+              9616
+            ],
+            "master_peak_dbfs": -5.717,
+            "snr_db": 22.53,
+            "threshold_pcm": 169
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      }
+    }
+  },
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-batch1-pack-evidence"
+}
