@@ -1,0 +1,36 @@
+{
+  "id": "lt_ink_flute",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Jade lacquer flute with a hollow end, dark tone holes and a bound grip.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_ink_flute.py",
+  "generator_sha256_lf": "3edafd937a9c5accab9ab217630938661671bc898ba7f39e71cc1b56e2523f6e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "pivot_px": [
+    12,
+    18
+  ],
+  "source": "source.png",
+  "source_sha256": "4216b908924fbd81f27480a0aa224bb20ebe3427fc6836e13133c44c9fb7909c",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ink_flute/contact_1x.png": "e0c3bf48484c4b44c8976f235dc75d2d055d1f381bbc7ea49a84cecd8a4c3fdd",
+    "assets/raw/longtime/lt_ink_flute/contact_6x.png": "020e7b8233dd4e273628e2019667dfcf85860d44169223b015c4aff1a87b9292"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ink_flute/held_none_0",
+      "path": "assets/processed_longtime/lt_ink_flute/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "4216b908924fbd81f27480a0aa224bb20ebe3427fc6836e13133c44c9fb7909c"
+    }
+  ]
+}

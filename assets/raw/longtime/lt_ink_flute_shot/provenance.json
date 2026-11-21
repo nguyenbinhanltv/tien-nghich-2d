@@ -1,0 +1,66 @@
+{
+  "id": "lt_ink_flute_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "A curling pulse of ink drawn into a tapered brush stroke.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_ink_flute.py",
+  "generator_sha256_lf": "3edafd937a9c5accab9ab217630938661671bc898ba7f39e71cc1b56e2523f6e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "6c84117b1878203d35e9bc08912d3215558be28b5d3d86b21fce3938a7f3e175",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ink_flute/contact_1x.png": "e0c3bf48484c4b44c8976f235dc75d2d055d1f381bbc7ea49a84cecd8a4c3fdd",
+    "assets/raw/longtime/lt_ink_flute/contact_6x.png": "020e7b8233dd4e273628e2019667dfcf85860d44169223b015c4aff1a87b9292"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ink_flute_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_ink_flute_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "4ef379092718059b1e8941f9c616b26ffd6fbcb05661d57fc32db11748addb90"
+    },
+    {
+      "key": "longtime/lt_ink_flute_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_ink_flute_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "f5358961ef815326ae1744324ca1e67fbb5c82350e342a51575e91265f01997a"
+    },
+    {
+      "key": "longtime/lt_ink_flute_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_ink_flute_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "d1af361553752d20941c6617afadc8d89444747ac03939da5772d9f91a4a12ec"
+    },
+    {
+      "key": "longtime/lt_ink_flute_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_ink_flute_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "b35711405f030da8202871d695ea973a07f7c906d4aaa8a03b3374ec11c9d6a7"
+    }
+  ]
+}
