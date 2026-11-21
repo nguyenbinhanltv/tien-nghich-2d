@@ -1,0 +1,48 @@
+{
+  "id": "lt_shard_needle",
+  "producer": "OpenAI Codex",
+  "method": "Original native-grid drawing from parent silhouette references; no random seed.",
+  "brief": "An ashwood bow with a hollow bronze bell at its center and a single tide-wrapped grip.",
+  "parent_sources": [
+    {
+      "id": "lt_tide_bell",
+      "path": "assets/raw/longtime/lt_tide_bell/source.png",
+      "sha256": "2d525205086dd5b9e1888c11b3169abc018cdcfd6d841bc864142c7740cb55d5"
+    },
+    {
+      "id": "lt_ash_bow",
+      "path": "assets/raw/longtime/lt_ash_bow/source.png",
+      "sha256": "4161ae9cd0e2f9a47ff24c6311299c60112480cd057758001029447eba4924ef"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_shard_needle.py",
+  "generator_sha256_lf": "6e2291fb5b74d432c6d8315c1bb94ce71a6379fe9fd345d7f81aa9c2a7023537",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    24
+  ],
+  "source": "source.png",
+  "source_sha256": "3d004a66e56d30e7bb686902c91e9139f0fff38b8f7e0ac96e4d94c82397cc67",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_shard_needle/contact_1x.png": "c8f5206e167f578688f64dfb5629f19b24ba5f1a77ae8187f4d6edf5a79f91ae",
+    "assets/raw/longtime/lt_shard_needle/contact_6x.png": "94f149b1be59812168e21ab212feebc06c68fa55de4b95301859aa45b5ae9216"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_shard_needle/held_none_0",
+      "path": "assets/processed_longtime/lt_shard_needle/held_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "3d004a66e56d30e7bb686902c91e9139f0fff38b8f7e0ac96e4d94c82397cc67"
+    }
+  ]
+}
