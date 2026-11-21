@@ -1,0 +1,34 @@
+{
+  "id": "lt_icon_ward_core",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "rights": "Original artwork created for this project.",
+  "brief": "Single glyph for ward core.",
+  "reference_ids": [],
+  "generator": "tools/generators/longtime_interface_glyphs.py",
+  "generator_sha256_lf": "458d928989b8db57302419134731e1d655d874759b5aa6f59d2c6e66ef4344c6",
+  "palette": "tools/generators/palette.json",
+  "canonical_review_default": "approved",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "6440f56f27081080e07929c91fc8db6f6cf63b3110bdb71036ea5c01bce4f182",
+  "frames": [
+    {
+      "key": "longtime/lt_icon_ward_core/glyph_none_0",
+      "path": "assets/processed_longtime/lt_icon_ward_core/glyph_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 0,
+      "sha256": "6440f56f27081080e07929c91fc8db6f6cf63b3110bdb71036ea5c01bce4f182"
+    }
+  ]
+}
