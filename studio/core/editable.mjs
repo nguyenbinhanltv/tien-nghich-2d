@@ -3,25 +3,71 @@
 import { createHash } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 import { normalizePng } from './png.mjs';
 import { readInside, readJson } from './files.mjs';
 import { fillTemplate, parsePalette } from './pack.mjs';
+import { catalogSource, framesByDirectory } from './catalog.mjs';
 
 export async function loadEditableCatalog(pack, root) {
   root = await fs.realpath(root);
   const palette = parsePalette(await readJson(root, pack.palette.file)).colors;
   const frames = new Map();
+  const atlasPublish = {mode: 'atlas'};
+  let publish = atlasPublish;
   function add(kind, key, assetId, category, size, source, processed, metadata) {
-    if (!/^[a-z0-9_]+$/.test(assetId) || frames.has(key)) throw new Error('Invalid editor catalog');
+    if (!/^[a-z0-9_]+$/.test(assetId) || frames.has(key)) throw new Error('Invalid editor catalog: ' + key);
     const [width, height] = size;
-    frames.set(key, {kind, info: {key, assetId, category, width, height, sourceUrl:'/'+source, processedUrl:'/'+processed,
-      editableFields:Object.keys(metadata)}, metadata, processed});
+    // Frames that cannot be published carry the reason; atlas-publishable frames keep the original info shape.
+    frames.set(key, {kind, publish, info: {key, assetId, category, width, height, sourceUrl:'/'+source, processedUrl:'/'+processed,
+      editableFields:Object.keys(metadata), ...(publish.mode === 'none' ? {publish} : {})}, metadata, processed});
   }
+  async function pngSize(file) {
+    const handle = await fs.open(await fs.realpath(path.join(root, file)), 'r');
+    try {
+      const head = Buffer.alloc(24);
+      await handle.read(head, 0, 24, 0);
+      return [head.readUInt32BE(16), head.readUInt32BE(20)];
+    } finally { await handle.close(); }
+  }
+
   const sourceFile = id => pack.catalog.sources.find(s => s.id === id).file;
   for (const group of pack.editable.groups) {
-    const data = await readJson(root, sourceFile(group.source));
-    const template = pack.frameKeys[group.frameKey];
-    if (group.kind === 'asset-animations') {
+    // A data root that lacks a source manifest (a trimmed project copy) simply has none of its frames.
+    const data = await readJson(root, sourceFile(group.source)).catch(error => {
+      if (error.code === 'ENOENT' && group.kind === 'processed-frames') return null;
+      throw error;
+    });
+    if (!data) continue;
+    const template = group.frameKey ? pack.frameKeys[group.frameKey] : undefined;
+    publish = group.publish ?? atlasPublish;
+    if (group.kind === 'processed-frames') {
+      const source = pack.catalog.sources.find(s => s.id === group.source);
+      const dir = pack.directories.processed[source.processed];
+      const entries = (await catalogSource(pack, root, source)).assets;
+      const files = await framesByDirectory(root, dir);
+      const members = new Set([group.source, group.source + '_effects']);
+      for (const entry of entries.filter(a => members.has(a.source) && (!group.categories || group.categories.includes(a.category)))) {
+        const list = (files.get(entry.id) ?? []).sort((a, b) => a.localeCompare(b, 'en', {numeric: true}));
+        if (!list.length) continue;
+        const record = (entry.source.endsWith('_effects') ? data.vfx?.entries : data.assets)?.find(a => a.id === entry.id);
+        let pivot;
+        const rule = group.pivot ?? {from: 'center'};
+        if (rule.from === 'file') {
+          const anchor = await readJson(root, path.posix.dirname(list[0]) + '/' + rule.file).catch(() => undefined);
+          pivot = anchor?.[rule.field];
+        } else if (rule.from === 'profile') pivot = record?.[rule.field] ?? data.profiles?.[record?.profile]?.[rule.field];
+        for (const file of list) {
+          const relative = file.slice(dir.length + 1).replace(/\.png$/, '');
+          const [head, ...rest] = relative.split('/');
+          const key = (group.keyPrefix ?? '') + [group.keyMap?.[head] ?? head, ...rest].join('/');
+          const size = await pngSize(file);
+          const point = Array.isArray(pivot) && pivot.length === 2 && pivot.every(Number.isInteger) &&
+            pivot[0] >= 0 && pivot[0] < size[0] && pivot[1] >= 0 && pivot[1] < size[1] ? pivot : size.map(v => Math.floor(v / 2));
+          add(group.kind, key, entry.id, entry.category, size, file, file, {pivot: point});
+        }
+      }
+    } else if (group.kind === 'asset-animations') {
       for (const a of data.assets.filter(a => a.category === group.category)) {
         for (const [clip, {frames: count}] of Object.entries(a.animations)) {
           for (let n=0; n<count; n++) {
@@ -78,6 +124,7 @@ export async function loadEditableCatalog(pack, root) {
   for (const [key, entry] of Object.entries(overlays)) {
     const frame = frames.get(key);
     if (!frame) throw new Error('Unknown approved frame: '+key);
+    if (frame.publish.mode === 'none') throw new Error('Frame cannot be published: '+key+' ('+frame.publish.reason+')');
     await original(frame);
     frame.approvedPng = validateOverlay(key, entry);
     frame.metadata = entry.metadata;

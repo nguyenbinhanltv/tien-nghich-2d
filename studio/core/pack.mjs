@@ -66,11 +66,18 @@ export function validatePack(pack) {
   pack.editable.groups.forEach((group, i) => {
     const where = `editable.groups[${i}]`;
     const source = sources.get(group.source);
-    const wanted = {'asset-animations': 'asset-manifest', 'vfx-descriptor': 'vfx-index'}[group.kind];
+    const wanted = {'asset-animations': ['asset-manifest'], 'vfx-descriptor': ['vfx-index'],
+      'processed-frames': ['asset-manifest', 'design-manifest']}[group.kind];
     if (!source) issues.push(`${where}: unknown catalog source "${group.source}"`);
-    else if (source.kind !== wanted) issues.push(`${where}: kind "${group.kind}" needs a ${wanted} source`);
-    if (!Object.hasOwn(pack.frameKeys, group.frameKey)) issues.push(`${where}: unknown frameKey "${group.frameKey}"`);
-    if (!group.category) issues.push(`${where}: needs "category"`);
+    else if (!wanted.includes(source.kind)) issues.push(`${where}: kind "${group.kind}" needs a ${wanted.join(' or ')} source`);
+    if (group.kind === 'processed-frames') {
+      if (source && !source.processed) issues.push(`${where}: processed-frames needs a source with a "processed" directory key`);
+      if (group.pivot?.from === 'file' && !(group.pivot.file && group.pivot.field)) issues.push(`${where}: pivot from "file" needs "file" and "field"`);
+      if (group.pivot?.from === 'profile' && !group.pivot.field) issues.push(`${where}: pivot from "profile" needs "field"`);
+    } else if (!Object.hasOwn(pack.frameKeys, group.frameKey)) issues.push(`${where}: unknown frameKey "${group.frameKey}"`);
+    if (group.publish?.mode === 'none' && !group.publish.reason) issues.push(`${where}: publish "none" must give a reason`);
+    if (group.kind !== 'processed-frames') for (const field of ['categories', 'keyPrefix', 'keyMap', 'pivot']) if (field in group) issues.push(`${where}: "${field}" only applies to processed-frames`);
+    if (group.kind !== 'processed-frames' && !group.category) issues.push(`${where}: needs "category"`);
     if (group.kind === 'asset-animations')
       for (const field of ['raw', 'processed']) if (!group[field]) issues.push(`${where}: asset-animations needs "${field}"`);
   });
