@@ -1,0 +1,40 @@
+{
+  "id": "bgm_hengyue",
+  "revision": 1,
+  "base": "b6abede08b71f0e617c61cb013f7ea25c7c7b257",
+  "creator": "OpenAI Codex for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and oscillator/noise patch. No recordings, samples or soundfont.",
+  "inputs": {
+    "score.json": "22b90e8ce160145e0aaf5d84d4d885ba662e81484ddea16031c90931cecb183d",
+    "render.py": "04a19ea1b8107a972e092e74654e3391e3b696420ef95ae96506c02772afc3ea"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "render": "From the checkout root, run python -B assets/audio/bgm_hengyue/render.py <output.wav> with CPython 3.14.0 and NumPy 2.5.5. The output parent directory must exist.",
+  "patch": "PCG64 seed 7829. Damped plucked harmonics alternate stereo position and pick point. Seeded air and a three-partial oscillator voice the bamboo phrases. Notes, releases and short cross-channel reflections wrap modulo the loop. Fixed mix gains, nearest-even PCM16 quantization without dither.",
+  "tempo_bpm": 96,
+  "meter": "4/4",
+  "bars": 28,
+  "tuning": "G major pentatonic, A4 = 440 Hz",
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, end exclusive",
+  "loopStart": 0,
+  "loopEnd": 3087000,
+  "duration_seconds": 70,
+  "onset_tail": "The preceding bar's flute pickup and its reflections are already sounding at frame zero and continue across the final frame.",
+  "wav_sha256": "78f89b07c6e2027648bbaa61314e5cf3a0ea717d53024d08d00f5f6cea9158a6",
+  "pcm_sha256": "781f2bbe7adc22fcb3d842a5d953aebc8b8cb36926d89aca8ddc30bd6adb83e0",
+  "verification": {
+    "rebuild": "Two independent render processes wrote to separate empty directories. Both WAV hashes matched the master.",
+    "meter": "FFmpeg 6.1.1 loudnorm input measurements",
+    "integrated_lufs": -21.66,
+    "true_peak_dbtp": -7.06,
+    "loudness_range_lu": 6.00,
+    "sample_peak_abs_lr": [14542, 11803],
+    "last_pcm_lr": [2350, 2555],
+    "first_pcm_lr": [2294, 2495],
+    "signed_seam_step_lr": [-56, -60],
+    "max_abs_step_within_10ms_either_side_lr": [510, 414],
+    "human_listening": "Pending loop audition."
+  }
+}
