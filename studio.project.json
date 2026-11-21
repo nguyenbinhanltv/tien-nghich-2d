@@ -50,10 +50,27 @@
   },
   "catalog": {
     "sources": [
-      {"id": "core", "kind": "asset-manifest", "file": "assets/manifest.json"},
-      {"id": "longtime", "kind": "design-manifest", "file": "assets/manifest_longtime.json", "effects": "vfx.entries"},
-      {"id": "vfx", "kind": "vfx-index", "file": "assets/processed/vfx/vfx_index.json"},
-      {"id": "audio", "kind": "audio-plan", "file": "assets/audio_manifest.json"}
+      {"id": "core", "kind": "asset-manifest", "file": "assets/manifest.json", "processed": "core",
+       "label": {"en": "Core assets", "vi": "Asset lõi"}},
+      {
+        "id": "longtime", "kind": "design-manifest", "file": "assets/manifest_longtime.json", "effects": "vfx.entries",
+        "label": {"en": "Longtime assets", "vi": "Asset Longtime"}, "effectsLabel": {"en": "Longtime VFX", "vi": "VFX Longtime"},
+        "processed": "longtime", "raw": "longtime",
+        "budget": {
+          "ceilings": "chunks", "page": "mobile.page", "bytesPerPixel": "mobile.bytes_per_pixel",
+          "manifest": "assets/atlases_longtime/mobile/{chunk}/chunk-manifest.json"
+        }
+      },
+      {
+        "id": "vfx", "kind": "vfx-index", "file": "assets/processed/vfx/vfx_index.json",
+        "label": {"en": "Core VFX", "vi": "VFX lõi"},
+        "atlas": {"dir": "assets/atlases/web", "frameKey": "vfx"}
+      },
+      {
+        "id": "audio", "kind": "audio-plan", "file": "assets/audio_manifest.json",
+        "label": {"en": "Audio", "vi": "Âm thanh"},
+        "evidence": {"packs": "assets/audio/packs", "masters": "assets/audio", "sources": "assets/audio/source"}
+      }
     ]
   },
   "editable": {
@@ -64,6 +81,35 @@
         "raw": "{output_path}{id}_{clip}_{n}.png", "processed": "assets/processed/{key}.png"
       },
       {"kind": "vfx-descriptor", "source": "vfx", "category": "vfx", "frameKey": "vfx"}
+    ]
+  },
+  "ui": {
+    "brand": {"mark": "仙", "subtitle": {"en": "Xianxia pixel-art workshop", "vi": "Xưởng pixel art tiên hiệp"}},
+    "languages": ["en", "vi"],
+    "theme": {
+      "ink": "ink_01", "surface": "ink_02", "line": "ink_03", "muted": "ink_05", "text": "ink_06",
+      "accent": "jade_04", "accentSoft": "jade_02", "gold": "bronze_04", "goldSoft": "bronze_06", "danger": "blood_05"
+    },
+    "categoryTabs": {
+      "player": "characters", "pet": "characters", "npc": "characters", "mob": "characters", "boss": "characters",
+      "tileset": "objects", "weapon": "objects", "projectile": "objects", "prop": "objects", "icon": "objects",
+      "ui": "objects", "facility": "objects", "tower": "objects",
+      "vfx": "vfx",
+      "bgm": "audio", "combat": "audio", "progression_ui": "audio", "sfx": "audio"
+    },
+    "tools": [
+      {"id": "arena", "href": "previewer.html?tab=arena", "tab": "sandbox",
+       "label": {"en": "Play Arena", "vi": "Đấu trường thử"}, "note": {"en": "Playable arena with blob-47 rooms", "vi": "Đấu trường chơi được, phòng blob-47"}},
+      {"id": "inspector", "href": "previewer.html?tab=inspector", "tab": "characters",
+       "label": {"en": "Asset Inspector", "vi": "Trình xem asset"}, "note": {"en": "Core catalog, frame editor and review", "vi": "Danh mục lõi, sửa frame và duyệt"}},
+      {"id": "library", "href": "library.html#art", "tab": "atlas",
+       "label": {"en": "Longtime library", "vi": "Thư viện Longtime"}, "note": {"en": "Delivered Longtime atlas frames", "vi": "Frame atlas Longtime đã giao"}},
+      {"id": "audio-pilot", "href": "library.html#audio", "tab": "audio",
+       "label": {"en": "Audio pilot", "vi": "Audio thử"}, "note": {"en": "Approved pilot music and effects", "vi": "Nhạc và hiệu ứng thử đã duyệt"}},
+      {"id": "drowned-court", "href": "blood-sea/index.html", "tab": "sandbox",
+       "label": {"en": "Drowned Court", "vi": "Thủy Cung Chìm"}, "note": {"en": "Blood Sea boss encounter", "vi": "Trận boss Huyết Hải"}},
+      {"id": "evening-bell", "href": "courtyard/", "tab": "sandbox",
+       "label": {"en": "Evening Bell", "vi": "Chuông Chiều"}, "note": {"en": "Courtyard bell trial", "vi": "Thử chuông ở sân"}}
     ]
   },
   "adapters": {

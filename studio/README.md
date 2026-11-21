@@ -2,6 +2,8 @@
 
 Zero-build HTML5 Canvas previewer (`image-rendering: pixelated`, `ctx.imageSmoothingEnabled = false`, integer scaling) for **Tiên Nghịch 2D** (Soul Knight-style Xianxia roguelite).
 
+> **Studio shell.** `/studio/` now opens the studio shell (rail with nine destinations, Overview, command palette, English/Vietnamese). The original two-tab previewer described below is unchanged and still answers `/studio/?tab=arena`, `/studio/?tab=inspector` and `/studio/previewer.html`. See [`ui/README.md`](ui/README.md) for the shell and the tab module contract.
+
 ## Quick Start
 
 **The Drowned Court** is a separate playable Blood Sea boss encounter. Open [the duel](blood-sea/index.html) from the preview server, or use the Blood Sea boss encounter link in the top bar. Its [source, export and test guide](../assets/encounter/blood-sea/README.md) covers the Codex-generated sprites and the encounter pose inspector.
@@ -16,7 +18,7 @@ node studio/serve.mjs --port 4173
 python studio/serve.py --port 4173
 ```
 
-Open: `http://127.0.0.1:4173/studio/`
+Open: `http://127.0.0.1:4173/studio/` (shell) or `http://127.0.0.1:4173/studio/?tab=arena` (previewer)
 
 Query parameters:
 - `?tab=inspector` — open directly on the Asset Inspector tab.

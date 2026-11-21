@@ -1,6 +1,7 @@
 import { loadCatalog, problem } from './editor-catalog.mjs';
 import { normalizePng } from './editor-png.mjs';
 import { revisionStore } from './editor-store.mjs';
+import { assertLoopback } from './loopback.mjs';
 
 function invalid(message) { throw problem(422,'invalid_input',message); }
 function fields(obj, allowed) {
@@ -83,12 +84,7 @@ export function editorApi(root,dir) {
       res.end(type==='image/png'?data:JSON.stringify(data));
     }
     try {
-      const loop=['127.0.0.1','::1'];
-      const host=req.headers.host;
-      if (!loop.includes(address.address) || !loop.includes(req.socket.remoteAddress) ||
-          !['localhost','127.0.0.1','[::1]'].some(h=>host===h+':'+address.port) ||
-          (req.headers.origin!==undefined && req.headers.origin!=='http://'+host) ||
-          req.headers['sec-fetch-site']==='cross-site') throw problem(403,'forbidden','Loopback and same origin required');
+      assertLoopback(req,address);
       const action=url.pathname.slice('/api/editor/'.length);
       if (!Object.hasOwn(actions,action)) throw problem(404,'unknown_route','Unknown editor route');
       const write=['save','restore','review'].includes(action);

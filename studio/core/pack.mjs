@@ -30,6 +30,10 @@ function pathFields(pack) {
   const fields = [['palette.file', pack.palette?.file], ['editable.overlay', pack.editable?.overlay]];
   for (const group of ['raw', 'processed', 'atlases', 'fixtures'])
     for (const [name, value] of Object.entries(pack.directories?.[group] ?? {})) fields.push([`directories.${group}.${name}`, value]);
+  (pack.catalog?.sources ?? []).forEach((s, i) => {
+    if (s.atlas) fields.push([`catalog.sources[${i}].atlas.dir`, s.atlas.dir]);
+    for (const [name, value] of Object.entries(s.evidence ?? {})) fields.push([`catalog.sources[${i}].evidence.${name}`, value]);
+  });
   fields.push(['directories.revisions', pack.directories?.revisions]);
   (pack.catalog?.sources ?? []).forEach((s, i) => fields.push([`catalog.sources[${i}].file`, s.file]));
   fields.push(['adapters.interpreter.command', pack.adapters?.interpreter?.command]);
@@ -70,6 +74,14 @@ export function validatePack(pack) {
     if (group.kind === 'asset-animations')
       for (const field of ['raw', 'processed']) if (!group[field]) issues.push(`${where}: asset-animations needs "${field}"`);
   });
+  const processedKeys = Object.keys(pack.directories.processed);
+  pack.catalog.sources.forEach((source, i) => {
+    if (source.processed && !processedKeys.includes(source.processed)) issues.push(`catalog.sources[${i}]: processed "${source.processed}" is not in directories.processed`);
+    if (source.raw && !Object.hasOwn(pack.directories.raw, source.raw)) issues.push(`catalog.sources[${i}]: raw "${source.raw}" is not in directories.raw`);
+    if (source.atlas && !Object.hasOwn(pack.frameKeys, source.atlas.frameKey)) issues.push(`catalog.sources[${i}]: unknown atlas frameKey "${source.atlas.frameKey}"`);
+  });
+  for (const [category, tab] of Object.entries(pack.ui?.categoryTabs ?? {})) if (!category) issues.push(`ui.categoryTabs: empty category for ${tab}`);
+  for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.theme.${role}: must be a palette colour id`);
   if (pack.rules.outline.mode === 'none' && pack.rules.outline.color !== 'palette') issues.push('rules.outline: color is meaningless when mode is "none"');
   return issues;
 }
