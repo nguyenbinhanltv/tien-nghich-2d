@@ -1,0 +1,78 @@
+{
+  "id": "lt_lunar_loom_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing.",
+  "brief": "Separate flight silhouette for lunar loom.",
+  "reference_ids": [
+    "lt_lunar_loom"
+  ],
+  "parent_source_inputs": [
+    {
+      "id": "lt_moon_glaive",
+      "path": "assets/raw/longtime/lt_moon_glaive/source.png",
+      "sha256": "b19da8bfbb53beef10c0bef1332ebee6df3cd0dbd8af37087313169049080539"
+    },
+    {
+      "id": "lt_brass_spindle",
+      "path": "assets/raw/longtime/lt_brass_spindle/source.png",
+      "sha256": "934555de17bdbdbd7cc8a9e9019dec51fbbd3d809087f518c5089b8ca8c37153"
+    }
+  ],
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/longtime_lunar_loom.py",
+  "generator_sha256_lf": "fb598833ac951721026cdead7d611bed6cd1211412c32cc8d148eb2b3125592f",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "canonical_review_default": "approved",
+  "source": "source.png",
+  "source_sha256": "785af48b92ce73c65298515d7ec8d4edcb1d37c300540bdb464a2e3d508696c5",
+  "frames": [
+    {
+      "key": "longtime/lt_lunar_loom_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_lunar_loom_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "559c028ea1183c747c7f8a703846f300929ddc13715e4aa235eddc5fa5ca61bf"
+    },
+    {
+      "key": "longtime/lt_lunar_loom_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_lunar_loom_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "39ce79e4bfa82cc4b20ec3e36b0529f1674c0f4e9f9ddef37ff0aef5a04a5a19"
+    },
+    {
+      "key": "longtime/lt_lunar_loom_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_lunar_loom_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "4c224ebb53373ef03d34571102cdccf736d0843e6f95ef45b3296b94a7879525"
+    },
+    {
+      "key": "longtime/lt_lunar_loom_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_lunar_loom_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "6c007b723e46d1b3ec2895d112d88ff0e6f10e8ddc883f811068ef7faaf50731"
+    }
+  ]
+}
