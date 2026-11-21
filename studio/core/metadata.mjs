@@ -2,7 +2,7 @@
 // asset's raw directory. Editable (it is data about the frames, not frames), but only until the
 // asset has processed or packed frames; after that a human-approved revision carries it.
 import path from 'node:path';
-import { isShipped, milestones } from './assets.mjs';
+import { clipSpec, isShipped, milestones } from './assets.mjs';
 import { problem } from './errors.mjs';
 import { ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from './fsutil.mjs';
 
@@ -32,7 +32,7 @@ function checkHitbox(asset, box) {
     invalid(`hitbox must be {x, y, w, h} integers with w and h at least 1, fully inside the ${w}x${h} frame`);
 }
 function checkClip(asset, name, clip) {
-  const spec = asset.clips?.[name];
+  const spec = clipSpec(asset, name);
   if (!spec) invalid(`${asset.id} has no clip "${name}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
   if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events'].includes(k)))
     invalid(`clips.${name} may only contain frameMs and events`);

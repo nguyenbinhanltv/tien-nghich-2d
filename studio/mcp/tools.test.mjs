@@ -262,6 +262,27 @@ test('frames_submit: something that is not a regular file blocks the batch with 
   assert.deepEqual(readdirSync(join(p.root, 'assets/raw/longtime/lt_seed_broker/frames')).sort(), ['idle_south_0.png', 'idle_south_2.png']);
 }));
 
+test('frames_submit and metadata_set: inherited Object.prototype names are not clips', () => withProject(async (p) => {
+  const { call } = connect(p.root);
+  const png = makeFrame(32, 32).png.toString('base64');
+  for (const clip of ['constructor', 'toString', 'hasOwnProperty', 'valueOf', '__proto__']) {
+    const r = await call('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, frames: [{ clip, direction: 'south', n: 0, pngBase64: png }] });
+    assert.equal(r.isError, true, clip);
+    assert.match(text(r), new RegExp(`no clip "${clip}". Clips: idle, interact`), clip);
+  }
+  assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker')), false, 'no directory, no frame, no log line, no revision history');
+  assert.equal(existsSync(join(p.root, '.inspector-revisions')), false);
+  // The same names as metadata clip keys; JSON.parse makes __proto__ a real own key, as a client's JSON would.
+  for (const clip of ['constructor', 'toString', '__proto__']) {
+    const args = JSON.parse(`{"assetId":"lt_seed_broker","clips":{"${clip}":{"frameMs":[100,100,100,100]}}}`);
+    const r = await call('studio_metadata_set', args);
+    assert.equal(r.isError, true, clip);
+    assert.match(text(r), new RegExp(`no clip "${clip}"`), clip);
+  }
+  assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker/studio-metadata.json')), false, 'no metadata file was created');
+  assert.equal(Object.keys(Object.prototype).length, 0, 'Object.prototype was not polluted');
+}));
+
 // ---- metadata_set --------------------------------------------------------------------------
 test('metadata_set: pivot, hitbox, durations and events, with bounds and etags', () => withProject(async (p) => {
   const { ok, call } = connect(p.root);

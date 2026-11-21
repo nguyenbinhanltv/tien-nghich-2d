@@ -6,7 +6,7 @@ import path from 'node:path';
 import { decodeRgba } from './png.mjs';
 import { findDefects } from './defects.mjs';
 import { gateOptions } from './gates.mjs';
-import { expectedFrames, isShipped, listFrames, milestones } from './assets.mjs';
+import { clipSpec, expectedFrames, isShipped, listFrames, milestones } from './assets.mjs';
 import { problem } from './errors.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock } from './fsutil.mjs';
 import { readInside } from './files.mjs';
@@ -94,7 +94,7 @@ async function loadBytes(root, f) {
 }
 
 function checkAddress(asset, f) {
-  const spec = asset.clips?.[f.clip];
+  const spec = clipSpec(asset, f.clip);
   if (!spec) invalid(`${asset.id} has no clip "${f.clip}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
   if (!asset.directions.includes(f.direction)) invalid(`${asset.id} has no direction "${f.direction}". Directions: ${asset.directions.join(', ')}`);
   if (!Number.isInteger(f.n) || f.n < 0 || f.n >= spec.frames) invalid(`clip ${f.clip} has ${spec.frames} frames; n must be 0 to ${spec.frames - 1}, got ${f.n}`);
@@ -184,7 +184,7 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
         report.written.push(p.rel);
       }
       const store = await ws.store();
-      const meta = (f) => ({pivot: asset.pivot ?? [Math.floor(w / 2), Math.floor(h / 2)], durationMs: asset.clips[f.clip].frameMs});
+      const meta = (f) => ({pivot: asset.pivot ?? [Math.floor(w / 2), Math.floor(h / 2)], durationMs: clipSpec(asset, f.clip).frameMs});
       for (const p of plan) {
         const {f} = p;
         const key = asset.layout.keyOf(f.clip, f.direction, f.n);

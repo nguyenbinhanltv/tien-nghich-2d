@@ -13,6 +13,12 @@ import path from 'node:path';
 export const SPRITE_NAME = /^(?<clip>[a-z0-9]+(?:_[a-z0-9]+)*)_(?<direction>south|east|north|west|none|f\d+)_(?<n>\d+)$/;
 const PALETTE_NAME = /^(?<clip>[a-z0-9]+(?:_[a-z0-9]+)*)_(?<direction>[a-z0-9]+)_(?<n>\d+)$/;
 
+/**
+ * The spec of one clip, or undefined. Own properties only: a caller-supplied name such as "constructor"
+ * or "__proto__" must never resolve to something inherited from Object.prototype.
+ */
+export const clipSpec = (asset, name) => (asset.clips && Object.hasOwn(asset.clips, name) ? asset.clips[name] : undefined);
+
 /** The JSON-safe summary of a record (no functions, no layout internals). */
 export function summarize(asset) {
   const {layout, spec, ...rest} = asset;
