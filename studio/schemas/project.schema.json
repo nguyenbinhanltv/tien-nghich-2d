@@ -45,7 +45,7 @@
         "processed": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
         "atlases": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
         "fixtures": {"type": "object", "additionalProperties": {"$ref": "#/$defs/path"}},
-        "revisions": {"$ref": "#/$defs/path"}
+        "revisions": {"type": "string", "pattern": "^[a-z0-9._-]+$", "description": "Single lower-case directory name at the project root; the server hides it and the store refuses it as a library."}
       }
     },
     "atlasProfiles": {

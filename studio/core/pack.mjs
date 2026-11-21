@@ -43,6 +43,7 @@ export function validatePack(pack) {
   if (issues.length) return issues;
   for (const [where, value] of pathFields(pack))
     if (!isRootRelative(value)) issues.push(`${where}: must be a relative path inside the project, got ${JSON.stringify(value)}`);
+  if (/^\.+$/.test(pack.directories.revisions)) issues.push('directories.revisions: must be a real directory name');
   for (const [name, spec] of Object.entries(pack.sizeClasses)) {
     const ranged = spec.min && spec.max;
     if (!spec.sizes && !ranged) issues.push(`sizeClasses.${name}: needs "sizes" or both "min" and "max"`);
