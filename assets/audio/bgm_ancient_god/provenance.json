@@ -1,0 +1,79 @@
+{
+  "id": "bgm_ancient_god",
+  "revision": 1,
+  "base": "1ee7c5b4ae6689a114e69cb14fe39697f3f12689",
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/modal-stone/noise patch. No recordings, samples, soundfont or generative-audio model.",
+  "inputs": {
+    "score.json": "de24dc7ceadeccc9236707ca50a9abe6fe4907a7b0b8c09600ebd0b7bbef0970",
+    "render.py": "8761d522600bfbab10db6bfabceda4f366f36d28c7d7491687f547485d27ec49"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "render": "From the checkout root, run python -I -B assets/audio/bgm_ancient_god/render.py <output.wav> with CPython 3.14.5 and NumPy 2.5.5 (tools/.venvs/project/bin/python). The output parent directory must exist.",
+  "patch": "PCG64 seed 4807 for voices; reverb impulses are seeded noise (PCG64 seeds 101 and 202). Low open-fifth drone: five-partial additive sine voice, detuned twin (x1.0034), 1.6 s swell, 0.11 Hz breathing, seeded phase offsets and dust. Stone percussion: four inharmonic modal stones (ratios 1, 2.32, 3.87, 5.61 with separate decays), a falling low thud and a seeded grit click, panned. Reverb: 2.6 s seeded-noise impulse per channel applied by circular FFT convolution, wet 0.42, so tails cross the loop boundary. Events and releases wrap modulo the loop. Master gain 1.2, nearest-even PCM16 quantization without dither.",
+  "tempo_bpm": 60,
+  "meter": "4/4",
+  "bars": 20,
+  "tuning": "C pentatonic set (C D F G A), tonal center C, A4 = 440 Hz; drone C2+G2 (then G2+D3) open fifth, sub C1 in the transition",
+  "register_note": "Measured mono energy share: below 100 Hz -0.8 dB, 100-450 Hz -8.0 dB, 450-1600 Hz -25.1 dB, 1.6-5 kHz -41.4 dB, above 5 kHz -47.0 dB of total. The bronze warning register (450-1600 Hz) is nearly empty of bed energy, leaving it open for sfx_tell_boss and sfx_counter.",
+  "boss_transition": {
+    "note": "Cue points, not extra loops. Bar numbers are 1-based; frames are sample frames per channel at 60 BPM (44,100 frames per beat, 176,400 per bar).",
+    "pulse_break_start_frame": 2116800,
+    "pulse_break_end_exclusive_frame": 2646000,
+    "keystone_frame": 2646000,
+    "pulse_returns_frame": 2888550,
+    "description": "Bar 13 holds one faint flint where the displaced pulse should fall; bars 14 and 15 carry no stone and the drone gains a C1 sub; the keystone lands on beat one of bar 16; the pulse re-enters at bar 17 with a lone slab on beat 2.5."
+  },
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+  "loopStart": 0,
+  "loopEnd": 3528000,
+  "frames": 3528000,
+  "duration_seconds": 80.0,
+  "onset_tail": "Bar 17's drone phrase and the reverberant tails of the last bars are still sounding across the final frame and continue into bar 1; frame 0 equals the continuation of frame 3527999.",
+  "wav_sha256": "cb1d36a582cf4172e49087e185d4358eaf6828a14ba849a9b3ad3500a743bf74",
+  "pcm_sha256": "7d8d3a257774eb06c085a9015fb14aa1782b0c8674048e3fbdeb3b443c585d26",
+  "verification": {
+    "rebuild": "Two independent render processes wrote to separate empty directories (together with the eight SFX). Master WAV, all SFX WAV and provenance bytes matched (diff -r).",
+    "meter": "FFmpeg 8.1.2 ebur128 (peak=true) on the master WAV; not the pinned 6.1.1 build, which this machine lacks. Re-measure on the pinned build in the packing step.",
+    "integrated_lufs": -22.5,
+    "true_peak_dbtp": -7.2,
+    "loudness_range_lu": 5.3,
+    "reference_beds": {
+      "bgm_dong_phu": {
+        "integrated_lufs": -23.2,
+        "true_peak_dbtp": -7.4
+      },
+      "bgm_hengyue": {
+        "integrated_lufs": -21.66,
+        "true_peak_dbtp": -7.06
+      },
+      "bgm_blood_sea": {
+        "integrated_lufs": -22.0,
+        "true_peak_dbtp": -7.5
+      }
+    },
+    "sample_peak_abs_lr": [
+      14244,
+      12630
+    ],
+    "last_pcm_lr": [
+      584,
+      503
+    ],
+    "first_pcm_lr": [
+      609,
+      508
+    ],
+    "signed_seam_step_lr": [
+      25,
+      5
+    ],
+    "max_abs_step_within_10ms_either_side_lr": [
+      59,
+      61
+    ],
+    "human_listening": "Pending. No agent listened to this audio."
+  }
+}
