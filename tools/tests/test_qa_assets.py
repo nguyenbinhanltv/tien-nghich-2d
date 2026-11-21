@@ -91,6 +91,101 @@ class QATests(unittest.TestCase):
             self.assertEqual(len(qa.expected_files(a)), a["total_frames"], a["id"])
         self.assertEqual(qa.manifest_selfcheck(m), [])
 
+    def test_real_processed_tree_vfx_and_manifest_alignment(self):
+        m = qa.json.loads((ROOT / "assets/manifest.json").read_text(encoding="utf8"))
+        issues, cov = qa.scan(ROOT / "assets/processed", m, self.pal, self.ol)
+        errs = [i for i in issues if i["severity"] == "error"]
+        self.assertEqual(errs, [], f"Unexpected errors on real processed tree: {errs[:5]}")
+        groups = qa.group_counts(cov)
+        self.assertEqual(groups["vfx"]["assets"], 12)
+        self.assertEqual(groups["vfx"]["complete"], 12)
+        self.assertEqual(groups["vfx"]["have"], 391)
+        self.assertEqual(groups["vfx"]["want"], 391)
+        self.assertEqual(groups["vfx"]["excluded_sheets"], 12)
+        self.assertEqual(sum(v["have"] for v in cov.values()), 2854)
+
+    def test_vfx_index_validation_and_defect_detection(self):
+        import numpy as np
+        from PIL import Image
+
+        def write_png(path: Path, arr: np.ndarray):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            Image.fromarray(arr, "RGBA").save(path)
+
+        def solid(w, h, rgba):
+            a = np.zeros((h, w, 4), np.uint8)
+            a[:, :] = rgba
+            return a
+
+        jade = (0x2F, 0xA2, 0x7A, 255)
+        clear = (0, 0, 0, 0)
+        vfx_manifest = {
+            "assets": [],
+            "delivery": {"vfx_index": "assets/processed/vfx/vfx_index.json", "vfx_readiness": "packed"},
+        }
+        vfx_index = {
+            "effects": [
+                {
+                    "id": "spark_once",
+                    "frame_size": [8, 8],
+                    "frame_count": 3,
+                    "loop": False,
+                    "tags": [["burst", 0, 1, "once"], ["fade", 2, 2, "once"]],
+                    "sheet": "assets/processed/vfx/spark_once_sheet.png",
+                },
+                {
+                    "id": "aura_loop",
+                    "frame_size": [8, 8],
+                    "frame_count": 2,
+                    "loop": True,
+                    "tags": [["aura", 0, 1, "loop"]],
+                    "sheet": "assets/processed/vfx/aura_loop_sheet.png",
+                },
+            ]
+        }
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "processed"
+            vdir = root / "vfx"
+            vdir.mkdir(parents=True)
+            (vdir / "vfx_index.json").write_text(qa.json.dumps(vfx_index), encoding="utf8")
+
+            # Clean baseline: 3 once frames (last is transparent fade tail) + 2 loop frames + 2 declared contact sheets
+            write_png(vdir / "spark_once_0.png", solid(8, 8, jade))
+            write_png(vdir / "spark_once_1.png", solid(8, 8, (0x5C, 0xC7, 0x96, 255)))
+            write_png(vdir / "spark_once_2.png", solid(8, 8, clear))
+            write_png(vdir / "spark_once_sheet.png", solid(24, 8, (1, 2, 3, 255)))  # off-palette sheet excluded
+            write_png(vdir / "aura_loop_0.png", solid(8, 8, jade))
+            write_png(vdir / "aura_loop_1.png", solid(8, 8, (0x5C, 0xC7, 0x96, 255)))
+            write_png(vdir / "aura_loop_sheet.png", solid(16, 8, (1, 2, 3, 255)))
+
+            issues, cov = qa.scan(root, vfx_manifest, self.pal, self.ol)
+            self.assertEqual([i for i in issues if i["severity"] == "error"], [])
+            self.assertTrue(any(i["severity"] == "warn" and i["code"] == "empty_frame" and i["where"] == "vfx/spark_once_2.png" for i in issues))
+            self.assertEqual(qa.group_counts(cov)["vfx"]["have"], 5)
+            self.assertEqual(qa.group_counts(cov)["vfx"]["excluded_sheets"], 2)
+
+            # Plant unexplained contact sheet, extra frame, zero-padded name, nested orphan, wrong size, off-palette, empty loop frame
+            write_png(vdir / "rogue_sheet.png", solid(8, 8, jade))
+            write_png(vdir / "spark_once_3.png", solid(8, 8, jade))
+            write_png(vdir / "spark_once_00.png", solid(8, 8, jade))
+            write_png(vdir / "nested" / "bad.png", solid(8, 8, jade))
+            write_png(vdir / "spark_once_1.png", solid(16, 8, jade))
+            write_png(vdir / "aura_loop_0.png", solid(8, 8, (12, 34, 56, 255)))
+            write_png(vdir / "aura_loop_1.png", solid(8, 8, clear))
+            (vdir / "spark_once_0.png").unlink()
+
+            issues2, _ = qa.scan(root, vfx_manifest, self.pal, self.ol)
+            errs = {(i["where"], i["code"]) for i in issues2 if i["severity"] == "error"}
+            self.assertIn(("vfx/rogue_sheet.png", "bad_name"), errs)
+            self.assertIn(("vfx/spark_once_3.png", "orphan_frame"), errs)
+            self.assertIn(("vfx/spark_once_00.png", "bad_name"), errs)
+            self.assertIn(("vfx/nested/bad.png", "orphan_path"), errs)
+            self.assertIn(("vfx/spark_once_1.png", "size"), errs)
+            self.assertIn(("vfx/aura_loop_0.png", "off_palette"), errs)
+            self.assertIn(("vfx/aura_loop_1.png", "empty_frame"), errs)
+            self.assertIn(("vfx/spark_once", "missing_frames"), errs)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
