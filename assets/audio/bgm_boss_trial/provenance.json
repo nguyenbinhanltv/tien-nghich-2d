@@ -1,0 +1,88 @@
+{
+  "id": "bgm_boss_trial",
+  "revision": 1,
+  "base": "be13f3527a355d53f8dcba609ac3da98d3f25d3d",
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/FM/noise patch. No recordings, samples, soundfont or generative-audio model.",
+  "inputs": {
+    "score.json": "36a29761cea4595b561daf6373eafebc65de72013e433a7b5be8353a9d0f3127",
+    "render.py": "d939a755b0d104b6f15452bcd3597d90f722d073691fdeb705643899320e310c"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "render": "From the checkout root, run python -I -B assets/audio/bgm_boss_trial/render.py <output.wav> with CPython 3.14.5 and NumPy 2.5.5 (tools/.venvs/project/bin/python). The output parent directory must exist.",
+  "patch": "PCG64 seed 7121. Growl: twelve-partial additive voice with a 5.1 Hz vibrato and seeded grit, fast swell. Drums: a pitch-falling skin boom (52 Hz) and a high-passed noise rim crack (tak), panned. Struck bronze: four inharmonic partials (1, 2.76, 5.4, 8.93) with separate decays. Seeded noise risers on cut bars. 1.5 s seeded-noise reverb applied by circular FFT convolution, wet 0.3, so tails cross the loop boundary. Events and releases wrap modulo the loop. Master gain 1.38, nearest-even PCM16 quantization without dither.",
+  "tempo_bpm": 96,
+  "meter": "4/4",
+  "bars": 24,
+  "tuning": "D with a flat second (D Eb F G A); growl A1-Eb2 (MIDI 33-39), bronze D4-Eb5 (MIDI 62-75), A4 = 440 Hz",
+  "register_note": "Measured mono energy share: below 100 Hz -1.1 dB, 100-450 Hz -8.7 dB, 450-1600 Hz -11.9 dB, 1.6-5 kHz -17.3 dB, above 5 kHz -20.5 dB of total. Low skin drum and growl carry the bed; bronze hits sit above and avoid the first beat of every bar, and the six cut bars leave the boss tell room.",
+  "loop_use": "One loop serves all three Tram Tien Dai rounds; the game restarts or continues it, no per-round variant exists.",
+  "breath_bars": {
+    "note": "Bars 4, 8, 12, 16, 20, 24 (1-based) are cut bars: one drum beat and a noise riser, no bronze. They leave a gap in the pulse where sfx_tell_boss and the adjudicator's tell can sit.",
+    "start_frames": [
+      330750,
+      771750,
+      1212750,
+      1653750,
+      2094750,
+      2535750
+    ],
+    "each_length_frames": 110250
+  },
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+  "loopStart": 0,
+  "loopEnd": 2646000,
+  "frames": 2646000,
+  "duration_seconds": 60.0,
+  "onset_tail": "The reverb and drum tails of the last bar are still sounding across the final frame and continue into bar 1; frame 0 equals the continuation of frame 2645999.",
+  "wav_sha256": "2c6a5b067a4a2d2a50c3efefc55c76502c0ec3ba5fb7aa97dfd692ef082c704f",
+  "pcm_sha256": "b2b8144936540f615eac951b41ce1b85eefd15772bd5c7e692df87f9f312a7ec",
+  "verification": {
+    "rebuild": "Two independent render processes wrote to separate empty directories (together with the other bed and the eight SFX). Master WAVs, all SFX WAVs and the SFX ledger matched (diff -r).",
+    "meter": "FFmpeg 8.1.2 ebur128 (peak=true) on the master WAV; not the pinned 6.1.1 build, which this machine lacks. Re-measure on the pinned build in the packing step.",
+    "integrated_lufs": -21.7,
+    "true_peak_dbtp": -7.8,
+    "loudness_range_lu": 1.7,
+    "reference_beds": {
+      "bgm_dong_phu": {
+        "integrated_lufs": -23.2,
+        "true_peak_dbtp": -7.4
+      },
+      "bgm_hengyue": {
+        "integrated_lufs": -21.66,
+        "true_peak_dbtp": -7.06
+      },
+      "bgm_blood_sea": {
+        "integrated_lufs": -22.0,
+        "true_peak_dbtp": -7.5
+      },
+      "bgm_ancient_god": {
+        "integrated_lufs": -22.5,
+        "true_peak_dbtp": -7.2
+      }
+    },
+    "sample_peak_abs_lr": [
+      13344,
+      12233
+    ],
+    "last_pcm_lr": [
+      -1177,
+      448
+    ],
+    "first_pcm_lr": [
+      -1128,
+      318
+    ],
+    "signed_seam_step_lr": [
+      49,
+      -130
+    ],
+    "max_abs_step_within_10ms_either_side_lr": [
+      687,
+      631
+    ],
+    "human_listening": "Pending. No agent listened to this audio."
+  }
+}
