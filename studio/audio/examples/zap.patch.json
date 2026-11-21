@@ -1,0 +1,23 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "zap",
+  "title": "Zap",
+  "design": "A falling sine with FM edge, a band-limited noise crack on the attack.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 4242,
+  "durationMs": 220,
+  "trim": 0.7,
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 200, "gain": 0.6, "hz": 1800, "endHz": 240,
+     "fm": {"ratio": 2, "index": 0.8},
+     "env": {"attackMs": 3, "decayMs": 70, "releaseMs": 60}},
+    {"type": "noise", "startMs": 0, "ms": 90, "gain": 0.5,
+     "filters": [{"type": "band", "lowHz": 900, "highHz": 7000}],
+     "env": {"attackMs": 1, "decayMs": 18, "releaseMs": 30}},
+    {"type": "osc", "startMs": 20, "ms": 190, "gain": 0.2, "wave": "saw", "hz": 120, "endHz": 60,
+     "filters": [{"type": "biquad", "mode": "lowpass", "hz": 900, "endHz": 200, "q": 1.2}],
+     "env": {"attackMs": 8, "decayMs": 80, "releaseMs": 80}}
+  ]
+}

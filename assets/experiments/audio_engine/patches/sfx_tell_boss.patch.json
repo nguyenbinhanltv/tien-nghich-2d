@@ -1,0 +1,146 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_tell_boss",
+  "title": "sfx_tell_boss",
+  "design": "Two struck bronze tones, the second a fourth higher, with a long inharmonic ring over a dark swell: the boss warning announces itself in the open bronze register.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9127,
+  "durationMs": 1180,
+  "trim": 0.52,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 620,
+      "gain": 0.5,
+      "hz": 110,
+      "endHz": 109,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 330,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 480,
+      "gain": 0.3,
+      "hz": 299,
+      "endHz": 297,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 150,
+        "releaseMs": 100
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 300,
+      "gain": 0.12,
+      "hz": 1190,
+      "endHz": 1180,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 60,
+        "releaseMs": 80
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 25,
+      "gain": 0.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 700,
+          "highHz": 3200
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 9,
+        "releaseMs": 8
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 420,
+      "ms": 740,
+      "gain": 0.55,
+      "hz": 147,
+      "endHz": 146,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 400,
+        "releaseMs": 150
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 420,
+      "ms": 560,
+      "gain": 0.33,
+      "hz": 400,
+      "endHz": 397,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 190,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 420,
+      "ms": 360,
+      "gain": 0.13,
+      "hz": 1590,
+      "endHz": 1575,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 70,
+        "releaseMs": 90
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 420,
+      "ms": 25,
+      "gain": 0.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 700,
+          "highHz": 3200
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 9,
+        "releaseMs": 8
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 200,
+      "ms": 900,
+      "gain": 1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 70,
+          "highHz": 420
+        }
+      ],
+      "env": {
+        "attackMs": 380,
+        "decayMs": 700,
+        "releaseMs": 300
+      }
+    }
+  ]
+}

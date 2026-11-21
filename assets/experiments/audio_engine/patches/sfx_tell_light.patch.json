@@ -1,0 +1,84 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_tell_light",
+  "title": "sfx_tell_light",
+  "design": "Two dry bamboo knocks at the same pitch warn before a light strike; the second is louder.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8263,
+  "durationMs": 234,
+  "trim": 0.68,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 67,
+      "gain": 0.46,
+      "hz": 1046,
+      "endHz": 1018,
+      "fm": {
+        "ratio": 2.72,
+        "index": 0.78
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 20,
+        "releaseMs": 17
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 28,
+      "gain": 0.43,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 720,
+          "highHz": 3600
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 10,
+        "releaseMs": 8
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 116,
+      "ms": 111,
+      "gain": 0.68,
+      "hz": 1046,
+      "endHz": 1018,
+      "fm": {
+        "ratio": 2.72,
+        "index": 0.78
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 30,
+        "releaseMs": 26
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 116,
+      "ms": 29,
+      "gain": 0.56,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 720,
+          "highHz": 3600
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 11,
+        "releaseMs": 9
+      }
+    }
+  ]
+}

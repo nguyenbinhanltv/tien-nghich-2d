@@ -1,0 +1,102 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_shock",
+  "title": "sfx_shock",
+  "design": "A white electric crack and a zapping tone that dives from 3 kHz, a harsh crackle that buzzes at ninety beats a second, then thunder rolls in underneath and dies slowly.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9289,
+  "durationMs": 800,
+  "trim": 0.56,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 30,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1800,
+          "highHz": 9500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 9,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 120,
+      "gain": 0.45,
+      "hz": 3100,
+      "endHz": 190,
+      "fm": {
+        "ratio": 2.3,
+        "index": 2.2
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 45,
+        "releaseMs": 40
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 10,
+      "ms": 230,
+      "gain": 1.1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 900,
+          "highHz": 6500
+        }
+      ],
+      "env": {
+        "attackMs": 4,
+        "decayMs": 85,
+        "releaseMs": 100
+      },
+      "am": {
+        "hz": 90,
+        "depth": 1
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 70,
+      "ms": 700,
+      "gain": 2.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 45,
+          "highHz": 520
+        }
+      ],
+      "env": {
+        "attackMs": 110,
+        "decayMs": 330,
+        "releaseMs": 330
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 70,
+      "ms": 520,
+      "gain": 0.32,
+      "hz": 64,
+      "endHz": 38,
+      "env": {
+        "attackMs": 100,
+        "decayMs": 320,
+        "releaseMs": 240
+      }
+    }
+  ]
+}

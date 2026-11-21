@@ -1,0 +1,48 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_deny",
+  "title": "sfx_deny",
+  "design": "Two blunt, low reed buzzes repeat on a locked action and cut off cleanly.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8311,
+  "durationMs": 207,
+  "trim": 0.61,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 78,
+      "gain": 0.55,
+      "hz": 153,
+      "endHz": 147,
+      "fm": {
+        "ratio": 2,
+        "index": 1.55
+      },
+      "env": {
+        "attackMs": 5,
+        "decayMs": 170,
+        "releaseMs": 14
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 103,
+      "ms": 99,
+      "gain": 0.57,
+      "hz": 153,
+      "endHz": 147,
+      "fm": {
+        "ratio": 2,
+        "index": 1.55
+      },
+      "env": {
+        "attackMs": 4,
+        "decayMs": 170,
+        "releaseMs": 18
+      }
+    }
+  ]
+}

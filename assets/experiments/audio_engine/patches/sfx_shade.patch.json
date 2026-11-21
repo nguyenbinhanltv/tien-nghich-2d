@@ -1,0 +1,91 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_shade",
+  "title": "sfx_shade",
+  "design": "A hollow, breathy wail fades in from nothing and sinks a major third: two slightly detuned voices wander against each other over a faint cold breath and a distant low undertone. It begins soft, with no strike at all.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9277,
+  "durationMs": 900,
+  "trim": 0.96,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 760,
+      "gain": 0.34,
+      "hz": 262,
+      "endHz": 208,
+      "fm": {
+        "ratio": 1.007,
+        "index": 1.3
+      },
+      "env": {
+        "attackMs": 280,
+        "decayMs": 800,
+        "releaseMs": 300
+      },
+      "am": {
+        "hz": 5.5,
+        "depth": 0.35
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 40,
+      "ms": 740,
+      "gain": 0.3,
+      "hz": 268,
+      "endHz": 211,
+      "fm": {
+        "ratio": 2.003,
+        "index": 0.7
+      },
+      "env": {
+        "attackMs": 300,
+        "decayMs": 760,
+        "releaseMs": 300
+      },
+      "am": {
+        "hz": 7.3,
+        "depth": 0.4
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 780,
+      "gain": 0.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 500,
+          "highHz": 2600
+        }
+      ],
+      "env": {
+        "attackMs": 320,
+        "decayMs": 700,
+        "releaseMs": 330
+      },
+      "am": {
+        "hz": 4.5,
+        "depth": 0.6
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 60,
+      "ms": 800,
+      "gain": 0.2,
+      "hz": 110,
+      "endHz": 83,
+      "env": {
+        "attackMs": 350,
+        "decayMs": 900,
+        "releaseMs": 340
+      }
+    }
+  ]
+}

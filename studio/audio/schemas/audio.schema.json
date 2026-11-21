@@ -1,0 +1,146 @@
+{
+  "$schema": "audio schema, checked by studio/core/json-schema.mjs (the subset it supports)",
+  "title": "studio.audio documents: patch (one-shot) and score (loop)",
+  "$defs": {
+    "num": {"type": "number"},
+    "pos": {"type": "number", "minimum": 0},
+    "int": {"type": "integer", "minimum": 0},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "note": {"anyOf": [{"type": "integer"}, {"type": "string", "pattern": "^[A-Ga-g][#b]?-?[0-9]$"}]},
+    "env": {
+      "type": "object", "additionalProperties": false,
+      "description": "attackMs: linear ramp (or 1-exp(-t/attackMs) when attackShape is exp). decayMs: exp(-frame/decayFrames) time constant. releaseMs: linear ramp to zero over the last releaseMs of the layer (releaseShape linear), or exp(-(t-gate)/releaseMs) after the note gate (releaseShape exp, notes only). level: multiplier to + (from-to)*exp(-t/tauMs).",
+      "properties": {
+        "attackMs": {"$ref": "#/$defs/pos"},
+        "attackShape": {"enum": ["linear", "exp"]},
+        "decayMs": {"$ref": "#/$defs/pos"},
+        "releaseMs": {"$ref": "#/$defs/pos"},
+        "releaseShape": {"enum": ["linear", "exp"]},
+        "level": {"type": "object", "additionalProperties": false, "required": ["from", "to", "tauMs"],
+          "properties": {"from": {"type": "number"}, "to": {"type": "number"}, "tauMs": {"type": "number", "minimum": 0.001}}}
+      }
+    },
+    "filter": {
+      "type": "object", "additionalProperties": false, "required": ["type"],
+      "properties": {
+        "type": {"enum": ["lowpass1", "highpass1", "band", "biquad", "box", "fir"]},
+        "hz": {"type": "number", "minimum": 1}, "endHz": {"type": "number", "minimum": 1},
+        "lowHz": {"type": "number", "minimum": 1}, "highHz": {"type": "number", "minimum": 1},
+        "mode": {"enum": ["lowpass", "highpass", "bandpass", "notch"]},
+        "q": {"type": "number", "minimum": 0.05},
+        "taps": {"anyOf": [{"type": "integer", "minimum": 1}, {"type": "array", "minItems": 1, "items": {"type": "number"}}]},
+        "align": {"enum": ["same", "causal"]}
+      }
+    },
+    "harmonic": {"type": "object", "additionalProperties": false, "required": ["n"],
+      "properties": {"n": {"type": "integer", "minimum": 1}, "gain": {"type": "number"}, "decay": {"type": "number", "minimum": 0}}},
+    "harmonics": {
+      "anyOf": [
+        {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/harmonic"}},
+        {"type": "object", "additionalProperties": false, "required": ["count"],
+          "properties": {"count": {"type": "integer", "minimum": 1}, "rolloff": {"type": "number"}, "pickPosition": {"type": "number"},
+            "decayBase": {"type": "number"}, "decayStep": {"type": "number"}}}
+      ]
+    },
+    "layer": {
+      "type": "object", "additionalProperties": false, "required": ["type"],
+      "properties": {
+        "type": {"enum": ["osc", "noise"]},
+        "startMs": {"$ref": "#/$defs/pos"},
+        "ms": {"type": "number", "minimum": 0.001},
+        "gain": {"type": "number"},
+        "gains": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}},
+        "env": {"$ref": "#/$defs/env"},
+        "am": {"type": "object", "additionalProperties": false, "required": ["hz", "depth"],
+          "properties": {"hz": {"$ref": "#/$defs/pos"}, "depth": {"type": "number"}}},
+        "filters": {"type": "array", "items": {"$ref": "#/$defs/filter"}},
+        "wave": {"enum": ["sine", "triangle", "saw", "square", "additive"]},
+        "hz": {"type": "number", "minimum": 0.001}, "endHz": {"type": "number", "minimum": 0.001},
+        "ratio": {"type": "number", "minimum": 0.001}, "endRatio": {"type": "number", "minimum": 0.001},
+        "fm": {"type": "object", "additionalProperties": false, "required": ["ratio", "index"],
+          "properties": {"ratio": {"type": "number"}, "index": {"type": "number"}}},
+        "vibrato": {"type": "object", "additionalProperties": false, "required": ["hz", "depth"],
+          "properties": {"hz": {"$ref": "#/$defs/pos"}, "depth": {"type": "number"}, "riseMs": {"$ref": "#/$defs/pos"}}},
+        "scoop": {"type": "object", "additionalProperties": false, "required": ["depth", "tauMs"],
+          "properties": {"depth": {"type": "number"}, "tauMs": {"type": "number", "minimum": 0.001}}},
+        "harmonics": {"$ref": "#/$defs/harmonics"},
+        "partialPhase": {"type": "object", "additionalProperties": false,
+          "properties": {"slope": {"type": "number"}, "random": {"type": "number"}}}
+      }
+    },
+    "reverb": {
+      "type": "object", "additionalProperties": false, "required": ["type"],
+      "properties": {
+        "type": {"enum": ["taps", "feedback", "impulse"]},
+        "taps": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["ms", "gain"],
+          "properties": {"ms": {"type": "number", "minimum": 0}, "gain": {"type": "number"}, "cross": {"type": "boolean"}}}},
+        "combs": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["ms", "feedback"],
+          "properties": {"ms": {"type": "number", "minimum": 1}, "feedback": {"type": "number"}, "damp": {"type": "number"}}}},
+        "allpasses": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["ms", "gain"],
+          "properties": {"ms": {"type": "number", "minimum": 1}, "gain": {"type": "number"}}}},
+        "seconds": {"type": "number", "minimum": 0.01}, "decayPerSecond": {"type": "number", "minimum": 0}, "seeds": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},
+        "attackMs": {"type": "number", "minimum": 0.001}, "smoothTaps": {"type": "integer", "minimum": 1},
+        "spreadMs": {"type": "number"}, "inputGain": {"type": "number"}, "wet": {"type": "number"}, "dry": {"type": "number"}
+      }
+    },
+    "patch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema", "version", "id", "sampleRate", "seed", "durationMs", "layers"],
+      "properties": {
+        "schema": {"const": "studio.audio.patch"}, "version": {"const": 1},
+        "id": {"$ref": "#/$defs/id"}, "title": {"type": "string"}, "design": {"type": "string"},
+        "sampleRate": {"type": "integer", "minimum": 8000},
+        "channels": {"enum": [1, 2]},
+        "seed": {"$ref": "#/$defs/int"},
+        "durationMs": {"type": "number", "minimum": 1},
+        "trim": {"type": "number", "minimum": 0},
+        "gains": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}},
+        "layers": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/layer"}}
+      }
+    },
+    "instrument": {
+      "type": "object", "additionalProperties": false, "required": ["layers"],
+      "properties": {
+        "layers": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/layer"}},
+        "gains": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}},
+        "tailMs": {"$ref": "#/$defs/pos"},
+        "fadeOutMs": {"$ref": "#/$defs/pos"},
+        "pitched": {"type": "boolean"}
+      }
+    },
+    "event": {"anyOf": [
+      {"type": "array", "minItems": 4, "maxItems": 5},
+      {"type": "object", "additionalProperties": false, "required": ["beat", "note", "gate"],
+        "properties": {"beat": {"type": "number"}, "note": {"$ref": "#/$defs/note"}, "gate": {"type": "number", "minimum": 0},
+          "vel": {"type": "number"}, "instrument": {"type": "string"}}}
+    ]},
+    "score": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema", "version", "id", "sampleRate", "seed", "tempoBpm", "loop", "instruments", "tracks"],
+      "properties": {
+        "schema": {"const": "studio.audio.score"}, "version": {"const": 1},
+        "id": {"$ref": "#/$defs/id"}, "title": {"type": "string"}, "notes": {"type": "string"},
+        "sampleRate": {"type": "integer", "minimum": 8000},
+        "seed": {"$ref": "#/$defs/int"},
+        "tempoBpm": {"type": "number", "minimum": 1},
+        "beatsPerBar": {"type": "integer", "minimum": 1},
+        "tuningA4Hz": {"type": "number", "minimum": 100},
+        "key": {"type": "object", "additionalProperties": false,
+          "properties": {"tonic": {"type": "string"}, "scale": {"type": "string"},
+            "pitchClasses": {"type": "array", "minItems": 1, "items": {"type": "integer"}}, "enforce": {"type": "boolean"}}},
+        "loop": {"type": "object", "additionalProperties": false, "properties": {"bars": {"type": "number", "minimum": 0.001}, "frames": {"type": "integer", "minimum": 1}}},
+        "instruments": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/instrument"}},
+        "patterns": {"type": "object", "additionalProperties": {"type": "array", "items": {"$ref": "#/$defs/event"}}},
+        "tracks": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["instrument"],
+          "properties": {
+            "name": {"type": "string"}, "instrument": {"type": "string"},
+            "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+            "sequence": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["bar", "pattern"],
+              "properties": {"bar": {"type": "number"}, "pattern": {"type": "string"}, "transpose": {"type": "integer"}}}}
+          }}},
+        "reverb": {"$ref": "#/$defs/reverb"},
+        "masterGain": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

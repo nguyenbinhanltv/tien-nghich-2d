@@ -1,0 +1,63 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_step",
+  "title": "sfx_step",
+  "design": "A soft sole lands heel first; a higher grit scuff follows as weight rolls forward.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8143,
+  "durationMs": 118,
+  "trim": 0.76,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 55,
+      "gain": 0.69,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 95,
+          "highHz": 1350
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 19,
+        "releaseMs": 13
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 58,
+      "gain": 0.31,
+      "hz": 141,
+      "endHz": 88,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 17,
+        "releaseMs": 20
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 36,
+      "ms": 80,
+      "gain": 0.61,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 620,
+          "highHz": 3650
+        }
+      ],
+      "env": {
+        "attackMs": 7,
+        "decayMs": 27,
+        "releaseMs": 28
+      }
+    }
+  ]
+}

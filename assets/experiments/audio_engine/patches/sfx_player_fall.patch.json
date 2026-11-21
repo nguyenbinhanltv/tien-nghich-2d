@@ -1,0 +1,137 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_player_fall",
+  "title": "sfx_player_fall",
+  "design": "The player's own collapse and last breath: a pitched strained voice sinks over an octave and a half, the knees give with one soft thud, a thin breath trails out, and two low tones (D3 and A3, an open fifth) ring faintly and fade. Mid register and human scale, quiet where the boss fall is huge.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9293,
+  "durationMs": 1800,
+  "trim": 0.61,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 1000,
+      "gain": 0.4,
+      "hz": 330,
+      "endHz": 98,
+      "fm": {
+        "ratio": 1,
+        "index": 0.9
+      },
+      "env": {
+        "attackMs": 40,
+        "decayMs": 620,
+        "releaseMs": 300
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 10,
+      "ms": 800,
+      "gain": 0.14,
+      "hz": 660,
+      "endHz": 196,
+      "env": {
+        "attackMs": 40,
+        "decayMs": 420,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 70,
+      "gain": 0.8,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 200,
+          "highHz": 2200
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 20,
+        "releaseMs": 30
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 480,
+      "ms": 240,
+      "gain": 0.55,
+      "hz": 118,
+      "endHz": 56,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 60,
+        "releaseMs": 100
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 480,
+      "ms": 140,
+      "gain": 1.1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 100,
+          "highHz": 900
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 36,
+        "releaseMs": 60
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 640,
+      "ms": 700,
+      "gain": 0.45,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 300,
+          "highHz": 1900
+        }
+      ],
+      "env": {
+        "attackMs": 220,
+        "decayMs": 340,
+        "releaseMs": 330
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 880,
+      "ms": 900,
+      "gain": 0.26,
+      "hz": 147,
+      "endHz": 146,
+      "env": {
+        "attackMs": 60,
+        "decayMs": 480,
+        "releaseMs": 360
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 920,
+      "ms": 860,
+      "gain": 0.18,
+      "hz": 220,
+      "endHz": 219,
+      "env": {
+        "attackMs": 60,
+        "decayMs": 430,
+        "releaseMs": 340
+      }
+    }
+  ]
+}

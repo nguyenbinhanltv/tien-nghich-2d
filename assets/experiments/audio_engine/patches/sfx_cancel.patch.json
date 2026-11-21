@@ -1,0 +1,48 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_cancel",
+  "title": "sfx_cancel",
+  "design": "Two muted strokes descend from A to D as the menu backs out.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8297,
+  "durationMs": 178,
+  "trim": 0.62,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 76,
+      "gain": 0.5,
+      "hz": 440,
+      "endHz": 438,
+      "fm": {
+        "ratio": 2,
+        "index": 0.35
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 23,
+        "releaseMs": 19
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 69,
+      "ms": 104,
+      "gain": 0.48,
+      "hz": 293.665,
+      "endHz": 291,
+      "fm": {
+        "ratio": 2,
+        "index": 0.22
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 32,
+        "releaseMs": 27
+      }
+    }
+  ]
+}

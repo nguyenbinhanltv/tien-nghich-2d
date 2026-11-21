@@ -1,0 +1,165 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_reward",
+  "title": "sfx_reward",
+  "design": "Banking a reward: four jade stones clink upward in quick succession (D6, E6, G6, A6, a rising pentatonic run), and then a warm resolved chord (D4, A4, D5) blooms and rings out. The run says it is counted, and the chord says it is safe.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9371,
+  "durationMs": 1500,
+  "trim": 0.53,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 140,
+      "gain": 0.36,
+      "hz": 1174.66,
+      "endHz": 1170,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.5
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 38,
+        "releaseMs": 50
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 75,
+      "ms": 140,
+      "gain": 0.36,
+      "hz": 1318.5,
+      "endHz": 1314,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.5
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 38,
+        "releaseMs": 50
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 150,
+      "ms": 140,
+      "gain": 0.38,
+      "hz": 1568,
+      "endHz": 1563,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.5
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 38,
+        "releaseMs": 50
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 225,
+      "ms": 220,
+      "gain": 0.42,
+      "hz": 1760,
+      "endHz": 1755,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.5
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 60,
+        "releaseMs": 80
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 30,
+      "gain": 0.3,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2500,
+          "highHz": 8500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 8,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 1100,
+      "gain": 0.44,
+      "hz": 293.66,
+      "endHz": 293.66,
+      "fm": {
+        "ratio": 2,
+        "index": 0.3
+      },
+      "env": {
+        "attackMs": 40,
+        "decayMs": 650,
+        "releaseMs": 420
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 1100,
+      "gain": 0.4,
+      "hz": 440,
+      "endHz": 440,
+      "fm": {
+        "ratio": 2,
+        "index": 0.25
+      },
+      "env": {
+        "attackMs": 50,
+        "decayMs": 650,
+        "releaseMs": 420
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 340,
+      "ms": 1060,
+      "gain": 0.3,
+      "hz": 587.33,
+      "endHz": 587.33,
+      "env": {
+        "attackMs": 60,
+        "decayMs": 600,
+        "releaseMs": 420
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 330,
+      "ms": 400,
+      "gain": 0.2,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2500,
+          "highHz": 6500
+        }
+      ],
+      "env": {
+        "attackMs": 200,
+        "decayMs": 250,
+        "releaseMs": 140
+      }
+    }
+  ]
+}
