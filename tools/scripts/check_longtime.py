@@ -205,7 +205,7 @@ def validate(m):
         p = profiles[a["profile"]]
         category = p["category"]
         counts[category] += 1
-        expected_agent = "pixellab" if category in CHARACTERS else "codex_antigravity"
+        expected_agent = "studio_forge" if category in CHARACTERS else "codex_antigravity"
         require(p["assigned_agent"] == expected_agent, "Incorrect routing: " + key)
         w,h = p["native_px"]
         x,y = p["pivot_px"]
@@ -236,7 +236,7 @@ def validate(m):
             wave_frames[expected_agent] += frames
     require(counts == COUNTS and sum(a["profile"]=="relic" for a in rows)==10, "Incorrect category totals")
     require(len(wave)==len(m["wave_1"])==9 and wave <= set(assets) and
-            wave_frames=={"pixellab":64,"codex_antigravity":37}, "First wave scope changed")
+            wave_frames=={"studio_forge":64,"codex_antigravity":37}, "First wave scope changed")
     done = set(inherited)
     while len(done) < len(known):
         ready = {key for key,a in assets.items() if key not in done and set(a["dependencies"]) <= done}

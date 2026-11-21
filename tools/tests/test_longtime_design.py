@@ -18,7 +18,9 @@ class DesignTests(unittest.TestCase):
         def base(m):
             m["base"]["contracts"][0][2] = "0" * 64
         def routing(m):
-            m["profiles"]["terrain"]["assigned_agent"] = "pixellab"
+            m["profiles"]["terrain"]["assigned_agent"] = "studio_forge"
+        def retired_route(m):
+            m["profiles"]["npc"]["assigned_agent"] = "pixellab"
         def budget(m):
             m["chunks"]["abode"] = 0
         def missing(m):
@@ -30,7 +32,7 @@ class DesignTests(unittest.TestCase):
         def cycle(m):
             m["assets"][0]["dependencies"] = ["lt_kiln"]
             m["assets"][1]["dependencies"] = [m["assets"][0]["id"]]
-        for change in (duplicate, base, routing, budget, missing, readiness, later, cycle):
+        for change in (duplicate, base, routing, retired_route, budget, missing, readiness, later, cycle):
             with self.subTest(change=change.__name__):
                 data = design.read(design.CATALOG)
                 change(data)

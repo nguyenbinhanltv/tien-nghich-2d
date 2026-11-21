@@ -1,0 +1,1713 @@
+{
+  "sheet_sha256": "05a31f35ae7b996c4533bebe8a2e347f22a51f780238045a98a56655fb0015a9",
+  "pivot_px": [
+    16,
+    29
+  ],
+  "imports": {
+    "south": {
+      "source_ground_xy": [
+        301,
+        538
+      ],
+      "source_bounds": [
+        159,
+        141,
+        560,
+        538
+      ],
+      "native_origin_xy": [
+        8,
+        4
+      ],
+      "scale": 0.052897,
+      "visible_source_marker_px": 1
+    },
+    "west": {
+      "source_ground_xy": [
+        314,
+        526
+      ],
+      "source_bounds": [
+        0,
+        235,
+        613,
+        526
+      ],
+      "native_origin_xy": [
+        1,
+        11
+      ],
+      "scale": 0.047771,
+      "visible_source_marker_px": 1
+    },
+    "north": {
+      "source_ground_xy": [
+        345,
+        479
+      ],
+      "source_bounds": [
+        51,
+        126,
+        466,
+        575
+      ],
+      "native_origin_xy": [
+        1,
+        7
+      ],
+      "scale": 0.05102,
+      "visible_source_marker_px": 0
+    },
+    "east": {
+      "source_ground_xy": [
+        332,
+        503
+      ],
+      "source_bounds": [
+        25,
+        204,
+        639,
+        506
+      ],
+      "native_origin_xy": [
+        1,
+        10
+      ],
+      "scale": 0.04886,
+      "visible_source_marker_px": 0
+    }
+  },
+  "clips": {
+    "idle": {
+      "duration_ms": 180,
+      "facings": {
+        "south": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                26,
+                24
+              ],
+              [
+                25,
+                25
+              ],
+              [
+                25,
+                24
+              ],
+              [
+                25,
+                25
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.5,
+              1.0
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              3,
+              4,
+              3,
+              4
+            ],
+            "interior_luma_p90_p10": 165.9,
+            "changed_fraction": [
+              0.409,
+              0.219,
+              0.385,
+              0.404
+            ],
+            "interior_aba_pixels": [
+              13,
+              4,
+              3,
+              5
+            ],
+            "loop_seam_flag": false
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.0
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.122,
+              0.122,
+              0.108,
+              0.108
+            ],
+            "interior_aba_pixels": [
+              2,
+              8,
+              2,
+              8
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "west": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                26,
+                26
+              ],
+              [
+                27,
+                26
+              ],
+              [
+                27,
+                28
+              ],
+              [
+                28,
+                27
+              ]
+            ],
+            "bbox_center_span_px": [
+              2.0,
+              0.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              4,
+              3,
+              5,
+              8
+            ],
+            "interior_luma_p90_p10": 28.2,
+            "changed_fraction": [
+              0.287,
+              0.345,
+              0.273,
+              0.465
+            ],
+            "interior_aba_pixels": [
+              4,
+              4,
+              6,
+              11
+            ],
+            "loop_seam_flag": true
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                29,
+                14
+              ],
+              [
+                29,
+                15
+              ],
+              [
+                29,
+                14
+              ],
+              [
+                29,
+                14
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.5
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.123,
+              0.123,
+              0.116,
+              0.116
+            ],
+            "interior_aba_pixels": [
+              1,
+              7,
+              1,
+              7
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "north": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                25,
+                24
+              ],
+              [
+                25,
+                23
+              ],
+              [
+                25,
+                23
+              ],
+              [
+                25,
+                23
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.5
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              2,
+              3,
+              1,
+              6
+            ],
+            "interior_luma_p90_p10": 28.2,
+            "changed_fraction": [
+              0.146,
+              0.147,
+              0.047,
+              0.239
+            ],
+            "interior_aba_pixels": [
+              7,
+              5,
+              1,
+              1
+            ],
+            "loop_seam_flag": true
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                21,
+                23
+              ],
+              [
+                21,
+                23
+              ],
+              [
+                21,
+                23
+              ],
+              [
+                21,
+                24
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              5,
+              5,
+              2,
+              2
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.148,
+              0.148,
+              0.148,
+              0.148
+            ],
+            "interior_aba_pixels": [
+              0,
+              3,
+              0,
+              4
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "east": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                23,
+                23
+              ],
+              [
+                25,
+                23
+              ],
+              [
+                23,
+                24
+              ],
+              [
+                21,
+                25
+              ]
+            ],
+            "bbox_center_span_px": [
+              2.0,
+              1.0
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "interior_luma_p90_p10": 30.1,
+            "changed_fraction": [
+              0.116,
+              0.254,
+              0.225,
+              0.329
+            ],
+            "interior_aba_pixels": [
+              3,
+              1,
+              3,
+              6
+            ],
+            "loop_seam_flag": false
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.0
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.07,
+              0.07,
+              0.067,
+              0.067
+            ],
+            "interior_aba_pixels": [
+              1,
+              6,
+              1,
+              6
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "follow": {
+      "duration_ms": 120,
+      "facings": {
+        "south": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                26,
+                25
+              ],
+              [
+                26,
+                24
+              ],
+              [
+                26,
+                24
+              ],
+              [
+                27,
+                23
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.5,
+              1.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              5,
+              3,
+              7,
+              9
+            ],
+            "interior_luma_p90_p10": 165.9,
+            "changed_fraction": [
+              0.478,
+              0.487,
+              0.348,
+              0.636
+            ],
+            "interior_aba_pixels": [
+              19,
+              22,
+              4,
+              8
+            ],
+            "loop_seam_flag": false
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ],
+              [
+                21,
+                21
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.0
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              3,
+              3,
+              3,
+              3
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.099,
+              0.119,
+              0.119,
+              0.099
+            ],
+            "interior_aba_pixels": [
+              4,
+              0,
+              4,
+              0
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  22
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  22
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "west": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                24,
+                28
+              ],
+              [
+                26,
+                28
+              ],
+              [
+                28,
+                27
+              ],
+              [
+                28,
+                23
+              ]
+            ],
+            "bbox_center_span_px": [
+              1.0,
+              1.0
+            ],
+            "lowest_row_span_px": 3,
+            "lowest_row_columns_changed": [
+              3,
+              5,
+              5,
+              5
+            ],
+            "interior_luma_p90_p10": 28.2,
+            "changed_fraction": [
+              0.382,
+              0.552,
+              0.456,
+              0.641
+            ],
+            "interior_aba_pixels": [
+              15,
+              10,
+              5,
+              11
+            ],
+            "loop_seam_flag": false
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                29,
+                14
+              ],
+              [
+                29,
+                14
+              ],
+              [
+                29,
+                15
+              ],
+              [
+                29,
+                14
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.5
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              1,
+              5,
+              0,
+              6
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.173,
+              0.218,
+              0.185,
+              0.232
+            ],
+            "interior_aba_pixels": [
+              6,
+              1,
+              6,
+              1
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  6,
+                  22
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  21,
+                  23
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  4,
+                  22
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  9,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  14,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  19,
+                  23
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  10,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  15,
+                  22
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  5,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  8,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  13,
+                  22
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "north": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                25,
+                25
+              ],
+              [
+                25,
+                24
+              ],
+              [
+                25,
+                23
+              ],
+              [
+                25,
+                22
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              2.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              2,
+              0,
+              0,
+              2
+            ],
+            "interior_luma_p90_p10": 28.2,
+            "changed_fraction": [
+              0.329,
+              0.339,
+              0.241,
+              0.497
+            ],
+            "interior_aba_pixels": [
+              19,
+              11,
+              8,
+              14
+            ],
+            "loop_seam_flag": true
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                21,
+                24
+              ],
+              [
+                21,
+                23
+              ],
+              [
+                21,
+                23
+              ],
+              [
+                21,
+                23
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              3,
+              4,
+              4,
+              3
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.14,
+              0.144,
+              0.115,
+              0.112
+            ],
+            "interior_aba_pixels": [
+              2,
+              0,
+              2,
+              0
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  20,
+                  22
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  13,
+                  21
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  20,
+                  24
+                ],
+                "planted": true
+              }
+            ]
+          ]
+        },
+        "east": {
+          "shipped": {
+            "occupied_size_px": [
+              [
+                21,
+                25
+              ],
+              [
+                23,
+                24
+              ],
+              [
+                23,
+                24
+              ],
+              [
+                23,
+                23
+              ]
+            ],
+            "bbox_center_span_px": [
+              1.0,
+              1.5
+            ],
+            "lowest_row_span_px": 1,
+            "lowest_row_columns_changed": [
+              5,
+              1,
+              6,
+              6
+            ],
+            "interior_luma_p90_p10": 28.2,
+            "changed_fraction": [
+              0.284,
+              0.415,
+              0.395,
+              0.506
+            ],
+            "interior_aba_pixels": [
+              4,
+              7,
+              3,
+              15
+            ],
+            "loop_seam_flag": false
+          },
+          "forge": {
+            "occupied_size_px": [
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ],
+              [
+                30,
+                15
+              ]
+            ],
+            "bbox_center_span_px": [
+              0.0,
+              0.0
+            ],
+            "lowest_row_span_px": 0,
+            "lowest_row_columns_changed": [
+              2,
+              7,
+              2,
+              7
+            ],
+            "interior_luma_p90_p10": 65.4,
+            "changed_fraction": [
+              0.111,
+              0.172,
+              0.102,
+              0.155
+            ],
+            "interior_aba_pixels": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "loop_seam_flag": false
+          },
+          "forge_animation_gate": {
+            "pass": true,
+            "planted_slide_transitions": [],
+            "planted_missing_pixels": [],
+            "bbox_drift_flag": false,
+            "interior_flicker_flag": false,
+            "loop_seam_flag": false,
+            "left_ear_marker_pixels": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "wrong_or_missing_ear_frames": []
+          },
+          "forge_paw_contacts": [
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  15,
+                  21
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  22,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  11,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  17,
+                  21
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  24,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  26,
+                  23
+                ],
+                "planted": true
+              }
+            ],
+            [
+              {
+                "xy": [
+                  10,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  25,
+                  22
+                ],
+                "planted": false
+              }
+            ],
+            [
+              {
+                "xy": [
+                  12,
+                  23
+                ],
+                "planted": false
+              },
+              {
+                "xy": [
+                  16,
+                  22
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  23,
+                  24
+                ],
+                "planted": true
+              },
+              {
+                "xy": [
+                  27,
+                  22
+                ],
+                "planted": false
+              }
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "palette_gate": {
+    "shipped": {
+      "pass": 32,
+      "fail": 0,
+      "warnings": 0
+    },
+    "forge": {
+      "pass": 32,
+      "fail": 0,
+      "warnings": 0
+    }
+  }
+}

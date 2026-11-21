@@ -175,6 +175,8 @@ Animation sets are in the manifest (phase_transition + death included). Bosses a
 
 ## 9. Asset ↔ design cross-reference
 
+*Historical (as of 2026-11-21): the producer labels below record the original manifest split. PixelLab has been retired since 2026-11-22; see `docs/ASSET_ROUTING.md` for the current routing.*
+
 - **pixellab (22):** 4 players (4 dirs × 22 frames), 15 mobs (2 dirs; 4 anim sets), 3 bosses (2 dirs). Output under `assets/raw/characters/`.
 - **codex_antigravity (68):** 3 tilesets (47-tile blob, 16 px; each with floor, wall-top, 16×32 wall face for 2.5D, deco, and animated liquids/runes), 12 weapons + 12 projectiles, 19 props, 16 icons, 6 UI.
 - **Directions:** players use 4 dirs because aiming/dash direction matter and held weapons/banner are asymmetric; the primary view is front-facing (south) as in Soul Knight. Mobs/bosses use S+E with W mirrored.

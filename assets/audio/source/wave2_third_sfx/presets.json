@@ -1,0 +1,120 @@
+{
+  "sfx_chime": {
+    "seed": 9203,
+    "duration_ms": 1000,
+    "trim": 0.51,
+    "design": "One struck glass-bell: bright inharmonic partials ring high with a faint shimmer from a detuned twin, and nothing sounds below 1 kHz. A single strike with no rising interval: the mirror and bell weapon release, and the ward pulse.",
+    "pilot_reference": "sfx_pickup is a rising D5-A5 interval; sfx_confirm is a short pluck; sfx_hit_spirit is a low wobbling strike. This is one high bell with a long clean ring and no body.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 14, "gain": 0.5, "low_hz": 2500, "high_hz": 9500, "attack_ms": 1, "decay_ms": 5, "release_ms": 5},
+      {"voice": "tone", "start_ms": 0, "ms": 900, "gain": 0.4, "hz": 1480, "end_hz": 1478, "attack_ms": 1, "decay_ms": 340, "release_ms": 260},
+      {"voice": "tone", "start_ms": 0, "ms": 900, "gain": 0.24, "hz": 1487, "end_hz": 1485, "attack_ms": 1, "decay_ms": 300, "release_ms": 260},
+      {"voice": "tone", "start_ms": 0, "ms": 620, "gain": 0.22, "hz": 4085, "end_hz": 4075, "attack_ms": 1, "decay_ms": 170, "release_ms": 200},
+      {"voice": "tone", "start_ms": 0, "ms": 400, "gain": 0.12, "hz": 7990, "end_hz": 7970, "attack_ms": 1, "decay_ms": 70, "release_ms": 150},
+      {"voice": "tone", "start_ms": 0, "ms": 700, "gain": 0.1, "hz": 2220, "end_hz": 2215, "attack_ms": 1, "decay_ms": 200, "release_ms": 200, "flutter_hz": 9, "flutter_depth": 0.5}
+    ]
+  },
+  "sfx_crush": {
+    "seed": 9217,
+    "duration_ms": 820,
+    "trim": 0.44,
+    "design": "A slow grinding rumble: rolling rock under a grit that rattles at roughly twenty beats a second, a sinking sub, and two loose pebbles settling at the end. Mass and friction, with no sharp crack on the front.",
+    "pilot_reference": "sfx_hit_stone is a hard crack and a short knock; sfx_tell_heavy is a rising swell with one thud; sfx_enemy_fall is one drop. This is a sustained, fluttering grind that never lands one hit.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 640, "gain": 3.0, "low_hz": 55, "high_hz": 620, "attack_ms": 70, "decay_ms": 520, "release_ms": 200, "flutter_hz": 17, "flutter_depth": 0.78},
+      {"voice": "noise", "start_ms": 20, "ms": 560, "gain": 1.5, "low_hz": 300, "high_hz": 2400, "attack_ms": 60, "decay_ms": 380, "release_ms": 180, "flutter_hz": 23, "flutter_depth": 0.9},
+      {"voice": "tone", "start_ms": 0, "ms": 620, "gain": 0.4, "hz": 74, "end_hz": 44, "attack_ms": 60, "decay_ms": 420, "release_ms": 220, "fm_ratio": 1.5, "fm_index": 0.9, "flutter_hz": 17, "flutter_depth": 0.5},
+      {"voice": "noise", "start_ms": 560, "ms": 40, "gain": 0.9, "low_hz": 500, "high_hz": 2600, "attack_ms": 1, "decay_ms": 11, "release_ms": 14},
+      {"voice": "noise", "start_ms": 655, "ms": 55, "gain": 0.6, "low_hz": 400, "high_hz": 2000, "attack_ms": 1, "decay_ms": 14, "release_ms": 20}
+    ]
+  },
+  "sfx_gust": {
+    "seed": 9239,
+    "duration_ms": 760,
+    "trim": 0.66,
+    "design": "A broad wind that swells in slowly: a low body of air, a mid band arriving a beat later, then bright air streaming over the top as it thins away, with a faint fluttering whistle. The onset is soft and the whole shape is longer than a dash.",
+    "pilot_reference": "sfx_dash is an immediate hiss that dies in 240 ms; sfx_evade is a narrow 80 ms silk slip. This is a 200 ms swell of wind that crests near the middle and blows out slowly.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 600, "gain": 1.5, "low_hz": 140, "high_hz": 1300, "attack_ms": 230, "decay_ms": 520, "release_ms": 260},
+      {"voice": "noise", "start_ms": 90, "ms": 540, "gain": 1.5, "low_hz": 700, "high_hz": 3400, "attack_ms": 210, "decay_ms": 460, "release_ms": 260},
+      {"voice": "noise", "start_ms": 190, "ms": 520, "gain": 0.6, "low_hz": 1800, "high_hz": 6000, "attack_ms": 190, "decay_ms": 360, "release_ms": 300},
+      {"voice": "tone", "start_ms": 60, "ms": 560, "gain": 0.07, "hz": 480, "end_hz": 760, "attack_ms": 230, "decay_ms": 600, "release_ms": 250, "flutter_hz": 11, "flutter_depth": 0.6}
+    ]
+  },
+  "sfx_thorn": {
+    "seed": 9251,
+    "duration_ms": 260,
+    "trim": 0.83,
+    "design": "Three needle-thin pricks in quick succession, each a dry click with a tiny high ping, rising in pitch and each a little brighter than the last. There is no body, no buzz and no falling tail.",
+    "pilot_reference": "sfx_bolt is one hard spark with a buzzing fall; sfx_tell_light is two same-pitch knocks near 1 kHz. This is three clicks above 2.5 kHz, rising, each ending abruptly.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 12, "gain": 0.9, "low_hz": 3200, "high_hz": 9500, "attack_ms": 1, "decay_ms": 4, "release_ms": 5},
+      {"voice": "tone", "start_ms": 0, "ms": 42, "gain": 0.34, "hz": 2600, "end_hz": 2480, "attack_ms": 1, "decay_ms": 12, "release_ms": 14},
+      {"voice": "noise", "start_ms": 62, "ms": 12, "gain": 1.0, "low_hz": 3400, "high_hz": 9800, "attack_ms": 1, "decay_ms": 4, "release_ms": 5},
+      {"voice": "tone", "start_ms": 62, "ms": 42, "gain": 0.36, "hz": 3100, "end_hz": 2960, "attack_ms": 1, "decay_ms": 12, "release_ms": 14},
+      {"voice": "noise", "start_ms": 124, "ms": 14, "gain": 1.1, "low_hz": 3600, "high_hz": 10000, "attack_ms": 1, "decay_ms": 4, "release_ms": 6},
+      {"voice": "tone", "start_ms": 124, "ms": 80, "gain": 0.4, "hz": 3700, "end_hz": 3560, "attack_ms": 1, "decay_ms": 22, "release_ms": 28}
+    ]
+  },
+  "sfx_flame": {
+    "seed": 9263,
+    "duration_ms": 780,
+    "trim": 0.56,
+    "design": "A soft ignition whoomp swells under a flickering roar that stutters about thirty-seven times a second, and five irregular snaps of crackle scatter over the burn as it settles.",
+    "pilot_reference": "sfx_cast is a gathering breath and resonant fifth; sfx_gust is smooth wind. This is a thump of heat with irregular crackle ticks and no pitched interval.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 440, "gain": 2.8, "low_hz": 70, "high_hz": 900, "attack_ms": 50, "decay_ms": 260, "release_ms": 170},
+      {"voice": "noise", "start_ms": 30, "ms": 560, "gain": 1.3, "low_hz": 450, "high_hz": 3200, "attack_ms": 110, "decay_ms": 340, "release_ms": 220, "flutter_hz": 37, "flutter_depth": 0.9},
+      {"voice": "tone", "start_ms": 0, "ms": 330, "gain": 0.3, "hz": 88, "end_hz": 136, "attack_ms": 30, "decay_ms": 220, "release_ms": 120, "fm_ratio": 1.5, "fm_index": 1.5},
+      {"voice": "noise", "start_ms": 140, "ms": 14, "gain": 0.8, "low_hz": 2600, "high_hz": 8500, "attack_ms": 1, "decay_ms": 4, "release_ms": 6},
+      {"voice": "noise", "start_ms": 232, "ms": 18, "gain": 0.55, "low_hz": 2400, "high_hz": 8000, "attack_ms": 1, "decay_ms": 5, "release_ms": 8},
+      {"voice": "noise", "start_ms": 309, "ms": 12, "gain": 0.95, "low_hz": 2800, "high_hz": 9000, "attack_ms": 1, "decay_ms": 4, "release_ms": 5},
+      {"voice": "noise", "start_ms": 441, "ms": 16, "gain": 0.5, "low_hz": 2400, "high_hz": 7800, "attack_ms": 1, "decay_ms": 5, "release_ms": 7},
+      {"voice": "noise", "start_ms": 538, "ms": 12, "gain": 0.7, "low_hz": 2600, "high_hz": 8800, "attack_ms": 1, "decay_ms": 4, "release_ms": 5}
+    ]
+  },
+  "sfx_shade": {
+    "seed": 9277,
+    "duration_ms": 900,
+    "trim": 0.96,
+    "design": "A hollow, breathy wail fades in from nothing and sinks a major third: two slightly detuned voices wander against each other over a faint cold breath and a distant low undertone. It begins soft, with no strike at all.",
+    "pilot_reference": "sfx_hit_spirit begins with a struck onset and shimmer; sfx_tell_heavy is a low rising growl and thud; sfx_breakthrough rises. This swells from silence, sits near 200-250 Hz and falls.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 760, "gain": 0.34, "hz": 262, "end_hz": 208, "attack_ms": 280, "decay_ms": 800, "release_ms": 300, "fm_ratio": 1.007, "fm_index": 1.3, "flutter_hz": 5.5, "flutter_depth": 0.35},
+      {"voice": "tone", "start_ms": 40, "ms": 740, "gain": 0.3, "hz": 268, "end_hz": 211, "attack_ms": 300, "decay_ms": 760, "release_ms": 300, "fm_ratio": 2.003, "fm_index": 0.7, "flutter_hz": 7.3, "flutter_depth": 0.4},
+      {"voice": "noise", "start_ms": 0, "ms": 780, "gain": 0.7, "low_hz": 500, "high_hz": 2600, "attack_ms": 320, "decay_ms": 700, "release_ms": 330, "flutter_hz": 4.5, "flutter_depth": 0.6},
+      {"voice": "tone", "start_ms": 60, "ms": 800, "gain": 0.2, "hz": 110, "end_hz": 83, "attack_ms": 350, "decay_ms": 900, "release_ms": 340}
+    ]
+  },
+  "sfx_shock": {
+    "seed": 9289,
+    "duration_ms": 800,
+    "trim": 0.56,
+    "design": "A white electric crack and a zapping tone that dives from 3 kHz, a harsh crackle that buzzes at ninety beats a second, then thunder rolls in underneath and dies slowly.",
+    "pilot_reference": "sfx_bolt is a 144 ms single spark and fall; sfx_crush is a low grind with no bright front. This pairs a bright crackling front with a long low thunder tail.",
+    "layers": [
+      {"voice": "noise", "start_ms": 0, "ms": 30, "gain": 1.5, "low_hz": 1800, "high_hz": 9500, "attack_ms": 1, "decay_ms": 9, "release_ms": 10},
+      {"voice": "tone", "start_ms": 0, "ms": 120, "gain": 0.45, "hz": 3100, "end_hz": 190, "attack_ms": 1, "decay_ms": 45, "release_ms": 40, "fm_ratio": 2.3, "fm_index": 2.2},
+      {"voice": "noise", "start_ms": 10, "ms": 230, "gain": 1.1, "low_hz": 900, "high_hz": 6500, "attack_ms": 4, "decay_ms": 85, "release_ms": 100, "flutter_hz": 90, "flutter_depth": 1.0},
+      {"voice": "noise", "start_ms": 70, "ms": 700, "gain": 2.6, "low_hz": 45, "high_hz": 520, "attack_ms": 110, "decay_ms": 330, "release_ms": 330},
+      {"voice": "tone", "start_ms": 70, "ms": 520, "gain": 0.32, "hz": 64, "end_hz": 38, "attack_ms": 100, "decay_ms": 320, "release_ms": 240}
+    ]
+  },
+  "sfx_player_fall": {
+    "seed": 9293,
+    "duration_ms": 1800,
+    "trim": 0.61,
+    "design": "The player's own collapse and last breath: a pitched strained voice sinks over an octave and a half, the knees give with one soft thud, a thin breath trails out, and two low tones (D3 and A3, an open fifth) ring faintly and fade. Mid register and human scale, quiet where the boss fall is huge.",
+    "pilot_reference": "sfx_player_hurt is a hit with a fifth-long drop in 360 ms; sfx_enemy_fall is a heavy slump, and sfx_boss_fall is a sub-heavy collapse. This is longer, sung rather than struck, and ends on a quiet lingering fifth.",
+    "layers": [
+      {"voice": "tone", "start_ms": 0, "ms": 1000, "gain": 0.4, "hz": 330, "end_hz": 98, "attack_ms": 40, "decay_ms": 620, "release_ms": 300, "fm_ratio": 1, "fm_index": 0.9},
+      {"voice": "tone", "start_ms": 10, "ms": 800, "gain": 0.14, "hz": 660, "end_hz": 196, "attack_ms": 40, "decay_ms": 420, "release_ms": 260},
+      {"voice": "noise", "start_ms": 0, "ms": 70, "gain": 0.8, "low_hz": 200, "high_hz": 2200, "attack_ms": 2, "decay_ms": 20, "release_ms": 30},
+      {"voice": "tone", "start_ms": 480, "ms": 240, "gain": 0.55, "hz": 118, "end_hz": 56, "attack_ms": 4, "decay_ms": 60, "release_ms": 100},
+      {"voice": "noise", "start_ms": 480, "ms": 140, "gain": 1.1, "low_hz": 100, "high_hz": 900, "attack_ms": 2, "decay_ms": 36, "release_ms": 60},
+      {"voice": "noise", "start_ms": 640, "ms": 700, "gain": 0.45, "low_hz": 300, "high_hz": 1900, "attack_ms": 220, "decay_ms": 340, "release_ms": 330},
+      {"voice": "tone", "start_ms": 880, "ms": 900, "gain": 0.26, "hz": 147, "end_hz": 146, "attack_ms": 60, "decay_ms": 480, "release_ms": 360},
+      {"voice": "tone", "start_ms": 920, "ms": 860, "gain": 0.18, "hz": 220, "end_hz": 219, "attack_ms": 60, "decay_ms": 430, "release_ms": 340}
+    ]
+  }
+}
