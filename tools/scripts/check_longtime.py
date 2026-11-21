@@ -58,6 +58,26 @@ VFX_ACCEPTANCE = {"first_frame_max_opaque_pct", "last_frame_max_opaque_pct", "pe
                   "max_frame_jump_pct", "max_colors_per_palette", "readability_1x"}
 
 
+VFX_STATES = ["planned", "authored", "processed", "packed"]
+
+
+def validate_vfx_evidence(e):
+    """A VFX entry may only claim a readiness state its files support (stdlib: counts, not pixels)."""
+    rank = VFX_STATES.index(e["status"])
+    key = e["id"]
+    if rank >= 1:
+        prov = ROOT / "assets/raw/longtime" / key / "provenance.json"
+        require(prov.is_file() and (ROOT / "assets/raw/longtime" / key / "specs").is_dir(),
+                f"{key}: authored needs specs/ and provenance.json")
+    if rank >= 2:
+        n = len(list((ROOT / "assets/processed_longtime" / key).glob("*.png")))
+        require(n == vfx_frames(e), f"{key}: processed needs {vfx_frames(e)} frames, found {n}")
+    if rank >= 3:
+        for platform in ("web", "mobile"):
+            cm = ROOT / "assets/atlases_longtime" / platform / e["chunk_group"] / "chunk-manifest.json"
+            require(cm.is_file() and key in read(cm)["asset_ids"], f"{key}: packed needs a {platform} atlas")
+
+
 def audio_cues():
     plan = read(ROOT / "assets/audio_manifest.json")
     cues = set(plan["core"]["bgm"] + plan["core"]["combat"] + plan["core"]["progression_ui"])
@@ -74,7 +94,9 @@ def vfx_frames(entry):
 def validate_vfx(m, inherited_effects, known, rectangles):
     """Validate the planned Longtime VFX block and add its frames to the chunk rectangles."""
     v = m["vfx"]
-    require(set(v) == VFX_TOP and v["status"] == "planned" and v["provenance"].strip(), "Bad VFX block")
+    require(set(v) == VFX_TOP and v["status"] in VFX_STATES and v["provenance"].strip(), "Bad VFX block")
+    require(v["status"] == min((e["status"] for e in v["entries"]), key=VFX_STATES.index),
+            "VFX block status must equal its least-ready entry")
     require(v["assigned_agent"] == "codex_antigravity" and v["outline"] == "ink_01", "Bad VFX routing")
     require(set(v["paths"]) == {"source", "processed", "key"} and "{palette}" in v["paths"]["key"] and
             "{direction}" not in v["paths"]["key"], "VFX paths must key variants by palette")
@@ -92,7 +114,7 @@ def validate_vfx(m, inherited_effects, known, rectangles):
     for e in entries:
         key = e["id"]
         require(set(e) == VFX_FIELDS, f"Unknown or missing VFX fields in {key}")
-        require(re.fullmatch(r"lt_fx_[a-z0-9_]+", key) and e["status"] == "planned" and e["method"] == "new_source",
+        require(re.fullmatch(r"lt_fx_[a-z0-9_]+", key) and e["status"] in VFX_STATES and e["method"] == "new_source",
                 f"Invalid VFX ID, status or method: {key}")
         require(all(str(e[f]).strip() for f in ("event", "reads", "why_new")), "Missing VFX prose: " + key)
         require(e["modes"] and set(e["modes"]) <= VFX_MODES and len(set(e["modes"])) == len(e["modes"]),
@@ -138,6 +160,7 @@ def validate_vfx(m, inherited_effects, known, rectangles):
                 0 <= a["first_frame_max_opaque_pct"] <= hi and 0 < a["max_frame_jump_pct"] <= 100 and
                 2 <= a["max_colors_per_palette"] <= 8 and a["readability_1x"] and
                 all(str(s).strip() for s in a["readability_1x"]), "Bad VFX acceptance: " + key)
+        validate_vfx_evidence(e)
         rectangles[e["chunk_group"]].extend([(h + 6, w + 6)] * vfx_frames(e))
 
 
@@ -242,5 +265,5 @@ if __name__ == "__main__":
         sys.exit(f"Design catalog error: {error}")
     print("102 inherited IDs; 125 planned IDs; wave 1: 9 IDs / 101 frames")
     effects = read(CATALOG)["vfx"]["entries"]
-    print(f"Planned VFX: {len(effects)} new IDs / {sum(map(vfx_frames, effects))} frames; 12 inherited reused")
+    print(f"VFX: {len(effects)} new IDs / {sum(map(vfx_frames, effects))} frames ({Counter(e['status'] for e in effects)}); 12 inherited reused")
     print("Estimated mobile pages by chunk (assets + VFX):", json.dumps(pages, sort_keys=True))

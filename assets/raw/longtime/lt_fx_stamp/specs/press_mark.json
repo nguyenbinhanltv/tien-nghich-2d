@@ -1,0 +1,243 @@
+{
+ "type": "other",
+ "canvas": [
+  48,
+  48
+ ],
+ "anchor": "center",
+ "fps": 20,
+ "seed": 41,
+ "ramps": {
+  "A": {
+   "colors": [
+    "#63400f",
+    "#bf8a1e",
+    "#f5d765",
+    "#fff0b0"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "descend",
+   "ticks": 3,
+   "fast": true
+  },
+  {
+   "name": "land",
+   "ticks": 1,
+   "fast": true,
+   "events": [
+    "land"
+   ]
+  },
+  {
+   "name": "settle",
+   "ticks": 6
+  },
+  {
+   "name": "end",
+   "ticks": 2,
+   "fast": true
+  }
+ ],
+ "layers": [
+  {
+   "id": "frame",
+   "kind": "shape",
+   "during": [
+    "descend",
+    "land",
+    "settle",
+    "end"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.707,
+    "rotate": 45,
+    "onion": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.25,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.1,
+       8
+      ],
+      [
+       0.25,
+       16
+      ],
+      [
+       0.35,
+       15
+      ],
+      [
+       1,
+       14
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.25,
+      1.1
+     ],
+     [
+      0.5,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.6,
+    "noise": "angular",
+    "scale": 12,
+    "amount": 1,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "glyph",
+   "kind": "shape",
+   "during": [
+    "land",
+    "settle",
+    "end"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.22,
+    "r": {
+     "keys": [
+      [
+       0,
+       8
+      ],
+      [
+       1,
+       5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.2
+     ],
+     [
+      0.5,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.4,
+    "noise": "angular",
+    "scale": 10,
+    "amount": 1,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "dust",
+   "kind": "particles",
+   "during": [
+    "land",
+    "settle",
+    "end"
+   ],
+   "ramp": "A",
+   "tag": "debris",
+   "outline": "dark",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     4,
+     4
+    ],
+    "from": {
+     "area": "ring",
+     "r": 15
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.9,
+     1.4
+    ],
+    "angle": "out"
+   },
+   "drag": 0.12,
+   "life": [
+    6,
+    8
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 2
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "in"
+   }
+  }
+ ],
+ "order": [
+  "dust",
+  "frame",
+  "glyph"
+ ],
+ "name": "press_mark",
+ "outline": "#14101a"
+}

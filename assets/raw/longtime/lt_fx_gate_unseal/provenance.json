@@ -1,0 +1,109 @@
+{
+ "producer": "Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11",
+ "tool": "spritefx",
+ "tool_pin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a",
+ "tool_license": "MIT",
+ "method": "deterministic JSON spec rendered by SpriteFX; no hand-painted pixels; no PixelLab",
+ "rights": "original project artwork; no third-party assets; tool output carries no external rights",
+ "palette": "tools/generators/palette.json (40 colours); ramps from tools/generators/vfx_specs/palettes/tien_nghich_40.json",
+ "parents": [],
+ "source": "specs/",
+ "source_sha256": "aed635685302fd0eb3ca182583d71b489928547be766e54d2350b875b4bce724",
+ "specs": {
+  "specs/unseal_base.json": "d9bab3e49f5b0045cbb1aa99dd14cdb41be097649cb588579f44c10af2b52416"
+ },
+ "render_sheets_sha256": {
+  "unseal_base": "ce2e29f6cc9eb7ca46936296d16057c0bcc832ab3893590a64238e13e967189e"
+ },
+ "generator": "tools/generators/longtime_vfx.py",
+ "generator_sha256": "ec23f24849dccc3fd4d2e54fb1f55261ecb51c3ac0fd32522932e118d60931c0",
+ "effects_sha256": "4db1e5895d034e2e7026f93741e4cc06c71defc0a62f947c7f70774955dd72fd",
+ "environment": "tools/.venvs/spritefx (CPython, numpy 2.4.6, Pillow 12.3.0, jsonschema 4.26.0)",
+ "review": "machine checks only; human 1x readability review pending",
+ "frames": [
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_0",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_0.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "3dc95b9f6892533552bb1d44b99b884cada6a0632c8255815b5ce946a8a6d12e"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_1",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_1.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "a0a94fe9f85a565bbfda5a494563685dce4b3a47ccf5b02099a7a7a3bfd14f0c"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_2",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_2.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "640072da1fda8153200fb246eb6f98c9b6e06943bbdf61cf671748c0e48f57c2"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_3",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_3.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "ca37781c78ac7d70dc21fa1f304e59520ef00e623884f9e3670fb67a6f09ae53"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_4",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_4.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "ec8b24a8406f9d62d87ba2715231ba1043d149cee2f2457a75a7f42b5b9c070f"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_5",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_5.png",
+   "duration_ms": 60,
+   "render_ms": 50,
+   "sha256": "271c4f18d49833336370f1c1acfdf0fd716f974c4fdebfc6a6903b1341e516ea"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_6",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_6.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "31fdc9d4f35768750583e76e232a1d7e9fe0a6dd5b34446f242c54f2a2868f74"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_7",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_7.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "2585c688018c7e4703149c0a833db04029db180cfcfdae992216f58471a58ef9"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_8",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_8.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "538942cbfb011d6411f3fc1e0b0b8bd3796f028225609cc80c00d130d000a5a0"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_9",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_9.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "f88024222e13f37d6c12038e99d1a7ea406c0222a2ca01c3183ea113b032ce03"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_10",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_10.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "e9bd74696f45da069b0ff079b0be177e0052fbb546bad1f11145ef240f3547e1"
+  },
+  {
+   "key": "longtime/lt_fx_gate_unseal/unseal_base_11",
+   "path": "assets/processed_longtime/lt_fx_gate_unseal/unseal_base_11.png",
+   "duration_ms": 50,
+   "render_ms": 50,
+   "sha256": "e9bd74696f45da069b0ff079b0be177e0052fbb546bad1f11145ef240f3547e1"
+  }
+ ]
+}

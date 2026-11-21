@@ -1,6 +1,6 @@
 # Tiên Nghịch 2D · Thiết kế VFX dài hạn
 
-**Bản 1.0, trạng thái `planned`.** Tài liệu này chỉ chốt hợp đồng thiết kế: ID, mục đích đọc hình, kích thước, nhịp frame, ngân sách và tiêu chí nghiệm thu. Chưa có hình, chưa dựng frame. Mọi con số về nhịp, độ phủ pixel và mốc đọc ở 1× là giả thuyết thiết kế chưa kiểm chứng, tương tự [GDD dài hạn](LONGTIME_GDD.md); chúng được hiệu chỉnh theo 12 hiệu ứng đã bàn giao nhưng chưa có hiệu ứng mới nào để đối chiếu. Dữ liệu máy đọc nằm ở khối `vfx` trong [manifest dài hạn](../assets/manifest_longtime.json). Kiểm tra bằng `python -I tools/scripts/check_longtime.py`.
+**Bản 1.1, trạng thái `packed` (sáu ID, 188 frame, chỉ qua kiểm máy).** Mục 1–7 là hợp đồng thiết kế gốc: ID, mục đích đọc hình, kích thước, nhịp frame, ngân sách và tiêu chí nghiệm thu. Mục 7 nay ghi chín quyết định mở với mặc định tạm thời để bắt đầu vẽ; mục 8 ghi kết quả thật: cách dựng, ba ngưỡng đã chỉnh một lần, các điểm lệch so với thiết kế, điểm tự chấm ở 1× và những gì còn cần người xem. Mọi con số về nhịp, độ phủ pixel và mốc đọc ở 1× vốn là giả thuyết thiết kế, tương tự [GDD dài hạn](LONGTIME_GDD.md). Dữ liệu máy đọc nằm ở khối `vfx` trong [manifest dài hạn](../assets/manifest_longtime.json). Kiểm tra bằng `python -I tools/scripts/check_longtime.py`.
 
 Người soạn: phiên Claude Code (Sonnet 5.5) của Orchestrator, session `tien-nghich-2d-3`. Các sổ ghi cũ ghi "Codex" cho vai này được giữ nguyên. Hiệu ứng được vẽ bằng spritefx và palette 40 màu, không dùng PixelLab. [Quy trình spritefx](LESSONS_vfx_spritefx.md) · [Định tuyến nguồn](ASSET_ROUTING.md)
 
@@ -140,7 +140,7 @@ Cùng cách ước lượng kệ của validator: mỗi frame chiếm (cao + 6) 
 | interface | 1 | 32 + 66 | 1,5% → 15,6% | 1 → 1 |
 | forms, mist_archive, ember_delta, star_quarry, trial | 2, 3, 3, 3, 2 | không đổi | không đổi | không đổi |
 
-**VFX nằm gọn trong chunk hiện có, không cần chunk riêng.** Giả định: `interface` được nạp ở mọi chế độ (đây là giả thuyết chưa kiểm với mã game), nên hai ID dùng chung `lt_fx_craft` và `lt_fx_stamp` đặt ở đó thay vì nhân đôi. Biên: `abode` đã đầy 59,6% diện tích, nên một ID abode thứ hai nên xin trần 2 page trước khi vẽ. Chunk đã đóng gói (`wards`, `interface`, `abode`) sẽ được dựng lại atlas khi VFX được vẽ; hiện chưa có atlas nào bị đổi.
+**VFX nằm gọn trong chunk hiện có, không cần chunk riêng.** Giả định: `interface` được nạp ở mọi chế độ (đây là giả thuyết chưa kiểm với mã game), nên hai ID dùng chung `lt_fx_craft` và `lt_fx_stamp` đặt ở đó thay vì nhân đôi. Biên: `abode` đã đầy 59,6% diện tích, nên một ID abode thứ hai nên xin trần 2 page trước khi vẽ. Chunk đã đóng gói (`wards`, `interface`, `abode`) và `armory` đã được dựng lại atlas khi VFX được vẽ (mục 8.1); mọi chunk vẫn một page mobile.
 
 ## 5. Tiêu chí nghiệm thu chung
 
@@ -157,6 +157,22 @@ Người đọc ở 1× (cần người thật, sau khi qua kiểm máy): xem t�
 
 ## 7. Quyết định mở cho người duyệt thiết kế
 
+**Mặc định tạm thời (2026-11-22):** Orchestrator, theo quyền người dùng ủy thác, lấy đúng đề xuất hiện tại của thiết kế làm mặc định để vẽ được ngay. Tất cả đều **tạm thời**, người dùng có thể xem lại; bản vẽ ở mục 8 dựa trên chúng. Đổi quyết định 1, 2, 3, 4 hay 8 nghĩa là thêm hoặc vẽ lại ID.
+
+| # | Mặc định tạm thời đang áp dụng |
+|---|---|
+| 1 | Không thêm hiệu ứng riêng cho ba biome. |
+| 2 | Không thêm flash xuất chiêu theo 12 họ pháp bảo. |
+| 3 | Đòn phán quyết của `lt_mirror_adjudicator` giữ `thien_loi_cuc_canh`. |
+| 4 | Dung hợp không có dấu hiệu riêng ở va chạm. |
+| 5 | `lt_fx_craft` và `lt_fx_stamp` ở chunk `interface`; việc `interface` nạp ở mọi chế độ vẫn chưa kiểm với mã game. |
+| 6 | Giữ trần `abode` một page (nay 110 frame, vẫn một page mobile). |
+| 7 | Ngưỡng nghiệm thu tinh chỉnh một lần sau hiệu ứng đầu và các lần dựng thật (mục 8.2). |
+| 8 | Ánh xạ ward→ramp như đề xuất (anchor bronze, mirror ink, thorn jade, tide bolt, flare blood, bell soul) và elip đất 1,6:1 (`squash` 0,625). |
+| 9 | Tên hiển thị vẫn là nhãn làm việc. |
+
+Câu hỏi gốc, giữ nguyên để người duyệt đối chiếu:
+
 1. **Hiệu ứng riêng cho ba biome.** Hiện không có; môi trường đọc qua tile. Có cần mote hay mối nguy riêng (giấy bay, tàn lửa, bụi sao) trước khi vẽ chunk biome không?
 2. **Hiệu ứng phóng đạn theo họ pháp bảo.** Hiện chỉ có va chạm theo hệ chất liệu. Có cần flash xuất chiêu riêng cho 12 họ không?
 3. **Đòn phán quyết của `lt_mirror_adjudicator`.** Dùng tạm `thien_loi_cuc_canh`, đỏ-vàng, có thể lệch chủ đề gương. Nên thêm ID gương riêng hay giữ?
@@ -166,3 +182,70 @@ Người đọc ở 1× (cần người thật, sau khi qua kiểm máy): xem t�
 7. **Ngưỡng nghiệm thu.** Phủ pixel, mức chênh và 6 màu là giả thuyết hiệu chỉnh theo 12 hiệu ứng cũ; chốt hoặc chỉnh sau lần vẽ đầu.
 8. **Ánh xạ palette.** Mối liên hệ ward→ramp (bronze, ink, jade, bolt, blood, soul) và elip 1,6:1 là đề xuất; cần người duyệt chốt trước khi vẽ.
 9. **Tên hiển thị** các ID `lt_fx_*` là nhãn làm việc.
+
+## 8. Kết quả dựng (session `tien-nghich-2d-11`, Claude Code Sonnet 5.5)
+
+Mọi pixel đến từ spec JSON do SpriteFX (ghim `e5867cc`, venv `tools/.venvs/spritefx`) dựng; không vẽ tay, không PixelLab. Trạng thái: sáu ID `packed`, **chỉ qua kiểm máy**.
+
+### 8.1 Sản phẩm và cách tái lập
+
+| Thành phần | Vị trí |
+|---|---|
+| Định nghĩa hiệu ứng (Python → spec JSON) | `tools/generators/longtime_vfx_effects.py` |
+| Pipeline: specs, build (hai lần, so byte), export, trạng thái | `tools/generators/longtime_vfx.py` |
+| Contact sheet ×4 và dải 1×/2× | `tools/generators/longtime_vfx_sheets.py` (đầu ra là artifact của session, không nằm trong repo) |
+| Kiểm máy mục 5 | `tools/scripts/check_longtime_vfx.py` |
+| Spec và nguồn gốc từng ID | `assets/raw/longtime/<id>/specs/<clip>_<palette>.json`, `provenance.json` |
+| Frame đã xử lý | `assets/processed_longtime/<id>/<clip>_<palette>_<n>.png` |
+| Atlas | `assets/atlases_longtime/{web,mobile}/{abode,armory,interface,wards}/` |
+
+Tái lập (từ gốc repo; `IDS` có thể bỏ trống để làm cả sáu): `tools/.venvs/project/bin/python -I tools/generators/longtime_vfx.py specs|build|export|sheets [IDS] --work /tmp/ltvfx`, rồi `tools/.venvs/project/bin/python -I tools/scripts/check_longtime_vfx.py`. Đóng gói lại bằng `tools/scripts/qa_longtime.py --ids <mọi ID của bốn chunk, gồm cả sáu lt_fx_*> --out-root assets/atlases_longtime`; `qa_longtime.py` nay nhận các ID `vfx` theo `--ids` (biến thể palette thay cho hướng, nhịp từng frame, cho phép frame cuối rỗng). 298 frame cũ của bốn chunk được so từng pixel và từng trường siêu dữ liệu với `HEAD`: 596 bản ghi (web và mobile), 0 khác biệt. Chunk sau khi dựng lại:
+
+| Chunk | Frame trước → sau | Page mobile | Kích thước atlas mobile |
+|---|---:|---:|---|
+| abode | 98 → 110 | 1 | 1024×256 |
+| armory | 120 → 136 | 1 | 1024×128 |
+| wards | 48 → 142 | 1 | 1024×512 |
+| interface | 32 → 98 | 1 | 1024×256 |
+
+Số cho sổ bàn giao (đếm ID / frame): Abode 6 / 98 → 7 / 110, Armory 48 / 120 → 49 / 136, Wards 6 / 48 → 8 / 142, Interface 32 / 32 → 34 / 98. Tổng Longtime từ 95 ID / 370 frame (sau PR #56) thành 101 ID / 558 frame; sáu ID VFX là 188 frame. Bốn chunk còn lại không đổi.
+
+### 8.2 Ngưỡng nghiệm thu: đã chỉnh một lần, và vì sao
+
+Ngưỡng của SpriteFX (module `fx/audit.py`) **không đổi**. Hiệu ứng đầu tiên, `lt_fx_impact`, đạt cả tám con số thiết kế ngay (frame đầu 10,9% ≤ 20, đỉnh 15,5% trong 8–22, frame cuối 0%, chênh lớn nhất 5,2% ≤ 8), nên nó giữ nguyên. Điều rút ra từ lần dựng thật: audit `pops` của SpriteFX đòi mọi chuyển động sau pha `fast` không quá khoảng 1 px mỗi frame và mọi hình lớn phải thu nhỏ dần trước frame cuối; clip chỉ 5–12 frame thì chỉ khả thi khi mở và đóng bằng pha `fast`, tức có một cú nhảy độ phủ ở frame đầu và một ở frame cuối. Hai ID bị ảnh hưởng đã được chỉnh trong manifest (chỉ các số dưới đây, mọi số khác giữ nguyên):
+
+| ID | Số | Thiết kế → nay | Quan sát | Lý do |
+|---|---|---|---|---|
+| `lt_fx_ward_pulse` | `max_frame_jump_pct` | 8 → 12 | 11,8 (release, frame 0 → 1) | Vòng đất hiện ra chỉ trong một frame `fast`; bị ràng buộc bởi `pops`/`envelope`, không phải do tay vẽ cẩu thả. |
+| `lt_fx_craft` | `first_frame_max_opaque_pct` | 3 → 4 | 3,6 | Viền ink 1 px bắt buộc (cổng viền dự án) gần như nhân đôi diện tích tia lửa nhỏ nhất. |
+| `lt_fx_craft` | `max_frame_jump_pct` | 6 → 8 | 7,6 | Cùng lý do: frame 0 → 1 là pha mở `fast`. |
+
+### 8.3 Điểm lệch so với thiết kế (cần người duyệt biết)
+
+- **Nhịp.** SpriteFX dựng mỗi tick một frame; `ms` từng frame của manifest là nhịp phát lại ở game. Số `fps` của từng clip trong spec (15–30) chỉ chọn sao cho tổng thời lượng dựng nằm trong ngân sách `type` của SpriteFX. Chuyển động giữa các frame vì vậy không đúng từng ms như manifest; frame cuối dài hơn 33 ms nên hiệu ứng tan chậm hơn dựng.
+- **Pha `fast` ở cuối.** Trừ `lt_fx_impact`, mỗi clip kết thúc bằng 1–3 frame thuộc pha `fast` (đóng cuối) để qua `pops`, ngoài pha mở `fast`. Đây là cờ hợp lệ của công cụ chứ không phải nới ngưỡng, nhưng bản chất là hình biến mất nhanh ở cuối; người xem nên đánh giá có thấy giật không.
+- **Frame cuối rỗng.** Mọi clip kết thúc bằng frame hoàn toàn trong suốt (`lt_fx_core_breach` hai frame, `lt_fx_gate_unseal` hai frame). `validate_palette.py` báo lỗi "no opaque pixels" với frame rỗng, nên cổng viền được chạy trên mọi frame không rỗng; `qa_longtime.py` nay chấp nhận frame rỗng cho hạng mục `vfx`. Game phải chịu được frame rỗng.
+- **`type` SpriteFX.** `lt_fx_stamp` và `lt_fx_gate_unseal` dùng `other` (không loại nào có ngân sách khớp); `lt_fx_ward_pulse` dùng `shockwave`, `lt_fx_craft` dùng `sparkle`, `lt_fx_core_breach` dùng `explosion`, `lt_fx_impact` dùng `hit`.
+- **Hạt có tag.** Mảnh `tag: sparkle|debris` (mảnh va chạm, tia và hạt chế tác, bụi ấn, mảnh cổng, mảnh vỡ lõi) được audit `pops`/`flicker` miễn trừ vì là điểm rời có chủ đích; vòng, ấn, khung và đĩa sáng thì không gắn tag.
+- **Sự kiện.** Sự kiện trong manifest (`hit`, `place`, `pulse`, `done`, `land`, `swap`, `walkable`, `breach`, `shake:3`...) vẫn là hợp đồng; spec SpriteFX gắn `place`, `pulse`, `done`, `land`, `hit`, `breach`, `shake:3` đúng frame, còn `edge_final`, `swap`, `walkable` do engine định theo chỉ số frame. Cả ba frame đó đều có độ phủ khác không.
+- **Màu.** Mỗi biến thể 4–6 màu gồm viền `ink_01`. Biến thể hai ramp (`stone`, `spirit`, cổng, lõi) đúng 6 màu.
+- **Viền.** Cổng viền dự án (mọi pixel rìa là `ink_01`) buộc viền dày 2 px ở chỗ hai lớp chạm nhau; `validate_palette.py` cảnh báo "outline may be thicker than 1px" nhưng không lỗi. Với ramp `ink` (`lt_fx_ward_pulse` biến thể `mirror`) độ tương phản giữa thân và viền thấp.
+
+### 8.4 Tự chấm ở 1× (điểm của người làm, không phải đọc mù; sạch kiểm máy chưa phải đọc được)
+
+Thang 1–10: đọc được ở 1×, tổng thể so với hiệu ứng cũ đã bàn giao. Ảnh: contact sheet ×4 và dải 1×/2× trên nền xám và tối, artifact của session (`lt_fx_*_review.png`).
+
+| ID | Đọc | Tổng | Điểm yếu thật |
+|---|---:|---:|---|
+| `lt_fx_impact` | 6 | 5 | Hình sao bốn cánh quen, gần giống `hit_spark`; lõi xám nhạt của biến thể `stone` ít tương phản trên sàn xám; phân biệt đá/linh chủ yếu nhờ màu. Hai biến thể là tô lại nên hình dạng giống nhau theo thiết kế. |
+| `lt_fx_ward_pulse` | 5 | 4 | Vòng elip trơn, giữ gần như nguyên bốn frame rồi vỡ thành một cung dưới lệch; sáu màu tách được trừ `mirror` (ink) rất khó phân biệt với viền. Chưa có "xung" đúng nghĩa. |
+| `lt_fx_craft` | 3 | 3 | Dấu cộng sáng ở trên và nhúm tia ở dưới tách rời, không đọc thành một tia bay lên; tối thiểu đã không che miệng lò. Là hiệu ứng yếu nhất. |
+| `lt_fx_stamp` | 6 | 5 | Đọc được là ấn đóng xuống và không có đỏ hay vòng nguy hiểm; vài mảnh bụi lệch ở góc dưới trái trông như lỗi. |
+| `lt_fx_gate_unseal` | 4 | 4 | Quầng xanh hình trứng với vết nứt; không vẽ lại đĩa niêm phong (nhờ sprite cổng), nên "đĩa vỡ" chưa thật sự thấy; chưa kiểm cảm giác giật ở frame 6. |
+| `lt_fx_core_breach` | 6 | 5 | Sao đỏ nhiều gai rồi tan thành mảnh xám: đọc là thất bại và khác `hit_spark`, nhưng đơn điệu và hơi nhỏ so với canvas 64. |
+
+Mỗi hiệu ứng dùng tối đa vài vòng chỉnh (impact: ba; các ID còn lại chủ yếu sửa theo lỗi audit); không còn vòng chỉnh chất lượng nào được dùng cho craft nên điểm của nó thấp.
+
+### 8.5 Còn cần người xem
+
+**Cả sáu ID chưa qua đọc mù 1× của người** (mục 5). Ưu tiên: `lt_fx_craft` (có thể phải vẽ lại), `lt_fx_ward_pulse` biến thể `mirror`, `lt_fx_gate_unseal` (giật ở frame swap), rồi đối chiếu `lt_fx_impact` với `hit_spark`. Chưa làm: xem trên nền sàn của từng biome cạnh sprite gắn kèm; đọc mù ba người.

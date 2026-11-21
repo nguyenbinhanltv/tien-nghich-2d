@@ -1,5 +1,7 @@
 {
   "asset_ids": [
+    "lt_fx_craft",
+    "lt_fx_stamp",
     "lt_icon_bank",
     "lt_icon_breach",
     "lt_icon_dew",
@@ -34,24 +36,24 @@
     "lt_icon_wave_clock"
   ],
   "chunk_group": "interface",
-  "frame_count": 32,
+  "frame_count": 98,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 32,
-      "height": 32,
+      "frames": 98,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "431d99beb256101ec601535153a335eeca239f0c0eed1c3eef989f8b5fe07480",
-      "png_sha256": "ebbc76850472a2d9e33c22f9fe5832eb4b419b6f8ba2b1fe5d925cf8f52fc6da",
-      "rgba8_bytes": 131072,
+      "json_sha256": "719cb33e254697a4021dec754b212184474c31955aeeccea905f6e3a754c3c9a",
+      "png_sha256": "aeca6ad939f9df686f1fe400f54cdd7e513879b11f204eb71d5d6e60b18069bc",
+      "rgba8_bytes": 1048576,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 131072,
-  "rgba8_mib": 0.125,
+  "rgba8_bytes": 1048576,
+  "rgba8_mib": 1.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

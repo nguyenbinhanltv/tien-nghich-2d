@@ -1,0 +1,139 @@
+{
+ "producer": "Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11",
+ "tool": "spritefx",
+ "tool_pin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a",
+ "tool_license": "MIT",
+ "method": "deterministic JSON spec rendered by SpriteFX; no hand-painted pixels; no PixelLab",
+ "rights": "original project artwork; no third-party assets; tool output carries no external rights",
+ "palette": "tools/generators/palette.json (40 colours); ramps from tools/generators/vfx_specs/palettes/tien_nghich_40.json",
+ "parents": [],
+ "source": "specs/",
+ "source_sha256": "def1e90bf2df604079b43c2db81632a9af29d2a57080810defd911941caccd12",
+ "specs": {
+  "specs/hit_stone.json": "871f26722618da0a889ed79b346eb5ad27a56e88f54e15d9ea9015fe83e41433",
+  "specs/hit_spirit.json": "0e7df652148126941443afa2b38b90543001a4ba58f7cc7ebcf20a41a1f49859"
+ },
+ "render_sheets_sha256": {
+  "hit_stone": "ecd01bff4dba2fcfc583a5a742b4c9f84e9746d1e167ac68265ecd3063d36ade",
+  "hit_spirit": "31a387978fc04b676d48ca1ff2111d34b47e9fe43e60250074aee114d69bdc0f"
+ },
+ "generator": "tools/generators/longtime_vfx.py",
+ "generator_sha256": "ec23f24849dccc3fd4d2e54fb1f55261ecb51c3ac0fd32522932e118d60931c0",
+ "effects_sha256": "4db1e5895d034e2e7026f93741e4cc06c71defc0a62f947c7f70774955dd72fd",
+ "environment": "tools/.venvs/spritefx (CPython, numpy 2.4.6, Pillow 12.3.0, jsonschema 4.26.0)",
+ "review": "machine checks only; human 1x readability review pending",
+ "frames": [
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_0",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_0.png",
+   "duration_ms": 33,
+   "render_ms": 33,
+   "sha256": "989d60f3a9d588e111ae7b0844482a0b9583e5f1015e145981b24ee05274c7c2"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_1",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_1.png",
+   "duration_ms": 33,
+   "render_ms": 34,
+   "sha256": "859227378e78011ee6556b24575115b7b8261b4b835b5c5cc6617fe77f49a9de"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_2",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_2.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "671ea3d7653bf0cd4da649bde8fd2a1b56500996657abdebccb2ec06adf16dfb"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_3",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_3.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "a1e9c9332053f4991ca1b443177c13aadbe3eb27c0b95184f2ffa351cbe1919a"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_4",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_4.png",
+   "duration_ms": 40,
+   "render_ms": 34,
+   "sha256": "e1b72a39c1fd3a4387e610092120e8a6c34e039b964df7330e179d86d1c64c76"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_5",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_5.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "b310c1c56b013f9e3cd6c3953fe6ce5265e566c913d5531c553f93c0f6dfbdc1"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_6",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_6.png",
+   "duration_ms": 50,
+   "render_ms": 33,
+   "sha256": "16e1c5f4fd9025d319e6db64023440a5919c939dc8046648ceeb0211fcf3cdb7"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_stone_7",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_stone_7.png",
+   "duration_ms": 60,
+   "render_ms": 34,
+   "sha256": "b0775cba09eadf2fde241b35daa28cdcd03af6d23e99e0decd32b42f13f6d220"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_0",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_0.png",
+   "duration_ms": 33,
+   "render_ms": 33,
+   "sha256": "31ba0fdedac7e456c20b194e12b5cbca1401a73927aded28435b05ab9a11abf8"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_1",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_1.png",
+   "duration_ms": 33,
+   "render_ms": 34,
+   "sha256": "1fb7a6f972880a1077e333a2fc34c4e2f4c5325faf3df309fb1a88bbd4466c87"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_2",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_2.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "08dd877da19c49600a28a1cce05f20afaba37773c38eb07b167ed515df8b844b"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_3",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_3.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "08dc67472288b399e6419162ad11f46660aa42ca89fdc267e9bddcb8cb080336"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_4",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_4.png",
+   "duration_ms": 40,
+   "render_ms": 34,
+   "sha256": "21ac96259652b792f7e01e46cb439b11e66e996cb9f2ba848daedb7e28fa6217"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_5",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_5.png",
+   "duration_ms": 40,
+   "render_ms": 33,
+   "sha256": "1a421aba22f28381fdb0ff42ee61d27d76cc609fecd09fc2a87784ee7370bff7"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_6",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_6.png",
+   "duration_ms": 50,
+   "render_ms": 33,
+   "sha256": "febb51444c7beb0a838cd024c6a255d834432cbf7c8b11019aa9bc69afbdf832"
+  },
+  {
+   "key": "longtime/lt_fx_impact/hit_spirit_7",
+   "path": "assets/processed_longtime/lt_fx_impact/hit_spirit_7.png",
+   "duration_ms": 60,
+   "render_ms": 34,
+   "sha256": "b0775cba09eadf2fde241b35daa28cdcd03af6d23e99e0decd32b42f13f6d220"
+  }
+ ]
+}

@@ -1,0 +1,267 @@
+{
+ "type": "other",
+ "canvas": [
+  48,
+  64
+ ],
+ "anchor": [
+  24,
+  61
+ ],
+ "fps": 20,
+ "seed": 51,
+ "ramps": {
+  "A": {
+   "colors": [
+    "#17594b",
+    "#2fa27a",
+    "#9ae3b8"
+   ]
+  },
+  "B": {
+   "colors": [
+    "#6e6877",
+    "#d4d0d8"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "crack",
+   "ticks": 3,
+   "fast": true
+  },
+  {
+   "name": "burst",
+   "ticks": 2,
+   "fast": true
+  },
+  {
+   "name": "clear",
+   "ticks": 4
+  },
+  {
+   "name": "end",
+   "ticks": 3,
+   "fast": true
+  }
+ ],
+ "layers": [
+  {
+   "id": "cracks",
+   "kind": "shape",
+   "during": [
+    "crack",
+    "burst",
+    "clear",
+    "end"
+   ],
+   "ramp": "B",
+   "outline": "dark",
+   "shape": {
+    "sdf": "rays",
+    "count": 6,
+    "inner": 1,
+    "rotate": 15,
+    "width": 1,
+    "length": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.27,
+       11
+      ],
+      [
+       1,
+       11
+      ]
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     -24
+    ]
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      0.5,
+      0.9
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5,
+    "noise": "angular",
+    "scale": 9,
+    "amount": 1.5,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "light",
+   "kind": "shape",
+   "during": [
+    "crack",
+    "burst",
+    "clear",
+    "end"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.15,
+       4
+      ],
+      [
+       0.27,
+       7
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.15,
+       8
+      ],
+      [
+       0.27,
+       14
+      ],
+      [
+       1,
+       6
+      ]
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     -24
+    ]
+   },
+   "value_mode": "radial",
+   "edge": 0.2,
+   "value": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.27,
+      1.2
+     ],
+     [
+      0.6,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.45,
+    "noise": "worley",
+    "scale": 4,
+    "amount": 1.4,
+    "ease": "in"
+   }
+  },
+  {
+   "id": "shards",
+   "kind": "particles",
+   "during": [
+    "burst",
+    "clear",
+    "end"
+   ],
+   "ramp": "B",
+   "tag": "debris",
+   "outline": "dark",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     7,
+     7
+    ],
+    "from": {
+     "area": "ring",
+     "r": 7,
+     "at": [
+      0,
+      -24
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.9,
+     1.5
+    ],
+    "angle": "out"
+   },
+   "drag": 0.12,
+   "life": [
+    4,
+    5
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 2
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "in"
+   }
+  }
+ ],
+ "order": [
+  "cracks",
+  "light",
+  "shards"
+ ],
+ "name": "unseal_base",
+ "outline": "#14101a"
+}

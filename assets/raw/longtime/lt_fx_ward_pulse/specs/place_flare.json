@@ -1,0 +1,131 @@
+{
+ "type": "shockwave",
+ "canvas": [
+  48,
+  48
+ ],
+ "anchor": "center",
+ "fps": 15,
+ "seed": 21,
+ "ramps": {
+  "A": {
+   "colors": [
+    "#7a1426",
+    "#d03a4a",
+    "#ee7a80",
+    "#f9c4c0"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "drop",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "place"
+   ]
+  },
+  {
+   "name": "settle",
+   "ticks": 2
+  },
+  {
+   "name": "end",
+   "ticks": 1,
+   "fast": true
+  }
+ ],
+ "layers": [
+  {
+   "id": "ring",
+   "kind": "shape",
+   "during": [
+    "drop",
+    "settle",
+    "end"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.25,
+       13
+      ],
+      [
+       1,
+       12
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": 1,
+    "squash": 0.625
+   },
+   "value_mode": "near",
+   "edge": 0.35,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      0.5,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.7,
+    "noise": "angular",
+    "scale": 12,
+    "amount": 1
+   }
+  },
+  {
+   "id": "dot",
+   "kind": "shape",
+   "during": [
+    "drop",
+    "settle"
+   ],
+   "ramp": "A",
+   "outline": "dark",
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    "squash": 0.625
+   },
+   "value": 1.3
+  }
+ ],
+ "order": [
+  "ring",
+  "dot"
+ ],
+ "name": "place_flare",
+ "outline": "#14101a"
+}
