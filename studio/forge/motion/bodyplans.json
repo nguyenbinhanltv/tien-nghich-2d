@@ -1,0 +1,26 @@
+{
+  "schema": "studio.bodyplans",
+  "version": 1,
+  "plans": {
+    "quadruped": {
+      "description": "Low body with a trunk plate, four contact limbs in two diagonal gait groups, and optional tail, head and ear parts.",
+      "roles": {
+        "body": {"required": true, "min": 1, "max": 1, "contact": false, "note": "Remainder plate; drawn by the rig, never cut."},
+        "limb": {"required": true, "min": 2, "contact": true, "note": "Paws. phase 0 and 1 select the diagonal gait group; every limb needs a contact point."},
+        "tail": {"required": false, "contact": false, "rotates": true},
+        "head": {"required": false, "contact": false, "rotates": true},
+        "ear": {"required": false, "contact": false, "rotates": true}
+      }
+    },
+    "biped": {
+      "description": "Upright body with a torso plate, two contact legs, optional arms, head and tail.",
+      "roles": {
+        "body": {"required": true, "min": 1, "max": 1, "contact": false, "note": "Torso plate; the remainder after parts are cut out."},
+        "leg": {"required": true, "min": 2, "contact": true, "note": "Feet. phase 0 and 1 select the stepping side; every leg needs a contact point."},
+        "arm": {"required": false, "contact": false, "rotates": true, "note": "phase 0 and 1 pair the arms with the legs of the same phase (arms counter-swing automatically in the templates)."},
+        "head": {"required": false, "contact": false, "rotates": true},
+        "tail": {"required": false, "contact": false, "rotates": true}
+      }
+    }
+  }
+}
