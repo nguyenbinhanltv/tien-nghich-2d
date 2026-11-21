@@ -1,0 +1,179 @@
+{
+  "group_id": "399328fe-b383-45eb-9245-2fadb896466a",
+  "states": [
+    {
+      "character": {
+        "id": "7d177b53-7611-4242-aeb0-2a0488b58f3b",
+        "name": "Idle",
+        "prompt": "Soul-Devouring Ghost King, large floating spectral king front-facing, tattered ghost robe #2d1b4e and #46297a fading into wisps at the bottom, pale violet skull face #e3d6fb with glowing eyes #8ae8ff, crown of soul flames #8f62cf and #b99aeb, simple clear silhouette, arms slightly away from body, symmetric neutral stance, 1px outline #14101a, 3/4 top-down view, transparent background",
+        "size": {
+          "width": 80,
+          "height": 80
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-20T19:20:21.618061+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "move": {
+            "south": [
+              "Idle/animations/move/south/frame_000.png",
+              "Idle/animations/move/south/frame_001.png",
+              "Idle/animations/move/south/frame_002.png",
+              "Idle/animations/move/south/frame_003.png",
+              "Idle/animations/move/south/frame_004.png",
+              "Idle/animations/move/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/move/east/frame_000.png",
+              "Idle/animations/move/east/frame_001.png",
+              "Idle/animations/move/east/frame_002.png",
+              "Idle/animations/move/east/frame_003.png",
+              "Idle/animations/move/east/frame_004.png",
+              "Idle/animations/move/east/frame_005.png"
+            ]
+          },
+          "phase_transition": {
+            "east": [
+              "Idle/animations/phase_transition/east/frame_000.png",
+              "Idle/animations/phase_transition/east/frame_001.png",
+              "Idle/animations/phase_transition/east/frame_002.png",
+              "Idle/animations/phase_transition/east/frame_003.png",
+              "Idle/animations/phase_transition/east/frame_004.png",
+              "Idle/animations/phase_transition/east/frame_005.png",
+              "Idle/animations/phase_transition/east/frame_006.png",
+              "Idle/animations/phase_transition/east/frame_007.png"
+            ],
+            "south": [
+              "Idle/animations/phase_transition/south/frame_000.png",
+              "Idle/animations/phase_transition/south/frame_001.png",
+              "Idle/animations/phase_transition/south/frame_002.png",
+              "Idle/animations/phase_transition/south/frame_003.png",
+              "Idle/animations/phase_transition/south/frame_004.png",
+              "Idle/animations/phase_transition/south/frame_005.png",
+              "Idle/animations/phase_transition/south/frame_006.png",
+              "Idle/animations/phase_transition/south/frame_007.png"
+            ]
+          },
+          "attack_claw": {
+            "south": [
+              "Idle/animations/attack_claw/south/frame_000.png",
+              "Idle/animations/attack_claw/south/frame_001.png",
+              "Idle/animations/attack_claw/south/frame_002.png",
+              "Idle/animations/attack_claw/south/frame_003.png",
+              "Idle/animations/attack_claw/south/frame_004.png",
+              "Idle/animations/attack_claw/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/attack_claw/east/frame_000.png",
+              "Idle/animations/attack_claw/east/frame_001.png",
+              "Idle/animations/attack_claw/east/frame_002.png",
+              "Idle/animations/attack_claw/east/frame_003.png",
+              "Idle/animations/attack_claw/east/frame_004.png",
+              "Idle/animations/attack_claw/east/frame_005.png"
+            ]
+          },
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png",
+              "Idle/animations/idle/south/frame_004.png",
+              "Idle/animations/idle/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png",
+              "Idle/animations/idle/east/frame_004.png",
+              "Idle/animations/idle/east/frame_005.png"
+            ]
+          },
+          "soul_devour": {
+            "east": [
+              "Idle/animations/soul_devour/east/frame_000.png",
+              "Idle/animations/soul_devour/east/frame_001.png",
+              "Idle/animations/soul_devour/east/frame_002.png",
+              "Idle/animations/soul_devour/east/frame_003.png",
+              "Idle/animations/soul_devour/east/frame_004.png",
+              "Idle/animations/soul_devour/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/soul_devour/south/frame_000.png",
+              "Idle/animations/soul_devour/south/frame_001.png",
+              "Idle/animations/soul_devour/south/frame_002.png",
+              "Idle/animations/soul_devour/south/frame_003.png",
+              "Idle/animations/soul_devour/south/frame_004.png",
+              "Idle/animations/soul_devour/south/frame_005.png"
+            ]
+          },
+          "attack_wail": {
+            "east": [
+              "Idle/animations/attack_wail/east/frame_000.png",
+              "Idle/animations/attack_wail/east/frame_001.png",
+              "Idle/animations/attack_wail/east/frame_002.png",
+              "Idle/animations/attack_wail/east/frame_003.png",
+              "Idle/animations/attack_wail/east/frame_004.png",
+              "Idle/animations/attack_wail/east/frame_005.png",
+              "Idle/animations/attack_wail/east/frame_006.png",
+              "Idle/animations/attack_wail/east/frame_007.png"
+            ],
+            "south": [
+              "Idle/animations/attack_wail/south/frame_000.png",
+              "Idle/animations/attack_wail/south/frame_001.png",
+              "Idle/animations/attack_wail/south/frame_002.png",
+              "Idle/animations/attack_wail/south/frame_003.png",
+              "Idle/animations/attack_wail/south/frame_004.png",
+              "Idle/animations/attack_wail/south/frame_005.png",
+              "Idle/animations/attack_wail/south/frame_006.png",
+              "Idle/animations/attack_wail/south/frame_007.png"
+            ]
+          },
+          "death": {
+            "south": [
+              "Idle/animations/death/south/frame_000.png",
+              "Idle/animations/death/south/frame_001.png",
+              "Idle/animations/death/south/frame_002.png",
+              "Idle/animations/death/south/frame_003.png",
+              "Idle/animations/death/south/frame_004.png",
+              "Idle/animations/death/south/frame_005.png",
+              "Idle/animations/death/south/frame_006.png",
+              "Idle/animations/death/south/frame_007.png",
+              "Idle/animations/death/south/frame_008.png",
+              "Idle/animations/death/south/frame_009.png"
+            ],
+            "east": [
+              "Idle/animations/death/east/frame_000.png",
+              "Idle/animations/death/east/frame_001.png",
+              "Idle/animations/death/east/frame_002.png",
+              "Idle/animations/death/east/frame_003.png",
+              "Idle/animations/death/east/frame_004.png",
+              "Idle/animations/death/east/frame_005.png",
+              "Idle/animations/death/east/frame_006.png",
+              "Idle/animations/death/east/frame_007.png",
+              "Idle/animations/death/east/frame_008.png",
+              "Idle/animations/death/east/frame_009.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-20T19:31:18.396632"
+}

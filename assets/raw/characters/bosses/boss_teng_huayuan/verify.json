@@ -1,0 +1,1549 @@
+{
+ "summary": {
+  "files": 96,
+  "size_mismatch": 0,
+  "no_alpha_channel": 0,
+  "corner_not_transparent": 0,
+  "with_semi_transparent_px": 0,
+  "mean_outline_coverage_pct": 82.1,
+  "mean_off_palette_pct": 0.0
+ },
+ "results": [
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1118,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1133,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1221,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 84.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1625,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 55.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1576,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 47.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1226,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 84.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1247,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 82.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1233,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 83.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1297,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1461,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 76.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1757,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 62.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_cast/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1563,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 74.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1107,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1066,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1177,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1191,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1240,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 92.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1219,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 76.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1259,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 82.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1258,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1285,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 85.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1555,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 63.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/attack_slash/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1382,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 72.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1119,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 87.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1143,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1190,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1184,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1183,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1153,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_006.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1052,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/east/frame_007.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 864,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1276,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1190,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1273,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 83.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1252,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 94.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1203,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 72.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1054,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 84.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_006.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 941,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 77.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/death/south/frame_007.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 802,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 77.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1114,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1135,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1142,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1159,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1165,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1172,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 96.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1322,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1300,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1288,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1276,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1274,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 85.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/idle/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1275,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 92.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1165,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 86.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1202,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1156,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1131,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 88.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1126,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 83.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1165,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 90.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1290,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1272,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1248,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 73.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1241,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1220,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 74.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/move/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1183,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1129,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1121,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 97.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1102,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 93.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1067,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 98.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1443,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 48.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1854,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 26.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1292,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 80.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1262,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 86.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1287,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 88.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1254,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.0,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1796,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 25.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/phase_transition/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1598,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 34.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/east.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1115,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 87.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/north-east.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1268,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 89.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/north-west.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1224,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 91.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/north.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1247,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 81.8,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/south-east.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1232,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/south-west.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1286,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 95.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/south.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1296,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 75.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/rotations/west.png",
+   "size": [
+    64,
+    64
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1104,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 88.5,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_000.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1108,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 84.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_001.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1182,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 88.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_002.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1353,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 60.2,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_003.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1439,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 54.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_004.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1429,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 53.1,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/east/frame_005.png",
+   "size": [
+    84,
+    84
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1284,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 79.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_000.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1306,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 73.9,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_001.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1451,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 68.6,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_002.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1600,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 55.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_003.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1590,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 75.7,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_004.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1533,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 80.4,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  },
+  {
+   "file": "assets/raw/characters/bosses/boss_teng_huayuan/summon/south/frame_005.png",
+   "size": [
+    88,
+    88
+   ],
+   "mode": "RGBA",
+   "size_ok": true,
+   "has_alpha_channel": true,
+   "corners_transparent": true,
+   "opaque_px": 1561,
+   "semi_transparent_px": 0,
+   "outline_coverage_pct": 65.3,
+   "off_palette_pct": 0.0,
+   "off_palette_mean_dist": 0.0
+  }
+ ]
+}
