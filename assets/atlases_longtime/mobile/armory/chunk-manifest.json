@@ -7,27 +7,31 @@
     "lt_reed_blade",
     "lt_reed_blade_shot",
     "lt_seal_chisel",
-    "lt_seal_chisel_shot"
+    "lt_seal_chisel_shot",
+    "lt_stone_flail",
+    "lt_stone_flail_shot",
+    "lt_tide_bell",
+    "lt_tide_bell_shot"
   ],
   "chunk_group": "armory",
-  "frame_count": 20,
+  "frame_count": 30,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 20,
+      "frames": 30,
       "height": 32,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "92f43715164ac96c81786460167a0eb043d4be10d9d93070ac8ae2d80c929203",
-      "png_sha256": "15f0b847388ac8c87b26a1bea30017ba5bf86846977aa223b5e7038d19c45621",
-      "rgba8_bytes": 65536,
-      "width": 512
+      "json_sha256": "dab404d9751860e143e6b432ecb7c6278847e945c1daa5ad987291b37b3ce44a",
+      "png_sha256": "a36186bbc41b46c6e61fd2445c787e2bd4f1e644f4440447e4f048369b948302",
+      "rgba8_bytes": 131072,
+      "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 65536,
-  "rgba8_mib": 0.0625,
+  "rgba8_bytes": 131072,
+  "rgba8_mib": 0.125,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

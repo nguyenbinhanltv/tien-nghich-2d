@@ -1,0 +1,66 @@
+{
+  "id": "lt_stone_flail_shot",
+  "producer": "OpenAI Codex",
+  "method": "Original deterministic native-grid drawing, no seed or input images.",
+  "brief": "Detached tumbling seal stone with a luminous jade fissure.",
+  "rights": "Original artwork created for this project.",
+  "generator": "tools/generators/lt_stone_flail.py",
+  "generator_sha256_lf": "9f513e7468620d3b67ef6e9a7b5d7406733c68d0bd4cbe4036872d41101e1882",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "pivot_px": [
+    8,
+    8
+  ],
+  "source": "source.png",
+  "source_sha256": "51df7b22ccb10b075245b06adbf7d29eec60118a66acaddb469136f0ab2c61a3",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_stone_flail/contact_1x.png": "c13770af4cd74360f237b77b5b6a0021844491338029b99d279781b054b74999",
+    "assets/raw/longtime/lt_stone_flail/contact_6x.png": "8019119d647d11eeaa805852695a77e9f5444c0e6a9e753c413a4f67c7bdc75c"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_stone_flail_shot/flight_none_0",
+      "path": "assets/processed_longtime/lt_stone_flail_shot/flight_none_0.png",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "14dbd6fe1383824b7213d41ace7ae7f623edcc91ca8be52fde8ab5f7af992245"
+    },
+    {
+      "key": "longtime/lt_stone_flail_shot/flight_none_1",
+      "path": "assets/processed_longtime/lt_stone_flail_shot/flight_none_1.png",
+      "source_xy": [
+        16,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "bc0e603a05c31a9af5512d772ae132d7e1db26d5e13e449a3c6a4de243352f97"
+    },
+    {
+      "key": "longtime/lt_stone_flail_shot/flight_none_2",
+      "path": "assets/processed_longtime/lt_stone_flail_shot/flight_none_2.png",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "50b92c282d335b9cd8d36ca9d0dcfc3249623e56c9f08dad85e4a5926529ef7e"
+    },
+    {
+      "key": "longtime/lt_stone_flail_shot/flight_none_3",
+      "path": "assets/processed_longtime/lt_stone_flail_shot/flight_none_3.png",
+      "source_xy": [
+        48,
+        0
+      ],
+      "duration_ms": 80,
+      "sha256": "703c83e8b940382b90e25284d34000ea68950d7840b51cd747e2bc7ea34f03a7"
+    }
+  ]
+}
