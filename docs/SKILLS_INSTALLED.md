@@ -6,14 +6,45 @@ Use [asset routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md) for ne
 
 ### Optional tool compatibility
 
-At the migration baseline (`645dcd0`), all four `tools/skills/<repo>` directories were absent in both the main checkout and the migration worktree. The Git ignore rule excludes them from fresh worktrees. The historical fetch script skips existing directories without validating their revision. For any existing clone, compare `git -C <clone> rev-parse HEAD` with the full SHA below and inspect local changes before using its scripts. Discovery of either project skill requires no fetch or installation.
+At the migration baseline (`645dcd0`), all four `tools/skills/<repo>` directories were absent in both the main checkout and the migration worktree. The Git ignore rule excludes them from fresh worktrees. The historical fetch script skips existing directories without validating their revision. For any existing clone, compare `git -C <clone> rev-parse HEAD` with the full SHA below and inspect local changes before using its scripts. Discovery of the project skills requires no fetch or installation.
 
 | Pinned tool | Local availability and dependencies | Permitted use and limits |
 |---|---|---|
 | SpriteFX (MIT) | Verified in disposable scratch. Requires the source checkout, Python 3.11+, NumPy 2.4.6, Pillow 12.3.0 and jsonschema 4.26.0 at this pin. | Deterministic renderer for Codex-authored VFX specs. Derive colors and ramps from the project palette and retain the spec, seed and audit results. Doctor and two real builds passed. [Package manifest](https://github.com/HoangLong256/spritefx/blob/e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a/pyproject.toml) |
 | Agent Sprite Forge (MIT) | Pinned clone used in scratch for the Heng Yue courtyard. The map helpers import NumPy, Pillow and vendored Forge modules. The upstream requirements also list SciPy. Preserve the pinned directory layout. | Only map data, collision/reachability, export, and QA of existing Codex art. For example, inspect `skills/generate2dmap/scripts/map_bundle.py` and `map_nav.py`. Skip `codeart2d` as a generation route, map/sprite image-generation stages, `generate2dmedia` and `video2dsprite`. The playable room reads the verified Tiled map and navigation grid. [Map workflow](https://github.com/0x0funky/agent-sprite-forge/blob/25203d03900b46b444bdd72a75768c33d1895ad6/skills/generate2dmap/SKILL.md) |
-| AssetCat (MIT) | No CLI on PATH or project library identified. The Python 3.12+ CLI and an existing indexed library are both prerequisites. | If both exist, use plain-text `assetcat search --packs <query>` then `assetcat show <pack>` for reference, license and AI provenance. Each pack has its own terms. Skip pulls, indexing, semantic model downloads and the web UI. No catalog queried. [CLI workflow](https://github.com/digitalhobbit/assetcat/blob/8784327edb240e3b940bd28901c6f994beaf78cc/skills/assetcat/SKILL.md) |
+| AssetCat (MIT) | Verified installed CLI 1.0.2 by executable path. The machine had no configured library or profile. | Local text search and pack/file inspection passed on an isolated project fixture. Use the [Codex lookup skill](../.agents/skills/tien-nghich-assetcat/SKILL.md) for an indexed project library. [Pinned CLI workflow](https://github.com/digitalhobbit/assetcat/blob/8784327edb240e3b940bd28901c6f994beaf78cc/skills/assetcat/SKILL.md) |
 | Spine Animation AI (PolyForm Noncommercial 1.0.0) | Pinned manual JSON builder used in scratch. Its separated-parts and hand-positioned bone workflow needs only Python; automated part positioning also needs OpenCV, NumPy and Pillow. | Experimental assembly from separated Codex parts only where the tool license and applicable Spine runtime rights cover the intended use. For this noncommercial courtyard, the builder produced a bell rig with two custom clips, baked independently with Pillow. Gemini generation and official Esoteric runtimes are outside this route. [Pinned workflow and license](https://github.com/GenielabsOpenSource/spine-animation-ai/tree/702b71689cac826efee942ee4564fef9560d6ef8) |
+
+### AssetCat setup verification
+
+The installed executable reported `assetcat 1.0.2`. Its `config library`, `config profile` and `config cache` reads returned blank. The checkout contained no catalog profile. The check used a fresh scratch directory for the library, profile, machine config and SQLite cache. On another machine, check the local settings again.
+
+For a disposable setup check, set the following variables in a child shell before running the installed executable. Use a fresh scratch root outside the repository. Put fixture files under `<scratch>/library/Project/Ember Delta QA/`. The verified inputs were a copy of `assets/processed_longtime/lt_ember_delta/floor_none_0.png` named `ash-floor.png`, and `ash-check.wav`, 800 silent mono PCM samples at 8 kHz and 16 bits. The WAV is a lookup fixture.
+
+```text
+ASSETCAT_CONFIG  = <scratch>/config.toml
+ASSETCAT_CACHE   = <scratch>/cache
+ASSETCAT_LIBRARY = <scratch>/library
+ASSETCAT_PROFILE = <scratch>/profile
+```
+
+```text
+assetcat init <scratch>/library
+assetcat index --no-sheets --workers 1
+assetcat stats --json
+assetcat search --packs ember --json
+assetcat search ash --media audio --json
+assetcat show project/ember-delta-qa --json
+assetcat show "Project/Ember Delta QA/ash-check.wav" --json
+```
+
+| Check | Observed result |
+|---|---|
+| Index and stats | 1 group, 1 pack, 2 assets from 2 files. Types were `sprite` and `sfx`, one each. |
+| Pack search and show | `project/ember-delta-qa`, 2 available files, 0 pending. License and AI status were `unknown`, license file was null, and the AI reason was empty. |
+| Audio search and show | `Project/Ember Delta QA/ash-check.wav`, type `sfx`, format `wav`, duration 0.1 seconds, size 1,644 bytes. |
+
+The tile SHA-256 matched its repository ledger entry, `b7172df5f3e9696e525350ca20b4b84195a909e80373cda0b57b4e7df497e6e5`. The ledger credits OpenAI Codex and records original project artwork. The WAV was synthesized for this check. AssetCat had no curation evidence for either file's reuse terms. Its MIT license covers the tool. [Tile provenance](../assets/raw/longtime/lt_ember_delta/provenance.json) · [Pinned setup and profile documentation](https://github.com/digitalhobbit/assetcat/blob/8784327edb240e3b940bd28901c6f994beaf78cc/README.md)
 
 ### SpriteFX isolated launch
 
