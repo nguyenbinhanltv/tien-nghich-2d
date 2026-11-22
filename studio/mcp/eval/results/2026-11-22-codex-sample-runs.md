@@ -115,7 +115,7 @@ Ranked by how much each cost the agent or how likely it is to mislead, with the 
 2. **`studio_rig_bake` preview says `pass: true` / suggests submitting while it shows error pixels.** Bake preview with `Defects: 3 error pixel(s)` still reported the animation gates as passed. Agent: "The bake preview reported pass: true and suggested submitting even while it showed three pixel errors." State in the result which of the two (animation gates, pixel gates) a `pass` refers to, and put the pixel verdict next to it. Same for `studio_frame_patch target:"bake"`: its description implies pixels are checked on save, but errors surfaced only on the next bake.
 3. **`studio_asset_get` provenance summary hides what the Part B prompts ask the checker to read.** It shows only the latest submission with the generator path and source hash, no params or seed (both are in `studio-submissions.jsonl`), and a truncated prompt (Run 2 B, Run 3 B: "truncates the provenance prompt before the phase definitions"). The description says it returns everything the studio knows. Return `notes` (params, seed), the full prompt or a way to ask for it, and the document hash for audio (Run 4 B: "The response omitted the source document hash"). Either that or change the Part B wording.
 4. **`studio_scene_snapshot` needs stored frames, and the sample prompt orders it before the committing build.** Seen in Run 3 A. Put "needs frames already submitted; dry runs are not shown" in the description, and in `SAMPLE_RUNS.md` move the snapshot after `submit=true` (or let the tool take a dry-run build id). The error text already points to `studio_asset_get`, which helps.
-5. **`studio_qa_run` `summary.partial: true` confused all eight sessions**; every final message asks what it means. In source it is `stage === 'raw'` (missing frames are warnings, not errors at raw stage), not "the run did not check everything". Rename (`stageRaw`, or `missingFramesAreWarnings`) or add a one-line `partialMeaning` to the result, and document it in the tool description.
+5. **`studio_qa_run` `summary.partial: true` confused the six image-asset sessions (runs 1–3)**; each of their final messages asks what it means. Audio QA (runs 4A and 4B) has no `summary.partial`, so those two sessions never saw it. In source it is `stage === 'raw'` (missing frames are warnings, not errors at raw stage), not "the run did not check everything". Rename (`stageRaw`, or `missingFramesAreWarnings`) or add a one-line `partialMeaning` to the result, and document it in the tool description.
 6. **`studio_audio_analyze`: three optional inputs, "exactly one" enforced.** The sample prompt says "with the same cue", the agent sent `cueId` plus `document` and was refused. The refusal is clear and recovered in one call. Make the schema express it (`oneOf`) and state that a document carries its cue in `id`, and reword the prompt step 4.
 7. **`studio_audio_render` description: "that is how you hear".** The agent flagged it as misleading: the tool returns numbers and pictures. Reword to "this is how you inspect it; no agent listens".
 8. **Review tools say "frames"; for audio the entries are waveform and spectrogram.** Run 4 B: "The review tools describe their targets as frames. For audio, the request appeared on the waveform and spectrogram entries." Say it once in `studio_review_request` and `studio_review_list`.
@@ -266,7 +266,7 @@ Ranked by how much each cost the agent or how likely it is to mislead, with the 
 | 6 | `studio_audio_analyze` | REFUSED/ERROR: Give exactly one of file, cueId or document. |
 | 7 | `studio_audio_analyze` | document sfx_cancel: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; onset 0.023 ms, tail 149.887 ms. Waveform then  |
 | 8 | `studio_audio_render` | patch sfx_cancel for sfx_cancel: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; starts at zero true, ends at zero t |
-| 9 | `studio_qa_run` | pass=true, errors 0, warnings 0, partial=undefined |
+| 9 | `studio_qa_run` | pass=true, errors 0, warnings 0, partial n/a (audio) |
 
 #### Run 4 Part B: ordered studio calls (6), wall 47 s
 
@@ -275,6 +275,6 @@ Ranked by how much each cost the agent or how likely it is to mislead, with the 
 | 1 | `studio_project_info` | project rules, palette, size classes |
 | 2 | `studio_asset_get` | id,source,category,status,spec,milestones ... |
 | 3 | `studio_audio_analyze` | sfx_cancel candidate v1: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; onset 0.023 ms, tail 149.887 ms. Waveform t |
-| 4 | `studio_qa_run` | pass=true, errors 0, warnings 0, partial=undefined |
+| 4 | `studio_qa_run` | pass=true, errors 0, warnings 0, partial n/a (audio) |
 | 5 | `studio_review_request` | ok |
 | 6 | `studio_review_list` | 2 frame(s) {"pending":2} |
