@@ -1,0 +1,16 @@
+.tl { width: min(960px, 96vw); max-height: 94vh; padding: 0; color: var(--text); background: var(--surface); border: 2px solid var(--line); display: grid; grid-template-rows: auto 1fr auto; }
+.tl::backdrop { background: #000a; }
+.tl-head, .tl-foot { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .6rem .9rem; background: var(--surface-2); }
+.tl-head h2 { margin: 0; font-size: 1.05rem; }
+.tl-body { display: grid; gap: .8rem; padding: .9rem; overflow: auto; }
+.tl fieldset { border: 2px solid var(--line); margin: 0; padding: .5rem .7rem; display: grid; gap: .45rem; }
+.tl legend { padding: 0 .3rem; color: var(--muted); font-size: .85rem; }
+.tl-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: end; }
+.tl-field { display: grid; gap: .15rem; font-size: .8rem; }
+.tl input[type=number], .tl select { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); padding: .25rem .35rem; }
+.tl button:focus-visible, .tl input:focus-visible, .tl select:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.tl button.primary { border-color: var(--accent); color: var(--accent); }
+.tl-out { margin: 0; font-size: .85rem; }
+.tl-out.bad { color: var(--bad, #e66); }
+.tl-list { margin: 0; padding-left: 1.1rem; font-size: .85rem; }
+.tl-tile { image-rendering: pixelated; max-width: 100%; border: 2px solid var(--line); background: repeating-conic-gradient(#0000 0 25%, #fff1 0 50%) 0 0 / 16px 16px; }

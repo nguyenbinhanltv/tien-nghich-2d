@@ -131,6 +131,7 @@ export default {
       if (image.width > 8192 || image.height > 8192) throw new ToolError(`the sheet is ${image.width}x${image.height}; the limit is 8192 on a side.`);
 
       if (args.annotations !== undefined) {
+        if (slotOfLayout(layout) !== 'pose') throw new ToolError('annotations apply to pose sheets only (a layout whose cells carry poses): studio_rig_bake reads contacts and landmarks from the pose sheet, so on a turnaround they would be stored and never used. Import the pose sheet with annotations, or leave annotations out.');
         const issues = validateAnnotations(args.annotations, layout, { paletteIds: new Set(settings.palette.colors.map((c) => c.id)) });
         if (issues.length) throw new ToolError(`annotations are invalid:\n  ${issues.join('\n  ')}`);
       }

@@ -76,8 +76,14 @@ test('MCP-014: a custom mob gets the humanoid guide by category and the result s
   assert.equal((await a.ok('studio_template_get', { assetId: 'lt_ash_skater' })).figureChoice.source, 'profile');
   // a custom effect: no humanoid guide, and the result says why and what to pass
   await a.ok('studio_asset_plan', { op: 'create', id: 'lt_probe_spark', custom: { category: 'vfx', size: [32, 32], pivot: [16, 16], clips: { burst: { frames: 4, frameMs: 80 } } }, chunk: 'abode', brief: 'A spark.' });
-  const spark = await a.ok('studio_template_get', { assetId: 'lt_probe_spark', facings: ['south'] }).catch((e) => e);
-  if (spark.figureChoice) { assert.equal(spark.figureChoice.used, null); assert.match(spark.figureChoice.why, /no pack figure guide lists profile custom or category vfx; pass figure: one of humanoid/); }
+  const sparkDefault = await a.call('studio_template_get', { assetId: 'lt_probe_spark' });
+  assert.equal(sparkDefault.isError, true, 'a one-frame effect with direction none cannot be drawn on a sheet');
+  assert.match(text(sparkDefault), /has no facings to draw/);
+  const spark = await a.call('studio_template_get', { assetId: 'lt_probe_spark', facings: ['south'] });
+  assert.equal(spark.isError, undefined, text(spark));
+  assert.equal(spark.structuredContent.figure, undefined);
+  assert.equal(spark.structuredContent.figureChoice.used, null);
+  assert.match(spark.structuredContent.figureChoice.why, /no pack figure guide lists profile custom or category vfx; pass figure: one of humanoid/);
 
   // the plan error names the parameter the caller passes, not the stored field
   const noChunk = await a.call('studio_asset_plan', { op: 'create', id: 'lt_probe_x', profile: 'npc', brief: 'b' });
@@ -133,6 +139,13 @@ test('MCP-016: the pose-sheet template carries contact slots; annotations are ch
   assert.match(text(await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow', landmarks: [{ id: 'ear', color: 'not_a_colour' }] })), /not a palette colour id/);
 
   const layout = json(join(POSE, 'layout.json')), prompt = 'poses';
+  // annotations on a turnaround are refused: only the pose slot is read by the bake
+  fs.copyFileSync(join(EXP, 'turnaround.png'), join(p.root, 'work/turnaround.png'));
+  const onTurnaround = await a.call('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: json(join(EXP, 'layout.forge.json')), prompt: 'x', tool: 't',
+    annotations: { south: { contacts: [{ id: 'f', at: [0.5, 0.5] }] } } });
+  assert.equal(onTurnaround.isError, true);
+  assert.match(text(onTurnaround), /annotations apply to pose sheets only/);
+  assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ASSET, 'forge/import.json')), false, 'nothing stored');
   // Contacts and boxes must sit on the figure (the clip validation checks), so place them from the measured crops: a point in the middle of each figure.
   const probe = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout, prompt, tool: 't', scaleOptions: { mode: 'sheet' }, dryRun: true });
   const header = fs.readFileSync(join(p.root, 'work/pose_sheet.png')), SW = header.readUInt32BE(16), SH = header.readUInt32BE(20);

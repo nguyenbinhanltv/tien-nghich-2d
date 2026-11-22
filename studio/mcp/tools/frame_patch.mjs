@@ -11,6 +11,10 @@ import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/fr
 import { appendOps, applyPatch, blank, checkOps, decode, emptyPatch, expandOps } from '../workflow/patch.mjs';
 import { currentFrame, diffImages, glyphTable, rowsToChanges } from '../workflow/glyphs.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
+import { readMetadata } from '../../core/metadata.mjs';
+import { groupOf, linkGroups } from '../../core/timeline.mjs';
+import { loadFrame, planTransform, savePlan } from '../../core/timeline-ops.mjs';
+import { TRANSFORMS, SCOPES, MIRROR_AXES, mirrorOps } from '../../core/transform.mjs';
 import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 
 const OPS = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'grid'];
@@ -26,7 +30,10 @@ export default {
     'Saving checks only that colours are palette ids and points are inside the canvas; the pixel gates (palette, outline, size) judge the patched frame at the NEXT studio_rig_bake, in verdicts.pixelGates, so look there. ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
     'TEXT FORM, to edit a frame you read with studio_frame_read: give rows (the whole region as characters, "." transparent), legend {char: palette id}, at [x, y] and the frame\'s hash instead of ops. Not for target bake (use ops). Only differing pixels are stored; unknown characters, colours outside the palette and a stale hash are refused. ' +
-    'For "revision" and "create" the result must pass the pixel gates (palette, outline, size) or nothing is saved. Give an edit a short note to say what it is for (e.g. "scar over the left eye"); it is stored with the operations in forge/patch.json. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status.',
+    'For "revision" and "create" the result must pass the pixel gates (palette, outline, size) or nothing is saved. Give an edit a short note to say what it is for (e.g. "scar over the left eye"); it is stored with the operations in forge/patch.json. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status. ' +
+    'WHOLE-FRAME TRANSFORMS: give transform {kind: flip_h | flip_v | rotate90 | rotate180 | rotate270 | shift (dx, dy, wrap?) | centre (axis?)} instead of ops, with scope frame (default), clip (every frame of that clip, same direction) or all (every clip, same direction); each frame becomes a new pending revision, all or none; dryRun lists what moves and what would be lost off the edge. ' +
+    'MIRROR: mirror x, y or xy draws every set, line, fill and flood operation of the edit on its mirror image too. ' +
+    'LINKED CELS: frames the clip metadata links (studio_metadata_set clips.<clip>.links) share one image: an edit to one is saved as a new pending revision of every frame of its group, each awaiting review.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -42,6 +49,8 @@ export default {
             legend: { type: 'object', additionalProperties: { type: 'string', maxLength: 40 }, description: 'Text form: character to palette id, e.g. {"a":"ink_01"}. "." is transparent and needs no entry.' },
             at: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 0 }, description: 'Text form: [x, y] of the top-left of rows (default [0, 0]).' },
             hash: { type: 'string', pattern: '^[0-9a-f]{64}$', description: 'Text form: the hash studio_frame_read returned for this frame. Not needed for target create.' },
+            transform: { type: 'object', description: 'Whole-frame transform instead of ops: {kind, dx?, dy?, wrap?, axis?}.', properties: { kind: { type: 'string', enum: TRANSFORMS }, dx: { type: 'integer' }, dy: { type: 'integer' }, wrap: { type: 'boolean' }, axis: { type: 'string', enum: ['x', 'y', 'both'] } }, required: ['kind'], additionalProperties: false },
+            mirror: { type: 'string', enum: MIRROR_AXES, description: 'Draw each set, line, fill and flood operation also on its mirror image (x: left-right, y: top-bottom, xy: both).' },
             note: { type: 'string', maxLength: 200, description: 'What this edit is for (stored on its first operation, so a later reader knows a patch is the scar and not a highlight).' },
             ops: {
               type: 'array', minItems: 1, maxItems: 500,
@@ -51,6 +60,7 @@ export default {
           required: ['frame'], additionalProperties: false,
         },
       },
+      scope: { type: 'string', enum: SCOPES, description: 'For transform edits: frame (the named frame), clip (all frames of its clip, same direction) or all (every clip, same direction). Default frame.' },
       target: { type: 'string', enum: ['auto', 'revision', 'bake', 'create'], description: 'auto (default): revision if the frame was submitted, otherwise bake. create must be asked for.' },
       dryRun: dryRunProp,
     },
@@ -69,6 +79,29 @@ export default {
       const [width, height] = settings.profile.nativePx;
       const options = pixelOptions(snap, asset);
       const store = await ws.store();
+
+      if (args.edits.some((e) => e.transform !== undefined)) {
+        if (args.edits.some((e) => e.transform === undefined || e.ops !== undefined || e.rows !== undefined || e.mirror !== undefined)) throw new ToolError('transform edits stand alone: do not mix transform with ops, rows or mirror in one call.');
+        if (args.target && !['auto', 'revision'].includes(args.target)) throw new ToolError('transforms save as new revisions of frames that exist; use target revision (or leave it out).');
+        const items = new Map(), frames = [], owner = new Map();
+        for (const edit of args.edits) {
+          const addr = parseFrameName(edit.frame);
+          const spec = addr && asset.clips && Object.hasOwn(asset.clips, addr.clip) ? asset.clips[addr.clip] : null;
+          if (!spec || !asset.directions.includes(addr.direction) || addr.n >= spec.frames) throw new ToolError(`${edit.frame} is not a frame of ${asset.id}.`);
+          const planned = await planTransform({ ws, snap, asset, anchor: addr, scope: args.scope ?? 'frame', transform: edit.transform }).catch((e) => { throw e?.status ? new ToolError(e.message) : e; });
+          if (planned.refused.length) throw new ToolError(`nothing was saved: ${planned.refused.join('; ')}`);
+          // Two transform edits may not reach the same frame: one would silently replace the other.
+          const clash = planned.frames.find((f) => owner.has(f.key));
+          if (clash) throw new ToolError(`${clash.name} is covered by two transform edits (${owner.get(clash.key)} and ${edit.frame}); a frame takes one transform per call. Split them, or narrow the scope.`);
+          for (const f of planned.frames) { owner.set(f.key, edit.frame); frames.push(f); }
+          for (const i of planned.items) items.set(i.key, { ...i, provenance: { tool: 'studio_frame_patch (scoped transform)', transform: edit.transform, scope: args.scope ?? 'frame', session: ctx.caller?.session ?? null } });
+        }
+        const plan = { items: [...items.values()], frames, refused: [] };
+        if (args.dryRun) return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target: 'revision', scope: args.scope ?? 'frame', wouldSave: plan.items.map((i) => ({ key: i.key, as: 'new revision, pending' })), frames,
+          note: 'Pixels shifted past the frame edge are reported as lost; a linked frame is added with linkedFrom. Only a human approves.' });
+        const saved = await savePlan(ws, plan, null);
+        return jsonResult({ ok: true, target: 'revision', scope: args.scope ?? 'frame', saved, note: 'Saved as new revision(s), pending: only a human approves. The raw files are unchanged.', next: 'studio_diff (against previous) shows the pixels that changed; studio_review_request when ready.' });
+      }
 
       const seen = new Set();
       const plan = [];
@@ -111,6 +144,7 @@ export default {
           if (edit.legend !== undefined || edit.at !== undefined || edit.hash !== undefined) throw new ToolError(`${edit.frame}: legend, at and hash belong to the text form (rows).`);
           ops = expandOps(edit.ops);
         }
+        if (edit.mirror) { try { ops = mirrorOps(ops, edit.mirror, width, height); } catch (e) { throw new ToolError(`${edit.frame}: ${e.message}`); } }
         if (edit.note) ops[0] = { ...ops[0], note: edit.note };
         checkOps(edit.frame, ops, { palette, width, height });
         plan.push({ ...edit, addr, key, rawRel, raw, target, ops, changes, snapshot });
@@ -187,8 +221,24 @@ export default {
         results.push({ p, next, baseline, baseRevision: p.snapshot?.revision });
         before[`${p.frame}`] = current; after[p.frame] = next;
       }
+      // Linked cels: an edit to one frame of a link group is a new revision of every frame of the group.
+      const metadata = (await readMetadata(ws.root, asset))?.data ?? null;
+      const edited = new Set(results.map(({ p }) => p.key));
+      for (const r of [...results]) {
+        const groups = linkGroups(metadata?.clips?.[r.p.addr.clip], r.p.addr.direction);
+        for (const n of groupOf(groups, r.p.addr.n)) {
+          if (n === r.p.addr.n) continue;
+          const key = asset.layout.keyOf(r.p.addr.clip, r.p.addr.direction, n);
+          if (edited.has(key)) throw new ToolError(`${r.p.addr.clip}_${r.p.addr.direction}_${n} is linked to ${r.p.frame}: they share one image, so edit only one of them in a call.`);
+          const mate = await loadFrame(ws, asset, r.p.addr.clip, r.p.addr.direction, n);
+          if (!mate) continue;
+          edited.add(key);
+          before[mate.name] = mate.image; after[mate.name] = r.next;
+          results.push({ p: { frame: mate.name, key, addr: { ...r.p.addr, n }, linkedFrom: r.p.frame }, next: r.next, baseline: mate.baseline, baseRevision: undefined });
+        }
+      }
       if (args.dryRun) {
-        const frames = results.map(({ p, next }) => ({ frame: p.frame, key: p.key, ...listChanges(diffImages(before[p.frame], next, table, Infinity).changes), gates: { errors: 0 } }));
+        const frames = results.map(({ p, next }) => ({ frame: p.frame, key: p.key, ...(p.linkedFrom ? { linkedFrom: p.linkedFrom } : {}), ...listChanges(diffImages(before[p.frame], next, table, Infinity).changes), gates: { errors: 0 } }));
         return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target, wouldSave: frames.map((f) => ({ frame: f.frame, key: f.key, as: 'new revision, pending' })), frames,
           note: 'Saved for real, each frame becomes a new pending revision; the raw file stays as submitted. Only a human approves.' });
       }
@@ -201,7 +251,7 @@ export default {
         if (hit && hit.baseRevision !== undefined) throw new ToolError(`${hit.p.frame} changed since you read it (another save landed after revision ${hit.baseRevision}); NOTHING was saved, not even the other frames of this call. Read the frames again with studio_frame_read and redo the edits.`);
         throw error;
       }
-      const saved = results.map(({ p }, i) => ({ frame: p.frame, key: p.key, revision: revisions[i].revision, changed: revisions[i].changed, status: revisions[i].status }));
+      const saved = results.map(({ p }, i) => ({ frame: p.frame, key: p.key, ...(p.linkedFrom ? { linkedFrom: p.linkedFrom } : {}), revision: revisions[i].revision, changed: revisions[i].changed, status: revisions[i].status }));
       const cells = [];
       plan.forEach((p, i) => {
         for (const [label, image] of [['before', before[p.frame]], ['after', after[p.frame]]]) {
