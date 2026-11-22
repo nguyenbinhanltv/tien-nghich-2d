@@ -79,13 +79,13 @@
     },
     {
       "n": 2,
-      "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each; every shipped clip-direction is the first take of this character",
+      "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each (touch-up round 3)",
       "credits": 14,
-      "result": "accepted; no clip regeneration used"
+      "result": "accepted in touch-up round 3 with no clip regeneration at that time; three clip-directions (idle west, interact west, interact east) were later replaced by their second takes in touch-up round 4, see attempt 3"
     },
     {
       "n": 3,
-      "what": "touch-up round 4: interact west, interact east and idle west regenerated once each (appended to the same animation groups)",
+      "what": "touch-up round 4 (after the round 3 character redraw): interact west, interact east and idle west regenerated once each (appended to the same animation groups)",
       "credits": 3,
       "result": "all three take-2 clips shipped: interact west/east keep a solid square astrolabe in all 4 frames (take 1 had a sparkle/glow for 2 frames); idle west take 2 has only detached 1 px specks which speck_clean (max 3 px) removes in processing"
     }
