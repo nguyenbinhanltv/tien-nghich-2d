@@ -2,20 +2,21 @@
   "asset_ids": [
     "lt_binding_archivist",
     "lt_folio_hound",
+    "lt_ink_leech",
     "lt_mist_archive"
   ],
   "chunk_group": "mist_archive",
-  "frame_count": 152,
+  "frame_count": 208,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 152,
+      "frames": 208,
       "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "3266dda714d9087e181c4ebc22fe6f7b5ee6cf8ce3ca3e3ca7e75023ee543b0f",
-      "png_sha256": "28f43ab3fdd803c8fd1e0d5a019ec1c8ee70ebf42c64e5520cd48dd3849a4345",
+      "json_sha256": "a57be9ede53f2a7a70bdf853c72e9a84771f158c6be99dcff8e3bef18090369c",
+      "png_sha256": "1fc93a5074600676ed0ceb7ea5b39a187e941682252935c14e6d887f032179c9",
       "rgba8_bytes": 2097152,
       "width": 2048
     }
