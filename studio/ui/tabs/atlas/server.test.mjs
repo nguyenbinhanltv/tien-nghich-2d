@@ -76,7 +76,16 @@ test('pages: every frame carries its rectangle and where it came from; the image
   assert.deepEqual(json.spec, {padding: 2, extrude: 1, limit: 1024, fixedSize: false});
   const [page] = json.pages;
   assert.equal(page.frameCount, ABODE_FRAMES);
-  assert.ok(page.usage.unusedRatio > 0.2 && page.usage.unusedRatio < 1, 'unused area is reported');
+  // The reported unused area equals the one computed here from the shipped page: its size from the chunk summary, its frame
+  // rectangles from its json, and the border (padding + extrude) each frame reserves. It moves with every repack, so no literal.
+  const shippedPage = ABODE.pages[page.index], shippedJson = JSON.parse(await fs.readFile(path.join(REPO, 'assets/atlases_longtime/mobile/abode', shippedPage.json), 'utf8'));
+  const border = json.spec.padding + json.spec.extrude, area = shippedPage.width * shippedPage.height;
+  const reserved = Object.values(shippedJson.frames).reduce((n, r) => n + (r.frame.w + 2 * border) * (r.frame.h + 2 * border), 0);
+  assert.deepEqual([page.width, page.height], [shippedPage.width, shippedPage.height]);
+  assert.equal(page.usage.area, area);
+  assert.equal(page.usage.unused, Math.max(0, area - reserved));
+  assert.equal(page.usage.unusedRatio, Math.max(0, area - reserved) / area);
+  assert.ok(page.usage.unusedRatio >= 0 && page.usage.unusedRatio < 1, 'unused area is reported');
   assert.ok(page.frames.every(f => f.asset && f.clip && f.file && f.w > 0));
   for (const f of page.frames.slice(0, 5)) await fs.access(path.join(REPO, f.file));
   const png = await call(REPO, lib, 'GET', 'image', {query: {set: 'longtime', chunk: 'abode', profile: 'mobile', page: '0'}});
