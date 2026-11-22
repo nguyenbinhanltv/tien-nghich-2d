@@ -5,6 +5,8 @@
   --surface: var(--theme-surface, #26262c);
   --surface-2: color-mix(in srgb, var(--surface) 55%, var(--ink));
   --line: var(--theme-line, #46464e);
+  /* The border of a control (WCAG 1.4.11 asks 3:1 against its surroundings). `line` is for dividers; a pack may say `lineStrong`, else its `muted`. */
+  --line-strong: var(--theme-lineStrong, var(--theme-muted, #7a7a84));
   --muted: var(--theme-muted, #9a9aa2);
   --text: var(--theme-text, #e4e4e8);
   --accent: var(--theme-accent, #4aa3a3);
@@ -61,17 +63,23 @@ a:hover { color: var(--gold-soft); }
 
 /* Top bar */
 .topbar { display: flex; align-items: center; gap: .75rem; padding: .6rem 1.25rem; border-bottom: 2px solid var(--line); background: var(--ink);
-  position: sticky; top: 0; z-index: 5; flex-wrap: wrap; }
-.crumbs { display: flex; align-items: center; gap: .5rem; flex: 1 1 12rem; min-width: 0; font-weight: 600; flex-wrap: wrap; }
-.crumbs > * { white-space: nowrap; }
+  position: sticky; top: 0; z-index: 5; flex-wrap: nowrap; }   /* one line at every width: the crumbs shrink, the controls keep their size */
+.crumbs { display: flex; align-items: center; gap: .5rem; flex: 1 1 0; min-width: 0; font-weight: 600; overflow: hidden; }
+.crumbs > * { white-space: nowrap; flex: none; }
+.crumbs > :first-child { flex: none; }   /* the tab name is what says where you are: it never shrinks, the id and the detail label do */
+.crumbs code, .crumbs .chip { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.crumbs code { flex-shrink: 8; }   /* the long id gives way first; its full text is the tooltip */
+.topbar > :not(.crumbs) { flex: none; }
 .crumbs .sep { color: var(--muted); }
 .crumbs code { color: var(--gold-soft); max-width: 16rem; overflow: hidden; text-overflow: ellipsis; }
-.chip { font: .75rem var(--font-mono); padding: .1rem .45rem; border: 1px solid var(--line); color: var(--muted); }
-.switcher, .search-button, .lang button, button.plain { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); cursor: pointer; padding: .35rem .7rem; }
-.switcher { display: inline-flex; gap: .5rem; align-items: baseline; }
+.chip { font: .75rem var(--font-mono); padding: .1rem .45rem; border: 1px solid var(--line-strong); color: var(--muted); }
+.switcher, .search-button, .lang button, button.plain { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line-strong); cursor: pointer; padding: .35rem .7rem; }
+.switcher { display: inline-flex; gap: .5rem; align-items: baseline; max-width: 14rem; }
+.switcher strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .switcher:hover { border-color: var(--accent); }
 .switcher strong { color: var(--gold-soft); }
-.search-button { display: inline-flex; gap: 1rem; align-items: center; min-width: 14rem; justify-content: space-between; color: var(--muted); }
+.search-button { display: inline-flex; gap: .5rem; align-items: center; min-width: 9rem; justify-content: space-between; gap: .5rem; color: var(--muted); }
+.search-button > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 8rem; }
 .search-button:hover { border-color: var(--accent); color: var(--text); }
 kbd { border: 1px solid var(--line); padding: 0 .35rem; color: var(--gold-soft); }
 .lang { display: inline-flex; }
@@ -109,8 +117,12 @@ kbd { border: 1px solid var(--line); padding: 0 .35rem; color: var(--gold-soft);
   .rail-label { display: none; }
   .rail-link[aria-current="page"] .rail-label { display: inline; }
   .rail-tools { display: none; }
-  .topbar { position: static; }
+  .topbar { position: static; padding: .5rem .75rem; gap: .5rem; }
   .search-button { min-width: 0; }
+  .switcher { max-width: 9rem; }
+  .switcher .muted { display: none; }
+  .search-button > span, .search-button kbd { display: none; }   /* the button keeps its aria-label; the icon-sized box is enough */
+  .search-button::before { content: "⌕"; font-size: 1.1rem; line-height: 1; }
   .main { padding: 1rem; }
 }
 @media (prefers-reduced-motion: no-preference) { .rail-link, .palette-item { transition: background .08s steps(2); } }

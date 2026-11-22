@@ -149,7 +149,7 @@ Keys inside each block that has them:
 - **`ui`**
   - `ui.brand` (required, object)
   - `ui.languages` (optional, array)
-  - `ui.theme` (required, object)
+  - `ui.theme` (required, object): Shell colours by role, each a palette id: ink, surface, line (dividers), lineStrong (control borders; needs 3:1 against the surface, WCAG 1.4.11; optional, the shell falls back to muted), muted, text, accent, accentSoft, gold, goldSoft, danger. Any role may be left out; the shell has neutral defaults.
   - `ui.categoryTabs` (required, object)
   - `ui.tools` (required, array)
   - `ui.tabs` (optional, object): Free-form per-destination configuration, one object per tab id. Each tab documents and validates its own object (see its README); the pack schema only fixes that it is an object.

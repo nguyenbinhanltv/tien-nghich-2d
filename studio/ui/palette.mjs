@@ -2,7 +2,7 @@
 import { destinations } from './destinations.mjs';
 import { localize } from './i18n.mjs';
 
-export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool}) {
+export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool, afterChoose}) {
   let overlay, input, list, items = [], active = 0, opener, controller, timer, query = '';
 
   function h(tag, attrs = {}, ...children) {
@@ -82,6 +82,8 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
     if (!entry) return;
     close(false);
     entry.run();
+    // The palette (and the input that had focus) is gone whatever `run` did, even if it changed nothing (the item was the current route, so no hashchange follows): focus must land somewhere real.
+    afterChoose?.();
   }
 
   function onKey(event) {
@@ -115,7 +117,8 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
     clearTimeout(timer);
     overlay.remove();
     overlay = undefined;
-    if (restore && opener?.isConnected) opener.focus();
+    // Closing without a route change gives focus back to where it came from; if that element is gone, to the search button.
+    if (restore) (opener?.isConnected ? opener : document.querySelector('.search-button'))?.focus();
   }
 
   document.addEventListener('keydown', event => {
