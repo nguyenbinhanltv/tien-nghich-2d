@@ -16,6 +16,7 @@ import { peaks, maxWavBytes } from './wav.mjs';
 import { hashOf } from './hashes.mjs';
 import { audioStatus } from './status.mjs';
 import { readApprovals } from './approvals.mjs';
+import { readArtApprovals } from './art-approvals.mjs';
 
 const handles = new Map();
 const wavCache = new Map();
@@ -99,7 +100,7 @@ export async function handle(req, res, url, context) {
 
   if (name === 'inbox' && ['GET', 'HEAD'].includes(req.method)) {
     const items = readInbox(dir);
-    const {list, masters, approvals} = await audioAssets(root);
+    const {list, masters, approvals, pack} = await audioAssets(root);
     const sign = signoffs(dir);
     const audio = [];
     for (const a of list.filter(x => x.readiness !== 'planned')) {
@@ -109,9 +110,9 @@ export async function handle(req, res, url, context) {
       const status = audioStatus({hash, signoffs: history, approval});
       audio.push({id: a.id, source: a.source, category: a.category, readiness: a.readiness, state: status.state, label: status.label,
         signoff: history[0] ? {ts: history[0].ts, verdict: history[0].verdict, current: history[0].content === hash} : null,
-        approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null});
+        approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, kind: approval.kind, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null});
     }
-    return send(200, {items, audio});
+    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals)});
   }
   if (name === 'authors' && ['GET', 'HEAD'].includes(req.method)) {
     const key = url.searchParams.get('key') ?? '';

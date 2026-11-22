@@ -2,7 +2,7 @@
 // (`listening_approvals.json` in the audio-plan source's `evidence.masters` directory). The tab reads it,
 // never writes it, and shows it as "approved before the studio", distinct from a sign-off made here.
 //
-//   {"schema_version": 1, "approvals": [{"id", "approved_by", "recorded": "<date as recorded>" | null,
+//   {"schema_version": 1, "approvals": [{"id", "approved_by", "kind"?: "before_studio" | "owner_statement", "recorded_by"?, "recorded": "<date as recorded>" | null,
 //     "assets": {"<assetId>": {"master_sha256"?: "<64 hex>"}} | ["<assetId>", ...],
 //     "evidence": {"quote"?, "source"?, "pr"?}}]}
 //
@@ -22,7 +22,7 @@ export function parseApprovals(data) {
     for (const [asset, info] of Object.entries(list)) {
       if (!/^[A-Za-z0-9_.-]{1,64}$/.test(asset)) continue;
       const sha = info?.master_sha256;
-      out[asset] = {approvalId: id, approvedBy: by, recorded: str(a.recorded, 40) ?? null,
+      out[asset] = {approvalId: id, approvedBy: by, kind: str(a.kind, 40) ?? 'before_studio', recordedBy: str(a.recorded_by, 200) ?? null, recorded: str(a.recorded, 40) ?? null,
         evidence: {quote: str(a.evidence?.quote, 400), source: str(a.evidence?.source, 200), pr: str(a.evidence?.pr, 200)},
         ...(typeof sha === 'string' && /^[0-9a-f]{64}$/.test(sha) ? {content: sha} : {})};
     }
