@@ -83,7 +83,7 @@ export default {
       if (!args.dryRun && (args.marks !== undefined || args.accents !== undefined)) {
         await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
-      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot, ...(args.dryRun && args.marks !== undefined ? { marks: args.marks } : {}) });
+      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot, ...(args.dryRun ? { overlay: { ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}) } } : {}) });
       if (args.submit && slots.length > 1) throw new ToolError('Both a turnaround and a pose sheet are imported: say which one to submit with slot ("rig" or "pose"). Frames of moving clips come from studio_rig_bake, which credits each frame to its own sheet.');
       log(`pixelised ${pixelized.cells.size} cell(s) of ${slots.map((s) => s.doc.layout.id).join(' + ')}`);
       const options = pixelOptions(snap, asset);
@@ -99,7 +99,7 @@ export default {
       const guide = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
       if (args.figure && args.figure !== 'none' && !guide) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
       if (guide) {
-        const accents = (args.dryRun && args.accents !== undefined ? args.accents : processDoc.accents ?? []).map((id) => settings.palette.colors.find((c) => c.id === id)).filter(Boolean).map((c) => ({ id: c.id, hex: c.hex }));
+        const accents = (processDoc.accents ?? []).map((id) => settings.palette.colors.find((c) => c.id === id)).filter(Boolean).map((c) => ({ id: c.id, hex: c.hex }));
         const found = [];
         for (const c of pixelized.record.cells) for (const w of figureWarnings(measureFigure(pixelized.cells.get(c.id).native), guide, { accents })) found.push({ cell: c.id, ...w });
         summary.figure = { guide: guide.name, accents: accents.map((a) => a.id), warnings: found,

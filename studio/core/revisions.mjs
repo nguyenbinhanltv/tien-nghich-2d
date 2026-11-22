@@ -11,13 +11,16 @@ import { bareFrame } from './review.mjs';
  */
 export async function saveRevisions(ws, items) {
   const store = await ws.store();
-  const heads = items.map(({key, baseline}) => store.operate(bareFrame(key), baseline, 'frame', {}).head);
-  items.forEach(({key, baseRevision}, i) => {
-    if (baseRevision !== undefined && baseRevision !== heads[i]) throw Object.assign(new Error('Reload the current revision'), {status: 409, code: 'revision_conflict', head: heads[i], key, index: i});
-  });
-  return items.map(({key, baseline, png, baseRevision}, i) => {
-    const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? heads[i], png});
-    return {revision: snap.revision, head: snap.head, changed: snap.head > heads[i], status: snap.status, previous: heads[i]};
+  // One SQLite write transaction holds across every head check and every insert: a failure on any frame (a conflict, a database error) rolls back all of them.
+  return store.transaction(() => {
+    const heads = items.map(({key, baseline}) => store.operate(bareFrame(key), baseline, 'frame', {}).head);
+    items.forEach(({key, baseRevision}, i) => {
+      if (baseRevision !== undefined && baseRevision !== heads[i]) throw Object.assign(new Error('Reload the current revision'), {status: 409, code: 'revision_conflict', head: heads[i], key, index: i});
+    });
+    return items.map(({key, baseline, png, baseRevision}, i) => {
+      const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? heads[i], png});
+      return {revision: snap.revision, head: snap.head, changed: snap.head > heads[i], status: snap.status, previous: heads[i]};
+    });
   });
 }
 

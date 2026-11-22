@@ -369,3 +369,19 @@ test('pack dryRun lists the staging files the real call would remove; sheet_impo
   assert.match(text(d), /exists with different bytes/);
   assert.equal(fingerprint(p.root), before);
 }));
+
+test('process dryRun with marks only keeps the accents already stored, as the real call does', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const MOB = 'lt_ash_skater';
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(EXP, 'turnaround.png'), join(p.root, 'work/turnaround.png'));
+  await a.ok('studio_sheet_import', { assetId: MOB, sheet: { file: 'work/turnaround.png' }, layout: json(join(EXP, 'layout.forge.json')), prompt: 'x', tool: 'test' });
+  await a.ok('studio_process', { assetId: MOB, accents: ['bronze_04', 'soul_07'] });
+  const d = await writesNothing(p, () => a.call('studio_process', { assetId: MOB, marks: MARKS, dryRun: true }));
+  assert.deepEqual(d.figure.accents, ['bronze_04', 'soul_07'], 'a marks-only dry run still checks the stored accents');
+  const real = await a.ok('studio_process', { assetId: MOB, marks: MARKS });
+  assert.deepEqual(real.figure.accents, d.figure.accents);
+  // And a dry run that supplies accents replaces them, without storing.
+  const d2 = await writesNothing(p, () => a.call('studio_process', { assetId: MOB, accents: ['bronze_04'], dryRun: true }));
+  assert.deepEqual(d2.figure.accents, ['bronze_04']);
+}));

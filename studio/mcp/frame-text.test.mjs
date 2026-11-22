@@ -248,3 +248,27 @@ test('frame_patch rows: a conflict on the second of two frames saves neither, an
   const again = await a.ok('studio_frame_patch', { assetId: BROKER, edits: [await edit(0), await edit(1)] });
   assert.deepEqual(again.saved.map((x) => x.revision), [1, 2]);
 }));
+
+test('revision saves are one SQLite transaction: a failure on a later insert rolls back the earlier one', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const BROKER = 'lt_seed_broker';
+  await a.ok('studio_frames_submit', { assetId: BROKER, provenance: PROVENANCE, frames: clipFrames('idle', 'south', 2) });
+  const { saveRevisions } = await import('../core/revisions.mjs');
+  const store = await a.project.workspace.store();
+  const key = (n) => `longtime/${BROKER}/idle_south_${n}`;
+  const item = (n, variant) => ({ key: key(n), baseline: makeFrame(32, 32, { variant: n }).png, png: makeFrame(32, 32, { variant }).png, baseRevision: 0 });
+  // Make the SECOND insert fail inside SQLite (after the first has been written in the same transaction).
+  const operate = store.operate;
+  let saves = 0;
+  store.operate = (frame, baseline, action, args) => {
+    if (action === 'save' && ++saves === 2) throw new Error('disk I/O error (simulated)');
+    return operate(frame, baseline, action, args);
+  };
+  await assert.rejects(saveRevisions(a.project.workspace, [item(0, 5), item(1, 6)]), /simulated/);
+  store.operate = operate;
+  assert.equal(saves, 2);
+  for (const n of [0, 1]) assert.equal(operate(bareFrame(key(n)), makeFrame(32, 32, { variant: n }).png, 'frame', {}).head, 0, `frame ${n} is unchanged: the first insert was rolled back`);
+  // Without the failure both save, in one go.
+  const done = await saveRevisions(a.project.workspace, [item(0, 5), item(1, 6)]);
+  assert.deepEqual(done.map((d) => d.revision), [1, 1]);
+}));

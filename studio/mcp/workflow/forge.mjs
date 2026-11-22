@@ -134,7 +134,7 @@ async function runImport(ws, asset, settings, doc) {
  * document and result so a step can credit frames to the sheet they came from. `doc` is the primary document (the
  * turnaround if there is one) for steps that need only one.
  */
-export async function pixelizedFor(ws, asset, settings, { only, marks: given } = {}) {
+export async function pixelizedFor(ws, asset, settings, { only, overlay } = {}) {
   const docs = await readImports(ws, asset);
   const slots = [];
   for (const slot of SLOTS) {
@@ -142,7 +142,8 @@ export async function pixelizedFor(ws, asset, settings, { only, marks: given } =
     slots.push({ slot, doc: docs[slot], imported: await runImport(ws, asset, settings, docs[slot]) });
   }
   if (!slots.length) throw new ToolError(only && (docs.rig || docs.pose) ? `${asset.id} has no ${only === 'pose' ? 'pose sheet' : 'turnaround'} imported. Call studio_sheet_import with a ${only === 'pose' ? 'pose-sheet' : 'turnaround'} layout.` : `${asset.id} has no imported sheet. Call studio_sheet_import first.`);
-  const processDoc = given !== undefined ? { marks: given } : (await readDoc(ws, asset, 'process')) ?? { marks: [] };
+  // overlay: fields a dry run supplies; they sit on the stored document exactly as the real call would merge them (stored accents survive a marks-only call).
+  const processDoc = { ...((await readDoc(ws, asset, 'process')) ?? { marks: [] }), ...(overlay ?? {}) };
   const marks = resolveMarks(processDoc.marks ?? [], settings.palette);
   const cells = new Map(), records = [];
   for (const s of slots) {
