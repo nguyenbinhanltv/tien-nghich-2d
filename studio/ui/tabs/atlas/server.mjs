@@ -9,7 +9,9 @@
 //   POST pack {set, chunk?, engine: 'studio' | 'authority', check?}   stage and compare byte by byte (see core/atlas-proof.mjs)
 //   POST export {set, chunk?, profile, formats?}                      engine exports into the export staging directory
 //   GET  export-file?path=                 one exported file (download); the path must lie inside the export staging directory
-//   GET  ledger?lang=&format=json|md&download=1   licence and provenance ledger, AI disclosure
+//   GET  ledger?lang=&format=json|md&download=1   licence and provenance ledger, AI disclosure, art-bible stamp counts
+//   GET  handoff?lang=                     the handoff check (recorded output licences against the project's profile) and the Steam / itch.io drafts
+//   POST handoff {lang?}                   write the handoff folder into <library>/handoff/<id>/ (staging; blocked while a licence mismatches); never publishes
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
 import { interpreterAvailable } from '../../../core/adapters.mjs';
@@ -26,6 +28,8 @@ import { formats } from '../../../core/export/index.mjs';
 import { keyIndex } from '../../../core/export/describe.mjs';
 import { framePath } from '../../../core/assets.mjs';
 import { buildLedger, disclosure, ledgerMarkdown } from '../../../core/ledger.mjs';
+import { buildHandoff } from '../../../core/handoff.mjs';
+import { rulesReport } from '../../../core/rules.mjs';
 
 const LIMITS = {body: 16 * 1024, hits: 60};
 
@@ -36,7 +40,7 @@ export function libraryOf(root, context = {}) {
 /** One consistent read of the pack and the asset index. The index is the project adapter's (studio/mcp/asset-index.mjs), the same one every tool uses. */
 async function snapshot(root) {
   const ws = openWorkspace(root, {indexer: loadAssetIndex});
-  try { const snap = await ws.snapshot(); return {pack: snap.pack, index: snap.index, close: () => ws.close()}; }
+  try { const snap = await ws.snapshot(); return {pack: snap.pack, palette: snap.palette, index: snap.index, close: () => ws.close()}; }
   catch (error) { ws.close(); throw error; }
 }
 
@@ -104,10 +108,10 @@ export async function handle(req, res, url, context) {
     res.end(JSON.stringify(data));
   };
   const sendText = (status, text, type, headers = {}) => { res.writeHead(status, {'Content-Type': type, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers}); res.end(text); };
-  const known = ['sets', 'pages', 'image', 'search', 'whatif', 'pack', 'export', 'export-file', 'ledger', 'formats'];
+  const known = ['sets', 'pages', 'image', 'search', 'whatif', 'pack', 'export', 'export-file', 'ledger', 'formats', 'handoff'];
   if (!known.includes(route)) throw problem(404, 'unknown_route', 'Unknown Atlas route');
   const writes = ['pack', 'export'].includes(route);
-  if (writes ? req.method !== 'POST' : !['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', writes ? `${route} takes POST` : `${route} takes GET`);
+  if (route === 'handoff' ? !['GET', 'HEAD', 'POST'].includes(req.method) : writes ? req.method !== 'POST' : !['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', writes ? `${route} takes POST` : `${route} takes GET`);
 
   if (route === 'formats') return send(200, {formats: formats.map(f => ({id: f.id, label: f.label}))});
 
@@ -123,8 +127,17 @@ export async function handle(req, res, url, context) {
       const name = `${pack.id}-ledger`;
       if (format === 'md') return sendText(200, ledgerMarkdown(ledger, lang), 'text/markdown; charset=utf-8', download ? {'Content-Disposition': `attachment; filename="${name}.${lang}.md"`} : {});
       if (format !== 'json') throw problem(422, 'invalid_input', 'format must be json or md.');
-      const body = {...ledger, disclosure: disclosure(ledger, lang)};
+      const body = {...ledger, disclosure: disclosure(ledger, lang), rules: await rulesReport({root, pack, palette: snap.palette, index})};
       return download ? sendText(200, JSON.stringify(body, null, 2) + '\n', 'application/json; charset=utf-8', {'Content-Disposition': `attachment; filename="${name}.json"`}) : send(200, body);
+    }
+
+    if (route === 'handoff') {
+      const ledger = await buildLedger({root, pack, index});
+      const post = req.method === 'POST';
+      const lang = (post ? (await readBody(req)).lang : q('lang')) === 'vi' ? 'vi' : 'en';
+      const run = () => buildHandoff({root, pack, palette: snap.palette, index, ledger, base: library, lang, write: post});
+      const result = post ? await withLock('atlas-handoff', run) : await run();
+      return send(result.blocked ? 409 : 200, {...result, ...(result.dir ? {dir: path.relative(library, result.dir)} : {}), ...(post && !result.blocked ? {note: 'Staging only. Nothing was published or uploaded; the owner publishes.'} : {})});
     }
 
     if (route === 'search') {

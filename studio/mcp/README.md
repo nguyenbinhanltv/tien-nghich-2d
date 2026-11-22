@@ -58,7 +58,7 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | Review loop | `studio_review_request` | author | Ask a human to review (a comment, never a status) |
 | | `studio_review_list` | read | The human's decisions and comments, and which comments still wait for an answer |
 | | `studio_review_reply` | author | Answer a human comment, optionally mark it handled (a comment, never a status); `answers` lists the region change requests (a person's note pinned to a revision hash, a frame and a box) a later revision answers |
-| Jobs | `studio_job_status` | read | Status, log tail, cost of a background job |
+| Jobs | `studio_job_status` | read | Status, log tail, cost of a background job; with no `jobId`, the quota view (generations and wall time per agent and per kind), and with `plan` an estimate of a run before it starts against the ceiling the pack sets |
 | | `studio_job_wait` | read | Wait for a job and get its result (images included) |
 
 Read-scope tools (14): `asset_get`, `audio_analyze`, `catalog_search`, `diff`, `frame_read`, `guide`, `job_status`, `job_wait`, `preview_render`, `project_info`, `qa_run`, `review_list`, `scene_snapshot`, `template_get`. `template_get write=true` saves the template PNG and layout in the git-ignored work directory (so an image tool can read it) and needs `author`.
@@ -231,7 +231,7 @@ The plan says the session that checks an asset must differ from the session that
 
 ### Jobs
 
-`background: true` on `studio_qa_run`, `studio_preview_render`, `studio_diff`, `studio_process`, `studio_rig_bake`, `studio_generator_run`, `studio_vfx_build` or `studio_pack` returns a `jobId` immediately; `studio_job_status` shows status, log tail and cost (wall time, approximate CPU), and `studio_job_wait` returns the finished result exactly as the foreground call would have, images included. The runner (`studio/core/jobs.mjs`) is in-process and memory-only: at most 4 jobs run at once, the newest 100 finished jobs are kept, jobs die with the process. It is cooperative (long loops yield to the event loop); CPU-heavy forge work will need a worker thread, which the interface allows without changing callers.
+`background: true` on `studio_qa_run`, `studio_preview_render`, `studio_diff`, `studio_process`, `studio_rig_bake`, `studio_generator_run`, `studio_vfx_build` or `studio_pack` returns a `jobId` immediately; `studio_job_status` shows status, log tail and cost (wall time, approximate CPU), and `studio_job_wait` returns the finished result exactly as the foreground call would have, images included. **Quota.** A toolchain run (`studio_generator_run`, `studio_vfx_build`, `studio_pack`) counts as one generation and is refused BEFORE it starts when the pack's ceiling (`ui.tabs.jobs.quota`, see the Jobs tab README) would be passed; an image tool runs outside the studio, so `studio_frames_submit` `generations` records what was spent and `studio_job_status` `plan` answers "may I?" first. The studio counts generations and wall time, never money. The runner (`studio/core/jobs.mjs`) is in-process and memory-only: at most 4 jobs run at once, the newest 100 finished jobs are kept, jobs die with the process. It is cooperative (long loops yield to the event loop); CPU-heavy forge work will need a worker thread, which the interface allows without changing callers.
 
 ## Layout and extension seams
 

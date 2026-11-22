@@ -2,6 +2,7 @@
 // when it becomes visible again): the server has no push channel, and a 2 s poll of two small JSON lists
 // is cheap on loopback. Running durations and "x s ago" tick locally every second between polls.
 import { h, fill } from './dom.mjs';
+import { renderQuota } from './quota.mjs';
 import { parseRoute as parse, stateParams, states, POLL_MS, jobPhase, durationMs, fmtDuration, sessionId, visibleJobs, groupSessions, visibleEvents, mergeEvents, counts } from './model.mjs';
 
 export { POLL_MS };
@@ -31,14 +32,15 @@ const who = x => `${x.agent || '?'} · ${String(x.session).slice(0, 8)}`;
 async function poll() {
   const mine = app;
   try {
-    const data = await mine.ctx.tabApi('feed?since=' + mine.since);
+    const [data, quota] = await Promise.all([mine.ctx.tabApi('feed?since=' + mine.since), mine.ctx.tabApi('quota').catch(() => null)]);
     if (app !== mine) return;
+    mine.quota = quota;
     const restarted = data.activity.next < mine.since;
     mine.events = mergeEvents(mine.events, mine.since, data.activity);
     mine.since = restarted ? 0 : data.activity.next;
     mine.jobs = data.jobs.items; mine.jobsAvailable = data.jobs.available; mine.jobsStatus = data.jobs.status; mine.links = data.links; mine.jobAssets = data.jobAssets ?? {};
     mine.skew = data.now - Date.now(); mine.failed = null;
-    const signature = JSON.stringify([mine.jobs.map(j => [j.id, j.status, j.finishedAt, j.logLines]), mine.events.at(-1)?.seq, mine.jobsAvailable, Object.keys(mine.links).length]);
+    const signature = JSON.stringify([mine.quota?.all, mine.quota?.recent?.length, mine.jobs.map(j => [j.id, j.status, j.finishedAt, j.logLines]), mine.events.at(-1)?.seq, mine.jobsAvailable, Object.keys(mine.links).length]);
     if (signature !== mine.signature || restarted) { mine.signature = signature; render(mine); }
     if (restarted) return poll();
   } catch (error) {
@@ -113,6 +115,7 @@ function render(app) {
     h('tbody', '', ...calls.map(e => h('tr', '', h('td', 'muted mono', e.ts.slice(11, 19)), h('td', '', h('code', '', e.tool)),
       h('td', '', h('a', {href: ctx.href(app.route({session: sessionId(e)}, {job: state.job}))}, who(e))),
       h('td', '', h('span', 'badge ' + (e.ok ? 'p-done' : 'p-failed'), ctx.t(e.ok ? 'outcome.ok' : 'outcome.failed'))), h('td', 'num', fmtDuration(e.ms)))))) : h('p', 'muted pad', ctx.t('calls.none')));
+  renderQuota(ctx, ui.quota, app.quota);
   renderDetail(app, now);
 }
 
@@ -142,12 +145,12 @@ function tickLocal(app) {
 }
 
 function layout(ctx) {
-  const ui = {status: h('div', 'live'), stats: h('dl', 'stats'), banner: h('div'), filters: h('div', 'filters'), sessions: h('div', 'agents'), jobs: h('div', 'tblwrap'), calls: h('div', 'tblwrap'),
+  const ui = {quota: h('section', 'sec'), status: h('div', 'live'), stats: h('dl', 'stats'), banner: h('div'), filters: h('div', 'filters'), sessions: h('div', 'agents'), jobs: h('div', 'tblwrap'), calls: h('div', 'tblwrap'),
     detail: h('aside', {class: 'detail', 'aria-label': ctx.t('detail.label')})};
   fill(ctx.root, 
     h('header', 'jb-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))), ui.status),
     ui.stats, ui.banner, ui.filters,
-    h('div', 'jb', h('div', 'main', h('section', 'sec', h('h2', '', ctx.t('sessions.title')), ui.sessions), h('section', 'sec', h('h2', '', ctx.t('jobs.title')), ui.jobs), h('section', 'sec', h('h2', '', ctx.t('calls.title')), ui.calls)), ui.detail));
+    h('div', 'jb', h('div', 'main', ui.quota, h('section', 'sec', h('h2', '', ctx.t('sessions.title')), ui.sessions), h('section', 'sec', h('h2', '', ctx.t('jobs.title')), ui.jobs), h('section', 'sec', h('h2', '', ctx.t('calls.title')), ui.calls)), ui.detail));
   return ui;
 }
 

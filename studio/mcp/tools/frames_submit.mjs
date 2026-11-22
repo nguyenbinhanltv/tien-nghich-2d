@@ -1,7 +1,7 @@
 import { submitFrames } from '../../core/submissions.mjs';
 import { MAX_CANDIDATES, submitCandidates } from '../../core/candidates.mjs';
 import { ToolError } from '../registry.mjs';
-import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { dryRunProp, jsonResult, loadAsset, recordImageSpend, requireFrames } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
@@ -61,6 +61,7 @@ export default {
         required: ['tool', 'sourceHash'],
         additionalProperties: false,
       },
+      generations: { type: 'integer', minimum: 1, maximum: 64, description: 'How many image-tool generations these frames came from (default 1). The studio records it for the quota; it cannot refuse an image tool that already ran.' },
       dryRun: dryRunProp,
     },
     required: ['assetId', 'provenance'],
@@ -68,7 +69,7 @@ export default {
   },
   // Not idempotent: with candidates a repeated call stores the survivors again as new takes and records another run.
   annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
-  async handler({ assetId, frames, candidates, note, reference, provenance, dryRun }, ctx) {
+  async handler({ assetId, frames, candidates, note, reference, provenance, generations, dryRun }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
     if ((frames === undefined) === (candidates === undefined)) throw new ToolError('Give exactly one of frames or candidates.');
@@ -79,6 +80,7 @@ export default {
       r.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${r.candidates.length} candidate(s)`,
         checks: [check('pixelGates', { ok: failed === 0, warn: failed > 0 && failed < r.candidates.length, measured: { rejected: failed, survivors: r.candidates.length - failed }, threshold: { rejected: 0 } })],
         notProven: [{ what: 'which candidate is best', why: 'only a person judges that, on the contact sheet, in the Review tab' }] });
+      if (!dryRun) r.quota = await recordImageSpend(ctx, { tool: provenance.tool, generations: generations ?? candidates.length, assetId });   // every candidate was a generation, kept or not
       return jsonResult(dryRun ? { ...r, wrote: 'nothing' } : r, !r.accepted);
     }
     const { accepted, report } = await submitFrames({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, frames, provenance, caller: ctx.caller, dryRun });
@@ -87,6 +89,7 @@ export default {
       checks: [check('pixelGates', { ok: frameErrors === 0, warn: report.frames?.some((f) => f.warnings > 0), measured: { errorPixels: frameErrors }, threshold: { errorPixels: 0 } })],
       notProven: [{ what: 'the rest of the asset', why: 'only the frames in this batch were judged; studio_qa_run judges the whole asset' }],
       inputs: Object.fromEntries((report.frames ?? []).slice(0, 40).map((f) => [f.name, f.sha256])) });
+    if (accepted && !dryRun && report.written?.length) report.quota = await recordImageSpend(ctx, { tool: provenance.tool, generations, assetId });
     return jsonResult(dryRun ? { ...report, wrote: 'nothing' } : report, !accepted);
   },
 };
