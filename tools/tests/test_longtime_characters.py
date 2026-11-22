@@ -87,5 +87,44 @@ class LongtimeCharacters(unittest.TestCase):
                 self.assertEqual(keys, {f"longtime/{aid}/{c}_{d}_{n}" for c in clips for d in DIRECTIONS for n in range(4)})
 
 
+class CropAllowance(unittest.TestCase):
+    """The build fails on any opaque pixel outside the canvas unless generation.json lists that frame with enough room."""
+
+    BOSS = "lt_binding_archivist"
+
+    def _build(self, tmp, allowance):
+        raw = Path(tmp) / "raw"
+        shutil.copytree(RAW / self.BOSS, raw / self.BOSS)
+        gen_path = raw / self.BOSS / "generation.json"
+        gen = json.loads(gen_path.read_text(encoding="utf-8"))
+        gen["crop_allowance"] = allowance
+        gen_path.write_text(json.dumps(gen), encoding="utf-8")
+        blc.build(self.BOSS, raw_root=raw, out_root=Path(tmp) / "out")
+        return json.loads((raw / self.BOSS / "provenance.json").read_text(encoding="utf-8"))
+
+    def test_allowed_crop_is_recorded_in_provenance(self):
+        shipped = json.loads((RAW / self.BOSS / "generation.json").read_text(encoding="utf-8"))["crop_allowance"]
+        self.assertEqual(shipped, {"advance/south/3": 5, "strike/west/4": 5})
+        with tempfile.TemporaryDirectory() as tmp:
+            prov = self._build(tmp, shipped)
+        self.assertEqual(prov["processing"]["cropped_opaque_pixels"], shipped)
+        on_disk = json.loads((RAW / self.BOSS / "provenance.json").read_text(encoding="utf-8"))
+        self.assertEqual(on_disk["processing"]["cropped_opaque_pixels"], shipped)
+
+    def test_crop_above_the_limit_fails(self):
+        with tempfile.TemporaryDirectory() as tmp, self.assertRaises(SystemExit) as cm:
+            self._build(tmp, {"advance/south/3": 4, "strike/west/4": 5})
+        self.assertIn("fall outside", str(cm.exception))
+
+    def test_crop_on_an_unlisted_frame_fails(self):
+        with tempfile.TemporaryDirectory() as tmp, self.assertRaises(SystemExit) as cm:
+            self._build(tmp, {"advance/south/3": 5})
+        self.assertIn("fall outside", str(cm.exception))
+
+    def test_no_allowance_means_no_crop_allowed(self):
+        with tempfile.TemporaryDirectory() as tmp, self.assertRaises(SystemExit):
+            self._build(tmp, {})
+
+
 if __name__ == "__main__":
     unittest.main()
