@@ -50,6 +50,34 @@ test('generator_run: a registered generator, run twice, judged by the gates, not
   assert.deepEqual((await a.ok('studio_review_list', { assetId: ICON, detail: 'full' })).byStatus, { pending: 1 });
 }));
 
+test('generator_run: overlapping runs on one asset keep their own directory, output and provenance', { skip: skipPy }, () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const b = connect(p.root, { agent: 'other', session: 'second-session' });
+  const params = { shape: 'star', size: 16, fill: 'jade_03', accent: 'bronze_04' };
+  const hash = async (seed) => (await a.call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed })).structuredContent.files[0].sha256;
+  const [want7, want9] = [await hash(7), await hash(9)];
+  assert.notEqual(want7, want9);
+  const runs = await Promise.all([
+    a.call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed: 7, submit: true }),
+    b.call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed: 9 }),
+    b.call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed: 9 }),
+  ]);
+  runs.forEach((r) => assert.equal(r.isError, undefined, text(r)));
+  assert.equal(runs[0].structuredContent.files[0].sha256, want7);
+  assert.equal(runs[1].structuredContent.files[0].sha256, want9);
+  assert.equal(runs[2].structuredContent.files[0].sha256, want9);
+  assert.notEqual(runs[0].structuredContent.workDir, runs[1].structuredContent.workDir);
+  const log = fs.readFileSync(join(raw(p, ICON), 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse)[0];
+  assert.match(log.notes ?? log.prompt ?? '', /seed.{0,4}7|"seed":7/, 'provenance records the seed that made the frames');
+  const committed = (root) => fs.readFileSync(join(root, 'assets/raw/longtime', ICON, 'frames/glyph_none_0.png'));
+  const solo = makeProject({ git: false, toolchain: true });
+  try {
+    const r = await connect(solo.root).call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed: 7, submit: true });
+    assert.equal(r.isError, undefined, text(r));
+    assert.deepEqual(committed(p.root), committed(solo.root), 'the committed PNG is exactly what a lone seed-7 run commits');
+  } finally { await solo.cleanup(); }
+}));
+
 test('generator_run: only registered generators; parameters are validated; text never reaches a program', { skip: skipPy }, () => withProject(async (p) => {
   const a = connect(p.root);
   const marker = join(p.root, 'pwned');
