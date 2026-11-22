@@ -10,7 +10,7 @@ const colors = [
   { id: 'r1', hex: '#2a0a16', group: 'red' }, { id: 'r2', hex: '#7a1426', group: 'red' }, { id: 'r3', hex: '#d03a4a', group: 'red' },
   { id: 'y1', hex: '#6b4a10', group: 'gold' }, { id: 'y2', hex: '#c9922a', group: 'gold' }, { id: 'y3', hex: '#f5d77a', group: 'gold' },
   { id: 'v1', hex: '#2b1f4d', group: 'violet' }, { id: 'v2', hex: '#5b46a0', group: 'violet' },
-  { id: 'n1', hex: '#808080', group: null }, { id: 'ink', hex: '#14101a', group: null },
+  { id: 'n1', hex: '#808080', group: null }, { id: 'ink', hex: '#0a0a12', group: null },
 ];
 const pal = makePalette({ colors, outline_id: 'ink' });
 const ids = new Set(colors.map((c) => c.id));
