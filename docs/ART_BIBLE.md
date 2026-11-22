@@ -7,7 +7,7 @@ Machine-readable twin: `tools/generators/palette.json` (v2: stable `id`, `index`
 2. **Outline:** 1px solid `#14101a` (`ink_01`) on the outer silhouette of every sprite. Alpha is binary (0 or 255).
 3. **Palette:** exactly the 43 colors below, nothing else. Light from top-left; shade ramps run dark->light inside one group.
 4. **Grid:** native pixel art, integer nearest-neighbor scaling only.
-5. **Mood:** ink-wash stone as the dungeon base; jade (life/wood), Blood-Sea crimson (demonic cultivation), Ancient God bronze/gold (treasures, relics), Soul-Banner obsidian/violet (souls, banners, curses), heavenly-thunder cyan/red (tribulation lightning), ember orange (scarves, flame, warm fabric; added 2026-11-22, hex awaiting owner review).
+5. **Mood:** ink-wash stone as the dungeon base; jade (life/wood), Blood-Sea crimson (demonic cultivation), Ancient God bronze/gold (treasures, relics), Soul-Banner obsidian/violet (souls, banners, curses), heavenly-thunder cyan/red (tribulation lightning), ember orange (scarves, flame, warm fabric; added 2026-11-22, hex approved by the owner).
 
 ## Canvas / size classes
 | Class | Canvas | Used for |
@@ -67,7 +67,7 @@ Canvas size is the sprite frame size; animations use one canvas per frame. Non-s
 | 42 | `orange_02` | orange-flame | ember-orange | `#e8701a` |
 | 43 | `orange_03` | orange-glow | ember-orange | `#ffb35c` |
 
-Group sizes: jade 7, Blood-Sea 7, bronze/gold 7, Soul-Banner 7, thunder 6 (4 cyan + 2 red), ink-wash 6, ember orange 3. The orange ramp (41 to 43) was appended on 2026-11-22 at the project owner's request: a scarf or flame had to be pulled toward red or yellow without it. Indices 1 to 40 are unchanged, so no existing asset changes colour. The name `tien-nghich-xianxia-40` and the spritefx palette id `tien_nghich_40` are kept as identifiers although the palette now has 43 colours. The three hex values are pending the owner's review. The earlier v1 palette (paper/earth/skin colors) is superseded; skin and hair tones must come from bronze/gold, Blood-Sea pale and ink-wash ramps. Changing a color means editing `palette.json` and this table together and keeping the count in step (43 now).
+Group sizes: jade 7, Blood-Sea 7, bronze/gold 7, Soul-Banner 7, thunder 6 (4 cyan + 2 red), ink-wash 6, ember orange 3. The orange ramp (41 to 43) was appended on 2026-11-22 at the project owner's request: a scarf or flame had to be pulled toward red or yellow without it. Indices 1 to 40 are unchanged, so no existing asset changes colour. The name `tien-nghich-xianxia-40` and the spritefx palette id `tien_nghich_40` are kept as identifiers although the palette now has 43 colours. The three hex values were approved by the project owner on 2026-11-22 (about 23:20); the record is `assets/review/art_approvals.json`, id `owner_orange_palette_2026-11-22`. The earlier v1 palette (paper/earth/skin colors) is superseded; skin and hair tones must come from bronze/gold, Blood-Sea pale and ink-wash ramps. Changing a color means editing `palette.json` and this table together and keeping the count in step (43 now).
 
 ## Enforcement
 `python -I tools/scripts/validate_palette.py [--class tile|character|weapon|boss|icon] <png|dir>` checks palette membership, binary alpha, the `#14101a` outline on every silhouette-edge pixel, and (with `--class`) canvas size. Perspective is reviewed by eye. Use `--outline-optional` for seamless tiles and flat UI only.
