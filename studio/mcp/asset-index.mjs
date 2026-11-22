@@ -19,6 +19,9 @@ const GROUP_OF_CATEGORY = {player: 'players', mob: 'mobs', boss: 'bosses', tiles
 const KEY_PREFIX = {players: 'characters', mobs: 'characters', bosses: 'characters', tilesets: 'tilesets',
   weapons: 'weapons', projectiles: 'projectiles', props: 'props', icons: 'ui', ui: 'ui'};
 
+// Categories whose frames may be empty (an effect fades to nothing).
+const EMPTY_OK_CATEGORIES = new Set(['vfx']);
+
 const atlasDirs = base => ({web: `${base}/web`, mobile: `${base}/mobile`});
 
 /** Where studio-created planned entries are stored: beside the design manifest. */
@@ -60,7 +63,7 @@ export async function loadAssetIndex(pack, root) {
         id: a.id, source: 'core', sourceId: core.id, manifest: core.file, category: a.category,
         name: a.name?.en ?? a.name ?? a.id, readiness: a.readiness ?? 'unknown', brief: a.description ?? '',
         assignedAgent: a.assigned_agent, size, pivot: null, directions: a.directions ?? ['none'],
-        clips: clipsOf(a.animations), outline: OUTLINE_CATEGORIES.has(a.category),
+        clips: clipsOf(a.animations), outline: OUTLINE_CATEGORIES.has(a.category), emptyOk: EMPTY_OK_CATEGORIES.has(a.category),
         spec: {output_path: a.output_path, palette_refs: a.palette_refs, status: a.status, frame_roles: a.frame_roles},
         layout: {...spriteLayout({id: a.id, processedDir, keyBase}), rawDir: a.output_path?.replace(/\/$/, ''),
           atlas: atlasDirs(pack.directories.atlases.core)},
@@ -73,17 +76,20 @@ export async function loadAssetIndex(pack, root) {
     info.sources.longtime = design;
     const data = await readJson(root, design.file);
     info.profiles = data.profiles; info.chunks = data.chunks; info.defaults = data.defaults; info.mobile = data.mobile;
+    // A studio plan may carry an inline spec instead of naming a manifest profile (a VFX, a one-off).
+    const inlineProfile = c => ({category: c.category, native_px: c.size, pivot_px: c.pivot, directions: c.directions ?? ['none'],
+      clips: Object.fromEntries(Object.entries(c.clips).map(([n, v]) => [n, [v.frames, v.frameMs]]))});
     const longtimeRecord = (a, origin) => {
-      const p = data.profiles[a.profile];
+      const p = a.custom ? inlineProfile(a.custom) : data.profiles[a.profile];
       if (!p) throw new Error(`Longtime asset ${a.id} names unknown profile ${a.profile}`);
       const rawDir = fillTemplate(data.defaults.source, {id: a.id}).replace(/\/$/, '');
       return {
         id: a.id, source: 'longtime', sourceId: design.id, manifest: design.file, origin, category: p.category,
-        profile: a.profile, name: a.id, readiness: a.readiness ?? data.defaults.readiness, brief: a.brief,
+        profile: a.custom ? 'custom' : a.profile, name: a.id, readiness: a.readiness ?? data.defaults.readiness, brief: a.brief,
         chunk: a.chunk_group, phase: a.phase, method: a.method, dependencies: a.dependencies ?? [],
         assignedAgent: p.assigned_agent, size: p.native_px, pivot: p.pivot_px, directions: p.directions,
         clips: Object.fromEntries(Object.entries(p.clips).map(([c, [frames, frameMs]]) => [c, {frames, frameMs}])),
-        outline: OUTLINE_CATEGORIES.has(p.category), spec: {},
+        outline: OUTLINE_CATEGORIES.has(p.category), emptyOk: EMPTY_OK_CATEGORIES.has(p.category), spec: {},
         layout: {...spriteLayout({id: a.id, processedDir: `${pack.directories.processed.longtime}/${a.id}`, keyBase: 'longtime',
           studioRawDir: `${rawDir}/frames`}), rawDir, atlas: atlasDirs(pack.directories.atlases.longtime)},
       };
@@ -100,7 +106,7 @@ export async function loadAssetIndex(pack, root) {
       put({
         id: e.id, source: 'longtime-vfx', sourceId: design.id, manifest: design.file, category: 'vfx', name: e.id,
         readiness: e.status, brief: e.event ?? '', chunk: e.chunk_group, method: e.method, dependencies: e.related ?? [],
-        size: e.native_px ?? null, pivot: e.pivot_px ?? null, directions: ['none'], clips: null, outline: false,
+        size: e.native_px ?? null, pivot: e.pivot_px ?? null, directions: ['none'], clips: null, outline: false, emptyOk: true,
         spec: {modes: e.modes, reads: e.reads, why_new: e.why_new},
         layout: {nameStyle: 'palette', processedDir: `${pack.directories.processed.longtime}/${e.id}`, atlas: atlasDirs(pack.directories.atlases.longtime),
           keyOf: (clip, palette, n) => `longtime/${e.id}/${clip}_${palette}_${n}`},
@@ -116,7 +122,7 @@ export async function loadAssetIndex(pack, root) {
       put({
         id: e.id, source: 'vfx', sourceId: vfx.id, manifest: vfx.file, category: 'vfx', name: e.id, readiness: 'packed',
         brief: '', size: e.frame_size, pivot: e.anchor, directions: ['none'], clips: {play: {frames: e.frame_count, loop: e.loop}},
-        outline: false, spec: {fps: e.fps, total_ms: e.total_ms, descriptor: e.descriptor},
+        outline: false, emptyOk: true, spec: {fps: e.fps, total_ms: e.total_ms, descriptor: e.descriptor},
         layout: {nameStyle: 'vfx-flat', processedDir: `${pack.directories.processed.core}/vfx`, flatPrefix: e.id, atlas: atlasDirs(pack.directories.atlases.core),
           keyOf: (clip, direction, n) => fillTemplate(pack.frameKeys.vfx, {id: e.id, n})},
       });
@@ -132,7 +138,9 @@ export async function loadAssetIndex(pack, root) {
       if (ids.has(id) || assets.has(id)) return;
       ids.add(id);
       put({id, source: 'audio', sourceId: audio.id, manifest: audio.file, category, name: id, readiness: data.status ?? 'planned',
-        brief: '', group, size: null, pivot: null, directions: [], clips: null, outline: false, spec: {}, layout: null});
+        brief: '', group, size: null, pivot: null, directions: [], clips: null, outline: false, spec: {}, layout: null,
+        // Candidates made through the studio live beside the audio plan, never in the delivered audio directories.
+        audio: {dir: path.posix.join(path.posix.dirname(audio.file), 'studio_audio', id)}});
     };
     for (const [category, list] of Object.entries(data.core ?? {}))
       if (Array.isArray(list)) list.filter(x => typeof x === 'string').forEach(id => addAudio(id, category, 'core'));

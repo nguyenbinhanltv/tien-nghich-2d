@@ -1,6 +1,6 @@
 # Studio MCP server
 
-A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **14 of the 25 planned tools** (see [Tools](#tools)): everything that does not depend on the forge. The other 11 are not stubbed; each arrives with the module that implements it.
+A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **25 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
 
 ```
 node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name>] [--audit-log <file>]
@@ -8,7 +8,7 @@ node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name
 node studio/mcp.mjs --issue-token --agent <name> --scope <scope>     # HTTP bearer token, shown once
 node studio/mcp.mjs --self-test          # human-runnable proof: real handshakes, real calls, exit code
 node --test studio/mcp/*.test.mjs studio/core/tests/*.test.mjs        # the tests
-node studio/mcp/eval/run.mjs             # the evaluation, as a real agent (needs the `claude` CLI)
+node studio/mcp/eval/run.mjs --set all   # the ten-question evaluation, as a real agent (needs the `claude` CLI)
 ```
 
 You need **one** agent connected, not several. Claude Code, Codex and Antigravity below are independent alternatives; pick the one you use. Nothing in the server assumes more than one connection.
@@ -29,28 +29,74 @@ Not implemented (not needed yet): resources, prompts, `subscriptions/listen`, ta
 
 ## Tools
 
-Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read` < `author` < `pack`. A connection sees only the tools its scope allows, and the server refuses the rest. **No tool needs `pack` yet** (that scope is for the later `pack` tool), and no committed config grants it.
+Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read` < `author` < `pack`. A connection sees only the tools its scope allows, and the server refuses the rest. **No tool needs `pack`** (that scope is reserved), and no committed config grants it. `studio_pack` is `author` because it only writes into a staging area.
 
 | Group | Tool | Scope | What it does |
 |---|---|---|---|
 | Context | `studio_project_info` | read | Palette (40 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
-| | `studio_catalog_search` | read | Find assets by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging |
-| | `studio_asset_get` | read | One asset: spec, four milestones, frames present or missing, provenance, metadata, review state, checks, dependencies, and the etags editing needs |
-| | `studio_asset_plan` | author | Create, or edit one you created, a planned Longtime entry (stored beside the locked manifest) |
+| | `studio_catalog_search` | read | Find assets (art and audio cues) by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging (default 25, max 100 per page) |
+| | `studio_asset_get` | read | One asset: spec, four milestones, frames, provenance, metadata, review state, checks, dependencies, audio candidates, and the etags editing needs |
+| | `studio_asset_plan` | author | Create, or edit one you created, a planned entry. `custom: {category, size, pivot, directions, clips}` describes what fits no profile (a VFX, a one-off icon) |
 | Authoring | `studio_frames_submit` | author | Native PNG frames with mandatory provenance; pixel gates run first; raw is immutable |
 | | `studio_metadata_set` | author | Pivot, hitbox, per-frame durations, clip events |
-| Checking | `studio_qa_run` | read (record: author) | Palette, alpha, outline, size, frame count, naming, with pixel coordinates; can record an independent check |
-| | `studio_diff` | read | Against the previous revision, or against main: changed pixels, bounding box, hashes |
+| Forge | `studio_template_get` | read | A layout template to hand to an image generator: `turnaround` (facings) or `pose-sheet` (the key poses of one clip), as an image plus the layout document (`write=true` saves it to the work directory) |
+| | `studio_sheet_import` | author | A generated sheet (file or inline) + layout + provenance: stored once by hash, cells cut, scale normalised. Writes the tracked import document |
+| | `studio_process` | author | Pixelise the imported cells onto the palette and size class; `marks` keep chosen pixels. `submit=true` commits the result as frames |
+| | `studio_rig_bake` | author | Bake **rig clips** (idle, attack: a part rig and the motion library) or **pose-sheet clips** (locomotion: your drawn key poses, in-betweened); gates run; `save` stores the bake documents, `submit` commits frames |
+| | `studio_frame_patch` | author | Stored pixel operations on a frame (`set`, `line`, `fill`, `flood`, `shift`, `copy`, `outline`, `grid`): keeps an asymmetric mark through every re-bake, or edits a frame that is already in review as a new revision |
+| Toolchain | `studio_generator_run` | author | A generator **registered in the project pack**, with checked parameters and a seed; run twice to prove determinism; never an arbitrary command |
+| | `studio_vfx_build` | author | A SpriteFX effect spec through the pack's toolchain adapter in its isolated environment; returns the frames, the audits and the gate verdict |
+| | `studio_pack` | author | Pack a chunk's atlas into a **staging area** with the mobile budget (pages, padding, extrude, bytes per pixel) checked; the shipped atlas directories are fingerprinted before and after and never touched |
 | Seeing | `studio_preview_render` | read | An **image**: contact sheet by clip and direction, nearest-neighbour x4, defect overlay |
+| | `studio_scene_snapshot` | read | An **image** of the asset in place: on a background colour or tile, a VFX at an anchor on it, a still or a strip |
+| Checking | `studio_qa_run` | read (record: author) | Palette, alpha, outline, size, frame count, naming, with pixel coordinates; for an audio cue the measurements; can record an independent check |
+| | `studio_diff` | read | Against the previous revision, or against main: changed pixels, bounding box, hashes |
+| Audio | `studio_audio_render` | author | Render a patch or score document with `studio/audio` into scratch: measurements, a waveform image and a spectrogram image. `keep=true` stores it as the next immutable candidate of the cue and starts its review history |
+| | `studio_audio_analyze` | read | The same measurements and two images for a file, a stored candidate or a document; loop seams on request. **Measurements only: no agent listens, and nothing here signs listening** |
 | Review loop | `studio_review_request` | author | Ask a human to review (a comment, never a status) |
 | | `studio_review_list` | read | The human's decisions and comments, and which comments still wait for an answer |
 | | `studio_review_reply` | author | Answer a human comment, optionally mark it handled (a comment, never a status) |
 | Jobs | `studio_job_status` | read | Status, log tail, cost of a background job |
 | | `studio_job_wait` | read | Wait for a job and get its result (images included) |
 
-**Not yet** (left for the forge and later parts, deliberately not stubbed): `template_get`, `sheet_import`, `frame_patch`, `rig_bake`, `process`, `generator_run`, `vfx_build`, `audio_render`, `audio_analyze`, `pack`, `scene_snapshot`.
+Read-scope tools (12): `asset_get`, `audio_analyze`, `catalog_search`, `diff`, `job_status`, `job_wait`, `preview_render`, `project_info`, `qa_run`, `review_list`, `scene_snapshot`, `template_get`. `template_get write=true` saves the template PNG and layout in the git-ignored work directory (so an image tool can read it) and needs `author`.
 
-Design follows the mcp-builder rules: action-named tools, concise descriptions that say what comes back, `additionalProperties: false` everywhere, filters and paging on lists, errors that say what to do next ("Did you mean: lt_seed_broker?", "pass the etag from studio_asset_get"), annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`).
+Design follows the mcp-builder rules: action-named tools, concise descriptions that say what comes back, `additionalProperties: false` everywhere, filters and paging on lists, errors that say what to do next ("Did you mean: lt_seed_broker?", "pass the etag from studio_asset_get", the list of registered generators for an unknown one), annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`).
+
+### Which animation route (from the bake-off)
+
+`docs/FORGE_BAKEOFF.md` settled the default, and the tool descriptions say it, so an agent that reads only the tool list is steered the same way:
+
+- **Locomotion (walk, run, follow, dash): drawn key poses from a pose sheet.** `studio_template_get kind=pose-sheet` → the agent draws the key poses with its own image tool → `studio_sheet_import` → `studio_process` → `studio_rig_bake poseClips`. Frame *i* of the clip is the pixelised cell of key *i*; the in-betweens are computed.
+- **Idle and other small motions: the rig** (`studio_rig_bake rig`/`clips`) from a turnaround sheet.
+- **Asymmetric marks (a scar, a one-sided charm): pixel patches** (`studio_frame_patch`), which are stored operations and survive every re-bake, instead of redrawing.
+- **Environment, items, projectiles, icons: generators** (`studio_generator_run`); **VFX: `studio_vfx_build`**. The image-generation route is not used for these.
+
+### The forge's tracked documents
+
+Every forge step is a pure function of documents stored **beside the asset** and tracked by git; intermediates are rebuilt and git-ignored.
+
+| Document | Where | Tracked |
+|---|---|---|
+| Sheet (stored once, by hash), import, pixelise settings and marks, rig, pose clips, bake, patches | `<raw>/<id>/forge/…` | yes |
+| Bake work files, previews, generator and SpriteFX scratch output | `<library>/work/<assetId>/` | no |
+| Staged atlas pages | the staging directory under the library | no |
+
+Provenance is mandatory at every door (`submitFrames`): the tool, the prompt or the generator, and the source hash. Raw frames are never overwritten.
+
+### The pack registry: what `generator_run`, `vfx_build` and `pack` may run
+
+`studio.project.json` `adapters` is the only list of programs the server will start:
+
+- `adapters.generators.<id>`: a script (project-relative), an argument template (`{out}`, `{palette}`, `{seed}` and one `{name}` per parameter), parameter specs (type, range, enum, pattern, default), a seed rule and a timeout. This project registers **`primitives`** (`tools/generators/studio_primitives.py`: diamond, disc, ring, cross, star, drop, shard on the master palette).
+- `adapters.vfx`: the interpreter, the SpriteFX clone and the palettes. The runner string is fixed in the server; a spec chooses effects, not commands.
+- Safety rules, each with a test: no shell, an argument vector built from the template and the **validated** parameters only; a scrubbed environment; a timeout; output confined to a scratch directory; generators run twice and must be byte-identical; the staging path is resolved through symlinks and may not be inside a shipped atlas directory; a missing toolchain is a message that says what to install, not a crash.
+
+A new generator is a reviewed change to the pack and a script, never something an agent can register.
+
+### Audio candidates
+
+A cue (`studio_catalog_search source=audio`) has **candidates**: immutable versioned directories `assets/studio_audio/<cue>/v<N>/` holding the source document, the WAV, the waveform and spectrogram PNGs, the measurements and the provenance. `studio_audio_render keep=true` writes the next one; the delivered audio directories are never written (the engine refuses them). The review history is over the two pictures, so a human sees what the agent saw. `studio_qa_run` on a cue reports **measurements**: reproducible render, clipping, silence, endpoints, loudness and scale. It does not say a cue sounds right; the plan's listening sign-off belongs to a human and no tool records it.
 
 ### A sample loop
 
@@ -106,7 +152,7 @@ The plan says the session that checks an asset must differ from the session that
 
 ### Jobs
 
-`background: true` on `studio_qa_run`, `studio_preview_render` or `studio_diff` returns a `jobId` immediately; `studio_job_status` shows status, log tail and cost (wall time, approximate CPU), and `studio_job_wait` returns the finished result exactly as the foreground call would have, images included. The runner (`studio/core/jobs.mjs`) is in-process and memory-only: at most 4 jobs run at once, the newest 100 finished jobs are kept, jobs die with the process. It is cooperative (long loops yield to the event loop); CPU-heavy forge work will need a worker thread, which the interface allows without changing callers.
+`background: true` on `studio_qa_run`, `studio_preview_render`, `studio_diff`, `studio_process`, `studio_rig_bake`, `studio_generator_run`, `studio_vfx_build` or `studio_pack` returns a `jobId` immediately; `studio_job_status` shows status, log tail and cost (wall time, approximate CPU), and `studio_job_wait` returns the finished result exactly as the foreground call would have, images included. The runner (`studio/core/jobs.mjs`) is in-process and memory-only: at most 4 jobs run at once, the newest 100 finished jobs are kept, jobs die with the process. It is cooperative (long loops yield to the event loop); CPU-heavy forge work will need a worker thread, which the interface allows without changing callers.
 
 ## Layout and extension seams
 
@@ -121,7 +167,8 @@ studio/mcp/schema.mjs       JSON Schema subset validator (rejects $ref etc. at r
 studio/mcp/project.mjs      project_info's view of the pack (the only file reading project files for it)
 studio/mcp/asset-index.mjs  THE PROJECT ADAPTER: this project's manifests -> asset records
 studio/mcp/tools/           one module per tool; tools/index.mjs registers them
-studio/mcp/eval/            the evaluation: questions.xml, scene.mjs, run.mjs, results/
+studio/mcp/workflow/        shared logic of the forge, toolchain and audio tools (forge docs, frames, patch, audio)
+studio/mcp/eval/            the evaluation: questions.xml + questions2.xml, scene.mjs + scene2.mjs, run.mjs, results/
 studio/core/                project-agnostic engines the tools call (see below)
 ```
 
@@ -254,6 +301,10 @@ Same setup as above, in a **disposable** worktree (the prompt writes two files a
 
 **Pass:** `plan created: true`; the metadata file is `assets/raw/longtime/lt_trial_marker/studio-metadata.json`; pivot and hitbox read back `yes`; `review_request` is **refused** with a message about frames or an independent check (there are no frames, so nothing may be asked of a human); `git status --short` shows exactly `?? assets/raw/longtime/lt_trial_marker/` and `?? assets/studio_plans.json` and nothing else (the revision store and database are git-ignored); I ran these steps against a scratch worktree of the real repo and got exactly that; and the number of approval prompts is recorded. If author calls were blocked by approval (for example in `codex exec`), the Codex config needs `default_tools_approval_mode = "approve"` (see the Codex section); that is the finding this trial exists to produce.
 
+### Sample runs for a fresh agent
+
+[`SAMPLE_RUNS.md`](SAMPLE_RUNS.md) has four self-contained prompts for a fresh Codex session: a static asset (a registered generator), an animated character (pose sheet, rig, patch), a VFX (SpriteFX) and an audio cue, each done through MCP only and ending at `studio_review_request`, with a second session doing the independent check. They have **not** been run by a real Codex session yet; they are what the next trial uses, with exact pass criteria and what to record.
+
 ## Does a server launched in a git worktree see that worktree's files?
 
 **Yes, provided the paths in the config resolve inside that worktree, which the committed project configs guarantee by using a relative script path.** The server is a plain process that reads files by path; it knows nothing about git. A linked worktree is an ordinary directory with its own checked-out copy of `assets/`, `tools/` and `studio/`. Two things decide which copy is read: the script path (`studio/mcp.mjs` relative to the harness's working directory, or an absolute path) and `--project` (default: the repo that contains `mcp.mjs`, not the shell's cwd). Relative paths followed by a harness started in the worktree give that worktree's files: verified above for Claude Code in a fresh worktree, where `project.root` was that worktree and `pwd` agreed. An absolute path to the main checkout in a user-level config sees the main checkout instead, whatever worktree the session is in. Two worktrees do not share state: each session launches its own server process. Uncommitted edits are visible immediately because manifests are re-read per call. Whether Codex and Antigravity start stdio servers in the session's directory is undocumented; the test prompt's `project.root` versus `pwd` check settles it.
@@ -282,6 +333,18 @@ curl http://127.0.0.1:4173/mcp/activity                              # who calle
 
 `GET /mcp/activity?since=<seq>` returns the last 500 calls: time, agent, session, scope, tool, ok, milliseconds. The live UI will poll it; nothing in it is an argument or a secret.
 
+`GET /mcp/jobs[?limit=<n>]` returns the background jobs as **views only** (no arguments, no results, no images, no log), newest first, behind the same loopback, `Host` and `Origin` checks as `/mcp/activity`. `limit` defaults to 50 and is capped at 200; anything but GET is `405`.
+
+```json
+{ "jobs": [
+  { "id": "job_…", "tool": "studio_rig_bake", "state": "queued|running|succeeded|failed",
+    "agent": "codex", "session": "…", "assetId": "lt_reed_crane",
+    "createdAt": "<ISO>", "startedAt": "<ISO>|null", "endedAt": "<ISO>|null", "durationMs": 1234,
+    "error": "message only, present when failed" } ] }
+```
+
+`assetId` is present only when the job's tool takes one. `studio_job_status` and `studio_job_wait` remain the way to read a log tail or a result.
+
 Client snippets (the token in an environment variable, never in a committed file). **Claude Code** was verified with a real session over HTTP with an author token: `studio` connected, 14 tools listed, calls succeeded, agent name taken from the token, calls visible in the activity feed. The Codex and Antigravity forms follow their docs and have not been run:
 
 ```
@@ -298,28 +361,37 @@ bearer_token_env_var = "STUDIO_MCP_TOKEN"
 
 What still differs from stdio: the HTTP server is **one long-lived process serving one project root** (the checkout it was started in, since `studio/serve.mjs` serves its own repo), so a worktree's own files are seen only by running that worktree's server on its own port; stdio remains the per-worktree transport. Jobs are shared by all HTTP connections of the process. The server never sends anything unprompted, so there is no SSE.
 
-## Evaluation (first half of ten)
+## Evaluation (ten questions)
 
-The plan requires ten questions in the mcp-builder format, each answerable only by using the tools correctly. This is the first half; the second half (forge tools) is written when those tools exist. Five read-only, independent questions with one short verifiable answer each are in `eval/questions.xml`, answered against a **scene**: a throwaway copy of the project that a harness (not the agent) puts into a known state through the same tools and the review store: frames submitted by one session, an independent check by another, a human approving, commenting and requesting changes, a human edit as a second revision, and one frame damaged on disk afterwards. Ground truth is computed **without** the studio tools (reading files and the databases directly).
+The plan requires ten questions in the mcp-builder format, each answerable only by using the tools correctly, with one short verifiable answer. Questions 1 to 5 (`eval/questions.xml`) are read-only and run against **scene 1**; questions 6 to 10 (`eval/questions2.xml`) need the forge and toolchain tools and run against **scene 2** (`eval/scene2.mjs`). A scene is a throwaway copy of the project that a harness (not the agent) puts into a known state through the same tools and the review store: frames submitted by one session, an independent check by another, a human approving, commenting and requesting changes, a damaged frame, a stored sheet, a staged pack. Ground truth is computed **without** the studio tools (reading files and the databases directly).
 
-- **Offline** (`eval.test.mjs`, part of `node --test`): the answers in `questions.xml` equal the ground truth; and an oracle answers every question using only studio tool calls through the real server at read scope. So the questions are answerable, verifiable and stable.
-- **As a real agent** (`node studio/mcp/eval/run.mjs --out <file>`): headless Claude Code with **no built-in tools at all** (no shell, no file access), only the studio tools at read scope. 2026-11-22, default model, `eval/results/2026-11-22-claude-code.json`:
+- **Offline** (`eval.test.mjs`, part of `node --test`): the answers equal the ground truth; and an oracle answers every question using only studio tool calls through the real server at the scope the question needs. So the questions are answerable, verifiable and stable.
+- **As a real agent** (`node studio/mcp/eval/run.mjs --set all --out <file>`): headless Claude Code with **no built-in tools at all** (no shell, no file access), only the studio tools, at `read` for 1 to 5 and `author` for 6 to 10. 2026-11-22, default model, `eval/results/2026-11-22-claude-code-ten.json`:
 
-| Q | Needs | Answer | Tool calls | Result |
-|---|---|---|---|---|
-| 1 | `catalog_search`, `asset_get` (multi-hop: find the planned ember_delta boss, count its frames) | 72 | 2 | correct |
-| 2 | `catalog_search` paging (planned assets in every chunk that has a planned boss, of any size) | 19 | 9 | correct |
-| 3 | `qa_run` (which frame breaks the palette rule, and the colour) | `idle_south_2 #010203` | 2 | correct |
-| 4 | `review_list` (the human comment about the carried pole, and that frame's status) | `idle_south_1 pending` | 1 | correct |
-| 5 | `asset_get` checks (who made the independent check, and is it still current) | `claude-code no` | 1 | correct |
+| Q | Scope | Needs | Answer | Tool calls | Result |
+|---|---|---|---|---|---|
+| 1 | read | `catalog_search`, `asset_get` (find the planned ember_delta boss, count its frames) | 72 | 2 | correct |
+| 2 | read | `catalog_search` paging (planned assets in every chunk with a planned boss) | 19 | 8 | correct |
+| 3 | read | `qa_run` (the frame that breaks the palette rule, and the colour) | `idle_south_2 #010203` | 2 | correct |
+| 4 | read | `review_list` (the human comment, and that frame's status) | `idle_south_1 pending` | 1 | correct |
+| 5 | read | `asset_get` checks (who made the independent check, still current?) | `claude-code no` | 1 | correct |
+| 6 | author | `template_get` pose-sheet (which clip of the planned pet the forge recommends drawing as key poses, and its pose names in order) | `contact_a, passing_a, contact_b, passing_b` | 2 | correct |
+| 7 | author | `asset_get` (hash of the sheet a pet's frames were made from, first 12 hex) | `05a31f35ae7b` | 2 | correct |
+| 8 | author | `audio_analyze` (of two kept candidates of a cue: which has the higher peak, and its length in ms) | `1 220` | 2 | correct |
+| 9 | author | `generator_run` (run the registered primitives generator with given parameters and seed, no commit; hash prefix of its frame) | `6299b2aff7` | 1 | correct |
+| 10 | author | `pack` (does a chunk's current frame set fit its mobile atlas budget, and how many pages it is allowed) | `no 1` | 1 | correct |
 
-**5 of 5 correct, no tool errors, 0.53 USD in total.** Coverage is honest: this run did not call `preview_render`, `diff` or the job tools (the tests cover them). A separate probe confirmed an agent can *see* the preview: asked to look at the image and not the text, it reported the four status bars (green, green, red, green) and the boxed pixel in the third cell, which is the damaged frame. Re-run after changing a tool description; a wrong answer or a tool error in `results` is the signal to improve it.
+**10 of 10 correct, no tool errors, about 1.6 USD in total** (the first five cost 0.69 USD in this run). Coverage is honest: the real-agent run exercised `catalog_search`, `asset_get`, `qa_run`, `review_list`, `template_get`, `audio_analyze`, `generator_run` and `pack`. The other tools (`preview_render`, `scene_snapshot`, `sheet_import`, `process`, `rig_bake`, `frame_patch`, `vfx_build`, `diff`, the job tools) are covered by the tests, by the end-to-end checks below and by the sample runs. A separate probe confirmed an agent can *see* the preview: asked to look at the image and not the text, it reported the status bars and the boxed pixel in the damaged frame. Re-run after changing a tool description; a wrong answer or a tool error in `results` is the signal to improve it.
+
+Verified end to end through the server (tests, no agent): a stored marten turnaround sheet reproduces all 32 bake-off frames pixel for pixel and commits them with provenance; the pose-sheet route yields a `follow` clip whose frame *i* equals the pixelised cell of key *i*; `frame_patch` as a new revision and as a stored bake patch; a generator's determinism check; a 12-frame SpriteFX effect with 0 faults, byte-identical on a second build; a staged pack that fails its budget; a scene snapshot with pixel-exact placement; the audio render, keep, QA, independent-session and review loop; and a barrage of every tool at `author` and `pack` scope after which the pack, manifests, palette, scripts, shipped atlases and processed frames are byte-identical and every review status is still `pending`.
 
 ## Known limits
 
 - **Antigravity has not been run** (not installed here); its committed config and HTTP form follow Google's documentation. Codex's stdio read path is verified by the trial above; its author tools and its HTTP form are not.
-- **Only Longtime design assets can be authored** (frames, metadata). Core assets are shipped and change through reviewed revisions, which arrive with `frame_patch`.
-- **Frames are checked, not yet processed.** `process`, `pack` and the animation gate belong to the forge; `qa_run` covers the static gates today, not slide, drift or loop seams.
+- **Only Longtime design assets and audio cues can be authored.** Shipped (core) assets change through reviewed revisions only; `frame_patch` on a submitted frame creates one, but an approved frame is never reopened.
+- **`studio_pack` stages an atlas only.** There is no audio pack kind yet, and nothing packs into the shipped atlas directories; a human promotes staged output in a reviewed change.
+- **Codex approval mode for author tools is still open** (see the authoring trial); the sample runs below record it.
+- **VFX and generator runs need the project toolchain** (`tools/.venvs/…`, the SpriteFX clone); without it they answer with a message saying what to install.
 - **`studio_review_*` work per frame**, so a 32-frame request is 32 comments with the same note; the review UI will aggregate them per asset.
 - **The independent check is a process guard, not a security boundary** (see above).
 - Jobs and HTTP sessions are memory-only: they end with the process.

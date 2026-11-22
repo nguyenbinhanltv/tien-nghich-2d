@@ -3,6 +3,7 @@
 // (palette membership, binary alpha, silhouette outline, non-empty) applied pixel by pixel, and a test
 // holds the two modules in agreement.
 import { decodeRgba } from './png.mjs';
+import { gateOptions } from './gates.mjs';
 
 export const defectCodes = Object.freeze({
   size: 'error',
@@ -18,13 +19,15 @@ const hex = n => '#' + n.toString(16).padStart(6, '0');
 const MAX_PER_CODE = 200;
 
 /**
- * options: {palette: Set<int>, outline: int|undefined, needOutline = true, borderIsEdge = false,
+ * options: {palette: Set<int>, outline: int|undefined, needOutline = true, borderIsEdge = false, allowEmpty = false,
  *           dirtyTransparent = 'error' | 'warn' | 'ignore', maxPerCode = 200}
+ * allowEmpty: a frame with nothing in it is not a defect (the faded tail of an effect). needOutline false also
+ * switches off the thick-outline heuristic: it judges an outline the category does not have.
  * Returns {defects: [{code, severity, x, y, color?}], counts: {code: n}, totals: {error, warn}, truncated: [codes]}.
  * `counts` and `totals` are exact; `defects` keeps at most maxPerCode coordinates per code.
  */
 export function findDefects({width, height, pixels}, options) {
-  const {palette, outline, needOutline = true, borderIsEdge = false, dirtyTransparent = 'error',
+  const {palette, outline, needOutline = true, borderIsEdge = false, allowEmpty = false, dirtyTransparent = 'error',
     maxPerCode = MAX_PER_CODE} = options;
   const defects = [], counts = {}, totals = {error: 0, warn: 0};
   const add = (code, severity, x, y, color) => {
@@ -56,13 +59,13 @@ export function findDefects({width, height, pixels}, options) {
       if (!around.some(([nx, ny]) => transparent(nx, ny))) continue;
       edges++;
       if (color !== outline) { if (needOutline) add('outline_gap', 'error', x, y, color); }
-      else {
+      else if (needOutline) {
         const inward = around.filter(([nx, ny]) => opaque(nx, ny));
         if (inward.length && inward.every(([nx, ny]) => rgb(nx, ny) === outline)) thick.push([x, y]);
       }
     }
   }
-  if (!anyOpaque || edges === 0) add('empty_frame', 'error', 0, 0);
+  if ((!anyOpaque || edges === 0) && !allowEmpty) add('empty_frame', 'error', 0, 0);
   // Same rule as gates.mjs: only warn when a quarter or more of the edge is backed by outline.
   if (edges && thick.length * 4 > edges) thick.forEach(([x, y]) => add('outline_thick', 'warn', x, y));
   const truncated = Object.keys(counts).filter(code => counts[code] > maxPerCode);
@@ -76,5 +79,12 @@ export function findDefectsInPng(bytes, options) {
   catch (error) { return {image: null, defects: [], counts: {unreadable: 1}, totals: {error: 1, warn: 0}, truncated: [], unreadable: error.message}; }
   return {image, ...findDefects(image, options)};
 }
+
+/**
+ * Gate options for judging one asset's pixels: the pack's palette and outline rule, relaxed where the asset's category
+ * allows (no outline for glows, empty frames for an effect that fades out). `dirtyTransparent`: how to treat RGB under alpha 0.
+ */
+export const assetGateOptions = (pack, palette, asset, dirtyTransparent = 'error') =>
+  ({...gateOptions(pack, palette, {outlineOptional: !asset.outline}), allowEmpty: Boolean(asset.emptyOk), dirtyTransparent});
 
 export const severityOf = code => defectCodes[code] ?? 'error';

@@ -1,12 +1,12 @@
 import { listFrames } from '../../core/assets.mjs';
 import { renderContactSheet } from '../../core/contact-sheet.mjs';
-import { findDefects } from '../../core/defects.mjs';
+import { assetGateOptions, findDefects } from '../../core/defects.mjs';
 import { readInside } from '../../core/files.mjs';
 import { yieldToLoop } from '../../core/fsutil.mjs';
-import { gateOptions } from '../../core/gates.mjs';
 import { decodeRgba } from '../../core/png.mjs';
 import { pickStage } from '../../core/qa.mjs';
 import { ToolError } from '../registry.mjs';
+import { latestVersion } from '../../core/audio-candidates.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames, selectionOf, selectionProps } from './_shared.mjs';
 
 export default {
@@ -33,14 +33,24 @@ export default {
   annotations: { readOnlyHint: true, idempotentHint: true },
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
-    requireFrames(asset);
+    requireFrames(asset, { audio: true });
+    if (asset.audio) {
+      // A cue has no pixels of its own: show the two pictures of its newest candidate.
+      const cand = await latestVersion(ws.root, asset.audio.dir);
+      if (!cand) throw new ToolError(`${asset.id} has no candidate yet. Make one with studio_audio_render keep=true.`);
+      const pics = await Promise.all(['waveform', 'spectrogram'].map(async (n) => (await readInside(ws.root, cand.files[`${n}.png`])).toString('base64')));
+      const g = cand.measurements;
+      return { content: [
+        { type: 'text', text: `${asset.id} candidate v${cand.version}: waveform then spectrogram (${g.durationMs} ms, peak ${g.peak?.sampleDbfs} dBFS). The WAV is ${cand.files['render.wav']}. No agent listens; a human signs listening.` },
+        ...pics.map((data) => ({ type: 'image', data, mimeType: 'image/png' })) ], structuredContent: { asset: asset.id, candidate: cand.version, files: cand.files } };
+    }
     return inlineOrJob(ctx, 'preview_render', args, async (log) => {
       const stage = await pickStage(ws.root, asset, args.stage);
       const sel = selectionOf(args);
       const frames = (await listFrames(ws.root, asset, stage)).frames.filter((f) =>
         (sel.clip === undefined || f.clip === sel.clip) && (sel.direction === undefined || f.direction === sel.direction) && (sel.n === undefined || f.n === sel.n));
       if (!frames.length) throw new ToolError(`${asset.id} has no ${stage} frames${Object.keys(sel).length ? ' matching that selection' : ''}. studio_asset_get shows which stages have frames.`);
-      const options = { ...gateOptions(snap.pack, snap.palette, { outlineOptional: !asset.outline }), dirtyTransparent: stage === 'raw' ? 'warn' : 'error' };
+      const options = assetGateOptions(snap.pack, snap.palette, asset, stage === 'raw' ? 'warn' : 'error');
       const cells = [];
       let i = 0;
       for (const f of frames) {

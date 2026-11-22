@@ -16,7 +16,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ENTRY = resolve(HERE, '..', 'mcp.mjs');
 const ROOT = resolve(HERE, '..', '..');
 const INIT = { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'test-client', version: '1' } };
-const READ_TOOLS = ['studio_asset_get', 'studio_catalog_search', 'studio_diff', 'studio_job_status', 'studio_job_wait', 'studio_preview_render', 'studio_project_info', 'studio_qa_run', 'studio_review_list'];
+const READ_TOOLS = ['studio_asset_get', 'studio_audio_analyze', 'studio_catalog_search', 'studio_diff', 'studio_job_status', 'studio_job_wait', 'studio_preview_render', 'studio_project_info', 'studio_qa_run', 'studio_review_list', 'studio_scene_snapshot', 'studio_template_get'];
 const MODERN = { [META_VERSION]: '2026-07-28', [META_CLIENT_INFO]: { name: 'modern-client', version: '1' } };
 
 const readJson = (rel) => JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));

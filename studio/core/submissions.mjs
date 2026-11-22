@@ -4,8 +4,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { decodeRgba } from './png.mjs';
-import { findDefects } from './defects.mjs';
-import { gateOptions } from './gates.mjs';
+import { assetGateOptions, findDefects } from './defects.mjs';
 import { clipSpec, expectedFrames, isShipped, listFrames, milestones } from './assets.mjs';
 import { problem } from './errors.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock } from './fsutil.mjs';
@@ -126,7 +125,7 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
     loaded.push({...f, name, bytes});
   }
 
-  const options = {...gateOptions(pack, palette, {outlineOptional: !asset.outline}), dirtyTransparent: 'warn'};
+  const options = assetGateOptions(pack, palette, asset, 'warn');
   const [w, h] = asset.size;
   const report = {asset: asset.id, dryRun, frames: [], written: [], unchanged: []};
   let rejected = false;

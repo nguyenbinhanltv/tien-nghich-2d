@@ -1,0 +1,27 @@
+<evaluation>
+   <!-- Second half of the ten-question evaluation (mcp-builder method): the tools on the forge, the toolchain and audio.
+        Read-only in intent (nothing needs to be committed or changed), independent, one verifiable value each. Answered
+        against the scene scene2.mjs builds; the agent has author scope so it can run the trial calls (a generator run,
+        a staging pack) that write only scratch. The answers are checked by test against ground truth computed without
+        the studio tools. -->
+   <qa_pair>
+      <question>For the planned pet lt_reed_crane, which of its clips does the forge recommend building from drawn key poses on a pose sheet (as opposed to a rig), and what are the pose names a pose sheet for that clip uses, in order? Answer as "clip: pose, pose, pose, pose".</question>
+      <answer>follow: contact_a, passing_a, contact_b, passing_b</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>The frames of lt_reed_crane were made from a drawn sheet that the studio stored and hashed. What are the first 12 hexadecimal characters of that sheet's SHA-256? Answer with those 12 characters only.</question>
+      <answer>05a31f35ae7b</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>The cue sfx_step has two kept audio candidates. Which candidate version has the higher sample peak, and how long is that candidate in milliseconds? Answer as "version milliseconds", for example "3 150".</question>
+      <answer>1 220</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Run the project's registered primitive-sprite generator with shape ring, size 16, fill jade_03, accent bronze_04, seed 7 and its default clip, direction and frame count, judged against the planned 16x16 icon lt_icon_realm_step (do not commit anything). What are the first 10 hexadecimal characters of the SHA-256 of the single frame it writes? Answer with those 10 characters only.</question>
+      <answer>6299b2aff7</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>The Longtime chunk abode is allowed a fixed number of mobile atlas pages. Counting every frame the project currently has for that chunk, does the chunk fit its mobile atlas budget, and how many pages is it allowed? Answer as "yes 2" or "no 2", with the real number.</question>
+      <answer>no 1</answer>
+   </qa_pair>
+</evaluation>

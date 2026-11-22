@@ -14,17 +14,29 @@ import reviewList from './review_list.mjs';
 import reviewReply from './review_reply.mjs';
 import jobStatus from './job_status.mjs';
 import jobWait from './job_wait.mjs';
+import templateGet from './template_get.mjs';
+import sheetImport from './sheet_import.mjs';
+import processTool from './process.mjs';
+import rigBake from './rig_bake.mjs';
+import framePatch from './frame_patch.mjs';
+import generatorRun from './generator_run.mjs';
+import vfxBuild from './vfx_build.mjs';
+import pack from './pack.mjs';
+import sceneSnapshot from './scene_snapshot.mjs';
+import audioRender from './audio_render.mjs';
+import audioAnalyze from './audio_analyze.mjs';
 
 export function buildRegistry() {
   const registry = new ToolRegistry();
   for (const tool of [
     projectInfo, catalogSearch, assetGet, assetPlan,                 // context
     framesSubmit, metadataSet, qaRun, diff,                          // authoring and checking
-    previewRender,                                                   // seeing
+    previewRender, sceneSnapshot,                                    // seeing
     reviewRequest, reviewList, reviewReply,                          // review loop: ask, read, answer. No approve, ever.
     jobStatus, jobWait,                                              // jobs
+    templateGet, sheetImport, processTool, rigBake, framePatch,      // forge: template, import, pixelise, bake, pixel operations
+    generatorRun, vfxBuild, pack,                                    // toolchain: registered generators, SpriteFX, staging packs
+    audioRender, audioAnalyze,                                       // audio: render from data, measure and look. Nobody listens.
   ]) registry.register(tool);
-  // Later parts, one line each when the forge lands: template_get, sheet_import, frame_patch, rig_bake,
-  // process, generator_run, vfx_build, audio_render, audio_analyze, pack, scene_snapshot.
   return registry;
 }

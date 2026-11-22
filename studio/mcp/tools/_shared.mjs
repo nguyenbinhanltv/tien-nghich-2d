@@ -52,8 +52,10 @@ export async function loadAsset(ctx, assetId) {
   return { ws, snap, asset };
 }
 
-export function requireFrames(asset) {
-  if (!asset.layout) throw new ToolError(`${asset.id} is ${asset.source === 'audio' ? 'an audio asset' : 'not a frame asset'}; it has no frames. (Audio tools arrive with the audio part.)`);
+/** Tools that work on pixel frames refuse an audio cue and say where to go. `audio: true` lets the tools that also understand audio through. */
+export function requireFrames(asset, { audio = false } = {}) {
+  if (audio && asset.audio) return;
+  if (!asset.layout) throw new ToolError(`${asset.id} is ${asset.audio ? 'an audio cue, not a frame asset: it has no frames. Use studio_audio_render to make a candidate and studio_audio_analyze to measure it' : 'not a frame asset'}.`);
 }
 
 export function requireScope(ctx, scope, doing) {
@@ -84,7 +86,7 @@ export const jsonResult = (structured, isError = false) => textResult(JSON.strin
 export async function inlineOrJob(ctx, name, args, fn) {
   if (!args.background) return fn(() => {});
   if (!ctx.jobs) throw new ToolError('Background jobs are not available on this connection.');
-  const job = ctx.jobs.submit({ name, owner: { agent: ctx.caller.agent, session: ctx.caller.session.slice(0, 8) }, run: ({ log }) => fn(log) });
+  const job = ctx.jobs.submit({ name, owner: { agent: ctx.caller.agent, session: ctx.caller.session.slice(0, 8) }, meta: { assetId: args.assetId }, run: ({ log }) => fn(log) });
   return jsonResult({ jobId: job.id, status: job.status, next: `studio_job_wait with jobId "${job.id}" returns the finished result; studio_job_status shows progress.` });
 }
 

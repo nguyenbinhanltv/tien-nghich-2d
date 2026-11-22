@@ -232,7 +232,7 @@ test('frames_submit: addressing, sizes and sources are validated', () => withPro
   // Not every asset is open for submission.
   assert.match(text(await call('studio_frames_submit', { assetId: 'lt_kiln_keeper', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 1) })), /already has processed or packed frames/);
   assert.match(text(await call('studio_frames_submit', { assetId: 'wl_outer_disciple', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 1) })), /only design-manifest assets are/);
-  assert.match(text(await call('studio_frames_submit', { assetId: 'bgm_hengyue', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 1) })), /audio asset/);
+  assert.match(text(await call('studio_frames_submit', { assetId: 'bgm_hengyue', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 1) })), /an audio cue, not a frame asset/);
   const read = connect(p.root, { scope: 'read' });
   assert.equal((await read.call('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, frames: idleSouth() })).isError, true);
   assert.equal(existsSync(join(p.root, 'assets/raw/longtime/lt_seed_broker/frames/idle_south_1.png')), false);

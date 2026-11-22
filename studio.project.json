@@ -149,6 +149,31 @@
       "qaLongtime": {"script": "tools/scripts/qa_longtime.py", "args": []},
       "pack": {"script": "tools/scripts/pack_atlases.py", "args": []},
       "packCheck": {"script": "tools/scripts/pack_atlases.py", "args": ["--check"]}
+    },
+    "generators": {
+      "primitives": {
+        "script": "tools/generators/studio_primitives.py",
+        "description": "Primitive sprites on the project palette: diamond, disc, ring, cross, star, drop or shard, outlined, one or more pulsing frames. Writes <clip>_<direction>_<n>.png.",
+        "args": ["--out", "{out}", "--palette", "{palette}", "--shape", "{shape}", "--size", "{size}", "--fill", "{fill}", "--accent", "{accent}",
+          "--clip", "{clip}", "--direction", "{direction}", "--frames", "{frames}", "--seed", "{seed}"],
+        "params": {
+          "shape": {"type": "string", "enum": ["diamond", "disc", "ring", "cross", "star", "drop", "shard"], "description": "The silhouette."},
+          "size": {"type": "integer", "minimum": 8, "maximum": 96, "default": 16, "description": "Canvas side in pixels; must equal the asset's native size."},
+          "fill": {"type": "string", "pattern": "^[a-z]+_[0-9]{2}$", "default": "jade_04", "description": "Palette id of the body colour."},
+          "accent": {"type": "string", "pattern": "^[a-z]+_[0-9]{2}$", "default": "bronze_04", "description": "Palette id of the highlight speckle."},
+          "clip": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,23}$", "default": "glyph", "description": "Clip name in the file names."},
+          "direction": {"type": "string", "enum": ["none", "south", "west", "north", "east"], "default": "none", "description": "Direction in the file names."},
+          "frames": {"type": "integer", "minimum": 1, "maximum": 12, "default": 1, "description": "Frame count; more than one pulses the shape."}
+        },
+        "seed": {"default": 1, "maximum": 4294967295},
+        "timeoutSec": 30
+      }
+    },
+    "vfx": {
+      "interpreter": {"command": "tools/.venvs/spritefx/bin/python", "args": ["-I", "-B"]},
+      "clone": "tools/skills/spritefx",
+      "palettes": {"tien_nghich_40": "tools/generators/vfx_specs/palettes/tien_nghich_40.json"},
+      "timeoutSec": 120
     }
   }
 }

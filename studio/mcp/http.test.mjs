@@ -267,3 +267,46 @@ test('studio/serve.mjs mounts /mcp next to the editor API, and its checks apply'
     assert.equal((await get('/api/editor/frames')).status === 200 || (await get('/api/editor/frames')).status === 500, true, 'the editor route is still routed');
   } finally { await new Promise((r) => server.close(r)); }
 });
+
+test('GET /mcp/jobs: views of the jobs, newest first, capped, with no results or payloads; same checks as /mcp', () => withServer(async (s) => {
+  const token = issue(s, 'codex', 'author');
+  const jobs = () => s.send({ method: 'GET', path: '/mcp/jobs' });
+  assert.deepEqual((await jobs()).json, { jobs: [] }, 'empty before any job');
+
+  // Two real background jobs through the tool, then one that fails.
+  await s.tool('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 4) }, { token });
+  const a = (await s.tool('studio_qa_run', { assetId: 'lt_seed_broker', background: true }, { token })).result.structuredContent.jobId;
+  const b = (await s.tool('studio_preview_render', { assetId: 'lt_seed_broker', background: true }, { token })).result.structuredContent.jobId;
+  await s.mcp.jobs.wait(a, 10000); await s.mcp.jobs.wait(b, 10000);
+  const bad = s.mcp.jobs.submit({ name: 'diff', owner: { agent: 'codex', session: 'abcd1234' }, meta: { assetId: 'lt_nothing' }, run: async () => { throw new Error('it broke: /secret/path'); } });
+  await s.mcp.jobs.wait(bad.id, 5000);
+
+  const r = await jobs();
+  assert.equal(r.status, 200);
+  assert.match(r.headers['content-type'], /application\/json/);
+  assert.deepEqual(r.json.jobs.map((j) => [j.id, j.tool, j.state]), [[bad.id, 'diff', 'failed'], [b, 'preview_render', 'succeeded'], [a, 'qa_run', 'succeeded']], 'newest first');
+  const [failed, preview] = r.json.jobs;
+  assert.deepEqual(Object.keys(preview).sort(), ['agent', 'assetId', 'createdAt', 'durationMs', 'endedAt', 'id', 'session', 'startedAt', 'state', 'tool']);
+  assert.deepEqual([preview.agent, preview.assetId], ['codex', 'lt_seed_broker']);
+  assert.match(preview.session, /^h-[0-9a-f]{8}$|^[0-9a-f]{8}$|^h-/);
+  assert.ok(Number.isInteger(preview.durationMs) && preview.durationMs >= 0);
+  assert.ok(Date.parse(preview.createdAt) <= Date.parse(preview.startedAt) && Date.parse(preview.startedAt) <= Date.parse(preview.endedAt));
+  assert.deepEqual([failed.error, failed.assetId, failed.session], ['it broke: /secret/path', 'lt_nothing', 'abcd1234'], 'a failure carries its message and nothing else');
+  assert.equal('error' in preview, false);
+  const dump = JSON.stringify(r.json);
+  assert.doesNotMatch(dump, /"result"|"log"|"content"|"structuredContent"|pngBase64|image\/png|sourceHash|seed broker/, 'views only: no payloads');
+  assert.doesNotMatch(dump, new RegExp(token.split('.')[1]), 'no token secret');
+
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs?limit=2' })).json.jobs.length, 2);
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs?limit=0' })).json.jobs.length, 3, 'a bad limit falls back to the default');
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs?limit=abc' })).json.jobs.length, 3);
+  for (let i = 0; i < 205; i++) s.mcp.jobs.submit({ name: 'x', owner: {}, run: async () => 1 });
+  assert.ok((await s.send({ method: 'GET', path: '/mcp/jobs?limit=100000' })).json.jobs.length <= 200, 'capped at 200');
+  assert.equal((await jobs()).json.jobs.length, 50, 'default cap 50');
+
+  // Same loopback, Host and Origin rules, and GET only.
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs', headers: { Host: 'evil.example' } })).status, 403);
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs', headers: { Origin: 'http://evil.example' } })).status, 403);
+  assert.equal((await s.send({ method: 'GET', path: '/mcp/jobs', headers: { 'Sec-Fetch-Site': 'cross-site' } })).status, 403);
+  for (const method of ['POST', 'PUT', 'DELETE']) assert.equal((await s.send({ method, path: '/mcp/jobs', raw: '{}' })).status, 405, method);
+}));

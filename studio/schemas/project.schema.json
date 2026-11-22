@@ -476,6 +476,15 @@
               }
             }
           }
+        },
+        "generators": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/generator"
+          }
+        },
+        "vfx": {
+          "$ref": "#/$defs/vfxAdapter"
         }
       }
     },
@@ -677,6 +686,130 @@
         },
         "square": {
           "type": "boolean"
+        }
+      }
+    },
+    "paramSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "integer",
+            "number",
+            "string",
+            "boolean"
+          ]
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "enum": {
+          "type": "array",
+          "minItems": 1
+        },
+        "pattern": {
+          "type": "string",
+          "minLength": 1
+        },
+        "default": {},
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "script",
+        "args"
+      ],
+      "properties": {
+        "script": {
+          "$ref": "#/$defs/path"
+        },
+        "description": {
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/paramSpec"
+          }
+        },
+        "seed": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "default": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maximum": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "timeoutSec": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "vfxAdapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interpreter",
+        "clone",
+        "palettes"
+      ],
+      "properties": {
+        "interpreter": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "command": {
+              "$ref": "#/$defs/path"
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "clone": {
+          "$ref": "#/$defs/path"
+        },
+        "palettes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "timeoutSec": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     }

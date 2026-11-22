@@ -98,6 +98,12 @@ export function createMcpHttp({ root, libraryDir, policy, jobs = new JobRunner()
           const since = Number(url.searchParams.get('since') ?? 0);
           return send(200, this.activity(Number.isSafeInteger(since) && since >= 0 ? since : 0));
         }
+        if (url.pathname === '/mcp/jobs') {
+          // Views only, for a Jobs tab: no results, no payloads, no log lines. Same checks as the activity feed.
+          if (req.method !== 'GET') return fail(405, ERR.INVALID_REQUEST, 'GET only', null);
+          const asked = Number(url.searchParams.get('limit') ?? 50);
+          return send(200, { jobs: jobs.summaries(Number.isSafeInteger(asked) && asked > 0 ? Math.min(asked, 200) : 50) });
+        }
         if (url.pathname !== '/mcp') return fail(404, ERR.METHOD_NOT_FOUND, 'Unknown MCP route');
         if (req.method !== 'POST') return send(405, errorResponse(null, ERR.INVALID_REQUEST, 'POST only: this endpoint has no GET stream and no sessions to delete'), { Allow: 'POST' });
         if (req.headers['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') return fail(415, ERR.INVALID_REQUEST, 'Send Content-Type: application/json');

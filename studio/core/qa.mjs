@@ -1,8 +1,7 @@
 // QA for one asset's frames: palette, alpha, outline, size, frame count, naming. Pure analysis; it
 // never writes. The independent-check bookkeeping lives in the MCP layer, which knows the session.
 import { SPRITE_NAME, expectedFrames, listFrames } from './assets.mjs';
-import { findDefects } from './defects.mjs';
-import { gateOptions } from './gates.mjs';
+import { assetGateOptions, findDefects } from './defects.mjs';
 import { decodeRgba } from './png.mjs';
 import { readInside } from './files.mjs';
 import { sha256, yieldToLoop } from './fsutil.mjs';
@@ -26,7 +25,7 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
   const found = await listFrames(root, asset, stage);
   const want = (f) => (select.clip === undefined || f.clip === select.clip) && (select.direction === undefined || f.direction === select.direction)
     && (select.n === undefined || f.n === select.n);
-  const options = {...gateOptions(pack, palette, {outlineOptional: !asset.outline}), dirtyTransparent: stage === 'raw' ? 'warn' : 'error'};
+  const options = assetGateOptions(pack, palette, asset, stage === 'raw' ? 'warn' : 'error');
   const checks = Object.fromEntries(CHECKS.map(c => [c, {pass: true, errors: 0, warnings: 0, details: []}]));
   // Counts are exact; only the list of details is capped.
   const count = (check, severity, n = 1) => {

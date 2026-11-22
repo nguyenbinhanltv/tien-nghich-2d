@@ -14,13 +14,16 @@ import { handle, shapeJob } from './server.mjs';
 
 const META = {'io.modelcontextprotocol/protocolVersion': '2026-07-28', 'io.modelcontextprotocol/clientInfo': {name: 'jobs-test', version: '1'}};
 
-async function start({exposeJobs}) {
+// jobs: 'real' (the server's own GET /mcp/jobs), 'missing' (a front that answers 404 for it, as an older server would)
+// or 'junk' (200 with a body that is not JSON): the tab must report the jobs unavailable and keep the feed.
+async function start({jobs = 'real'} = {}) {
   const project = makeProject();
   const lib = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'jobs-lib-'));
   const mcp = createMcpHttp({root: project.root, libraryDir: lib});
   const server = http.createServer((req, res) => {
     const url = new URL(req.url, 'http://127.0.0.1');
-    if (exposeJobs && url.pathname === '/mcp/jobs') { res.writeHead(200, {'Content-Type': 'application/json'}); return res.end(JSON.stringify({jobs: mcp.jobs.list()})); }
+    if (jobs === 'missing' && url.pathname === '/mcp/jobs') { res.writeHead(404, {'Content-Type': 'application/json'}); return res.end('{"error":"no"}'); }
+    if (jobs === 'junk' && url.pathname === '/mcp/jobs') { res.writeHead(200, {'Content-Type': 'application/json'}); return res.end('<html>not json'); }
     mcp.handle(req, res, url, server.address());
   });
   await new Promise(r => server.listen(0, '127.0.0.1', r));
@@ -37,7 +40,7 @@ async function start({exposeJobs}) {
 }
 
 test('the feed shows tool calls with agent, session, outcome, and jobs with state, owner and duration', async () => {
-  const t = await start({exposeJobs: true});
+  const t = await start();
   try {
     await t.callTool('studio_project_info');
     const ok = t.mcp.jobs.submit({name: 'qa_run', owner: {agent: 'codex', session: '3fa9c120'}, run: async ({log}) => { log('checking 12 frames'); return {pass: true}; }});
@@ -47,8 +50,8 @@ test('the feed shows tool calls with agent, session, outcome, and jobs with stat
     assert.equal(status, 200);
     assert.equal(body.jobs.available, true);
     const byId = Object.fromEntries(body.jobs.items.map(j => [j.id, j]));
-    assert.deepEqual([byId[ok.id].status, byId[ok.id].name, byId[ok.id].owner, byId[ok.id].log], ['succeeded', 'qa_run', {agent: 'codex', session: '3fa9c120'}, [byId[ok.id].log[0]]]);
-    assert.match(byId[ok.id].log[0], /checking 12 frames$/);
+    assert.deepEqual([byId[ok.id].status, byId[ok.id].name, byId[ok.id].owner], ['succeeded', 'qa_run', {agent: 'codex', session: '3fa9c120'}]);
+    assert.deepEqual(byId[ok.id].log, [], 'the real /mcp/jobs lists views only: no log lines');
     assert.equal(typeof byId[ok.id].wallMs, 'number');
     assert.equal(byId[bad.id].status, 'failed');
     assert.equal(byId[bad.id].error.message, 'boom');
@@ -63,18 +66,37 @@ test('the feed shows tool calls with agent, session, outcome, and jobs with stat
   } finally { await t.close(); }
 });
 
-test('without a /mcp/jobs route the feed still works and says the jobs are unavailable', async () => {
-  const t = await start({exposeJobs: false});
+test('a jobs feed that is missing or returns junk: jobs reported unavailable, the activity feed still works', async () => {
+  for (const [jobs, status] of [['missing', 404], ['junk', 0]]) {
+    const t = await start({jobs});
+    try {
+      await t.callTool('studio_project_info');
+      const {body} = await t.feed();
+      assert.deepEqual([body.jobs.available, body.jobs.status, body.jobs.items], [false, status, []], jobs);
+      assert.ok(body.activity.events.length >= 1, jobs);
+    } finally { await t.close(); }
+  }
+});
+
+test("the real GET /mcp/jobs is read by the tab: tool, state, agent, session, assetId, endedAt, durationMs, error", async () => {
+  const t = await start();
   try {
-    await t.callTool('studio_project_info');
+    const ok = t.mcp.jobs.submit({name: 'qa_run', owner: {agent: 'codex', session: '3fa9c120'}, meta: {assetId: 'lt_kiln_keeper'}, run: async () => ({pass: true, secret: 'result'})});
+    const bad = t.mcp.jobs.submit({name: 'diff', owner: {agent: 'antigravity', session: '77d01e5b'}, run: async () => { throw new Error('revision 3 does not exist'); }});
+    await Promise.all([t.mcp.jobs.wait(ok.id, 5000), t.mcp.jobs.wait(bad.id, 5000)]);
+    const raw = await fetch(`http://127.0.0.1:${t.address.port}/mcp/jobs`).then(r => r.json());
+    assert.deepEqual(Object.keys(raw.jobs.find(j => j.id === ok.id)).sort(), ['agent', 'assetId', 'createdAt', 'durationMs', 'endedAt', 'id', 'session', 'startedAt', 'state', 'tool']);
     const {body} = await t.feed();
-    assert.deepEqual([body.jobs.available, body.jobs.status, body.jobs.items], [false, 404, []]);
-    assert.ok(body.activity.events.length >= 1);
+    assert.equal(body.jobs.available, true);
+    const by = Object.fromEntries(body.jobs.items.map(j => [j.id, j]));
+    assert.deepEqual([by[ok.id].name, by[ok.id].status, by[ok.id].owner, by[ok.id].assetId, typeof by[ok.id].wallMs, typeof by[ok.id].finishedAt], ['qa_run', 'succeeded', {agent: 'codex', session: '3fa9c120'}, 'lt_kiln_keeper', 'number', 'string']);
+    assert.deepEqual([by[bad.id].status, by[bad.id].error.message], ['failed', 'revision 3 does not exist']);
+    assert.ok(!JSON.stringify(body).includes('result'), 'no job result reaches the tab');
   } finally { await t.close(); }
 });
 
 test('sessions link to review items and checked assets by agent and session', async () => {
-  const t = await start({exposeJobs: true});
+  const t = await start();
   try {
     const store = revisionStore(t.project.root, '.inspector-revisions', t.lib);
     const px = Buffer.alloc(64); for (let i = 0; i < 16; i++) px.set([5, 0, 0, 255], i * 4);
@@ -94,7 +116,7 @@ test('sessions link to review items and checked assets by agent and session', as
 });
 
 test('refuses writes, unknown routes, non-loopback listeners; reports an unreachable feed', async () => {
-  const t = await start({exposeJobs: true});
+  const t = await start();
   try {
     const run = async (method, name, address = t.address) => {
       try { await handle({method}, {writeHead() {}, end() {}}, new URL('http://127.0.0.1/api/tabs/jobs/' + name), {root: t.project.root, address, prefix: '/api/tabs/jobs/', libraryDir: t.lib}); return 'ok'; }

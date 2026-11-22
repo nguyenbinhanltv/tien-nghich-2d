@@ -1,0 +1,180 @@
+{
+  "ranAt": "2026-11-22T05:52:57.874Z",
+  "model": "default",
+  "agent": "Claude Code headless",
+  "correct": 10,
+  "total": 10,
+  "rows": [
+    {
+      "n": 1,
+      "set": 1,
+      "scope": "read",
+      "expected": "72",
+      "got": "72",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_catalog_search",
+        "studio_asset_get"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 5287,
+      "costUsd": 0.2526497,
+      "exit": 0
+    },
+    {
+      "n": 2,
+      "set": 1,
+      "scope": "read",
+      "expected": "19",
+      "got": "19",
+      "correct": true,
+      "toolCalls": 8,
+      "tools": [
+        "studio_catalog_search"
+      ],
+      "toolErrors": [],
+      "turns": 9,
+      "ms": 11307,
+      "costUsd": 0.1888958,
+      "exit": 0
+    },
+    {
+      "n": 3,
+      "set": 1,
+      "scope": "read",
+      "expected": "idle_south_2 #010203",
+      "got": "idle_south_2 #010203",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_qa_run"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 3738,
+      "costUsd": 0.0931225,
+      "exit": 0
+    },
+    {
+      "n": 4,
+      "set": 1,
+      "scope": "read",
+      "expected": "idle_south_1 pending",
+      "got": "idle_south_1 pending",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_review_list"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 3479,
+      "costUsd": 0.0746831,
+      "exit": 0
+    },
+    {
+      "n": 5,
+      "set": 1,
+      "scope": "read",
+      "expected": "claude-code no",
+      "got": "claude-code no",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_asset_get"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 4205,
+      "costUsd": 0.08038870000000001,
+      "exit": 0
+    },
+    {
+      "n": 6,
+      "set": 2,
+      "scope": "author",
+      "expected": "follow: contact_a, passing_a, contact_b, passing_b",
+      "got": "follow: contact_a, passing_a, contact_b, passing_b",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_template_get"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 3890,
+      "costUsd": 0.5080371,
+      "exit": 0
+    },
+    {
+      "n": 7,
+      "set": 2,
+      "scope": "author",
+      "expected": "05a31f35ae7b",
+      "got": "05a31f35ae7b",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_asset_get"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 6192,
+      "costUsd": 0.1079692,
+      "exit": 0
+    },
+    {
+      "n": 8,
+      "set": 2,
+      "scope": "author",
+      "expected": "1 220",
+      "got": "1 220",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_audio_analyze"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 4474,
+      "costUsd": 0.1336655,
+      "exit": 0
+    },
+    {
+      "n": 9,
+      "set": 2,
+      "scope": "author",
+      "expected": "6299b2aff7",
+      "got": "6299b2aff7",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_generator_run"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 3833,
+      "costUsd": 0.08020809999999999,
+      "exit": 0
+    },
+    {
+      "n": 10,
+      "set": 2,
+      "scope": "author",
+      "expected": "no 1",
+      "got": "no 1",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_pack"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 3148,
+      "costUsd": 0.07652139999999999,
+      "exit": 0
+    }
+  ]
+}
