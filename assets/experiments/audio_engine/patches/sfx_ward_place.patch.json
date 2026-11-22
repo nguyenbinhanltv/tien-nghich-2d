@@ -1,0 +1,127 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_ward_place",
+  "title": "sfx_ward_place",
+  "design": "A ward stake is driven into the ground: one heavy thunk, a soft shimmering sweep widens outward from 700 to 1500 Hz, and the barrier sets as two slightly detuned tones (A4 against a few hertz sharp) beat slowly and fade. Placement and boundary, not a lock.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9367,
+  "durationMs": 1000,
+  "trim": 0.53,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 50,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 100,
+          "highHz": 1400
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 14,
+        "releaseMs": 20
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 200,
+      "gain": 0.7,
+      "hz": 150,
+      "endHz": 62,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 55,
+        "releaseMs": 90
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 90,
+      "ms": 300,
+      "gain": 0.3,
+      "hz": 700,
+      "endHz": 1500,
+      "fm": {
+        "ratio": 2.01,
+        "index": 0.7
+      },
+      "env": {
+        "attackMs": 120,
+        "decayMs": 250,
+        "releaseMs": 140
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 100,
+      "ms": 320,
+      "gain": 0.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1200,
+          "highHz": 5200
+        }
+      ],
+      "env": {
+        "attackMs": 140,
+        "decayMs": 220,
+        "releaseMs": 140
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 660,
+      "gain": 0.34,
+      "hz": 440,
+      "endHz": 440,
+      "fm": {
+        "ratio": 1,
+        "index": 0.3
+      },
+      "env": {
+        "attackMs": 30,
+        "decayMs": 420,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 660,
+      "gain": 0.3,
+      "hz": 445.5,
+      "endHz": 445.5,
+      "fm": {
+        "ratio": 1,
+        "index": 0.3
+      },
+      "env": {
+        "attackMs": 30,
+        "decayMs": 400,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 500,
+      "gain": 0.2,
+      "hz": 146.8,
+      "endHz": 146.8,
+      "env": {
+        "attackMs": 20,
+        "decayMs": 300,
+        "releaseMs": 200
+      }
+    }
+  ]
+}

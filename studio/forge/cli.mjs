@@ -1,24 +1,8 @@
 #!/usr/bin/env node
 // Forge CLI: the same steps the MCP tools run, for a human or CI.
-//   node studio/forge/cli.mjs template  --out template.png [--layout-out layout.json] [--layout in.json]
-//        [--id name] [--facings south,west,north,east] [--poses idle,walk] [--size 1024x1024] [--height-px 20]
-//        [--project root --profile <name>]            (profile supplies the facings and a default height)
-//   node studio/forge/cli.mjs import    --layout layout.json --sheet sheet.png --out dir [--prompt file | --prompt-text s]
-//        [--project root --profile <name>]            (profile adds the normalised scale to the record)
-//   node studio/forge/cli.mjs pixelise  --import dir --out dir --project root --profile <name> [--marks marks.json]
-//        (writes <cell>.png, indexed/<cell>.png - the outline-free layers the rig baker takes - and pixelize.json)
-//   node studio/forge/cli.mjs bake      --pixelize dir --out dir --project root --profile <name> [--rig rig.json]
-//        [--poses poseclips.json] [--pose-rig rig.json] [--patch patch.json] [--library lib.json] [--clips a,b] [--qa gates.json]
-//        rig bake + pose-sheet clips, patches, then the gates; writes frames, bake.json, gates.json; exit 2 on a gate error
-//   node studio/forge/cli.mjs gates     --bake dir --project root --profile <name> [--rig rig.json] [--pose-rig rig.json] [--qa gates.json]
-//   node studio/forge/cli.mjs run       --layout layout.json --sheet sheet.png --out dir --project root --profile <name>
-//        [--prompt file] [--marks marks.json] [bake options] [import options]   the whole chain; writes import/ pixelize/ bake/ pipeline.json
-//   node studio/forge/cli.mjs compare   --sets name=dir,name=dir --out sheet.png [--json report.json] [--scale 4]
-//        [--project root --profile <name> --rig rig.json --qa gates.json]    side-by-side contact sheet of bake or frame directories;
-//        with a profile the bake directories are also run through the gates and summarised per gate
-// import and run also take --scale-mode cell|facing|sheet [--ground-lift n] [--margin n] [--fixed-scale scales.json]
-// ({facing: scale}, e.g. the per-facing scales of a turnaround import) - all recorded in import.json. `qa` is an alias of `gates`.
-// `pixelize` is accepted as an alias. Output directories are created; inputs are never modified.
+// `node studio/forge/cli.mjs --help` lists every command; `<command> --help` lists its options (the `help` table below
+// is the single source). Commands follow the pipeline: template, import, pixelise, bake, gates, compare, run.
+// `pixelize` and `qa` are aliases of `pixelise` and `gates`. Output directories are created; inputs are never modified.
 import fs from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -26,7 +10,32 @@ import { loadPack } from '../core/pack.mjs';
 import { bakeStage, compareSets, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
   resolveMarks, rigPalette, runPipeline, settingsFromPack, summarizeBake, turnaroundLayout, writeBakeDir, writeImport, writePixelized } from './index.mjs';
 
-const usage = 'usage: cli.mjs template|import|pixelise [options]  (see the header of studio/forge/cli.mjs)';
+// One entry per command, in the order of the pipeline. `commands` below must have exactly these names (the CLI test checks).
+const help = {
+  template: ['render a blank labelled template PNG (and its layout) for an agent to draw on',
+    '--out template.png [--layout-out layout.json] [--layout in.json] [--id name] [--facings a,b,c] [--poses p,q] [--size WxH] [--height-px n] [--project root --profile name]'],
+  import: ['cut a drawn sheet into cleaned cells with landmarks, prompt and SHA-256',
+    '--layout layout.json --sheet sheet.png --out dir [--prompt file | --prompt-text s] [--project root --profile name] [--scale-mode cell|facing|sheet] [--ground-lift n] [--margin n] [--fixed-scale scales.json]'],
+  pixelise: ['reduce cells to native size on the project palette (alias: pixelize); writes <cell>.png, indexed/<cell>.png, pixelize.json',
+    '--import dir --out dir --project root --profile name [--marks marks.json]'],
+  bake: ['rig bake and pose-sheet clips, patches, then the gates; exit 2 on a gate error',
+    '--pixelize dir --out dir --project root --profile name [--rig rig.json] [--poses poseclips.json] [--pose-rig rig.json] [--patch patch.json] [--library lib.json] [--clips a,b] [--qa gates.json]'],
+  gates: ['run the animation gates again on a bake directory (alias: qa)',
+    '--bake dir --project root --profile name [--rig rig.json] [--pose-rig rig.json] [--qa gates.json]'],
+  compare: ['side-by-side contact sheet of bake or frame directories, with a per-gate summary when a profile is given',
+    '--sets name=dir,name=dir --out sheet.png [--json report.json] [--scale 4] [--project root --profile name --rig rig.json --qa gates.json]'],
+  run: ['the whole chain: import, pixelise, bake, gates; writes import/ pixelize/ bake/ pipeline.json',
+    '--layout layout.json --sheet sheet.png --out dir --project root --profile name [--prompt file] [--marks marks.json] [bake options] [import options]'],
+};
+const usage = [
+  'usage: node studio/forge/cli.mjs <command> [options]',
+  '',
+  'commands:',
+  ...Object.entries(help).map(([name, [summary]]) => `  ${name.padEnd(9)}${summary}`),
+  '',
+  'Run `node studio/forge/cli.mjs <command> --help` for a command\'s options. Options are `--name value` pairs; inputs are never modified.',
+].join('\n');
+const commandHelp = name => `usage: node studio/forge/cli.mjs ${name} ${help[name][1]}\n${help[name][0]}`;
 
 function parseArgs(argv) {
   const opts = {};
@@ -166,8 +175,12 @@ commands.qa = commands.gates;
 
 try {
   const [name, ...rest] = process.argv.slice(2);
-  if (!commands[name]) throw new Error(usage);
-  await commands[name](parseArgs(rest));
+  const alias = {pixelize: 'pixelise', qa: 'gates'};
+  if (name === undefined) { console.error(usage); process.exitCode = 1; }
+  else if (['--help', '-h', 'help'].includes(name)) console.log(usage);
+  else if (!commands[name]) throw new Error(`unknown command "${name}"\n\n${usage}`);
+  else if (rest.includes('--help') || rest.includes('-h')) console.log(commandHelp(alias[name] ?? name));
+  else await commands[name](parseArgs(rest));
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

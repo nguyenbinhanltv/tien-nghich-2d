@@ -1,0 +1,161 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_flame",
+  "title": "sfx_flame",
+  "design": "A soft ignition whoomp swells under a flickering roar that stutters about thirty-seven times a second, and five irregular snaps of crackle scatter over the burn as it settles.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9263,
+  "durationMs": 780,
+  "trim": 0.56,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 440,
+      "gain": 2.8,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 70,
+          "highHz": 900
+        }
+      ],
+      "env": {
+        "attackMs": 50,
+        "decayMs": 260,
+        "releaseMs": 170
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 30,
+      "ms": 560,
+      "gain": 1.3,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 450,
+          "highHz": 3200
+        }
+      ],
+      "env": {
+        "attackMs": 110,
+        "decayMs": 340,
+        "releaseMs": 220
+      },
+      "am": {
+        "hz": 37,
+        "depth": 0.9
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 330,
+      "gain": 0.3,
+      "hz": 88,
+      "endHz": 136,
+      "fm": {
+        "ratio": 1.5,
+        "index": 1.5
+      },
+      "env": {
+        "attackMs": 30,
+        "decayMs": 220,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 140,
+      "ms": 14,
+      "gain": 0.8,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2600,
+          "highHz": 8500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 6
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 232,
+      "ms": 18,
+      "gain": 0.55,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2400,
+          "highHz": 8000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 5,
+        "releaseMs": 8
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 309,
+      "ms": 12,
+      "gain": 0.95,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2800,
+          "highHz": 9000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 5
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 441,
+      "ms": 16,
+      "gain": 0.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2400,
+          "highHz": 7800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 5,
+        "releaseMs": 7
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 538,
+      "ms": 12,
+      "gain": 0.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2600,
+          "highHz": 8800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 5
+      }
+    }
+  ]
+}

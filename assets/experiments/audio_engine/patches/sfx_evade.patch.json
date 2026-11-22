@@ -1,0 +1,62 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_evade",
+  "title": "sfx_evade",
+  "design": "A narrow slip of silk and a lifted harmonic acknowledge a successful dodge.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8191,
+  "durationMs": 192,
+  "trim": 0.7,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 78,
+      "gain": 0.58,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1450,
+          "highHz": 4900
+        }
+      ],
+      "env": {
+        "attackMs": 11,
+        "decayMs": 85,
+        "releaseMs": 32
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 27,
+      "ms": 92,
+      "gain": 0.36,
+      "hz": 527,
+      "endHz": 836,
+      "env": {
+        "attackMs": 12,
+        "decayMs": 110,
+        "releaseMs": 38
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 73,
+      "ms": 115,
+      "gain": 0.29,
+      "hz": 836,
+      "endHz": 883,
+      "fm": {
+        "ratio": 2,
+        "index": 0.32
+      },
+      "env": {
+        "attackMs": 7,
+        "decayMs": 35,
+        "releaseMs": 38
+      }
+    }
+  ]
+}

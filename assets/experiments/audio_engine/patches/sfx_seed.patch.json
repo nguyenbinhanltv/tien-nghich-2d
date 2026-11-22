@@ -1,0 +1,80 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_seed",
+  "title": "sfx_seed",
+  "design": "A seed is pressed into soil: one soft earthen pat with a short falling hollow note, a fine crumble of soil settling, and a tiny low pop as the hole closes. Warm, damp and quiet, with no bright ring.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9301,
+  "durationMs": 520,
+  "trim": 0.63,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 50,
+      "gain": 1.2,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 90,
+          "highHz": 900
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 16,
+        "releaseMs": 18
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 150,
+      "gain": 0.5,
+      "hz": 196,
+      "endHz": 98,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 45,
+        "releaseMs": 60
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 70,
+      "ms": 260,
+      "gain": 0.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 500,
+          "highHz": 3200
+        }
+      ],
+      "env": {
+        "attackMs": 20,
+        "decayMs": 110,
+        "releaseMs": 120
+      },
+      "am": {
+        "hz": 31,
+        "depth": 0.85
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 160,
+      "gain": 0.3,
+      "hz": 330,
+      "endHz": 247,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 40,
+        "releaseMs": 70
+      }
+    }
+  ]
+}

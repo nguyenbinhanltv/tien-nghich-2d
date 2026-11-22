@@ -1,0 +1,151 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_kiln",
+  "title": "sfx_kiln",
+  "design": "The kiln lights: a clay door thud, then two slow bellows breaths feed a deepening furnace hum on a low open fifth (D2 and A2), with only two quiet embers. It builds slowly and stays low, in the domestic register of a working furnace.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9323,
+  "durationMs": 1500,
+  "trim": 0.54,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 60,
+      "gain": 1.3,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 80,
+          "highHz": 900
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 18,
+        "releaseMs": 24
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 200,
+      "gain": 0.5,
+      "hz": 110,
+      "endHz": 64,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 55,
+        "releaseMs": 90
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 150,
+      "ms": 460,
+      "gain": 1.4,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 120,
+          "highHz": 1200
+        }
+      ],
+      "env": {
+        "attackMs": 230,
+        "decayMs": 520,
+        "releaseMs": 200
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 640,
+      "ms": 560,
+      "gain": 1.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 100,
+          "highHz": 1500
+        }
+      ],
+      "env": {
+        "attackMs": 260,
+        "decayMs": 600,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 200,
+      "ms": 1250,
+      "gain": 0.34,
+      "hz": 73.4,
+      "endHz": 73.4,
+      "fm": {
+        "ratio": 2,
+        "index": 0.8
+      },
+      "env": {
+        "attackMs": 420,
+        "decayMs": 1500,
+        "releaseMs": 450
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 300,
+      "ms": 1150,
+      "gain": 0.24,
+      "hz": 110,
+      "endHz": 110,
+      "fm": {
+        "ratio": 2,
+        "index": 0.6
+      },
+      "env": {
+        "attackMs": 450,
+        "decayMs": 1400,
+        "releaseMs": 450
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 960,
+      "ms": 14,
+      "gain": 0.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2200,
+          "highHz": 7500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 6
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 1180,
+      "ms": 12,
+      "gain": 0.45,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2400,
+          "highHz": 8000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 5
+      }
+    }
+  ]
+}

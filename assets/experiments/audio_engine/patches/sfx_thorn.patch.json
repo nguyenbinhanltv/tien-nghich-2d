@@ -1,0 +1,107 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_thorn",
+  "title": "sfx_thorn",
+  "design": "Three needle-thin pricks in quick succession, each a dry click with a tiny high ping, rising in pitch and each a little brighter than the last. There is no body, no buzz and no falling tail.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9251,
+  "durationMs": 260,
+  "trim": 0.83,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 12,
+      "gain": 0.9,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 3200,
+          "highHz": 9500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 5
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 42,
+      "gain": 0.34,
+      "hz": 2600,
+      "endHz": 2480,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 12,
+        "releaseMs": 14
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 62,
+      "ms": 12,
+      "gain": 1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 3400,
+          "highHz": 9800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 5
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 62,
+      "ms": 42,
+      "gain": 0.36,
+      "hz": 3100,
+      "endHz": 2960,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 12,
+        "releaseMs": 14
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 124,
+      "ms": 14,
+      "gain": 1.1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 3600,
+          "highHz": 10000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 4,
+        "releaseMs": 6
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 124,
+      "ms": 80,
+      "gain": 0.4,
+      "hz": 3700,
+      "endHz": 3560,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 22,
+        "releaseMs": 28
+      }
+    }
+  ]
+}
