@@ -8,7 +8,7 @@ import path from 'node:path';
 import { loadPackSync } from '../pack.mjs';
 import { loadAssetIndex } from '../../mcp/asset-index.mjs';
 import { REPO } from '../../mcp/testkit.mjs';
-import { buildLedger, disclosure, ledgerMarkdown, NOT_RECORDED, ORIGIN_KINDS } from '../ledger.mjs';
+import { buildLedger, disclosure, ledgerMarkdown, NOT_RECORDED, ORIGIN_KINDS, ORIGIN_FIELDS, REASON_STATUS } from '../ledger.mjs';
 
 const pack = loadPackSync(REPO), index = await loadAssetIndex(pack, REPO);
 const ledger = await buildLedger({root: REPO, pack, index});
@@ -27,8 +27,9 @@ test('origins come from the recorded files: generator script, tool render, retir
   assert.equal(gen.origin.kind, 'generator');
   assert.equal(gen.origin.script, 'tools/generators/longtime_abode.py');
   assert.match(gen.origin.scriptSha256, /^[0-9a-f]{64}$/);
-  assert.deepEqual(gen.missing, ['seed'], 'the provenance says "no seed", so the seed is not recorded rather than invented');
-  assert.deepEqual(gen.evidence, ['assets/raw/longtime/lt_abode_stone/provenance.json']);
+  assert.deepEqual(gen.missing, [], 'the supplement states why the seed is "none" (the script imports no random module)');
+  assert.match(gen.origin.seed, /^none: /);
+  assert.deepEqual(gen.evidence, ['assets/raw/longtime/lt_abode_stone/provenance.json', 'assets/review/provenance_supplement.json']);
   const fx = byId('lt_fx_gate_unseal');
   assert.deepEqual([fx.origin.kind, fx.origin.tool, fx.origin.toolPin?.length, fx.origin.toolLicence], ['tool-render', 'spritefx', 40, 'MIT']);
   const old = ledger.assets.filter(a => a.origin.kind === 'retired-tool');
@@ -101,4 +102,92 @@ test('a tiny project: a generator record, an image-tool sheet with a prompt hash
   assert.deepEqual(l.summary.counts.generator + l.summary.counts['forge-sheet'] + l.summary.counts['not-recorded'], 3);
   assert.ok(l.components[0].flags.some(f => /evidence file is missing/.test(f)));
   assert.match(ledgerMarkdown(l), /\| c \| main \| prop \| not recorded \|/);
+});
+
+const sha = data => createHash('sha256').update(data).digest('hex');
+const lf = async rel => sha((await fs.readFile(path.join(REPO, rel), 'utf8')).replaceAll('\r\n', '\n'));
+
+test('real project: no origin field is empty without a stated reason (unknown, not applicable or planned)', () => {
+  const unexplained = [];
+  for (const a of ledger.assets) for (const f of ORIGIN_FIELDS) {
+    const v = a.origin[f];
+    if (v != null && v !== '') continue;
+    const r = a.reasons[f];
+    if (!r || !REASON_STATUS.includes(r.status) || !r.reason?.trim()) unexplained.push(`${a.id}.${f}`);
+  }
+  assert.deepEqual(unexplained, []);
+  assert.equal(ledger.summary.open, 0);
+  assert.ok(ledger.assets.every(a => a.open.length === 0 && a.missing.length === 0));
+  for (const f of ORIGIN_FIELDS) {
+    assert.equal(ledger.summary.fieldStats[f].open, 0, f);
+    assert.equal(Object.values(ledger.summary.fieldStats[f]).reduce((x, y) => x + y, 0), ledger.summary.total, f);
+  }
+});
+
+test('real project: a script hash the ledger shows is the sha256 of the script in the repository', async () => {
+  const withScript = ledger.assets.filter(a => a.origin.script && a.origin.scriptSha256);
+  assert.ok(withScript.length >= 200, 'every asset with a script carries its hash');
+  assert.ok(withScript.some(a => a.filled.includes('scriptSha256')), 'the supplement filled some');
+  const scripts = new Map();
+  for (const a of withScript) scripts.set(a.origin.script, [...(scripts.get(a.origin.script) ?? []), a]);
+  const wrong = [];
+  for (const [script, list] of scripts) {
+    const now = await lf(script);
+    for (const a of list) if (a.origin.scriptSha256 !== now) wrong.push(`${a.id}: ${script}`);
+  }
+  assert.deepEqual(wrong, []);
+  for (const id of ['wp_azure_wind_sword', 'ts_hengyue', 'icon_sinh_tu_cam', 'hit_spark', 'lt_abode_stone', 'sfx_bond', 'bgm_ancient_god']) assert.ok(byId(id).origin.scriptSha256, id);
+  assert.ok(byId('icon_sinh_tu_cam').filled.includes('scriptSha256'));
+});
+
+test('real project: the script and document files an asset names exist', async () => {
+  for (const a of ledger.assets) for (const f of ['script', 'document']) {
+    const v = a.origin[f];
+    if (v) await fs.access(path.join(REPO, v)).catch(() => assert.fail(`${a.id}.${f}: ${v} does not exist`));
+  }
+});
+
+test('real project: a source hash the supplement adds is the hash of the files it names', async () => {
+  const treeHash = async dir => {
+    const names = (await fs.readdir(path.join(REPO, dir), {recursive: true, withFileTypes: true})).filter(e => e.isFile() && e.name !== 'provenance.json' && e.name !== '.DS_Store')
+      .map(e => path.relative(path.join(REPO, dir), path.join(e.parentPath, e.name))).sort();
+    let lines = '';
+    for (const n of names) lines += `${sha(await fs.readFile(path.join(REPO, dir, n)))}  ${n}\n`;
+    return sha(lines);
+  };
+  for (const [id, dir] of [['wp_azure_wind_sword', 'assets/raw/environment_items/weapons/wp_azure_wind_sword'], ['mob_blood_corpse', 'assets/raw/characters/mobs/mob_blood_corpse'], ['ts_hengyue', 'assets/raw/environment_items/tilesets/ts_hengyue']]) {
+    assert.ok(byId(id).filled.includes('sourceHash'), id);
+    assert.equal(byId(id).origin.sourceHash, await treeHash(dir), id);
+  }
+  const meta = JSON.parse(await fs.readFile(path.join(REPO, 'assets/raw/characters/mobs/mob_blood_corpse/metadata.json'), 'utf8'));
+  assert.equal(byId('mob_blood_corpse').origin.promptHash, sha(meta.states[0].character.prompt));
+});
+
+test('real project: the 15 planned audio cues stay unproduced, with the plan\'s intent shown as intent', () => {
+  const ids = ['bgm_aftermath', 'bgm_defense', 'bgm_ember_delta', 'bgm_mist_archive', 'bgm_star_quarry', 'sfx_core_crack', 'sfx_crystal_ring', 'sfx_floor_mark', 'sfx_form_shift', 'sfx_keeper_call', 'sfx_oath', 'sfx_paper_rustle', 'sfx_pet_reply', 'sfx_slag_shift', 'sfx_wave_call'];
+  for (const id of ids) {
+    const a = byId(id);
+    assert.deepEqual([a.origin.kind, a.planned, a.recorded, a.rights, a.evidence, a.filled], ['not-recorded', true, false, null, [], []], id);
+    assert.ok(ORIGIN_FIELDS.every(f => a.origin[f] === null && a.reasons[f].status === 'not-produced'), id);
+    assert.match(a.intent.en, /intention, not a provenance record/);
+    assert.match(a.intent.vi, /ý định, không phải bản ghi/);
+  }
+  assert.equal(ledger.assets.filter(a => a.planned).length, 15);
+  assert.match(ledgerMarkdown(ledger), /\| sfx_oath \|[^\n]*planned, not produced/);
+  assert.match(ledgerMarkdown(ledger, 'vi'), /\| sfx_oath \|[^\n]*dự kiến, chưa sản xuất/);
+});
+
+test('a supplement fills only empty fields, explains the rest and never overrides a recorded value', async t => {
+  const root = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'ledger-'));
+  t.after(() => fs.rm(root, {recursive: true, force: true}));
+  const write = (rel, text) => fs.mkdir(path.dirname(path.join(root, rel)), {recursive: true}).then(() => fs.writeFile(path.join(root, rel), text));
+  await write('raw/a/provenance.json', JSON.stringify({producer: 'A Bot', generator: 'gen/a.py', seed: 42}));
+  await write('sup.json', JSON.stringify({entries: [{id: 'g', defaults: {reasons: {tool: {status: 'not-applicable', reason: 'the script is the tool'}, toolPin: {status: 'bogus', reason: 'x'}}},
+    assets: {a: {fields: {seed: 99, method: 'by hand', producer: 'Someone else'}, reasons: {seed: {status: 'unknown', reason: 'ignored: seed is recorded'}, agent: {status: 'unknown', reason: 'no agent named'}}}}}]}));
+  const p = {id: 'tiny', name: 'Tiny', ui: {tabs: {atlas: {ledger: {assetRecords: ['provenance.json'], provenanceSupplements: ['sup.json']}}}}};
+  const l = await buildLedger({root, pack: p, index: {assets: new Map([['a', {id: 'a', source: 'main', category: 'prop', readiness: 'authored', layout: {rawDir: 'raw/a'}}]]), info: {}}});
+  const a = l.assets[0];
+  assert.deepEqual([a.origin.seed, a.origin.producer, a.origin.method, a.filled], [42, 'A Bot', 'by hand', ['method']]);
+  assert.deepEqual(Object.keys(a.reasons).sort(), ['agent', 'tool'], 'a bogus status, and a reason for a field that has a value, are dropped');
+  assert.ok(a.open.includes('toolPin') && a.open.includes('promptHash'), 'what nobody explained stays open');
 });

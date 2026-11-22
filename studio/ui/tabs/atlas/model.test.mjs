@@ -62,3 +62,12 @@ test('ledger filter: by origin and by text over id, source, category, tool, scri
   assert.deepEqual(filterLedger(rows, {text: 'mob'}).map(r => r.id), ['b']);
   assert.equal(filterLedger(rows, {}).length, 2);
 });
+
+test('ledger gap filter: checked-unknown, planned-only and never-checked rows; the gap survives the URL', () => {
+  const rows = [{id: 'a', origin: {kind: 'generator'}, reasons: {toolPin: {status: 'unknown'}}, open: [], planned: false}, {id: 'b', origin: {kind: 'not-recorded'}, reasons: {tool: {status: 'not-produced'}}, open: [], planned: true}, {id: 'c', origin: {kind: 'generator'}, reasons: {}, open: ['seed'], planned: false}];
+  const ids = gap => filterLedger(rows, {gap}).map(r => r.id);
+  assert.deepEqual([ids(null), ids('unknown'), ids('planned'), ids('open')], [['a', 'b', 'c'], ['a'], ['b'], ['c']]);
+  assert.equal(parseRoute({params: {gap: 'nope'}}).gap, null);
+  const r = parseRoute({params: {view: 'ledger', gap: 'open'}});
+  assert.deepEqual(parseRoute({params: stateParams(r)}), r);
+});
