@@ -92,6 +92,13 @@ Provenance is mandatory at every door (`submitFrames`): the tool, the prompt or 
 - `adapters.vfx`: the interpreter, the SpriteFX clone and the palettes. The runner string is fixed in the server; a spec chooses effects, not commands.
 - Safety rules, each with a test: no shell, an argument vector built from the template and the **validated** parameters only; a scrubbed environment; a timeout; output confined to a scratch directory; generators run twice and must be byte-identical; the staging path is resolved through symlinks and may not be inside a shipped atlas directory; a missing toolchain is a message that says what to install, not a crash.
 
+Hardening rules of the registry (`validatePack`, `resolveParams`, `runProgram`), each with a test:
+
+- **Patterns describe the whole value.** A parameter `pattern` must start with `^` and end with an unescaped `$`, and is matched against the whole value (so `^a|b$` cannot let a part match).
+- **No option injection.** A text value that starts with `-` is refused whatever its pattern, enum or default allows. A template may place a parameter only as its own token right after a flag token (`"--shape", "{shape}"`) or exactly as `--flag={name}`: never first, never glued to other text.
+- **A timeout stops everything the program started.** The program runs as the leader of its own process group and the whole group gets SIGKILL on timeout or when output passes the cap (POSIX). On Windows there are no process groups; the server uses `taskkill /T /F` on the program, which ends its descendants too, but that path is **not tested** on this project's machines.
+- A spec given to `studio_vfx_build` may contain no `/`, `\`, `~` or `..` in any value, array item or **object key**.
+
 A new generator is a reviewed change to the pack and a script, never something an agent can register.
 
 ### Audio candidates

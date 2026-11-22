@@ -5,7 +5,7 @@
 //   - the argument list comes from the registered template, each placeholder filled by exactly one argv
 //     token (no shell, so a value with spaces or quotes cannot become a second argument);
 //   - the program runs in a scratch directory with a scrubbed environment, a timeout and an output cap.
-import { execFile } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { problem } from './errors.mjs';
@@ -31,6 +31,8 @@ export function resolveParams(spec, input = {}, seedInput) {
   for (const [name, rule] of Object.entries(params)) {
     const value = Object.hasOwn(input, name) ? input[name] : rule.default;
     if (value === undefined) invalid(`parameter "${name}" is required${rule.enum ? ` (one of ${rule.enum.join(', ')})` : ''}.`);
+    // A value that starts with '-' could be read as an option by the registered script, whatever its pattern allows.
+    if (typeof value === 'string' && value.startsWith('-')) invalid(`parameter "${name}" = ${JSON.stringify(value)} is not allowed: a text value may not start with "-" (it could be read as an option).`);
     if (!paramValueOk(rule, value)) invalid(`parameter "${name}" = ${JSON.stringify(value)} is not allowed${rule.enum ? ` (one of ${rule.enum.join(', ')})` : ''}${rule.minimum !== undefined || rule.maximum !== undefined ? ` (${rule.minimum ?? '-inf'} to ${rule.maximum ?? 'inf'})` : ''}${rule.pattern ? ` (must match ${rule.pattern})` : ''}.`);
     values[name] = value;
   }
@@ -66,13 +68,37 @@ export function runProgram({file, argv, cwd, timeoutMs = 30_000, maxOutput = 256
   return new Promise(resolve => {
     const started = performance.now();
     const env = {PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin', LANG: 'C.UTF-8', PYTHONDONTWRITEBYTECODE: '1', PYTHONIOENCODING: 'utf-8', TMPDIR: cwd};
-    execFile(file, argv, {cwd, env, timeout: timeoutMs, maxBuffer: maxOutput, windowsHide: true, killSignal: 'SIGKILL'}, (error, stdout, stderr) => {
-      const timedOut = Boolean(error?.killed && error.signal === 'SIGKILL' && performance.now() - started >= timeoutMs - 50);
-      const truncated = error?.code === 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER';
-      resolve({code: error ? (typeof error.code === 'number' ? error.code : null) : 0, signal: error?.signal ?? null, stdout: String(stdout ?? ''), stderr: String(stderr ?? ''),
-        ms: Math.round(performance.now() - started), timedOut, truncated, spawnError: error && error.code === 'ENOENT' ? error.message : undefined});
-    });
+    let stdout = '', stderr = '', timedOut = false, truncated = false, spawnError, finished = false;
+    // detached: the program leads its own process group (POSIX), so one kill reaches everything it started.
+    const child = spawn(file, argv, {cwd, env, windowsHide: true, detached: true, stdio: ['ignore', 'pipe', 'pipe']});
+    const timer = setTimeout(() => { timedOut = true; killTree(child); }, timeoutMs);
+    const take = which => chunk => {
+      if (truncated) return;
+      if (which === 'out') stdout += chunk; else stderr += chunk;
+      if (stdout.length + stderr.length > maxOutput) { truncated = true; killTree(child); }
+    };
+    child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8');
+    child.stdout.on('data', take('out')); child.stderr.on('data', take('err'));
+    child.on('error', error => { spawnError = error.code === 'ENOENT' ? error.message : String(error.message); done(null, null); });
+    child.on('close', (code, signal) => done(code, signal));
+    function done(code, signal) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      resolve({code: spawnError ? null : code, signal, stdout: stdout.slice(0, maxOutput), stderr: stderr.slice(0, maxOutput), ms: Math.round(performance.now() - started), timedOut, truncated, spawnError});
+    }
   });
+}
+
+/**
+ * Kill a program and everything it started. POSIX: SIGKILL to the process group the program leads (it was started
+ * detached). Windows has no process groups here: `taskkill /T /F` ends the program and its descendants (untested on
+ * this project's machines). A group that is already gone is not an error.
+ */
+export function killTree(child) {
+  if (!child.pid) return;
+  if (process.platform === 'win32') { spawnSync('taskkill', ['/pid', String(child.pid), '/T', '/F'], {windowsHide: true}); return; }
+  try { process.kill(-child.pid, 'SIGKILL'); } catch { try { child.kill('SIGKILL'); } catch { /* already gone */ } }
 }
 
 /** Keep the tail of program output, which is where errors are. */
