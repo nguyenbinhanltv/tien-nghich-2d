@@ -51,6 +51,15 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
   const exists = async (base, rel) => {
     try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
   };
+  // A mount must be a real directory inside the project, not under a blocked directory, whatever symlinks it passes through.
+  const mountChecks = new Map();
+  const mountOk = mount => {
+    if (!mountChecks.has(mount.dir)) mountChecks.set(mount.dir, (async () => {
+      if (!publicPath(mount.dir)) return false;
+      try { return publicPath(path.relative(await fs.realpath(REPO_ROOT), await fs.realpath(path.join(REPO_ROOT, mount.dir)))); } catch { return false; }
+    })());
+    return mountChecks.get(mount.dir);
+  };
   /** Which directory answers a URL path: the studio first under /studio/, then the pack's mounts (any URL prefix), else the project. */
   const locate = async reqPath => {
     const underStudio = reqPath.startsWith(STUDIO_PREFIX);
@@ -58,7 +67,8 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
     for (const mount of mounts) {
       if (!reqPath.startsWith(mount.url)) continue;
       const base = path.join(REPO_ROOT, mount.dir), rel = reqPath.slice(mount.url.length);
-      if (await exists(base, rel)) return {base, rel};
+      if (!await mountOk(mount) || !await exists(base, rel)) continue;
+      return {base, rel, mount: true};
     }
     return underStudio ? {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)} : {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
   };
@@ -73,7 +83,7 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
         return;
       }
       if (urlObj.pathname.startsWith('/api/editor/')) {
-        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir));
+        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT));
         await (await editor).handle(req, res, urlObj, server.address());
         return;
       }
@@ -116,7 +126,7 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
       }
 
       // Resolve safely inside the directory that owns the URL
-      const {base, rel: cleaned} = await locate(reqPath);
+      const {base, rel: cleaned, mount} = await locate(reqPath);
       let absPath = path.resolve(base, cleaned);
       if (!publicPath(cleaned) || !publicPath(path.relative(base, absPath))) {
         res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
@@ -138,7 +148,9 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
       }
 
       absPath = await fs.realpath(absPath);
-      if (!publicPath(path.relative(await fs.realpath(base), absPath))) {
+      const realRoot = await fs.realpath(mount ? REPO_ROOT : base);
+      const inside = path.relative(realRoot, absPath);
+      if (inside.startsWith('..') || path.isAbsolute(inside) || !publicPath(inside)) {
         res.writeHead(403);
         res.end('Forbidden');
         return;

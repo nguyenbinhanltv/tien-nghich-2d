@@ -190,3 +190,13 @@ class TestBloodSeaAnimQA(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DefaultRuntimeLookupTest(unittest.TestCase):
+    def test_auto_discovery_finds_the_moved_runtime(self):
+        text = (REPO / "tools/scripts/qa_blood_sea_anim.py").read_text(encoding="utf-8")
+        self.assertIn('"playables/blood-sea"', text)
+        self.assertNotIn('"studio/blood-sea"', text)
+        self.assertTrue((REPO / "playables/blood-sea/game.mjs").is_file())
+        # the lookup is enc_dir.parents[2] / <that path>, with enc_dir = assets/encounter/blood-sea
+        self.assertTrue((REPO / "assets/encounter/blood-sea").resolve().parents[2].joinpath("playables/blood-sea").is_dir())

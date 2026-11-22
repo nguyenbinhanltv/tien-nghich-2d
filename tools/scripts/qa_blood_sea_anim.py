@@ -1492,7 +1492,7 @@ init();
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--encounter-dir", type=Path, required=True, help="Read-only path to encounter directory containing contract.json and source/")
-    ap.add_argument("--runtime-dir", type=Path, default=None, help="Optional read-only path to studio/blood-sea")
+    ap.add_argument("--runtime-dir", type=Path, default=None, help="Optional read-only path to playables/blood-sea")
     ap.add_argument("--manifest", type=Path, default=REPO / "assets/manifest.json")
     ap.add_argument("--palette", type=Path, default=REPO / "tools/generators/palette.json")
     ap.add_argument("--out-dir", type=Path, default=None, help="Output directory for report JSON, contact sheet PNG, and HTML workbench")
@@ -1502,7 +1502,7 @@ def main(argv: list[str] | None = None) -> int:
     enc_dir = args.encounter_dir.resolve()
     rt_dir = args.runtime_dir.resolve() if args.runtime_dir else None
     if rt_dir is None:
-        cand = enc_dir.parents[2] / "studio/blood-sea" if len(enc_dir.parents) >= 3 else None
+        cand = enc_dir.parents[2] / "playables/blood-sea" if len(enc_dir.parents) >= 3 else None
         if cand and cand.is_dir():
             rt_dir = cand
 

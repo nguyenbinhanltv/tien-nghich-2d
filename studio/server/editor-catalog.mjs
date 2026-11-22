@@ -8,6 +8,6 @@ export { problem };
 
 export const packRoot = fileURLToPath(new URL('../../', import.meta.url));
 
-export async function loadCatalog(root) {
-  return loadEditableCatalog(await loadPack(packRoot, undefined, {verifyFiles: false}), root);
+export async function loadCatalog(root, packDir = packRoot) {
+  return loadEditableCatalog(await loadPack(packDir, undefined, {verifyFiles: false}), root);
 }

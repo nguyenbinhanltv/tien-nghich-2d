@@ -7,7 +7,7 @@ import { createPreviewServer } from '../serve.mjs';
 
 const repo = new URL('../../', import.meta.url).pathname;
 
-async function withServer(mounts, body) {
+async function withServer(mounts, body, setup = () => {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-mounts-'));
   const pack = JSON.parse(fs.readFileSync(path.join(repo, 'studio.project.json'), 'utf8'));
   pack.serve = {mounts};
@@ -18,6 +18,7 @@ async function withServer(mounts, body) {
   fs.mkdirSync(path.join(root, 'games/studio'), {recursive: true});
   fs.writeFileSync(path.join(root, 'games/studio/x.txt'), 'under studio');
   fs.writeFileSync(path.join(root, 'plain.txt'), 'project file');
+  setup(root);
   const server = createPreviewServer({root});
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const get = async u => { const r = await fetch(`http://127.0.0.1:${server.address().port}${u}`); return [r.status, await r.text()]; };
@@ -38,3 +39,22 @@ test('a mount below /studio/ is tried after the studio\'s own files', () => with
   assert.deepEqual(await get('/studio/games/a.txt'), [200, 'game a']);
   assert.match((await get('/studio/'))[1], /shell\.js/);
 }));
+
+test('a mount cannot reach outside the project through a symlink, nor serve a blocked directory', () => withServer(
+  [{url: '/out/', dir: 'link'}, {url: '/git/', dir: '.git/pub'}, {url: '/ok/', dir: 'okdir'}],
+  async get => {
+    assert.equal((await get('/out/secret.txt'))[0], 404);
+    assert.equal((await get('/git/h.txt'))[0], 404);
+    assert.deepEqual(await get('/ok/f.txt'), [200, 'fine']);
+    assert.equal((await get('/ok/leak.txt'))[0], 403);
+  },
+  root => {
+    const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-outside-'));
+    fs.writeFileSync(path.join(outside, 'secret.txt'), 'secret');
+    fs.symlinkSync(outside, path.join(root, 'link'));
+    fs.mkdirSync(path.join(root, '.git/pub'), {recursive: true});
+    fs.writeFileSync(path.join(root, '.git/pub/h.txt'), 'git');
+    fs.mkdirSync(path.join(root, 'okdir'));
+    fs.writeFileSync(path.join(root, 'okdir/f.txt'), 'fine');
+    fs.symlinkSync(path.join(outside, 'secret.txt'), path.join(root, 'okdir/leak.txt'));
+  }));

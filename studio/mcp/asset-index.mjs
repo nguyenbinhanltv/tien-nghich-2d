@@ -39,7 +39,7 @@ export async function loadAssetIndex(pack, root) {
   const info = {profiles: {}, chunks: {}, defaults: {}, sources: {}};
   // A source names the directory keys it uses: `processed` (and `raw`); atlases default to the processed key.
   const dirsOf = source => ({processed: pack.directories.processed[source.processed], raw: source.raw ? pack.directories.raw[source.raw] : null,
-    atlas: atlasDirs(pack.directories.atlases[source.atlases ?? source.processed])});
+    atlas: atlasDirs(pack.directories.atlases[source.atlases ?? source.processed] ?? source.atlas?.dir ?? '')});
   // Category conventions from the pack: processed group, atlas key prefix, outline, empty frames allowed.
   const categories = pack.catalog.categories ?? {};
   const outlineOf = category => categories[category]?.outline === true;
@@ -115,13 +115,15 @@ export async function loadAssetIndex(pack, root) {
   if (vfx) {
     info.sources[vfx.id] = vfx;
     const data = await readJson(root, vfx.file);
+    // Same atlas the catalog reads: this source's own `atlas.dir`, else its atlases/processed directory key.
+    const vfxAtlas = vfx.atlas ? {...dirsOf(vfx).atlas, web: vfx.atlas.dir} : dirsOf(vfx).atlas;
     for (const e of data.effects) {
       put({
         id: e.id, source: vfx.id, sourceId: vfx.id, manifest: vfx.file, category: 'vfx', name: e.id, readiness: 'packed',
         brief: '', size: e.frame_size, pivot: e.anchor, directions: ['none'], clips: {play: {frames: e.frame_count, loop: e.loop}},
         outline: false, emptyOk: true, spec: {fps: e.fps, total_ms: e.total_ms, descriptor: e.descriptor},
-        layout: {nameStyle: 'vfx-flat', processedDir: path.posix.join(dirsOf(vfx).processed, vfx.processedSubdir ?? ''), flatPrefix: e.id, atlas: dirsOf(vfx).atlas,
-          keyOf: (clip, direction, n) => fillTemplate(pack.frameKeys.vfx, {id: e.id, n})},
+        layout: {nameStyle: 'vfx-flat', processedDir: path.posix.join(dirsOf(vfx).processed, vfx.processedSubdir ?? ''), flatPrefix: e.id, atlas: vfxAtlas,
+          keyOf: (clip, direction, n) => fillTemplate(pack.frameKeys[vfx.atlas?.frameKey ?? 'vfx'], {id: e.id, n})},
       });
     }
   }

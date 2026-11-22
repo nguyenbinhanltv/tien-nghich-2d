@@ -37,3 +37,23 @@ test('a different project pack drives catalog and editable frames', async t => {
   const editable = await loadEditableCatalog(loaded, dir);
   assert.deepEqual([...editable.frames.keys()], ['hud/btn/idle_0']);
 });
+
+test('the VFX layout of the MCP indexer reads the source\'s own atlas settings, like the catalog', async t => {
+  const { loadAssetIndex } = await import('../../mcp/asset-index.mjs');
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'studio-vfxatlas-'));
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const write = (file, data) => fs.mkdir(path.dirname(path.join(dir, file)), {recursive: true}).then(() => fs.writeFile(path.join(dir, file), data));
+  const pack = realPack();
+  pack.palette.file = 'pal.json';
+  pack.frameKeys = {fx: 'fx/{id}_{n}'};
+  pack.catalog.sources = [{id: 'fx', kind: 'vfx-index', file: 'fx.json', processed: Object.keys(pack.directories.processed)[0], atlas: {dir: 'custom/atlas-here', frameKey: 'fx'}}];
+  pack.editable = {overlay: 'a.json', groups: []};
+  await write('studio.project.json', JSON.stringify(pack));
+  await write('pal.json', JSON.stringify({outline: '#000001', colors: [{hex: '#000001'}]}));
+  await fs.mkdir(path.join(dir, 'custom/atlas-here'), {recursive: true});
+  await write('fx.json', JSON.stringify({effects: [{id: 'puff', frame_size: [2, 2], anchor: [1, 1], frame_count: 1, loop: false, fps: 10, total_ms: 100, descriptor: 'd.json'}]}));
+  const index = await loadAssetIndex(await loadPack(dir), dir);
+  const puff = index.assets.get('puff');
+  assert.equal(puff.layout.atlas.web, 'custom/atlas-here');
+  assert.equal(puff.layout.keyOf('play', 'none', 0), 'fx/puff_0');
+});
