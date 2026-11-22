@@ -1,0 +1,1077 @@
+{
+  "id": "lt_binding_archivist",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Fan of scroll spines opens before a binding sweep.",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (64x64 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed, canvases come back 84-88 px and are centred on 64 by the build script). All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "72761586-f65c-4f99-ba91-2f174c42513a",
+  "character_job_id": "c035dc05-861a-4003-aeb5-106d45137bb1",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Chibi xianxia boss, the Binding Archivist: a short stout robed archivist with an oversized round head, pale parchment-white face with calm half-closed eyes, a tall black ink-wash cap, long layered robe in soul-violet and ink-grey with bronze trim, hands holding a bronze-tipped binding cord in front. Rising behind both shoulders is a wide fan of rolled scroll spines, bronze-capped parchment scrolls radiating outward like a peacock tail, clearly visible around the head. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "9818fe27-31a0-44f4-8e74-a7cd8ba0346d",
+      "job_ids": {
+        "south": "45765b9e-250d-4265-8624-c6dc98f3f74b",
+        "west": "979be314-1bf5-47c7-86c9-596ed86001c6",
+        "north": "b0a70313-6c0d-4252-8f7b-01e26a84c3bd",
+        "east": "3c73392a-8bb0-417f-9a88-8aaacf7c4020"
+      },
+      "rejected_first_take_job_ids": {
+        "south": "e030f8e8-66b5-4351-975f-b13cd0500d1f",
+        "west": "6f523263-0a88-46d0-a300-532953806483"
+      },
+      "action_description": "stands still and breathes slowly, shoulders and robe rising and falling slightly, the fan of rolled scroll spines behind the shoulders trembles slightly but always stays fully open and clearly visible, hands stay together holding the binding cord at the chest",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind both shoulders and fully visible",
+        "west": "facing left, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind his back on the right and fully visible",
+        "north": "seen from behind, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open across his back and fully visible",
+        "east": "facing right, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind his back on the left and fully visible"
+      },
+      "regeneration_action_description": "stands still and breathes very slowly, only a small rise and fall of the shoulders and robe hem, the head and cap never rise above their starting height, the fan of rolled scroll spines behind the shoulders stays open and almost still, no marks or sparkles anywhere, hands stay together at the chest",
+      "regeneration_direction_prompts": {
+        "south": "facing the viewer, breathes very slowly, shoulders and robe hem move only slightly; the head and tall cap stay at the same height in every frame; the fan of bronze-capped scroll spines stays open behind both shoulders and almost still",
+        "west": "facing left, breathes very slowly, shoulders and robe hem move only slightly; the fan of bronze-capped scroll spines stays open behind his back on the right and almost still; no marks, no sparkles, no symbols near the head"
+      },
+      "touchup_attempt_not_shipped": {
+        "west": {
+          "job_id": "85b520aa-13fd-4a96-9442-3ce036881d6e",
+          "action_description": "stands still and breathes very slowly, only the robe hem and shoulders move slightly, the face stays clean with nothing in front of the mouth, the fan of rolled scroll spines stays open and almost still",
+          "direction_prompt": "facing left, breathes very slowly, the robe hem and shoulders move slightly; the face is clean: no mist, no breath, no smoke, no marks anywhere near the mouth or head; the fan of bronze-capped scroll spines stays open behind his back on the right",
+          "result": "rejected at 1x/4x: the new take swaps the 2-3 px wisp for a larger grey breath puff in frames 1-2; the shipped take was kept"
+        }
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "2416a868-a643-48ff-838a-1a7043cb6f46",
+      "job_ids": {
+        "south": "68ab9449-1eab-4644-ad67-f8aa8fe13baf",
+        "west": "62a20a09-d0f0-491b-be3a-dbd5906dbf62",
+        "north": "e3a00427-0bcc-4dfc-a6e5-b8293f1c440a",
+        "east": "ba577cf8-f144-42e4-a89c-618f681384c3"
+      },
+      "rejected_regeneration_job_ids": {
+        "south": "3aeffe25-7aa2-454e-a7be-49171162c5a8"
+      },
+      "action_description": "walks forward with short heavy steps, robe hem swaying, the fan of rolled scroll spines behind the shoulders stays open and bobs slightly with each step, hands keep the binding cord low at the front",
+      "direction_prompts": {
+        "south": "walks toward the viewer with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind both shoulders and bobs slightly",
+        "west": "walks to the left with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind his back on the right",
+        "north": "walks away from the viewer, seen from behind, short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible across his back",
+        "east": "walks to the right with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind his back on the left"
+      },
+      "regeneration_action_description": "walks forward with short heavy steps, robe hem swaying, both feet always stay on the ground line and never drop lower than the standing pose, the fan of rolled scroll spines behind the shoulders stays open and bobs slightly, hands keep the binding cord low at the front",
+      "regeneration_direction_prompts": {
+        "south": "walks toward the viewer with short heavy steps, feet stay on the same ground line in every frame and never move lower, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind both shoulders and bobs slightly"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "0ac0ded9-0f01-40f8-b8fa-ab9f5ff4d7b1",
+      "job_ids": {
+        "south": "a476d34d-3038-4e3b-9f2c-88607ea0c40d",
+        "west": "7118bfb4-2bfa-42fa-9eca-2fa3ce7839fc",
+        "north": "be7e7566-b050-4b40-9f54-04881e440015",
+        "east": "dd2022bd-82cc-4cea-a736-1460856ae2a7"
+      },
+      "action_description": "winds up for a sweeping attack: arms draw the binding cord back to one side, the fan of rolled scroll spines behind the shoulders spreads wider and rises higher with each frame until it is fully open, body leans back slightly",
+      "direction_prompts": {
+        "south": "facing the viewer, draws the binding cord back, the fan of bronze-capped scroll spines behind both shoulders spreads wider and rises until fully open like a peacock tail, staying inside the frame",
+        "west": "facing left, draws the binding cord back to the right, the fan of bronze-capped scroll spines behind his back spreads wider and rises until fully open",
+        "north": "seen from behind, the fan of bronze-capped scroll spines across his back spreads wider and rises until fully open, arms draw back",
+        "east": "facing right, draws the binding cord back to the left, the fan of bronze-capped scroll spines behind his back spreads wider and rises until fully open"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "animation_group_id": "4e74089d-7c48-440b-b19d-dddcab1fa946",
+      "job_ids": {
+        "south": "b5f06f2e-8afe-4a99-8346-9b051e3b9aba",
+        "west": "73f37aea-7b2d-4fa0-8743-18198edd9e7e",
+        "north": "3a4fd8b2-aa48-441a-9752-0803ce18334f",
+        "east": "c4c083e1-e2fe-4698-a84a-d16e4e707adc"
+      },
+      "rejected_first_take_job_ids": {
+        "west": "285c49c0-b47a-4e43-9bbf-28ebb8c58b1e",
+        "north": "8480a947-2262-4ba3-a2e6-be8711fa9d86",
+        "east": "97784d26-59e1-481c-9616-6402323584f9"
+      },
+      "action_description": "performs a fast binding sweep: both arms whip the binding cord across in a wide forward arc, the fan of rolled scroll spines behind the shoulders snaps shut toward the front and then settles, robe flares with the motion",
+      "direction_prompts": {
+        "south": "facing the viewer, whips the binding cord across in a wide arc toward the viewer, the fan of bronze-capped scroll spines snaps forward and then settles; stays inside the frame",
+        "west": "facing left, whips the binding cord across in a wide arc toward the left, the fan of bronze-capped scroll spines snaps forward to the left and then settles",
+        "north": "seen from behind, whips the binding cord away from the viewer in a wide arc, the fan of bronze-capped scroll spines snaps forward and then settles",
+        "east": "facing right, whips the binding cord across in a wide arc toward the right, the fan of bronze-capped scroll spines snaps forward to the right and then settles"
+      },
+      "regeneration_action_description": "swings a short bronze-capped rod held in both hands forward in a wide fast arc, the robe flares, the fan of rolled scroll spines stays attached behind the shoulders in every frame, no sword, no sparks, no light effects",
+      "regeneration_direction_prompts": {
+        "west": "facing left, swings a short bronze-capped rod in both hands forward to the left in a wide arc; the fan of bronze-capped scroll spines stays attached behind his back on the right in EVERY frame; no sword, no sparks, no symbols; compact body, nothing extends far from the body",
+        "north": "seen from behind, swings a short bronze-capped rod forward away from the viewer with both arms close to the body; the fan of bronze-capped scroll spines stays open across his back in EVERY frame and does not grow wider; no sparks, no light effects, nothing extends beyond the fan",
+        "east": "facing right, swings a short bronze-capped rod in both hands forward to the right in a wide arc; the fan of bronze-capped scroll spines stays attached behind his back on the left in EVERY frame; no sword, no sparks, no symbols; compact body, nothing extends far from the body"
+      }
+    }
+  },
+  "unused_diagonal_prompts_note": "PixelLab requires all eight direction_prompts keys; the four diagonal keys (south-west, north-west, north-east, south-east) were filled with one-line placeholders ('unused diagonal: ...') and no diagonal was generated.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 64x64, mannequin, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: fan of scroll spines, violet robe, tall ink cap read clearly on all four facings"
+    },
+    {
+      "n": 2,
+      "what": "idle, advance, telegraph, strike, 4 directions each, first take",
+      "credits": 16,
+      "result": "accepted: telegraph (4 dir), idle north/east, advance west/north/east, strike south. Rejected and regenerated once: strike west/east (fan vanished, a sword appeared), strike north (cyan light bars, 78 px wide, overflowed 64 px), idle south (cap rose above the 64 px frame by 1 row), idle west (stray pale marks beside the head in frames 2-3), advance south frame 3 (feet 1 row below the frame, 5 px)."
+    },
+    {
+      "n": 3,
+      "what": "one regeneration each of strike west/north/east, idle south/west, advance south, with tightened prompts (see regeneration_*)",
+      "credits": 6,
+      "result": "kept: strike west/north/east (fan stays attached; a few sparks at the rod tip), idle south (fits). idle west: new take has stray marks in frames 0-1 instead of 2-3, kept as flawed. advance south: new take was worse (11 px outside the frame vs 5), first take kept. No further retries are allowed."
+    },
+    {
+      "n": 4,
+      "what": "touch-up round (orchestrator): idle west regenerated once more",
+      "credits": 1,
+      "result": "not shipped (see animations.idle.touchup_attempt_not_shipped); still needs a human decision"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 6,
+    "total_generations": 29,
+    "balance_before": 786.26,
+    "touchup": 1
+  },
+  "crop_allowance": {
+    "advance/south/3": 5,
+    "strike/west/4": 5
+  },
+  "known_flaws": [
+    "needs a human decision: idle west frames 0-1 carry a small pale wisp beside the mouth (reads like breath or smoke); it is inside the character's colours, not removed",
+    "needs a human decision: advance south frame 3 loses the bottom outline row of the feet (5 px) and strike west frame 4 loses 5 px of a spark at the left edge, because PixelLab's frame is wider than the 64 px manifest canvas; both are accepted in crop_allowance and reported in provenance processing.cropped_opaque_pixels",
+    "strike north is mostly the fan snapping open and the robe flaring; the rod is hidden behind the body from behind",
+    "strike west/east show yellow/cyan sparks at the rod tip, which are palette colours but were not requested in the retry prompt",
+    "strike west frames 4-5: after snapping to the 40 colours a few pale spark pixels became isolated dark specks next to the rod tip"
+  ],
+  "native_px": [
+    64,
+    64
+  ],
+  "pivot_px": [
+    32,
+    61
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "077206137de9935e469d47e2c6bbfdd95e61cd7bbec1b9965773fbfb63a010dc",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 3634,
+      "outline_thinned": 809,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "cropped_opaque_pixels": {
+      "advance/south/3": 5,
+      "strike/west/4": 5
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "d7881d25957697bea9c2911172cdf4cffce01ffc758f5d115c4d285759fd095e",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_binding_archivist/contact_1x.png": "5bb16730d2de25508d518c41b4d9626a2d583cb4407c58e0019281e5eb217641",
+    "assets/raw/longtime/lt_binding_archivist/contact_4x.png": "d280b836fbcf158a69f37ed3b07c3cd9989d0f465e3d23d469aa63a2f056aa08"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_binding_archivist/advance_east_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/east/frame_000.png",
+      "raw_sha256": "4c82293a816964e080eb1960a7c16bfe6264581334842b0171b0dcbcd8cec07c",
+      "source_xy": [
+        0,
+        616
+      ],
+      "duration_ms": 140,
+      "sha256": "bdfd709b66de90cc325a98de3b14e94d46e14ed8c474ae914bfcb78bc1da79c5"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_east_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/east/frame_001.png",
+      "raw_sha256": "ec6ea92135b12a8ccc6eabfe5eef88b573d3fc322ebedfd7efeb7d84463a8ec1",
+      "source_xy": [
+        88,
+        616
+      ],
+      "duration_ms": 140,
+      "sha256": "8e95a8d934660f4ab88cd0087ba07728fbf676d8031a4653523f775c2002a47d"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_east_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/east/frame_002.png",
+      "raw_sha256": "3334a51d7710c505528deeda0b18ee168ea36a46fed4a6b0f7e3df7ac72f2095",
+      "source_xy": [
+        176,
+        616
+      ],
+      "duration_ms": 140,
+      "sha256": "62e03b86a1bdaed2d5fce52ca1c0ad0598f01f8017f509bf7e701d8a2349df07"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_east_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/east/frame_003.png",
+      "raw_sha256": "a3c3dae155331b37a95ab979171b3e554840d8cccfd0c9ba061af5c0d1b6480b",
+      "source_xy": [
+        264,
+        616
+      ],
+      "duration_ms": 140,
+      "sha256": "82a19630b0da156f531ac57453be61d25b7058338f60df9cfba43ad9310b7cd1"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_north_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/north/frame_000.png",
+      "raw_sha256": "eb86a79ebd8c053fd5da7aa5aebc6cd54f2b1528a3a307f1996b93787e195f35",
+      "source_xy": [
+        0,
+        528
+      ],
+      "duration_ms": 140,
+      "sha256": "84d51f96bc520da322027f1a00bfa3dd824d7cd0525e4a7473d7d1c0e1e77e12"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_north_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/north/frame_001.png",
+      "raw_sha256": "a8a0ad5d8e91785bde4f6323458a069b172ea63cea75c6a68096186cb666276f",
+      "source_xy": [
+        88,
+        528
+      ],
+      "duration_ms": 140,
+      "sha256": "0a63f05eb3b753e93e0b65ea77bc3de2564268cc5c5c86c1a7f8993846760ecd"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_north_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/north/frame_002.png",
+      "raw_sha256": "fdd03c2e244e88954149a11c8d5afd99ef238a20e67654f5dda32d4891486c86",
+      "source_xy": [
+        176,
+        528
+      ],
+      "duration_ms": 140,
+      "sha256": "aed6c271495d251ceb3f9f2a244d17a354c16c1d27ff8324158c94abe4acfa03"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_north_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/north/frame_003.png",
+      "raw_sha256": "79b750173c56c8bd08d88f569cff72ff2604a1931546a9ad0a4203f3778f8544",
+      "source_xy": [
+        264,
+        528
+      ],
+      "duration_ms": 140,
+      "sha256": "e95da90aaeca0f6f32f703f7931e3ee5e2d2cc01795fe510a073b1612d36c760"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_south_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/south/frame_000.png",
+      "raw_sha256": "dff79487f0d0cbb45d8e416e9f7003e964c4e49c6487e2488fdff56ac984acd1",
+      "source_xy": [
+        0,
+        352
+      ],
+      "duration_ms": 140,
+      "sha256": "bc3b786b05da948b860937c77dde4867b1beaacf9c598ef38d5cb95b7d30ec2c"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_south_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/south/frame_001.png",
+      "raw_sha256": "67e56d1a9a1150acdb60e684c47abc99207c5b2997a1f69f8f643c6c63243cb5",
+      "source_xy": [
+        88,
+        352
+      ],
+      "duration_ms": 140,
+      "sha256": "2d61b598c7e1738b301de6ddda2ec0764efafadde2afa1cc128bbcbae8087334"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_south_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/south/frame_002.png",
+      "raw_sha256": "ea12e5c2df9226dbdea5e84ee4649c50c8f2d983b48690ae81fd7b8ab645d1fd",
+      "source_xy": [
+        176,
+        352
+      ],
+      "duration_ms": 140,
+      "sha256": "1796221411f32a932f9d4c72ad2130afd6087289095595a8bd387c405a7b1a7d"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_south_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/south/frame_003.png",
+      "raw_sha256": "95f94ea1107c796763d1844848ef8b884cbd3e09ec363d299a7fabf8efb1b221",
+      "source_xy": [
+        264,
+        352
+      ],
+      "duration_ms": 140,
+      "sha256": "2a014f9f3bc1d72accb8bc9d4cd097652121e3ce525d7d4d80d3e41f0d146518"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_west_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/west/frame_000.png",
+      "raw_sha256": "ad289d43475c9da653c281f0f0315a8d6c4c71c3d31f7ed53814688635d4fddc",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 140,
+      "sha256": "1db8c56b9adce13927ba7f3d5a7e499a29d21ef8cc128aee787bc81b04ed16dd"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_west_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/west/frame_001.png",
+      "raw_sha256": "2911d3f0ec5471ddd6fc15cdb3a8bd6a5e52c1fe96601dfebe99d2ad83a09ded",
+      "source_xy": [
+        88,
+        440
+      ],
+      "duration_ms": 140,
+      "sha256": "b41a50bb85acabbed25a481b53205d7ddb52fd7868e070969a18371e76446242"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_west_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/west/frame_002.png",
+      "raw_sha256": "7a1e10aa6393e6e7dd01ba6283cbe742eb0edfdfa6bd46f54ca39fb667996172",
+      "source_xy": [
+        176,
+        440
+      ],
+      "duration_ms": 140,
+      "sha256": "1022127cfa1bc1301114ca0e0f4cfb8a80faefc5a5016739b363d7cdc960f048"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/advance_west_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/advance_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/advance/west/frame_003.png",
+      "raw_sha256": "a1cdafb636f35369890e08b053169e6bbeacf905a7124f6bc45deca482fe353a",
+      "source_xy": [
+        264,
+        440
+      ],
+      "duration_ms": 140,
+      "sha256": "d424c598c5eb269ac1a6038ea051fd31803fd3d337348dca24c556f4c79a8338"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_east_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/east/frame_000.png",
+      "raw_sha256": "0fa7e47c58393da05106d772fed6c03941941f1254dd122d0ddc6e4e144231c5",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 180,
+      "sha256": "5820229ae7fabc14293592f4ca7fc79b0d33cc00e2689c9de05daaf9231eb293"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_east_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/east/frame_001.png",
+      "raw_sha256": "f03d0ae0b8bc7c2d3a7b37e720695a63f425edf66294e75e956704962213bd3f",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 180,
+      "sha256": "998b627f2f156fd4a0d60a1c2b9fde061453ceb38f10b66096e6131a0e5c0bf2"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_east_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/east/frame_002.png",
+      "raw_sha256": "aedd9c56c1eb9302cff3fd72704020db8c655b0a1f223153f2a3a9d24e164d40",
+      "source_xy": [
+        176,
+        264
+      ],
+      "duration_ms": 180,
+      "sha256": "15083619c2242b65638442e6f5128936c8c9cdc2c1bf7c19955f7b6dc63d1d2b"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_east_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/east/frame_003.png",
+      "raw_sha256": "781ca070c0aa85e81b4f3de97b74e7d364e7de1bacddd212d78c48d46b694575",
+      "source_xy": [
+        264,
+        264
+      ],
+      "duration_ms": 180,
+      "sha256": "1c89634faf08e678dab9030ea718a72885c518c2594080e65204ceac3a181ec7"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_north_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/north/frame_000.png",
+      "raw_sha256": "59fd782801388bf7521c7a1bc0a593d98ad07f8b3627429fb960de7166879467",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 180,
+      "sha256": "7ffd44f2c02c109ce3e492c5e65eb960cb924224032b93cdc1cfa37992a1d9e3"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_north_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/north/frame_001.png",
+      "raw_sha256": "f69a3ae14ea8952a4b8bb15cbd3b1daa5f4e69de850e960c1c9db48f255d658b",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 180,
+      "sha256": "27b4c70d9e49589e43fa14f411780d3d15db8f0ca2616aaa17516e006f2274bc"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_north_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/north/frame_002.png",
+      "raw_sha256": "426945d9580be4487face4b0be661c5f17b9a6e9f6abf44b95a73c4cafd4aa28",
+      "source_xy": [
+        176,
+        176
+      ],
+      "duration_ms": 180,
+      "sha256": "6d6440b220e397d67f6915ed424a3b903b009a200741875c6d6b0385c7be54c0"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_north_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/north/frame_003.png",
+      "raw_sha256": "2d7bc0ed4f7dba11e7910d0075d437634c2bcfca0f2bc235cc7c139b656ae41a",
+      "source_xy": [
+        264,
+        176
+      ],
+      "duration_ms": 180,
+      "sha256": "36ef073e5e42e91f83cd3e8589357d17b9c08c6d8a948cb0269a05bdc5412db7"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_south_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/south/frame_000.png",
+      "raw_sha256": "ce5dcbf0b6eaba2868e876a38ab482da1ef4157f340c52f1e0fdda9f1ec4b19a",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "e91a3b4dcc6f71892b97f4a60a762c2566c02fd9ff9be6d69758fc8ca1922adc"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_south_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/south/frame_001.png",
+      "raw_sha256": "51cdaaff5f4b838aa3483c3864f9b2f4c76e08c756d6953358241a191761d674",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "3aff109f027b0c8ef0d4f7d45b0117a4856ebab18decbe9e1f2040c22ddcf994"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_south_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/south/frame_002.png",
+      "raw_sha256": "b1c4188b3f578c6ee1a913b88336bfe71947e6a3f6ffa30bf0dbf927ba06a078",
+      "source_xy": [
+        176,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "a0d099d61588eb0c68ded5cfffe30fe14c43e8ea04ff6fe81fa3756dc882cdd8"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_south_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/south/frame_003.png",
+      "raw_sha256": "7fd11947348ff5f29d6195c2a2884a9313436a23245341b9ff9ad562a8e318d3",
+      "source_xy": [
+        264,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "84092ed0ed824fd44594cce5e9617ba2b25aa05474cea63c64ac0516f80d4775"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_west_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/west/frame_000.png",
+      "raw_sha256": "f73d46b9c01a20317de6ad90b02809503cc78bcced401e1737d9fb0e0c086b43",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "67efa2711700c6d29e9c6c3eb736ddef76903c6f665806fb2a5889f983cda148"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_west_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/west/frame_001.png",
+      "raw_sha256": "aadac663704744d5fa60ef9d05a2e6bd72a2fa5e7531e75c41a0ccb462300b68",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "42918e5d36d640f88233c80a85b66965278b3baeaaa8dc970bf2e82afa3258b5"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_west_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/west/frame_002.png",
+      "raw_sha256": "ac3b369053bf138b93b1e0d702037132f985d360c4cf857a0b2c754fffa170f5",
+      "source_xy": [
+        176,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "fdaf300012940a23291752f2eb38b1aff5f34329683a254888341a9bdc6122fc"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/idle_west_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/idle/west/frame_003.png",
+      "raw_sha256": "5087316e35042011df8fa40a308ac40515465e70bb54a79cdbfb215b0ba20cc6",
+      "source_xy": [
+        264,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "211cf6e9b2d96090ed3d822452c5daafa29d1734d8c1a32c0b8ee324dbd116e6"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_000.png",
+      "raw_sha256": "af771a0e9cb4e528194a7b7f7357eed903965302560c4b10418bfead27c88279",
+      "source_xy": [
+        0,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "c54ca529eebeff02f87c6d2592fa2a44e0e33deecbae6a79d9b6180f1594f826"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_001.png",
+      "raw_sha256": "eac523256eb4a34223645a657aedca25ddba24db9353abb5d13bc64cef4f0484",
+      "source_xy": [
+        88,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "03711a6f5ad82f49af9690987852e944df923156e1cd38f0b36df95161d7404e"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_002.png",
+      "raw_sha256": "f80e56bd36d74334dd11f8e5e2dff144099cca4facbb775b6f571b936e136232",
+      "source_xy": [
+        176,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "1437c3075df64189a95e912e8bef17709382ce249623e7f3fbf6b3f3d6d28e03"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_003.png",
+      "raw_sha256": "acfc0e0ecb8f0ad0160b2600b346a92b64419b6d704bf74ac27e73756e0e939a",
+      "source_xy": [
+        264,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "bf16c746e05103171e58c46e76bb90e7243e75c459c30ffc8262c3f7865d97ba"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_4",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_004.png",
+      "raw_sha256": "44193daf48dc230af427537fa502ad6295c3b7b99339f075e9e139316ccf6870",
+      "source_xy": [
+        352,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "df4745a71f33523c4888d376f40ef509816705058fdeb1fe369f8cde8de5b213"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_east_5",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/east/frame_005.png",
+      "raw_sha256": "9fc8cd708f1b45ff7c5f8fdec0416b95cbc24a6998a9c0f2699ac7ea273c94cd",
+      "source_xy": [
+        440,
+        1320
+      ],
+      "duration_ms": 100,
+      "sha256": "aca6a5e79ccc668104a145bc003411ad675c6ab8d1f77eac3e103d72a7c11744"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_000.png",
+      "raw_sha256": "962920ca86738d6f01fa48f7e820140339e1ddc5e491f69b3465474fa7bdf8f4",
+      "source_xy": [
+        0,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "3b5fd67662051ef111e78da3bbc6c28cfbb60d5cbde46da4eec631db1b39fc35"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_001.png",
+      "raw_sha256": "1564009dfbcb09ba50c6210a52086244e0827fee32741aaa7522c2287c837fce",
+      "source_xy": [
+        88,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "fdfc5e592cbe3603d1565a5c96336d6ce7ddeb096127f365ba054edb26d6891a"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_002.png",
+      "raw_sha256": "46caa20eaf666f4573ff80b4d264b2742c4dff9204030ba9befca96ce488f60f",
+      "source_xy": [
+        176,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "4c73d6c674205b178f752755681be4752cd54aa85d275ddcbb46303e815f2477"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_003.png",
+      "raw_sha256": "8dde3ef8fdaf0844613030de805df75cc5445be0288911381257721cb8307ff8",
+      "source_xy": [
+        264,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "173f1ec8826784b2f4ab120c35b98a691f3a543a68b5576388c2914d46040317"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_4",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_004.png",
+      "raw_sha256": "2e7a5c86fa21c734fc7d65c19dff2f79a5436298b3da5efb3ab24b2ceaf7d045",
+      "source_xy": [
+        352,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "d9d683f13fcebd06c3442fcbe20c3ac3a4cfb1bddc49e4fdb9a870678da433a2"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_north_5",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/north/frame_005.png",
+      "raw_sha256": "0cfdc540c34c7e46feff55d4438335b0414ff3f361efe66ee41f00f96a2be7f1",
+      "source_xy": [
+        440,
+        1232
+      ],
+      "duration_ms": 100,
+      "sha256": "602680ca103b173fe9334879301d01e0d6931fa82926371c1b5b030f2ced8bb6"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_000.png",
+      "raw_sha256": "67867cce4ca9639c95240f2031ddf159b106fcd9b38cc49a7c001d621b5a8906",
+      "source_xy": [
+        0,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "76721aecad598ca15d55fa72a65bdef9968dcc0767518db33f1cbce2413c5360"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_001.png",
+      "raw_sha256": "ff0574d7aae9bc7f022828c9e8f617f6ef67c3d729e6b1601445e3b4da1b487b",
+      "source_xy": [
+        88,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "68d182f3e2799b62b781183327228eeff27fdbd1acad1edd6298b485b7f2fb20"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_002.png",
+      "raw_sha256": "86bf3b30cb4486ef6453674f37b3ec871b0b568cc82b377a1cbfaf686758aa11",
+      "source_xy": [
+        176,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "8382a58a72dbaaf76550ba05aa4c48941f57a7c68435491cefe5660f83f171eb"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_003.png",
+      "raw_sha256": "f66c752649d823babaebae1f63d60583c8d4af4be0838371350773e9c0e29f22",
+      "source_xy": [
+        264,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "0f050f1667f11ee37b2eeba379f973463106e13b10afa8fe4c1abef3742641b7"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_4",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_004.png",
+      "raw_sha256": "52d56ab062883463605e5a09977a6a7928a8e2064b609fadc58aafb2a9c2c9f4",
+      "source_xy": [
+        352,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "44aaaa918df8df6a0e20a9e38590fa89564a4ba08a2720f2fd92829462308b4c"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_south_5",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/south/frame_005.png",
+      "raw_sha256": "04d3efa4dd23e48ac7ae2a358d58529d9e0fccbb1e1b0428d4b5dc411ca8e9b0",
+      "source_xy": [
+        440,
+        1056
+      ],
+      "duration_ms": 100,
+      "sha256": "0b75fee57cfff0e212492c02a69db0aa3fbf4438ad8ad049c42099146b40966a"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_000.png",
+      "raw_sha256": "7a3fee3fba08a222cc0c62fa5fbc6dbb2fb795131854fb43fc2cde7f7f14b35d",
+      "source_xy": [
+        0,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "f9bce2e44f068d034b610bb719b866f9513400c97cdefb6764183b33d19ce3d1"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_001.png",
+      "raw_sha256": "b0702c2f557287ef84dd871b81d356b5e7e31433e88a3fac0b544b28900bff15",
+      "source_xy": [
+        88,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "9f007932a5a586233fc60989cc0630a86187ad788a3539dd9e5bbdc7ffaafcdc"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_002.png",
+      "raw_sha256": "a6cece064a1e3acce9d497a937a4796826bc7cce88ca5e578fcf7a1baf67693a",
+      "source_xy": [
+        176,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "aafb24a28c11e198efc7f3f549f18da2523974b29ea4c22105dad2af5a62c250"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_003.png",
+      "raw_sha256": "37dc97cddb2ed75fa8eb0e593fed075b11a80525171b2f1fd53df4ad90941f2c",
+      "source_xy": [
+        264,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "63d5a839857e8dc3d93aa7f5018ee22059a36b3a6b2d8670d76f922081146c80"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_4",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_004.png",
+      "raw_sha256": "500f4939d5dbee639380b736d5b5e8fde56a0210e0d1b920399d803f6a108899",
+      "source_xy": [
+        352,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "2d9f6d6c41e3b67923dabdd5ccfc33b9f91caff42e0f5dc3378c248208174561"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/strike_west_5",
+      "path": "assets/processed_longtime/lt_binding_archivist/strike_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/strike/west/frame_005.png",
+      "raw_sha256": "19563eeda13ddf583f7f2d7f2baa47de0c7436ed6f472caf9b882e34bb1b2246",
+      "source_xy": [
+        440,
+        1144
+      ],
+      "duration_ms": 100,
+      "sha256": "733c4a5a1e67aab4f8700885e2e9ba010530af092155f79800e4e1cad4e63e4a"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/east/frame_000.png",
+      "raw_sha256": "d219edde88cb184de9f7447f9946f2c23654b072feab389f9df98deecc826785",
+      "source_xy": [
+        0,
+        968
+      ],
+      "duration_ms": 180,
+      "sha256": "0725c83e7c635952b935c8ef362c9385824a513538676a934a08da027f56a70f"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/east/frame_001.png",
+      "raw_sha256": "e6821bb8562a8e96fd159c06036d6b83a80c490491680e4f5860e8e17d9a4e9a",
+      "source_xy": [
+        88,
+        968
+      ],
+      "duration_ms": 180,
+      "sha256": "b7eacf932c70888a6d1f9d29911d8f2a9a8dee5ef82a78fb4183854886596b99"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/east/frame_002.png",
+      "raw_sha256": "b8d88b8f7d4d195727afd72c00eef4fd30fc446c6152348c0b456befb3096225",
+      "source_xy": [
+        176,
+        968
+      ],
+      "duration_ms": 180,
+      "sha256": "100f6934ca9a2d1de0d624ffb3651b9eae6550cb513de36d44986550cc19b486"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_east_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/east/frame_003.png",
+      "raw_sha256": "3f2aa2aa2cf4b0a58f37b659673d5b568007ee3b7a1aaa772906013020cc3917",
+      "source_xy": [
+        264,
+        968
+      ],
+      "duration_ms": 180,
+      "sha256": "4203864a807751abe580aeb7eba1f0d55650e2d96f9d2fd970014e5c1a7873fa"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/north/frame_000.png",
+      "raw_sha256": "8d70860b28ea35b28412a7f12d1300d2cd9894da6b61c01e10667365027792d7",
+      "source_xy": [
+        0,
+        880
+      ],
+      "duration_ms": 180,
+      "sha256": "3a6270c21daae1e516c0d72c621b2aaefeccf6d442f848b175e46c4f0a4c75c8"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/north/frame_001.png",
+      "raw_sha256": "25c369ef2ba2127309ecaa7e39d22c692a110ebd88a2151af6d5ae5a27ee5d8e",
+      "source_xy": [
+        88,
+        880
+      ],
+      "duration_ms": 180,
+      "sha256": "9c95698584c6b203f2fda346f71bc3c85a1a080e700ca33f715b3356d7fcad38"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/north/frame_002.png",
+      "raw_sha256": "f7a818706cdec2c34cb34c6c074de2aeb379b9a4ad20d1663108d476aae89055",
+      "source_xy": [
+        176,
+        880
+      ],
+      "duration_ms": 180,
+      "sha256": "a51b0e2540c2186ba062501780c04e517cf102f5ac0ab8d0cf493905d8973124"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_north_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/north/frame_003.png",
+      "raw_sha256": "f6dcd8ccb06bcf454b8220ea46f974f3bb2e33a9cb0ad7fde9dcc399297305ed",
+      "source_xy": [
+        264,
+        880
+      ],
+      "duration_ms": 180,
+      "sha256": "f87d54431cb34e24d32776893ee73e5aef89dc1090c66896f8bd0b883e90070f"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/south/frame_000.png",
+      "raw_sha256": "f53eca6b4f3d0b4b264565b34ee916e4b42cf5f5db1a799ac94cfa61df9dc20a",
+      "source_xy": [
+        0,
+        704
+      ],
+      "duration_ms": 180,
+      "sha256": "96ec142082e825922eb69e4604a77160c4215e431e465d7bd31598fbaf0d5031"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/south/frame_001.png",
+      "raw_sha256": "912df382bb24f12414e5c5f69c262a4e518a617f241ed7645e7234de5472b0e7",
+      "source_xy": [
+        88,
+        704
+      ],
+      "duration_ms": 180,
+      "sha256": "ffd6a1b7b4c50a3d3709f1de8f720c2c1a5a9912e43efeb5f2d48996a6f496d4"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/south/frame_002.png",
+      "raw_sha256": "c69213c54f7e894841bff0ca68b0eb5dc6c05ba653085723c66b8a3a5b55eea6",
+      "source_xy": [
+        176,
+        704
+      ],
+      "duration_ms": 180,
+      "sha256": "377c03cc256d6af0d8d8a09818bcddf0d3dee1695198a1dd56400275e4f2c08d"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_south_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/south/frame_003.png",
+      "raw_sha256": "6999456a83d55dd77b2eda14cf711765b0d878e96e04d3f8960644028d21122d",
+      "source_xy": [
+        264,
+        704
+      ],
+      "duration_ms": 180,
+      "sha256": "e8af4ce684a979bc5901896db6197fdf636d9076f79eaec656955b820d3b180a"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/west/frame_000.png",
+      "raw_sha256": "beb7b5c3f1ddb4fe675bc05d72cabe641b05189823a5c6920f6e263123e0e60e",
+      "source_xy": [
+        0,
+        792
+      ],
+      "duration_ms": 180,
+      "sha256": "df4f2493f2827771a4fbc335ec0f7f6bff5887bceddbd3b02d5df6712562ffd7"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/west/frame_001.png",
+      "raw_sha256": "afd6e5e124de7cdc3598c9c28c7dbaac66779e1bb79560489e53077e22ddfe37",
+      "source_xy": [
+        88,
+        792
+      ],
+      "duration_ms": 180,
+      "sha256": "abd4505c93627e07df42fdd9cee500751ea738ad17f8ec8d4411589ea5a78e40"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/west/frame_002.png",
+      "raw_sha256": "2e34696a2d1dcbe8a03fc39edb0b2247446583b7f5d4b94ce449bebd2edd7375",
+      "source_xy": [
+        176,
+        792
+      ],
+      "duration_ms": 180,
+      "sha256": "4dd932fc4d774200cbe31eeb11b0dc680bc877b4b623cafa3dbe270823b8dd70"
+    },
+    {
+      "key": "longtime/lt_binding_archivist/telegraph_west_3",
+      "path": "assets/processed_longtime/lt_binding_archivist/telegraph_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_binding_archivist/telegraph/west/frame_003.png",
+      "raw_sha256": "1893e2b56812a24e8e0797f990c0be6f5820e0915a1a2ab882952c4f3eb8da80",
+      "source_xy": [
+        264,
+        792
+      ],
+      "duration_ms": 180,
+      "sha256": "f87ea4010d9138bb727982ccf42766faa5a1c25072086403e3464994ccedcc82"
+    }
+  ]
+}

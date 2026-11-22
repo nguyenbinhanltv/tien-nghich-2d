@@ -434,6 +434,34 @@
         }
       }
     },
+    "figures": {
+      "description": "Readability guides for characters at native size: what the sheet template shows the artist and what studio_process checks. Keyed by a guide name; each lists the manifest profiles it applies to. Optional.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profiles", "headToBody", "minLimbWidthPx", "accentMinPixels"],
+        "properties": {
+          "description": {"type": "string"},
+          "measured": {"type": "string", "description": "Where the numbers come from (which shipped assets were measured)."},
+          "profiles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "headToBody": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["min", "max", "target"],
+            "properties": {"min": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "max": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "target": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}}
+          },
+          "minLimbWidthPx": {"type": "integer", "minimum": 1, "maximum": 16},
+          "accentMinPixels": {"type": "integer", "minimum": 1, "maximum": 64},
+          "guide": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["headWidth", "bodyWidth", "legWidth", "legGap"],
+            "properties": {"headWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "bodyWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "legWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "legGap": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}}
+          }
+        }
+      }
+    },
     "adapters": {
       "type": "object",
       "additionalProperties": false,
