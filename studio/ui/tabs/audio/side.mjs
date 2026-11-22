@@ -1,7 +1,7 @@
 // The right column: the numbers (recorded where the ledger or pack has them, measured live otherwise), the listening checklist and the
 // human sign-off. Sign-off is recorded by the Review tab's route (POST /api/tabs/review/audio-signoff, tied to the master's sha256);
 // this tab owns no store of its own. Only a click in this page can send it, and no MCP tool reaches that route.
-import { h, button, short } from './dom.mjs';
+import { h, button, short, put } from './dom.mjs';
 import { checklistItems, allChecked, signoffNote, formatDb } from './model.mjs';
 
 const dbfsOfPcm = pcm => (Array.isArray(pcm) && Math.max(...pcm) > 0 ? 20 * Math.log10(Math.max(...pcm) / 32768) : null);
@@ -97,7 +97,7 @@ async function signoffPanel(app, detail, entry) {
     try { info = await ctx.fetchJson('/api/tabs/review/audio?id=' + encodeURIComponent(entry.id)); } catch (error) { if (error.name === 'AbortError') return; state.textContent = ctx.t('sign.unavailable'); return; }
     state.textContent = ctx.t('sign.state.' + info.signoffState);
     state.className = 'au-signstate s-' + info.signoffState;
-    history.replaceChildren(...(info.signoffs ?? []).slice(0, 5).map(s => h('li', '', h('span', 'chip l-' + (s.verdict === 'signed' ? 'approved' : 'needs_work'), ctx.t('sign.verdict.' + s.verdict)),
+    put(history, ...(info.signoffs ?? []).slice(0, 5).map(s => h('li', '', h('span', 'chip l-' + (s.verdict === 'signed' ? 'approved' : 'needs_work'), ctx.t('sign.verdict.' + s.verdict)),
       ' ', h('time', {datetime: s.ts}, new Date(s.ts).toLocaleString(ctx.lang === 'vi' ? 'vi-VN' : 'en-GB')), s.content !== info.contentHash ? h('span', 'muted', ' ' + ctx.t('sign.older')) : null,
       s.note ? h('div', 'muted au-fine', s.note) : null)));
     refresh();
@@ -127,24 +127,22 @@ async function signoffPanel(app, detail, entry) {
 }
 
 export async function renderSide(app, el, opts = {}) {
-  const {ctx, state} = app, entry = app.selected();
+  const {ctx} = app, entry = app.selected();
   if (opts.keepForm && app.sideRefresh && app.sideFor === entry?.id) { app.sideRefresh(); return; }
   app.sideFor = entry?.id ?? null; app.sideRefresh = null;
   if (!entry || entry.stage === 'planned') {
-    el.replaceChildren(h('h2', '', ctx.t('side.title')), h('p', 'muted', entry ? ctx.t('cue.planned') : ctx.t('side.none')));
+    put(el, h('h2', '', ctx.t('side.title')), h('p', 'muted', entry ? ctx.t('cue.planned') : ctx.t('side.none')));
     return;
   }
-  const token = app.token;
   let detail;
   try { detail = await app.cue(entry.id); } catch { return; }
   if (app.state.asset !== entry.id) return;
   const numbers = h('div', 'au-numbers-wrap'), pack = h('div', 'au-packs');
-  el.replaceChildren(h('h2', '', ctx.t('side.title')), numbers, h('h3', '', ctx.t('pack.heading')), pack, await signoffPanel(app, detail, entry));
-  numbers.replaceChildren(...numbersTable(ctx, detail, null, true));
-  pack.replaceChildren(...packEvidence(ctx, detail), ...(detail.packDetails.length ? [] : [h('p', 'muted', ctx.t('pack.none'))]));
+  put(el, h('h2', '', ctx.t('side.title')), numbers, h('h3', '', ctx.t('pack.heading')), pack, await signoffPanel(app, detail, entry));
+  put(numbers, ...numbersTable(ctx, detail, null, true));
+  put(pack, ...packEvidence(ctx, detail), ...(detail.packDetails.length ? [] : [h('p', 'muted', ctx.t('pack.none'))]));
   try {
     const live = await app.measure(entry.id);
-    if (app.state.asset === entry.id) numbers.replaceChildren(...numbersTable(ctx, detail, live, false));
-  } catch (error) { if (error.name !== 'AbortError') numbers.replaceChildren(h('p', 'au-error', ctx.t('error.load', {message: error.message}))); }
-  void token; void state;
+    if (app.state.asset === entry.id) put(numbers, ...numbersTable(ctx, detail, live, false));
+  } catch (error) { if (error.name !== 'AbortError') put(numbers, h('p', 'au-error', ctx.t('error.load', {message: error.message}))); }
 }

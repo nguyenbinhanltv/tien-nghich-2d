@@ -1,6 +1,6 @@
 // Blind A/B: two cues that may be confused, played level-matched as "1" and "2" in a random order; the listener says which one is
 // the cue under review. The answer is data (correct of n, and a guessing p-value), kept for the sign-off note. Nothing plays until a click.
-import { h, button, select } from './dom.mjs';
+import { h, button, select, put } from './dom.mjs';
 import { makeTrials, scoreTrials, matchedGains, parsePair } from './model.mjs';
 
 const TRIALS = 6;
@@ -54,7 +54,7 @@ export async function renderBlind(app, root, detail, entry, current, {say}) {
     if (!current()) return;
     if (at >= TRIALS) return finish();
     const t = at;
-    arena.replaceChildren(
+    put(arena, 
       h('p', 'au-blind-q', ctx.t('blind.question', {n: t + 1, total: TRIALS, id: entry.id})),
       h('div', 'au-blind-play', button(ctx.t('blind.play1'), () => playSlot(1)), button(ctx.t('blind.play2'), () => playSlot(2))),
       h('div', 'au-blind-answer',
@@ -65,17 +65,17 @@ export async function renderBlind(app, root, detail, entry, current, {say}) {
     const score = scoreTrials(trials, answers);
     app.blind = {cue: entry.id, partner, correct: score.correct, n: score.n, p: score.p};
     app.onEngine?.();
-    arena.replaceChildren(
+    put(arena, 
       h('p', {class: 'au-blind-result ' + score.verdict, role: 'status'}, ctx.t('blind.result', {correct: score.correct, n: score.n, p: score.p.toFixed(3)}), ' ', ctx.t('blind.verdict.' + score.verdict)),
       button(ctx.t('blind.again'), start));
     say(ctx.t('blind.result', {correct: score.correct, n: score.n, p: score.p.toFixed(3)}));
   }
   async function start() {
-    arena.replaceChildren(h('p', 'muted', ctx.t('listen.loading')));
-    try { await prepare(); } catch (error) { arena.replaceChildren(h('p', 'au-error', ctx.t('error.load', {message: error.message}))); return; }
+    put(arena, h('p', 'muted', ctx.t('listen.loading')));
+    try { await prepare(); } catch (error) { put(arena, h('p', 'au-error', ctx.t('error.load', {message: error.message}))); return; }
     trials = makeTrials(TRIALS, rand); answers = []; heardBoth = trials.map(() => new Set()); at = 0;
     draw();
   }
-  arena.replaceChildren(button(ctx.t('blind.start'), start, {class: 'plain primary'}),
+  put(arena, button(ctx.t('blind.start'), start, {class: 'plain primary'}),
     app.blind?.cue === entry.id && app.blind.partner === partner ? h('p', 'muted', ctx.t('blind.last', {correct: app.blind.correct, n: app.blind.n, p: app.blind.p.toFixed(3)})) : null);
 }

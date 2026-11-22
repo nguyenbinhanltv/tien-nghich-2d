@@ -1,6 +1,6 @@
 // The Listen view: pick the version (master, Ogg, AAC), play it at matched level, loop a bed three times across its seam,
 // play an effect solo or over a bed, fold to mono, and run a blind A/B. Playback only starts from a click here.
-import { h, button, select, humanize } from './dom.mjs';
+import { h, button, select, humanize, put } from './dom.mjs';
 import { levelGain, dbOf, formatFrames, codecs } from './model.mjs';
 import { renderBlind } from './ab.mjs';
 
@@ -63,7 +63,7 @@ export async function renderListen(app, el, detail, entry, current) {
       h('label', 'field inline', h('span', '', ctx.t('listen.volume')), vol), gainLabel));
   const transport = h('div', 'au-transport');
   const wave = h('div', 'au-wave');
-  el.replaceChildren(controls, transport, status, wave);
+  put(el, controls, transport, status, wave);
 
   // ---- level match
   async function gainFor() {
@@ -77,7 +77,7 @@ export async function renderListen(app, el, detail, entry, current) {
   const frames = detail.masterInfo?.frames ?? 1;
   const img = h('img', {class: 'au-wave-img', alt: ctx.t('pictures.waveformAlt', {id: entry.id}), src: apiBase(ctx) + `image?id=${q(entry.id)}&kind=waveform&width=1000`});
   const head = h('div', {class: 'au-playhead', hidden: true});
-  wave.replaceChildren(h('div', 'au-wave-wrap', img, head),
+  put(wave, h('div', 'au-wave-wrap', img, head),
     h('p', 'muted au-wave-note', ctx.t('listen.waveNote')));
   const delta = version?.loop && detail.loop ? version.loop.start - detail.loop.start : 0;
   let raf = 0;
@@ -154,7 +154,7 @@ export async function renderListen(app, el, detail, entry, current) {
   let bedHandle = null;
   const stop = button(ctx.t('listen.stop'), () => { engine.stopAll(); bedHandle = null; say(ctx.t('listen.stopped')); }, {class: 'plain danger'});
   if (entry.kind === 'bed') {
-    transport.replaceChildren(button(ctx.t('listen.play'), () => playMain('loop'), {class: 'plain primary'}), button(ctx.t('listen.x3'), () => playMain('x3'), {title: ctx.t('listen.x3Hint')}),
+    put(transport, button(ctx.t('listen.play'), () => playMain('loop'), {class: 'plain primary'}), button(ctx.t('listen.x3'), () => playMain('x3'), {title: ctx.t('listen.x3Hint')}),
       button(ctx.t('listen.seam'), () => playMain('seam'), {title: ctx.t('listen.seamHint')}), stop);
   } else {
     const beds = detail.beds, bedId = state.bed && beds.some(b => b.id === state.bed) ? state.bed : beds[0]?.id;
@@ -171,7 +171,7 @@ export async function renderListen(app, el, detail, entry, current) {
       say(ctx.t('listen.bedPlaying', {bed: bedId}));
     };
     const trigger = async () => { await playMain('solo'); };
-    transport.replaceChildren(button(ctx.t('listen.solo'), async () => { bedHandle?.stop(); bedHandle = null; await playMain('solo'); }, {class: 'plain primary'}),
+    put(transport, button(ctx.t('listen.solo'), async () => { bedHandle?.stop(); bedHandle = null; await playMain('solo'); }, {class: 'plain primary'}),
       bedPick, button(ctx.t('listen.bedStart'), startBed), button(ctx.t('listen.trigger'), trigger, {title: ctx.t('listen.triggerHint')}), stop);
   }
 

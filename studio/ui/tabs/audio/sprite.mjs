@@ -1,6 +1,6 @@
 // The Sprite map view: every cue of a pack's effect sprite on one strip, with the guard gaps between entries, the
 // active region of each cue, the problems spriteSegments finds, and the decoded markers of each codec.
-import { h, select, button } from './dom.mjs';
+import { h, select, button, put } from './dom.mjs';
 import { spriteSegments } from './model.mjs';
 
 const SVG = 'http://www.w3.org/2000/svg';
@@ -14,7 +14,7 @@ const svg = (tag, attrs = {}, ...kids) => {
 export async function renderSprite(app, el, detail, entry, current) {
   const {ctx, state, engine} = app;
   const packs = detail.packDetails.filter(p => p.sfx);
-  if (!packs.length) { el.replaceChildren(h('p', 'muted au-empty', ctx.t('sprite.none'))); return; }
+  if (!packs.length) { put(el, h('p', 'muted au-empty', ctx.t('sprite.none'))); return; }
   const pack = packs.find(p => p.id === state.pack) ?? packs[0];
   const {sfx} = pack, rate = sfx.sampleRate, guard = sfx.guardFrames;
   const total = sfx.sprite.frames;
@@ -62,7 +62,7 @@ export async function renderSprite(app, el, detail, entry, current) {
     h('td', 'num', ms(s.gapBefore) + ' / ' + ms(s.gapAfter)), h('td', 'num', ms(s.activeFrames)), h('td', 'num', codecCell('ogg', s.id)), h('td', 'num', codecCell('m4a', s.id))));
   const problems = issues.length ? h('ul', 'au-issues', ...issues.map(i => h('li', 'bad', ctx.t('sprite.issue.' + i.kind, {id: i.id, frames: i.frames ?? '', other: i.with ?? ''})))) : h('p', 'au-ok', ctx.t('sprite.noIssues', {guard, ms: ms(guard)}));
   const packPick = packs.length > 1 ? select(ctx.t('listen.pack'), pack.id, packs.map(p => [p.id, p.id]), v => app.go({pack: v})) : null;
-  el.replaceChildren(h('p', 'muted', ctx.t('sprite.help', {pack: pack.id, frames: total.toLocaleString('en-US'), seconds: (total / rate).toFixed(2), guard})), packPick,
+  put(el, h('p', 'muted', ctx.t('sprite.help', {pack: pack.id, frames: total.toLocaleString('en-US'), seconds: (total / rate).toFixed(2), guard})), packPick,
     h('div', 'au-strip-wrap', strip), h('div', 'au-transport', button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'plain danger'})), say, problems,
     h('div', 'au-table-wrap', h('table', 'au-table', h('caption', 'sr-only', ctx.t('sprite.caption')),
       h('thead', '', h('tr', '', ...['cue', 'start', 'onset', 'tailEnd', 'end', 'gaps', 'active', 'ogg', 'm4a'].map(k => h('th', {scope: 'col'}, ctx.t('sprite.col.' + k))))), h('tbody', '', ...rows))),

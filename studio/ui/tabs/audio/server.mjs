@@ -62,9 +62,14 @@ async function cueEntries(root) {
   for (const a of project.assets) {
     const master = masters.get(a.id) ?? null;
     const carrying = packs.filter(p => p.beds.some(b => b.id === a.id) || p.sfx?.cues.some(c => c.id === a.id));
-    const kind = a.category === 'bgm' ? 'bed' : 'effect';
+    // A bed is what a pack lists as a bed, or a master that sits alone in its own folder; a cue with neither is judged by its category name.
+    const kind = carrying.some(p => p.beds.some(b => b.id === a.id)) || master?.bed ? 'bed'
+      : master || carrying.length ? 'effect' : /music|bgm|bed|score|loop/i.test(a.category) ? 'bed' : 'effect';
     entries.push({
-      id: a.id, kind, category: a.category, group: a.group, readiness: a.readiness, stage: stageOf(a.readiness), master: master?.path ?? null,
+      // A cue is packed when a pack carries it. The catalog's own readiness only reads `pack.bgm`, so it misses packs that list
+      // several beds under `bgms`; the packs are the evidence here.
+      id: a.id, kind, category: a.category, group: a.group, readiness: carrying.length ? 'packed' : a.readiness, catalogReadiness: a.readiness,
+      stage: carrying.length ? 'packed' : stageOf(a.readiness), master: master?.path ?? null,
       masterSha: master ? await fileSha(root, master.path) : null, packs: carrying.map(p => p.id),
       evidenceListening: carrying.length ? carrying.at(-1).humanListening : null,
       families: bind.families.get(a.id) ?? [], modes: bind.modes.get(a.id) ?? [], doc: docs.get(a.id)?.kind ?? null
@@ -96,7 +101,7 @@ async function cueDetail(root, id) {
   const bed = entry.kind === 'effect' ? entries.filter(e => e.kind === 'bed' && e.master).map(e => ({id: e.id, group: e.group, stage: e.stage})) : [];
   return {...entry, masterInfo: info, loop, recorded, ledgerPath: ledger.path, packDetails: packView,
     boundAssets: boundAssets(project.manifest, entry.families).slice(0, 60), beds: bed,
-    brief: ledger.data?.masters ? null : null, docPath: docs.get(id)?.path ?? null,
+    docPath: docs.get(id)?.path ?? null,
     pairs: Array.isArray(project.manifest.audition_pairs) ? project.manifest.audition_pairs : null};
 }
 
@@ -212,8 +217,6 @@ async function preview(root, doc) {
 async function previewImage(dir, id, kind, width) {
   const wavFile = path.join(dir, id + '.wav');
   const wav = decodeWav(await fs.readFile(wavFile));
-  const loopFile = path.join(dir, id + '.json');
-  void loopFile;
   const m = measure(wav, {spectrum: false});
   const marks = {onsetFrame: m.onset?.frame, tailEndFrame: m.tail?.endExclusive};
   return (kind === 'spectrogram' ? spectrogramPng : waveformPng)(wav, {width, marks});

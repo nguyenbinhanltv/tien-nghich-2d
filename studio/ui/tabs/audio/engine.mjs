@@ -7,6 +7,7 @@ export function createEngine({onChange = () => {}} = {}) {
   const buffers = new Map();
   const live = new Set();
   const heard = new Map(); // label -> seconds played this session
+  const heardOk = new Set(); // labels played for most of their length (or 1.5 s) at least once
 
   function ensure(sampleRate) {
     if (ctx && rate !== sampleRate) { stopAll(); ctx.close(); ctx = null; buffers.clear(); }
@@ -68,7 +69,11 @@ export function createEngine({onChange = () => {}} = {}) {
     source.onended = () => {
       live.delete(handle);
       const played = Math.max(0, Math.min(c.currentTime - t0, duration ?? buffer.duration));
-      if (handle.label) heard.set(handle.label, (heard.get(handle.label) ?? 0) + played);
+      const total = duration ?? buffer.duration;
+      if (handle.label) {
+        heard.set(handle.label, (heard.get(handle.label) ?? 0) + played);
+        if (played >= Math.min(1.5, 0.8 * total)) heardOk.add(handle.label);
+      }
       gain.disconnect();
       opts.onEnd?.(handle);
       onChange();
@@ -88,7 +93,8 @@ export function createEngine({onChange = () => {}} = {}) {
     get volume() { return volume; },
     setVolume(v) { volume = v; if (master) master.gain.value = v; },
     heard: () => new Map(heard),
-    heardLabels: (minSeconds = 1.5) => [...heard].filter(([, s]) => s >= minSeconds).map(([l]) => l),
+    /** Labels played for most of their length (short effects) or at least 1.5 s (beds), in this page session. */
+    heardLabels: () => [...heardOk],
     get sampleRate() { return rate; },
     /** What the browser can decode, so a missing AAC decoder reads as "this browser", not as a broken pack. */
     canPlay(type) { const a = document.createElement('audio'); return a.canPlayType(type) !== ''; },

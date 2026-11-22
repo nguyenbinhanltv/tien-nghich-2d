@@ -1,5 +1,5 @@
 // The left column: filters and the list of cues with their stage, listening state and packs.
-import { h, select } from './dom.mjs';
+import { h, select, put } from './dom.mjs';
 import { filterEntries, stages, listeningStates, kinds } from './model.mjs';
 
 export function renderLibrary(app, el) {
@@ -23,6 +23,6 @@ export function renderLibrary(app, el) {
         h('span', `chip l-${e.listening}`, ctx.t('listening.' + e.listening))));
     return h('li', '', a);
   }));
-  el.replaceChildren(h('h2', 'sr-only', ctx.t('library.label')), search, filters,
+  put(el, h('h2', 'sr-only', ctx.t('library.label')), search, filters,
     h('p', 'muted au-count', ctx.t('library.count', {shown: shown.length, total: app.entries.length})), list);
 }

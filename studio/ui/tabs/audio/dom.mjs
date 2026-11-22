@@ -8,7 +8,7 @@ export function h(tag, attrs, ...kids) {
       el.setAttribute(name, value === true ? '' : String(value));
     }
   }
-  for (const kid of kids) if (kid != null && kid !== false) el.append(kid);
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid);
   return el;
 }
 
@@ -29,3 +29,9 @@ export function select(label, value, options, onChange, attrs = {}) {
 }
 
 export const short = (sha, n = 10) => (sha ? sha.slice(0, n) : '—');
+
+/** Replace the children of `el`, skipping null/false (Element.replaceChildren would print them as text). */
+export function put(el, ...kids) {
+  el.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
+  return el;
+}

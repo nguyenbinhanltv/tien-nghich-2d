@@ -44,7 +44,8 @@ a.chip:hover { border-color: var(--accent); color: var(--gold-soft); }
 .au-tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: .8rem 0; }
 .au-tab { padding: .35rem .8rem; border: 2px solid var(--line); background: var(--surface-2); color: var(--text); text-decoration: none; font-size: .9rem; }
 .au-tab:hover { border-color: var(--accent); } .au-tab.on { background: var(--ink); border-color: var(--gold); color: var(--gold-soft); }
-.au-body { display: grid; gap: .8rem; }
+.au-body { display: grid; gap: .8rem; grid-template-columns: minmax(0, 1fr); }
+.au-body > * { min-width: 0; }
 .au-empty { padding: 1rem; border: 2px dashed var(--line); } .au-empty h2 { margin-top: 0; color: var(--gold-soft); }
 .au-error, .bad { color: var(--danger); } .au-ok { color: var(--accent); }
 .au-status { min-height: 1.4em; margin: 0; color: var(--gold-soft); font-size: .9rem; }
@@ -69,6 +70,7 @@ a.chip:hover { border-color: var(--accent); color: var(--gold-soft); }
 
 .au-figure { margin: 0; } .au-figure figcaption { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin-bottom: .2rem; }
 .au-figure-scroll { overflow-x: auto; border: 2px solid var(--line); background: var(--ink); } .au-figure img { display: block; max-width: none; width: 1062px; image-rendering: auto; }
+.au-figure { min-width: 0; }
 .au-legend { display: flex; flex-wrap: wrap; gap: .3rem 1rem; list-style: none; padding: 0; margin: 0; font-size: .82rem; }
 .swatch { display: inline-block; width: .8rem; height: .8rem; margin-right: .3rem; vertical-align: middle; border: 1px solid var(--line); }
 .swatch.loop { background: #5ae6e6; } .swatch.onset { background: #5ae678; } .swatch.tail { background: #ffaa46; } .swatch.peak { background: #78c8ff; } .swatch.rms { background: #3c6ea0; }
@@ -102,3 +104,6 @@ a.chip:hover { border-color: var(--accent); color: var(--gold-soft); }
 .au-param { display: grid; grid-template-columns: 1fr 7rem; gap: .5rem; align-items: center; font-size: .82rem; } .au-param span { font-family: var(--font-mono); overflow-wrap: anywhere; }
 input.changed { border-color: var(--gold); }
 .au-preview { display: grid; gap: .6rem; } .au-json pre { overflow: auto; max-height: 24rem; background: var(--ink); border: 2px solid var(--line); padding: .5rem; font-size: .78rem; }
+
+@media (max-width: 1280px) { .au-lib { position: static; max-height: 34rem; } }
+.au-pack .num { text-align: left; }

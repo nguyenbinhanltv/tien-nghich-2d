@@ -1,16 +1,16 @@
 // The Patch view: the engine document (patch or score) behind a cue, its numeric parameters, and a scratch preview. A preview is
 // rendered by studio/audio into the OS temp directory (never into delivered audio) so a reviewer can hear a parameter change
 // next to the delivered master. Nothing here changes the delivered files.
-import { h, button } from './dom.mjs';
-import { numericParams, withParam, paramGroup, stepFor, levelGain, matchedGains, formatDb } from './model.mjs';
+import { h, button, put } from './dom.mjs';
+import { numericParams, withParam, paramGroup, stepFor, levelGain, formatDb } from './model.mjs';
 
 export async function renderPatch(app, el, detail, entry, current) {
   const {ctx, engine} = app, base = `/api/tabs/${ctx.tab}/`;
   let found;
-  try { found = await ctx.tabApi('doc?id=' + encodeURIComponent(entry.id)); } catch (error) { if (error.name === 'AbortError') return; el.replaceChildren(h('p', 'au-error', ctx.t('error.load', {message: error.message}))); return; }
+  try { found = await ctx.tabApi('doc?id=' + encodeURIComponent(entry.id)); } catch (error) { if (error.name === 'AbortError') return; put(el, h('p', 'au-error', ctx.t('error.load', {message: error.message}))); return; }
   if (!current()) return;
   if (!found.found) {
-    el.replaceChildren(h('p', 'au-empty muted', ctx.t('patch.none')), detail.ledgerPath ? h('p', 'muted', ctx.t('patch.ledger', {path: detail.ledgerPath})) : null);
+    put(el, h('p', 'au-empty muted', ctx.t('patch.none')), detail.ledgerPath ? h('p', 'muted', ctx.t('patch.ledger', {path: detail.ledgerPath})) : null);
     return;
   }
   const original = found.doc;
@@ -29,7 +29,7 @@ export async function renderPatch(app, el, detail, entry, current) {
   function drawParams() {
     const groups = new Map();
     for (const p of numericParams(original)) { const g = paramGroup(p.path); groups.set(g, [...(groups.get(g) ?? []), p]); }
-    grid.replaceChildren(...[...groups].map(([group, params]) => h('fieldset', 'au-group', h('legend', '', group || ctx.t('patch.document')),
+    put(grid, ...[...groups].map(([group, params]) => h('fieldset', 'au-group', h('legend', '', group || ctx.t('patch.document')),
       ...params.map(p => {
         const input = h('input', {type: 'number', value: valueAt(doc, p.path), step: stepFor(p.value), id: 'p-' + p.label, 'aria-label': p.label});
         input.addEventListener('change', () => { const v = Number(input.value); if (Number.isFinite(v)) { doc = withParam(doc, p.path, v); input.classList.toggle('changed', v !== p.value); } });
@@ -57,7 +57,7 @@ export async function renderPatch(app, el, detail, entry, current) {
     const m = preview.measurements, r = master?.measurements;
     const row = (label, a, b, unit = '') => h('tr', '', h('th', {scope: 'row'}, label), h('td', 'num', formatDb(b) + unit), h('td', 'num', formatDb(a) + unit),
       h('td', 'num', Number.isFinite(a) && Number.isFinite(b) ? (a - b >= 0 ? '+' : '') + (a - b).toFixed(1) + unit : '—'));
-    out.replaceChildren(
+    put(out, 
       h('div', 'au-transport', button(ctx.t('patch.playPreview'), () => playPreview(preview), {class: 'plain primary'}), button(ctx.t('patch.playMaster'), () => playMaster()),
         button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'plain danger'})),
       h('label', 'check', h('input', {type: 'checkbox', id: 'au-pmatch', checked: true}), h('span', '', ctx.t('listen.matched'))),
@@ -72,9 +72,7 @@ export async function renderPatch(app, el, detail, entry, current) {
   }
   async function playPreview(p) {
     const buffer = await engine.load(base + 'preview-file?id=' + p.id, p.sampleRate);
-    const master = await app.measure(entry.id).catch(() => null);
     const gain = document.getElementById('au-pmatch')?.checked ? levelGain(p.measurements) : 1;
-    void master;
     engine.stopAll();
     engine.play(buffer, {gain, label: 'preview', loop: p.loop ?? undefined});
     say(ctx.t('patch.playingPreview'));
@@ -82,18 +80,16 @@ export async function renderPatch(app, el, detail, entry, current) {
   async function playMaster() {
     const master = await app.measure(entry.id), m = detail.masterInfo;
     const buffer = await engine.load(base + 'master?id=' + encodeURIComponent(entry.id), m.sampleRate);
-    const gains = preview ? matchedGains([master.measurements.loudness.ungatedLufs, preview.measurements.loudness.ungatedLufs]) : [1];
     const gain = document.getElementById('au-pmatch')?.checked ? levelGain(master.measurements) : 1;
-    void gains;
     engine.stopAll();
     engine.play(buffer, {gain, label: 'master', loop: detail.loop ?? undefined});
     say(ctx.t('patch.playingMaster'));
   }
 
   const renderButton = button(ctx.t('patch.render'), render, {class: 'plain primary'});
-  const reset = button(ctx.t('patch.reset'), () => { doc = structuredClone(original); drawParams(); preview = null; out.replaceChildren(); say(''); });
+  const reset = button(ctx.t('patch.reset'), () => { doc = structuredClone(original); drawParams(); preview = null; put(out, ); say(''); });
   const json = h('details', 'au-json', h('summary', '', ctx.t('patch.json')), h('pre', '', JSON.stringify(original, null, 1)));
-  el.replaceChildren(h('p', 'muted', ctx.t('patch.help')), summary, h('div', 'au-transport', renderButton, reset), status, grid, out, json);
+  put(el, h('p', 'muted', ctx.t('patch.help')), summary, h('div', 'au-transport', renderButton, reset), status, grid, out, json);
   drawParams();
   app.onCleanup(() => engine.stopAll());
 }
