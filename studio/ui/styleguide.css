@@ -1,0 +1,16 @@
+/* Layout of the styleguide page only. Components come from components.css. Same --ui-* contract, same fallbacks. */
+html { background: var(--ui-bg, var(--theme-ink, #101014)); color-scheme: dark; }
+body { margin: 0; padding: var(--ui-sp-4, 1rem) var(--ui-sp-5, 1.5rem) var(--ui-sp-5, 1.5rem); color: var(--ui-text, var(--theme-text, #e4e4e8)); background: var(--ui-bg, var(--theme-ink, #101014)); font: 15px/1.5 var(--ui-font-body, "Segoe UI", "Noto Sans", Arial, sans-serif); }
+html[lang="en"] [lang="vi"], html[lang="vi"] [lang="en"] { display: none; }
+.sg-top { display: flex; align-items: center; justify-content: space-between; gap: var(--ui-sp-4, 1rem); }
+.sg-top h1 { margin: 0; font-size: var(--ui-fs-lg, 1.2rem); font-family: var(--ui-font-display, inherit); color: var(--ui-gold-soft, var(--theme-goldSoft, #ecd890)); }
+.sg-lead { margin: var(--ui-sp-2, .5rem) 0 var(--ui-sp-4, 1rem); max-width: 60rem; font-size: var(--ui-fs-sm, .85rem); color: var(--ui-text-muted, var(--theme-muted, #9a9aa2)); }
+.sg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ui-sp-4, 1rem); align-items: start; }
+.sg-grid h2 { margin: 0 0 var(--ui-sp-2, .5rem); font-size: var(--ui-fs-md, .95rem); font-weight: 600; }
+.sg-grid h2 code { font-family: var(--ui-font-mono, ui-monospace, Menlo, Consolas, monospace); color: var(--ui-gold, var(--theme-gold, #c8a040)); }
+.sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ui-sp-2, .5rem); margin: var(--ui-sp-2, .5rem) 0 0; }
+.sg-k { min-width: 5.5rem; font-size: var(--ui-fs-xs, .75rem); text-transform: uppercase; letter-spacing: .06em; color: var(--ui-text-muted, var(--theme-muted, #9a9aa2)); }
+.sg-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: var(--ui-sp-3, .75rem); }
+.sg-grid .toast { margin-top: var(--ui-sp-2, .5rem); }
+@media (max-width: 900px) { .sg-grid { grid-template-columns: 1fr; } }
+.sg-row .field { width: auto; flex: 1 1 8rem; min-width: 0; }

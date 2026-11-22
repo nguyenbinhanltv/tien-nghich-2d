@@ -102,6 +102,47 @@ Readiness is `planned` (designed only), `authored` (frames or masters exist) or 
 
 `node --test 'studio/ui/tests/*.test.mjs' studio/server/catalog-api.test.mjs` covers routing, strings, the tab contract, the catalog API and the Overview numbers. `studio/tests/shell-browser.test.mjs` is a Playwright script for the shell in a real browser (needs `playwright-core` and a Chromium path, like the other `*-browser.test.mjs` files; it is not part of the baseline because Playwright is not installed here).
 
+## Shared components and the `--ui-*` token contract
+
+`studio/ui/components.css` is the shared component library: `.btn` (`.primary`, `.danger`, `.quiet`), `.seg`, `.chip`, `.field`, `.slip`, `.stat`, `.kbd`, `.empty`, `.skeleton`, `.toast`. Each has hover, active, pressed, disabled and focus-visible states, uses pixel-style `steps()` motion, and turns the motion off under `prefers-reduced-motion`. It is a plain file: link it with `<link rel="stylesheet" href="/studio/ui/components.css">` (or `ctx.loadCss`).
+
+**Contract.** Every colour, space, type size and border in it is a `--ui-*` variable, always with a fallback: `var(--ui-line-strong, var(--theme-muted, #6b6b6b))` means the `--ui-*` token, else the pack colour `shell.js` writes from `ui.theme` as `--theme-*`, else a neutral grey. So the library looks complete before any token file exists. Lane 2A will add `tokens.css` that defines these variables; changing a fallback here is not how to restyle. The library names no project and holds no project colour. `components.test.mjs` checks that only `--ui-*`/`--theme-*` are used, that every `var()` has a fallback, and that this table and the CSS list the same tokens.
+
+| Token | Meaning | Fallback |
+|---|---|---|
+| `--ui-bg` | page / inset background | `--theme-ink`, `#101014` |
+| `--ui-surface` | card, slip, stat background | `--theme-surface`, `#26262c` |
+| `--ui-surface-raised` | raised control (button, key, toast) | `--theme-surface`, `#30303a` |
+| `--ui-line` | quiet border, divider | `--theme-line`, `#46464e` |
+| `--ui-line-strong` | control border | `--theme-muted`, `#6b6b6b` |
+| `--ui-text` | body text | `--theme-text`, `#e4e4e8` |
+| `--ui-text-muted` | secondary text, labels | `--theme-muted`, `#9a9aa2` |
+| `--ui-accent` | primary action, selected segment | `--theme-accent`, `#4aa3a3` |
+| `--ui-accent-soft` | primary border, pressed primary | `--theme-accentSoft`, `#2f6b6b` |
+| `--ui-on-accent` | text on accent or danger fill | `--theme-ink`, `#101014` |
+| `--ui-gold` | hover edge, highlights | `--theme-gold`, `#c8a040` |
+| `--ui-gold-soft` | light highlight | `--theme-goldSoft`, `#ecd890` |
+| `--ui-danger` | destructive, error | `--theme-danger`, `#d05050` |
+| `--ui-ok` | success | `--theme-accent`, `#4aa3a3` |
+| `--ui-warn` | warning | `--theme-gold`, `#c8a040` |
+| `--ui-focus` | focus ring | `--theme-gold`, `#c8a040` |
+| `--ui-stud` | the two studs on a slip's top edge | `--theme-gold`, `#c8a040` |
+| `--ui-hover` | hover tint laid over a fill | `rgba(255, 255, 255, .08)` |
+| `--ui-press` | pressed / active tint | `rgba(0, 0, 0, .25)` |
+| `--ui-shadow` | hard drop and inset shadow | `rgba(0, 0, 0, .45)` |
+| `--ui-sp-1` … `--ui-sp-5` | spacing scale | `.25rem`, `.5rem`, `.75rem`, `1rem`, `1.5rem` |
+| `--ui-fs-xs`, `-sm`, `-md`, `-lg`, `-xl` | type sizes | `.75rem`, `.85rem`, `.95rem`, `1.2rem`, `1.8rem` |
+| `--ui-font-body` | body font | `inherit` |
+| `--ui-font-display` | headings, big numbers | body font |
+| `--ui-font-mono` | chips, keys | `ui-monospace, Menlo, Consolas, monospace` |
+| `--ui-bw` | border width | `2px` |
+| `--ui-notch` | slip corner step (two steps of this, so a 3 px step cuts 6 px) | `3px` |
+| `--ui-control-h` | height of button, field, segment | `2.25rem` |
+| `--ui-step` | duration of one pixel step transition | `100ms` |
+| `--ui-slip-n`, `--ui-slip-cut` | internal to `.slip`; do not set | derived from `--ui-notch` |
+
+**Styleguide.** `studio/ui/styleguide.html` shows every component and state in English and Vietnamese (the EN/VI switch, or `?lang=vi`). The studio server serves it as a static file: start `node studio/serve.mjs` and open `/studio/ui/styleguide.html`. It also opens as a bare file or through Orchestrator's static preview, with the neutral fallbacks; served by the studio it adopts the project's `ui.theme`. The "State" rows pin each state with the mirror classes `.is-hover`, `.is-active`, `.is-pressed`, `.is-focus`; real use needs only the pseudo-classes and `aria-pressed`.
+
 ## Viewport screenshots (Pixel Kiln)
 
 `studio/ui/tests/viewport-harness.html` embeds the running studio in an iframe at 1600, 1280, 900 or 420 px for one tab and one language, with buttons to switch each. Open `http://127.0.0.1:4173/studio/ui/tests/viewport-harness.html?tab=review&w=900&lang=vi` after `node studio/serve.mjs --port 4173`. Query: `tab`, `w`, `h` (iframe height), `lang`, `fit` (`1` shrinks to the panel, `0` is real size), `capture=1` (hides the controls). Once the tab has settled the page title reads `READY <tab> <lang> <w>x<h> overflowX=<px> offenders=<n>`; the overflow figure only sees content that escapes the page, not content a panel clips or scrolls inside itself, so look at the image too.

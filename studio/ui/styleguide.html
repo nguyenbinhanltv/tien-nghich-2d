@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Kiln · Styleguide</title>
+    <link rel="stylesheet" href="./components.css" />
+    <link rel="stylesheet" href="./styleguide.css" />
+  </head>
+  <body>
+    <header class="sg-top">
+      <h1><span lang="en">Component styleguide</span><span lang="vi">Thư viện thành phần</span></h1>
+      <div class="seg" role="group" aria-label="Language / Ngôn ngữ" id="lang">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="vi" aria-pressed="false">VI</button>
+      </div>
+    </header>
+    <p class="sg-lead"><span lang="en">Every shared component and state. Real states (hover, press, Tab to focus) work; the “State” rows pin each one with a mirror class.</span><span lang="vi">Mọi thành phần dùng chung và mọi trạng thái. Trạng thái thật (rê chuột, nhấn, Tab để focus) đều hoạt động; hàng “Trạng thái” ghim sẵn từng trạng thái bằng lớp phản chiếu.</span></p>
+
+    <main class="sg-grid">
+      <section class="slip" aria-labelledby="h-btn">
+        <h2 id="h-btn"><code>.btn</code> <span lang="en">Buttons</span><span lang="vi">Nút</span></h2>
+        <p class="sg-row"><button class="btn">Default</button> <button class="btn primary">Primary</button> <button class="btn danger">Danger</button> <button class="btn quiet">Quiet</button></p>
+        <p class="sg-row"><span class="sg-k"><span lang="en">State</span><span lang="vi">Trạng thái</span></span>
+          <button class="btn is-hover">hover</button> <button class="btn is-active">active</button> <button class="btn is-pressed" aria-pressed="true">pressed</button> <button class="btn" disabled>disabled</button> <button class="btn is-focus">focus</button></p>
+        <p class="sg-row"><button class="btn primary is-hover">hover</button> <button class="btn primary is-active">active</button> <button class="btn primary is-pressed" aria-pressed="true">pressed</button> <button class="btn primary" disabled>disabled</button> <button class="btn primary is-focus">focus</button></p>
+        <p class="sg-row"><button class="btn danger is-hover">hover</button> <button class="btn danger is-active">active</button> <button class="btn danger is-pressed" aria-pressed="true">pressed</button> <button class="btn danger" disabled>disabled</button> <button class="btn quiet is-hover">quiet hover</button> <button class="btn quiet" disabled>quiet off</button></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-seg">
+        <h2 id="h-seg"><code>.seg</code> <span lang="en">Segmented control</span><span lang="vi">Nút phân đoạn</span></h2>
+        <p class="sg-row"><span class="seg" role="group" aria-label="View"><button aria-pressed="true">Grid</button><button aria-pressed="false">List</button><button aria-pressed="false">Board</button></span>
+          <span class="seg" role="group" aria-label="Off"><button disabled>Off</button><button disabled>Off</button></span></p>
+        <p class="sg-row"><span class="sg-k"><span lang="en">State</span><span lang="vi">Trạng thái</span></span><span class="seg" role="group" aria-label="States"><button class="is-hover">hover</button><button class="is-active">active</button><button aria-pressed="true">pressed</button><button disabled>disabled</button><button class="is-focus">focus</button></span></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-chip">
+        <h2 id="h-chip"><code>.chip</code> <span lang="en">Chips</span><span lang="vi">Thẻ nhãn</span></h2>
+        <p class="sg-row"><span class="chip">plain</span> <span class="chip ok">ok</span> <span class="chip warn">warn</span> <span class="chip danger">danger</span> <button class="chip" aria-pressed="false">toggle</button> <button class="chip" aria-pressed="true">on</button></p>
+        <p class="sg-row"><span class="sg-k"><span lang="en">State</span><span lang="vi">Trạng thái</span></span><button class="chip is-hover">hover</button> <button class="chip is-active">active</button> <button class="chip is-pressed" aria-pressed="true">pressed</button> <button class="chip" disabled>disabled</button> <button class="chip is-focus">focus</button></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-field">
+        <h2 id="h-field"><code>.field</code> <span lang="en">Inputs</span><span lang="vi">Ô nhập / chọn</span></h2>
+        <label class="field-label" for="f1"><span lang="en">Name</span><span lang="vi">Tên</span></label>
+        <input id="f1" class="field" value="Lantern" />
+        <p class="sg-row"><select class="field" aria-label="Select"><option>Select</option><option>Chọn</option></select>
+          <input class="field" placeholder="placeholder" aria-label="placeholder" /></p>
+        <p class="sg-row"><input class="field is-hover" value="hover" aria-label="hover" /> <input class="field is-focus" value="focus" aria-label="focus" /> <input class="field" value="invalid" aria-invalid="true" aria-label="invalid" /> <input class="field" value="disabled" disabled aria-label="disabled" /></p>
+        <textarea class="field" rows="2" aria-label="textarea">Textarea</textarea>
+      </section>
+
+      <section class="slip" aria-labelledby="h-stat">
+        <h2 id="h-stat"><code>.stat</code> <span lang="en">Stat cards</span><span lang="vi">Thẻ số liệu</span></h2>
+        <div class="sg-stats">
+          <div class="stat"><span class="stat-label"><span lang="en">Approved</span><span lang="vi">Đã duyệt</span></span><span class="stat-value">294</span><span class="stat-hint"><span lang="en">of 310 assets</span><span lang="vi">trên 310 tài nguyên</span></span></div>
+          <div class="stat ok"><span class="stat-label"><span lang="en">Passing</span><span lang="vi">Đạt</span></span><span class="stat-value">96%</span></div>
+          <div class="stat danger"><span class="stat-label"><span lang="en">Blocked</span><span lang="vi">Bị chặn</span></span><span class="stat-value">3</span></div>
+          <button class="stat is-hover"><span class="stat-label">hover</span><span class="stat-value">12</span></button>
+          <button class="stat is-pressed" aria-pressed="true"><span class="stat-label">pressed</span><span class="stat-value">12</span></button>
+          <button class="stat" disabled><span class="stat-label">disabled</span><span class="stat-value">12</span></button>
+          <button class="stat is-focus"><span class="stat-label">focus</span><span class="stat-value">12</span></button>
+        </div>
+      </section>
+
+      <section class="slip" aria-labelledby="h-slip">
+        <h2 id="h-slip"><code>.slip</code> <span lang="en">Jade slip (interactive)</span><span lang="vi">Ngọc giản (bấm được)</span></h2>
+        <div class="sg-stats">
+          <button class="slip">default</button><button class="slip is-hover">hover</button><button class="slip is-active">active</button>
+          <button class="slip is-pressed" aria-pressed="true">pressed</button><button class="slip" disabled>disabled</button><button class="slip is-focus">focus</button>
+        </div>
+      </section>
+
+      <section class="slip" aria-labelledby="h-kbd">
+        <h2 id="h-kbd"><code>.kbd</code> <span lang="en">Keys</span><span lang="vi">Phím</span></h2>
+        <p class="sg-row"><span class="kbd">⌘</span><span class="kbd">K</span> <span class="kbd">g</span><span class="kbd">1</span> <span class="kbd">Esc</span> <span class="kbd is-hover">hover</span> <span class="kbd is-active">active</span> <span class="kbd is-focus">focus</span> <span class="kbd" aria-disabled="true">disabled</span></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-empty">
+        <h2 id="h-empty"><code>.empty</code> <span lang="en">Empty state</span><span lang="vi">Trạng thái trống</span></h2>
+        <div class="empty"><div class="empty-title"><span lang="en">Nothing to review</span><span lang="vi">Không có gì cần duyệt</span></div>
+          <div class="empty-body"><span lang="en">Assets waiting for a human decision appear here.</span><span lang="vi">Tài nguyên chờ người quyết định sẽ hiện ở đây.</span></div>
+          <button class="btn primary"><span lang="en">Refresh</span><span lang="vi">Làm mới</span></button></div>
+        <p class="sg-row"><span class="empty is-hover">hover</span> <span class="empty is-pressed" aria-pressed="true">pressed</span> <span class="empty is-focus">focus</span> <span class="empty" aria-disabled="true">disabled</span></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-skel">
+        <h2 id="h-skel"><code>.skeleton</code> <span lang="en">Loading placeholder</span><span lang="vi">Khung chờ</span></h2>
+        <div class="skeleton line" style="width:70%"></div><div class="skeleton line" style="width:90%"></div><div class="skeleton block"></div>
+        <p class="sg-row"><span class="skeleton line is-hover" style="width:6rem"></span> <span class="skeleton line is-focus" style="width:6rem"></span> <span class="skeleton line" aria-disabled="true" style="width:6rem"></span></p>
+      </section>
+
+      <section class="slip" aria-labelledby="h-toast">
+        <h2 id="h-toast"><code>.toast</code> <span lang="en">Toasts</span><span lang="vi">Thông báo nổi</span></h2>
+        <div class="toast ok" role="status"><span lang="en">Saved. The review was recorded.</span><span lang="vi">Đã lưu. Đã ghi nhận bản duyệt.</span></div>
+        <div class="toast warn" role="status"><span lang="en">Server is slow to answer.</span><span lang="vi">Máy chủ trả lời chậm.</span></div>
+        <div class="toast danger" role="alert"><span lang="en">Could not save. Try again.</span><span lang="vi">Không lưu được. Thử lại.</span></div>
+        <div class="toast is-hover">hover</div> <div class="toast is-focus">focus</div>
+      </section>
+    </main>
+    <script type="module" src="./styleguide.js"></script>
+  </body>
+</html>
