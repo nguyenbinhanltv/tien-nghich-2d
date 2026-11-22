@@ -98,7 +98,26 @@ export function validatePack(pack) {
   for (const [category, tab] of Object.entries(pack.ui?.categoryTabs ?? {})) if (!category) issues.push(`ui.categoryTabs: empty category for ${tab}`);
   for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.theme.${role}: must be a palette colour id`);
   issues.push(...validateGenerators(pack.adapters));
+  issues.push(...validateFigures(pack.figures));
   if (pack.rules.outline.mode === 'none' && pack.rules.outline.color !== 'palette') issues.push('rules.outline: color is meaningless when mode is "none"');
+  return issues;
+}
+
+/** Issues in a pack's `figures` block (an empty list when it is fine). */
+function validateFigures(figures = {}) {
+  const issues = [];
+  const frac = (at, v, lo = 0, hi = 1) => { if (!(typeof v === 'number' && v > lo && v <= hi)) issues.push(`${at}: must be a number above ${lo} and at most ${hi}`); };
+  for (const [name, f] of Object.entries(figures)) {
+    const at = `figures.${name}`;
+    if (!/^[a-z][a-z0-9_]{0,30}$/.test(name)) issues.push(`${at}: name must be lowercase letters, digits and underscores`);
+    if (!Array.isArray(f.profiles) || !f.profiles.length || f.profiles.some((p) => typeof p !== 'string' || !p)) issues.push(`${at}.profiles: list the manifest profiles this guide applies to`);
+    const h = f.headToBody;
+    if (!h || !(h.min > 0 && h.max <= 1 && h.min < h.max) || !(h.target >= h.min && h.target <= h.max)) issues.push(`${at}.headToBody: needs 0 < min < max <= 1 and a target between them`);
+    if (!Number.isInteger(f.minLimbWidthPx) || f.minLimbWidthPx < 1 || f.minLimbWidthPx > 16) issues.push(`${at}.minLimbWidthPx: an integer from 1 to 16`);
+    if (!Number.isInteger(f.accentMinPixels) || f.accentMinPixels < 1 || f.accentMinPixels > 64) issues.push(`${at}.accentMinPixels: an integer from 1 to 64`);
+    if (f.guide !== undefined) for (const k of ['headWidth', 'bodyWidth', 'legWidth', 'legGap']) frac(`${at}.guide.${k}`, f.guide[k]);
+    if (f.guide && f.guide.legWidth * 2 + f.guide.legGap > f.guide.bodyWidth + 1e-9) issues.push(`${at}.guide: two legs and their gap are wider than the body`);
+  }
   return issues;
 }
 
