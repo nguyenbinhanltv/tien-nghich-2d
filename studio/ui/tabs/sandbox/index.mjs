@@ -1,7 +1,7 @@
 // Sandbox: drop characters, an effect and cues from the catalog into a test room, or open a saved scene. A scene is one JSON
 // document in the project's scenes directory; the three playables are scripted scenes that host their own module in a frame.
 import { h, button } from './dom.mjs';
-import { parseRoute as parse, stateParams, draftScene, parseActor, formatActor, formatTrigger, parseTrigger, floorText, sceneForSave, defaultRoom } from './model.mjs';
+import { parseRoute as parse, stateParams, draftScene, parseActor, formatActor, formatTrigger, parseTrigger, floorText, sceneForSave, defaultRoom, starterPatch } from './model.mjs';
 import { loadCatalog, loadScene } from './data.mjs';
 import { mountStage } from './stage.mjs';
 import { createMixer } from './audio.mjs';
@@ -232,14 +232,6 @@ async function paint() {
     app.center.replaceChildren(errorBox(app.ctx, error, paint));
     app.aside.replaceChildren();
   }
-}
-
-/** A fresh test room (no scene, nothing added) opens with one character and one effect so the stage is not an empty box. */
-export function starterPatch(state, catalog) {
-  const pristine = !state.scene && !state.actors.length && !state.fx.length && !state.cues.length && !state.bed;
-  const character = catalog.characters[0];
-  if (!pristine || !character) return null;
-  return {actors: [character.id], fx: catalog.effects[0] ? [catalog.effects[0].id] : []};
 }
 
 export async function mount(ctx, state) {
