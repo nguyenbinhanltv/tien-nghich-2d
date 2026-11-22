@@ -43,6 +43,10 @@ test('CLI-001: init never overwrites a file and never writes outside the directo
   fs.writeFileSync(path.join(project, 'README.md'), 'mine\n');
   fs.writeFileSync(path.join(project, 'studio.project.json'), '{"keep":"me"}\n');
   fs.symlinkSync(outside, path.join(project, 'art'));
+  // A link above a folder that does not exist yet: mkdir -p through it would create the tail outside.
+  const outsideDeep = path.join(dir, 'outside-deep');
+  fs.mkdirSync(outsideDeep);
+  fs.symlinkSync(outsideDeep, path.join(project, 'audio'));
   const init = await cli(studio, 'init', project);
   assert.equal(init.code, 0, init.stderr);
   assert.equal(fs.readFileSync(path.join(project, 'README.md'), 'utf8'), 'mine\n');
@@ -50,6 +54,8 @@ test('CLI-001: init never overwrites a file and never writes outside the directo
   assert.match(init.stdout, /skipped  README\.md/);
   assert.match(init.stdout, /skipped  art\/colors\.json \(its folder leads outside the project\)/);
   assert.deepEqual(fs.readdirSync(outside), [], 'nothing was written through the symlink');
+  assert.deepEqual(fs.readdirSync(outsideDeep), [], 'no folder was created through a linked parent either');
+  assert.match(init.stdout, /skipped  audio\/packs\/\.gitkeep \(its folder leads outside the project\)/);
   const again = await cli(studio, 'init', project);
   assert.doesNotMatch(again.stdout, /created  /, 'a second run creates nothing');
   assert.notEqual((await cli(studio, 'init')).code, 0, 'init needs a directory');

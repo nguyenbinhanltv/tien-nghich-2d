@@ -134,6 +134,14 @@ export function projectFiles({id, name}, dir, studioDir) {
   };
 }
 
+/** The real path of the deepest ancestor of `p` that exists (p itself when it does). */
+async function nearestExisting(p) {
+  for (let at = p;; at = path.dirname(at)) {
+    try { return await fs.realpath(at); } catch (error) { if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error; }
+    if (path.dirname(at) === at) return at;
+  }
+}
+
 /**
  * Scaffold a project into `dir`. Returns {dir, created: [rel], skipped: [rel]}.
  * Throws when `dir` exists and is not a directory.
@@ -149,9 +157,10 @@ export async function scaffold(dirArg, studioDir, {name, id} = {}) {
   const created = [], skipped = [];
   for (const [rel, body] of Object.entries(projectFiles({id: projectId, name: projectName}, realDir, studioDir))) {
     const target = path.join(realDir, rel);
+    // Resolve the nearest EXISTING ancestor first and refuse before creating anything: a symlinked folder must not be written through.
+    const ancestor = await nearestExisting(path.dirname(target));
+    if (ancestor !== realDir && !ancestor.startsWith(realDir + path.sep)) { skipped.push(`${rel} (its folder leads outside the project)`); continue; }
     await fs.mkdir(path.dirname(target), {recursive: true});
-    const realParent = await fs.realpath(path.dirname(target));
-    if (realParent !== realDir && !realParent.startsWith(realDir + path.sep)) { skipped.push(`${rel} (its folder leads outside the project)`); continue; }
     try { await fs.writeFile(target, body, {flag: 'wx'}); created.push(rel); }
     catch (error) { if (error.code === 'EEXIST') skipped.push(rel); else throw error; }
   }
