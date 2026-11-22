@@ -1,0 +1,153 @@
+{
+  "group_id": "cab33190-6345-4ebc-a3fe-1c9f38b1220b",
+  "states": [
+    {
+      "character": {
+        "id": "9a5cb6e9-ce51-4959-a6f6-f2c708ae19f0",
+        "name": "Idle",
+        "prompt": "Small wax sentinel, a stout chibi guardian figure made of pale cream candle wax, a melted drooping wax dome helmet with one glowing amber ember slit for eyes, thick rounded wax limbs with drip lines, holding a short stubby bronze candlestick shield-and-spike in its RIGHT hand, a vermilion wax seal stamped on its chest, wax puddle at the feet. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T08:42:22.968219+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "strike": {
+            "south": [
+              "Idle/animations/strike/south/frame_000.png",
+              "Idle/animations/strike/south/frame_001.png",
+              "Idle/animations/strike/south/frame_002.png",
+              "Idle/animations/strike/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/strike/west/frame_000.png",
+              "Idle/animations/strike/west/frame_001.png",
+              "Idle/animations/strike/west/frame_002.png",
+              "Idle/animations/strike/west/frame_003.png"
+            ],
+            "east-3510d1cd": [
+              "Idle/animations/strike/east-3510d1cd/frame_000.png",
+              "Idle/animations/strike/east-3510d1cd/frame_001.png",
+              "Idle/animations/strike/east-3510d1cd/frame_002.png",
+              "Idle/animations/strike/east-3510d1cd/frame_003.png"
+            ],
+            "east-43daae16": [
+              "Idle/animations/strike/east-43daae16/frame_000.png",
+              "Idle/animations/strike/east-43daae16/frame_001.png",
+              "Idle/animations/strike/east-43daae16/frame_002.png",
+              "Idle/animations/strike/east-43daae16/frame_003.png"
+            ],
+            "north-ab09182e": [
+              "Idle/animations/strike/north-ab09182e/frame_000.png",
+              "Idle/animations/strike/north-ab09182e/frame_001.png",
+              "Idle/animations/strike/north-ab09182e/frame_002.png",
+              "Idle/animations/strike/north-ab09182e/frame_003.png"
+            ],
+            "north-ec9bc949": [
+              "Idle/animations/strike/north-ec9bc949/frame_000.png",
+              "Idle/animations/strike/north-ec9bc949/frame_001.png",
+              "Idle/animations/strike/north-ec9bc949/frame_002.png",
+              "Idle/animations/strike/north-ec9bc949/frame_003.png"
+            ]
+          },
+          "walk": {
+            "east": [
+              "Idle/animations/walk/east/frame_000.png",
+              "Idle/animations/walk/east/frame_001.png",
+              "Idle/animations/walk/east/frame_002.png",
+              "Idle/animations/walk/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/walk/south/frame_000.png",
+              "Idle/animations/walk/south/frame_001.png",
+              "Idle/animations/walk/south/frame_002.png",
+              "Idle/animations/walk/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/walk/west/frame_000.png",
+              "Idle/animations/walk/west/frame_001.png",
+              "Idle/animations/walk/west/frame_002.png",
+              "Idle/animations/walk/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/walk/north/frame_000.png",
+              "Idle/animations/walk/north/frame_001.png",
+              "Idle/animations/walk/north/frame_002.png",
+              "Idle/animations/walk/north/frame_003.png"
+            ]
+          },
+          "idle": {
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ]
+          },
+          "telegraph": {
+            "south": [
+              "Idle/animations/telegraph/south/frame_000.png",
+              "Idle/animations/telegraph/south/frame_001.png",
+              "Idle/animations/telegraph/south/frame_002.png",
+              "Idle/animations/telegraph/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/telegraph/west/frame_000.png",
+              "Idle/animations/telegraph/west/frame_001.png",
+              "Idle/animations/telegraph/west/frame_002.png",
+              "Idle/animations/telegraph/west/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/telegraph/east/frame_000.png",
+              "Idle/animations/telegraph/east/frame_001.png",
+              "Idle/animations/telegraph/east/frame_002.png",
+              "Idle/animations/telegraph/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/telegraph/north/frame_000.png",
+              "Idle/animations/telegraph/north/frame_001.png",
+              "Idle/animations/telegraph/north/frame_002.png",
+              "Idle/animations/telegraph/north/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T08:49:35.284875"
+}

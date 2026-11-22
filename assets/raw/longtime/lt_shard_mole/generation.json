@@ -1,0 +1,127 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template custom, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "6eea055e-2e26-411a-9892-a6127443988f",
+  "character_job_id": "7a9f385f-5ad7-4706-939c-ed9ffbbeb259",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Shard mole, a small chibi stone-quarry burrowing mole: round plump body of rough grey-brown rock with a large head, a long pink-white snout, tiny dark eyes, big bronze digging claws on both front paws, a crown of jagged glowing cyan crystal shards growing on its back and head. Stocky, low, readable silhouette. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c4cc61da-6b55-492e-8bee-5702ba439c2e",
+      "job_ids": {
+        "south": "0bd78e02-1aa9-4963-b0b7-88b45d4915be",
+        "west": "aee2f650-1093-4906-8d5c-bb0b291eeafd",
+        "north": "2df6bf55-98e8-434c-a5f0-3ae093eec665",
+        "east": "40389023-0b3d-4ff2-992f-e9df8e40b430"
+      },
+      "action_description": "sits low and sniffs, snout twitching, the cyan crystal shards on its back glinting slightly, claws resting in front",
+      "direction_prompts": {
+        "south": "seen from the front, sits low and sniffs, snout twitching, crystals glint",
+        "west": "seen from the left side, sits low and sniffs toward the left, snout twitching, crystals glint",
+        "north": "seen from behind, sits low, the crystal shards on its back glint",
+        "east": "seen from the right side, sits low and sniffs toward the right, snout twitching, crystals glint"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "19e0f869-5bb6-42fe-8999-e9c30cb7da67",
+      "job_ids": {
+        "south": "5dca6393-72bd-4996-a55a-f17bf062db06",
+        "west": "d8b1509d-dcd3-480d-99c2-17fc8d6139d7",
+        "north": "e79ae912-b03a-4133-9f5e-5688ae39734e",
+        "east": "ff4f3b2f-224e-48cf-bc4e-f6e59d369182"
+      },
+      "action_description": "waddles forward on short legs in a quick shuffling trot, snout low, the cyan crystal shards on its back bouncing",
+      "direction_prompts": {
+        "south": "seen from the front, waddles toward the viewer, snout low, crystals bouncing",
+        "west": "seen from the left side, waddles to the left, snout low, crystals bouncing",
+        "north": "seen from behind, waddles away from the viewer, crystals bouncing",
+        "east": "seen from the right side, waddles to the right, snout low, crystals bouncing"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "533159b7-a775-45bc-85c6-b079b2ef902e",
+      "job_ids": {
+        "south": "550a8b85-3112-43de-97a4-9b78acec48f1",
+        "west": "76f55224-4e98-4a2e-9400-d70c38b563b9",
+        "north": "c446eee2-a1ff-4ead-8c60-aa56a12b633f",
+        "east": "9ad8932a-1fc6-4aa1-8a0c-fc6e40d8db67"
+      },
+      "action_description": "rears up and raises both bronze digging claws high, the cyan crystal shards on its back flaring bright, winding up for a heavy swing",
+      "direction_prompts": {
+        "south": "seen from the front, rears up and raises both claws high, crystals flaring bright, winding up for a swing",
+        "west": "seen from the left side, rears up and raises the claws high behind it, crystals flaring, winding up to swing left",
+        "north": "seen from behind, rears up, the crystal shards on its back flare bright",
+        "east": "seen from the right side, rears up and raises the claws high behind it, crystals flaring, winding up to swing right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f1e6d9b0-e744-4f34-bd86-08df6133b04d",
+      "job_ids": {
+        "south": "be16eaf4-5341-4064-89c4-5b0e4b2cca14",
+        "west": "5df260d6-75cf-4fbe-ade7-3039c56e133e",
+        "north": "ddea4a5a-161d-4cfd-9f51-a0c70e14ddea",
+        "east": "f03ecdde-a652-4afc-824b-bc1350e628e8"
+      },
+      "action_description": "slams both bronze digging claws down hard in front of it in a heavy swipe, crystals flashing, then recovers",
+      "direction_prompts": {
+        "south": "seen from the front, slams both claws down toward the viewer in a heavy swipe, then recovers",
+        "west": "seen from the left side, slams the claws down to the left in a heavy swipe, then recovers",
+        "north": "seen from behind, slams the claws down away from the viewer, then recovers",
+        "east": "seen from the right side, slams the claws down to the right in a heavy swipe, then recovers"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected); clips queued in partial batches into the same groups because job slots are shared",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "north views show the back only; the pink snout is not visible, so the identity there rests on the crystal crown and claws",
+    "telegraph north/east: the raised claws are partly lost, and the crystal flare reads as loose cyan specks",
+    "one strike frame in each side view shows a pale white claw or snout highlight that looks like a stray blob",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 6,
+    "clip_max": 3,
+    "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+  }
+}

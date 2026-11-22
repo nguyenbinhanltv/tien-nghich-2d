@@ -93,17 +93,22 @@ def ingest(aid, zpath):
 
 def read_raw(aid, prof, raw_root=RAW):
     frames, raw_paths = {}, {}
+    gp = raw_root / aid / "generation.json"
+    # Opt-in generation.json "frame_select": {clip: [raw frame index per manifest frame]} for clips PixelLab cannot
+    # make at the manifest length (v3 needs >= 4 frames for a 3-frame clip). Unselected raw frames stay on disk.
+    sel = json.loads(gp.read_text(encoding="utf8")).get("frame_select", {}) if gp.is_file() else {}
     for clip, (count, _ms) in prof["clips"].items():
         for d in prof["directions"]:
             for n in range(count):
-                p = raw_root / aid / clip / d / f"frame_{n:03d}.png"
+                src_n = sel[clip][n] if clip in sel else n
+                p = raw_root / aid / clip / d / f"frame_{src_n:03d}.png"
                 if not p.is_file():
                     raise SystemExit(f"missing raw frame {p}")
                 arr = np.array(Image.open(p).convert("RGBA"))
                 frames[(clip, d, n)] = arr
                 raw_paths[(clip, d, n)] = p
             extra = sorted((raw_root / aid / clip / d).glob("frame_*.png"))
-            if len(extra) != count:
+            if clip not in sel and len(extra) != count:
                 raise SystemExit(f"{aid}/{clip}/{d}: {len(extra)} raw frames, manifest wants {count}")
     return frames, raw_paths
 
@@ -124,6 +129,79 @@ def centre(arr, size):
             else:
                 lost += 1
     return out, lost
+
+
+def edge_trim(arr, size, speck_max, clip_max):
+    """Opt-in (generation.json "edge_trim"): opaque pixels outside the target canvas are dropped when they belong to a
+    detached component of <= speck_max px (a stray spark); otherwise they are clipped, at most clip_max per frame.
+    Returns (arr, specks_removed_px, clipped_px). Frames that need more are left alone so build() still fails."""
+    tw, th = size
+    h, w = arr.shape[:2]
+    ox, oy = (tw - w) // 2, (th - h) // 2
+    m = arr[..., 3] >= 128
+    yy, xx = np.indices(m.shape)
+    out = m & ((xx + ox < 0) | (xx + ox >= tw) | (yy + oy < 0) | (yy + oy >= th))
+    if not out.any():
+        return arr, 0, 0
+    lab = np.zeros(m.shape, int)
+    k = 0
+    for y, x in zip(*np.where(m)):
+        if lab[y, x]:
+            continue
+        k += 1
+        stack = [(y, x)]
+        lab[y, x] = k
+        while stack:
+            cy, cx = stack.pop()
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and m[ny, nx] and not lab[ny, nx]:
+                        lab[ny, nx] = k
+                        stack.append((ny, nx))
+    arr = arr.copy()
+    specks = clipped = 0
+    for c in sorted(set(lab[out])):
+        comp = lab == c
+        if comp.sum() <= speck_max:
+            arr[comp] = 0
+            specks += int(comp.sum())
+        else:
+            n = int((comp & out).sum())
+            clipped += n
+    if clipped > clip_max:
+        return arr, specks, 0  # too much body would be cut: leave it so build() reports the loss
+    arr[out & (arr[..., 3] >= 128)] = 0
+    return arr, specks, clipped
+
+
+def speck_clean(arr, max_px):
+    """Opt-in (generation.json "speck_clean": {"max_px": N}): remove detached opaque components of <= max_px px,
+    keeping every component larger than that. Runs on the finished frame. Returns (arr, removed_px)."""
+    m = arr[..., 3] >= 128
+    h, w = m.shape
+    seen = np.zeros(m.shape, bool)
+    arr = arr.copy()
+    removed = 0
+    for y, x in zip(*np.where(m)):
+        if seen[y, x]:
+            continue
+        comp, stack = [], [(y, x)]
+        seen[y, x] = True
+        while stack:
+            cy, cx = stack.pop()
+            comp.append((cy, cx))
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and m[ny, nx] and not seen[ny, nx]:
+                        seen[ny, nx] = True
+                        stack.append((ny, nx))
+        if len(comp) <= max_px:
+            for cy, cx in comp:
+                arr[cy, cx] = 0
+            removed += len(comp)
+    return arr, removed
 
 
 def mark(img, xy, rgb=(255, 0, 255)):
@@ -152,14 +230,32 @@ def build(aid, raw_root=RAW, out_root=OUT):
     palette, outline = qa.load_palette(PALETTE)
     raw, raw_paths = read_raw(aid, prof, raw_root)
     stats = Counter()
-    processed, lost_total = {}, 0
+    gen_path = raw_root / aid / "generation.json"
+    gen0 = json.loads(gen_path.read_text(encoding="utf8")) if gen_path.is_file() else {}
+    allowance = gen0.get("crop_allowance", {})
+    et = gen0.get("edge_trim")
+    sc = gen0.get("speck_clean")
+    processed, lost_total, cropped = {}, 0, {}
+    trimmed, cleaned = {}, {}
     for k, arr in raw.items():
         arr = arr.copy()
+        if et:
+            arr, sp, cl = edge_trim(arr, size, et["speck_max"], et["clip_max"])
+            if sp or cl:
+                trimmed["/".join(map(str, k))] = {"speck_px": sp, "clipped_px": cl}
         o = (arr[..., 3] >= 128) & (arr[..., :3] == np.array(bp.PIXELLAB_OUTLINE, np.uint8)).all(-1)
         arr[o, :3] = INK
         placed, lost = centre(arr, size)
-        lost_total += lost
+        key = f"{k[0]}/{k[1]}/{k[2]}"
+        if lost and lost <= allowance.get(key, 0):
+            cropped[key] = lost  # explicitly accepted in generation.json (crop_allowance), reported in provenance
+        else:
+            lost_total += lost
         processed[k] = bp.snap_character(placed, palette, outline, stats, speckle=False)
+        if sc:
+            processed[k], rm = speck_clean(processed[k], sc["max_px"])
+            if rm:
+                cleaned["/".join(map(str, k))] = rm
     if lost_total:
         raise SystemExit(f"{aid}: {lost_total} opaque pixels fall outside {size}; adjust before building")
     folder = out_root / aid
@@ -170,7 +266,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
         bp.write(arr, folder / f"{c}_{d}_{n}.png")
 
     # raw source sheet: untouched raw frames, one row per clip/direction (cell = largest raw canvas)
-    cell = max(max(f.shape[:2]) for f in raw.values())
+    cell = max(max(f.shape[:2]) for f in raw.values())  # source.png shows the selected frames only
     rows = [(c, d) for c in prof["clips"] for d in prof["directions"]]
     cols = max(n for n, _ in prof["clips"].values())
     src = Image.new("RGBA", (cols * cell, len(rows) * cell), (0, 0, 0, 0))
@@ -190,7 +286,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
         frames.append({
             "key": f"longtime/{aid}/{c}_{d}_{n}",
             "path": f"assets/processed_longtime/{aid}/{c}_{d}_{n}.png",
-            "raw_path": f"assets/raw/longtime/{aid}/{c}/{d}/frame_{n:03d}.png",
+            "raw_path": f"assets/raw/longtime/{aid}/{c}/{d}/{raw_paths[(c, d, n)].name}",  # the selected source, not the output index
             "raw_sha256": sha(raw_paths[(c, d, n)]),
             "source_xy": src_xy[(c, d, n)],
             "duration_ms": prof["clips"][c][1],
@@ -212,6 +308,9 @@ def build(aid, raw_root=RAW, out_root=OUT):
                       "#020105 -> #14101a", "binary alpha", "snap to 40 colours with ink_01 reserved for outline",
                       "silhouette edge repaint with #14101a", "outline thinning of 2x2 blocks"],
             "pixels_changed": {k: int(v) for k, v in sorted(stats.items())},
+            **({"edge_trim": {"rule": et, "frames": trimmed}} if et else {}),
+            **({"speck_clean": {"rule": sc, "frames": cleaned}} if sc else {}),
+            **({"cropped_opaque_pixels": cropped} if cropped else {}),
         },
         "source": "source.png",
         "source_sha256": sha(rd / "source.png"),
