@@ -149,7 +149,7 @@ export function queueProgress(artCounts, audio, items) {
 
 /** Which review shortcut a key press is, or null. Never while typing, never with a modifier (so Cmd+R still reloads). */
 export function shortcutFor(event) {
-  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return null;
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.isComposing || event.repeat) return null;
   const t = event.target;
   if (t && (['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName) || t.isContentEditable)) return null;
   return {a: 'approve', r: 'changes', c: 'comment', j: 'next', k: 'prev', u: 'undo'}[String(event.key).toLowerCase()] ?? null;

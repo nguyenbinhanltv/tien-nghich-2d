@@ -128,5 +128,7 @@ test('shortcuts are ignored while typing and with modifiers', () => {
   assert.equal(shortcutFor(key('a', {target: {tagName: 'DIV', isContentEditable: true}})), null);
   assert.equal(shortcutFor(key('r', {metaKey: true})), null);
   assert.equal(shortcutFor(key('a', {defaultPrevented: true})), null);
+  assert.equal(shortcutFor(key('a', {repeat: true})), null); // a held key is one press, never several approvals
+  assert.equal(shortcutFor(key('r', {repeat: true})), null);
   assert.equal(shortcutFor(key('x')), null);
 });
