@@ -17,6 +17,7 @@ test('a different project pack drives catalog and editable frames', async t => {
     .then(() => fs.writeFile(path.join(dir, file), data));
   const pack = realPack();
   pack.id = 'other-game';
+  delete pack.references; delete pack.agentGuidance; delete pack.figures;   // this project's own optional blocks name files the other project lacks
   pack.palette.file = 'pal.json';
   pack.catalog.sources = [{id: 'main', kind: 'asset-manifest', file: 'm.json'}];
   pack.frameKeys = {hud: 'hud/{id}/{clip}_{n}'};

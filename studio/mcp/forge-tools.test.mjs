@@ -219,17 +219,19 @@ test('pose sheet: drawn key poses become the follow clip; the keys are the cells
   assert.deepEqual(bake.structuredContent.stored, ['poseclips']);
   assert.equal(JSON.parse(fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'forge/poseclips.json'), 'utf8')).clips.follow.keys.length, 4, 'the pose clips are stored beside the asset');
 
-  // Frame i of the clip IS the pixelised cell of key i, from the same import: nothing is invented between the drawn poses.
-  // The reference is computed here with the forge library directly, not with the tools.
+  // Frame i of the clip IS the pixelised cell of key i, from the same import, colour-held against the key before it (the pack's
+  // default): nothing is invented between the drawn poses. The reference is computed here with the forge library directly.
   const settings = await settingsFromPack(loadPackSync(p.root, undefined, { verifyFiles: false }), p.root, 'pet');
   const sheetBytes = fs.readFileSync(join(POSE, 'pose_sheet.png'));
   const reference = pixelizeImport(importSheet({ layout: normalizeLayout(json(join(POSE, 'layout.json'))), sheet: decodePng(sheetBytes), sheetBytes, profile: settings.profile, scaleOptions: { mode: 'sheet' } }),
-    settings, { marks: resolveMarks(json(join(POSE, 'marks.json')), settings.palette) });
+    settings, { marks: resolveMarks(json(join(POSE, 'marks.json')), settings.palette), poseClips: json(join(p.root, 'assets/raw/longtime', ASSET, 'forge/poseclips.json')) });
+  assert.ok(reference.held.size === 16, 'the bake holds colours across the four keys of each facing');
   const dir = join(p.root, '.inspector-revisions/work', ASSET, 'bake');
   for (const f of FACINGS) KEYS.forEach((k, i) => {
-    assert.ok(framesEqual(readFrame(join(dir, `follow_${f}_${i}.png`)), reference.cells.get(`${k}_${f}`).native), `follow_${f}_${i} is the cell ${k}_${f}`);
+    assert.ok(framesEqual(readFrame(join(dir, `follow_${f}_${i}.png`)), reference.held.get(`follow/${f}/${i}`).native), `follow_${f}_${i} is the held frame of key ${k}_${f}`);
   });
 
+  assert.ok(FACINGS.some((f) => KEYS.some((k, i) => !framesEqual(reference.held.get(`follow/${f}/${i}`).native, reference.cells.get(`${k}_${f}`).native))), 'the hold changed some frames against the plain snap');
   const sub = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: { pivotDrift: false } });
   assert.equal(sub.isError, undefined, text(sub));
   assert.equal(sub.structuredContent.submit.written, 16);

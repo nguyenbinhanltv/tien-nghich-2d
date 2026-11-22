@@ -57,7 +57,7 @@ export default {
       if (!rig && !poseClips) throw new ToolError('Give rig (for rig clips) and/or poseClips (for clips built from drawn key poses). studio_template_get shows which fits each clip.');
       if (rig) { const issues = validateRig(rig, { palette }); if (issues.length) throw new ToolError(`the rig is invalid:\n  ${issues.join('\n  ')}`); }
 
-      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings);
+      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings, { poseClips, rig, poseRig: args.poseRig, library });
       if (poseClips) {
         const table = clipTable({ clips: settings.profile.clips });
         const issues = validatePoseClips(poseClips, { table, layerIds: new Set(pixelized.cells.keys()), palette });
@@ -71,7 +71,7 @@ export default {
       }
       const bodyPlan = (rig ?? args.poseRig)?.bodyPlan;
       log(`baking ${asset.id}: rig ${rig ? 'yes' : 'no'}, pose clips ${poseClips ? Object.keys(poseClips.clips).join(',') : 'none'}, patch ops on ${Object.keys(patch?.frames ?? {}).length} frame(s)`);
-      const baked = bakeStage({ settings, palette, cells: pixelized.cells, rig, poseRig: args.poseRig, poseClips, library: library ?? (bodyPlan ? loadLibrary(bodyPlan) : undefined), patch, clips: args.clips });
+      const baked = bakeStage({ settings, palette, cells: pixelized.cells, held: pixelized.held, rig, poseRig: args.poseRig, poseClips, library: library ?? (bodyPlan ? loadLibrary(bodyPlan) : undefined), patch, clips: args.clips });
       const gates = qaStage(baked, { settings, palette, rig, poseRig: args.poseRig, options: args.qa });
 
       if (save) for (const [name, doc2, given] of [['rig', rig, args.rig], ['poseclips', poseClips, args.poseClips], ['library', library, args.library]]) if (given) await writeDoc(ws, asset, name, doc2);
@@ -125,7 +125,7 @@ export default {
           groups.set(slot, g);
         }
         const hashes = `rig ${rig ? sha256(JSON.stringify(rig)).slice(0, 12) : '-'}; poseclips ${poseClips ? sha256(JSON.stringify(poseClips)).slice(0, 12) : '-'}; patch ${patch ? sha256(JSON.stringify(patch)).slice(0, 12) : '-'}`;
-        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}`, frames: Object.keys(g.frames) }));
+        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}${g.doc.reference ? `; reference ${g.doc.reference.name} ${g.doc.reference.sha256.slice(0, 12)} verbatim ${g.doc.reference.verbatim ? 'yes' : 'no'}` : ''}`, frames: Object.keys(g.frames) }));
         // ONE submission: all frames are gated together, written under one lock and rolled back together, each credited to its own sheet.
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller });
         const written = report.written?.length ?? 0, unchanged = report.unchanged?.length ?? 0;

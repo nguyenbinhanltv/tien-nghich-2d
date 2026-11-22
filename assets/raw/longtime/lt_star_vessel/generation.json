@@ -1,0 +1,171 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "a4597f96-1efb-4606-8e16-9854631bcd48",
+  "character_job_id": "8ec6890a-5c87-48ec-bafe-20dad3960696",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A large CIRCULAR BRONZE BACKPLATE, a round disc of bronze-gold metal with a darker ring, is strapped to his back and rises behind his shoulders like a halo, clearly visible as a big gold circle from behind and as a gold rim beside the shoulders from the front. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "889c698a-8d00-4b22-bfd7-0cb10e7852a6",
+      "job_ids": {
+        "south": "7a988f71-354d-4b14-914e-1ce1c9735069",
+        "west": "0012f501-b867-4746-a202-e2b1c3813d98",
+        "north": "f085a97f-3d60-4a05-b3e7-fe799225813c",
+        "east": "eccd2ac6-e430-4ba8-9b85-3723b4b95ec6"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "7a988f71-354d-4b14-914e-1ce1c9735069",
+          "animation_group_id": "889c698a-8d00-4b22-bfd7-0cb10e7852a6",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "0012f501-b867-4746-a202-e2b1c3813d98",
+          "animation_group_id": "889c698a-8d00-4b22-bfd7-0cb10e7852a6",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "f085a97f-3d60-4a05-b3e7-fe799225813c",
+          "animation_group_id": "889c698a-8d00-4b22-bfd7-0cb10e7852a6",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "eccd2ac6-e430-4ba8-9b85-3723b4b95ec6",
+          "animation_group_id": "889c698a-8d00-4b22-bfd7-0cb10e7852a6",
+          "source": "original clip"
+        }
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "d02daac8-2c3e-409d-8b01-b0c51bcf37fb",
+      "job_ids": {
+        "south": "2fd3714f-bc08-48a6-a450-0baf1365511d",
+        "west": "7772eb84-f353-4ae2-8bd8-6280f8f75626",
+        "north": "cacc6259-c34e-4b9b-831d-d72bfae7d298",
+        "east": "d178281d-423e-4e84-9874-84c3633b4836"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "2fd3714f-bc08-48a6-a450-0baf1365511d",
+          "animation_group_id": "d02daac8-2c3e-409d-8b01-b0c51bcf37fb",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "7772eb84-f353-4ae2-8bd8-6280f8f75626",
+          "animation_group_id": "d02daac8-2c3e-409d-8b01-b0c51bcf37fb",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "cacc6259-c34e-4b9b-831d-d72bfae7d298",
+          "animation_group_id": "d02daac8-2c3e-409d-8b01-b0c51bcf37fb",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "d178281d-423e-4e84-9874-84c3633b4836",
+          "animation_group_id": "d02daac8-2c3e-409d-8b01-b0c51bcf37fb",
+          "source": "original clip"
+        }
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "b1729c0f-9153-4157-94b5-de93359d28db",
+      "job_ids": {
+        "south": "5c38ccc2-d126-4fda-a992-c4d378f21be1",
+        "west": "014910b3-0a8a-43f9-9c77-c588a7990e23",
+        "north": "80a70c88-4a2d-4dd0-9b68-39101e7d88bb",
+        "east": "a9e1d5ef-08e3-4b7b-a27f-9dc6fcc3a394"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "5c38ccc2-d126-4fda-a992-c4d378f21be1",
+          "animation_group_id": "b1729c0f-9153-4157-94b5-de93359d28db",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "014910b3-0a8a-43f9-9c77-c588a7990e23",
+          "animation_group_id": "b1729c0f-9153-4157-94b5-de93359d28db",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "80a70c88-4a2d-4dd0-9b68-39101e7d88bb",
+          "animation_group_id": "b1729c0f-9153-4157-94b5-de93359d28db",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "a9e1d5ef-08e3-4b7b-a27f-9dc6fcc3a394",
+          "animation_group_id": "b1729c0f-9153-4157-94b5-de93359d28db",
+          "source": "original clip"
+        }
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "6385e184-f0ad-4cfd-bb49-126cf490df36",
+      "job_ids": {
+        "south": "2f61c76b-ca20-4b64-a060-e5b139fca3d6",
+        "west": "04387c75-56ed-4e47-b980-8e3705364d6f",
+        "north": "96b7dfed-6db8-40aa-854e-7c740c1330bc",
+        "east": "1aecd5bc-ab90-4413-9d8d-ab724496f79d"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "2f61c76b-ca20-4b64-a060-e5b139fca3d6",
+          "animation_group_id": "6385e184-f0ad-4cfd-bb49-126cf490df36",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "04387c75-56ed-4e47-b980-8e3705364d6f",
+          "animation_group_id": "6385e184-f0ad-4cfd-bb49-126cf490df36",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "96b7dfed-6db8-40aa-854e-7c740c1330bc",
+          "animation_group_id": "6385e184-f0ad-4cfd-bb49-126cf490df36",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "1aecd5bc-ab90-4413-9d8d-ab724496f79d",
+          "animation_group_id": "6385e184-f0ad-4cfd-bb49-126cf490df36",
+          "source": "original clip"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
+      "credits": 22,
+      "result": "accepted for integration"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

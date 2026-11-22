@@ -1,0 +1,1115 @@
+{
+  "id": "lt_furnace_ferryman",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Raised furnace paddle signals a broadside.",
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (64x64 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames come back on an 84x84 canvas, centred on 64x64 without scaling). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "e2ff6ae3-8d9f-42bb-9f43-1bad8829d2fb",
+  "character_job_id": "0e6da84a-c362-4ffa-8374-3238018364ad",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Furnace Ferryman, a stout chibi boss ferryman with a very large head, wearing a wide conical straw hat with a dark soot-blackened brim, a charcoal-grey robe with glowing orange-red ember cracks along the hem, broad shoulders. He grips ONE very long wooden paddle with a flat broad iron-banded blade in his RIGHT hand, the paddle held upright beside his body, blade end glowing orange like a hot furnace plate. His left hand is empty at his side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "3017f2be-8344-4ed7-be07-ebc464c53156",
+        "west": "babf8810-775f-4a71-b812-ebcce2bc509a",
+        "north": "c8e93137-fe89-4aa9-bd3a-21f0bf61cbda",
+        "east": "b2c619fd-3b1e-4c44-82b0-148b1ec0bde9"
+      },
+      "action_description": "stands still and breathes slowly, shoulders rising and falling slightly, the long paddle stays upright in the same right hand and clearly visible, ember glow flickers faintly",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes slowly; the long paddle stays upright in his right hand on the viewer's left, glowing blade end low, always visible",
+        "west": "facing left, breathes slowly; the long paddle stays upright in front of him on the left side, always visible",
+        "north": "seen from behind, breathes slowly; the long paddle stays upright in his right hand on the viewer's RIGHT, always visible",
+        "east": "facing right, breathes slowly; the long paddle stays upright in front of him on the right side, always visible"
+      },
+      "group_ids": {
+        "south": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "west": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "north": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "east": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d"
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "e06a286a-15b2-474b-b882-0909b032c715",
+        "west": "22be4ab7-32c5-4600-abed-ac15ad0e94fd",
+        "north": "7cc16ad3-2b24-478c-900b-c3ead20a0700",
+        "east": "880f1fcb-9199-4561-9581-ac1b81bc782a"
+      },
+      "action_description": "strides heavily forward in a slow powerful walking cycle, legs alternate, the long paddle stays upright in the same right hand and clearly visible",
+      "direction_prompts": {
+        "south": "walks toward the viewer with heavy steps, only the legs and body bob; the long paddle stays upright in his right hand on the viewer's left, always visible",
+        "west": "walks to the left with heavy steps; the long paddle stays upright in front of him on the left side, always visible",
+        "north": "walks away from the viewer seen from behind with heavy steps; the long paddle stays upright in his right hand on the viewer's RIGHT, always visible",
+        "east": "walks to the right with heavy steps; the long paddle stays upright in front of him on the right side, always visible"
+      },
+      "group_ids": {
+        "south": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "west": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "north": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "east": "8c2b884a-753f-4760-8849-9b877e37250a"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "shipped": {
+        "north": "attempt 1 (animation_group_id 0d15c976-7d2b-4245-b37b-de117581f00a)",
+        "south": "attempt 4 (second touch-up, group 6303d210-52c0-4581-867a-daceebc31fa6)",
+        "west": "attempt 2",
+        "east": "attempt 2"
+      },
+      "job_ids": {
+        "north": "fb95de3b-9ff5-4dd0-91db-a8abe37ec785",
+        "south": "ba666e31-aaeb-49e5-8111-fed58acf1132",
+        "west": "8dcf77ca-1ed9-48f2-9d61-9c6e345da125",
+        "east": "40d647db-ff1c-4222-ae23-be1757477383"
+      },
+      "rejected_job_ids": {
+        "south": "85350606-d44e-419a-9006-d8537317701b",
+        "west": "c1082490-faf6-41c1-a012-36ebe1b1dabb",
+        "north_attempt_2": "f11f4ff0-2e87-472e-a0f4-0a67a2bbaa1b",
+        "east": "4add9af8-962f-48e0-ab5e-feaf16f3931c",
+        "south_attempt_2": "43b2dfe8-f1aa-4cea-a308-a1f1e6768a45",
+        "south_attempt_3": "c22f4bcc-79f5-4944-84ad-8ee9ceaa19c4"
+      },
+      "action_description_attempt_1": "winds up for a broadside: plants his feet wide, raises the long furnace paddle high above his shoulder with the glowing blade end up, holds it there glowing brighter, body leaning back slightly",
+      "action_description_attempt_2": "raises the long furnace paddle straight up beside his head and holds it upright, glowing blade end high above the hat, legs planted wide, leaning back slightly, the paddle stays close to his body and does not stick out sideways",
+      "direction_prompts_attempt_1": {
+        "south": "facing the viewer, lifts the long paddle in his right hand (viewer's left) high up beside his head, glowing blade end up above the hat brim, then holds it raised",
+        "west": "facing left, lifts the long paddle high up in front of him on the left, glowing blade end raised above the hat brim, then holds it raised",
+        "north": "seen from behind, lifts the long paddle in his right hand (viewer's RIGHT) high up beside his head, glowing blade end up, then holds it raised",
+        "east": "facing right, lifts the long paddle high up in front of him on the right, glowing blade end raised above the hat brim, then holds it raised"
+      },
+      "direction_prompts_attempt_2": {
+        "south": "facing the viewer, lifts the long paddle in his right hand (viewer's left) straight up beside his head, blade end glowing above the hat brim on the viewer's left, held vertical and close to the body",
+        "west": "facing left, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways",
+        "north": "seen from behind, lifts the long paddle in his right hand (viewer's RIGHT) straight up beside his head, the glowing blade end clearly visible above the hat on the viewer's right, held vertical and close to the body",
+        "east": "facing right, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways"
+      },
+      "action_description_attempt_3": "raises the long furnace paddle straight up beside his head with the right hand and keeps it raised and clearly visible in every frame, glowing blade end above the hat, legs planted wide, paddle close to the body",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, the long paddle in his right hand (viewer's left) is lifted straight up beside his head and stays raised and fully visible in all frames, blade end glowing above the hat brim, paddle held vertical and close to the body"
+      },
+      "action_description_attempt_4": "raises the long furnace paddle straight up beside his head with the right hand and holds it raised and clearly visible in every frame; the paddle blade stays the same dark orange-red glowing color in every frame, never white or yellow, with nothing else attached to it",
+      "direction_prompts_attempt_4": {
+        "south": "facing the viewer, the long paddle in his right hand (viewer's left) is lifted straight up beside his head and stays raised and fully visible in all frames; the glowing blade keeps the same dark orange-red color in every frame, never turning white or yellow, no round objects or extra shapes on the blade"
+      },
+      "group_ids": {
+        "north": "0d15c976-7d2b-4245-b37b-de117581f00a",
+        "west": "cc56cee7-c992-4fe1-bdab-d84eda62a87b",
+        "east": "cc56cee7-c992-4fe1-bdab-d84eda62a87b",
+        "south": "6303d210-52c0-4581-867a-daceebc31fa6"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "shipped": {
+        "west": "attempt 1 (animation_group_id 767ce2c8-ea41-4b15-a033-e49d238d06ea)",
+        "east": "attempt 1",
+        "south": "attempt 3 (touch-up, animation_group_id c43c1c21-d1d8-489a-bdb9-c4140c930c6b)",
+        "north": "attempt 2"
+      },
+      "job_ids": {
+        "west": "cf424c6b-6fc7-4184-bde9-2b4394fa8c01",
+        "east": "1a66e636-dbcd-4df3-8f2b-bf6df43f93d9",
+        "south": "4e387e4b-67f9-496a-a94f-057d13eb4e9e",
+        "north": "e9ee2c86-c174-4a56-b022-b5eb47c75470"
+      },
+      "rejected_job_ids": {
+        "south": "b47ef7ed-a0eb-42c5-8c2e-49b565e745e7",
+        "north": "ec8b9dd2-8fae-41e1-a9ba-1c44c99fb525",
+        "south_attempt_2": "4f8b15c8-33f1-4692-bb5e-5e098b74c03d"
+      },
+      "action_description_attempt_1": "swings the long furnace paddle down and across in a heavy broad sweep, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "action_description_attempt_2": "swings the long furnace paddle down and across in a compact heavy sweep that stays close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "direction_prompts_attempt_1": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward across in front of him in a wide sweep, then brings it back upright beside him",
+        "west": "facing left, swings the long paddle down and forward to the left in a wide sweep, then brings it back upright in front of him",
+        "north": "seen from behind, swings the long paddle in his right hand (viewer's RIGHT) down and away from the viewer in a wide sweep, then brings it back upright beside him",
+        "east": "facing right, swings the long paddle down and forward to the right in a wide sweep, then brings it back upright in front of him"
+      },
+      "direction_prompts_attempt_2": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward across in front of him in a compact sweep close to his body, then brings it back upright beside him",
+        "north": "seen from behind, swings the long paddle in his right hand (viewer's RIGHT) down and away from the viewer in a compact sweep close to his body, then brings it back upright beside him"
+      },
+      "action_description_attempt_3": "swings the long furnace paddle down and across in a compact heavy sweep that stays inside a narrow arc close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward in a short compact sweep that keeps the blade close to his body and never extends far to the side, then brings it back upright beside him"
+      },
+      "group_ids": {
+        "west": "767ce2c8-ea41-4b15-a033-e49d238d06ea",
+        "east": "767ce2c8-ea41-4b15-a033-e49d238d06ea",
+        "north": "8eca5859-7376-4e97-a30d-ecfa7137f61c",
+        "south": "c43c1c21-d1d8-489a-bdb9-c4140c930c6b"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 64x64 (seed 11), 8 views",
+      "credits": 6,
+      "result": "accepted; design reads (straw hat, hot paddle in the right hand, ember-cracked hem)"
+    },
+    {
+      "n": 2,
+      "what": "idle, advance, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "idle, advance and strike west/east accepted; telegraph south/west/east and strike south/north rejected: the raised or swung paddle left the 64 px box (telegraph east frame 3: 45 px outside, a stray grey blade in frame 2; strike north 7 px, strike south 7 px, telegraph south 4 px), telegraph west showed the paddle behind the body. Their raw frames are not shipped."
+    },
+    {
+      "n": 3,
+      "what": "regeneration of telegraph (south, west, north, east) with the paddle held upright and close to the body, and of strike south and north with a compact sweep: 4 + 2 single-direction regenerations",
+      "credits": 6,
+      "result": "telegraph west, east and south and strike north taken from this attempt (fit the box). telegraph north kept from attempt 1 (attempt 2 north never raises the paddle). strike south: attempt 2 still has 3 opaque paddle-tip pixels outside the 64 px box in frame 5 and no regeneration is left, so the build records a 3 px crop; NEEDS A HUMAN DECISION. telegraph south (attempt 2) loses the paddle in frame 4, also NEEDS A HUMAN DECISION."
+    },
+    {
+      "n": 4,
+      "what": "touch-up: one regeneration each of telegraph south and strike south (the two cropped/lost-paddle clip-directions)",
+      "credits": 2,
+      "result": "both shipped. strike south: 0 px outside the box (was 3), matches west/east. telegraph south: the paddle is now in hand in every frame (was lost in frame 4), but the blade flashes pale yellow-white in frames 1-2 and a grey blob sits on the blade tip in frame 3, and 2 px are cropped; kept as the better of the two, NEEDS A HUMAN DECISION; telegraph south was replaced again by attempt 5 (see below)"
+    },
+    {
+      "n": 5,
+      "what": "second touch-up: one regeneration of telegraph south asking for a constant dark orange-red blade (job ba666e31, group 6303d210)",
+      "credits": 1,
+      "result": "shipped: blade stays orange-red in all four frames, no grey blob, 0 px outside the box. The pose is close to idle (paddle held upright, little lifting)."
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_attempt_2": 16,
+    "regenerations_attempt_3": 6,
+    "touch_up_1_attempt_4": 2,
+    "touch_up_2_attempt_5": 1,
+    "total": 31,
+    "model_estimate": 28
+  },
+  "known_flaws": [
+    "idle west and east: a small pale breath puff beside the face, readable as breath at 1x, most visible in west frame 4",
+    "telegraph east holds a static diagonal paddle pose across the four frames (little motion); telegraph west/north motion is small",
+    "telegraph south: the paddle is held upright and glows, but the raise is subtle (close to the idle pose)"
+  ],
+  "native_px": [
+    64,
+    64
+  ],
+  "pivot_px": [
+    32,
+    61
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 1757,
+      "outline_thinned": 748,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_ember_delta.py",
+    "entry_point_sha256": "c7ebf494add1d1e579dcdf79f46bde7620175712199528d0887660108688ddcb"
+  },
+  "source": "source.png",
+  "source_sha256": "35014a5c65306e6d754df58e7a1e34ce5a0fbf044dcc2e807b2472f00c933474",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_furnace_ferryman/contact_1x.png": "a78538a5c28e5690e0a53b47231c7e24762bf00d5c3ccd153136fa44eb5f3e4b",
+    "assets/raw/longtime/lt_furnace_ferryman/contact_4x.png": "16ad32693601550399f0519d5931b258f9204b9d7c7ec24d23084c4d7e2ba82b"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_east_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/east/frame_000.png",
+      "raw_sha256": "1b3f9d69aa5d4d3b6fada8be37ba526234dfe83a97737023b9d3568b5b7e519a",
+      "source_xy": [
+        0,
+        588
+      ],
+      "duration_ms": 140,
+      "sha256": "1c969256e11eda6d58ebdeb8230dde668fa7ee861bbc4eddc8a5a70d8abd6c98"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_east_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/east/frame_001.png",
+      "raw_sha256": "ba90d011559647823c61d95ed21640c2fc9e5bf7213a8e5933ed9dad666311aa",
+      "source_xy": [
+        84,
+        588
+      ],
+      "duration_ms": 140,
+      "sha256": "4b520d58e02c8b0c0808ac9c37382e04274fb08fcf6bc0c49f9fb332f9374ae3"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_east_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/east/frame_002.png",
+      "raw_sha256": "06b4148af1c9fe5062acc868a3368f7930a9232698ce1fe94e327b666b7e0884",
+      "source_xy": [
+        168,
+        588
+      ],
+      "duration_ms": 140,
+      "sha256": "66224ff90f02a62345088433dbc05ca1a772785208087718cca1170cb3ce1f11"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_east_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/east/frame_003.png",
+      "raw_sha256": "bba165cf13dba71cb95d721b89a4911e33cdd61edae07a57eca62eef87fd2fec",
+      "source_xy": [
+        252,
+        588
+      ],
+      "duration_ms": 140,
+      "sha256": "2a0c93f50e43bc1bd18960e871e4b57221f3399823564c98b1310ebf62870f89"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_north_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/north/frame_000.png",
+      "raw_sha256": "2dc39b75e13d9e5bd903ee52f8d0a267c522e6d57dcc0c6e9b2fcffca7f4848a",
+      "source_xy": [
+        0,
+        504
+      ],
+      "duration_ms": 140,
+      "sha256": "00d3663da6f04c4dd59408afb69cb28421ec42cf36873f36e7678704bcc77fb6"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_north_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/north/frame_001.png",
+      "raw_sha256": "a4097d632538e98a282102acc796c346f313d238905a14947a1c10e449b28bf2",
+      "source_xy": [
+        84,
+        504
+      ],
+      "duration_ms": 140,
+      "sha256": "e4da3586c772c6f89377e72df144ca93f88baa41bfe77322d590cfe979cf7cc5"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_north_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/north/frame_002.png",
+      "raw_sha256": "6db63d4ff087b99cd41453c318aa5def86f931273c8fb0afdf8db4fbf04c8e8c",
+      "source_xy": [
+        168,
+        504
+      ],
+      "duration_ms": 140,
+      "sha256": "e7e065c4f01f9d34888d4f8e69af90ec3053bede10a504827b5535766755da80"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_north_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/north/frame_003.png",
+      "raw_sha256": "f14a3ce52f2ae57df63033247803020571e18962f89af1381fd277ba7a8481fb",
+      "source_xy": [
+        252,
+        504
+      ],
+      "duration_ms": 140,
+      "sha256": "88d1a117135743b58d93dcd3b32512835974d15fb86f28c36e259b934b957b2e"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_south_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/south/frame_000.png",
+      "raw_sha256": "eb54763e25814359ec05e1f5c65dd64504623056a901edd873ec049771c3d119",
+      "source_xy": [
+        0,
+        336
+      ],
+      "duration_ms": 140,
+      "sha256": "084f6bcb8fba4674123712137e54f0455a36995e1de31a6c94f9d30a1327f320"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_south_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/south/frame_001.png",
+      "raw_sha256": "14d51c703f36bb871764b55f5c4379cdd46bb5f9244dc28582795e0650eab304",
+      "source_xy": [
+        84,
+        336
+      ],
+      "duration_ms": 140,
+      "sha256": "2797e997bbbfcc3a062750a76fde5b905acebb0ef84a00a90bf5e34acebc1e2e"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_south_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/south/frame_002.png",
+      "raw_sha256": "350dca796f72b71962bdb1aed4268e772681b46d44a4220750392ea35564bf46",
+      "source_xy": [
+        168,
+        336
+      ],
+      "duration_ms": 140,
+      "sha256": "e01cb02daa9542848ab34114b48dcb2c3e0e05462329b9ab3e0914be7ece710c"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_south_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/south/frame_003.png",
+      "raw_sha256": "300dd61a66c9a4ba3e2174b5dd5f6a019b014946af24b23888f407d3aebc509a",
+      "source_xy": [
+        252,
+        336
+      ],
+      "duration_ms": 140,
+      "sha256": "d22444d57bcc8a502064d3a9b92871e7cd53afee3278667efb2c7f1b2b6d1276"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_west_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/west/frame_000.png",
+      "raw_sha256": "6aae3edf561ae6862af9118b82d12cbfb4092af18b56999fe44a0c0a1d8ebb88",
+      "source_xy": [
+        0,
+        420
+      ],
+      "duration_ms": 140,
+      "sha256": "5bf9eda73a69e3dcf339dfe21fb5daa1f63dd4e86b4f8f5c893c56a1f160788d"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_west_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/west/frame_001.png",
+      "raw_sha256": "d09451667abd952bd56252c0daecc4c9a75d5b536887ae4844f129a98c03f7fc",
+      "source_xy": [
+        84,
+        420
+      ],
+      "duration_ms": 140,
+      "sha256": "84e32d283949fc007652ebc8b5345bd8715c23b142a05adb390054d44164e93c"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_west_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/west/frame_002.png",
+      "raw_sha256": "f26ac5dfc2091186107e2f1d64c7394b9ffa3da6c47edd05f6672d0a7f584823",
+      "source_xy": [
+        168,
+        420
+      ],
+      "duration_ms": 140,
+      "sha256": "167d0f7328ef97e5e6445a83792155b265c6387c296e291b462f5452185d1f8f"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/advance_west_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/advance_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/advance/west/frame_003.png",
+      "raw_sha256": "efd2bb3319a4d195f2cfa5b0749223d2136194adf0c0f81fade4aeddd7855998",
+      "source_xy": [
+        252,
+        420
+      ],
+      "duration_ms": 140,
+      "sha256": "bea44bda531f109bfdb363b4a273d2163ada288fbd64839335270062558cba87"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_east_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/east/frame_000.png",
+      "raw_sha256": "0ecdf82e305d5d2dcd5be40e28e54819455a156869bde449a58804306b120126",
+      "source_xy": [
+        0,
+        252
+      ],
+      "duration_ms": 180,
+      "sha256": "dc31422baab045fb2faf6035abc885d977b1b061912eae4564a872629fbdcaed"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_east_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/east/frame_001.png",
+      "raw_sha256": "f1350494d3fd7717d27469be2c34dcc71bfb951139e5327167cc18a7fad1632b",
+      "source_xy": [
+        84,
+        252
+      ],
+      "duration_ms": 180,
+      "sha256": "cbdddbcb781cde91d1f16dfdccdced3d5083ab11d7221c3381310c79969a78f5"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_east_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/east/frame_002.png",
+      "raw_sha256": "970fccc5faec253197772f5bb5299a1cbf1bb22f1ffbd2486b89f982763a593c",
+      "source_xy": [
+        168,
+        252
+      ],
+      "duration_ms": 180,
+      "sha256": "724c073660a196357d3124e07f6d04121f646772c9643712ca2e316ab694a6fb"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_east_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/east/frame_003.png",
+      "raw_sha256": "82046f3f0b3eb5c1bd23826df9f6e681ba7c2b5639c2c92ef48d69c7595e9420",
+      "source_xy": [
+        252,
+        252
+      ],
+      "duration_ms": 180,
+      "sha256": "412eb8e807c7fb879e52f6edbd424fa0701227e8617f042ffd3c48ec0d74b219"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_north_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/north/frame_000.png",
+      "raw_sha256": "ecaf0c15db3e8711b2336050d8605cf32031231a806d1b47abf67cf5de7943bc",
+      "source_xy": [
+        0,
+        168
+      ],
+      "duration_ms": 180,
+      "sha256": "e70133d2614a8adf070cce744287fc47a89cacc0197ecde67a65cb2b1aee6ea6"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_north_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/north/frame_001.png",
+      "raw_sha256": "6019285739f97dfdc607a60ce075084f9293933f674d1cafe8e3c2ded536f88f",
+      "source_xy": [
+        84,
+        168
+      ],
+      "duration_ms": 180,
+      "sha256": "a907be1ce9041d2c17f3558680d8ca40c6902d58f2a6fba493a93f2b992095fd"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_north_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/north/frame_002.png",
+      "raw_sha256": "601821a9570f183379611266fb1c5d4d867e12e0235a83bfe0e4b4a00e4bcbf4",
+      "source_xy": [
+        168,
+        168
+      ],
+      "duration_ms": 180,
+      "sha256": "27a8d95d292153c06b025768aa2de580b37b931b17b67aa6e405d0bcb20fa17b"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_north_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/north/frame_003.png",
+      "raw_sha256": "7018a2512c834c75161f93a1592e0612b409d24e41ff40c15dfc36751c0a461d",
+      "source_xy": [
+        252,
+        168
+      ],
+      "duration_ms": 180,
+      "sha256": "0db91f5d90812fd48902dbe9c1ce85674f07f37233a91fc6fa7d947cae19285f"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_south_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/south/frame_000.png",
+      "raw_sha256": "3b7bebc94fcb65baf0088f8796e422b18bc15f6b84e9ee1f45d1cafb21157de8",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "3724097b3990a7e82a2f70d789e18e46243253125b06b4d82fab75b4e2ff5342"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_south_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/south/frame_001.png",
+      "raw_sha256": "3cca1f7c524bda19f5f6c67c172189702751d5b6f0d8417d4eb789b7519a4258",
+      "source_xy": [
+        84,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "cf10375d933e87a9d6f17d74c220a82d33dcecfc4926dc49d7f640774a938e4d"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_south_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/south/frame_002.png",
+      "raw_sha256": "f6124ac80ac592a9322f9b7d3f47a3bcf969ff7ba686b1b249d4b59d2adece9f",
+      "source_xy": [
+        168,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "6136eb71c22d5d4ef80222c80999f2c6f99c57f818a3750425a7720c540db34d"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_south_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/south/frame_003.png",
+      "raw_sha256": "76c28e772a2a66735a8a1015fd9777a280f373c2808c21b83500c59ac558b6aa",
+      "source_xy": [
+        252,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "81850d5928649ee776e6ce30b2a6724aed248c929fdaa193da35df2525b027e2"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_west_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/west/frame_000.png",
+      "raw_sha256": "64ed9ae9cddae258290c33efaf2a9505aabff32cb61ff24763c0a00ee50a6fcd",
+      "source_xy": [
+        0,
+        84
+      ],
+      "duration_ms": 180,
+      "sha256": "3b2f9802699bdf45054c4177f9039e64f2d855743a572afe85efc7cc2050b316"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_west_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/west/frame_001.png",
+      "raw_sha256": "c8463443301d88a2b68842db9a8f489a8e3a49b97db0aed55ec62d6c18254bc3",
+      "source_xy": [
+        84,
+        84
+      ],
+      "duration_ms": 180,
+      "sha256": "4c236179bf040e1a70441024b0649f6aaacb2ba28aa4e6ee5407a0ae0e911a81"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_west_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/west/frame_002.png",
+      "raw_sha256": "d4ba9c60e931dd8edb5340018c26ab915ceb32fad95d7850e9c674fa22f87708",
+      "source_xy": [
+        168,
+        84
+      ],
+      "duration_ms": 180,
+      "sha256": "654c6b77b0eceb845feadd3e6cc6622b41c967936115a44db3d63b464c56ac6c"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/idle_west_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/idle/west/frame_003.png",
+      "raw_sha256": "c029c9c5eea5be4e7d93af7f4ef2b7b5d4256c2c805ffef90ef4724ae38652a4",
+      "source_xy": [
+        252,
+        84
+      ],
+      "duration_ms": 180,
+      "sha256": "14b43a9d1d1d360ce13983d7e462a844f686d86caf1a82926a58f0c7b411acd8"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_000.png",
+      "raw_sha256": "587f1e434513722b940fc44bfdb15586960549e16e0e6f38f647c8b9c7c1ae36",
+      "source_xy": [
+        0,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "7104141007844b88bea657b7f44f5c32d292f58cdc5754882d988a1d9fa986fe"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_001.png",
+      "raw_sha256": "81bd0fd2a2d31f4f1869f76667ce29c7783a045b8b71f19b5361cb528f3c500d",
+      "source_xy": [
+        84,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "42ac5b7c5e38f6da7b934e388828b6233c474b48e641ab207f3f46e862d24b85"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_002.png",
+      "raw_sha256": "5ca74497560a5db4d9c8dda68147b7fa193ddde7d7f200b3702112e3040137c3",
+      "source_xy": [
+        168,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "7e4802f4ae60c5ffab05ab4d1c87e2e273ac2dc939f887d2910074bcce225d9f"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_003.png",
+      "raw_sha256": "8b041460efc7e6a6204bfb0a3e7224a06d094f88acf44d986605a5deceb69af1",
+      "source_xy": [
+        252,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "dcbe145fef1abc190d7d5bf0d64e96cdfe6d64d3bc7749ace9f33030f3bbcfff"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_4",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_004.png",
+      "raw_sha256": "22d380c2e3c52d98edc91b35b08b69cc4eee5a4d5d5474cca7ff49bbf991d80b",
+      "source_xy": [
+        336,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "69abf60b030e1dfaa5e79f20fbfa7cb67ec6817917a42b8bf2b1d1e6caa371a8"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_east_5",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/east/frame_005.png",
+      "raw_sha256": "4a63bac6429d8654dd041b6220b1d890d373af6205063d4e7280d050a165d0bc",
+      "source_xy": [
+        420,
+        1260
+      ],
+      "duration_ms": 100,
+      "sha256": "6295dbf8fdd087185124d7d87016636c5ae2d490549194f6050114b32cef109f"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_000.png",
+      "raw_sha256": "5da7574b437db69b47a063e489491461c0a58c699e8aa59e2e2f26b4c56797b9",
+      "source_xy": [
+        0,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "12fcfb810da44b682c45c1a1317e24cede2447b3683d5f8e96ef24eb8473e9fa"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_001.png",
+      "raw_sha256": "77d9339969fc38e19ef7f2e96d6cd990c68277e634221dff5dc2e9024355e7e5",
+      "source_xy": [
+        84,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "7635caef90a364a414f4c025ce8f8d3818d619317cbf0083c2e7ae30e52f35a9"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_002.png",
+      "raw_sha256": "2fe5e0a030300cad53de57ef1dd3b93a844b926f43eed6414ebc919ddd17a32f",
+      "source_xy": [
+        168,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "0ad92eec38fe08860e8a1f6be3e1526dcaefed970e862a7052191f9c67b4b814"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_003.png",
+      "raw_sha256": "81d8c339cfa341eabc6c13dd02b23eeff48a75d874e228e1c3f9d73535095aad",
+      "source_xy": [
+        252,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "f055f13f1435c8f9d78e15a8856ac6df04d834f8cb1619bfb3a9d3976098b0ab"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_4",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_004.png",
+      "raw_sha256": "83b85d585264773d449131c4b1e4eb35715c61517a0c502054b3acc942522c39",
+      "source_xy": [
+        336,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "f48367d5fc07c26108ce1804e0ab4676ac176f1cf83aa47dfb745eb9a1dbdedf"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_north_5",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/north/frame_005.png",
+      "raw_sha256": "de11cf31f2db79dee9e736264a8c78e124cc8a77a0b19312d0103a2ac1d5fe4f",
+      "source_xy": [
+        420,
+        1176
+      ],
+      "duration_ms": 100,
+      "sha256": "8f258c8cf74390239d97b8aa37800661a3d54a618825aaf100a41dbd7e72e5f0"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_000.png",
+      "raw_sha256": "71fb7abd081398e4fdb75d1bd09792dab07aab62d22a5b1f95cddc1fefe563ef",
+      "source_xy": [
+        0,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "1607ddc6937c2d86015dc40f5f0473bdde6c71c4c5761147a9dcd27912da40ee"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_001.png",
+      "raw_sha256": "2645ef139a23204c3f3c518ef75547dbb2b3531e4068fa57d03acd5f3096117d",
+      "source_xy": [
+        84,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "e3cc018011d9aabcb8c926fbfabd742f03ec04b40ada2af86ab50fb6fb4d24ff"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_002.png",
+      "raw_sha256": "85b2790da2f08bd3f50197b284e71cf1745b3d86c5319e77c82057fd8dc183df",
+      "source_xy": [
+        168,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "d24cc2be31d8234aff9667b006de2e20e8ab7969394b8ad6ca5d92c7317fe935"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_003.png",
+      "raw_sha256": "e2579cded46198d595236a1da5e327291a7028bd9be5ec2fc41b04f213c1e9e2",
+      "source_xy": [
+        252,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "c8e73e7d74e43bccf2c59fad8803513b94c63e325b4fa920185b92a7a7f000a7"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_4",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_004.png",
+      "raw_sha256": "85eeffda6464eeb85e031a546f906131e05e56c0d0099dbc02eb05a91552ea37",
+      "source_xy": [
+        336,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "59fe4ebbf0d10c319da4087675354a266f8d3d95b477737031ed588479735e19"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_south_5",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_005.png",
+      "raw_sha256": "1fd5e3f937fbdff61b49e001e3e0a8d66d493b0170b3dfa13506631dbc40f937",
+      "source_xy": [
+        420,
+        1008
+      ],
+      "duration_ms": 100,
+      "sha256": "67b1d241a10744314ac8c853b1bbce75d659e1fca06c9816c76b05482b9f003b"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_000.png",
+      "raw_sha256": "6caa695e6cd9bd0c44452b9d3c06135948a3e58253b8b001f312317362f2e439",
+      "source_xy": [
+        0,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "15f3c1b4ec824601fbe45cffdaa047a5a556cbc366acad903d55137d3b677659"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_001.png",
+      "raw_sha256": "414f23ac4f312983c280a569170d4680b4cc38d6fc4379180b2f762b1eed234c",
+      "source_xy": [
+        84,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "28096adf86c09a47505ab38ecc9c3a40c811cedeb262a03db3fd99413c040079"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_002.png",
+      "raw_sha256": "6f9a860ea2a998bf04478230f1ef428573283af7b4d73bf7d378d895a1bc5b10",
+      "source_xy": [
+        168,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "1e53555c823c78cde8062a6259229c0e8bf3543315f34a10730d9462f8c4e652"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_003.png",
+      "raw_sha256": "13f56eb90b98fe85b7ac712ebd10d8534df38ecfb04afaf7c504a2524582f59d",
+      "source_xy": [
+        252,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "f82d9bf0ceb3dcdb08cc53b7c1db1028460623272b50cc68698a1502d663c1b2"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_4",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_004.png",
+      "raw_sha256": "4efe754e7c3424a02694c4c95b27a423ef376c15f859fb81bfdca554fd049068",
+      "source_xy": [
+        336,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "16c614f3193abced6c51a2d2cc076ccc1ce617b10f579c02890147b919f104fd"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/strike_west_5",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/strike_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/west/frame_005.png",
+      "raw_sha256": "f5a9a25961d5eebaf09584187d9565ddc1553adf776bb82ee1138628438dedb6",
+      "source_xy": [
+        420,
+        1092
+      ],
+      "duration_ms": 100,
+      "sha256": "c42891ead2a0a94cb5162e6349e902137d87b1bae3da697064c74e3eb0db8b0f"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/east/frame_000.png",
+      "raw_sha256": "9ba3023a57e5ffba74654d175f0949c41ef4a8dbed2cec5e85701862de5fbd06",
+      "source_xy": [
+        0,
+        924
+      ],
+      "duration_ms": 180,
+      "sha256": "9df0ea374be41437b8c3b07c72dc78304993dafa2189fc484997810f199386d1"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/east/frame_001.png",
+      "raw_sha256": "5a80e77cfb26e68a75e77a14304afd1780479979a37e035a3f80edf6ca76835d",
+      "source_xy": [
+        84,
+        924
+      ],
+      "duration_ms": 180,
+      "sha256": "70d594ffd6394f5f78941cfad52de9754d1224f8058e65c012981fcc0227aa7c"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/east/frame_002.png",
+      "raw_sha256": "776632fc6bcd6a0c07dadd2d33a935515e4317b1d035e89cf9321e78f8af59fd",
+      "source_xy": [
+        168,
+        924
+      ],
+      "duration_ms": 180,
+      "sha256": "ab69672089ff855d41e3dc0a3fe243bd87e5362bac072c00ed3e778d86da07a4"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_east_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/east/frame_003.png",
+      "raw_sha256": "e5327605e657c4425174623dde11b5836e1544c59fce639da60545c7ee3a6270",
+      "source_xy": [
+        252,
+        924
+      ],
+      "duration_ms": 180,
+      "sha256": "9be0fcd0063b6fe2a48bc5640f83936905c687387bd043e24f6396566a3a94b4"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/north/frame_000.png",
+      "raw_sha256": "a2f9cbfdfebbca1299f3bb37ee510d004ca3590b7c4eeebef182a8e0547a8324",
+      "source_xy": [
+        0,
+        840
+      ],
+      "duration_ms": 180,
+      "sha256": "537a497dc28e5153148a5eab1565876ef91570ca4bbcdfd6b8bbe54e6c082e4d"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/north/frame_001.png",
+      "raw_sha256": "b960e3445da08b8079fef2db66be8e4ac56f34b8a46ee1e338ed571253a8381d",
+      "source_xy": [
+        84,
+        840
+      ],
+      "duration_ms": 180,
+      "sha256": "f74260ed110861cdef131c353e653537dfce273f5121b63773de828d993adc37"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/north/frame_002.png",
+      "raw_sha256": "7e7f4eb78947f91cac2e248e01e8b8d09195e7f4534f750d7a68d9318b4f6be6",
+      "source_xy": [
+        168,
+        840
+      ],
+      "duration_ms": 180,
+      "sha256": "4db4454dbd5b090588768bb43cd6e975b45a777eb51ed620fd60bc7e19a6b816"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_north_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/north/frame_003.png",
+      "raw_sha256": "67ca2e6319795fe26bf9aea5f7f4b2761106c986059f34c9263baead3f305790",
+      "source_xy": [
+        252,
+        840
+      ],
+      "duration_ms": 180,
+      "sha256": "bb1b6a40d31d82cc1cd76622989c70979e787eea8f2b7a5cd64acc809b38e7c2"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_000.png",
+      "raw_sha256": "a57bdf75cb6f58aa19536df5475f992fd9d6ac69bb54e9ccf64859bb5104f025",
+      "source_xy": [
+        0,
+        672
+      ],
+      "duration_ms": 180,
+      "sha256": "f2fcf4d36c99d049b7aab5d6cab143b4414f762dbd402736ddc4cf31e7061ce0"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_001.png",
+      "raw_sha256": "945867937f6bf30555ccec54ce42f3a4e3f80cff076c8bb594e1fbc08bee35ff",
+      "source_xy": [
+        84,
+        672
+      ],
+      "duration_ms": 180,
+      "sha256": "9f1fbe253281359beef43eb8fa5d6dee72cc8e64ed4879326cad72936adc6336"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_002.png",
+      "raw_sha256": "2b3b5383c5e4202f673b588143048369ac7e3f02451514694f668e2f783d7b0b",
+      "source_xy": [
+        168,
+        672
+      ],
+      "duration_ms": 180,
+      "sha256": "1a6f8946422b9fccce9055553812ffa916e64eb3584fc95e20ce465bb010fbd6"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_south_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_003.png",
+      "raw_sha256": "1a4bb14a6f7c95ccdb58adf55a940444ba7200ee71e364464da242699b0231b2",
+      "source_xy": [
+        252,
+        672
+      ],
+      "duration_ms": 180,
+      "sha256": "e85a0f082d88048d97fabc54a7762c266826c1e7120e41d73292f3da3151853a"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/west/frame_000.png",
+      "raw_sha256": "3470c34114cfe510bd62578b1c5495765c0f3ba8546b4a193b75d9861f30335f",
+      "source_xy": [
+        0,
+        756
+      ],
+      "duration_ms": 180,
+      "sha256": "010056ff539da965ecdc6e5a0a4fa5f13c8b7cfccc56d5639c017f207cbca510"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/west/frame_001.png",
+      "raw_sha256": "b6c574502c0917531777550cf2a58a5adccd64c4cc2680b728925d6dfa5c2f7c",
+      "source_xy": [
+        84,
+        756
+      ],
+      "duration_ms": 180,
+      "sha256": "cd593a4edb2e1f32bcfa2de64e591e7d8421c3b5736ff36b31f7b83b4c53c357"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/west/frame_002.png",
+      "raw_sha256": "edff8ef6f517ff3eda940e40f0e366ca2cf178a12c4003b5ed7d9f70623c6d8e",
+      "source_xy": [
+        168,
+        756
+      ],
+      "duration_ms": 180,
+      "sha256": "6179f449cd9a2ea579fe210fcd0b421a5b5854a434c6d418e0d66c5a0e98fb7e"
+    },
+    {
+      "key": "longtime/lt_furnace_ferryman/telegraph_west_3",
+      "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/west/frame_003.png",
+      "raw_sha256": "2eafe2a201c1dc42a8b52be60c2f6d295978acf500d7f4a67608da936e068f73",
+      "source_xy": [
+        252,
+        756
+      ],
+      "duration_ms": 180,
+      "sha256": "0b371fbe2b701bf60c8591013fc8e741c6f7fa816c5a673877dc4f35e3c25acc"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

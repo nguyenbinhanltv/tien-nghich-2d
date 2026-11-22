@@ -25,11 +25,12 @@ import pack from './pack.mjs';
 import sceneSnapshot from './scene_snapshot.mjs';
 import audioRender from './audio_render.mjs';
 import audioAnalyze from './audio_analyze.mjs';
+import guide from './guide.mjs';
 
 export function buildRegistry() {
   const registry = new ToolRegistry();
   for (const tool of [
-    projectInfo, catalogSearch, assetGet, assetPlan,                 // context
+    projectInfo, guide, catalogSearch, assetGet, assetPlan,          // context (guide: the shortest correct sequence for a task)
     framesSubmit, metadataSet, qaRun, diff,                          // authoring and checking
     previewRender, sceneSnapshot,                                    // seeing
     reviewRequest, reviewList, reviewReply,                          // review loop: ask, read, answer. No approve, ever.

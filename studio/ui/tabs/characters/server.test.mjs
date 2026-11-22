@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createPreviewServer } from '../../../serve.mjs';
-import { summarizeRig, parseFrameFile } from './server.mjs';
+import { summarizeRig, parseFrameFile, handle } from './server.mjs';
+import { makeProject } from '../../../mcp/testkit.mjs';
 import { layoutSheet, largestScale, maxSheetPixels } from './sheet.mjs';
 import { decodePng } from '../../../forge/image.mjs';
 
@@ -33,15 +34,14 @@ test('roster: every character of the configured categories, with readiness, from
   const planned = lt.filter(a => !fs.existsSync(root + 'assets/processed_longtime/' + a.id) ||
     fs.readdirSync(root + 'assets/processed_longtime/' + a.id).length === 0).map(a => a.id).sort();
   assert.deepEqual(data.characters.filter(c => c.readiness === 'planned').map(c => c.id).sort(), planned);
-  assert.ok(planned.length >= 0 && data.counts.byReadiness.planned === planned.length);
+  assert.equal(data.counts.byReadiness.planned, planned.length, 'a zero count is 0, not absent');
+  assert.deepEqual(Object.keys(data.counts.byReadiness).sort(), ['authored', 'packed', 'planned']);
   for (const c of data.characters) {
     assert.ok(['planned', 'authored', 'packed'].includes(c.readiness), c.id);
     assert.equal(c.frameCount > 0, c.readiness !== 'planned' || c.frameCount > 0);
     if (c.readiness === 'planned') assert.equal(c.thumb, null, c.id);
     else assert.ok(fs.existsSync(root + c.thumb), c.thumb);
   }
-  const planned1 = data.characters.find(c => c.readiness === 'planned');
-  assert.ok(planned1.brief && planned1.clips.length > 0, 'a planned character still shows its brief and clip plan');
   assert.deepEqual(data.facings, config.facings);
 });
 
@@ -82,14 +82,57 @@ test('asset: the rigged character shows its rig, motion templates and forge expe
   assert.ok(data.card.provenance.tool && data.card.provenance.rights);
 });
 
-test('asset: a planned character has no frames but keeps its brief, clips and directions', async () => {
-  const {data: roster} = await api('roster');
-  const planned = roster.characters.find(c => c.readiness === 'planned');
-  const {status, data} = await api('asset?id=' + planned.id);
+// The planned cases run on a fixture project (a trimmed copy of the pack) with one planned character added, so they
+// hold whatever the real project has planned or finished.
+async function onFixture(fn) {
+  const p = makeProject();
+  try {
+    const file = p.root + '/assets/manifest_longtime.json';
+    const manifest = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const model = manifest.assets.find(a => manifest.profiles[a.profile].category === 'npc');
+    manifest.assets.push({...model, id: 'lt_fixture_planned', brief: 'A fixture character that has no art yet.'});
+    fs.writeFileSync(file, JSON.stringify(manifest, null, 2));
+    const call = async name => {
+      let status = 200, type, out;
+      const res = {writeHead(s, h) { status = s; type = h?.['Content-Type']; }, end(b) { out = Buffer.from(b ?? ''); }};
+      try { await handle({method: 'GET'}, res, new URL('http://127.0.0.1/api/tabs/characters/' + name), {root: fs.realpathSync(p.root), prefix: "/api/tabs/characters/"}); }
+      catch (error) { return {status: error.status, data: null}; }
+      return {status, type, body: out, data: type?.startsWith('application/json') ? JSON.parse(out) : null};
+    };
+    return await fn(call);
+  } finally { await p.cleanup(); }
+}
+
+test('asset: a planned character has no frames but keeps its brief, clips and directions', () => onFixture(async call => {
+  const {data: roster} = await call('roster');
+  assert.equal(roster.counts.byReadiness.planned, roster.characters.filter(c => c.readiness === 'planned').length);
+  const planned = roster.characters.find(c => c.id === 'lt_fixture_planned');
+  assert.equal(planned.readiness, 'planned');
+  assert.equal(planned.thumb, null);
+  assert.ok(planned.brief && planned.clips.length > 0, 'a planned character still shows its brief and clip plan in the roster');
+  const {status, data} = await call('asset?id=lt_fixture_planned');
   assert.equal(status, 200);
   assert.deepEqual([data.frames.length, data.rawFrames.length], [0, 0]);
   assert.ok(data.brief && Object.keys(data.clips).length > 0 && data.directions.length > 0);
   assert.equal(data.rig, null);
+  assert.equal((await call('sheet.png?id=lt_fixture_planned&scale=2')).status, 404, 'a character with no frames has no contact sheet');
+}));
+
+test('roster: a project with no planned character reports a planned count of 0', async () => {
+  const p = makeProject();
+  try {
+    const {readFileSync, writeFileSync} = fs;
+    // give every planned character a frame by pointing the roster at a manifest with only the finished one
+    const file = p.root + '/assets/manifest_longtime.json';
+    const manifest = JSON.parse(readFileSync(file, 'utf8'));
+    const done = fs.readdirSync(p.root + '/assets/processed_longtime');
+    manifest.assets = manifest.assets.filter(a => done.includes(a.id));
+    writeFileSync(file, JSON.stringify(manifest, null, 2));
+    let out;
+    await handle({method: 'GET'}, {writeHead() {}, end(b) { out = JSON.parse(b); }}, new URL('http://127.0.0.1/api/tabs/characters/roster'), {root: fs.realpathSync(p.root), prefix: "/api/tabs/characters/"});
+    assert.equal(out.counts.byReadiness.planned, 0);
+    assert.ok(out.counts.byReadiness.authored + out.counts.byReadiness.packed > 0);
+  } finally { await p.cleanup(); }
 });
 
 test('asset: bad ids, unknown ids and non-characters are refused', async () => {
@@ -115,8 +158,6 @@ test('contact sheet: a deterministic PNG with every clip and facing', async () =
   assert.ok(decodePng(one.body).height < decodePng(a.body).height);
   assert.equal((await get('sheet.png?id=lt_ink_marten&scale=99')).status, 422);
   assert.equal((await get('sheet.png?id=no_such_one&scale=2')).status, 404);
-  const planned = (await api('roster')).data.characters.find(c => c.readiness === 'planned');
-  assert.equal((await get('sheet.png?id=' + planned.id + '&scale=2')).status, 404);
 });
 
 test('rig summaries for the studio format and the prototype format', () => {

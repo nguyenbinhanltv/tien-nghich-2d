@@ -23,6 +23,7 @@
 import { alphaAt, cloneImage } from '../image.mjs';
 import { prepareFacing, bakeKey, mirrorFacing } from '../rig/bake.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
+import { sequenceHash } from '../pixelize/hold.mjs';
 import { getTemplate, bodyPlans, checkApplicable } from '../motion/library.mjs';
 import { applyPatch, patchKey } from '../rig/patch.mjs';
 
@@ -65,12 +66,28 @@ export function poseFacings(spec, layerIds) {
 }
 
 /**
- * Bake one pose clip. `cells` is Map cellId -> {indexed, native} from pixelise. Returns the same shape a rig
+ * Bake one pose clip. `cells` is Map cellId -> {indexed, native} from pixelise; `held` (optional) is Map `<clip>/<facing>/<i>` -> {indexed, native}, the colour-held frame for that playing position. Returns the same shape a rig
  * clip bake returns: {clip, durationMs, loop, source: "poses", facings: {facing: {frames, contacts, poses}}}.
  * Without `secondary` the frames are the pixelised cells as they are. With it, each key's cell is cut by the
  * rig's parts for that facing and moved by the template, and the baker rebuilds the outline.
  */
-export function bakePoseClip({name, spec, clip, cells, palette, rig, library, profileName, patch, canvasWidth, edgeSafe}) {
+/**
+ * The loop setting each pose clip bakes with: its own `loop`, else the secondary template's (a one-shot such as a strike
+ * stays one), else true. Same rule as bakePoseClip. A template that cannot be found counts as looping here; the bake reports it.
+ */
+export function effectiveLoops(poseClips, {library, profileName} = {}) {
+  const out = {};
+  for (const [name, spec] of Object.entries(poseClips?.clips ?? {})) {
+    let loop = spec.loop;
+    if (loop === undefined && spec.secondary && library) {
+      try { loop = getTemplate(library, profileName, spec.secondary.template ?? name).loop !== false; } catch { loop = true; }
+    }
+    out[name] = loop ?? true;
+  }
+  return out;
+}
+
+export function bakePoseClip({name, spec, clip, cells, held, palette, rig, library, profileName, patch, canvasWidth, edgeSafe}) {
   const ids = new Set(cells.keys());
   const facings = poseFacings(spec, ids);
   let template = null, plan = null;
@@ -82,7 +99,15 @@ export function bakePoseClip({name, spec, clip, cells, palette, rig, library, pr
     plan = bodyPlans()[rig.bodyPlan];
   }
   const baked = {};
+  const loop = spec.loop ?? (template?.loop !== false);
   const bakeFacing = f => {
+    // Held frames are valid only for the sequence they were made for: same clip, facing, ordered keys and loop setting.
+    const heldFrames = spec.keys.map((_, i) => held?.get(`${name}/${f}/${i}`));
+    if (heldFrames.some(Boolean)) {
+      const expected = sequenceHash(name, f, spec.keys, loop);
+      const bad = heldFrames.findIndex(h => !h || h.seq !== expected);
+      if (bad >= 0) throw new Error(`pose clip "${name}" (${f}): the held frames were made for a different key sequence or loop setting (key ${bad}); run pixelise again with the same --poses`);
+    }
     const frames = [], contacts = [];
     let poses;
     if (template) {
@@ -91,7 +116,8 @@ export function bakePoseClip({name, spec, clip, cells, palette, rig, library, pr
       poses = resolveClip(template, clip, facing, plan).poses;
     }
     spec.keys.forEach((pose, i) => {
-      const cell = cells.get(`${pose}_${f}`);
+      // Held output is per clip, facing and key index; without it the plain cell.
+      const cell = held?.get(`${name}/${f}/${i}`) ?? cells.get(`${pose}_${f}`);
       let frame, list = [];
       if (!template) frame = cloneImage(cell.native);
       else { const out = bakeKey(prepareFacing(cell.indexed, rig.facings[f], palette), rig.facings[f], poses[i], palette, {edgeSafe}); frame = out.frame; list = out.contacts; }
@@ -113,7 +139,7 @@ export function bakePoseClip({name, spec, clip, cells, palette, rig, library, pr
     baked[f] = {...mirrorFacing(src, {swapColors: m.swapColors}, palette, canvasWidth), poses: src.poses};
   }
   const lookup = (facing, index) => baked[facing]?.frames[index] ?? null;
-  const out = {clip: name, durationMs: clip.durationMs, loop: spec.loop ?? (template?.loop !== false), source: 'poses', secondary: Boolean(template), landmarks: spec.landmarks, qa: spec.qa, facings: {}};
+  const out = {clip: name, durationMs: clip.durationMs, loop, source: 'poses', secondary: Boolean(template), landmarks: spec.landmarks, qa: spec.qa, facings: {}};
   for (const [f, b] of Object.entries(baked)) {
     out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => applyPatch(fr, patch.frames?.[patchKey(name, f, i)], palette, {lookup})) : b.frames};
   }
