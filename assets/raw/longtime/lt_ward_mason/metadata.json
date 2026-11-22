@@ -1,11 +1,11 @@
 {
-  "group_id": "4bae7012-3aac-42e6-9c13-7c5310f0b914",
+  "group_id": "34cbd7c7-21b2-49f3-84fa-1cede5e2de78",
   "states": [
     {
       "character": {
-        "id": "b31b3e6b-133b-42fd-94de-ba5304575caa",
+        "id": "f858bf36-23bf-4645-8698-0d8bc90ac777",
         "name": "Idle",
-        "prompt": "Broad-shouldered xianxia ward mason, small human in a grey-blue stonecutter tunic with a leather belt, dusty grey cloth cap, short beard, thick forearms. A LARGE stone chisel hangs at his RIGHT hip pushed through the belt, the long bright steel blade angled outward and down and sticking out well past his hip, with a big warm-brown wooden handle sticking up above the belt, clearly visible as a bright steel and brown shape against the dark tunic (asymmetric: nothing on the left hip). Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+        "prompt": "Stocky xianxia ward mason, chibi with a very large head and short body, small human in a light warm cream stone-dust tunic with sand-coloured rolled sleeves, a rust-brown leather apron over the front, a soft pale cloth cap, short tan beard, thick forearms. A bronze stone chisel with a warm-brown wooden handle is pushed through his belt at his RIGHT hip, the bright bronze blade angled outward and down, clearly visible against the pale tunic (asymmetric: nothing on the left hip). Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
         "size": {
           "width": 32,
           "height": 32
@@ -13,7 +13,7 @@
         "template_id": "mannequin",
         "directions": 8,
         "view": "low top-down",
-        "created_at": "2026-11-22T09:02:54.666425+00:00"
+        "created_at": "2026-11-22T09:27:54.854717+00:00"
       },
       "folder": "Idle",
       "frames": {
@@ -35,6 +35,12 @@
               "Idle/animations/interact/north/frame_002.png",
               "Idle/animations/interact/north/frame_003.png"
             ],
+            "west": [
+              "Idle/animations/interact/west/frame_000.png",
+              "Idle/animations/interact/west/frame_001.png",
+              "Idle/animations/interact/west/frame_002.png",
+              "Idle/animations/interact/west/frame_003.png"
+            ],
             "east": [
               "Idle/animations/interact/east/frame_000.png",
               "Idle/animations/interact/east/frame_001.png",
@@ -46,27 +52,9 @@
               "Idle/animations/interact/south/frame_001.png",
               "Idle/animations/interact/south/frame_002.png",
               "Idle/animations/interact/south/frame_003.png"
-            ],
-            "west": [
-              "Idle/animations/interact/west/frame_000.png",
-              "Idle/animations/interact/west/frame_001.png",
-              "Idle/animations/interact/west/frame_002.png",
-              "Idle/animations/interact/west/frame_003.png"
             ]
           },
           "idle": {
-            "west": [
-              "Idle/animations/idle/west/frame_000.png",
-              "Idle/animations/idle/west/frame_001.png",
-              "Idle/animations/idle/west/frame_002.png",
-              "Idle/animations/idle/west/frame_003.png"
-            ],
-            "north": [
-              "Idle/animations/idle/north/frame_000.png",
-              "Idle/animations/idle/north/frame_001.png",
-              "Idle/animations/idle/north/frame_002.png",
-              "Idle/animations/idle/north/frame_003.png"
-            ],
             "east": [
               "Idle/animations/idle/east/frame_000.png",
               "Idle/animations/idle/east/frame_001.png",
@@ -78,6 +66,18 @@
               "Idle/animations/idle/south/frame_001.png",
               "Idle/animations/idle/south/frame_002.png",
               "Idle/animations/idle/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
             ]
           }
         }
@@ -85,5 +85,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-11-22T09:06:30.559176"
+  "export_date": "2026-11-22T09:31:19.436249"
 }
