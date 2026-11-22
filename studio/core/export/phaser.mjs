@@ -10,7 +10,7 @@ const frameBody = f => ({rotated: false, trimmed: false, sourceSize: {w: f.w, h:
 
 export async function build(desc, {atlasKey = desc.name} = {}) {
   const files = [], copies = desc.pages.map(p => ({page: p.index, name: `phaser/${p.image}`}));
-  const meta = {app: 'tien-nghich studio export', version: '1', format: 'RGBA8888', scale: '1'};
+  const meta = {app: 'pixel studio export', version: '1', format: 'RGBA8888', scale: '1'};
   files.push({name: 'phaser/multiatlas.json', data: json({textures: desc.pages.map(p => ({image: p.image, format: 'RGBA8888', size: {w: p.width, h: p.height}, scale: 1,
     frames: desc.frames.filter(f => f.page === p.index).map(f => ({filename: f.key, ...frameBody(f)}))})), meta})});
   for (const p of desc.pages) {

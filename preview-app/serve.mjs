@@ -3,6 +3,7 @@
 import { fileURLToPath } from 'node:url';
 import { runCli } from '../studio/serve.mjs';
 
-export { buildPreviewIndex, createPreviewServer } from '../studio/serve.mjs';
+export { createPreviewServer } from '../studio/serve.mjs';
+export { buildPreviewIndex } from '../playables/preview-index.mjs';
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) runCli();

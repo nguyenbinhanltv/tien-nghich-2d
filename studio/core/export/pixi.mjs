@@ -12,7 +12,7 @@ export async function build(desc) {
     const frames = Object.fromEntries(mine.map(f => [f.key, {frame: {x: f.x, y: f.y, w: f.w, h: f.h}, rotated: false, trimmed: false, spriteSourceSize: {x: 0, y: 0, w: f.w, h: f.h},
       sourceSize: {w: f.w, h: f.h}, ...(f.pivotPx ? {anchor: {x: f.pivotPx[0] / f.w, y: f.pivotPx[1] / f.h}} : {})}]));
     const animations = Object.fromEntries(desc.clips.map(c => [`${c.asset}/${clipName(c)}`, c.frames.filter(k => keys.has(k))]).filter(([, list]) => list.length));
-    files.push({name: `pixi/${p.name}.json`, data: json({frames, animations, meta: {app: 'tien-nghich studio export', version: '1', image: p.image, format: 'RGBA8888', size: {w: p.width, h: p.height}, scale: '1',
+    files.push({name: `pixi/${p.name}.json`, data: json({frames, animations, meta: {app: 'pixel studio export', version: '1', image: p.image, format: 'RGBA8888', size: {w: p.width, h: p.height}, scale: '1',
       ...(desc.pages.length > 1 ? {related_multi_packs: desc.pages.filter(q => q.index !== p.index).map(q => `${q.name}.json`)} : {})}})});
   }
   return {files, copies, notes: [

@@ -35,6 +35,8 @@ function pathFields(pack) {
     for (const [name, value] of Object.entries(s.evidence ?? {})) fields.push([`catalog.sources[${i}].evidence.${name}`, value]);
   });
   fields.push(['directories.revisions', pack.directories?.revisions]);
+  (pack.serve?.mounts ?? []).forEach((m, i) => fields.push([`serve.mounts[${i}].dir`, m.dir]));
+  (pack.serve?.hooks ?? []).forEach((h, i) => fields.push([`serve.hooks[${i}].module`, h.module]));
   (pack.catalog?.sources ?? []).forEach((s, i) => fields.push([`catalog.sources[${i}].file`, s.file]));
   fields.push(['adapters.interpreter.command', pack.adapters?.interpreter?.command]);
   for (const [name, command] of Object.entries(pack.adapters?.commands ?? {})) fields.push([`adapters.commands.${name}.script`, command.script]);
@@ -171,7 +173,7 @@ function check(pack, root, verifyFiles) {
   if (!issues.length && verifyFiles) {
     for (const [where, value] of pathFields(pack)) {
       if (where === 'directories.revisions' || where === 'editable.overlay' || where.startsWith('adapters.')
-          || where.startsWith('directories.')) continue;
+          || where.startsWith('directories.') || where.startsWith('serve.')) continue;
       if (!fs.existsSync(path.join(root, value))) issues.push(`${where}: file not found: ${value}`);
     }
   }

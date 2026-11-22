@@ -1,6 +1,7 @@
 /** Local bridge for the Python atlas tools. The HTTP server never invokes promotion. */
 import { isDeepStrictEqual } from 'node:util';
-import { loadCatalog } from './editor-catalog.mjs';
+import { loadPackSync } from '../core/pack.mjs';
+import { loadCatalog, packRoot } from './editor-catalog.mjs';
 
 const [root,key,library,number] = process.argv.slice(2);
 const catalog = await loadCatalog(root);
@@ -8,7 +9,8 @@ if (!key) {
   process.stdout.write(JSON.stringify(catalog.overlays));
 } else {
   const frame = catalog.frames.get(key);
-  if (!frame || frame.processed !== 'assets/processed/'+key+'.png') throw new Error('Unknown canonical frame');
+  const processedDirs = Object.values(loadPackSync(packRoot, undefined, {verifyFiles: false}).directories.processed);
+  if (!frame || !processedDirs.some(dir => frame.processed === dir + '/' + key + '.png')) throw new Error('Unknown canonical frame');
   if (frame.publish.mode === 'none') throw new Error('This category cannot be published into the atlases yet: '+frame.publish.reason);
   const { revisionStore } = await import('./editor-store.mjs');
   const store = revisionStore(root, library);

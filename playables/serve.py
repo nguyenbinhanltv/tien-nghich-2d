@@ -58,6 +58,12 @@ class PreviewHandler(http.server.SimpleHTTPRequestHandler):
         # Legacy alias: the app used to live at /preview-app/.
         if self.path == "/preview-app" or self.path.startswith(("/preview-app/", "/preview-app?")):
             self.path = "/studio" + self.path[len("/preview-app"):]
+        # The playables live in /playables but keep their /studio/ URLs (same overlay the Node server does).
+        route = self.path.split("?", 1)[0]
+        if route.startswith("/studio/") and not (REPO_ROOT / route.lstrip("/")).is_file():
+            mounted = REPO_ROOT / "playables" / route[len("/studio/"):]
+            if mounted.is_file():
+                self.path = "/playables/" + self.path[len("/studio/"):]
         if self.path == "/":
             self.send_response(302)
             self.send_header("Location", "/studio/")

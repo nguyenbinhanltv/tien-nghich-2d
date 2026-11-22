@@ -30,13 +30,13 @@ test('real project: eighteen effects, core first, with readiness and variants', 
   const {body} = await call('effects');
   assert.equal(body.effects.length, 18);
   assert.equal(body.effects.filter(e => e.group === 'core').length, 12);
-  assert.equal(body.effects[0].group, 'core'); assert.equal(body.effects.at(-1).group, 'longtime');
+  assert.equal(body.effects[0].group, 'core'); assert.equal(body.effects.at(-1).group, 'design');
   const ward = body.effects.find(e => e.id === 'lt_fx_ward_pulse');
   assert.deepEqual(ward.variants, ['anchor', 'mirror', 'thorn', 'tide', 'flare', 'bell']);
   assert.equal(ward.frames, 78 / 6);
   assert.deepEqual(body.floors.map(f => f.id), ['grey', 'court', 'dark']);
   assert.ok(body.floors.every(f => /^#[0-9a-f]{6}$/.test(f.color)));
-  assert.equal(body.effects.reduce((n, e) => n + (e.group === 'longtime' ? e.frames * e.variants.length : 0), 0), 188);
+  assert.equal(body.effects.reduce((n, e) => n + (e.group === 'design' ? e.frames * e.variants.length : 0), 0), 188);
 });
 
 test('real project: per-frame durations, sections and events survive', async () => {
@@ -65,7 +65,7 @@ test('real project: evidence for a core and a Longtime effect', async () => {
 test('the pack\'s ui.vfx block supplies floors, history and the two docs; the tab server carries none of them', async () => {
   const pack = JSON.parse(fs.readFileSync(root + 'studio.project.json', 'utf8'));
   assert.deepEqual(pack.ui.vfx.floors.map(f => f.id), ['grey', 'court', 'dark']);
-  for (const k of ['roundsDir', 'rubricDoc', 'longtimeDoc']) assert.ok(fs.existsSync(root + pack.ui.vfx[k]), k);
+  for (const k of ['roundsDir', 'rubricDoc', 'effectsDoc']) assert.ok(fs.existsSync(root + pack.ui.vfx[k]), k);
   const server = fs.readFileSync(new URL('./server.mjs', import.meta.url), 'utf8');
   assert.ok(!/ink_0\d|LESSONS_vfx|LONGTIME_VFX|vfx_specs\/history/.test(server), 'no project colour or document name is left in the tab server');
 });

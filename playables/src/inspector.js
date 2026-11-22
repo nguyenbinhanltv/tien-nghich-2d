@@ -11,7 +11,7 @@
  *  - Honest missing-asset wireframe placeholder + 'missing: pixellab not generated' banner
  */
 
-import { CANONICAL_47_MASKS } from './blob47.js';
+import { CANONICAL_47_MASKS } from '../../studio/src/blob47.js';
 import { pad2 } from './assetKeys.js';
 
 const CATEGORY_ORDER = [

@@ -6,7 +6,7 @@ import { loadPack, loadEditableCatalog, problem } from '../../studio/core/index.
 
 export { problem };
 
-const packRoot = fileURLToPath(new URL('../../', import.meta.url));
+export const packRoot = fileURLToPath(new URL('../../', import.meta.url));
 
 export async function loadCatalog(root) {
   return loadEditableCatalog(await loadPack(packRoot, undefined, {verifyFiles: false}), root);

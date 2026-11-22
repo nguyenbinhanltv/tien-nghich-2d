@@ -14,7 +14,7 @@
  *  - Export reproducible single-frame atlas JSON
  */
 
-import { EditorApiClient, EditorApiError } from './editorApi.js';
+import { EditorApiClient, EditorApiError } from '../../studio/src/editorApi.js';
 import {
   buildPaletteIndex,
   diffMetadata,
@@ -26,7 +26,7 @@ import {
   sanitizeFilename,
   validateMetadata,
   validateRgbaBuffer,
-} from './editorValidation.js';
+} from '../../studio/src/editorValidation.js';
 
 const MAX_UNDO = 50;
 

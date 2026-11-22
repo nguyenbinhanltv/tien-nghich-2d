@@ -16,10 +16,18 @@ import {
 import { ToolError, ToolRegistry, scopeAllows } from './registry.mjs';
 import { validate } from './schema.mjs';
 
-export const SERVER_INFO = Object.freeze({ name: 'tien-nghich-2d-studio', title: 'Tien Nghich 2D Studio', version: '0.1.0' });
-const INSTRUCTIONS =
-  'Asset studio for Tien Nghich 2D. Call studio_project_info first for the palette, size classes, rules and frame-key templates. ' +
-  'Only a human approves art or signs audio listening; no tool here can do either.';
+export const STUDIO_VERSION = '0.1.0';
+/** Server identity and instructions for one project: they name the project from its pack, never a built-in one. */
+const identityOf = (project) => {
+  let pack;
+  try { pack = project.identity?.(); } catch { /* a broken pack is reported by the tools, not by the handshake */ }
+  pack ??= { id: 'studio-project', name: 'this project' };
+  return {
+    serverInfo: Object.freeze({ name: `${pack.id}-studio`, title: `${pack.name} Studio`, version: STUDIO_VERSION }),
+    instructions: `Asset studio for ${pack.name}. Call studio_project_info first for the palette, size classes, rules and frame-key templates. ` +
+      'Only a human approves art or signs audio listening; no tool here can do either.',
+  };
+};
 
 const cleanName = (v) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 64) : '');
 
@@ -47,6 +55,9 @@ export class McpServer {
     this.legacy = null; // { protocolVersion } after a successful `initialize`
     this.clientInfo = null;
   }
+
+  get identity() { return this.#identity ??= identityOf(this.project); }
+  #identity;
 
   get agent() {
     return this.agentOverride || cleanName(this.clientInfo?.name) || 'unknown';
@@ -98,7 +109,7 @@ export class McpServer {
 
   #withMeta(era, result) {
     if (era !== 'modern') return result;
-    return { resultType: 'complete', ...result, _meta: { ...result._meta, [META_SERVER_INFO]: SERVER_INFO } };
+    return { resultType: 'complete', ...result, _meta: { ...result._meta, [META_SERVER_INFO]: this.identity.serverInfo } };
   }
 
   async #dispatch(method, params) {
@@ -127,8 +138,8 @@ export class McpServer {
     return {
       protocolVersion,
       capabilities: { tools: { listChanged: false } },
-      serverInfo: SERVER_INFO,
-      instructions: INSTRUCTIONS,
+      serverInfo: this.identity.serverInfo,
+      instructions: this.identity.instructions,
     };
   }
 
@@ -139,10 +150,10 @@ export class McpServer {
       resultType: 'complete',
       supportedVersions: [...MODERN_VERSIONS],
       capabilities: { tools: {} },
-      instructions: INSTRUCTIONS,
+      instructions: this.identity.instructions,
       ttlMs: 60_000,
       cacheScope: 'private',
-      _meta: { [META_SERVER_INFO]: SERVER_INFO },
+      _meta: { [META_SERVER_INFO]: this.identity.serverInfo },
     };
   }
 

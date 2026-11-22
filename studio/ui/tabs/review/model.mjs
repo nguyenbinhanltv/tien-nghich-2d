@@ -30,7 +30,7 @@ export function stateParams(s) {
 
 const frameName = /^(?<clip>[a-z0-9]+(?:_[a-z0-9]+)*)_(?<direction>south|east|north|west|none|f\d+)_(?<n>\d+)$/;
 
-/** `longtime/lt_kiln/idle_south_2` → {asset, clip, direction, n}; null when the last segment is not a sprite name. */
+/** `group/hero/idle_south_2` → {asset, clip, direction, n}; null when the last segment is not a sprite name. */
 export function parseKey(key) {
   const parts = String(key).split('/');
   const m = frameName.exec(parts.at(-1) ?? '');

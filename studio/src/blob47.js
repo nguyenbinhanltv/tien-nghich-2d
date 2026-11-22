@@ -7,7 +7,7 @@
  *   NE requires N & E, SE requires S & E, SW requires S & W, NW requires N & W.
  * This yields exactly 47 canonical bitmask values mapped to tile indices 0..46.
  *
- * If the tileset worker (tien-nghich-2d-5) provides a bitmask mapping JSON,
+ * If a tileset tool provides a bitmask mapping JSON,
  * `loadBitmaskMapping()` ingests it automatically and overrides the default map.
  */
 
@@ -69,7 +69,7 @@ export function createDefaultBitmaskMap() {
 }
 
 /**
- * Normalize a bitmask JSON exported by the tileset worker (tien-nghich-2d-5).
+ * Normalize a bitmask JSON exported by a tileset tool.
  * Supports several common schema shapes:
  *   - { bitmask_to_tile: { "0": 0, ... } }
  *   - { mask_to_tile: { ... } } / { mask_to_index: { ... } } / { mapping: { ... } }
