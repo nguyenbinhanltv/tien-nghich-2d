@@ -3,7 +3,9 @@
 //   An agent can ASK (request), READ (list) and ANSWER (reply). It can never approve, reject, sign,
 //   publish or delete: nothing in this module writes a review status, with one exception that is
 //   deliberate and narrow. When a brand-new frame lineage is created (frames_submit), revision 0 is
-//   recorded as 'pending', because the store would otherwise treat revision 0 as approved.
+//   recorded as 'pending'. A frame with no lineage at all reads as approved only when a human record covers
+//   exactly its bytes, as 'baseline' when the pack's accepted baseline covers it, and as 'pending' (awaiting
+//   review) otherwise (standing.mjs).
 //
 // Comments are mirrored into the store as text so a human sees them in the existing review UI; the
 // structured side (who, which session, which request, what it answers) lives in studio.sqlite.
@@ -48,10 +50,30 @@ export async function lineageFrames(ws, asset, select = {}) {
   return out;
 }
 
+/**
+ * Every frame of an asset a human could be asked about: the frames with a revision lineage, plus processed frames that have none
+ * yet (their standing comes from the project's records, never from the absence of a lineage). Audio cues keep lineage only.
+ */
+export async function reviewableFrames(ws, asset, select = {}) {
+  if (asset.audio) return lineageFrames(ws, asset, select);
+  const store = await ws.store();
+  const out = [];
+  for (const stage of ['raw', 'processed']) {
+    for (const f of (await listFrames(ws.root, asset, stage)).frames) {
+      if ((select.clip !== undefined && f.clip !== select.clip) || (select.direction !== undefined && f.direction !== select.direction)
+          || (select.n !== undefined && f.n !== select.n)) continue;
+      if (out.some(o => o.key === f.key)) continue;
+      out.push({...f, stage, lineage: !store.needsBaseline(f.key)});
+    }
+  }
+  return out;
+}
+
 export async function snapshotOf(ws, f, revision) {
   const store = await ws.store();
   const baseline = await readInside(ws.root, f.rel);
-  return store.operate(bareFrame(f.key, {assetId: f.assetId}), baseline, 'frame', revision === undefined ? {} : {revision});
+  const {standing, png: standingPng} = f.stage === 'audio' ? {} : await (await ws.standing()).judged(f.rel);
+  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng}, baseline, 'frame', revision === undefined ? {} : {revision});
 }
 
 /**
@@ -63,8 +85,8 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
   const store = await ws.store(), db = await ws.db();
   if (typeof note !== 'string' || !note.trim() || note.length > 1200) invalid('note must be 1 to 1200 characters');
   if (!Array.isArray(questions) || questions.length > 8 || questions.some(q => typeof q !== 'string' || !q.trim() || q.length > 300)) invalid('questions: up to 8 strings of at most 300 characters');
-  const frames = await lineageFrames(ws, asset, select);
-  if (!frames.length) throw problem(409, 'nothing_to_review', `${asset.id} has no frames with a revision history${select && Object.keys(select).length ? ' matching that selection' : ''}. Submit frames first.`);
+  const frames = await reviewableFrames(ws, asset, select);
+  if (!frames.length) throw problem(409, 'nothing_to_review', `${asset.id} has no frames${select && Object.keys(select).length ? ' matching that selection' : ''}. Submit frames first.`);
   if (frames.length > 64) throw invalid(`${frames.length} frames selected; request at most 64 at once (narrow with clip or direction)`);
 
   const targets = [], alreadyDecided = [];
@@ -98,7 +120,7 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
 /** Human decisions and comments, and which comments still wait for an answer. */
 export async function listReviews({ws, asset, select, detail = 'summary', limit = 50}) {
   const db = await ws.db();
-  const frames = await lineageFrames(ws, asset, select);
+  const frames = await reviewableFrames(ws, asset, select);
   const byStatus = {}, open = [], items = [];
   for (const f of frames) {
     const snap = await snapshotOf(ws, f);
@@ -115,8 +137,8 @@ export async function listReviews({ws, asset, select, detail = 'summary', limit 
   }
   return {asset: asset.id, frames: frames.length, byStatus, openComments: open.slice(0, limit), openCommentCount: open.length,
     items: items.slice(0, limit), itemCount: items.length, truncated: items.length > limit || open.length > limit,
-    approvedByHuman: byStatus.approved ?? 0,
-    note: 'Statuses are set by a human in the review UI. changes_requested means act on the comments, then submit a new revision.'};
+    approvedByHuman: byStatus.approved ?? 0, baselineNoRecord: byStatus.baseline ?? 0, awaitingReview: byStatus.pending ?? 0,
+    note: 'Statuses are set by a human in the review UI. approved = a human record covers exactly these bytes; baseline = shipped before the studio, no review record either way (not approved); pending = awaiting review. changes_requested means act on the comments, then submit a new revision.'};
 }
 
 /** Answer a human comment (and optionally mark it handled). Never touches the review status. */
@@ -124,10 +146,16 @@ export async function replyToReview({ws, key, revision, replyTo, text, resolves 
   const store = await ws.store(), db = await ws.db();
   if (typeof text !== 'string' || !text.trim() || text.length > 1500) invalid('text must be 1 to 1500 characters');
   if (store.needsBaseline(key)) throw problem(404, 'no_history', `${key} has no revision history, so there is nothing to reply to`);
-  const head = store.operate(bareFrame(key), Buffer.alloc(0), 'frame', {});
+  // The frame's file decides how revision 0 reads when nobody judged it in the studio (approved by a record, baseline, awaiting).
+  const assetId = key.split('/')[1];
+  const asset = assetId ? (await ws.snapshot()).index.assets.get(assetId) : undefined;
+  const file = asset?.layout ? (await reviewableFrames(ws, asset)).find(f => f.key === key) : undefined;
+  const {standing, png: standingPng} = file && file.stage !== 'audio' ? await (await ws.standing()).judged(file.rel) : {};
+  const frame = {...bareFrame(key), standing, standingPng};
+  const head = store.operate(frame, Buffer.alloc(0), 'frame', {});
   const rev = revision ?? head.head;
   if (rev > head.head) throw problem(404, 'unknown_revision', `${key} has revisions 0 to ${head.head}`);
-  const snap = store.operate(bareFrame(key), Buffer.alloc(0), 'frame', {revision: rev});
+  const snap = store.operate(frame, Buffer.alloc(0), 'frame', {revision: rev});
   if (replyTo !== undefined) {
     const target = describeComments(snap.comments)[replyTo];
     if (!target) throw invalid(`revision ${rev} of ${key} has ${snap.comments.length} comment(s); replyTo must be 0 to ${snap.comments.length - 1}`);
