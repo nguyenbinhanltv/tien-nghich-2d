@@ -9,35 +9,39 @@ const nextPow2 = n => { let p = 1; while (p < n) p *= 2; return p; };
 
 /**
  * sprites: [{key, image: {width, height, pixels}, extra?}]; profile: {limit, padding = 0, extrude = 0, fixedSize = false}.
- * Returns {pages: [{width, height, placements: [{key, x, y, w, h, extra?}], pixels}], profile}. Throws if a sprite cannot fit a page.
+ * Returns {pages: [{width, height, placements: [{key, x, y, w, h, image, extra?}]}], profile}. Throws if a sprite cannot fit a page.
+ *
+ * The algorithm is the one the project's own packers use, so a studio-staged atlas has the same layout as a shipped one:
+ * sprites sorted by height, then width, then key (all descending but the key); each sprite reserves a border of
+ * padding + extrude on every side; first fit on shelves of the open pages, a new shelf directly under the last one, then a new page.
+ * A page that is not fixed is the next power of two of what it uses.
  */
 export function packPages(sprites, profile) {
   const {limit, padding = 0, extrude = 0, fixedSize = false} = profile;
-  const items = sprites.map(s => ({...s, w: s.image.width, h: s.image.height, cw: s.image.width + 2 * extrude, ch: s.image.height + 2 * extrude}))
-    .sort((a, b) => b.ch - a.ch || b.cw - a.cw || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
-  for (const it of items) if (it.cw > limit || it.ch > limit) throw Object.assign(new Error(`${it.key} is ${it.w}x${it.h} (${it.cw}x${it.ch} with extrude); a page is ${limit}x${limit}`), {code: 'sprite_too_large'});
+  const border = padding + extrude;
+  const items = sprites.map(s => ({...s, w: s.image.width, h: s.image.height, cw: s.image.width + 2 * border, ch: s.image.height + 2 * border}))
+    .sort((a, b) => b.h - a.h || b.w - a.w || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+  for (const it of items) if (it.cw > limit || it.ch > limit) throw Object.assign(new Error(`${it.key} is ${it.w}x${it.h} (${it.cw}x${it.ch} with its border); a page is ${limit}x${limit}`), {code: 'sprite_too_large'});
   const pages = [];
-  const open = () => { const page = {shelves: [], placements: [], used: 0}; pages.push(page); return page; };
   for (const it of items) {
-    let placed = false;
+    let done = false;
     for (const page of pages) {
-      for (const shelf of page.shelves) {
-        if (it.ch <= shelf.h && shelf.x + it.cw <= limit) { place(page, shelf, it); placed = true; break; }
-      }
-      if (placed) break;
-      const y = page.used;
-      if (y + it.ch <= limit) { const shelf = {y, h: it.ch, x: 0}; page.shelves.push(shelf); page.used = y + it.ch + padding; place(page, shelf, it); placed = true; break; }
+      const shelf = page.shelves.find(s => it.ch <= s.h && s.x + it.cw <= limit);
+      if (shelf) { place(page, shelf, it); done = true; break; }
+      const last = page.shelves.at(-1), y = last.y + last.h;
+      if (y + it.ch > limit) continue;
+      const fresh = {x: 0, y, h: it.ch};
+      page.shelves.push(fresh); place(page, fresh, it); done = true; break;
     }
-    if (!placed) { const page = open(); const shelf = {y: 0, h: it.ch, x: 0}; page.shelves.push(shelf); page.used = it.ch + padding; place(page, shelf, it); }
+    if (!done) { const page = {shelves: [{x: 0, y: 0, h: it.ch}], placements: []}; pages.push(page); place(page, page.shelves[0], it); }
   }
   function place(page, shelf, it) {
-    page.placements.push({key: it.key, x: shelf.x + extrude, y: shelf.y + extrude, w: it.w, h: it.h, image: it.image, extra: it.extra});
-    shelf.x += it.cw + padding;
+    page.placements.push({key: it.key, x: shelf.x + border, y: shelf.y + border, w: it.w, h: it.h, image: it.image, extra: it.extra});
+    shelf.x += it.cw;
   }
   return {profile: {limit, padding, extrude, fixedSize}, pages: pages.map(page => {
-    const extentX = Math.max(...page.placements.map(p => p.x + p.w + extrude)), extentY = Math.max(...page.placements.map(p => p.y + p.h + extrude));
-    const width = fixedSize ? limit : Math.min(limit, nextPow2(extentX)), height = fixedSize ? limit : Math.min(limit, nextPow2(extentY));
-    return {width, height, placements: page.placements};
+    const extentX = Math.max(...page.placements.map(p => p.x + p.w)) + border, extentY = Math.max(...page.placements.map(p => p.y + p.h)) + border;
+    return {width: fixedSize ? limit : nextPow2(extentX), height: fixedSize ? limit : nextPow2(extentY), placements: page.placements};
   })};
 }
 
