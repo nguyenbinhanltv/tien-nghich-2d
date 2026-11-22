@@ -62,7 +62,7 @@ class PreviewHandler(http.server.SimpleHTTPRequestHandler):
         route = self.path.split("?", 1)[0]
         if route.startswith("/studio/") and not (REPO_ROOT / route.lstrip("/")).is_file():
             mounted = REPO_ROOT / "playables" / route[len("/studio/"):]
-            if mounted.is_file():
+            if mounted.is_file() or (mounted / "index.html").is_file():
                 self.path = "/playables/" + self.path[len("/studio/"):]
         if self.path == "/":
             self.send_response(302)

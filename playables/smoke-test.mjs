@@ -75,6 +75,8 @@ async function run() {
     ]) {
       await fetchOk(`${origin}${rel}`);
     }
+    // Directory URLs of the playables (linked from the previewer) resolve through the pack's mounts.
+    for (const dir of ['/studio/courtyard/', '/studio/blood-sea/']) await fetchOk(`${origin}${dir}`);
     // Legacy alias: every /preview-app/... URL resolves to the same file as /studio/...
     for (const rel of ['/', '/ui/shell.js', '/src/main.js', '/library.html', '/previewer.html']) {
       const [legacy, current] = await Promise.all([`/preview-app${rel}`, `/studio${rel}`].map(async u => (await fetchOk(origin + u)).text()));
