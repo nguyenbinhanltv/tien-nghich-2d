@@ -21,3 +21,10 @@ test('dynamic key families are complete', () => {
     ready: ['planned', 'authored', 'packed'], thread: ['reply', 'handledReply'], inbox: ['empty', 'nothingHere']};
   for (const [family, names] of Object.entries(families)) for (const n of names) assert.ok(`${family}.${n}` in en, `${family}.${n}`);
 });
+
+test('modules never call replaceChildren directly: it would print "null" for an empty slot (use fill)', () => {
+  for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.mjs') && !f.endsWith('.test.mjs') && !['server.mjs', 'inbox.mjs', 'signoff.mjs', 'wav.mjs'].includes(f))) {
+    const lines = fs.readFileSync(new URL(f, dir), 'utf8').split('\n').filter(l => !l.trim().startsWith('//') && !l.includes('replaceChildren that') && !l.includes('el.replaceChildren(...kids'));
+    assert.ok(!lines.some(l => /\.replaceChildren\(/.test(l)), f);
+  }
+});

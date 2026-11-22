@@ -1,6 +1,6 @@
 // The art detail: before / after / changed pixels, the request and its questions, the thread, who made
 // each revision, and the human-only decisions (sent to the existing editor review route).
-import { h, button, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas } from './dom.mjs';
+import { h, button, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas, fill } from './dom.mjs';
 import { thread, diffPixels, beforeOf } from './model.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 
@@ -31,7 +31,7 @@ function authorLine(ctx, history, revision, submission) {
 
 export async function renderArt(app, host, item, token) {
   const {ctx, state} = app;
-  host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
+  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
   let head, snap, submission;
   try {
     head = await api.getFrame(item.key);
@@ -40,7 +40,7 @@ export async function renderArt(app, host, item, token) {
     submission = (await ctx.tabApi('authors?key=' + encodeURIComponent(item.key)).catch(() => ({}))).submission ?? null;
   } catch (error) {
     if (error.name === 'AbortError' || token !== app.token) return;
-    return host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.failed', {message: error.message})));
+    return fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.failed', {message: error.message})));
   }
   if (token !== app.token) return;
   const beforeRev = beforeOf(snap.history, snap.revision);
@@ -88,7 +88,7 @@ export async function renderArt(app, host, item, token) {
     } catch (error) { msg.textContent = error.status === 409 ? ctx.t('decide.conflict') : ctx.t('decide.failed', {message: error.message}); }
   };
   const requests = thread(snap.comments).filter(c => c.kind === 'request');
-  host.replaceChildren(
+  fill(host, 
     h('header', 'dhead', h('div', '', h('h2', '', item.key.split('/').at(-1)), h('code', '', item.key)), badge(ctx, snap.status)),
     requests.length ? h('section', 'dsec ask', h('h3', '', ctx.t('ask.title')),
       ...requests.map(r => h('div', 'ask-item', h('p', 'who agent', ctx.t('thread.agent', {agent: r.agent, session: r.session})), h('p', '', r.body),

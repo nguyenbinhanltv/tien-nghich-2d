@@ -1,6 +1,6 @@
 // The audio detail: listen, see the waveform and recorded measurements, and record the human's listening
 // sign-off for this exact master. The sign-off is written only by this page.
-import { h, button, humanize, pixelCanvas } from './dom.mjs';
+import { h, button, humanize, pixelCanvas, fill } from './dom.mjs';
 import { imgUrl } from './urls.mjs';
 
 const MAX_SHOWN = 120;
@@ -33,10 +33,10 @@ function drawWave(canvas, wave, color, line) {
 
 export async function renderAudio(app, host, item, token) {
   const {ctx} = app;
-  host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
+  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
   let d;
   try { d = await ctx.tabApi('audio?id=' + encodeURIComponent(item.id)); }
-  catch (error) { if (error.name === 'AbortError' || token !== app.token) return; return host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.failed', {message: error.message}))); }
+  catch (error) { if (error.name === 'AbortError' || token !== app.token) return; return fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.failed', {message: error.message}))); }
   if (token !== app.token) return;
   const cs = getComputedStyle(ctx.root);
   const wave = d.wave && !d.wave.error ? h('canvas', {class: 'wave', width: 640, height: 120, role: 'img', 'aria-label': ctx.t('audio.waveLabel', {seconds: d.wave.durationSeconds.toFixed(1)})}) : null;
@@ -53,7 +53,7 @@ export async function renderAudio(app, host, item, token) {
       await app.refresh({keepSelection: true});
     } catch (error) { msg.textContent = error.status === 409 ? ctx.t('audio.changed') : ctx.t('audio.failed', {message: error.message}); }
   };
-  host.replaceChildren(
+  fill(host, 
     h('header', 'dhead', h('div', '', h('h2', '', d.id), h('code', '', d.master ?? '')), h('span', 'badge s-' + state, ctx.t('signoff.' + state))),
     d.brief ? h('p', 'pad muted', d.brief) : null,
     h('section', 'dsec', h('h3', '', ctx.t('audio.listen')),

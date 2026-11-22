@@ -1,7 +1,7 @@
 // Review: one inbox for everything that waits on the human, art and audio. Art decisions go to the
 // existing /api/editor/review route; the listening sign-off goes to this tab's one human-only route.
 // The inbox polls every POLL_MS while the page is visible (and refreshes after every decision).
-import { h, button, humanize } from './dom.mjs';
+import { h, button, humanize, fill } from './dom.mjs';
 import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states } from './model.mjs';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
@@ -65,7 +65,7 @@ function makeApp(ctx, state) {
 
 function layout(ctx) {
   const list = h('div', 'inbox'), detail = h('section', {class: 'detail', 'aria-label': ctx.t('detail.label')});
-  ctx.root.replaceChildren(h('header', 'rv-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
+  fill(ctx.root, h('header', 'rv-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
     h('div', 'live', h('span', {class: 'pulse', 'aria-hidden': 'true'}), h('span', 'muted', ctx.t('live', {seconds: POLL_MS / 1000})))),
     h('div', 'rv', h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), detail));
   return {list, detail};
@@ -84,7 +84,7 @@ function renderList(app, host) {
   const shownAudio = showAudio ? audio.filter(a => state.state === 'all' || a.state === state.state) : [];
   const sel = app.selection();
   const agents = [...new Set(art.flatMap(i => i.requests.map(r => r.agent)))];
-  host.replaceChildren(
+  fill(host, 
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.state')}, ...states.map(s => chip('state', s, ctx.t('state.' + s), s === 'all' ? all.length : counts[s] ?? 0, state.state === s))),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.kind')}, chip('kind', null, ctx.t('kind.both'), null, !state.kind), chip('kind', 'art', ctx.t('kind.art'), art.length, state.kind === 'art'), chip('kind', 'audio', ctx.t('kind.audio'), audio.length, state.kind === 'audio')),
     agents.length ? h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.agent')}, chip('agent', null, ctx.t('agent.any'), null, !state.agent), ...agents.map(a => chip('agent', a, a, null, state.agent === a))) : null,
@@ -121,7 +121,7 @@ async function paint(ui, {force = false} = {}) {
   app.runCleanups();
   app.shownKey = key;
   app.painted = true;
-  if (!sel) { ui.detail.replaceChildren(h('p', 'muted pad', app.state.asset ? app.ctx.t('detail.unknown') : app.ctx.t('detail.none'))); return; }
+  if (!sel) { fill(ui.detail, h('p', 'muted pad', app.state.asset ? app.ctx.t('detail.unknown') : app.ctx.t('detail.none'))); return; }
   await (sel.type === 'art' ? renderArt(app, ui.detail, sel.item, token) : renderAudio(app, ui.detail, sel.item, token));
 }
 
@@ -137,7 +137,7 @@ export async function mount(ctx, state) {
   catch (error) {
     if (error.name === 'AbortError') return;
     ctx.root.removeAttribute('aria-busy');
-    ctx.root.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
+    fill(ctx.root, h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
     return;
   }
   ctx.root.removeAttribute('aria-busy');
