@@ -52,7 +52,7 @@ export function checkTiles(asset, tiles) {
       if (!/^\d{1,4}$/.test(key) || Number(key) >= spec.frames) fail(`${at}: the tile number must be 0 to ${spec.frames - 1}`);
       if (tile === null) continue;
       if (!tile || typeof tile !== 'object' || Array.isArray(tile) || Object.keys(tile).some(k => !['animation', 'shapes'].includes(k))) fail(`${at} may only contain animation and shapes`);
-      if (tile.animation !== undefined) {
+      if (tile.animation !== undefined && tile.animation !== null) {
         const a = tile.animation;
         if (!Array.isArray(a) || a.length < 2 || a.length > LIMITS.animation) fail(`${at}.animation must list 2 to ${LIMITS.animation} steps`);
         a.forEach((step, i) => {
@@ -60,7 +60,7 @@ export function checkTiles(asset, tiles) {
             fail(`${at}.animation[${i}] must be {n: 0-${spec.frames - 1}, ms: 1-60000}`);
         });
       }
-      if (tile.shapes !== undefined) {
+      if (tile.shapes !== undefined && tile.shapes !== null) {
         if (!Array.isArray(tile.shapes) || tile.shapes.length < 1 || tile.shapes.length > LIMITS.shapes) fail(`${at}.shapes must list 1 to ${LIMITS.shapes} shapes`);
         tile.shapes.forEach((s, i) => checkShape(`${at}.shapes[${i}]`, s, asset.size));
       }
@@ -68,13 +68,19 @@ export function checkTiles(asset, tiles) {
   }
 }
 
-/** Merge a validated `tiles` patch into the stored one (a null clears; an emptied clip is dropped). Returns the new `tiles` or undefined when empty. */
+/** Merge a validated `tiles` patch into the stored one, per field (a null tile clears the tile, a null animation or shapes clears that field; an emptied clip is dropped). Returns the new `tiles` or undefined when empty. */
 export function mergeTiles(current, patch) {
   const out = structuredClone(current ?? {});
   for (const [sheet, entries] of Object.entries(patch)) {
     if (entries === null) { delete out[sheet]; continue; }
     out[sheet] ??= {};
-    for (const [n, tile] of Object.entries(entries)) { if (tile === null) delete out[sheet][n]; else out[sheet][n] = tile; }
+    for (const [n, tile] of Object.entries(entries)) {
+      if (tile === null) { delete out[sheet][n]; continue; }
+      // Per field: what the patch does not mention keeps its value; null clears that field.
+      const merged = {...out[sheet][n], ...tile};
+      for (const f of ['animation', 'shapes']) if (merged[f] === null) delete merged[f];
+      if (Object.keys(merged).length) out[sheet][n] = merged; else delete out[sheet][n];
+    }
     if (!Object.keys(out[sheet]).length) delete out[sheet];
   }
   return Object.keys(out).length ? out : undefined;

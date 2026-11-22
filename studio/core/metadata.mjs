@@ -63,7 +63,9 @@ function checkClip(asset, name, clip) {
 export async function setMetadata({root, asset, caller, patch, etag, dryRun = false}) {
   if (!asset.layout?.studioRawDir) throw problem(422, 'unsupported', `${asset.id} (${asset.source}) has no authoring metadata; only design-manifest assets do`);
   const m = await milestones(root, asset);
-  if (isShipped(m)) throw problem(409, 'already_processed', `${asset.id} already has processed or packed frames; its metadata changes through a reviewed revision`);
+  // `tiles` describes the tiles (animation, collision) and touches no pixel, so a shipped tileset can still receive it: that is how the data reaches the Tiled and LDtk exports, which read shipped pages.
+  const tilesOnly = Object.keys(patch).length > 0 && Object.keys(patch).every(k => k === 'tiles');
+  if (isShipped(m) && !tilesOnly) throw problem(409, 'already_processed', `${asset.id} already has processed or packed frames; its metadata changes through a reviewed revision (only tiles may be set now)`);
   const known = ['pivot', 'hitbox', 'clips', 'tiles'];
   const keys = Object.keys(patch);
   if (!keys.length || keys.some(k => !known.includes(k))) invalid(`give at least one of ${known.join(', ')} and nothing else`);

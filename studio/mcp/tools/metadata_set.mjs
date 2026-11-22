@@ -22,7 +22,7 @@ export default {
   description:
     'Set authoring metadata for a Longtime asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame), named events on frames of a clip, and for a tileset tile animations and collision shapes. ' +
     'Fields you do not mention keep their value; null clears one. Stored beside the asset\'s raw frames. ' +
-    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames. ' +
+    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames, except `tiles`, which only describes tiles and may be set on a shipped tileset. ' +
     'dryRun returns each field that would change (from, to) and writes nothing.',
   scope: 'author',
   inputSchema: {
@@ -51,7 +51,7 @@ export default {
       },
       tiles: {
         type: 'object',
-        description: 'Tile animation and collision shapes of a TILESET asset: {<sheet clip>: {<tile number>: {animation: [{n, ms}], shapes: [{kind: rect|ellipse|point|polygon, x, y, w, h | points: [[x, y]], name?, properties?: {snake_case: string|number|boolean}}]}}}. Pixels in tile coordinates from the top-left. null clears a tile or a sheet. They are exported to Tiled (.tsj) and LDtk.',
+        description: 'Tile animation and collision shapes of a TILESET asset: {<sheet clip>: {<tile number>: {animation: [{n, ms}], shapes: [{kind: rect|ellipse|point|polygon, x, y, w, h | points: [[x, y]], name?, properties?: {snake_case: string|number|boolean}}]}}}. Pixels in tile coordinates from the top-left. Fields you leave out of a tile keep their value; null clears the animation, the shapes, a tile or a sheet. They are exported to Tiled (.tsj) and LDtk.',
         additionalProperties: { type: ['object', 'null'], additionalProperties: { type: ['object', 'null'] } },
       },
       etag: { type: 'string', maxLength: 64, description: 'metadata.etag from studio_asset_get; required when metadata already exists.' },
