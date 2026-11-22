@@ -85,6 +85,30 @@ class LongtimeCharacters(unittest.TestCase):
                     remapped += src != int(n)
         self.assertGreater(remapped, 0)
 
+    def test_clip_group_ids_agree_with_shipped_jobs(self):
+        """A clip with a retry must say which attempt shipped per direction, and its clip-level and per-direction
+        group ids and job ids must all describe that same shipped attempt."""
+        checked = 0
+        for gen in sorted(RAW.glob("*/generation.json")):
+            for clip, a in json.loads(gen.read_text(encoding="utf-8")).get("animations", {}).items():
+                if "retry" not in a:
+                    continue
+                with self.subTest(asset=gen.parent.name, clip=clip):
+                    first, retry = a["first_attempt"], a["retry"]
+                    self.assertEqual(set(a["shipped"]), DIRECTIONS)
+                    groups = set()
+                    for d, which in a["shipped"].items():
+                        src = {"first_attempt": first, "retry": retry}[which]
+                        self.assertEqual(a["job_ids"][d], src["job_ids"][d], d)
+                        self.assertEqual(a["animation_group_ids"][d], src["animation_group_id"], d)
+                        groups.add(src["animation_group_id"])
+                    if len(groups) == 1:
+                        self.assertEqual(a["animation_group_id"], next(iter(groups)))
+                    else:
+                        self.assertTrue(str(a["animation_group_id"]).startswith("mixed"), a["animation_group_id"])
+                    checked += 1
+        self.assertGreater(checked, 0)
+
     def test_profile_counts_and_qa(self):
         manifest = json.loads(ql.DEFAULT_MANIFEST.read_text(encoding="utf-8"))
         palette, outline = ql.load_palette(ql.DEFAULT_PALETTE)
