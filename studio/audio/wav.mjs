@@ -6,6 +6,7 @@ export function toPcm16(channels, {allowClip = false} = {}) {
   return channels.map(ch => {
     const out = new Int16Array(ch.length);
     for (let i = 0; i < ch.length; i++) {
+      if (!Number.isFinite(ch[i])) throw Object.assign(new RangeError(`Sample ${i} is not finite (${ch[i]}); check gains, velocities and filter settings`), {code: 'non_finite'});
       const v = roundEven(ch[i] * 32767);
       if ((v > 32767 || v < -32768) && !allowClip) throw Object.assign(new RangeError(`Sample ${i} clips (${v})`), {code: 'clip'});
       out[i] = Math.max(-32768, Math.min(32767, v));

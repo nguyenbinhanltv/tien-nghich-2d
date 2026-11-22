@@ -26,6 +26,8 @@ function taps(dry, spec, rate, circular) {
   return out;
 }
 
+const MAX_PASSES = 64;
+
 /** Schroeder-style room: parallel damped feedback combs into series all-passes, decorrelated per channel. */
 function feedback(dry, spec, rate, circular) {
   const n = dry[0].length;
@@ -43,6 +45,7 @@ function feedback(dry, spec, rate, circular) {
     const decay = Math.max(...combs.map(k => k.delay * Math.log(1e-4) / Math.log(Math.max(1e-6, Math.min(0.999999, Math.abs(k.fb))))));
     const out = new Float64Array(n);
     const total = circular ? 1 + Math.ceil(decay / n) : 1;
+    if (!(total <= MAX_PASSES)) throw Object.assign(new RangeError(`Feedback reverb needs ${Number.isFinite(total) ? total : 'unbounded'} warm-up passes over this loop (limit ${MAX_PASSES}); lower the comb feedback or lengthen the loop`), {code: 'reverb_too_long'});
     for (let pass = 0; pass < total; pass++) {
       for (let i = 0; i < n; i++) {
         const x = chan[i] * (spec.inputGain ?? 0.25);

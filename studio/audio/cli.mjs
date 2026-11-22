@@ -37,11 +37,13 @@ async function writeImages(dir, stem, images) {
   return files;
 }
 
-async function guardedOutput(project, out) {
+// Every path the command would write goes through here before anything is written.
+async function guardedOutputs(project, paths) {
   if (!project) return;
   const info = await projectAudio(project);
-  if (insideProtected(project, info.protectedDirs, out))
-    fail(`Refusing to write ${out}: it is inside the project's delivered audio directories. Render into a scratch or experiments directory.`);
+  for (const target of paths.filter(Boolean))
+    if (insideProtected(project, info.protectedDirs, target))
+      fail(`Refusing to write ${target}: it is inside the project's delivered audio directories. Write into a scratch or experiments directory.`);
 }
 
 async function main() {
@@ -49,6 +51,7 @@ async function main() {
   if (!['validate', 'render', 'analyze'].includes(command) || !positional[0])
     fail('usage: cli.mjs validate <doc.json> | render <doc.json> --out <file.wav> | analyze <file.wav|doc.json>');
   const input = positional[0];
+  if (command === 'analyze') await guardedOutputs(flags.project, [flags['out-dir']]);
   if (command === 'analyze' && /\.wav$/i.test(input)) {
     const loop = flags.loop ? (([s, e]) => ({start: Number(s), end: Number(e)}))(flags.loop.split(':')) : undefined;
     const result = analyze(await fs.readFile(input), {loop, images: Boolean(flags['out-dir']), width: flags.width ? Number(flags.width) : undefined});
@@ -66,7 +69,7 @@ async function main() {
   if (issues.length) fail(`Invalid document:\n  ${issues.join('\n  ')}`);
   if (command === 'render') {
     if (!flags.out) fail('render needs --out <file.wav>');
-    await guardedOutput(flags.project, flags.out);
+    await guardedOutputs(flags.project, [flags.out, flags.images, flags.report]);
     const render = renderDocument(doc);
     await fs.mkdir(path.dirname(path.resolve(flags.out)), {recursive: true});
     await fs.writeFile(flags.out, render.wav);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Mt19937 } from '../rng.mjs';
 import { validatePatch, validateScore, validateDocument } from '../validate.mjs';
-import { renderPatch, renderScore } from '../index.mjs';
+import { renderPatch, renderScore, toPcm16 } from '../index.mjs';
 import { readJson, exampleDir } from './helpers.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -66,4 +66,41 @@ test('score validation: unknown instruments and patterns, scale enforcement as d
   const r = renderScore(off);
   assert.equal(r.scale.ok, false);
   assert.ok(r.scale.outOfScale.length > 0);
+});
+
+test('bad event values are refused, and no NaN can become silent zeros', () => {
+  const doc = readJson('studio/audio/examples/dusk.score.json');
+  for (const event of [[0, 'C4', 1, 'loud'], [0, 60, -4, 1], [0, 60, 1, NaN], [0, 60, 1, null], {beat: 0, note: 60, gate: -1}]) {
+    const bad = structuredClone(doc);
+    bad.tracks[0].events = [event];
+    delete bad.key;
+    assert.ok(validateScore(JSON.parse(JSON.stringify(bad))).length > 0 || event[3] === null, JSON.stringify(event));
+    assert.throws(() => renderScore(bad), e => e.code === 'invalid_score' || e.code === 'non_finite', JSON.stringify(event));
+  }
+  assert.throws(() => toPcm16([Float64Array.of(0, NaN)]), e => e.code === 'non_finite');
+  assert.throws(() => toPcm16([Float64Array.of(0, Infinity)]), e => e.code === 'non_finite');
+  // Even with validation skipped, a NaN velocity cannot produce a "successful" render.
+  const skip = structuredClone(doc);
+  skip.tracks[0].events = [[0, 60, 1, 'loud']];
+  delete skip.key;
+  assert.throws(() => renderScore(skip, {skipValidation: true}), e => e.code === 'non_finite');
+});
+
+test('feedback reverb parameters are bounded and a valid document cannot hang the worker', () => {
+  const doc = readJson('studio/audio/examples/dusk.score.json');
+  for (const combs of [[{ms: 30, feedback: 1}], [{ms: 30, feedback: 1.2}], [{ms: 30, feedback: 0.5, damp: 1}]]) {
+    const bad = structuredClone(doc);
+    bad.reverb.combs = combs;
+    assert.ok(validateScore(bad).length > 0, JSON.stringify(combs));
+  }
+  const slow = structuredClone(doc);
+  slow.reverb.combs = [{ms: 30, feedback: 0.99}];
+  slow.loop = {frames: 4000};
+  slow.tracks = [{instrument: 'pluck', events: [[0, 'A3', 0.1, 0.5]]}];
+  assert.deepEqual(validateScore(slow), []);
+  const t = Date.now();
+  assert.throws(() => renderScore(slow), e => e.code === 'reverb_too_long');
+  assert.throws(() => renderScore({...slow, reverb: {...slow.reverb, combs: [{ms: 30, feedback: 1}]}}, {skipValidation: true}), e => e.code === 'reverb_too_long');
+  assert.ok(Date.now() - t < 2000, 'refused quickly');
+  assert.doesNotThrow(() => renderScore(doc));
 });

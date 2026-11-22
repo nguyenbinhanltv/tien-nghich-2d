@@ -75,7 +75,7 @@
         "taps": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["ms", "gain"],
           "properties": {"ms": {"type": "number", "minimum": 0}, "gain": {"type": "number"}, "cross": {"type": "boolean"}}}},
         "combs": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["ms", "feedback"],
-          "properties": {"ms": {"type": "number", "minimum": 1}, "feedback": {"type": "number"}, "damp": {"type": "number"}}}},
+          "properties": {"ms": {"type": "number", "minimum": 1}, "feedback": {"type": "number", "minimum": -0.99, "description": "|feedback| <= 0.99, enforced with the upper bound by validate.mjs"}, "damp": {"type": "number", "minimum": 0, "description": "in [0, 1)"}}}},
         "allpasses": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["ms", "gain"],
           "properties": {"ms": {"type": "number", "minimum": 1}, "gain": {"type": "number"}}}},
         "seconds": {"type": "number", "minimum": 0.01}, "decayPerSecond": {"type": "number", "minimum": 0}, "seeds": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},

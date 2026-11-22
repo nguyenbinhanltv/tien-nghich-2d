@@ -84,6 +84,11 @@ export function validateScore(doc) {
   });
   const rv = doc.reverb;
   if (rv) {
+    for (const [k, c] of (rv.combs ?? []).entries()) {
+      if (!(Math.abs(c.feedback) <= 0.99)) issues.push(`$.reverb.combs[${k}].feedback: must be within -0.99..0.99`);
+      if (c.damp !== undefined && !(c.damp >= 0 && c.damp < 1)) issues.push(`$.reverb.combs[${k}].damp: must be in [0, 1)`);
+    }
+    for (const [k, a] of (rv.allpasses ?? []).entries()) if (!(Math.abs(a.gain) < 1)) issues.push(`$.reverb.allpasses[${k}].gain: must be within -1..1 (exclusive)`);
     const need = {taps: ['taps'], feedback: ['combs'], impulse: ['seconds', 'decayPerSecond', 'seeds']}[rv.type];
     for (const key of need) if (rv[key] === undefined) issues.push(`$.reverb: ${rv.type} needs "${key}"`);
   }
@@ -95,8 +100,9 @@ export function validateScore(doc) {
   if (issues.length) return issues;
   const events = [];
   const check = (arr, where) => arr.forEach((e, i) => {
-    const bad = Array.isArray(e) ? e.length < 4 || typeof e[0] !== 'number' || typeof e[2] !== 'number' || (e[4] !== undefined && typeof e[4] !== 'string') : false;
-    if (bad) issues.push(`${where}[${i}]: event arrays are [beat, note, gateBeats, velocity, instrument?]`);
+    const num = v => typeof v === 'number' && Number.isFinite(v);
+    const bad = Array.isArray(e) ? e.length < 4 || !num(e[0]) || !num(e[2]) || e[2] < 0 || !num(e[3]) || (e[4] !== undefined && typeof e[4] !== 'string') : !num(e.beat) || !num(e.gate) || (e.vel !== undefined && !num(e.vel));
+    if (bad) issues.push(`${where}[${i}]: events are [beat, note, gateBeats >= 0, velocity, instrument?], all numbers finite`);
     try { noteNumber(Array.isArray(e) ? e[1] : e.note); } catch (err) { issues.push(`${where}[${i}]: ${err.message}`); }
     const inst = Array.isArray(e) ? e[4] : e.instrument;
     if (inst !== undefined && !doc.instruments[inst]) issues.push(`${where}[${i}]: unknown instrument "${inst}"`);

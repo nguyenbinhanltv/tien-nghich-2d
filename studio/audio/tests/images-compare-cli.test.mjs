@@ -129,6 +129,18 @@ test('CLI: validate, render with report and images, analyze a WAV, and never wri
   assert.match(refused.stderr, /delivered audio/);
   assert.ok(!fs.existsSync(path.join(repo, 'assets/audio/masters/pilot_sfx/zz.wav')));
 
+  // --images and --report are guarded like --out, and nothing is written when any of them is refused.
+  const ok2 = path.join(dir, 'ok2.wav');
+  for (const extra of [['--images', path.join(repo, 'assets/audio/masters/pilot_sfx')], ['--report', path.join(repo, 'assets/audio/packs/zz.json')]]) {
+    const r = spawnSync(process.execPath, [cli, 'render', doc, '--out', ok2, '--project', repo, ...extra], {encoding: 'utf8'});
+    assert.equal(r.status, 1); assert.match(r.stderr, /delivered audio/);
+    assert.ok(!fs.existsSync(ok2), 'refused before writing the WAV');
+  }
+  assert.ok(!fs.existsSync(path.join(repo, 'assets/audio/packs/zz.json')));
+  assert.ok(!fs.existsSync(path.join(repo, 'assets/audio/masters/pilot_sfx/zap.waveform.png')));
+  const refusedAnalyze = spawnSync(process.execPath, [cli, 'analyze', out, '--out-dir', path.join(repo, 'assets/audio/masters'), '--project', repo], {encoding: 'utf8'});
+  assert.equal(refusedAnalyze.status, 1);
+
   const mismatch = path.join(dir, 'rate.json');
   fs.writeFileSync(mismatch, JSON.stringify({...JSON.parse(fs.readFileSync(doc, 'utf8')), sampleRate: 48000}));
   const wrong = spawnSync(process.execPath, [cli, 'render', mismatch, '--out', path.join(dir, 'x.wav'), '--project', repo], {encoding: 'utf8'});
