@@ -74,7 +74,7 @@ test('the revision store reports revision 0 by standing, a human decision wins, 
   mkdirSync(path.join(tmp, 'repo'));
   const store = revisionStore(path.join(tmp, 'repo'), '.revs', path.join(tmp, 'library'));
   t.after(() => store.close());
-  const mk = (n, standing) => ({info: {key: 'k/a_' + n}, metadata: {pivot: [0, 0]}, standing});
+  const mk = (n, standing, standingPng = px(1)) => ({info: {key: 'k/a_' + n}, metadata: {pivot: [0, 0]}, standing, standingPng});
   const base = px(1);
   assert.equal(store.operate(mk(0), base, 'frame', {}).status, 'pending');
   assert.equal(store.operate(mk(0, 'awaiting'), base, 'frame', {}).status, 'pending');
@@ -90,6 +90,11 @@ test('the revision store reports revision 0 by standing, a human decision wins, 
   const saved = store.operate(mk(0, 'baseline'), base, 'save', {baseRevision: 0, png: px(5)});
   assert.equal(saved.status, 'pending');
   assert.deepEqual(saved.history.map(h => h.status), ['pending', 'baseline']);
+  // a standing judged on other bytes than the stored revision 0 does not apply: rev 0 (bytes A) must not inherit a record for bytes B
+  assert.equal(store.operate(mk(0, 'approved', px(9)), base, 'frame', {}).history.at(-1).status, 'pending');
+  assert.equal(store.operate(mk(0, 'baseline', px(9)), base, 'frame', {}).history.at(-1).status, 'pending');
+  assert.equal(store.operate(mk(0, 'approved', undefined), base, 'frame', {}).history.at(-1).status, 'approved');
+  assert.equal(store.operate({...mk(0, 'approved'), standingPng: undefined}, base, 'frame', {}).history.at(-1).status, 'pending');
   // a human verdict wins over the derived standing, in both directions
   assert.equal(store.operate(mk(0, 'baseline'), base, 'review', {revision: 0, status: 'approved'}).status, 'approved');
   assert.equal(store.operate(mk(0, 'approved'), base, 'review', {revision: 0, status: 'changes_requested'}).status, 'changes_requested');

@@ -10,6 +10,7 @@ import { loadPack, buildCatalog, describeAsset, loadEditableCatalog, createStand
 import { readJson, readInside } from '../../../core/files.mjs';
 import { readSubmissions } from '../../../core/submissions.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
+import { sameImage } from '../../../core/standing.mjs';
 import { readInbox, readHeads, withStanding } from './inbox.mjs';
 import { openSignoffs, verdicts } from './signoff.mjs';
 import { peaks, maxWavBytes } from './wav.mjs';
@@ -82,7 +83,11 @@ export async function artCounts(root, dir) {
     const head = heads.get(key);
     if (head?.status) out[head.status === 'pending' ? 'awaiting' : head.status]++;
     else if (head && head.head > 0) out.awaiting++; // a saved revision nobody judged
-    else undecided.push(rel);
+    else if (head?.zero) {
+      // a lineage at revision 0: the standing counts only if the stored revision shows the pixels that were judged
+      const {standing: s, png} = await standing.judged(rel);
+      out[(s === 'approved' || s === 'baseline') && sameImage(head.zero, png) ? s : 'awaiting']++;
+    } else undecided.push(rel);
     out.total++;
   }
   // revision 0 with no human decision: what the project's records say about the file's bytes
@@ -139,7 +144,7 @@ export async function handle(req, res, url, context) {
   if (name === 'inbox' && ['GET', 'HEAD'].includes(req.method)) {
     // If the editable catalog cannot be read (a trimmed project copy), nothing can claim a standing: every undecided frame stays awaiting review.
     const frames = await artFrames(root).catch(() => null);
-    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.of(frames.files.get(key)) : 'awaiting'));
+    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.judged(frames.files.get(key)) : {standing: 'awaiting', png: null}));
     const {list, masters, approvals, pack} = await audioAssets(root);
     const sign = signoffs(dir);
     const audio = [];

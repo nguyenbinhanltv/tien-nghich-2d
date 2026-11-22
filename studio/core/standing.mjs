@@ -16,6 +16,16 @@ import path from 'node:path';
 import { realpathSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { readInside, readJsonIfExists } from './files.mjs';
+import { decodeRgba } from './png.mjs';
+
+/** Do two PNGs show the same pixels? (A stored revision 0 is a normalized copy of the file, so bytes cannot be compared.) */
+export function sameImage(a, b) {
+  if (!a || !b) return false;
+  try {
+    const x = decodeRgba(Buffer.from(a)), y = decodeRgba(Buffer.from(b));
+    return x.width === y.width && x.height === y.height && Buffer.from(x.pixels).equals(Buffer.from(y.pixels));
+  } catch { return false; }
+}
 
 export const STANDINGS = ['approved', 'baseline', 'awaiting'];
 export const ART_APPROVALS_FILE = 'art_approvals.json';
@@ -129,6 +139,13 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
     return digest === recorded ? 'baseline' : 'awaiting';
   }
 
+  /** {standing, png}: the standing and, when it is approved or baseline, the exact file bytes it was judged on. A stored revision only inherits the standing if it shows these pixels. */
+  async function judged(rel) {
+    const standing = await of(rel);
+    if (standing === 'awaiting') return {standing, png: null};
+    return {standing, png: await readInside(root, rel).catch(() => null)};
+  }
+
   /** Standing of many files at once: [rel, standing] pairs. Each directory is digested once, so counting a whole project stays cheap. */
   async function ofMany(rels) {
     const digests = new Map();
@@ -137,7 +154,7 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
     return out;
   }
 
-  return {of, ofMany, declared: Boolean(review?.baseline?.file), approvalsDir: approvalsDir ?? null};
+  return {of, ofMany, judged, declared: Boolean(review?.baseline?.file), approvalsDir: approvalsDir ?? null};
 }
 
 /** The record the pack's `review.baseline.file` should hold today: every PNG directory under the pack's roots. */

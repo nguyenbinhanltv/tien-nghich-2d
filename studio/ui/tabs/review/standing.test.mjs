@@ -27,9 +27,13 @@ test('a commented revision 0 with no decision is awaiting until a record says ot
   const raw = readInbox(dir, {limitDecided: Infinity});
   assert.deepEqual(raw.map(i => [i.key, i.status, i.explicit]).sort(), [['k/a/f_0', 'pending', false], ['k/b/f_0', 'pending', false], ['k/c/f_0', 'approved', true]]);
   const standings = {'k/a/f_0': 'baseline', 'k/b/f_0': 'awaiting'};
-  const items = await withStanding(raw, async key => standings[key] ?? 'approved');
+  const items = await withStanding(raw, async key => ({standing: standings[key] ?? 'approved', png}));
   const by = Object.fromEntries(items.map(i => [i.key, [i.status, i.state]]));
   assert.deepEqual(by, {'k/a/f_0': ['baseline', 'decided'], 'k/b/f_0': ['pending', 'waiting'], 'k/c/f_0': ['approved', 'decided']});
+  // the file changed after the lineage was stored and a record now covers the new bytes: revision 0 (the old bytes) stays awaiting
+  const other = encodePixels(1, 1, Buffer.from([9, 2, 3, 255]));
+  const stale = await withStanding(readInbox(dir, {limitDecided: Infinity}), async () => ({standing: 'approved', png: other}));
+  assert.deepEqual(stale.filter(i => !i.explicit).map(i => i.status), ['pending', 'pending']);
   assert.equal(readHeads(dir).get('k/c/f_0').status, 'approved');
   assert.equal(readHeads(dir).get('k/a/f_0').status, null);
 });

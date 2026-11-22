@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { parseComment } from './model.mjs';
+import { sameImage } from '../../../core/standing.mjs';
 
 const explicit = `(select status from reviews r where r.key=v.key and r.rev=v.rev and status is not null order by seq desc limit 1)`;
 export const stateOf = status => (status === 'pending' ? 'waiting' : status === 'changes_requested' ? 'agent' : 'decided');
@@ -20,7 +21,7 @@ export function readInbox(libraryDir, {limitDecided = 60} = {}) {
   const db = new DatabaseSync(file, {readOnly: true});
   try {
     db.exec('PRAGMA busy_timeout=5000');
-    const heads = db.prepare(`SELECT v.key AS key, v.rev AS head, ${explicit} AS status, (SELECT count(*) FROM reviews r WHERE r.key=v.key) AS reviews,
+    const heads = db.prepare(`SELECT v.key AS key, v.rev AS head, ${explicit} AS status, v.png AS zero, (SELECT count(*) FROM reviews r WHERE r.key=v.key) AS reviews,
         (SELECT max(seq) FROM reviews r WHERE r.key=v.key) AS lastSeq
       FROM versions v WHERE v.rev=(SELECT max(rev) FROM versions w WHERE w.key=v.key) ORDER BY v.key`).all();
     const comments = db.prepare(`SELECT text FROM reviews WHERE key=? AND rev=? AND text IS NOT NULL ORDER BY seq`);
@@ -30,21 +31,25 @@ export function readInbox(libraryDir, {limitDecided = 60} = {}) {
       const status = h.status ?? 'pending', s = stateOf(status);
       const parsed = comments.all(h.key, h.head).map(c => parseComment(c.text));
       const requests = parsed.filter(c => c.kind === 'request').map(c => ({request: c.request, agent: c.agent, session: c.session, note: c.body, questions: c.questions}));
-      items.push({key: h.key, assetId: h.key.split('/')[1] ?? h.key, head: h.head, status, explicit: h.status !== null, state: s, requests,
+      items.push({key: h.key, assetId: h.key.split('/')[1] ?? h.key, head: h.head, status, explicit: h.status !== null, zero: h.head === 0 && h.status === null ? Buffer.from(h.zero) : null, state: s, requests,
         comments: parsed.length, lastSeq: h.lastSeq ?? 0});
     }
     return finish(items, limitDecided);
   } finally { db.close(); }
 }
 
-/** Re-state items whose status is only the store's default, once their standing is known: `standingOf(key)` -> 'approved' | 'baseline' | 'awaiting'. */
-export async function withStanding(items, standingOf, limitDecided = 60) {
+/**
+ * Re-state items whose status is only the store's default, once their standing is known: `judgedOf(key)` -> {standing, png}.
+ * The standing applies only if the stored revision 0 shows the pixels it was judged on.
+ */
+export async function withStanding(items, judgedOf, limitDecided = 60) {
   const out = [];
   for (const i of items) {
-    if (i.head !== 0 || i.explicit) { out.push(i); continue; }
-    const standing = await standingOf(i.key);
-    const status = standing === 'approved' || standing === 'baseline' ? standing : 'pending';
-    out.push({...i, status, state: stateOf(status)});
+    const {zero, ...rest} = i;
+    if (i.head !== 0 || i.explicit) { out.push(rest); continue; }
+    const {standing, png} = await judgedOf(i.key);
+    const status = (standing === 'approved' || standing === 'baseline') && sameImage(zero, png) ? standing : 'pending';
+    out.push({...rest, status, state: stateOf(status)});
   }
   return finish(out, limitDecided);
 }
@@ -65,7 +70,7 @@ export function readHeads(libraryDir) {
   const db = new DatabaseSync(file, {readOnly: true});
   try {
     db.exec('PRAGMA busy_timeout=5000');
-    return new Map(db.prepare(`SELECT v.key AS key, v.rev AS head, ${explicit} AS status FROM versions v
-      WHERE v.rev=(SELECT max(rev) FROM versions w WHERE w.key=v.key)`).all().map(r => [r.key, {head: r.head, status: r.status}]));
+    return new Map(db.prepare(`SELECT v.key AS key, v.rev AS head, ${explicit} AS status, v.png AS zero FROM versions v
+      WHERE v.rev=(SELECT max(rev) FROM versions w WHERE w.key=v.key)`).all().map(r => [r.key, {head: r.head, status: r.status, zero: r.head === 0 && r.status === null ? Buffer.from(r.zero) : null}]));
   } finally { db.close(); }
 }

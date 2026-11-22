@@ -112,7 +112,8 @@ export function editorApi(root,dir) {
         const baseline=store.needsBaseline(args.key) || needsOrigin ? await library.baseline(frame) : null;
         // How revision 0 reads when nobody judged it here: approved by a hash-tied record, baseline, or awaiting review.
         standing ??= loadStanding(root).catch(error=>{standing=undefined;throw error;});
-        const snap=store.operate({...frame,standing:await (await standing).of(frame.processed)},baseline,action,args);
+        const {standing:state,png:standingPng}=await (await standing).judged(frame.processed);
+        const snap=store.operate({...frame,standing:state,standingPng},baseline,action,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
         else send(200,action==='export'?exportFrame(snap):snap);
       }

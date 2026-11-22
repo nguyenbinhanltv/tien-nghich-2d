@@ -72,8 +72,8 @@ export async function reviewableFrames(ws, asset, select = {}) {
 export async function snapshotOf(ws, f, revision) {
   const store = await ws.store();
   const baseline = await readInside(ws.root, f.rel);
-  const standing = f.stage === 'audio' ? undefined : await (await ws.standing()).of(f.rel);
-  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing}, baseline, 'frame', revision === undefined ? {} : {revision});
+  const {standing, png: standingPng} = f.stage === 'audio' ? {} : await (await ws.standing()).judged(f.rel);
+  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng}, baseline, 'frame', revision === undefined ? {} : {revision});
 }
 
 /**
@@ -150,8 +150,8 @@ export async function replyToReview({ws, key, revision, replyTo, text, resolves 
   const assetId = key.split('/')[1];
   const asset = assetId ? (await ws.snapshot()).index.assets.get(assetId) : undefined;
   const file = asset?.layout ? (await reviewableFrames(ws, asset)).find(f => f.key === key) : undefined;
-  const standing = file && file.stage !== 'audio' ? await (await ws.standing()).of(file.rel) : undefined;
-  const frame = {...bareFrame(key), standing};
+  const {standing, png: standingPng} = file && file.stage !== 'audio' ? await (await ws.standing()).judged(file.rel) : {};
+  const frame = {...bareFrame(key), standing, standingPng};
   const head = store.operate(frame, Buffer.alloc(0), 'frame', {});
   const rev = revision ?? head.head;
   if (rev > head.head) throw problem(404, 'unknown_revision', `${key} has revisions 0 to ${head.head}`);

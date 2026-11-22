@@ -3,10 +3,12 @@ import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { DatabaseSync } from 'node:sqlite';
 import { problem } from './errors.mjs';
+import { sameImage } from './standing.mjs';
 
 // A human decision is an explicit review row. Without one, a revision is 'pending' (awaiting review), with ONE
 // exception that is not stored but derived: revision 0 of a frame nobody judged in the studio reads as 'approved' or
-// 'baseline' when the project's records say so (see standing.mjs); the caller passes that as `frame.standing`.
+// 'baseline' when the project's records say so (see standing.mjs). The caller passes `frame.standing` and the file bytes
+// it was judged on as `frame.standingPng`; the standing applies only while the stored revision 0 shows those same pixels.
 const explicitSql = `(select status from reviews r where r.key=v.key and r.rev=v.rev and status is not null order by seq desc limit 1)`;
 const decided = ['approved', 'pending', 'changes_requested'];
 const unjudged = (rev, standing) => (rev === 0 && (standing === 'approved' || standing === 'baseline') ? standing : 'pending');
@@ -133,15 +135,16 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         db.prepare('INSERT INTO reviews(key,rev,status,text) VALUES(?,?,?,?)')
           .run(key,selected,args.status ?? null,args.text ?? null);
       }
+      const standing = sameImage(version(0).png,frame.standingPng) ? frame.standing : undefined;
       let history = (db?.prepare('SELECT rev AS revision,parent,'+explicitSql+
         ' AS status FROM versions v WHERE key=? ORDER BY rev DESC').all(key) ?? [])
-        .map(item => ({...item,status:item.status ?? unjudged(item.revision,frame.standing)}));
-      if (!history.length) history = [{revision:0,parent:null,status:unjudged(0,frame.standing)}];
+        .map(item => ({...item,status:item.status ?? unjudged(item.revision,standing)}));
+      if (!history.length) history = [{revision:0,parent:null,status:unjudged(0,standing)}];
       const comments = (db?.prepare(`SELECT text,(select status from reviews p
         where p.key=r.key and p.rev=r.rev and p.seq<=r.seq and p.status is not null
         order by p.seq desc limit 1) as status FROM reviews r
         WHERE key=? AND rev=? AND text IS NOT NULL ORDER BY seq`).all(key,selected) ?? [])
-        .map(c => ({...c,status:c.status ?? unjudged(selected,frame.standing)}));
+        .map(c => ({...c,status:c.status ?? unjudged(selected,standing)}));
       const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
         status:history.find(item=>item.revision===selected).status,comments,history};
       if (db) db.exec('COMMIT');
