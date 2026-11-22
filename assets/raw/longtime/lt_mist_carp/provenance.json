@@ -80,7 +80,7 @@
       "n": 3,
       "what": "follow east generated a third time on the orchestrator's explicit permission (one extra generation)",
       "credits": 1,
-      "result": "rejected, worse than take 2; take 2 kept and its 2 outside pixels clipped"
+      "result": "rejected, worse than take 2; take 2 kept and its 2 outside pixels cropped at build time (crop_allowance)"
     }
   ],
   "credits_spent": {
@@ -90,10 +90,13 @@
     "total_generations": 16
   },
   "known_flaws": [
-    "CLIPPED: follow east frame 3 (raw assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png) had 2 opaque mist pixels one row below the 32x32 canvas (canvas x=12,13 y=32; raw x=18,19 y=38; colours #8ae8ff and #28a8dc). They were set to transparent in the raw file before the build; the unedited frame has sha256 aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6 and is kept outside the repo",
+    "CROPPED AT BUILD TIME (not edited): follow east frame 3 (assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png, the untouched PixelLab output, sha256 aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6) has 2 opaque mist pixels one row below the 32x32 canvas (canvas x=12,13 y=32; raw x=18,19 y=38; colours #8ae8ff and #28a8dc). build_longtime_characters.py drops them under the explicit crop_allowance {\"follow/east/3\": 2} in this file and reports them in provenance processing.cropped_opaque_pixels",
     "the mist beneath the fish is drawn as scattered 1-3 px specks that flicker between frames, not a coherent wisp",
     "the forked ribbon tail points straight up in south and north views and reads like long ears"
   ],
+  "crop_allowance": {
+    "follow/east/3": 2
+  },
   "native_px": [
     32,
     32
@@ -104,7 +107,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "077206137de9935e469d47e2c6bbfdd95e61cd7bbec1b9965773fbfb63a010dc",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
@@ -121,10 +124,13 @@
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
+    },
+    "cropped_opaque_pixels": {
+      "follow/east/3": 2
     }
   },
   "source": "source.png",
-  "source_sha256": "5c5ca315b2cc87812d5faaf4106ecbbc0c19fe89247ad8ae245062d1b3a32600",
+  "source_sha256": "8c22a2320d120d2c4e16ea8582c45c5c7abbb1b22f0818ccd701de06e0d12e13",
   "contact_sheets": {
     "assets/raw/longtime/lt_mist_carp/contact_1x.png": "f97d6c087ab1261090a0838c134c3240d111014f21f3f6a4bf8ce34f376e3c11",
     "assets/raw/longtime/lt_mist_carp/contact_4x.png": "eb82f59d10eb44a370d54d2e966ee0eebee5db50d3cb9f761e34ec23038602ce"
@@ -170,7 +176,7 @@
       "key": "longtime/lt_mist_carp/follow_east_3",
       "path": "assets/processed_longtime/lt_mist_carp/follow_east_3.png",
       "raw_path": "assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png",
-      "raw_sha256": "ee9d7caca13e8863af1680ce59a5e19da01e6acdebdf006c32e9cb11b6a27592",
+      "raw_sha256": "aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6",
       "source_xy": [
         132,
         308
