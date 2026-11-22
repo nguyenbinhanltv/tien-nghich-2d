@@ -15,16 +15,23 @@
       "animation_group_id": "bd50a00a-b036-4492-856a-3c04bff99968",
       "job_ids": {
         "south": "45f8d833-0744-4c1f-9308-9d061809ea73",
-        "west": "3b6e5ee2-663c-416d-b090-659994064a10",
+        "west": "1dbe3596-fbd1-451d-9149-05db3003483c",
         "north": "70108b20-e4f8-4d81-a104-a1b8ca61f1e1",
         "east": "d74c4fde-d737-495d-8635-f64cb18d7b0b"
       },
       "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square gold astrolabe stays held in both hands in front of his chest, clearly visible",
       "direction_prompts": {
         "south": "facing the viewer, breathes gently; the square gold astrolabe stays held in both hands in front of his chest, always visible",
-        "west": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide",
+        "west": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide; the face and beard stay clean and unchanged, no floating marks or pieces beside the face (second attempt, west only)",
         "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
         "east": "facing right, breathes gently; the big square gold astrolabe stays held out in front of his chest on the right, always visible and wide"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "3b6e5ee2-663c-416d-b090-659994064a10",
+          "prompt": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide",
+          "why": "replaced by take 2: take 1 had a pale wedge and a dark whisker attached to the beard in frames 3-4 that no processing step can isolate; take 2 has only detached 1-px specks, removed in processing by speck_clean"
+        }
       }
     },
     "interact": {
@@ -34,16 +41,28 @@
       "animation_group_id": "01c664d5-df39-4796-9037-1d5ba8494edc",
       "job_ids": {
         "south": "ea7c7f2e-4b50-445d-8d9a-c7f0e3bb4b11",
-        "west": "e90e3e71-dd3e-4314-bb4c-9df268d414b0",
+        "west": "b8f849ba-07c2-40d0-8fb2-87a72d0c6980",
         "north": "c0793cec-ed8a-4835-82ff-2221969a55cd",
-        "east": "e0e6bb78-295b-44b7-99f0-050c9ee1bbda"
+        "east": "5f9141eb-fcd3-4802-b2b6-a84c88c6d7bf"
       },
       "action_description": "tilts the square gold astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
       "direction_prompts": {
         "south": "facing the viewer, lifts the square gold astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
-        "west": "facing left, holds the big square gold astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him and stays wide and bright",
+        "west": "facing left, holds the big square gold astrolabe out in front toward the left and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, west only)",
         "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
-        "east": "facing right, holds the big square gold astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and stays wide and bright"
+        "east": "facing right, holds the big square gold astrolabe out in front toward the right and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, east only)"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "e90e3e71-dd3e-4314-bb4c-9df268d414b0",
+          "prompt": "facing left, holds the big square gold astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into an X-shaped sparkle in frames 1-2"
+        },
+        "east_take1": {
+          "job_id": "e0e6bb78-295b-44b7-99f0-050c9ee1bbda",
+          "prompt": "facing right, holds the big square gold astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into a white-gold glow in frames 2-3"
+        }
       }
     }
   },
@@ -59,6 +78,12 @@
       "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each; every shipped clip-direction is the first take of this character",
       "credits": 14,
       "result": "accepted; no clip regeneration used"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 4: interact west, interact east and idle west regenerated once each (appended to the same animation groups)",
+      "credits": 3,
+      "result": "all three take-2 clips shipped: interact west/east keep a solid square astrolabe in all 4 frames (take 1 had a sparkle/glow for 2 frames); idle west take 2 has only detached 1 px specks which speck_clean (max 3 px) removes in processing"
     }
   ],
   "credits_spent": {
@@ -67,11 +92,10 @@
     "round2_regenerations_replaced": 4,
     "character_shipped": 6,
     "animations_shipped": 8,
-    "total_generations": 32
+    "total_generations": 35,
+    "round4_regenerations": 3
   },
   "known_flaws": [
-    "idle west frame 4 has a stray white speck beside the head",
-    "interact west frames 1-2: the astrolabe turns into an X-shaped sparkle; interact east frames 2-3: it becomes a white-gold glow, so the square shape is lost for two frames",
     "the north view has no astrolabe (held in front), only the robe and topknot identify the character"
   ],
   "style_anchor": {
@@ -83,5 +107,9 @@
       "outline": true,
       "shading": true
     }
+  },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "idle west take 2 has detached 1 px specks beside the face and astrolabe in frames 1-4; counts per frame in provenance.processing.speck_clean"
   }
 }
