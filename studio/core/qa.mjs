@@ -63,8 +63,8 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
   const missing = expected.filter(e => want(e) && !have.has(e.name)).map(e => e.name);
   const specNames = new Set(expected.map(e => e.name));
   const unexpected = expected.length ? found.frames.filter(f => want(f) && !specNames.has(f.name)).map(f => f.name) : [];
-  const partial = stage === 'raw';
-  const missingSeverity = partial ? 'warn' : 'error';
+  const rawStage = stage === 'raw';
+  const missingSeverity = rawStage ? 'warn' : 'error';
   count('frameCount', missingSeverity, missing.length);
   missing.slice(0, 12).forEach(n => detail('frameCount', `missing ${n}`));
   if (missing.length > 12) detail('frameCount', `... ${missing.length} missing in total`);
@@ -77,7 +77,7 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
   return {
     stage, pass: totalErrors === 0 && frames.length > 0,
     summary: {frames: frames.length, expected: expected.length || null, errors: totalErrors, warnings: totalWarnings,
-      framesWithErrors: frames.filter(f => f.errors).length, partial},
+      framesWithErrors: frames.filter(f => f.errors).length, rawStage},
     checks, frames, missing, unexpected, unnamed: found.unnamed,
     content: parts.length ? sha256(parts.join('\n')) : null,
   };

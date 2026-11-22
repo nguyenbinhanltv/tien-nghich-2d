@@ -9,21 +9,24 @@ import { loadAsset } from './_shared.mjs';
 
 const MAX_WAV = 25 * 1024 * 1024;
 
+// The exactly-one rule is checked in the handler and stated in every property description: a top-level oneOf in an input
+// schema is rejected by some clients' tool APIs, so it is deliberately not used.
 export default {
   name: 'studio_audio_analyze',
   title: 'Measure and look at a sound: waveform, spectrogram and numbers',
   description:
     'See a sound you cannot hear: peak, true peak, RMS, BS.1770 loudness, endpoints, onset, tail, the loop seam and the spectrum as numbers, plus a waveform and a spectrogram picture whose axes are returned so you can read times and frequencies off them. ' +
-    'Analyse ONE of: a WAV file in the project (a delivered master, for comparison: read-only), a kept candidate of a cue (cueId, optional version), or a document (rendered in memory, nothing stored). ' +
+    'Give EXACTLY ONE of file, cueId or document (two or none is refused): a WAV file in the project (a delivered master, for comparison: read-only), a kept candidate of a cue (cueId, optional version), or a document (rendered in memory, nothing stored). ' +
+    'A document names its own cue in its id and needs no cueId; to analyse what you kept, pass cueId alone. ' +
     'For a loop give loop {start, end} in frames to measure its seam. Read-only. No agent listens and no tool can sign a listening: that is a human step in the Review tab.',
   scope: 'read',
   inputSchema: {
     type: 'object',
     properties: {
-      file: { type: 'string', maxLength: 300, description: 'Project-relative path to a WAV file (PCM16/24/32 or float32).' },
-      cueId: { type: 'string', maxLength: 64, description: 'An audio cue with a kept candidate; analyses its render.wav.' },
+      file: { type: 'string', maxLength: 300, description: 'One of file, cueId, document (exactly one). Project-relative path to a WAV file (PCM16/24/32 or float32).' },
+      cueId: { type: 'string', maxLength: 64, description: 'One of file, cueId, document (exactly one). An audio cue with a kept candidate; analyses its render.wav. Do not combine with document.' },
       version: { type: 'integer', minimum: 1, description: 'With cueId: which candidate (default: the newest).' },
-      document: { type: 'object', description: 'A patch or score document to render and analyse without keeping anything.' },
+      document: { type: 'object', description: 'One of file, cueId, document (exactly one). A patch or score document to render and analyse without keeping anything; its own id names the cue, so no cueId.' },
       loop: { type: 'object', properties: { start: { type: 'integer', minimum: 0 }, end: { type: 'integer', minimum: 1 } }, required: ['start', 'end'], additionalProperties: false, description: 'Loop points in frames, to measure the seam.' },
     },
     additionalProperties: false,
@@ -31,7 +34,7 @@ export default {
   annotations: { readOnlyHint: true, idempotentHint: true },
   async handler(args, ctx) {
     const given = ['file', 'cueId', 'document'].filter((k) => args[k] !== undefined);
-    if (given.length !== 1) throw new ToolError('Give exactly one of file, cueId or document.');
+    if (given.length !== 1) throw new ToolError(`Give exactly one of file, cueId or document${given.length ? ` (you gave ${given.join(' and ')}: a document names its own cue, so drop cueId)` : ''}.`);
     const ws = ctx.project.workspace;
     let analysis, label, extra = {};
     try {

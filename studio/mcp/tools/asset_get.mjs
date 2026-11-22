@@ -1,3 +1,4 @@
+import { sha256 } from '../../core/fsutil.mjs';
 import { expectedFrames, listFrames, milestones, summarize } from '../../core/assets.mjs';
 import { readInside } from '../../core/files.mjs';
 import { readMetadata } from '../../core/metadata.mjs';
@@ -17,19 +18,21 @@ export default {
     'Everything the studio knows about one asset id: its spec (profile, size, directions, clips with frame counts, brief, dependencies), ' +
     'the four delivery milestones (source, processed, web atlas, mobile atlas), which frames exist or are missing, provenance (who made it, with what), ' +
     'authoring metadata, the current review state and the independent checks. Includes the etags that studio_asset_plan and studio_metadata_set need to edit. ' +
-    'Pass sections to fetch only part of it.',
+    'provenance lists EVERY submission (newest 20): agent, session, tool, generator, source hash, notes (a generator\'s parameters and seed, rig and patch hashes), frame count, and the prompt (first 300 characters plus its length and hash; pass promptDetail "full" for the whole prompt, e.g. a SpriteFX spec). ' +
+    'For an audio cue, audio.candidates carry the document hash, the WAV hash, the note and the measurements. Pass sections to fetch only part of it.',
   scope: 'read',
   inputSchema: {
     type: 'object',
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Asset id, e.g. lt_seed_broker. Find ids with studio_catalog_search.' },
+      promptDetail: { type: 'string', enum: ['summary', 'full'], description: 'summary (default): prompts cut at 300 characters, with their length and sha256. full: whole prompts (up to 8000 characters each).' },
       sections: { type: 'array', maxItems: 9, items: { type: 'string', enum: SECTIONS }, description: `Limit to these sections (default: all of ${SECTIONS.join(', ')}).` },
     },
     required: ['assetId'],
     additionalProperties: false,
   },
   annotations: { readOnlyHint: true, idempotentHint: true },
-  async handler({ assetId, sections }, ctx) {
+  async handler({ assetId, sections, promptDetail }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     const { index } = snap;
     const want = new Set(sections?.length ? sections : SECTIONS);
@@ -71,10 +74,16 @@ export default {
           recorded = { producer: p.producer, tool: p.tool ?? p.generator, method: clip(p.method, 200), rights: clip(p.rights, 200), file: `${asset.layout.rawDir}/provenance.json` };
         } catch { /* no recorded provenance file */ }
       }
+      const full = promptDetail === 'full';
+      const view = (r, i) => ({ n: i + 1, at: r.at, agent: r.agent, session: r.session.slice(0, 8), tool: r.tool, generator: r.generator, sourceHash: r.sourceHash, rights: r.rights,
+        ...(r.notes ? { notes: r.notes } : {}),
+        ...(r.prompt !== undefined ? { prompt: full ? r.prompt : clip(r.prompt, 300), promptChars: r.prompt.length, promptSha256: sha256(r.prompt), ...(!full && r.prompt.length > 300 ? { promptTruncated: true } : {}) } : {}),
+        frames: r.frames.length });
+      const shown = records.slice(-20).map((r, i) => view(r, records.length - Math.min(20, records.length) + i));
       out.provenance = {
         submissions: records.length,
         authors: authorsOf(records).map((a) => ({ agent: a.agent, session: a.session.slice(0, 8) })),
-        ...(latest ? { latest: { at: latest.at, agent: latest.agent, session: latest.session.slice(0, 8), tool: latest.tool, prompt: clip(latest.prompt, 300), generator: latest.generator, sourceHash: latest.sourceHash, rights: latest.rights, frames: latest.frames.length } } : {}),
+        ...(shown.length ? { list: shown, ...(records.length > 20 ? { listed: `newest 20 of ${records.length}` } : {}), latest: shown.at(-1) } : {}),
         ...(recorded ? { recorded } : {}),
       };
     }
@@ -86,7 +95,7 @@ export default {
       const list = [];
       for (const v of await versions(ws.root, asset.audio.dir)) {
         const c = await readVersion(ws.root, asset.audio.dir, v);
-        list.push({ version: v, at: c.provenance.at, agent: c.provenance.agent, session: c.provenance.session.slice(0, 8), kind: c.provenance.kind, wavSha256: c.provenance.wavSha256, durationMs: c.measurements.durationMs,
+        list.push({ version: v, at: c.provenance.at, agent: c.provenance.agent, session: c.provenance.session.slice(0, 8), kind: c.provenance.kind, documentSha256: c.provenance.documentSha256, wavSha256: c.provenance.wavSha256, deterministic: c.provenance.deterministic, ...(c.provenance.note ? { note: c.provenance.note } : {}), durationMs: c.measurements.durationMs,
           peakDbfs: c.measurements.peak?.sampleDbfs, lufs: c.measurements.loudness?.integratedLufs ?? c.measurements.loudness?.ungatedLufs ?? null, files: c.files['render.wav'] });
       }
       out.audio = { dir: asset.audio.dir, candidates: list, note: 'Candidates are staging; a human delivers them. Listening is signed by a human only.' };
