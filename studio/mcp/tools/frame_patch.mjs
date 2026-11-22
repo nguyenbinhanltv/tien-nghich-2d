@@ -21,10 +21,11 @@ export default {
     'Change pixels by COMMAND, not by redrawing: set pixels, draw a line, fill a box, flood a region, shift or copy a region (also from another frame of the clip), rebuild the outline, or write a GRID of palette ids. ' +
     'Colours are palette ids (see studio_project_info). Coordinates are x, y from the top left of the native frame; boxes are [x0, y0, x1, y1) half-open. ' +
     'target "revision" (default for a frame you already submitted) applies the operations to the frame\'s newest revision and saves the result as a NEW revision, pending, leaving the raw file as submitted; ' +
-    'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame); ' +
+    'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame). ' +
+    'Saving checks only that colours are palette ids and points are inside the canvas; the pixel gates (palette, outline, size) judge the patched frame at the NEXT studio_rig_bake, in verdicts.pixelGates, so look there. ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
     'TEXT FORM, to edit a frame you read with studio_frame_read: give rows (the whole region as characters, "." transparent), legend {char: palette id}, at [x, y] and the frame\'s hash instead of ops. Only differing pixels are stored; unknown characters, colours outside the palette and a stale hash are refused. ' +
-    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status.',
+    'For "revision" and "create" the result must pass the pixel gates (palette, outline, size) or nothing is saved. Give an edit a short note to say what it is for (e.g. "scar over the left eye"); it is stored with the operations in forge/patch.json. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -40,6 +41,7 @@ export default {
             legend: { type: 'object', additionalProperties: { type: 'string', maxLength: 40 }, description: 'Text form: character to palette id, e.g. {"a":"ink_01"}. "." is transparent and needs no entry.' },
             at: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 0 }, description: 'Text form: [x, y] of the top-left of rows (default [0, 0]).' },
             hash: { type: 'string', pattern: '^[0-9a-f]{64}$', description: 'Text form: the hash studio_frame_read returned for this frame. Not needed for target create.' },
+            note: { type: 'string', maxLength: 200, description: 'What this edit is for (stored on its first operation, so a later reader knows a patch is the scar and not a highlight).' },
             ops: {
               type: 'array', minItems: 1, maxItems: 500,
               items: { type: 'object', properties: { op: { type: 'string', enum: OPS } }, required: ['op'], description: 'One operation: {op:"set",pixels:[[x,y,"ink_01"]]}, {op:"line",from:[x,y],to:[x,y],color}, {op:"fill",box:[x0,y0,x1,y1],color}, {op:"flood",at:[x,y],color}, {op:"shift",box,dx,dy}, {op:"copy",box,dx,dy,from?:{facing,frame}}, {op:"outline"}, {op:"grid",at:[x,y],rows:["..ab.."],legend:{a:"ink_01"}}.' },
@@ -106,6 +108,7 @@ export default {
           if (edit.legend !== undefined || edit.at !== undefined || edit.hash !== undefined) throw new ToolError(`${edit.frame}: legend, at and hash belong to the text form (rows).`);
           ops = expandOps(edit.ops);
         }
+        if (edit.note) ops[0] = { ...ops[0], note: edit.note };
         checkOps(edit.frame, ops, { palette, width, height });
         plan.push({ ...edit, addr, key, rawRel, raw, target, ops, changes, snapshot });
       }
@@ -129,8 +132,8 @@ export default {
             note: 'These operations would be appended to the asset\'s stored patch and applied after every studio_rig_bake; the baked pixels they land on are not known until then.' });
         }
         await writeDoc(ws, asset, 'patch', patch);
-        return { content: [{ type: 'text', text: `Stored operations for ${plan.length} frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: ${Object.keys(patch.frames).length}.` }],
-          structuredContent: { ok: true, target, frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length })), patchedFrames: Object.keys(patch.frames).length, next: 'studio_rig_bake to apply and look.' } };
+        return { content: [{ type: 'text', text: `Stored operations for ${plan.length} frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: ${Object.keys(patch.frames).length}. Checked now: palette ids and canvas bounds; the pixel gates run at the next bake (verdicts.pixelGates).` }],
+          structuredContent: { ok: true, target, frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length })), patchedFrames: Object.keys(patch.frames).length, next: 'studio_rig_bake to apply the operations; its verdicts.pixelGates says whether the patched pixels pass.', checked: 'palette ids and canvas bounds only' } };
       }
 
       if (target === 'create') {

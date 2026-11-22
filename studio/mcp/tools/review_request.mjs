@@ -13,6 +13,7 @@ export default {
     'Post a review request, with a note and optional questions, on an asset\'s frames so the human sees it in the review inbox. ' +
     'It records a request; it never approves, rejects or changes any status. It refuses frames a human already approved, frames that fail the QA gates, ' +
     'and (by default) frames no other session has checked: a different session than the author must first run studio_qa_run with record=true and independent=true on exactly the current frames, and it must have passed. ' +
+    'For an AUDIO cue the "frames" are the two pictures of its newest candidate, the waveform and the spectrogram: the request appears on those two entries, and a human signs the listening there. ' +
     'Afterwards use studio_review_list to read the human\'s decision and comments. dryRun runs every check and returns the frames and the exact comment it would post, and posts nothing.',
   scope: 'author',
   inputSchema: {

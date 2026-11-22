@@ -12,6 +12,7 @@ export default {
   description:
     'Check an asset\'s frames against the project rules: palette (40 colours), alpha (binary), silhouette outline, canvas size, frame count against the spec, and file naming. ' +
     'Each frame\'s defects come back with x, y coordinates. By default it only reads. ' +
+    'summary.rawStage is true when the frames checked are the raw (submitted) ones: expected frames that are not there yet are then warnings, not errors; it never means a check was skipped. ' +
     'record=true writes the result as a check (needs scope author); independent=true also claims it is an independent check, which the server accepts only from a session OTHER than the one that submitted the frames. ' +
     'For an AUDIO cue it checks the newest candidate: reproducible from its source, no clipping, not silent, endpoints at digital zero (patches), notes in the key (scores); never listening. ' +
     'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate). ' +
@@ -75,6 +76,7 @@ export default {
       const out = {
         asset: asset.id, stage, pass: qa.pass, summary: qa.summary,
         checks: Object.fromEntries(Object.entries(qa.checks).map(([k, v]) => [k, { pass: v.pass, errors: v.errors, warnings: v.warnings, ...(v.details.length ? { details: v.details } : {}) }])),
+        ...(qa.summary.rawStage ? { stageNote: 'raw stage: this checks the frames submitted so far, so frames the spec still expects are warnings (not errors). It does not mean the run skipped anything. Once processed frames exist the same gaps are errors.' } : {}),
         ...(qa.missing.length ? { missing: qa.missing.slice(0, 40), missingCount: qa.missing.length } : {}),
         ...(qa.unexpected.length ? { unexpected: qa.unexpected } : {}),
         frames: args.detail === 'frames' ? qa.frames.filter((f) => f.errors || f.warnings) : undefined,

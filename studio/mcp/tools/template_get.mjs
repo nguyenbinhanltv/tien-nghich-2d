@@ -3,7 +3,7 @@ import { writeFileAtomic } from '../../core/fsutil.mjs';
 import { bodyPlans } from '../../forge/motion/library.mjs';
 import { encodePng, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { defaultPoseNames, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
+import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { dryRunProp, loadAsset, requireFrames, requireScope } from './_shared.mjs';
 import path from 'node:path';
 
@@ -18,6 +18,7 @@ export default {
     'Routes (decided in the forge bake-off): a single frame is drawn on a sheet and pixelised; LOCOMOTION clips (walk, follow, advance...) start from drawn KEY POSES on a pose sheet (kind="pose-sheet", clip=<that clip>); ' +
     'IDLE and small motions are baked from a RIG with a motion template; asymmetric marks (a coloured ear, a held tool in one hand) are kept with studio_process marks and fixed with studio_frame_patch. ' +
     'kind="turnaround" gives one drawing per facing; kind="pose-sheet" gives one per pose and facing. Draw with your own image tool on a pure green key, using the template file as the reference. ' +
+    'The result also carries formats: the compact shape of the rig and poseClips documents that studio_rig_bake takes, with the rules (coordinates, roles, which annotations turn which gate on), so you need not read source. ' +
     'write=true (needs scope author) saves the template PNG where your image tool can read it (with dryRun it only lists the files it would save). Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
   inputSchema: {
@@ -91,6 +92,7 @@ export default {
           drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.` },
         layout,
         ...(poseClips ? { poseClips } : {}),
+        formats: formatsGuide(bodyPlans(), profile),
         motion: { bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
         next: ['Draw the sheet with your own image tool.', 'studio_sheet_import with the sheet, this layout, and the verbatim prompt.', 'studio_process to pixelise and look at the native sprites.',
           kind === 'pose-sheet' ? 'studio_rig_bake with poseClips (above) to build the clip from your key poses.' : 'For a clip that moves: studio_rig_bake with a rig; for a single frame: studio_process with submit=true.'],

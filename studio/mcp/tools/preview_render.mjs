@@ -37,7 +37,7 @@ export default {
         description: 'Show only this window of each frame; defects and rulers keep sprite coordinates.',
       },
       maxSide: { type: 'integer', minimum: 64, maximum: 4096, description: 'Cap on the returned image\'s width and height in pixels. Zoom is lowered until it fits.' },
-      overlay: { type: 'boolean', description: 'Box defective pixels and colour the status bars (default true).' },
+      overlay: { type: 'boolean', description: 'true (default): box defective pixels and colour each frame\'s status bar (green clean, yellow warnings, red errors). false: a plain sheet, no boxes and no bars.' },
       background: backgroundProp,
     },
     required: ['assetId'],

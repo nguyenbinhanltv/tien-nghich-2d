@@ -28,7 +28,9 @@ export default {
   description:
     'Show what changed in an asset\'s frames: against="previous" compares each frame\'s newest revision with the one before it (from the review/revision store); ' +
     'against="main" compares the frame files in this worktree with the same files on main (added, changed, unchanged). ' +
-    'Per frame: changed pixel count, bounding box, a few before/after colours, and the two hashes.',
+    'Per frame: changed pixel count, bounding box, a few before/after colours, and the two hashes. ' +
+    'A frame with nothing to compare is still listed, with a status: single_revision (only revision 0 exists, so it has not changed since it was submitted) or no_history (no revision store entry yet). ' +
+    'Revisions come from studio_frame_patch target "revision" or a human edit. A patch stored for the bake (target "bake") is not a revision: it lives in the asset\'s forge/patch.json and changes frames at the next studio_rig_bake.',
   scope: 'read',
   inputSchema: {
     type: 'object',
