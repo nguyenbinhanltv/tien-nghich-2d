@@ -1,0 +1,127 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template custom, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "44653e6d-33f0-4c4e-8367-6ed4f20d350d",
+  "character_job_id": "f7e120d3-669b-4284-9c5f-1020ef5e237c",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Orbit wasp, a small chibi flying stone-quarry insect: round dark grey-violet armoured body with a large head and two big cyan eyes, a thin bronze ring halo floating around its body like an orbit, short translucent pale wings, a bright cyan stinger at the back pointing down. Clear readable silhouette with the ring. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f9226358-ee0f-482d-8452-fe0d8582acd2",
+      "job_ids": {
+        "south": "7848fe3e-016a-41a9-9a4f-f1771c8bb36c",
+        "west": "29dc39ba-5793-47ed-b4e5-07783468cfb2",
+        "north": "3c89dfb7-39b4-4a54-b27b-62f3c9a68300",
+        "east": "d4811448-357e-4c89-8ca4-d1c2088225ab"
+      },
+      "action_description": "hovers in place, wings buzzing and the body bobbing up and down slightly, the bronze ring halo turning around the body",
+      "direction_prompts": {
+        "south": "seen from the front, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "west": "seen from the left side, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "north": "seen from behind, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "east": "seen from the right side, hovers in place, wings buzz and the body bobs slightly, the ring turns around it"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ba4ec8e6-ac57-4b20-b628-ae1852521a00",
+      "job_ids": {
+        "south": "4a6a8275-8cf6-4286-bfcd-42504ba9cdf7",
+        "west": "dbb71c84-9bd5-46f6-95ee-53a69dfa0f19",
+        "north": "6531e0cd-f511-4738-8d08-8d8bbb0eb99f",
+        "east": "99c3bd14-47b1-483c-ab1c-d3c8707c88a3"
+      },
+      "action_description": "flies forward in a quick buzzing hover, wings beating fast, body tilting slightly forward, the bronze ring halo wobbling around the body",
+      "direction_prompts": {
+        "south": "seen from the front, flies toward the viewer, wings beating fast, body tilted slightly forward",
+        "west": "seen from the left side, flies to the left, wings beating fast, body tilted slightly forward",
+        "north": "seen from behind, flies away from the viewer, wings beating fast",
+        "east": "seen from the right side, flies to the right, wings beating fast, body tilted slightly forward"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f679902e-1e74-4d9c-89c5-fe90cac2106f",
+      "job_ids": {
+        "south": "5cd14331-ed5f-4be3-81ca-0d43cd30c132",
+        "west": "978df7de-a5de-4730-a896-de06ddef5b19",
+        "north": "75bcc194-101b-4001-b4d0-5c210afbb929",
+        "east": "abb33f52-2050-4792-ae96-a0b8751b1ca0"
+      },
+      "action_description": "rears back and curls its body, wings spread wide, the bronze ring halo snaps tight and its cyan stinger glows brighter, winding up to dive",
+      "direction_prompts": {
+        "south": "seen from the front, rears back with wings spread wide, the stinger glows brighter, winding up to dive",
+        "west": "seen from the left side, rears back to the right with wings spread wide, the stinger glows brighter, winding up to dive left",
+        "north": "seen from behind, rears back with wings spread wide, the stinger glows brighter",
+        "east": "seen from the right side, rears back to the left with wings spread wide, the stinger glows brighter, winding up to dive right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "485aff3a-ede9-4510-a101-79e51388b8f7",
+      "job_ids": {
+        "south": "9eda0998-cf56-4e02-ae53-e6f23e5c1b81",
+        "west": "855c9fea-6c83-42de-b134-3fbe6257c473",
+        "north": "318ecab5-31df-4c89-aeae-c4a0c54678a6",
+        "east": "d16f39e0-a2b3-4693-bc09-c0067c8d66c4"
+      },
+      "action_description": "darts forward in a fast stinging dive, body stretched toward the target with the cyan stinger thrust out, wings swept back, then pulls back",
+      "direction_prompts": {
+        "south": "seen from the front, darts toward the viewer in a stinging dive, stinger thrust out, then pulls back",
+        "west": "seen from the left side, darts to the left in a stinging dive, stinger thrust out to the left, then pulls back",
+        "north": "seen from behind, darts away from the viewer in a stinging dive, then pulls back",
+        "east": "seen from the right side, darts to the right in a stinging dive, stinger thrust out to the right, then pulls back"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected)",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "bronze ring halo is thin and often reads as a small collar rather than an orbit, mainly in south and east",
+    "telegraph south/north differ only slightly from idle at 1x",
+    "one strike west frame shows a red-tinted eye",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 4,
+    "clip_max": 3,
+    "why": "one wing/ring pixel crosses the 32 px canvas; at most 3 px clipped per frame (see processing.edge_trim)"
+  }
+}
