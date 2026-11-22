@@ -40,7 +40,7 @@ REQUIRED = {
     "lt_ink_marten", "lt_star_hare", "lt_reed_crane", "lt_mist_carp", "lt_coal_toad", "lt_bronze_cicada",
 }
 _APPROVALS = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))["approvals"]
-OWNER_ALL_ART = "owner_all_studio_art_2026-11-22"
+OWNER_ALL_ART = "owner_new_characters_2026-11-22"
 _APPROVED_ANYWHERE = {aid for _a in _APPROVALS if _a.get("scope") == "character_art" for aid in _a["assets"]}
 IDS = {aid: (_PROFILE[aid], set(_MANIFEST["profiles"][_PROFILE[aid]]["clips"])) for aid in REQUIRED}
 for _gen in sorted(RAW.glob("*/generation.json")):

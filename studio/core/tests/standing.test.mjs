@@ -120,18 +120,17 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: every catalog frame is approved on record; without the approvals the old three states still hold', async () => {
+test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline, nothing awaits', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
   const catalog = await loadEditableCatalog(pack, repoRoot);
-  const frames = [...catalog.frames.values()];
   const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
-  for (const [rel, s] of await standing.ofMany(frames.map(f => f.processed))) assert.equal(s, 'approved', rel);
-  // the baseline record is kept as a historical fact: read alone it still labels the legacy core art, never the Longtime art
-  const baselineOnly = createStanding(repoRoot, {review: pack.review});
-  const core = frames.filter(f => !f.info.key.startsWith('longtime/'));
+  const longtime = [...catalog.frames.values()].filter(f => f.info.key.startsWith('longtime/'));
+  assert.ok(longtime.length > 1500);
+  for (const f of longtime) assert.equal(await standing.of(f.processed), 'approved', f.info.key);
+  const core = [...catalog.frames.values()].filter(f => !f.info.key.startsWith('longtime/'));
   assert.ok(core.length > 1000);
-  for (const f of core) assert.equal(await baselineOnly.of(f.processed), 'baseline', f.info.key);
-  for (const f of frames.filter(f => f.info.key.startsWith('longtime/'))) assert.notEqual(await baselineOnly.of(f.processed), 'baseline', f.info.key);
+  // the owner did not approve the legacy art: it keeps the baseline label (no review record)
+  for (const f of core) assert.equal(await standing.of(f.processed), 'baseline', f.info.key);
 });
 
 test('a transparent pixel with colour does not break the match with the normalized stored copy', () => {

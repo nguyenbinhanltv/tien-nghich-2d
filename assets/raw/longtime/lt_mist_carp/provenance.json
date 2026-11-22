@@ -129,7 +129,7 @@
       "follow/east/3": 2
     },
     "entry_point": "tools/scripts/build_longtime_abode.py",
-    "entry_point_sha256": "af8b6f935ebe92181d4fc0918635eb1c1ace63afe844080ff869ec70a84d3793"
+    "entry_point_sha256": "c5d4e8e115dfe17a5c1b6d79abb47aa769f91a4e7a262513197d2d0d7959a224"
   },
   "source": "source.png",
   "source_sha256": "8c22a2320d120d2c4e16ea8582c45c5c7abbb1b22f0818ccd701de06e0d12e13",
@@ -527,7 +527,7 @@
     "status": "approved_by_owner",
     "approved_by": "project owner",
     "approved_on": "2026-11-22",
-    "approval_id": "owner_all_studio_art_2026-11-22",
-    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt hết assets trên studio cho tôi\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."
+    "approval_id": "owner_new_characters_2026-11-22",
+    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."
   }
 }

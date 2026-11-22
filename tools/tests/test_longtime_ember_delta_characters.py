@@ -76,7 +76,7 @@ class EmberDeltaCharacters(unittest.TestCase):
                 gen = json.loads((RAW / aid / "generation.json").read_text(encoding="utf-8"))
                 self.assertEqual(proc.get("cropped_opaque_pixels", {}), gen.get("crop_allowance", {}))
                 self.assertEqual(prov["review"]["status"], "approved_by_owner")
-                self.assertEqual(prov["review"]["approval_id"], "owner_all_studio_art_2026-11-22")
+                self.assertEqual(prov["review"]["approval_id"], "owner_new_characters_2026-11-22")
                 self.assertEqual(prov["tool"], "PixelLab")
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
@@ -100,8 +100,8 @@ class EmberDeltaCharacters(unittest.TestCase):
 
     def test_covered_by_owner_approval_record(self):
         record = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))
-        entry = next(a for a in record["approvals"] if a["id"] == "owner_all_studio_art_2026-11-22")
-        self.assertEqual(entry["evidence"]["quote"], "Duyệt hết assets trên studio cho tôi")
+        entry = next(a for a in record["approvals"] if a["id"] == "owner_new_characters_2026-11-22")
+        self.assertEqual(entry["evidence"]["statements"][1]["quote"], "Duyệt 30 hình nhân vật mới")
         for aid in IDS:
             with self.subTest(aid=aid):
                 prov = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))

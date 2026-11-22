@@ -234,7 +234,7 @@
       "transparent_cleaned": 0
     },
     "entry_point": "tools/scripts/build_longtime_ember_delta.py",
-    "entry_point_sha256": "731303fc52d399253b647d3e8018e4402764db7f6b0d7506472f4018aed6f661"
+    "entry_point_sha256": "280665b3351dbb0dd4252cec453063d6311fc354fbe5faf454a8bbfb9e6ca51b"
   },
   "source": "source.png",
   "source_sha256": "35014a5c65306e6d754df58e7a1e34ce5a0fbf044dcc2e807b2472f00c933474",
@@ -1112,7 +1112,7 @@
     "status": "approved_by_owner",
     "approved_by": "project owner",
     "approved_on": "2026-11-22",
-    "approval_id": "owner_all_studio_art_2026-11-22",
-    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt hết assets trên studio cho tôi\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."
+    "approval_id": "owner_new_characters_2026-11-22",
+    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."
   }
 }

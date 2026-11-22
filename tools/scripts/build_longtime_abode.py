@@ -34,8 +34,8 @@ REVIEW = {
     "status": "approved_by_owner",
     "approved_by": "project owner",
     "approved_on": "2026-11-22",
-    "approval_id": "owner_all_studio_art_2026-11-22",
-    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt hết assets trên studio cho tôi\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json.",
+    "approval_id": "owner_new_characters_2026-11-22",
+    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json.",
 }
 
 

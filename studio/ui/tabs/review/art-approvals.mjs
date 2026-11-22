@@ -3,13 +3,10 @@
 //
 //   {"schema_version": 1, "approvals": [{"id", "approved_by", "kind"?, "scope"?, "covers"?, "recorded"?, "recorded_by"?,
 //     "assets": {"<assetId>": {"frame_dir": "<project-relative dir>", "frames": {"<frame key>": "<sha256 of <frame_dir>/<last key segment>.png>"},
-//                              "raw_files"?: {"<path>": "<sha256>"}, "shared_dir"?: true}},
+//                              "raw_files"?: {"<path>": "<sha256>"}}},
 //     "evidence": {"quote"?, "source"?}}]}
 //
 // A frame is covered only while its file still hashes to the recorded sha256; anything else is `changed` or `missing`.
-// `shared_dir: true` marks a frame directory that several assets share (a flat directory of `<assetId>_<n>.png` files): only the
-// files named `<assetId>_<n>.png` count as that asset's own when looking for an added frame. The standing of any frame is decided
-// by its own path and sha256, so an added frame there is awaiting review whether or not this display notices it.
 import { readJsonIfExists } from '../../../core/files.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -59,7 +56,7 @@ export function parseArtApprovals(data) {
       const rawDir = dirOk(info.raw_dir) ? info.raw_dir : null;
       out.push({approvalId: id, assetId, rawDir, approvedBy: by, kind: str(a.kind, 40) ?? 'owner_statement', scope: str(a.scope, 60) ?? null, covers: str(a.covers, 400) ?? null,
         recorded: str(a.recorded, 40) ?? null, recordedBy: str(a.recorded_by, 200) ?? null,
-        evidence: {quote: str(a.evidence?.quote, 400), source: str(a.evidence?.source, 200)}, frameDir: info.frame_dir, sharedDir: info.shared_dir === true, frames, rawFiles});
+        evidence: {quote: str(a.evidence?.quote, 400), source: str(a.evidence?.source, 200)}, frameDir: info.frame_dir, frames, rawFiles});
     }
   }
   return out;
@@ -76,11 +73,7 @@ export async function evaluateArtApproval(root, rec) {
   }
   // a frame added to the asset's directory is not covered either: compare the inventory with the record
   const known = new Set(rec.frames.map(([k]) => `${k.split('/').at(-1)}.png`));
-  let listed = await pngInventory(root, rec.frameDir);
-  if (rec.sharedDir && listed) {
-    const own = new RegExp(`^${rec.assetId.replace(/[.]/g, '\\.')}_\\d+\\.png$`);
-    listed = listed.filter(f => own.test(f));
-  }
+  const listed = await pngInventory(root, rec.frameDir);
   const added = (listed ?? []).filter(f => !known.has(f)).map(f => `${rec.frameDir}/${f}`);
   let unverified = listed === null;
   // the same for the raw files of a character: anything under its raw directory that the record does not list
