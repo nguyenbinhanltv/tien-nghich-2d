@@ -63,4 +63,45 @@ test('SHELL-003: the command palette closes on a route change and focus lands on
   assert.match(route, /state\.booted/, 'the first load does not steal focus');
   assert.match(palette, /document\.querySelector\('\.search-button'\)\)\?\.focus\(\)/, 'closing falls back to the search button when the opener is gone');
   assert.match(palette, /Escape[^]*close\(true\)/);
+  assert.match(shell, /afterChoose: \(\) => \$\('main'\)\.focus\(/, 'choosing an item focuses main even when no hashchange follows');
+});
+
+// A tiny DOM, enough to drive the real createPalette: picking an item is how the palette usually changes the route, and it closes itself
+// BEFORE the route changes, so route() never sees it open. Whatever the item does (another tab, the same tab, the current route), focus must end on main.
+function fakeDom() {
+  const listeners = new Map();
+  const el = (tag) => {
+    const node = {tag, children: [], attrs: {}, listeners: {}, removed: false, focused: false,
+      setAttribute(k, v) { node.attrs[k] = v; }, addEventListener(type, fn) { node.listeners[type] = fn; },
+      append(...c) { node.children.push(...c); }, replaceChildren(...c) { node.children = c; }, remove() { node.removed = true; },
+      focus() { node.focused = true; doc.activeElement = node; }, querySelectorAll: () => [], querySelector: () => null, scrollIntoView() {}, isConnected: true,
+      get value() { return node._v ?? ''; }, set value(v) { node._v = v; }};
+    return node;
+  };
+  const doc = {activeElement: null, body: el('body'), createElement: el, querySelector: () => null,
+    addEventListener(type, fn) { listeners.set(type, fn); }};
+  return {doc, listeners};
+}
+
+test('SHELL-003: choosing a palette item closes it and moves focus to the content, whether the route changes tab, changes within the tab, or does not change at all', async () => {
+  const {createPalette} = await import('../palette.mjs');
+  // What `navigate` does after the pick: a hash change in another tab, in the same tab, or nothing (the item was the current route, so no hashchange and route() never runs).
+  for (const [name, navigate] of [['another tab', () => 'vfx'], ['the same tab', () => 'overview/x'], ['the current route', () => null]]) {
+    const {doc} = fakeDom();
+    const main = doc.createElement('main'), opener = doc.createElement('button');
+    globalThis.document = doc;
+    doc.activeElement = opener;
+    let ran = 0;
+    const palette = createPalette({project: {tools: [], categoryTabs: {}}, getLang: () => 'en', t: k => k, fetchJson: async () => ({}),
+      navigate: () => { ran++; navigate(); }, goTool() {}, afterChoose: () => main.focus()});
+    palette.open();
+    assert.equal(palette.isOpen(), true, name);
+    const overlay = doc.body.children[0];
+    overlay.listeners.keydown({key: 'Enter', preventDefault() {}});   // choose the first entry
+    assert.equal(palette.isOpen(), false, `${name}: closed`);
+    assert.equal(ran, 1, `${name}: the item ran`);
+    assert.equal(main.focused, true, `${name}: focus is on main, not on the removed input`);
+    assert.notEqual(doc.activeElement, overlay);
+  }
+  delete globalThis.document;
 });

@@ -2,7 +2,7 @@
 import { destinations } from './destinations.mjs';
 import { localize } from './i18n.mjs';
 
-export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool}) {
+export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool, afterChoose}) {
   let overlay, input, list, items = [], active = 0, opener, controller, timer, query = '';
 
   function h(tag, attrs = {}, ...children) {
@@ -82,6 +82,8 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
     if (!entry) return;
     close(false);
     entry.run();
+    // The palette (and the input that had focus) is gone whatever `run` did, even if it changed nothing (the item was the current route, so no hashchange follows): focus must land somewhere real.
+    afterChoose?.();
   }
 
   function onKey(event) {

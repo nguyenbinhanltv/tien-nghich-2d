@@ -248,7 +248,7 @@ async function boot() {
   try { stored = localStorage.getItem(storageKey); } catch { stored = null; }
   state.lang = pickLanguage(project.languages, stored, navigator.languages ?? []);
   state.shell = await loadTable(fetchJson, './ui/i18n', project.languages);
-  if (!state.hubOnly) state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }});
+  if (!state.hubOnly) state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }, afterChoose: () => $('main').focus({preventScroll: true})});
   renderChrome();
   $('nav').addEventListener('keydown', railKeys);
   window.addEventListener('hashchange', route);
