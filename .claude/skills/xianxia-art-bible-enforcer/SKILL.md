@@ -1,6 +1,6 @@
 ---
 name: xianxia-art-bible-enforcer
-description: Enforce the Tien Nghich (Renegade Immortal) 2D art bible on every sprite - 3/4 top-down Soul Knight perspective (front-facing characters, 2.5D walls), 1px #14101a outline, unified 40-color Xianxia palette, and canvas size classes. Use when generating, reviewing, processing or accepting any PNG asset, or when writing a generator script.
+description: Enforce the Tien Nghich (Renegade Immortal) 2D art bible on every sprite - 3/4 top-down Soul Knight perspective (front-facing characters, 2.5D walls), 1px #14101a outline, unified 43-colour Xianxia palette, and canvas size classes. Use when generating, reviewing, processing or accepting any PNG asset, or when writing a generator script.
 ---
 
 # Xianxia art bible enforcer
