@@ -113,6 +113,10 @@ function validateGenerators(adapters = {}) {
     const params = g.params ?? {};
     for (const [name, spec] of Object.entries(params)) {
       if (!registryId.test(name) || generatorBuiltins.includes(name)) issues.push(`${at}.params.${name}: name must match ${registryId} and not be one of ${generatorBuiltins.join(', ')}`);
+      if (spec.pattern !== undefined) {
+        if (typeof spec.pattern !== 'string' || !isAnchored(spec.pattern)) issues.push(`${at}.params.${name}: pattern must be anchored at both ends (start with ^, end with an unescaped $), so it describes the whole value and not a part of it`);
+        else { try { new RegExp(spec.pattern); } catch { issues.push(`${at}.params.${name}: pattern is not a valid regular expression`); } }
+      }
       if (spec.type === 'string' && !spec.enum && !spec.pattern) issues.push(`${at}.params.${name}: a string parameter needs an "enum" or a "pattern" (free text is never passed to a program)`);
       if (spec.minimum !== undefined && spec.maximum !== undefined && spec.minimum > spec.maximum) issues.push(`${at}.params.${name}: minimum exceeds maximum`);
       if (spec.default !== undefined && !paramValueOk(spec, spec.default)) issues.push(`${at}.params.${name}: default ${JSON.stringify(spec.default)} does not satisfy its own rules`);
@@ -123,9 +127,30 @@ function validateGenerators(adapters = {}) {
       if (!known.has(name)) issues.push(`${at}.args: unknown placeholder {${name}}`);
       if (name === 'seed' && !g.seed) issues.push(`${at}.args: {seed} used but the generator declares no seed`);
     }
+    issues.push(...optionInjection(at, g.args, Object.keys(params)));
     if (!g.args.some(a => placeholders(a).includes('out'))) issues.push(`${at}.args: must pass {out}, the directory the generator writes its frames to`);
   }
   for (const name of Object.keys(adapters.vfx?.palettes ?? {})) if (!/^[a-z0-9_]+$/.test(name)) issues.push(`adapters.vfx.palettes.${name}: name must be lowercase letters, digits and underscores`);
+  return issues;
+}
+
+const isAnchored = pattern => pattern.startsWith('^') && /(^|[^\\])(\\\\)*\$$/.test(pattern);
+const flagToken = /^--?[A-Za-z][A-Za-z0-9_-]*$/;
+
+/**
+ * A parameter placeholder may only sit where a script cannot take its value for an option: as its own token right
+ * after a flag token (`--shape {shape}`), or embedded as `--flag={name}`. Never first, never glued to other text.
+ */
+function optionInjection(at, args, paramNames) {
+  const issues = [];
+  args.forEach((arg, i) => {
+    const used = placeholders(arg).filter(n => paramNames.includes(n));
+    if (!used.length) return;
+    const whole = /^\{([A-Za-z_]+)\}$/.exec(arg);
+    if (whole) {
+      if (i === 0 || !flagToken.test(args[i - 1])) issues.push(`${at}.args[${i}]: parameter {${whole[1]}} must come right after its own flag token (for example "--name", "{${whole[1]}}"), or be written --name={${whole[1]}}`);
+    } else if (!/^--[A-Za-z][A-Za-z0-9_-]*=\{[A-Za-z_]+\}$/.test(arg)) issues.push(`${at}.args[${i}]: parameter placeholder in "${arg}" must be a whole token after a flag, or exactly --flag={name}`);
+  });
   return issues;
 }
 
@@ -137,7 +162,7 @@ export function paramValueOk(spec, value) {
   if (spec.type === 'string' && typeof value !== 'string') return false;
   if (typeof value === 'number' && ((spec.minimum !== undefined && value < spec.minimum) || (spec.maximum !== undefined && value > spec.maximum))) return false;
   if (spec.enum && !spec.enum.includes(value)) return false;
-  if (spec.pattern && !new RegExp(spec.pattern).test(String(value))) return false;
+  if (spec.pattern && !new RegExp(`^(?:${spec.pattern})$`).test(String(value))) return false;   // the WHOLE value, whatever the pattern's own anchors
   return true;
 }
 

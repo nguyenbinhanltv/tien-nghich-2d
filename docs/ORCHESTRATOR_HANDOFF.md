@@ -1,12 +1,12 @@
 # Orchestrator handoff
 
-State as of `main` at `b61a183` (PR #87), with the changes of the PR that carries this sync. Every number below was re-counted from the repository at that commit; the command that reproduces it is named next to it. A fresh clone recovers the committed assets, manifests and tools from GitHub. Keep separate records for private Inspector revisions and local session state.
+State as of `main` at `e5fb170` (PR #88), with the changes of the PR that carries this sync. Every number below was re-counted from the repository at that commit; the command that reproduces it is named next to it. A fresh clone recovers the committed assets, manifests and tools from GitHub. Keep separate records for private Inspector revisions and local session state.
 
 Work arrives as pull requests against `main`: workers open them, the orchestrator reviews and merges. Check `gh pr list --state open` first.
 
 ## Resume point
 
-### Merged since the last sync (#63 to #87)
+### Merged since the last sync (#63 to #88)
 
 | PR | What |
 |---|---|
@@ -14,10 +14,10 @@ Work arrives as pull requests against `main`: workers open them, the orchestrato
 | [#69](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/69), [#72](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/72), [#77](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/77) | The forge in pure Node (`studio/forge/`): sheet import, pixelisation, part rig, motion templates, baker, pixel patches, animation gates, one pipeline from sheet to gates, pose-sheet clips. |
 | [#70](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/70) | Audio packs `wave2_batch2_v1`, `_batch3_v1`, `_batch4_v1` on the Mac toolchain, plus a cross-toolchain equivalence check. |
 | [#71](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/71) and the tab PRs [#73](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/73), [#76](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/76), [#81](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/81), [#82](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/82), [#83](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/83), [#84](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/84), [#85](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/85), [#86](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/86) | The studio shell and the seven built tabs (see the Studio section). |
-| [#74](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/74), [#87](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/87) | The MCP server grows from 1 to 25 tools. |
+| [#74](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/74), [#87](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/87), [#88](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/88) | The MCP server grows from 1 to 25 tools; #88 hardens the generator registry and program runner. |
 | [#75](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/75), [#79](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/79), [#80](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/80) | Drawn follow-pose trial of the Ink Marten, the audio engine, and the animation-default amendment. |
 
-Work arrives as pull requests; check `gh pr list --state open`. At this sync one is open: [#88](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/88) (hardens the generator registry and program runner).
+Work arrives as pull requests; check `gh pr list --state open`.
 
 ### In progress, not merged
 
@@ -141,7 +141,7 @@ The earlier version of these steps was written for PowerShell on Windows. These 
    tools/.venvs/project/bin/python -I tools/scripts/check_longtime_vfx.py
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_plan.py
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_core_masters.py
-   node --test $(git ls-files 'studio/**/*.test.mjs' | grep -v browser)   # 556 tests on main at b61a183
+   node --test $(git ls-files 'studio/**/*.test.mjs' | grep -v browser)   # 556 tests on main at b61a183 (563 with this PR's additions)
    node studio/smoke-test.mjs               # `node preview-app/smoke-test.mjs` still works through a shim
    node studio/mcp.mjs --self-test          # must end with `self-test PASSED`
    ```

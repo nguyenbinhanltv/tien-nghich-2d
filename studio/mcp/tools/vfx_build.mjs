@@ -7,6 +7,34 @@ import { buildTwice, checkSpec, vfxAdapter } from '../workflow/vfx.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 
+<<<<<<< HEAD
+=======
+// The launch recipe for SpriteFX in its own environment (docs/SKILLS_INSTALLED.md): the interpreter is the registered one,
+// isolated (-I), with the clone put on the module path explicitly. This text is fixed here; the pack only says WHERE things are.
+const RUNNER = "import sys, runpy; sys.path.insert(0, sys.argv.pop(1)); runpy.run_module('fx', run_name='__main__', alter_sys=True)";
+const MAX_SPEC_BYTES = 64 * 1024;
+
+// Anywhere in a spec, a value or a key: no path syntax at all (separators, "..", "~").
+const pathLike = (text, at) => { if (/[\\/~]/.test(text) || text.includes('..')) throw new ToolError(`${at} looks like a file path (${JSON.stringify(text.slice(0, 40))}); a spec names no files.`); };
+
+/** A spec names no files: every string and key must be free of path syntax, and the palette must be a registered one. */
+export function checkSpec(spec, palettes) {
+  if (!spec || typeof spec !== 'object' || Array.isArray(spec)) throw new ToolError('spec must be a SpriteFX effect object.');
+  const text = JSON.stringify(spec);
+  if (text.length > MAX_SPEC_BYTES) throw new ToolError(`the spec is ${text.length} bytes; the limit is ${MAX_SPEC_BYTES}.`);
+  if (!/^[a-z][a-z0-9_]{0,40}$/.test(spec.name ?? '')) throw new ToolError('spec.name is required: lowercase letters, digits and underscores, starting with a letter (it names the output).');
+  if (typeof spec.palette !== 'string' || !Object.hasOwn(palettes, spec.palette)) throw new ToolError(`spec.palette must be a registered project palette: ${Object.keys(palettes).join(', ')}. Got ${JSON.stringify(spec.palette)}.`);
+  const walk = (v, at, depth) => {
+    if (depth > 14) throw new ToolError(`the spec nests too deeply at ${at}.`);
+    if (typeof v === 'string') pathLike(v, at);
+    if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${at}[${i}]`, depth + 1));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { pathLike(k, `${at}.<key>`); walk(x, `${at}.${k}`, depth + 1); }
+  };
+  walk(spec, 'spec', 0);
+  return text;
+}
+
+>>>>>>> origin/main
 export default {
   name: 'studio_vfx_build',
   title: 'Build a VFX from a SpriteFX spec, with its audits',
