@@ -126,6 +126,16 @@
         "bodyPlans": {"pet": "quadruped", "npc": "biped", "player": "biped", "mob": "biped", "boss": "biped", "boss_large": "biped"}
       }
     },
+    "vfx": {
+      "floors": [
+        {"id": "grey", "color": "ink_04"},
+        {"id": "court", "color": "ink_03", "joint": "ink_02"},
+        {"id": "dark", "color": "ink_02"}
+      ],
+      "roundsDir": "tools/generators/vfx_specs/history",
+      "rubricDoc": "docs/LESSONS_vfx_spritefx.md",
+      "longtimeDoc": "docs/LONGTIME_VFX.md"
+    },
     "tools": [
       {"id": "arena", "href": "previewer.html?tab=arena", "tab": "sandbox",
        "label": {"en": "Play Arena", "vi": "Đấu trường thử"}, "note": {"en": "Playable arena with blob-47 rooms", "vi": "Đấu trường chơi được, phòng blob-47"}},

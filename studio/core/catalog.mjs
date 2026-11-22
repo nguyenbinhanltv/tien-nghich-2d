@@ -67,7 +67,8 @@ async function audioEvidence(root, evidence = {}) {
   if (evidence.packs) {
     for (const file of await walkFiles(root, evidence.packs, f => f.endsWith('/pack.json'))) {
       const pack = await readJson(root, file);
-      if (pack.bgm?.id) packed.add(pack.bgm.id);
+      // Older packs name one bed under `bgm`; later batches list several under `bgms`.
+      for (const bed of [pack.bgm, ...(Array.isArray(pack.bgms) ? pack.bgms : [])]) if (bed?.id) packed.add(bed.id);
       for (const cue of pack.sfx?.cues ?? []) if (cue.id) packed.add(cue.id);
     }
   }

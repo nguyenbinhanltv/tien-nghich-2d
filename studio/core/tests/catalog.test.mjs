@@ -60,3 +60,16 @@ test('every asset has a readiness, and Longtime readiness follows the chunk atla
   assert.ok(assets.filter(a => a.source === 'longtime' && a.wave === 'wave_1').length === 9);
   assert.equal(assets.find(a => a.id === 'lt_kiln_keeper').chunk, 'abode');
 });
+
+test('audio beds count as packed whether the pack lists one under `bgm` or several under `bgms`', async () => {
+  const pack = await loadPack(root);
+  const {assets} = await buildCatalog(pack, root);
+  const audio = new Map(assets.filter(a => a.source === 'audio').map(a => [a.id, a]));
+  const packs = JSON.parse(await (await import('node:fs/promises')).readFile(`${root}/assets/audio_manifest.json`, 'utf8'));
+  const beds = packs.core.bgm;
+  assert.equal(beds.length, 6);
+  for (const id of beds) assert.equal(audio.get(id)?.readiness, 'packed', `${id} is in a pack.json`);
+  // Every cue named by a pack is packed too.
+  assert.equal(audio.get('bgm_blood_sea').readiness, 'packed');
+  assert.equal(audio.get('bgm_endless').readiness, 'packed');
+});
