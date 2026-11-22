@@ -3,6 +3,7 @@
     "lt_abode_stone",
     "lt_bell_founder",
     "lt_bronze_cicada",
+    "lt_chart_reader",
     "lt_coal_toad",
     "lt_fx_gate_unseal",
     "lt_herb_bed",
@@ -16,17 +17,17 @@
     "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 334,
+  "frame_count": 366,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 334,
+      "frames": 366,
       "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "00a37f495e4a4b8368cae8ae3021f0f5a9fb62ee1807f9bff3dbd8aadbc21443",
-      "png_sha256": "0e99687659ad250f93f4c9fbec310b759a07ec5f4fe36ceff514f496b108992f",
+      "json_sha256": "b8389bae3886574e46f8bf375ec952799518c318bd48c9713eb253ebf28ecec1",
+      "png_sha256": "858786a21a5744df92e81fa099fcb9135a02f224f324b048d27baf026f7482f5",
       "rgba8_bytes": 2097152,
       "width": 2048
     }

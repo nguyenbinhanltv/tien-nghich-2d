@@ -3,6 +3,7 @@
     "lt_abode_stone",
     "lt_bell_founder",
     "lt_bronze_cicada",
+    "lt_chart_reader",
     "lt_coal_toad",
     "lt_fx_gate_unseal",
     "lt_herb_bed",
@@ -16,24 +17,24 @@
     "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 334,
+  "frame_count": 366,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 334,
-      "height": 512,
+      "frames": 366,
+      "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "60966d0731b76fa10840e3198dadc0cc49305f4bc423dec595a0fdcb118b8b8c",
-      "png_sha256": "7756ed3111597bbf8fd785fecc3e3b988d4534bcd288859d1c3e46e9e5876b89",
-      "rgba8_bytes": 2097152,
+      "json_sha256": "94bc147d199b904ae039e1e17bc0b9f3d6499e2c3db0990ef16719c3fdee4923",
+      "png_sha256": "f6b955394311d13560df962c0dea93ee5000e98caa6ec2cb319fcba16cdbfaec",
+      "rgba8_bytes": 4194304,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 2097152,
-  "rgba8_mib": 2.0,
+  "rgba8_bytes": 4194304,
+  "rgba8_mib": 4.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

@@ -1,0 +1,69 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "5de2dc63-eaa6-4b36-8555-84958b700368",
+  "character_job_id": "bb1fad10-d56c-4f06-8957-b0e90b7a5eb2",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Scholarly xianxia chart reader, small human in a long deep-indigo robe with a pale sash, black hair in a topknot with a pin, thin beard, calm eyes. Held in both hands in front of the chest a flat SQUARE bronze astrolabe, a square frame with a round dial and a small pointer in the middle, glinting gold and pale blue. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "05fb4e11-1377-4f20-98cb-ff376e1dc743",
+      "job_ids": {
+        "south": "03d9ecfb-eab7-4734-9d76-b72a84fa73d0",
+        "west": "7a403f70-4013-4e8b-a614-620c2ea1175a",
+        "north": "a2a24671-791a-415a-b232-649657e14e0d",
+        "east": "0e825f20-02ad-41f6-8370-585db89adfdc"
+      },
+      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square bronze astrolabe stays held in both hands in front of his chest, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the square astrolabe stays held in both hands in front of his chest, always visible",
+        "west": "facing left, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible",
+        "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
+        "east": "facing right, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c3b8d8b4-7fc3-45b8-a1bf-c2483d73ed49",
+      "job_ids": {
+        "south": "4ef42182-8c15-4b0f-a1d4-4f21ddbccb5e",
+        "west": "6584ec76-9be7-473b-9d5d-d16c62da8deb",
+        "north": "9bdacb88-b302-45d3-aff5-8734aed47592",
+        "east": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7"
+      },
+      "action_description": "tilts the square astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the square astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
+        "west": "facing left, holds the square astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him",
+        "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
+        "east": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "west and east views are very tall and narrow: the long robe and hair read as one dark pillar",
+    "idle east frames 2-3 carry a few stray dash-like specks beside the astrolabe",
+    "the astrolabe is a 3-5 px gold-and-blue block at 1x in the side views and is not visible in the north view (it is held in front)",
+    "the robe is near-black rather than indigo after the 40-colour snap"
+  ]
+}
