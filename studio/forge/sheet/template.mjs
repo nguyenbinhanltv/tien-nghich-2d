@@ -3,8 +3,10 @@
 import { createImage } from '../image.mjs';
 import { assertLayout, cellRect } from './layout.mjs';
 import { drawText, glyphHeight, glyphWidth } from './font.mjs';
+import { drawGuide, guideShapes } from '../figure/figure.mjs';
 
-export function renderTemplate(layoutDoc) {
+/** `figure` (a pack figure guide) adds a silhouette guide with its proportions to every cell, in the same dimmed key colour. */
+export function renderTemplate(layoutDoc, {figure} = {}) {
   const layout = assertLayout(layoutDoc);
   const [width, height] = layout.size;
   const img = createImage(width, height, layout.key.rgb);
@@ -27,6 +29,11 @@ export function renderTemplate(layoutDoc) {
     const [fa, fb] = m.footWindow.map(f => x0 + Math.round(basis * f));
     line(fa, groundY + 6, fb, groundY + 7);
     line(fa, groundY + 2, fa, groundY + 7); line(fb, groundY + 2, fb, groundY + 7);
+    if (figure?.guide) {
+      const top = y0 + band + Math.round(ch * 0.06);
+      const thick = Math.max(2, Math.round(cw / 170)), pad = 4 + thick;
+      drawGuide(guideShapes(figure, {cx: centerX, ground: groundY, top, minX: x0 + pad, maxX: x1 - pad}), (x, y) => plot(x, y, guide), thick);
+    }
     const textWidth = cell.label.length * (glyphWidth + 1) - 1;
     const scale = Math.max(1, Math.min(Math.floor((band - 4) / glyphHeight), Math.floor((cw - 8) / textWidth)));
     drawText(cell.label, x0 + 4, y0 + Math.max(1, Math.floor((band - glyphHeight * scale) / 2)), scale, (x, y) => plot(x, y));

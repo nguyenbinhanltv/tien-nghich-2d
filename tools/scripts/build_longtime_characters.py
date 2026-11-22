@@ -152,13 +152,19 @@ def build(aid, raw_root=RAW, out_root=OUT):
     palette, outline = qa.load_palette(PALETTE)
     raw, raw_paths = read_raw(aid, prof, raw_root)
     stats = Counter()
-    processed, lost_total = {}, 0
+    gen_path = raw_root / aid / "generation.json"
+    allowance = (json.loads(gen_path.read_text(encoding="utf8")).get("crop_allowance", {}) if gen_path.is_file() else {})
+    processed, lost_total, cropped = {}, 0, {}
     for k, arr in raw.items():
         arr = arr.copy()
         o = (arr[..., 3] >= 128) & (arr[..., :3] == np.array(bp.PIXELLAB_OUTLINE, np.uint8)).all(-1)
         arr[o, :3] = INK
         placed, lost = centre(arr, size)
-        lost_total += lost
+        key = f"{k[0]}/{k[1]}/{k[2]}"
+        if lost and lost <= allowance.get(key, 0):
+            cropped[key] = lost  # explicitly accepted in generation.json (crop_allowance), reported in provenance
+        else:
+            lost_total += lost
         processed[k] = bp.snap_character(placed, palette, outline, stats, speckle=False)
     if lost_total:
         raise SystemExit(f"{aid}: {lost_total} opaque pixels fall outside {size}; adjust before building")
@@ -212,6 +218,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
                       "#020105 -> #14101a", "binary alpha", "snap to 40 colours with ink_01 reserved for outline",
                       "silhouette edge repaint with #14101a", "outline thinning of 2x2 blocks"],
             "pixels_changed": {k: int(v) for k, v in sorted(stats.items())},
+            **({"cropped_opaque_pixels": cropped} if cropped else {}),
         },
         "source": "source.png",
         "source_sha256": sha(rd / "source.png"),

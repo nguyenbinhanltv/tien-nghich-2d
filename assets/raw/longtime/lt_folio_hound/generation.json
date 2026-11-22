@@ -1,0 +1,149 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (32x32 native, low top-down, dog template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed; canvases come back 36-44 px and are centred on 32 by the build script). All four facings are separate PixelLab generations; nothing is mirrored. Diagonal direction_prompts keys are required by the tool and were filled with 'unused diagonal: ...' placeholders; no diagonal was generated.",
+  "pixellab_character_id": "a46ba0fa-edba-4e26-9502-089938040828",
+  "character_job_id": "0f0d0918-d91b-4474-9a28-1978608569cc",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small folio hound, a stocky dog-like beast standing on all four legs, its body made of stacked parchment folios bound with a bronze-studded leather spine strap, cream-white page-edge ruffs on the chest and tail, dark ink-grey muzzle and legs, a long tail of loose pages, bright vermilion seal stamp on the forehead, large ears like folded pages. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "frames_kept": [
+        0,
+        1,
+        2
+      ],
+      "keep_first_frame": false,
+      "animation_group_id": "d0c1f02a-4294-418e-857a-4b68d2107eb0",
+      "job_ids": {
+        "south": "54dbba27-b566-4d42-8e96-c431487ef150",
+        "west": "01fcc8e6-9fbe-4911-849a-34c17a5a339e",
+        "north": "6687ebb4-392b-4c4d-a6a5-393db8b009ff",
+        "east": "fc908d14-4fba-4c52-944e-5b8276f7b629"
+      },
+      "rejected_first_take_job_ids": {
+        "west": "753ca69f-320d-40e8-b46b-0140e11fc3d3"
+      },
+      "action_description": "stands on all four legs breathing gently, the page-leaf tail and ears twitch slightly, the red seal stays on the forehead",
+      "direction_prompts": {
+        "south": "facing the viewer on all four legs, breathes gently, ears and page tail twitch slightly",
+        "west": "facing left on all four legs, breathes gently, page tail sways behind on the right",
+        "north": "seen from behind on all four legs, breathes gently, page tail sways",
+        "east": "facing right on all four legs, breathes gently, page tail sways behind on the left"
+      },
+      "regeneration_action_description": "stands on all four legs breathing gently, only the body and the page tail move slightly, no marks, no sparks, no breath clouds, the red seal stays on the forehead",
+      "regeneration_direction_prompts": {
+        "west": "facing left on all four legs, breathes gently, only the body and page tail move slightly; nothing appears in front of the muzzle, no marks, no sparks"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "keep_first_frame": false,
+      "animation_group_id": "3bf19ba6-7815-4ecd-a06d-48287e84896c",
+      "job_ids": {
+        "south": "7e712951-7ecb-4456-b9df-f49c410bfb26",
+        "west": "2d3f7805-1a5d-4d3c-bc72-55b6ebe94c8e",
+        "north": "52ce9197-0e1e-46a3-a73d-8f1a4f28b07d",
+        "east": "e06e8c19-f1c2-479f-a636-2ea3c903718e"
+      },
+      "action_description": "trots forward on all four legs in a quick walk cycle, page tail streams behind, red seal stays on the forehead",
+      "direction_prompts": {
+        "south": "trots toward the viewer on all four legs in a compact narrow trot, only the legs move, tail stays directly behind",
+        "west": "trots to the left on all four legs, page tail streams out to the right behind it",
+        "north": "trots away from the viewer, seen from behind, on all four legs, tail swaying",
+        "east": "trots to the right on all four legs, page tail streams out to the left behind it"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "frames_kept": [
+        0,
+        2,
+        3
+      ],
+      "keep_first_frame": false,
+      "animation_group_id": "b4e24914-4397-4d99-9b8d-cb6c78abd0d8",
+      "job_ids": {
+        "south": "42c3c7be-32cb-481c-b80b-23f5e4006fba",
+        "west": "3d50e612-af1f-469d-88d1-c80297f05b63",
+        "north": "72ad03d8-ba2b-4eb7-982c-73ca042d055b",
+        "east": "e5b6bcfc-ecb4-4faa-95fb-9487d2c4dafc"
+      },
+      "action_description": "crouches low on all four legs and rears its head back, page ruffs bristle and spread, preparing to lunge, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, crouches low, head draws back, page ruffs bristle, stays compact",
+        "west": "facing left, crouches low, head draws back, page ruffs bristle, tail stays behind on the right",
+        "north": "seen from behind, crouches low, page tail and ruffs bristle",
+        "east": "facing right, crouches low, head draws back, page ruffs bristle, tail stays behind on the left"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "keep_first_frame": false,
+      "animation_group_id": "f17f8257-89a4-4862-857d-265c520cc81b",
+      "job_ids": {
+        "south": "a4ddcd72-5131-42ce-a650-0b03dabaeb5a",
+        "west": "a6546d1c-840f-4d23-bc60-c6dc937b3d8a",
+        "north": "1707b834-74cc-400f-a950-31d65964d9dc",
+        "east": "a4db73b6-eb24-4c30-9937-3b582a4d717b"
+      },
+      "action_description": "lunges forward and snaps its jaws, body stretches forward then springs back, page tail flicks, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, lunges toward the viewer and snaps its jaws, then springs back, stays compact",
+        "west": "facing left, lunges forward to the left and snaps its jaws, then springs back, tail behind on the right",
+        "north": "seen from behind, lunges forward away from the viewer, then springs back",
+        "east": "facing right, lunges forward to the right and snaps its jaws, then springs back, tail behind on the left"
+      }
+    }
+  },
+  "frame_count_note": "The mob profile wants 3 frames for idle and telegraph but PixelLab v3 only returns even counts (min 4). Idle was generated with 4 frames and the last was dropped; telegraph with 4 and frame 1 was dropped (kept 0, 2, 3, renumbered 0-2). The raw folder holds the kept frames only; the dropped ones were never shipped.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32, dog template, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: page-ruff hound with red seal reads on all four facings"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike x 4 directions, first take",
+      "credits": 16,
+      "result": "all accepted except idle west (stray pale-cyan marks by the muzzle in frames 2-3)"
+    },
+    {
+      "n": 3,
+      "what": "idle west regenerated once (appended to the same group)",
+      "credits": 1,
+      "result": "accepted, clean"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 1,
+    "total_generations": 23,
+    "balance_before": 599.26
+  },
+  "known_flaws": [
+    "the cream page ruffs on a brown body read as a generic fox-dog at 1x; the seal stamp is only 2-3 px",
+    "north view shows only ears and back; the page tail is a small lump",
+    "walk south is a narrow trot with little leg separation"
+  ]
+}
