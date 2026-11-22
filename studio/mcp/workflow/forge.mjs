@@ -43,14 +43,23 @@ export async function readDoc(ws, asset, name) {
   catch { throw new ToolError(`${docRel(asset, name)} is not valid JSON; it was edited by hand. Fix or remove it.`); }
 }
 
-/** Write a tracked document atomically. Returns {rel, sha256}. */
-export async function writeDoc(ws, asset, name, doc) {
+async function putDoc(ws, asset, name, doc) {
   const text = JSON.stringify(doc, null, 2) + '\n';
   if (text.length > MAX_DOC_BYTES) throw new ToolError(`${name} document is ${text.length} bytes; the limit is ${MAX_DOC_BYTES}`);
   const rel = docRel(asset, name);
   await ensureDirInside(ws.root, forgeDir(asset));
-  await withLock(path.join(ws.root, rel), () => writeFileAtomic(path.join(ws.root, rel), text));
+  await writeFileAtomic(path.join(ws.root, rel), text);
   return { rel, sha256: sha256(text) };
+}
+
+/** Write a tracked document atomically. Returns {rel, sha256}. */
+export async function writeDoc(ws, asset, name, doc) {
+  return withLock(path.join(ws.root, docRel(asset, name)), () => putDoc(ws, asset, name, doc));
+}
+
+/** Read, change and write a tracked document under ONE lock, so concurrent updates of different fields cannot erase each other. `change(current|null)` returns the new document. */
+export async function updateDoc(ws, asset, name, change) {
+  return withLock(path.join(ws.root, docRel(asset, name)), async () => putDoc(ws, asset, name, await change(await readDoc(ws, asset, name))));
 }
 
 /** Where a sheet with these bytes is stored, whether it already is, and that what is there really is these bytes (throws if not). */

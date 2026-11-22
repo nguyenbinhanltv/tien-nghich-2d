@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { writeFileAtomic } from '../../core/fsutil.mjs';
 import { bodyPlans } from '../../forge/motion/library.mjs';
-import { encodePng, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
+import { encodePng, figureFor, guidanceText, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { dryRunProp, loadAsset, requireFrames, requireScope } from './_shared.mjs';
@@ -18,6 +18,7 @@ export default {
     'Routes (decided in the forge bake-off): a single frame is drawn on a sheet and pixelised; LOCOMOTION clips (walk, follow, advance...) start from drawn KEY POSES on a pose sheet (kind="pose-sheet", clip=<that clip>); ' +
     'IDLE and small motions are baked from a RIG with a motion template; asymmetric marks (a coloured ear, a held tool in one hand) are kept with studio_process marks and fixed with studio_frame_patch. ' +
     'kind="turnaround" gives one drawing per facing; kind="pose-sheet" gives one per pose and facing. Draw with your own image tool on a pure green key, using the template file as the reference. ' +
+    'If the project pack defines a figure guide for this profile (pack figures), the result carries its proportions as text for your image prompt (head share, minimum limb width, pixels an accent colour needs) and the template cells show a guide silhouette in dimmed green (it keys out as background): fit your figure to it. ' +
     'The result also carries formats: the compact shape of the rig and poseClips documents that studio_rig_bake takes, with the rules (coordinates, roles, which annotations turn which gate on), so you need not read source. ' +
     'write=true (needs scope author) saves the template PNG where your image tool can read it (with dryRun it only lists the files it would save). Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
@@ -30,6 +31,7 @@ export default {
       facings: { type: 'array', maxItems: 4, items: { type: 'string', enum: FACINGS }, description: 'Facings to draw (default: the profile\'s directions).' },
       poses: { type: 'array', minItems: 1, maxItems: 12, items: { type: 'string', pattern: '^[a-z][a-z0-9_]{0,23}$' }, description: 'Pose names for a pose sheet (default: contact/passing names matching the clip\'s frame count).' },
       size: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 512, maximum: 2048 }, description: 'Template size in pixels (default [1024, 1024]); the drawn sheet may be any size.' },
+      figure: { type: 'string', maxLength: 31, description: 'Name of the pack figure guide to use (default: the one that lists this asset\'s profile); "none" for no guide and no proportion text.' },
       heightPx: { type: 'integer', minimum: 4, maximum: 200, description: 'Wanted figure height at native size, ground to crown (default about 65% of the canvas).' },
       write: { type: 'boolean', description: 'Save the template PNG and layout under the work directory and return their paths (needs scope author).' },
       dryRun: dryRunProp,
@@ -69,7 +71,9 @@ export default {
       const [w, h] = args.size ?? [1024, 1024];
       const layoutId = `${asset.id}-${kind}${args.clip ? `-${args.clip}` : ''}`.replace(/_/g, '-');
       const layout = turnaroundLayout({ id: layoutId, facings, poses, size: [w, h], heightPx: args.heightPx ?? Math.round(profile.nativePx[1] * 0.65) });
-      const image = renderTemplate(layout);
+      const named = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
+      if (args.figure && args.figure !== 'none' && !named) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
+      const image = renderTemplate(layout, { figure: named });
       const png = Buffer.from(encodePng(image));
 
       let files;
@@ -89,8 +93,9 @@ export default {
         asset: { id: asset.id, profile: asset.profile, nativePx: profile.nativePx, pivotPx: profile.pivotPx, directions: asset.directions },
         clips,
         template: { layoutId, kind, size: [w, h], cells: layout.cells.map((c) => ({ id: c.id, label: c.label, facing: c.facing, pose: c.pose })), ...(files ? (args.dryRun ? { wouldWrite: files } : { files }) : {}),
-          drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.` },
+          drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.${named ? ` ${guidanceText(named, profile)}` : ''}` },
         layout,
+        ...(named ? { figure: { name: named.name, description: named.description, headToBody: named.headToBody, minLimbWidthPx: named.minLimbWidthPx, accentMinPixels: named.accentMinPixels, guideDrawn: Boolean(named.guide), measured: named.measured, guidance: guidanceText(named, profile) } } : {}),
         ...(poseClips ? { poseClips } : {}),
         formats: formatsGuide(bodyPlans(), profile),
         motion: { bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
