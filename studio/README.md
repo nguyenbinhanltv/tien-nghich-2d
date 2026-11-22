@@ -147,9 +147,9 @@ Keys inside each block that has them:
 - **`forge`**
   - `forge.pixelize` (optional, object)
 - **`ui`**
-  - `ui.brand` (required, object)
+  - `ui.brand` (required, object): The name plate: mark (a few letters, the fallback), seal (a 12x12 pixel grid for the brand seal) and subtitle.
   - `ui.languages` (optional, array)
-  - `ui.theme` (required, object): Shell colours by role, each a palette id: ink, surface, line (dividers), lineStrong (control borders; needs 3:1 against the surface, WCAG 1.4.11; optional, the shell falls back to muted), muted, text, accent, accentSoft, gold, goldSoft, danger. Any role may be left out; the shell has neutral defaults.
+  - `ui.theme` (required, object): Shell colours by role, each a palette id (never hex). Surfaces: ink (page), surface (raised controls), panel (the slip: cards and panels; default derives from surface and ink). Lines: line (dividers, decoration), lineStrong (control borders; needs 3:1 against the surroundings, WCAG 1.4.11; falls back to muted). Text: text, muted (both 4.5:1 on every surface). Accent: accent (selected, primary action), accentSoft, gold (attention, focus), goldSoft, danger (rejected, error; 4.5:1 as text). Meaning: seal (the seal colour), sealInk (what is carved in it; 4.5:1 on seal), ok (done; falls back to accent), warn (needs attention; falls back to gold), ask (an agent's question; falls back to text), link (links, running; falls back to accent). 18 roles in all; any may be left out and the shell uses neutral defaults, so a small palette still looks right.
   - `ui.categoryTabs` (required, object)
   - `ui.tools` (required, array)
   - `ui.tabs` (optional, object): Free-form per-destination configuration, one object per tab id. Each tab documents and validates its own object (see its README); the pack schema only fixes that it is an object.

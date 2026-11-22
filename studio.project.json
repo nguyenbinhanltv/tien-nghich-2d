@@ -157,11 +157,30 @@
     ]
   },
   "ui": {
-    "brand": {"mark": "仙", "subtitle": {"en": "Xianxia pixel-art workshop", "vi": "Xưởng pixel art tiên hiệp"}},
+    "brand": {
+      "mark": "仙",
+      "seal": [
+        "............",
+        "...#....#...",
+        "..#.....#...",
+        ".##..#..#.#.",
+        "..#..#..#.#.",
+        "..#..#..#.#.",
+        "..#..#..#.#.",
+        "..#..#..#.#.",
+        "..#..######.",
+        "..#.........",
+        "..#.........",
+        "............"
+      ],
+      "subtitle": {"en": "Xianxia pixel-art workshop", "vi": "Xưởng pixel art tiên hiệp"}
+    },
     "languages": ["en", "vi"],
     "theme": {
-      "ink": "ink_01", "surface": "ink_02", "line": "ink_03", "lineStrong": "ink_04", "muted": "ink_05", "text": "ink_06",
-      "accent": "jade_04", "accentSoft": "jade_02", "gold": "bronze_04", "goldSoft": "bronze_06", "danger": "blood_05"
+      "ink": "ink_01", "surface": "ink_02", "panel": "soul_01", "line": "ink_03", "lineStrong": "ink_04", "muted": "ink_05", "text": "ink_06",
+      "accent": "jade_04", "accentSoft": "jade_02", "gold": "bronze_04", "goldSoft": "bronze_06",
+      "danger": "blood_06", "seal": "blood_04", "sealInk": "blood_07",
+      "ok": "jade_05", "warn": "bronze_05", "ask": "soul_06", "link": "thunder_02"
     },
     "categoryTabs": {
       "player": "characters", "pet": "characters", "npc": "characters", "mob": "characters", "boss": "characters",

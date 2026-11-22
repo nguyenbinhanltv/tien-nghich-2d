@@ -218,6 +218,19 @@ export async function buildLedger({root, pack, index}) {
   const scan = config.fontScan ?? {roots: [], extensions: []};
   const fonts = [];
   for (const base of scan.roots) fonts.push(...await walkFiles(root, base, f => scan.extensions.some(e => f.toLowerCase().endsWith(e))));
+  // A font's licence counts as recorded when its folder holds a licence text (OFL*, LICENSE*, LICENCE*) AND a README.md naming the font file's SHA-256.
+  const fontRecorded = async file => {
+    try {
+      const dir = path.posix.dirname(file.replace(/\\/g, '/'));
+      const names = await fs.readdir(path.join(root, dir));
+      if (!names.some(n => /^(OFL|LICEN[SC]E)[^/]*\.(txt|md)$/i.test(n))) return false;
+      const readme = names.find(n => n.toLowerCase() === 'readme.md');
+      if (!readme) return false;
+      return (await fs.readFile(path.join(root, dir, readme), 'utf8')).toLowerCase().includes(createHash('sha256').update(await fs.readFile(path.join(root, file))).digest('hex'));
+    } catch { return false; }
+  };
+  const fontsUnrecorded = [];
+  for (const f of fonts) if (!await fontRecorded(f)) fontsUnrecorded.push(f);
 
   const counts = Object.fromEntries(ORIGIN_KINDS.map(k => [k, records.filter(r => r.origin.kind === k).length]));
   const planned = records.filter(r => r.origin.kind === 'not-recorded' && r.readiness === 'planned').length;
@@ -232,9 +245,9 @@ export async function buildLedger({root, pack, index}) {
     ...(counts['retired-tool'] ? [{kind: 'assets', id: 'retired-tool', count: counts['retired-tool'], flags: ['Made with a service that is no longer used. The licence terms of its output are not recorded in this project.']}] : []),
     ...(counts.unclassified ? [{kind: 'assets', id: 'unclassified', count: counts.unclassified, flags: ['A provenance file exists but does not name a generator, tool or service.']}] : []),
     ...(!thirdParty.present ? [] : [{kind: 'sources', id: thirdParty.file, flags: ['A third-party sources file exists; this ledger does not parse it. Review it by hand.']}]),
-    ...(fonts.length ? [{kind: 'fonts', id: 'fonts', count: fonts.length, flags: ['Font files are present; their licences are not recorded.']}] : [])];
+    ...(fontsUnrecorded.length ? [{kind: 'fonts', id: 'fonts', count: fontsUnrecorded.length, flags: ['Font files are present; their licences are not recorded.']}] : [])];
   return {schema: 'studio.ledger', version: 1, project: {id: pack.id, name: pack.name},
-    assets: records.sort((a, b) => (a.source + a.id < b.source + b.id ? -1 : 1)), components, fonts: {scanned: scan.roots, files: fonts},
+    assets: records.sort((a, b) => (a.source + a.id < b.source + b.id ? -1 : 1)), components, fonts: {scanned: scan.roots, files: fonts, unrecorded: fontsUnrecorded},
     thirdPartySources: thirdParty, summary: {total: records.length, art, audio, counts, planned, producers, fieldStats, open: records.reduce((n, r) => n + r.open.length, 0)}, decisions};
 }
 

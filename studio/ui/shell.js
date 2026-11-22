@@ -29,20 +29,26 @@ async function fetchJson(url, options) {
   return res.json();
 }
 
-function glyphSvg(rows) {
+/** A pixel grid ('#' = a filled pixel) as crisp SVG rects. `ink` classes the rects so CSS can colour them. */
+function gridSvg(rows, ink) {
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', '0 0 8 8');
+  svg.setAttribute('viewBox', `0 0 ${Math.max(...rows.map(r => r.length))} ${rows.length}`);
   svg.setAttribute('shape-rendering', 'crispEdges');
   svg.setAttribute('aria-hidden', 'true');
   rows.forEach((row, y) => [...row].forEach((c, x) => {
     if (c !== '#') return;
     const r = document.createElementNS(ns, 'rect');
     r.setAttribute('x', x); r.setAttribute('y', y); r.setAttribute('width', 1); r.setAttribute('height', 1);
+    if (ink) r.setAttribute('class', ink);
     svg.append(r);
   }));
   return svg;
 }
+const glyphSvg = rows => gridSvg(rows);
+const validSeal = rows => Array.isArray(rows) && rows.length === 12 && rows.every(r => typeof r === 'string' && /^[.#]{12}$/.test(r));
+const menuGlyph = ['########', '........', '########', '........', '########', '........', '........', '........'];
+const closeGlyph = ['##....##', '###..###', '.######.', '..####..', '..####..', '.######.', '###..###', '##....##'];
 
 // With no project open (the server was started without one) the shell has only the Projects screen: this stands in for the project info.
 const noProject = () => ({id: null, name: '', brand: {mark: 'PK'}, languages: ['en', 'vi'], theme: {}, categoryTabs: {}, tools: [], tabConfig: {}, sources: [], tabs: [], palette: {name: '', colors: 0}});
@@ -74,8 +80,9 @@ function renderChrome() {
   const {project} = state;
   document.documentElement.lang = state.lang;
   $('brand').replaceChildren(
-    h('span', {class: 'brand-mark', 'aria-hidden': 'true'}, project.brand.mark),
-    h('span', {class: 'brand-text'}, h('strong', {}, t('app.title')), h('small', {title: label(project.brand.subtitle) || project.name}, state.hubOnly ? t('top.noProject') : project.name)));
+    h('span', {class: 'brand-mark', 'aria-hidden': 'true'}, validSeal(project.brand.seal) ? gridSvg(project.brand.seal, 'seal-ink') : project.brand.mark),
+    h('span', {class: 'brand-text'}, h('strong', {}, t('app.title')), h('small', {title: label(project.brand.subtitle) || project.name}, state.hubOnly ? t('top.noProject') : project.name)),
+    h('button', {type: 'button', class: 'rail-close', id: 'rail-close', 'aria-label': t('nav.close'), onclick: () => setRail(false)}, glyphSvg(closeGlyph)));
   const nav = $('nav');
   nav.setAttribute('aria-label', t('nav.label'));
   nav.replaceChildren(...(state.hubOnly ? [] : destinations).map((d, i) => {
@@ -96,6 +103,7 @@ function renderTopbar() {
   const {project} = state;
   const langs = project.languages;
   $('topbar').replaceChildren(
+    h('button', {type: 'button', class: 'rail-toggle', id: 'rail-toggle', 'aria-label': t('nav.open'), 'aria-controls': 'rail', 'aria-expanded': String(railOpen()), onclick: () => setRail(!railOpen())}, glyphSvg(menuGlyph)),
     h('div', {class: 'crumbs', id: 'crumbs'}),
     state.hubOnly ? '' : h('button', {type: 'button', class: 'switcher', 'data-testid': 'project-switcher', title: t('top.switcher'), 'aria-label': t('top.switcher') + ': ' + project.name,
       onclick: () => navigate({tab: hubTab})}, h('span', {class: 'muted'}, t('top.project')), h('strong', {}, project.name), h('span', {'aria-hidden': 'true'}, '▾')),
@@ -114,6 +122,20 @@ function renderCrumbs() {
   if (asset) parts.push(h('span', {class: 'sep', 'aria-hidden': 'true'}, '›'), h('code', {title: asset}, asset));
   if (detail) parts.push(h('span', {class: 'chip', title: detail}, detail));   // clip, direction and frame: one label, so the bar stays one line
   crumbs.replaceChildren(...parts);
+}
+
+// Below 900 px the rail is a drawer. CSS decides when (a media query); this keeps aria-expanded, focus and the scroll lock honest.
+const railOpen = () => $('app').classList.contains('rail-open');
+const narrow = window.matchMedia('(max-width: 900px)');
+function setRail(open, {restoreFocus = true} = {}) {
+  const shell = $('app');
+  if (open === railOpen() || (open && !narrow.matches)) return;
+  shell.classList.toggle('rail-open', open);
+  document.body.classList.toggle('rail-lock', open);
+  $('app').querySelector('.column').inert = open;   // the drawer is modal: the page behind the scrim cannot take focus or be read until it closes
+  $('rail-toggle')?.setAttribute('aria-expanded', String(open));
+  if (open) ($('nav').querySelector('[aria-current="page"]') ?? $('nav').querySelector('a') ?? $('rail-close'))?.focus();
+  else if (restoreFocus && shell.contains(document.activeElement) && document.activeElement.closest('#rail')) $('rail-toggle')?.focus();
 }
 
 function markActive() {
@@ -251,6 +273,10 @@ async function boot() {
   if (!state.hubOnly) state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }, afterChoose: () => $('main').focus({preventScroll: true})});
   renderChrome();
   $('nav').addEventListener('keydown', railKeys);
+  $('rail-scrim').addEventListener('click', () => setRail(false));
+  $('rail').addEventListener('click', event => { if (event.target.closest('a')) setRail(false, {restoreFocus: false}); });   // choosing a tab or tool closes the drawer; focus goes to the content as for any route change
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && railOpen() && !state.palette?.isOpen()) { event.preventDefault(); setRail(false); } });
+  narrow.addEventListener('change', () => { if (!narrow.matches) setRail(false, {restoreFocus: false}); });
   window.addEventListener('hashchange', route);
   if (!state.hubOnly) document.addEventListener('keydown', event => {
     if (event.key === 'g' && !event.metaKey && !event.ctrlKey && !event.altKey && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName ?? '')) {

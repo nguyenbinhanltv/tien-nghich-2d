@@ -6,8 +6,12 @@
    and is checked against this file by components.test.mjs. This file names no project and holds no project colour.
    Motion is pixel-style steps() and is switched off under prefers-reduced-motion.
    State hooks: :hover, :active, [aria-pressed="true"] / .is-pressed, :disabled / [aria-disabled="true"], :focus-visible.
-   The styleguide shows each state with the mirror classes .is-hover, .is-active, .is-focus. */
+   The styleguide shows each state with the mirror classes .is-hover, .is-active, .is-focus.
+   Scope: every rule sits inside @scope (.ui-kit), so nothing here touches a page until a container carries class "ui-kit"
+   (the styleguide's <body> does; a tab opts in by putting it on its root when it migrates in wave 3). The tabs' own .chip, .stat,
+   .empty, .field and .skeleton keep their look until then. A browser without @scope ignores the file, which is the same safe result. */
 
+@scope (.ui-kit) {
 .btn, .seg, .chip, .field, .slip, .stat, .kbd, .empty, .skeleton, .toast { box-sizing: border-box; }
 
 /* ---------- .btn ---------- */
@@ -153,7 +157,6 @@ select.field { cursor: pointer; }
 .skeleton:is(:active, .is-active, [aria-pressed="true"], .is-pressed) { opacity: .8; }
 .skeleton:is(:disabled, [aria-disabled="true"]) { opacity: .45; animation: none; }
 .skeleton:is(:focus-visible, .is-focus) { outline: var(--ui-bw, 2px) solid var(--ui-focus, var(--theme-gold, #c8a040)); outline-offset: var(--ui-bw, 2px); }
-@keyframes ui-skeleton { from { background-position: 100% 0; } to { background-position: 0 0; } }
 
 /* ---------- .toast ---------- */
 .toast { display: flex; align-items: center; gap: var(--ui-sp-3, .75rem); max-width: 28rem; padding: var(--ui-sp-3, .75rem) var(--ui-sp-4, 1rem); font-size: var(--ui-fs-sm, .85rem); color: var(--ui-text, var(--theme-text, #e4e4e8)); background: var(--ui-surface-raised, var(--theme-surface, #30303a)); border: var(--ui-bw, 2px) solid var(--ui-line-strong, var(--theme-lineStrong, var(--theme-muted, #6b6b6b))); border-left-width: calc(var(--ui-bw, 2px) * 3); border-radius: 0; box-shadow: 0 calc(var(--ui-bw, 2px) * 2) 0 var(--ui-shadow, rgba(0, 0, 0, .45)); animation: ui-toast-in calc(var(--ui-step, 100ms) * 2) steps(3, end) both; transition: border-color var(--ui-step, 100ms) steps(2, end); }
@@ -165,9 +168,12 @@ select.field { cursor: pointer; }
 .toast:is([aria-pressed="true"], .is-pressed) { background: var(--ui-press, rgba(0, 0, 0, .25)); }
 .toast:is(:disabled, [aria-disabled="true"]) { opacity: .45; }
 .toast:is(:focus-visible, .is-focus) { outline: var(--ui-bw, 2px) solid var(--ui-focus, var(--theme-gold, #c8a040)); outline-offset: var(--ui-bw, 2px); }
-@keyframes ui-toast-in { from { transform: translateY(.75rem); opacity: 0; } to { transform: none; opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
   .btn, .seg > *, .chip, .field, .slip, .stat, .kbd, .empty, .toast { transition: none; }
   .skeleton, .toast { animation: none; }
 }
+}
+
+@keyframes ui-skeleton { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes ui-toast-in { from { transform: translateY(.75rem); opacity: 0; } to { transform: none; opacity: 1; } }

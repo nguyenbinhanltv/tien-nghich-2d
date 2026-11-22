@@ -102,6 +102,35 @@ Readiness is `planned` (designed only), `authored` (frames or masters exist) or 
 
 `node --test 'studio/ui/tests/*.test.mjs' studio/server/catalog-api.test.mjs` covers routing, strings, the tab contract, the catalog API and the Overview numbers. `studio/tests/shell-browser.test.mjs` is a Playwright script for the shell in a real browser (needs `playwright-core` and a Chromium path, like the other `*-browser.test.mjs` files; it is not part of the baseline because Playwright is not installed here).
 
+## Design tokens, fonts and the shell skin (lane 2A)
+
+`tokens.css` defines every `--ui-*` variable of the contract below, plus a few the shell alone uses. Load order in `index.html`: `tokens.css`, `components.css`, `shell.css`. A token reads a pack colour (`--theme-<role>`, written by `shell.js` from `ui.theme`) through a fallback chain, so a pack that leaves a role out still looks complete. The studio names no project colour: the hex values in `tokens.css` are neutral greys for a pack with no theme at all.
+
+The pack's `ui.theme` has 18 roles, each a palette id (the schema and the generated pack reference in `studio/README.md` describe them):
+
+| Role | Token it feeds | If the pack leaves it out |
+|---|---|---|
+| `ink` | page background `--ui-bg`, text on a fill `--ui-on-accent` | neutral dark |
+| `surface` | raised control `--ui-surface-raised` | neutral |
+| `panel` | the slip (card, stat, panel) `--ui-surface` | `surface` 55% over `ink` |
+| `line`, `lineStrong` | divider; control border (3:1) | neutral; `muted` |
+| `text`, `muted` | body and secondary text | neutral |
+| `accent`, `accentSoft` | primary action, selected | neutral teal |
+| `gold`, `goldSoft` | attention, focus ring, titles | neutral gold |
+| `danger` | rejected, error (4.5:1 as text) | neutral red |
+| `seal`, `sealInk` | the seal: brand mark, badge, stamp | `danger`; `text` |
+| `ok`, `warn`, `ask`, `link` | done; needs attention; an agent's question; links and running | `accent`; `gold`; `text`; `accent` |
+
+Shell-only tokens: `--ui-seal`, `--ui-seal-ink`, `--ui-ask`, `--ui-link`, `--ui-rail`, `--ui-bg-glow`, `--ui-sp-6`, `--ui-sp-7`, `--ui-fs-2xl`, `--ui-lh-body`, `--ui-lh-tight`, `--ui-lift`, `--ui-dur-1`, `--ui-dur-2`, `--ui-dur-3`, `--ui-dur-seal`, `--ui-rail-w`.
+
+Type: six sizes, `xs` 12, `sm` 14, `md` 16, `lg` 19, `xl` 24, `2xl` 34 px. Headings use the display serif (`--ui-font-display`), ids and numbers the pixel face (`--ui-font-mono`), body the system sans. Both fonts live in `fonts/` (see `fonts/README.md` for source, version, hashes and licence); they are subsets with full Vietnamese, loaded with `font-display: swap`, and the system fonts are the fallback.
+
+The brand seal is drawn from `ui.brand.seal`, a 12x12 grid of `.` and `#` in the pack, as SVG, so it does not depend on a CJK font. Without it the shell shows the letters of `ui.brand.mark`.
+
+Below 900 px the rail is a drawer: the top bar has a menu button (`aria-expanded`), Escape or the scrim closes it, choosing a destination closes it, and the "Existing tools" list scrolls inside it. The bar stays one row and does not repeat the page title (the tab's own `h1` is the title).
+
+`prefers-reduced-motion: reduce` sets every duration token to 0 and stops all animations and transitions.
+
 ## Shared components and the `--ui-*` token contract
 
 `studio/ui/components.css` is the shared component library: `.btn` (`.primary`, `.danger`, `.quiet`), `.seg`, `.chip`, `.field`, `.slip`, `.stat`, `.kbd`, `.empty`, `.skeleton`, `.toast`. Each has hover, active, pressed, disabled and focus-visible states, uses pixel-style `steps()` motion, and turns the motion off under `prefers-reduced-motion`. It is a plain file: link it with `<link rel="stylesheet" href="/studio/ui/components.css">` (or `ctx.loadCss`).
