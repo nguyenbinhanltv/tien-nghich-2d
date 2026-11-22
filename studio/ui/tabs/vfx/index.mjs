@@ -118,10 +118,11 @@ async function paintStage(app, token) {
   return {effect, clip, variant};
 }
 
+/** Draws the aside; resolves true only when the panel was actually put on screen (not superseded by a newer paint). */
 async function paintAside(app, ctx_, token) {
   const {ctx, state, ui} = app;
   clearInterval(app.readTimer);
-  if (!ctx_) { ui.aside.replaceChildren(h('p', 'vx-pad muted', ctx.t('panel.none'))); return; }
+  if (!ctx_) { ui.aside.replaceChildren(h('p', 'vx-pad muted', ctx.t('panel.none'))); return true; }
   const {effect, clip, variant} = ctx_;
   const tabs = h('nav', {class: 'vx-tabs', 'aria-label': ctx.t('panel.label')}, ...views.map(v => h('a', {class: 'vx-tab' + (state.view === v ? ' on' : ''), href: ctx.href(app.route({view: v})), 'aria-current': state.view === v ? 'true' : null}, ctx.t('view.' + v))));
   clearInterval(app.readTimer);
@@ -129,18 +130,20 @@ async function paintAside(app, ctx_, token) {
   ui.aside.replaceChildren(tabs, body);
   try {
     const ev = await app.evidence(effect.id);
-    if (token !== app.token) return;
+    if (token !== app.token) return false;
     let node;
     if (state.view === 'spec') node = specPanel(ctx, ev, clip, variant);
     else if (state.view === 'audit') node = auditPanel(ctx, ev, clip, variant);
     else if (state.view === 'provenance') node = provenancePanel(ctx, ev);
     else if (state.view === 'rounds') node = roundsPanel(ctx, ev, state, patch => app.go(patch, {replace: true}));
     else node = await readPanel(ctx, {...effect, acceptance: ev.recorded?.acceptance}, clip, app.live.frames, app.live.floors, variant, {frame: () => app.stage?.getFrame() ?? 0}, t => { clearInterval(app.readTimer); app.readTimer = t; });
-    if (token !== app.token) return;
+    if (token !== app.token) return false;
     body.replaceChildren(node);
+    return true;
   } catch (error) {
-    if (error.name === 'AbortError') return;
+    if (error.name === 'AbortError') return false;
     body.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})));
+    return false; // an error panel is not "done": the next paint tries again
   }
 }
 
@@ -153,7 +156,7 @@ async function paint() {
     const shown = await paintStage(app, token);
     if (token !== app.token) return;
     const asideKey = JSON.stringify([state.asset, state.clip, state.variant, state.view, state.ra, state.rb]);
-    if (asideKey !== app.asideKey || !shown) { app.asideKey = asideKey; await paintAside(app, shown, token); }
+    if (asideKey !== app.asideKey || !shown) { if (await paintAside(app, shown, token)) app.asideKey = asideKey; }
   } catch (error) {
     if (error.name === 'AbortError') return;
     ui.center.replaceChildren(h('p', {role: 'alert'}, app.ctx.t('common.error', {message: error.message})));
