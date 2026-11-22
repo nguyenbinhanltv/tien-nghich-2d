@@ -1,6 +1,6 @@
 # preview-app (moved)
 
-The app now lives in [`studio/`](../studio/README.md). This directory only keeps thin shims so existing commands keep working:
+The studio lives in [`studio/`](../studio/README.md) and the first project's own pages in [`playables/`](../playables/README.md). This directory only keeps thin shims so existing commands keep working:
 
 - `node preview-app/serve.mjs` runs `studio/serve.mjs`
 - `node preview-app/smoke-test.mjs` runs `playables/smoke-test.mjs`

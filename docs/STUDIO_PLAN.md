@@ -446,7 +446,7 @@ Kiểm theo mã và lệnh chạy được trên `main` ở `6a47370` (sau PR #1
 | #112 | D1 chạy ứng viên và người chọn, D2 mỗi lần render thêm một take, B5 yêu cầu sửa theo vùng |
 | #114 | C1 thước dàn nhân vật |
 
-**Chưa làm của đợt 2 (11):** A6 trợ thủ vẽ theo palette, C4 tem phiên bản art bible, D3 gói bàn giao và bản công bố AI, D7 ước tính hạn mức, E1 frame tag và cel liên kết, E3 biến đổi theo phạm vi, E7 mở được bằng Pixelorama và LibreSprite (`.pxo`, `.ase`), F5 animation theo tile, F6 xuất `.ldtk` và TMX, F8 recorder cho VFX, F9 audio theo cửa sổ gameplay. **Đợt 3 (12 ý tưởng): chưa làm gì**, và theo quyết định 1 chỉ làm khi dự án thực sự cần.
+**Chưa làm của đợt 2 (11; PR #113 đang mở cho C4, D7 và D3, chưa vào `main` lúc viết):** A6 trợ thủ vẽ theo palette, C4 tem phiên bản art bible, D3 gói bàn giao và bản công bố AI, D7 ước tính hạn mức, E1 frame tag và cel liên kết, E3 biến đổi theo phạm vi, E7 mở được bằng Pixelorama và LibreSprite (`.pxo`, `.ase`), F5 animation theo tile, F6 xuất `.ldtk` và TMX, F8 recorder cho VFX, F9 audio theo cửa sổ gameplay. **Đợt 3 (12 ý tưởng): chưa làm gì**, và theo quyết định 1 chỉ làm khi dự án thực sự cần.
 
 ### Còn thiếu, nói thẳng
 
