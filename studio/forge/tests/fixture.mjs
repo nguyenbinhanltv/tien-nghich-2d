@@ -16,17 +16,17 @@ export const palette = {
 export const profile = {native_px: [48, 40], pivot_px: [24, 34], directions: ['front', 'side', 'back']};
 
 /** Write a pack, palette and design manifest for another project into a fresh temp dir. */
-export async function makeProject() {
+export async function makeProject({clips, outline} = {}) {
   const dir = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'forge-second-'));
   const pack = structuredClone(real);
   pack.id = 'second-game'; pack.name = 'Second Game';
   pack.palette.file = 'pal.json';
   pack.catalog.sources = [{id: 'main', kind: 'design-manifest', file: 'design.json'}];
   pack.editable = {overlay: 'approved.json', groups: []};
-  pack.rules.outline = {mode: 'silhouette', color: 'palette', borderIsEdge: false};
+  pack.rules.outline = outline ?? {mode: 'silhouette', color: 'palette', borderIsEdge: false};
   await fs.writeFile(path.join(dir, 'studio.project.json'), JSON.stringify(pack));
   await fs.writeFile(path.join(dir, 'pal.json'), JSON.stringify(palette));
-  await fs.writeFile(path.join(dir, 'design.json'), JSON.stringify({profiles: {critter: profile}, assets: []}));
+  await fs.writeFile(path.join(dir, 'design.json'), JSON.stringify({profiles: {critter: clips ? {...profile, clips} : profile}, assets: []}));
   return dir;
 }
 
@@ -37,12 +37,12 @@ const mix = (a, b, t) => a.map((v, i) => Math.round(v * (1 - t) + b[i] * t));
  * touching groundY, an optional bright mark on the head and a one-pixel blended fringe, like a
  * generated drawing's anti-aliased edge. Returns the figure's pixel box for assertions.
  */
-export function drawFigure(img, layout, cellId, {width, height, body, head, mark, key = layout.key.rgb}) {
+export function drawFigure(img, layout, cellId, {width, height, body, head, mark, lift = 0, key = layout.key.rgb}) {
   const cell = layout.cells.find(c => c.id === cellId);
   const [x0, y0, x1, y1] = cellRect(cell, img.width, img.height);
-  const ground = y0 + Math.round((y1 - y0) * layout.ground.fraction);
+  const ground = y0 + Math.round((y1 - y0) * layout.ground.fraction) - lift;
   const cx = x0 + Math.round((layout.landmarkBasis === 'cell_width' ? x1 - x0 : y1 - y0) * cell.landmarks.centerX);
-  const put = (x, y, rgb) => img.data.set([...rgb, 255], (y * img.width + x) * 4);
+  const put = (x, y, rgb) => img.pixels.set([...rgb, 255], (y * img.width + x) * 4);
   const left = cx - Math.floor(width / 2), top = ground - height;
   for (let y = top; y < ground; y++) for (let x = left; x < left + width; x++) {
     const edge = x === left || x === left + width - 1 || y === top;

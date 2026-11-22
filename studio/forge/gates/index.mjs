@@ -7,7 +7,7 @@
 //   {palette, facing: <rig facing>, pivot: [x, y]}
 //
 // Finding: {gate, severity: "error"|"warn", clip, facing, frame, frameTo?, pixels: [[x, y]], message, measured?, limit?}
-import { alphaAt, bounds, getRgb, isColor, luma, sameRgb } from '../rig/raster.mjs';
+import { alphaAt, bounds, getRgb, isColor, luma, sameRgb } from '../image.mjs';
 
 export const defaultOptions = {
   footSlide: {},
