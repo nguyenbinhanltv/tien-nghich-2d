@@ -10,6 +10,7 @@
     "lt_ink_marten",
     "lt_kiln",
     "lt_kiln_keeper",
+    "lt_mist_carp",
     "lt_moon_gate",
     "lt_reed_crane",
     "lt_seal_scribe",
@@ -18,17 +19,17 @@
     "lt_ward_mason"
   ],
   "chunk_group": "abode",
-  "frame_count": 398,
+  "frame_count": 430,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 398,
+      "frames": 430,
       "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "2b81562c4461b0697ecf3b6487065139c7cc74195b2eeeca3fad08309f8721ff",
-      "png_sha256": "7e6013dfc2aa3b3db416ee46a3cff6ed2245b3848ece656d3ed422bce4e59b95",
+      "json_sha256": "d79470c74c79f91893e95f129b79edf7e848a0ed54b301bc1a4eb8611398b86a",
+      "png_sha256": "da2eee0e4c4c587e10f23038d3c6e8f43633474a8cb3faa2e3ea4c3fa49d4736",
       "rgba8_bytes": 4194304,
       "width": 1024
     }
