@@ -1,8 +1,10 @@
 // Review: one inbox for everything that waits on the human, art and audio. Art decisions go to the
 // existing /api/editor/review route; the listening sign-off goes to this tab's one human-only route.
-// The inbox polls every POLL_MS while the page is visible (and refreshes after every decision).
+// The inbox polls every POLL_MS while the page is visible (and refreshes after every decision). A new request cancels the one still
+// running, so slow answers never pile up; while one runs the page says so, with the seconds it has waited, and a failure keeps the
+// last list on screen with a retry button.
 import { h, button, humanize, fill } from './dom.mjs';
-import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint } from './model.mjs';
+import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint, clock, elapsedSeconds } from './model.mjs';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
 import { candidatesSection } from './takes.mjs';
@@ -14,7 +16,7 @@ let app;
 
 function makeApp(ctx, state) {
   const self = {
-    ctx, state, items: [], audio: [], artRecords: [], drafts: new Map(), token: 0, signature: '', timer: null, cleanups: [],
+    ctx, state, items: [], audio: [], artRecords: [], drafts: new Map(), token: 0, signature: '', timer: null, cleanups: [], flight: null, load: {phase: 'idle', since: 0, error: null, updatedAt: null}, loaded: false,
     onCleanup(fn) { self.cleanups.push(fn); },
     runCleanups() { for (const fn of self.cleanups.splice(0)) fn(); },
     selection() {
@@ -45,10 +47,40 @@ function makeApp(ctx, state) {
       return {tab: 'review', asset, clip: asset ? clip : null, direction: asset ? direction : null, frame: asset ? frame : null, params: stateParams(next)};
     },
     go(patch, opts = {}) { self.ctx.navigate(self.route(patch, opts), {replace: opts.replace}); },
-    async refresh({keepSelection = false} = {}) {
-      const data = await self.ctx.tabApi('inbox');
+    /** Show the loading / error / last-updated line and, before any list has arrived, the skeleton or the error with its retry button. */
+    setLoad(patch) {
+      Object.assign(self.load, patch);
+      clearInterval(self.ticker);
+      if (self.load.phase === 'loading') self.ticker = setInterval(() => renderStatus(self), 1000);
+      renderStatus(self);
+    },
+    refresh({keepSelection = false} = {}) {
+      // a request still running is cancelled by the new one; a repaint it was owed (after a decision) passes on to the new one
+      const previous = self.flight;
+      const keep = keepSelection || Boolean(previous?.keep);
+      previous?.controller.abort();
+      const controller = new AbortController();
+      const flight = self.flight = {controller, keep};
+      flight.promise = self.fetchInbox(flight, AbortSignal.any([self.ctx.signal, controller.signal]), keep).catch(error => {
+        if (error.name === 'AbortError' && !self.ctx.signal.aborted && self.flight && self.flight !== flight) return self.flight.promise; // superseded
+        throw error;
+      });
+      return flight.promise;
+    },
+    async fetchInbox(flight, signal, keepSelection) {
+      if (self.load.phase !== 'loading') self.setLoad({phase: 'loading', since: Date.now(), error: null});
+      let data, runs;
+      try {
+        data = await self.ctx.tabApi('inbox', {signal});
+        runs = (await self.ctx.tabApi('candidates', {signal}).catch(error => { if (error.name === 'AbortError') throw error; return {runs: []}; })).runs;
+      } catch (error) {
+        if (self.flight === flight && error.name !== 'AbortError') { self.flight = null; self.setLoad({phase: 'error', error: error.message}); }
+        throw error;
+      }
+      self.flight = null;
+      self.loaded = true;
+      self.setLoad({phase: 'idle', error: null, updatedAt: new Date()});
       const audio = data.audio;
-      const runs = (await self.ctx.tabApi('candidates').catch(() => ({runs: []}))).runs;
       const signature = JSON.stringify([runs.map(r => [r.run, r.picked?.label ?? null]), data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), data.artCounts ?? null, (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
       const changed = signature !== self.signature;
           self.items = data.items; self.runs = runs; self.audio = audio; self.artRecords = data.artRecords ?? []; self.artCounts = data.artCounts ?? null; self.signature = signature;
@@ -66,9 +98,39 @@ function makeApp(ctx, state) {
 function layout(ctx) {
   const list = h('div', 'inbox'), detail = h('section', {class: 'detail', 'aria-label': ctx.t('detail.label')});
   fill(ctx.root, h('header', 'rv-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
-    h('div', 'live', h('span', {class: 'pulse', 'aria-hidden': 'true'}), h('span', 'muted', ctx.t('live', {seconds: POLL_MS / 1000})))),
+    h('div', 'live', h('span', {class: 'pulse', 'aria-hidden': 'true'}), h('span', 'muted', ctx.t('live', {seconds: POLL_MS / 1000})),
+      h('span', {class: 'muted rv-stamp', 'data-role': 'stamp'}), h('span', {class: 'rv-wait', 'data-role': 'wait', 'aria-hidden': 'true'}),
+      h('span', {class: 'rv-fail', 'data-role': 'fail'}))),
     h('div', 'rv', h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), detail));
   return {list, detail};
+}
+
+
+/** The header line: "last updated hh:mm:ss", the seconds a running request has waited, and a failed refresh with its retry button. */
+function renderStatus(app) {
+  const {ctx, load} = app;
+  const root = ctx.root;
+  const stamp = root.querySelector('[data-role="stamp"]'), wait = root.querySelector('[data-role="wait"]'), fail = root.querySelector('[data-role="fail"]');
+  if (!stamp || !wait || !fail) return;
+  const time = load.updatedAt ? clock(load.updatedAt, ctx.lang) : null;
+  stamp.textContent = time ? ctx.t('load.updated', {time}) : '';
+  const seconds = elapsedSeconds(load.since, Date.now());
+  wait.textContent = load.phase === 'loading' && (!app.loaded || seconds >= 1) ? ctx.t(app.loaded ? 'load.refreshing' : 'load.loading', {seconds}) : '';
+  fill(fail);
+  if (load.phase === 'error' && app.loaded) fill(fail, h('span', {role: 'alert'}, ctx.t('load.errorStale', {message: load.error, time: time ?? '—'})), ' ', button(ctx.t('common.retry'), () => app.refresh().catch(() => {})));
+  if (!app.loaded) paintFirstLoad(app);
+}
+
+/** Before the first list arrives: placeholder rows with the wait, or the failure with a retry button. */
+function paintFirstLoad(app) {
+  const {ctx, load, ui} = app;
+  if (load.phase === 'error') {
+    fill(ui.list, h('div', 'rv-error', h('p', {role: 'alert'}, ctx.t('load.error', {message: load.error})), button(ctx.t('common.retry'), () => app.refresh().catch(() => {}))));
+    return;
+  }
+  const seconds = elapsedSeconds(load.since, Date.now());
+  fill(ui.list, h('p', {class: 'muted', role: 'status'}, ctx.t('load.loading', {seconds})), seconds >= 3 ? h('p', 'muted', ctx.t('load.slow')) : null,
+    h('ul', {class: 'rows skeleton', 'aria-hidden': 'true'}, ...Array.from({length: 5}, () => h('li', '', h('div', 'row', h('span', 'thumb sk'), h('span', 'rtext', h('b', 'sk bar'), h('small', 'sk bar short')))))));
 }
 
 function renderList(app, host) {
@@ -157,18 +219,13 @@ const selKey = sel => (sel.type === 'art' ? `${sel.item.key}@${sel.item.head}:${
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./review.css', import.meta.url));
   const mine = app = makeApp(ctx, state);
-  ctx.onUnmount(() => { mine.runCleanups(); clearInterval(mine.timer); });
+  ctx.onUnmount(() => { mine.runCleanups(); clearInterval(mine.timer); clearInterval(mine.ticker); mine.flight?.controller.abort(); });
   mine.ui = layout(ctx);
   ctx.root.setAttribute('aria-busy', 'true');
-  try { await mine.refresh({keepSelection: true}); }
-  catch (error) {
-    if (error.name === 'AbortError') return;
-    ctx.root.removeAttribute('aria-busy');
-    fill(ctx.root, h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
-    return;
-  }
-  ctx.root.removeAttribute('aria-busy');
   mine.timer = setInterval(() => { if (!document.hidden) mine.refresh().catch(() => {}); }, POLL_MS);
+  try { await mine.refresh({keepSelection: true}); }
+  catch (error) { if (error.name === 'AbortError' && ctx.signal.aborted) return; /* any other failure is on screen, with its retry button */ }
+  ctx.root.removeAttribute('aria-busy');
 }
 
 export async function update(ctx, state) {
@@ -176,4 +233,4 @@ export async function update(ctx, state) {
   await paint(app.ui);
 }
 
-export async function unmount() { clearInterval(app?.timer); app?.runCleanups(); }
+export async function unmount() { clearInterval(app?.timer); clearInterval(app?.ticker); app?.flight?.controller.abort(); app?.runCleanups(); }

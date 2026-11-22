@@ -181,3 +181,49 @@ test('Review and Audio both read 46 of 46 audio assets as approved', async () =>
   const audioTab = body.audio.map(a => listeningOf({stage: stageOf(a.readiness), signoff: a.signoff, masterSha: null, evidence: 'pending', record: a.label}));
   assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [46, 46], 'Audio tab: 46 of 46 approved');
 });
+
+test('B2: a finished inbox is reused, but a review decision or a listening sign-off shows in the very next answer', async () => {
+  const dir = lib();
+  const timing = [];
+  const ask = async () => {
+    let header;
+    const res = {writeHead(s, h) { header = h['Server-Timing']; }, end(text) { this.text = text; }};
+    await handle({method: 'GET', headers: {}}, res, new URL('http://127.0.0.1/api/tabs/review/inbox'), {root, prefix: '/api/tabs/review/', libraryDir: dir});
+    timing.push(/desc="(\w+)"/.exec(header)?.[1]);
+    return JSON.parse(res.text);
+  };
+  const first = await ask();
+  assert.deepEqual(first.items, []);
+  await ask();
+  assert.deepEqual(timing, ['miss', 'hit'], 'an unchanged project answers from the finished inbox');
+
+  const store = revisionStore(root, '.inspector-revisions', dir);
+  store.operate(bareFrame('longtime/zz/idle_south_0', {assetId: 'zz'}), png(10), 'review', {revision: 0, status: 'pending'});
+  store.close();
+  const afterDecision = await ask();
+  assert.deepEqual(afterDecision.items.map(i => [i.assetId, i.state]), [['zz', 'waiting']], 'a new review record is not hidden by the memo');
+  assert.equal(timing.at(-1), 'miss');
+
+  const id = first.audio[0].id;
+  const before = afterDecision.audio.find(a => a.id === id);
+  const detail = (await call(dir, 'audio?id=' + id)).body;
+  openSignoffs(dir).record({asset: id, content: detail.contentHash, verdict: 'needs_work', note: 'x'});
+  const afterSignoff = (await ask()).audio.find(a => a.id === id);
+  assert.notDeepEqual(afterSignoff.signoff, before.signoff, 'a new sign-off shows at once');
+  assert.equal(afterSignoff.signoff.verdict, 'needs_work');
+});
+
+test('B2: callers that arrive together share one computation and get the same answer', async () => {
+  clearAudioCache();
+  const dir = lib();
+  const sources = [];
+  const ask = async () => {
+    let header, text;
+    await handle({method: 'GET', headers: {}}, {writeHead(s, h) { header = h['Server-Timing']; }, end(t) { text = t; }}, new URL('http://127.0.0.1/api/tabs/review/inbox'), {root, prefix: '/api/tabs/review/', libraryDir: dir});
+    sources.push(/desc="(\w+)"/.exec(header)[1]);
+    return text;
+  };
+  const bodies = await Promise.all([ask(), ask(), ask(), ask()]);
+  assert.ok(bodies.every(b => b === bodies[0]));
+  assert.equal(sources.filter(s => s === 'miss').length, 1, 'one computation, however many polls overlap: ' + sources);
+});

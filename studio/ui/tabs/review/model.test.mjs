@@ -78,3 +78,12 @@ test('REVIEW-004: a VFX 1x readability read is a read, not a raw comment; an age
   const t = thread([{text: encodeNote({score: 3, text: 'meh'}), status: 'pending'}]);
   assert.deepEqual([t[0].kind, t[0].answerable], ['read', false]);
 });
+
+test('clock and elapsedSeconds', async () => {
+  const {clock, elapsedSeconds} = await import('./model.mjs');
+  const d = new Date(2026, 10, 22, 9, 5, 7);
+  assert.equal(clock(d, 'en'), '09:05:07');
+  assert.match(clock(d, 'vi'), /^09:05:07$/);
+  assert.equal(elapsedSeconds(1000, 4999), 3);
+  assert.equal(elapsedSeconds(5000, 1000), 0);
+});

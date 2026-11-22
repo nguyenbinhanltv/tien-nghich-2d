@@ -23,6 +23,7 @@ import { hashOf } from './hashes.mjs';
 import { audioStatus } from './status.mjs';
 import { readApprovals } from './approvals.mjs';
 import { readArtApprovals } from './art-approvals.mjs';
+import { createCache } from './cache.mjs';
 
 const handles = new Map();
 const wavCache = new Map();
@@ -35,52 +36,50 @@ export function libraryOf(root, context = {}) {
 
 const signoffs = dir => { if (!handles.has(dir)) handles.set(dir, openSignoffs(dir)); return handles.get(dir); };
 
-const libraryCache = new Map();
+// Both listings are rebuilt in the background once they are 15 s old (the old copy is served meanwhile), shared by concurrent callers.
 const LIBRARY_TTL_MS = 15000;
+const libraryCache = createCache({ttlMs: LIBRARY_TTL_MS, staleMs: 120000});
+const artCache = createCache({ttlMs: LIBRARY_TTL_MS, staleMs: 120000});
+// One standing resolver per project for the life of the process: it re-checks every file by size and mtime on each call, so keeping it
+// is safe, and it keeps the sha256 of thousands of frames instead of rehashing them every time the 15 s listing is rebuilt.
+const standings = new Map();
+const standingOf = (root, pack) => {
+  const id = root + '\0' + JSON.stringify([pack.review ?? null, pack.directories.approvals ?? null]);
+  if (!standings.has(id)) standings.set(id, createStanding(root, {review: pack.review, approvalsDir: pack.directories.approvals}));
+  return standings.get(id);
+};
 
-/** The audio assets, their master paths and the project's earlier approvals; cached briefly (describing 46 assets is not free). */
-async function audioAssets(root) {
-  const hit = libraryCache.get(root);
-  if (hit && Date.now() - hit.at < LIBRARY_TTL_MS) return hit.value;
-  const value = (async () => {
+/** The audio assets, their master paths and the project's earlier approvals (describing 46 assets is not free). */
+function audioAssets(root) {
+  return libraryCache.get(root, async () => {
     const pack = await loadPack(root);
     const catalog = await buildCatalog(pack, root);
     const sources = pack.catalog.sources.filter(s => s.kind === 'audio-plan');
     const ids = new Set(sources.map(s => s.id));
     const list = catalog.assets.filter(a => ids.has(a.source));
     const masters = new Map();
-    for (const a of list) if (a.readiness !== 'planned') masters.set(a.id, (await describeAsset(pack, root, catalog, a.id, a.source)).frames.find(f => f.path.endsWith('.wav'))?.path ?? null);
+    const described = await Promise.all(list.filter(a => a.readiness !== 'planned').map(async a => [a.id, (await describeAsset(pack, root, catalog, a.id, a.source)).frames.find(f => f.path.endsWith('.wav'))?.path ?? null]));
+    for (const [id, master] of described) masters.set(id, master);
     const approvals = await readApprovals(root, sources.find(s => s.evidence?.masters)?.evidence.masters);
     return {pack, catalog, list, masters, approvals};
-  })();
-  libraryCache.set(root, {at: Date.now(), value});
-  value.catch(() => libraryCache.delete(root));
-  return value;
+  });
 }
 
-const artCache = new Map();
-
 /**
- * The editable art frames (key -> project-relative PNG) and the standing resolver, cached briefly like the audio listing.
+ * The editable art frames (key -> project-relative PNG) and the standing resolver, cached like the audio listing.
  * Used for the inbox's revision-0 items and for the tab's count of every art frame by state.
  */
-async function artFrames(root) {
-  const hit = artCache.get(root);
-  if (hit && Date.now() - hit.at < LIBRARY_TTL_MS) return hit.value;
-  const value = (async () => {
+function artFrames(root) {
+  return artCache.get(root, async () => {
     const pack = await loadPack(root);
     const editable = await loadEditableCatalog(pack, root);
-    return {files: new Map([...editable.frames].map(([key, f]) => [key, f.processed])),
-      standing: createStanding(root, {review: pack.review, approvalsDir: pack.directories.approvals})};
-  })();
-  artCache.set(root, {at: Date.now(), value});
-  value.catch(() => artCache.delete(root));
-  return value;
+    return {files: new Map([...editable.frames].map(([key, f]) => [key, f.processed])), standing: standingOf(root, pack)};
+  });
 }
 
 /** Every editable art frame counted once by what a reader may say about it: approved, baseline, awaiting review, changes requested. */
-export async function artCounts(root, dir) {
-  const {files, standing} = await artFrames(root);
+export async function artCounts(root, dir, loaded) {
+  const {files, standing} = loaded ?? await artFrames(root);
   const heads = readHeads(dir);
   const out = {approved: 0, baseline: 0, awaiting: 0, changes_requested: 0, total: 0};
   const undecided = [];
@@ -136,6 +135,62 @@ async function submissionFor(root, key) {
   } finally { project.close(); }
 }
 
+
+/** The inbox: every art lineage and audio asset with its state, art counts and art approval records. Reads only. */
+async function buildInbox(root, dir, library, frames) {
+  // If the editable catalog cannot be read (a trimmed project copy), nothing can claim a standing: every undecided frame stays awaiting review.
+  const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.judged(frames.files.get(key)) : {standing: 'awaiting', png: null}));
+  const {list, masters, approvals, pack} = library;
+  const sign = signoffs(dir);
+  const [artRecords, artCountsNow, audio] = await Promise.all([
+    readArtApprovals(root, pack.directories.approvals),
+    frames ? artCounts(root, dir, frames).catch(() => null) : null,
+    Promise.all(list.filter(x => x.readiness !== 'planned').map(async a => {
+      const hash = masters.get(a.id) ? await hashOf(root, masters.get(a.id)).catch(() => null) : null;
+      const history = sign.history(a.id, 1);
+      const approval = approvals[a.id] ?? null;
+      const status = audioStatus({hash, signoffs: history, approval});
+      return {id: a.id, source: a.source, category: a.category, readiness: a.readiness, state: status.state, label: status.label,
+        signoff: history[0] ? {ts: history[0].ts, verdict: history[0].verdict, current: history[0].content === hash} : null,
+        approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, kind: approval.kind, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null};
+    }))
+  ]);
+  return {items, audio, artRecords, artCounts: artCountsNow};
+}
+
+const stampOf = async file => { try { const s = await fs.stat(file); return `${s.size}:${s.mtimeMs}`; } catch { return '-'; } };
+const MEMO_MS = 2000; // the longest a finished inbox is reused when no watched file changed (frame and master files are not watched, so this bounds how late they show)
+const inboxMemo = new Map();
+const inboxFlight = new Map();
+
+/**
+ * The inbox response body, computed once per change. A caller gets the memo while the files that decide an answer (the review database and
+ * its journal, the sign-off database, the two approval records, the cached listings) are unchanged and the memo is under MEMO_MS old;
+ * callers that arrive while one is being computed share it instead of starting their own. Returns {body, source: hit | miss | shared}.
+ */
+async function inboxBody(root, dir) {
+  const library = await audioAssets(root);
+  const frames = await artFrames(root).catch(() => null);
+  const {pack} = library;
+  const masters = pack.catalog.sources.find(s => s.kind === 'audio-plan' && s.evidence?.masters)?.evidence.masters;
+  const stamps = await Promise.all([...['editor.sqlite', 'editor.sqlite-wal', 'studio.sqlite', 'studio.sqlite-wal'].map(f => stampOf(path.join(dir, f))),
+    pack.directories.approvals ? stampOf(path.join(root, pack.directories.approvals, 'art_approvals.json')) : '-',
+    masters ? stampOf(path.join(root, masters, 'listening_approvals.json')) : '-']);
+  const fingerprint = [dir, libraryCache.version(root), artCache.version(root), ...stamps].join('|');
+  const memo = inboxMemo.get(root);
+  if (memo?.fingerprint === fingerprint && Date.now() - memo.at < MEMO_MS) return {body: memo.body, source: 'hit'};
+  const flightKey = root + '\0' + fingerprint;
+  const running = inboxFlight.get(flightKey);
+  if (running) return {body: await running, source: 'shared'};
+  const work = buildInbox(root, dir, library, frames).then(data => JSON.stringify(data));
+  inboxFlight.set(flightKey, work);
+  try {
+    const body = await work;
+    inboxMemo.set(root, {fingerprint, at: Date.now(), body});
+    return {body, source: 'miss'};
+  } finally { inboxFlight.delete(flightKey); }
+}
+
 export async function handle(req, res, url, context) {
   const {prefix} = context;
   const root = realpathSync(context.root); // the core's contained reads compare real paths
@@ -147,22 +202,11 @@ export async function handle(req, res, url, context) {
   const dir = libraryOf(root, context);
 
   if (name === 'inbox' && ['GET', 'HEAD'].includes(req.method)) {
-    // If the editable catalog cannot be read (a trimmed project copy), nothing can claim a standing: every undecided frame stays awaiting review.
-    const frames = await artFrames(root).catch(() => null);
-    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.judged(frames.files.get(key)) : {standing: 'awaiting', png: null}));
-    const {list, masters, approvals, pack} = await audioAssets(root);
-    const sign = signoffs(dir);
-    const audio = [];
-    for (const a of list.filter(x => x.readiness !== 'planned')) {
-      const hash = masters.get(a.id) ? await hashOf(root, masters.get(a.id)).catch(() => null) : null;
-      const history = sign.history(a.id, 1);
-      const approval = approvals[a.id] ?? null;
-      const status = audioStatus({hash, signoffs: history, approval});
-      audio.push({id: a.id, source: a.source, category: a.category, readiness: a.readiness, state: status.state, label: status.label,
-        signoff: history[0] ? {ts: history[0].ts, verdict: history[0].verdict, current: history[0].content === hash} : null,
-        approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, kind: approval.kind, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null});
-    }
-    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals), artCounts: frames ? await artCounts(root, dir).catch(() => null) : null});
+    const started = performance.now();
+    const {body, source} = await inboxBody(root, dir);
+    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+      'Server-Timing': `total;dur=${(performance.now() - started).toFixed(1)};desc="${source}"`});
+    return res.end(body);
   }
   if (name === 'authors' && ['GET', 'HEAD'].includes(req.method)) {
     const key = url.searchParams.get('key') ?? '';
@@ -274,5 +318,5 @@ export async function handle(req, res, url, context) {
   throw problem(404, 'unknown_route', 'Unknown Review route');
 }
 
-/** Forget cached audio listings (tests; the 15 s TTL covers everything else). */
-export function clearAudioCache() { libraryCache.clear(); wavCache.clear(); artCache.clear(); }
+/** Forget cached listings, standings and finished inboxes (tests; the TTLs cover everything else). */
+export function clearAudioCache() { libraryCache.clear(); wavCache.clear(); artCache.clear(); standings.clear(); inboxMemo.clear(); inboxFlight.clear(); }

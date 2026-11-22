@@ -57,11 +57,12 @@ export async function loadEditableCatalog(pack, root) {
           const anchor = await readJson(root, path.posix.dirname(list[0]) + '/' + rule.file).catch(() => undefined);
           pivot = anchor?.[rule.field];
         } else if (rule.from === 'profile') pivot = record?.[rule.field] ?? data.profiles?.[record?.profile]?.[rule.field];
-        for (const file of list) {
+        const sizes = await Promise.all(list.map(file => pngSize(file))); // header reads are independent: do them together, add in order
+        for (const [index, file] of list.entries()) {
           const relative = file.slice(dir.length + 1).replace(/\.png$/, '');
           const [head, ...rest] = relative.split('/');
           const key = (group.keyPrefix ?? '') + [group.keyMap?.[head] ?? head, ...rest].join('/');
-          const size = await pngSize(file);
+          const size = sizes[index];
           const point = Array.isArray(pivot) && pivot.length === 2 && pivot.every(Number.isInteger) &&
             pivot[0] >= 0 && pivot[0] < size[0] && pivot[1] >= 0 && pivot[1] < size[1] ? pivot : size.map(v => Math.floor(v / 2));
           add(group.kind, key, entry.id, entry.category, size, file, file, {pivot: point});

@@ -130,20 +130,23 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
     return digest;
   }
 
-  /** 'approved' | 'baseline' | 'awaiting' for the PNG at a project-relative path, judged on its bytes now. `digests` memoizes directory digests within one bulk pass. */
-  async function of(rel, digests) {
+  /**
+   * 'approved' | 'baseline' | 'awaiting' for the PNG at a project-relative path, judged on its bytes now. `bulk` ({digests, approved, recorded})
+   * is the state one bulk pass shares: directory digests are memoized as promises, the two records are read once.
+   */
+  async function of(rel, bulk) {
     if (typeof rel !== 'string' || !safeRel(rel)) return 'awaiting';
-    const approved = (await approvals()).get(rel);
+    const approved = (bulk?.approved ?? await approvals()).get(rel);
     if (approved) {
       const now = await sha(rel).catch(() => null);
       if (now === approved) return 'approved';
     }
     const dir = path.posix.dirname(rel);
-    const recorded = (await baseline()).get(dir);
+    const recorded = (bulk?.recorded ?? await baseline()).get(dir);
     if (!recorded) return 'awaiting';
-    let digest = digests?.get(dir);
-    if (digest === undefined) { digest = await digestOf(dir); digests?.set(dir, digest); }
-    return digest === recorded ? 'baseline' : 'awaiting';
+    let pending = bulk?.digests.get(dir);
+    if (pending === undefined) { pending = digestOf(dir); bulk?.digests.set(dir, pending); }
+    return (await pending) === recorded ? 'baseline' : 'awaiting';
   }
 
   /** {standing, png}: the standing and, when it is approved or baseline, the exact file bytes it was judged on. A stored revision only inherits the standing if it shows these pixels. */
@@ -153,11 +156,14 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
     return {standing, png: await readInside(root, rel).catch(() => null)};
   }
 
-  /** Standing of many files at once: [rel, standing] pairs. Each directory is digested once, so counting a whole project stays cheap. */
-  async function ofMany(rels) {
-    const digests = new Map();
-    const out = [];
-    for (const rel of rels) out.push([rel, await of(rel, digests)]);
+  /** Standing of many files at once: [rel, standing] pairs, in the order given. Each directory is digested once and files are read a few at a time, so counting a whole project stays cheap. */
+  async function ofMany(rels, {concurrency = 24} = {}) {
+    const bulk = {digests: new Map(), approved: await approvals(), recorded: await baseline()};
+    const out = new Array(rels.length);
+    let next = 0;
+    await Promise.all(Array.from({length: Math.min(concurrency, rels.length)}, async () => {
+      while (next < rels.length) { const i = next++; out[i] = [rels[i], await of(rels[i], bulk)]; }
+    }));
     return out;
   }
 
