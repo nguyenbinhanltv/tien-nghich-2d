@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
-import { createHash } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import { problem } from './errors.mjs';
 import { sameImage } from './standing.mjs';
@@ -159,11 +158,11 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         .map(c => ({...c,status:c.status ?? unjudged(selected,standing)}));
       const hasSelections = db && db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='selections'").get();
       const picked = hasSelections ? db.prepare('SELECT rev FROM selections WHERE key=? ORDER BY seq DESC LIMIT 1').get(key)?.rev ?? null : null;
-      const fileHash = frame.standingPng ? createHash('sha256').update(frame.standingPng).digest('hex') : null;
+      // The file the project uses now: the caller's filePng (the frame's file as it is), else the bytes a human record or the baseline judged.
+      // Compared by pixels (sameImage), not bytes: the same picture encoded twice is the same take. Unknown (null) when the caller gave no file.
+      const file = frame.filePng ?? frame.standingPng;
       let inUse = null;
-      if (fileHash) for (const item of [...history].reverse()) {
-        if (createHash('sha256').update(version(item.revision).png).digest('hex') === fileHash) { inUse = item.revision; break; }
-      }
+      if (file) for (const item of [...history].reverse()) if (sameImage(version(item.revision).png, file)) { inUse = item.revision; break; }
       history = history.map(item => ({...item,newest:item.revision===head,selected:item.revision===picked,inUse:item.revision===inUse}));
       const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
         status:history.find(item=>item.revision===selected).status,comments,history,

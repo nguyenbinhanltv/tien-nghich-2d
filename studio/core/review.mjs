@@ -75,7 +75,7 @@ export async function snapshotOf(ws, f, revision) {
   const store = await ws.store();
   const baseline = await readInside(ws.root, f.rel);
   const {standing, png: standingPng} = f.stage === 'audio' ? {} : await (await ws.standing()).judged(f.rel);
-  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng}, baseline, 'frame', revision === undefined ? {} : {revision});
+  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng, filePng: f.stage === 'audio' ? undefined : baseline}, baseline, 'frame', revision === undefined ? {} : {revision});
 }
 
 /**

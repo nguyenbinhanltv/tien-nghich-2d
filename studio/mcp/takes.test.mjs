@@ -30,7 +30,7 @@ test('REVIEW-006: a new take moves only "newest"; selected and in use stay where
   await author.ok('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, frames: clipFrames('idle', 'south', 2) });
   const ws = project.workspace, store = await ws.store();
   const file = fs.readFileSync(`${p.root}/assets/raw/longtime/lt_seed_broker/frames/idle_south_0.png`);
-  const frame = { ...bareFrame(KEY(0)), standingPng: file };
+  const frame = { ...bareFrame(KEY(0)), filePng: file };
   const read = () => store.operate(frame, file, 'frame', {}).takes;
   assert.deepEqual(read(), { newest: 0, selected: null, inUse: 0 });
   const r1 = await saveRevision(ws, { key: KEY(0), baseline: file, png: makeFrame(32, 32, { variant: 9 }).png });
