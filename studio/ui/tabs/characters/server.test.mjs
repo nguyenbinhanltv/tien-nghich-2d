@@ -27,9 +27,9 @@ test('roster: every character of the configured categories, with readiness, from
   const longtime = json('assets/manifest_longtime.json');
   const lt = longtime.assets.filter(a => config.categories.includes(longtime.profiles[a.profile].category));
   assert.equal(data.characters.length, core.length + lt.length);
-  // Pinned today: 22 core characters and 32 Longtime characters.
-  assert.deepEqual([core.length, lt.length, data.counts.total], [22, 32, 54]);
-  assert.deepEqual(data.counts.byCategory, {player: 8, mob: 27, boss: 7, npc: 6, pet: 6});
+  // Pinned today: 22 core characters and 33 Longtime characters.
+  assert.deepEqual([core.length, lt.length, data.counts.total], [22, 33, 55]);
+  assert.deepEqual(data.counts.byCategory, {player: 9, mob: 27, boss: 7, npc: 6, pet: 6});
   // Planned means no processed frames yet, worked out here from the files, not from the API.
   const planned = lt.filter(a => !fs.existsSync(root + 'assets/processed_longtime/' + a.id) ||
     fs.readdirSync(root + 'assets/processed_longtime/' + a.id).length === 0).map(a => a.id).sort();

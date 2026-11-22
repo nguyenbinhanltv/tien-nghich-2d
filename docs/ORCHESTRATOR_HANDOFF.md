@@ -40,7 +40,7 @@ Work arrives as pull requests; check `gh pr list --state open`.
 
 ## Art state
 
-Counts are IDs / frames in the nine web chunk manifests under `assets/atlases_longtime/web/*/chunk-manifest.json` (the mobile manifests are identical). `python -I tools/scripts/check_longtime.py` and `check_longtime_vfx.py` pass: 102 inherited core IDs, 125 planned Longtime IDs, wave 1 9 IDs / 101 frames, VFX 6 new IDs / 188 frames all `packed`, 12 inherited effects reused.
+Counts are IDs / frames in the nine web chunk manifests under `assets/atlases_longtime/web/*/chunk-manifest.json` (the mobile manifests are identical). `python -I tools/scripts/check_longtime.py` and `check_longtime_vfx.py` pass: 102 inherited core IDs, 126 planned Longtime IDs, wave 1 9 IDs / 101 frames, VFX 6 new IDs / 188 frames all `packed`, 12 inherited effects reused.
 
 **All 125 planned Longtime IDs and the 6 new VFX IDs are packed: 131 IDs and 2,126 frames** (previously 101 / 558: +30 characters and their frames). All 32 character-profile IDs (6 NPC, 6 pet, 4 player, 12 mob, 4 boss) have art. The 102 inherited core entries are accounted for separately. The planned manifest still reads `planned` for every ID because the delivered state is derived from the packs, not stored in it.
 
@@ -182,3 +182,5 @@ The earlier version of these steps was written for PowerShell on Windows. These 
 - **Audio:** core masters are complete and all packed. Human listening for batches 2 to 4 was approved by the owner on 2026-11-22 (`assets/audio/listening_approvals.json`). Extensions (5 BGM, 10 SFX) stay behind their design gates. [Audio design](AUDIO_DESIGN.md)
 - **Studio:** shell, all nine tabs, the forge, the audio engine, the 27-tool MCP, the CLI and the sample project are on `main`; P0 to P6 are done. Left: wave 2 of the ideas plan (11 of 18; #113 is open for three of them), wave 3 only on real need, and the known gaps listed in the Studio section. [Studio plan](STUDIO_PLAN.md) · [MCP capabilities](MCP_CAPABILITIES.md)
 - **Asset work:** use the versioned [routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md), [art QA](../.agents/skills/tien-nghich-art-qa/SKILL.md) and [AssetCat](../.agents/skills/tien-nghich-assetcat/SKILL.md) skills for source routing, palette/outline checks and rights records.
+
+**Update 2026-11-22 (lt_ashen_crown_b).** On the owner's word "Chọn B và bản hiện tại", candidate B of `lt_ashen_crown` ships as the separate ID `lt_ashen_crown_b` (72 frames, `forms` chunk) beside the unchanged `lt_ashen_crown`: 126 planned Longtime IDs, 5 player forms. The `forms` atlas is repacked (360 frames); the 288 earlier frames match the old atlas pixel for pixel and field for field. Raw frames come from `assets/candidates/lt_ashen_crown_b/` unchanged; no PixelLab call was made.
