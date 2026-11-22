@@ -101,3 +101,9 @@ Readiness is `planned` (designed only), `authored` (frames or masters exist) or 
 ## Tests
 
 `node --test 'studio/ui/tests/*.test.mjs' studio/server/catalog-api.test.mjs` covers routing, strings, the tab contract, the catalog API and the Overview numbers. `studio/tests/shell-browser.test.mjs` is a Playwright script for the shell in a real browser (needs `playwright-core` and a Chromium path, like the other `*-browser.test.mjs` files; it is not part of the baseline because Playwright is not installed here).
+
+## Viewport screenshots (Pixel Kiln)
+
+`studio/ui/tests/viewport-harness.html` embeds the running studio in an iframe at 1600, 1280, 900 or 420 px for one tab and one language, with buttons to switch each. Open `http://127.0.0.1:4173/studio/ui/tests/viewport-harness.html?tab=review&w=900&lang=vi` after `node studio/serve.mjs --port 4173`. Query: `tab`, `w`, `h` (iframe height), `lang`, `fit` (`1` shrinks to the panel, `0` is real size), `capture=1` (hides the controls). Once the tab has settled the page title reads `READY <tab> <lang> <w>x<h> overflowX=<px> offenders=<n>`; the overflow figure only sees content that escapes the page, not content a panel clips or scrolls inside itself, so look at the image too.
+
+`studio/ui/tests/capture-viewports.sh [out-dir]` takes all 9 tabs × EN/VI × 4 widths = 72 PNGs through the Orchestrator Browser panel (`ao browser`; Playwright is not used and not needed). Run it from a worker session with the Browser panel visible. Images and a `report.tsv` go to `out-dir` (default: a new temp directory), never into the repo. `TABS`, `LANGS`, `WIDTHS` and `HEIGHT` env vars narrow the run.
