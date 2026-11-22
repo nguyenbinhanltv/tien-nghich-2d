@@ -6,7 +6,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { Readable, Writable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
-import { handle, previewLength } from './server.mjs';
+import { handle, previewLength, sendFile } from './server.mjs';
 import { renderDocument, decodeWav } from '../../../audio/index.mjs';
 import { realPack } from '../../../core/tests/helpers.mjs';
 
@@ -208,4 +208,28 @@ test('a second project with its own pack, rate and cues works with no code chang
   const pairs = (await call(dir, 'pairs')).json();
   assert.deepEqual([pairs.nearest[0].a, pairs.nearest[0].b], ['ping', 'pong']);
   void decodeWav;
+});
+
+test('a file that cannot be read after it was found ends that response and does not crash the process', async t => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'audio-tab-vanish-'));
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const uncaught = [];
+  const onUncaught = e => uncaught.push(e);
+  process.on('uncaughtException', onUncaught);
+  t.after(() => process.off('uncaughtException', onUncaught));
+  // stat succeeds on a directory but reading it fails (EISDIR), the same shape as a file deleted or replaced between stat and read.
+  const res = mockRes();
+  const closed = new Promise(resolve => res.on('close', resolve));
+  await sendFile({method: 'GET', headers: {}}, res, dir, 'audio/wav');
+  await closed;
+  await new Promise(resolve => setTimeout(resolve, 50));
+  assert.equal(res.destroyed, true, 'the response was ended');
+  assert.deepEqual(uncaught, [], 'no unhandled error escaped');
+  // The ordinary path still completes.
+  const file = path.join(dir, 'x.wav');
+  await fs.writeFile(file, Buffer.alloc(100, 1));
+  const ok = mockRes();
+  await sendFile({method: 'GET', headers: {}}, ok, file, 'audio/wav');
+  await ok.done;
+  assert.equal(ok.body().length, 100);
 });

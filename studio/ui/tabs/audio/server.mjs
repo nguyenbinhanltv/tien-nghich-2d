@@ -16,6 +16,7 @@ import { createReadStream } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { pipeline } from 'node:stream';
 import { problem } from '../../../core/errors.mjs';
 import { readJson } from '../../../core/files.mjs';
 import { decodeWav, measure, waveformPng, spectrogramPng, renderDocument, validateDocument, documentKind, audioFromPcm,
@@ -35,7 +36,7 @@ function sender(res) {
 }
 
 /** Stream a file with single-range support, so an <audio> element and fetch() can both read it. */
-async function sendFile(req, res, abs, type) {
+export async function sendFile(req, res, abs, type) {
   const stat = await fs.stat(abs);
   const headers = {'Content-Type': type, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'};
   const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers?.range ?? '');
@@ -50,7 +51,9 @@ async function sendFile(req, res, abs, type) {
   headers['Content-Length'] = end - start + 1;
   res.writeHead(status, headers);
   if (req.method === 'HEAD') return res.end();
-  createReadStream(abs, {start, end}).pipe(res);
+  // pipeline forwards a read error to the response and destroys it, so a file that vanishes or is replaced mid-request ends
+  // that response instead of raising an unhandled 'error' that would take the whole studio server down.
+  pipeline(createReadStream(abs, {start, end}), res, () => {});
 }
 
 async function cueEntries(root) {
