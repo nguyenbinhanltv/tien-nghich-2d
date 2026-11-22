@@ -54,7 +54,7 @@ node ~/tools/studio/cli.mjs serve --project ~/my-game   # rồi mở http://127.
 Pixel Kiln is the tool and a project is a folder with a `studio.project.json`. The tool keeps a short **list of your recent projects** in your own settings folder, never in a project or a repo: `~/Library/Application Support/Pixel Kiln` on macOS, `$XDG_CONFIG_HOME/pixel-kiln` (default `~/.config/pixel-kiln`) elsewhere, or the folder named by `PIXEL_KILN_HOME`. The list holds paths and names only.
 
 ```bash
-pixel-kiln serve                       # opens the Projects screen: nothing is open yet
+pixel-kiln serve                       # opens the Projects screen: nothing is open yet (`node studio/serve.mjs` alone still opens the repo around studio/)
 pixel-kiln serve --project ~/my-game   # opens that project (and puts it on the list)
 pixel-kiln projects list [--json]      # the list, with each folder's status
 pixel-kiln projects add ~/my-game      # check the folder against the schema, then list it

@@ -223,31 +223,33 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir, registry
   return server;
 }
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
   let port = Number(process.env.PORT || 4173);
   let host = process.env.HOST || '127.0.0.1';
-  let revisionDir, root = null;   // no --project: start on the Projects screen
+  let revisionDir, root = DEFAULT_ROOT, named = false, hub = false;   // no --project: this repo (what `node studio/serve.mjs` and the preview shim always did); --hub: the Projects screen
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--port' && argv[i + 1]) port = Number(argv[++i]);
     else if (argv[i] === '--host' && argv[i + 1]) host = argv[++i];
-    else if (argv[i] === '--project' && argv[i + 1]) root = path.resolve(argv[++i]);
-    else if (argv[i].startsWith('--project=')) root = path.resolve(argv[i].slice('--project='.length));
+    else if (argv[i] === '--hub') hub = true;
+    else if (argv[i] === '--project' && argv[i + 1]) { root = path.resolve(argv[++i]); named = true; }
+    else if (argv[i].startsWith('--project=')) { root = path.resolve(argv[i].slice('--project='.length)); named = true; }
     else if (argv[i] === '--revision-dir' && argv[i + 1]) revisionDir = argv[++i];
   }
-  return { port, host, revisionDir, root };
+  return { port, host, revisionDir, root: hub && !named ? null : root, named };
 }
 
 const PACKNAME = root => { try { return loadPackSync(root, undefined, { verifyFiles: false }).name; } catch { return root; } };
 
 /** Start the server from command-line arguments (used directly and by project shims). */
 export function runCli(argv = process.argv.slice(2)) {
-  const { port, host, revisionDir, root } = parseArgs(argv);
+  const { port, host, revisionDir, root, named } = parseArgs(argv);
   const server = createPreviewServer({ root, revisionDir });
   server.listen(port, host, async () => {
     const addr = server.address();
     const url = `http://${host}:${addr.port}/studio/`;
     if (root == null) { console.log(`Pixel Kiln serving the Projects screen at ${url}`); return; }
     console.log(`Pixel Kiln serving ${PACKNAME(root)} at ${url}`);
+    if (!named) return;   // the default project of `node studio/serve.mjs` is not something the person chose
     // The project that was named counts as opened: it goes to the top of the user's recent list. A list that cannot be written is not fatal.
     try {
       const { inspectProject, createRegistry: make } = await import('./core/project-registry.mjs');

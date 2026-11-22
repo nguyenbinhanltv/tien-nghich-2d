@@ -66,7 +66,7 @@ switch (command) {
     } catch (error) { console.error(`pixel-kiln init: ${error.message}`); process.exit(1); }
     break;
   }
-  case 'serve': await run('serve.mjs', rest); break;
+  case 'serve': await run('serve.mjs', rest.includes('--project') ? rest : ['--hub', ...rest]); break;   // no project named: the Projects screen (serve.mjs itself still defaults to the repo)
   case 'projects': {
     const {values, positionals} = flags({json: {type: 'boolean'}});
     const [action, arg, ...more] = positionals;

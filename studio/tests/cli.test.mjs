@@ -270,3 +270,13 @@ test('PROJECTS-013, CLI-010: `projects list|add|remove` keep the user-level list
   for (let i = 0; i < 50 && !(JSON.parse((await kiln('projects', 'list', '--json')).stdout).projects[0]?.lastOpened); i++) await new Promise(r => setTimeout(r, 100));
   assert.ok(JSON.parse((await kiln('projects', 'list', '--json')).stdout).projects[0]?.lastOpened, 'a project named at start counts as opened');
 });
+
+test('CLI-010: serve.mjs without --project opens the repo around studio/; only the CLI asks for the Projects screen', async () => {
+  const { parseArgs } = await import('../serve.mjs');
+  const repo = path.resolve(STUDIO, '..');
+  assert.equal(parseArgs([]).root, repo, 'node studio/serve.mjs and the preview shim keep serving this repo');
+  assert.equal(parseArgs([]).named, false);
+  assert.equal(parseArgs(['--hub']).root, null, '--hub (what `pixel-kiln serve` adds) means the Projects screen');
+  assert.equal(parseArgs(['--hub', '--project', '/x/y']).root, path.resolve('/x/y'), 'a named project wins');
+  assert.equal(parseArgs(['--project=/x/y']).named, true);
+});
