@@ -1,6 +1,6 @@
 /**
  * Pure validation & diff helpers for the Inspector Pixel Editor.
- * Enforces project palette (40 colors), binary alpha (0 or 255),
+ * Enforces project palette (43 colors), binary alpha (0 or 255),
  * exact frame dimensions, PNG signature, and allowed metadata bounds.
  */
 
@@ -129,7 +129,7 @@ export function validateRgbaBuffer(data, width, height, { expectedWidth, expecte
   }
   if (offPaletteCount > 0) {
     errors.push(
-      `Off-palette color detected (${offPaletteCount} pixel${offPaletteCount === 1 ? '' : 's'}; first ${firstOffPalette.hex} at (${firstOffPalette.x},${firstOffPalette.y})). Only the 40-color project palette is allowed.`
+      `Off-palette color detected (${offPaletteCount} pixel${offPaletteCount === 1 ? '' : 's'}; first ${firstOffPalette.hex} at (${firstOffPalette.x},${firstOffPalette.y})). Only the 43-color project palette is allowed.`
     );
   }
 

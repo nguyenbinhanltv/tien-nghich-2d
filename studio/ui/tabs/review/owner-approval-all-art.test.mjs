@@ -60,10 +60,19 @@ test('every asset record in the project file is current: nothing changed, missin
   assert.equal(records.length, 132);
   assert.deepEqual(records.filter(r => !r.current).map(r => [r.assetId, r.changed, r.missing, r.added, r.rawChanged]), []);
   const seen = new Map();
-  for (const a of record.approvals) for (const info of Object.values(a.assets)) for (const key of Object.keys(info.frames)) {
+  for (const a of record.approvals) for (const info of Object.values(a.assets ?? {})) for (const key of Object.keys(info.frames)) {
     assert.ok(!seen.has(key), `${key} is in both ${seen.get(key)} and ${a.id}`);
     seen.set(key, a.id);
   }
+});
+
+test('the orange palette approval is a colour record: exact hex, no frames, and it covers no art', () => {
+  const a = entry('owner_orange_palette_2026-11-22');
+  assert.equal(a.scope, 'palette_colours');
+  assert.equal(a.assets, undefined);
+  assert.deepEqual(a.colors, {orange_01: '#9c3f12', orange_02: '#e8701a', orange_03: '#ffb35c'});
+  const palette = JSON.parse(fs.readFileSync(path.join(repo, 'tools/generators/palette.json'), 'utf8'));
+  for (const [id, hex] of Object.entries(a.colors)) assert.equal(palette.colors.find(c => c.id === id)?.hex, hex, `${id} in palette.json is the approved hex`);
 });
 
 test('one changed byte in one newly approved frame makes exactly that frame and asset awaiting again', async () => {

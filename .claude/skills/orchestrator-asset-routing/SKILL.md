@@ -15,7 +15,7 @@ PixelLab-made assets already in the repo keep their provenance. They are history
 ## Forge routes for characters (see `docs/STUDIO_PLAN.md`)
 | Route | Use for | Agent does | Studio / scripts do |
 |---|---|---|---|
-| Image sheet -> pixelisation | Character, mob, boss design; turnaround and key poses | Codex or Antigravity (either one suffices) draws a high-resolution sheet in the studio layout frame with its built-in image tool | Slice, remove background, normalise scale at the foot anchor, downscale to native size, snap to 40 colours, add outline |
+| Image sheet -> pixelisation | Character, mob, boss design; turnaround and key poses | Codex or Antigravity (either one suffices) draws a high-resolution sheet in the studio layout frame with its built-in image tool | Slice, remove background, normalise scale at the foot anchor, downscale to native size, snap to 43 colours, add outline |
 | Part-based rig + motion templates | idle, walk, cast, hurt, telegraph, strike; bosses and animated props | Split parts, place joints, pick a motion template, tune keys | Bake native frames, clean pixels after rotation, hold the pivot |
 | Direct pixel edits | in-between frames, asymmetric details, fixes after review | Write palette-index grids or pixel commands | Apply, return a preview, keep a revision |
 

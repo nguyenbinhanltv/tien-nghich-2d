@@ -64,6 +64,6 @@ test('launching exactly as a config does, from the repo root, serves this checko
     await c.request(1, 'initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'x', version: '1' } });
     const r = await c.request(2, 'tools/call', { name: 'studio_project_info', arguments: { sections: ['palette'] } });
     assert.equal(r.result.structuredContent.project.root, ROOT);
-    assert.equal(r.result.structuredContent.palette.count, 40);
+    assert.equal(r.result.structuredContent.palette.count, 43);
   } finally { await c.close(); }
 });

@@ -9,7 +9,8 @@
   "ancient-god-bronze-gold",
   "soul-banner-obsidian-violet",
   "heavenly-thunder-cyan-red",
-  "ink-wash-stone-grays"
+  "ink-wash-stone-grays",
+  "ember-orange"
  ],
  "colors": [
   {
@@ -291,6 +292,27 @@
    "name": "ink-pale",
    "group": "ink-wash-stone-grays",
    "hex": "#d4d0d8"
+  },
+  {
+   "id": "orange_01",
+   "index": 41,
+   "name": "orange-ember",
+   "group": "ember-orange",
+   "hex": "#9c3f12"
+  },
+  {
+   "id": "orange_02",
+   "index": 42,
+   "name": "orange-flame",
+   "group": "ember-orange",
+   "hex": "#e8701a"
+  },
+  {
+   "id": "orange_03",
+   "index": 43,
+   "name": "orange-glow",
+   "group": "ember-orange",
+   "hex": "#ffb35c"
   }
  ],
  "size_classes": {
