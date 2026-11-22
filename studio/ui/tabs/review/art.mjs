@@ -16,11 +16,26 @@ function threadView(ctx, comments) {
   if (!comments.length) return h('p', 'muted', ctx.t('thread.none'));
   return h('ol', 'thread', ...thread(comments).map(c => h('li', 'msg by-' + c.by + ' k-' + c.kind,
     h('div', 'msg-head', who(ctx, c), h('span', 'muted', '#' + c.index), c.kind === 'request' ? h('span', 'tag', ctx.t('thread.request')) : null,
+      c.kind === 'read' ? h('span', 'tag ok', ctx.t('read.tag')) : null,
       c.kind === 'reply' ? h('span', 'tag', ctx.t(c.handled ? 'thread.handledReply' : 'thread.reply', {n: c.replyTo})) : null,
-      c.by === 'human' && c.handled ? h('span', 'tag ok', ctx.t('thread.handled')) : null,
-      c.by === 'human' && !c.handled && !c.replied ? h('span', 'tag warn', ctx.t('thread.unanswered')) : null),
-    h('p', 'msg-body', c.body),
+      c.answerable && c.handled ? h('span', 'tag ok', ctx.t('thread.handled')) : null,
+      c.answerable && !c.handled && !c.replied ? h('span', 'tag warn', ctx.t('thread.unanswered')) : null),
+    c.kind === 'read' ? readLine(ctx, c) : null,
+    c.body ? h('p', 'msg-body', c.body) : null,
     c.questions.length ? h('ol', 'questions', ...c.questions.map(q => h('li', '', q))) : null)));
+}
+
+/** The score and palette variant of a human's 1x readability read. */
+function readLine(ctx, c) {
+  return h('p', 'read-line', h('strong', '', c.score ? ctx.t('read.score', {score: c.score}) : ctx.t('read.noScore')), c.variant ? ' · ' + ctx.t('read.variant', {variant: c.variant}) : null);
+}
+
+/** The reads on this revision as their own section, newest first; the effect's reads are not an agent's request and decide nothing. */
+function readsSection(ctx, comments) {
+  const reads = thread(comments).filter(c => c.kind === 'read').reverse();
+  if (!reads.length) return null;
+  return h('section', 'dsec reads', h('h3', '', ctx.t('read.title')), h('p', 'muted', ctx.t('read.intro')),
+    ...reads.map(c => h('div', 'read-item', readLine(ctx, c), c.body ? h('p', 'msg-body', c.body) : null)));
 }
 
 function authorLine(ctx, history, revision, submission) {
@@ -106,6 +121,7 @@ export async function renderArt(app, host, item, token) {
       submission ? h('dl', 'kv', h('dt', '', ctx.t('author.submittedBy')), h('dd', '', ctx.t('thread.agent', {agent: submission.agent, session: submission.session})),
         h('dt', '', ctx.t('author.tool')), h('dd', '', submission.tool ?? '–'), h('dt', '', ctx.t('author.source')), h('dd', 'mono', submission.sourceHash ? submission.sourceHash.slice(0, 16) : '–'),
         h('dt', '', ctx.t('author.at')), h('dd', '', submission.at ?? '–'), submission.generator ? h('dt', '', ctx.t('author.generator')) : null, submission.generator ? h('dd', 'mono', submission.generator) : null) : null),
+    readsSection(ctx, snap.comments),
     h('section', 'dsec', h('h3', '', ctx.t('thread.title', {revision: snap.revision})), threadView(ctx, snap.comments)),
     h('section', 'dsec decide', h('h3', '', ctx.t('decide.title')),
       isHead ? h('p', 'muted', ctx.t('decide.humanOnly')) : h('p', {class: 'muted', role: 'status'}, ctx.t('decide.notHead', {head: snap.head})),

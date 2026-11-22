@@ -78,7 +78,7 @@
  "listen.waveNote": "Waveform of the master. The line follows playback of the master or its decoded version.",
  "blind.title": "Blind A/B: can this be told from its closest neighbour?",
  "blind.effectsOnly": "Blind A/B is for effects.",
- "blind.help": "Two cues play level-matched as 1 and 2 in a random order. Say which one is the cue under review, {n} times. Chance level is half right.",
+ "blind.help": "Two cues play level-matched as 1 and 2 in a random order. Say which one is the cue under review, {n} times. Chance level is half right. Playing the cue under review here also counts as having heard it for sign-off; playing its partner does not.",
  "blind.partner": "Compare with",
  "blind.fromManifest": "named in the plan",
  "blind.close": "close by measurement ({distance})",

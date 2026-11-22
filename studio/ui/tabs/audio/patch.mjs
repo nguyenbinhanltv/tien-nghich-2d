@@ -71,7 +71,7 @@ export async function renderPatch(app, el, detail, entry, current) {
       h('img', {class: 'au-wave-img', src: base + `preview-image?id=${preview.id}&kind=spectrogram&width=1000`, alt: ctx.t('patch.previewSpecAlt')}));
   }
   async function playPreview(p) {
-    const buffer = await engine.load(base + 'preview-file?id=' + p.id, p.sampleRate);
+    const buffer = await engine.load(base + 'preview-file?id=' + p.id, p.sampleRate, p.sha256 ?? p.id);
     const gain = document.getElementById('au-pmatch')?.checked ? levelGain(p.measurements) : 1;
     engine.stopAll();
     engine.play(buffer, {gain, label: 'preview', loop: p.loop ?? undefined});
@@ -79,7 +79,7 @@ export async function renderPatch(app, el, detail, entry, current) {
   }
   async function playMaster() {
     const master = await app.measure(entry.id), m = detail.masterInfo;
-    const buffer = await engine.load(base + 'master?id=' + encodeURIComponent(entry.id), m.sampleRate);
+    const buffer = await engine.load(base + 'master?id=' + encodeURIComponent(entry.id), m.sampleRate, m.sha256);
     const gain = document.getElementById('au-pmatch')?.checked ? levelGain(master.measurements) : 1;
     engine.stopAll();
     engine.play(buffer, {gain, label: playLabel(entry.id, entry.masterSha, 'master'), loop: detail.loop ?? undefined});

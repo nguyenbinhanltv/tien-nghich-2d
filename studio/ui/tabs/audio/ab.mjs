@@ -38,7 +38,7 @@ export async function renderBlind(app, root, detail, entry, current, {say}) {
     for (const id of [entry.id, partner]) {
       const d = id === entry.id ? detail : await app.cue(id);
       const url = `/api/tabs/${ctx.tab}/master?id=${encodeURIComponent(id)}`;
-      buffers[id] = {buffer: await engine.load(url, d.masterInfo.sampleRate), measure: await app.measure(id)};
+      buffers[id] = {buffer: await engine.load(url, d.masterInfo.sampleRate, d.masterInfo.sha256), measure: await app.measure(id)};
     }
     const gains = matchedGains([entry.id, partner].map(id => buffers[id].measure.measurements.loudness.ungatedLufs));
     buffers[entry.id].gain = gains[0]; buffers[partner].gain = gains[1];

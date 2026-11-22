@@ -25,6 +25,7 @@
       "sfx": ["sfx_keeper_call", "sfx_pet_reply", "sfx_form_shift"]
     }
   },
+  "audition_pairs": [["sfx_dash", "sfx_blade"], ["sfx_seal_lock", "sfx_hit_flesh"], ["sfx_pickup", "sfx_confirm"]],
   "pilot": {
     "music": "bgm_dong_phu",
     "duration_seconds": [60, 90],

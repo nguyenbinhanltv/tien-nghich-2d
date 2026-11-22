@@ -637,10 +637,71 @@
               "atlas"
             ]
           },
+          "properties": {
+            "sandbox": {
+              "type": "object",
+              "description": "The Sandbox tab: where this project keeps its scene documents.",
+              "properties": {
+                "scenesDir": {
+                  "$ref": "#/$defs/path",
+                  "description": "Project-relative directory holding <id>.scene.json files (studio.scene documents). The Sandbox lists, opens and saves scenes here and nowhere else."
+                }
+              },
+              "required": ["scenesDir"],
+              "additionalProperties": false
+            }
+          },
           "additionalProperties": {
             "type": "object"
           },
           "description": "Free-form per-destination configuration, one object per tab id. Each tab documents and validates its own object (see its README); the pack schema only fixes that it is an object."
+        },
+        "vfx": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "VFX tab settings: the floor colours effects are judged on, the spec-history directory and the two documents that record audits. Every key is optional; without them the tab shows one neutral floor and skips the history and the recorded audits.",
+          "properties": {
+            "floors": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "color"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  "color": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_]+$",
+                    "description": "Palette colour id."
+                  },
+                  "joint": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_]+$",
+                    "description": "Palette colour id for the joint lines of a tiled floor."
+                  }
+                }
+              }
+            },
+            "roundsDir": {
+              "$ref": "#/$defs/path",
+              "description": "Directory holding round<N>/ spec history."
+            },
+            "rubricDoc": {
+              "$ref": "#/$defs/path",
+              "description": "Markdown write-up holding the core effects' self-score table."
+            },
+            "longtimeDoc": {
+              "$ref": "#/$defs/path",
+              "description": "Markdown write-up holding the design-manifest effects' self-scores."
+            }
+          }
         }
       }
     }

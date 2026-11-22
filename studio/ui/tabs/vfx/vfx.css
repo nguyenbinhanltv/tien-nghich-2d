@@ -105,3 +105,13 @@
 .vx-notes p { margin: .1rem 0 0; }
 .vx button:disabled { opacity: .55; cursor: not-allowed; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Build + audit */
+.vx-buildout { margin-top: .5rem; }
+.vx-buildfig { margin: .5rem 0; }
+.vx-buildfig figcaption { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.vx-buildrow { display: flex; flex-wrap: wrap; gap: 2px; }
+.vx-verdict.pass, .vx-buildout dd.pass { color: var(--accent); }
+.vx-verdict.fail, .vx-buildout dd.fail { color: var(--danger, #c0504d); }
+.vx-buildout dd.warn { color: var(--gold); }
+.vx-pre { font-size: .72rem; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12rem; overflow: auto; }

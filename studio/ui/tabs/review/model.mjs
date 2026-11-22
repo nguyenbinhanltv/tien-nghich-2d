@@ -38,6 +38,11 @@ export function parseKey(key) {
   return {asset: parts[1], clip: m.groups.clip, direction: m.groups.direction, n: Number(m.groups.n)};
 }
 
+// The VFX tab stores a human's 1x readability read as a typed comment on the effect's first frame:
+// `[vfx-1x-read score=4/5 variant=x] note`. It is recognised only at the very start of a comment that
+// carries no agent tag, so an agent (whose comments always open with its tag) cannot post one.
+const readNote = /^\[vfx-1x-read((?: score=[1-5]\/5)?(?: variant=[A-Za-z0-9_.-]+)?)\]\s*([\s\S]*)$/;
+
 const tag = /^\[agent (?<agent>.+?) · (?<session>[0-9a-f]{1,16})\] (?<rest>[\s\S]*)$/;
 
 /**
@@ -47,6 +52,8 @@ const tag = /^\[agent (?<agent>.+?) · (?<session>[0-9a-f]{1,16})\] (?<rest>[\s\
  */
 export function parseComment(text) {
   const t = tag.exec(text ?? '');
+  const read = !t && readNote.exec(text ?? '');
+  if (read) return {by: 'human', kind: 'read', score: Number(/score=([1-5])/.exec(read[1])?.[1]) || null, variant: /variant=([A-Za-z0-9_.-]+)/.exec(read[1])?.[1] ?? null, body: read[2], questions: []};
   if (!t) return {by: 'human', kind: 'comment', body: String(text ?? ''), questions: []};
   const {agent, session, rest} = t.groups;
   let m;
@@ -64,8 +71,9 @@ export function parseComment(text) {
 export function thread(comments) {
   const parsed = comments.map((c, index) => ({index, status: c.status, ...parseComment(c.text)}));
   const handled = new Set(parsed.filter(c => c.kind === 'reply' && c.handled).map(c => c.replyTo));
+  // A readability read is a note about the effect, not a message that waits for an answer.
   const replied = new Set(parsed.filter(c => c.kind === 'reply').map(c => c.replyTo));
-  return parsed.map(c => ({...c, handled: c.by === 'human' ? handled.has(c.index) : c.handled, replied: c.by === 'human' && replied.has(c.index)}));
+  return parsed.map(c => ({...c, handled: c.by === 'human' ? handled.has(c.index) : c.handled, replied: c.by === 'human' && replied.has(c.index), answerable: c.by === 'human' && c.kind !== 'read'}));
 }
 
 /** Changed pixels between two same-size RGBA buffers: {mask, count, width, height, bbox} or {error:'size'}. */

@@ -78,7 +78,7 @@
  "listen.waveNote": "Sóng âm của master. Vạch chạy theo lúc phát master hoặc bản giải mã của nó.",
  "blind.title": "Test mù A/B: có phân biệt được với cue gần giống nhất không?",
  "blind.effectsOnly": "Test mù A/B chỉ dành cho hiệu ứng.",
- "blind.help": "Hai cue phát cân mức thành 1 và 2 theo thứ tự ngẫu nhiên. Hãy nói cái nào là cue đang duyệt, {n} lần. Đoán mò thì trúng một nửa.",
+ "blind.help": "Hai cue phát cân mức thành 1 và 2 theo thứ tự ngẫu nhiên. Hãy nói cái nào là cue đang duyệt, {n} lần. Đoán mò thì trúng một nửa. Phát cue đang duyệt ở đây cũng tính là đã nghe cue đó để ký duyệt; phát cue đối chiếu thì không.",
  "blind.partner": "So với",
  "blind.fromManifest": "kế hoạch ghi tên",
  "blind.close": "gần nhau theo số đo ({distance})",

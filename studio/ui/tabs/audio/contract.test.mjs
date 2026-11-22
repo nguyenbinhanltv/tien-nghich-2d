@@ -59,3 +59,13 @@ test('the sign-off gate and the note use heardFor, and every playback label carr
     assert.doesNotMatch(src, /label: 'main:|label: 'ab:|label: 'sprite:/, f);
   }
 });
+
+test('every decoded-buffer load names the content version of what it fetches, so a re-rendered master is not played from a stale buffer', () => {
+  for (const f of ['listen.mjs', 'ab.mjs', 'sprite.mjs', 'patch.mjs']) {
+    const calls = [...text(f).matchAll(/engine\.load\(([^\n]*)\)/g)].map(m => m[1]);
+    for (const args of calls) assert.ok(args.split(',').length >= 3, `${f}: engine.load(${args}) has no version`);
+  }
+  const engine = text('engine.mjs');
+  assert.match(engine, /async function load\(url, sampleRate, version\)/);
+  assert.match(engine, /\$\{url\}#\$\{version\}/);
+});

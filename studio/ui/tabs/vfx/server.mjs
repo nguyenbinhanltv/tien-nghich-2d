@@ -3,25 +3,22 @@
 //   GET effect?id=             one effect with frame paths, sections, events and the pack's floors
 //   GET evidence?id=           spec summaries, provenance and recorded + freshly computed audits, spec rounds
 //   GET floors                 the three floor colours, from the pack palette
-// Building or re-rendering is a job (studio_vfx_build) and is not reachable from here.
+//   POST build {id, clip?, variant?}   human action: rebuild the committed spec with the registered SpriteFX adapter into scratch and audit it.
+//                              It reads the project and writes only the git-ignored scratch directory; no asset file, no review status.
 import fs from 'node:fs/promises';
 import { loadPack, buildCatalog } from '../../../core/index.mjs';
 import { readJson, readJsonIfExists, readInside } from '../../../core/files.mjs';
 import { decodeRgba } from '../../../core/png.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
+import { buildAndAudit } from './build.mjs';
 import { coreEffect, longtimeEffect, cardOf, specSummary, frameMetrics, checkAcceptance, parseCoreRubric, parseLongtimeSelfScores, diffSummaries, sha256, sha256Lf } from './data.mjs';
 
-// Where this project keeps the spec history and the two write-ups that record audits. A project pack that
-// grows a `ui.vfx` block can override any of these; the defaults are this repository's layout.
+// Where this project keeps the spec history and the two write-ups that record audits comes from the pack's `ui.vfx`
+// block. Without it the tab shows one neutral floor and skips the history and the recorded audits.
 const defaults = {
-  coreSpecDir: 'tools/generators/vfx_specs', roundsDir: 'tools/generators/vfx_specs/history', rounds: [1, 2, 3, 4],
+  coreSpecDir: 'tools/generators/vfx_specs', rounds: [1, 2, 3, 4],
   longtimeRawDir: 'assets/raw/longtime', longtimeProcessedDir: 'assets/processed_longtime',
-  rubricDoc: 'docs/LESSONS_vfx_spritefx.md', longtimeDoc: 'docs/LONGTIME_VFX.md',
-  floors: [
-    {id: 'grey', color: 'ink_04'},
-    {id: 'court', color: 'ink_03', joint: 'ink_02'},
-    {id: 'dark', color: 'ink_02'}
-  ]
+  roundsDir: null, rubricDoc: null, longtimeDoc: null, floors: []
 };
 
 const ttlMs = 2000;
@@ -70,7 +67,8 @@ async function build(root) {
   const palette = await readJson(root, pack.palette.file);
   const byId = new Map(palette.colors.map(c => [c.id, c.hex]));
   const hexToId = new Map(palette.colors.map(c => [c.hex.toLowerCase(), c.id]));
-  const floors = cfg.floors.map(f => ({id: f.id, color: byId.get(f.color) ?? '#6e6877', joint: f.joint ? byId.get(f.joint) ?? null : null, paletteId: f.color, jointId: f.joint ?? null}));
+  const configured = cfg.floors.length ? cfg.floors : [{id: 'floor', color: palette.colors[0].id}];
+  const floors = configured.map(f => ({id: f.id, color: byId.get(f.color) ?? '#6e6877', joint: f.joint ? byId.get(f.joint) ?? null : null, paletteId: f.color, jointId: f.joint ?? null}));
   return {pack, cfg, effects, floors, hexToId, outline: palette.outline};
 }
 
@@ -80,11 +78,41 @@ async function readPng(root, rel) {
   try { return decodeRgba(await readInside(root, rel)); } catch { return null; }
 }
 
+const specFileOf = (cfg, effect, variant, clipId) => effect.group === 'core' ? `${cfg.coreSpecDir}/${effect.id}.json`
+  : `${cfg.longtimeRawDir}/${effect.id}/specs/${clipId}_${variant}.json`;
+
+async function readBody(req) {
+  if (req.headers?.['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') throw problem(415, 'unsupported_media_type', 'Send application/json');
+  let size = 0; const chunks = [];
+  for await (const chunk of req.iterator({destroyOnReturn: false})) { size += chunk.length; if (size > 2048) throw problem(413, 'too_large', 'Request too large'); chunks.push(chunk); }
+  try { return JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(Buffer.concat(chunks))); } catch { throw problem(400, 'invalid_json', 'Invalid JSON'); }
+}
+
+/** The human "Build + audit" action. The client names an effect, clip and variant; the server finds the spec, the delivered frames and the reference sheet itself. */
+async function buildAction(req, root, context) {
+  const body = await readBody(req);
+  const lib = await library(root);
+  const effect = lib.effects.find(e => e.id === body?.id);
+  if (!effect) throw problem(404, 'unknown_effect', 'No effect with that id');
+  const clip = effect.clips.find(c => c.id === body.clip) ?? effect.clips[0];
+  const variant = effect.variants.some(v => v.id === body.variant) ? body.variant : effect.variants[0]?.id ?? '';
+  const specPath = specFileOf(lib.cfg, effect, variant, clip.id);
+  let reference = null;
+  if (effect.group === 'core' && effect.sheet) { try { reference = {source: 'delivered sheet file', path: effect.sheet, sha256: sha256(await readInside(root, effect.sheet))}; } catch { /* no sheet on disk */ } }
+  else if (effect.group === 'longtime') {
+    const prov = await readJsonIfExists(root, `${lib.cfg.longtimeRawDir}/${effect.id}/provenance.json`);
+    const spec = await readJsonIfExists(root, specPath);
+    const recorded = prov?.render_sheets_sha256?.[spec?.name];
+    if (recorded) reference = {source: 'sheet hash recorded in provenance', sha256: recorded};
+  }
+  const result = await buildAndAudit({root, libraryDir: context.libraryDir, effect, specPath, deliveredPaths: sheetOf(effect, clip, variant), reference});
+  return {...result, clip: clip.id, variant: variant || null};
+}
+
 async function evidence(root, lib, effect) {
   const {cfg, hexToId} = lib;
   const out = {id: effect.id, group: effect.group, specs: [], provenance: null, recorded: {}, computed: [], rounds: null};
-  const specFile = (variant, clipId) => effect.group === 'core' ? `${cfg.coreSpecDir}/${effect.id}.json`
-    : `${cfg.longtimeRawDir}/${effect.id}/specs/${clipId}_${variant}.json`;
+  const specFile = (variant, clipId) => specFileOf(cfg, effect, variant, clipId);
   const prov = effect.group === 'longtime' ? await readJsonIfExists(root, `${cfg.longtimeRawDir}/${effect.id}/provenance.json`) : undefined;
   const recordedHash = (prov?.specs) ?? {};
   const seen = new Set();
@@ -120,13 +148,13 @@ async function evidence(root, lib, effect) {
   }
   // Recorded audits
   if (effect.group === 'core') {
-    const text = (await readInside(root, cfg.rubricDoc).catch(() => Buffer.alloc(0))).toString();
+    const text = cfg.rubricDoc ? (await readInside(root, cfg.rubricDoc).catch(() => Buffer.alloc(0))).toString() : '';
     const row = parseCoreRubric(text, lib.effects.filter(e => e.group === 'core').map(e => e.id)).get(effect.id);
-    out.recorded = {source: cfg.rubricDoc, selfScore: row ?? null, note: row ? null : 'none'};
+    out.recorded = {source: cfg.rubricDoc ?? null, selfScore: row ?? null, note: row ? null : 'none'};
   } else {
-    const text = (await readInside(root, cfg.longtimeDoc).catch(() => Buffer.alloc(0))).toString();
+    const text = cfg.longtimeDoc ? (await readInside(root, cfg.longtimeDoc).catch(() => Buffer.alloc(0))).toString() : '';
     const row = parseLongtimeSelfScores(text, lib.effects.filter(e => e.group === 'longtime').map(e => e.id)).get(effect.id);
-    out.recorded = {source: cfg.longtimeDoc, selfScore: row ?? null, acceptance: effect.acceptance, review: prov?.review ?? null};
+    out.recorded = {source: cfg.longtimeDoc ?? null, selfScore: row ?? null, acceptance: effect.acceptance, review: prov?.review ?? null};
   }
   // Computed now from the frames on disk
   for (const clip of effect.clips) for (const v of (effect.variants.length ? effect.variants.map(x => x.id) : [''])) {
@@ -140,7 +168,7 @@ async function evidence(root, lib, effect) {
   if (effect.group === 'core') {
     const rounds = [];
     const final = out.specs[0]?.summary ?? null;
-    for (const n of cfg.rounds) {
+    for (const n of cfg.roundsDir ? cfg.rounds : []) {
       const file = `${cfg.roundsDir}/round${n}/${effect.id}.json`;
       let spec = null, bytes = null;
       try { bytes = await readInside(root, file); spec = JSON.parse(bytes); } catch { /* absent */ }
@@ -149,7 +177,7 @@ async function evidence(root, lib, effect) {
     }
     // Frames or sheets per round: only a path that actually exists counts.
     const frameDirs = [];
-    for (const n of cfg.rounds) {
+    for (const n of cfg.roundsDir ? cfg.rounds : []) {
       const names = [`${cfg.roundsDir}/round${n}/${effect.id}_sheet.png`, `${cfg.roundsDir}/round${n}/${effect.id}_0.png`];
       const found = [];
       for (const p of names) { try { await fs.access(root + '/' + p); found.push(p); } catch { /* absent */ } }
@@ -160,13 +188,15 @@ async function evidence(root, lib, effect) {
   return out;
 }
 
-export async function handle(req, res, url, {root, prefix}) {
+export async function handle(req, res, url, context) {
+  const {root, prefix} = context;
   function send(status, data) {
     res.writeHead(status, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
     res.end(JSON.stringify(data));
   }
-  if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The VFX tab API is read-only');
   const name = url.pathname.slice(prefix.length);
+  if (name === 'build' && req.method === 'POST') return send(200, await buildAction(req, root, context));
+  if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The VFX tab API is read-only apart from the build action');
   const lib = await library(root);
   if (name === 'effects') return send(200, {effects: lib.effects.map(cardOf), floors: lib.floors});
   if (name === 'floors') return send(200, {floors: lib.floors});

@@ -1,6 +1,6 @@
 // WebAudio playback for the Audio tab. Nothing plays, and no AudioContext exists, until a user gesture calls
 // `engine.play*`. One bus: source -> level match gain -> master volume -> (optional mono fold-down) -> output.
-// Decoded buffers are cached per URL; a context is recreated only when the project's sample rate changes.
+// Decoded buffers are cached per URL and content version (the file's SHA-256), so a re-rendered master is never played from a stale buffer; a context is recreated only when the project's sample rate changes.
 
 export function createEngine({onChange = () => {}} = {}) {
   let ctx = null, rate = null, master = null, mono = null, monoOn = false, volume = 0.8;
@@ -27,13 +27,15 @@ export function createEngine({onChange = () => {}} = {}) {
     if (monoOn) { master.connect(mono); mono.connect(ctx.destination); } else master.connect(ctx.destination);
   }
 
-  async function load(url, sampleRate) {
+  /** Decode `url`. `version` is the content hash of what the URL serves now; a changed hash is a new cache entry. */
+  async function load(url, sampleRate, version) {
     ensure(sampleRate);
-    if (!buffers.has(url)) {
-      buffers.set(url, fetch(url).then(r => { if (!r.ok) throw new Error(`${r.status} ${url}`); return r.arrayBuffer(); })
-        .then(bytes => ctx.decodeAudioData(bytes)).catch(error => { buffers.delete(url); throw error; }));
+    const key = version ? `${url}#${version}` : url;
+    if (!buffers.has(key)) {
+      buffers.set(key, fetch(url, {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error(`${r.status} ${url}`); return r.arrayBuffer(); })
+        .then(bytes => ctx.decodeAudioData(bytes)).catch(error => { buffers.delete(key); throw error; }));
     }
-    return buffers.get(url);
+    return buffers.get(key);
   }
 
   /**
