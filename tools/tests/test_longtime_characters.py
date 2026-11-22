@@ -67,6 +67,48 @@ class LongtimeCharacters(unittest.TestCase):
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
 
+    def test_remapped_frames_name_their_selected_raw_source(self):
+        """Assets with generation.json frame_select: raw_path and raw_sha256 must both describe the selected input."""
+        remapped = 0
+        for gen in sorted(RAW.glob("*/generation.json")):
+            sel = json.loads(gen.read_text(encoding="utf-8")).get("frame_select")
+            if not sel:
+                continue
+            aid = gen.parent.name
+            prov = json.loads((gen.parent / "provenance.json").read_text(encoding="utf-8"))
+            for f in prov["frames"]:
+                clip, direction, n = f["key"].split("/")[-1].rsplit("_", 2)
+                src = sel[clip][int(n)] if clip in sel else int(n)
+                with self.subTest(frame=f["key"]):
+                    self.assertTrue(f["raw_path"].endswith(f"/{clip}/{direction}/frame_{src:03d}.png"), f["raw_path"])
+                    self.assertEqual(f["raw_sha256"], sha(ROOT / f["raw_path"]))
+                    remapped += src != int(n)
+        self.assertGreater(remapped, 0)
+
+    def test_clip_group_ids_agree_with_shipped_jobs(self):
+        """A clip with a retry must say which attempt shipped per direction, and its clip-level and per-direction
+        group ids and job ids must all describe that same shipped attempt."""
+        checked = 0
+        for gen in sorted(RAW.glob("*/generation.json")):
+            for clip, a in json.loads(gen.read_text(encoding="utf-8")).get("animations", {}).items():
+                if "retry" not in a:
+                    continue
+                with self.subTest(asset=gen.parent.name, clip=clip):
+                    first, retry = a["first_attempt"], a["retry"]
+                    self.assertEqual(set(a["shipped"]), DIRECTIONS)
+                    groups = set()
+                    for d, which in a["shipped"].items():
+                        src = {"first_attempt": first, "retry": retry}[which]
+                        self.assertEqual(a["job_ids"][d], src["job_ids"][d], d)
+                        self.assertEqual(a["animation_group_ids"][d], src["animation_group_id"], d)
+                        groups.add(src["animation_group_id"])
+                    if len(groups) == 1:
+                        self.assertEqual(a["animation_group_id"], next(iter(groups)))
+                    else:
+                        self.assertTrue(str(a["animation_group_id"]).startswith("mixed"), a["animation_group_id"])
+                    checked += 1
+        self.assertGreater(checked, 0)
+
     def test_profile_counts_and_qa(self):
         manifest = json.loads(ql.DEFAULT_MANIFEST.read_text(encoding="utf-8"))
         palette, outline = ql.load_palette(ql.DEFAULT_PALETTE)
