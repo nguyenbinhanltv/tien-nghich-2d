@@ -33,8 +33,9 @@ export function compareFrames(rebuilt, delivered) {
 export async function buildAndAudit({root, libraryDir, effect, specPath, deliveredPaths, reference}) {
   if (running >= 1) throw problem(409, 'build_running', 'A build is already running. Wait for it to finish.');
   running++;
-  const project = openProject(root, {libraryDir});
+  let project;
   try {
+    project = openProject(root, {libraryDir}); // throws when the pack is missing or invalid; the slot is released below either way
     let spec, bytes;
     try { bytes = await readInside(root, specPath); spec = JSON.parse(bytes); } catch { throw problem(404, 'spec_missing', 'This effect has no committed SpriteFX spec to build.'); }
     const snap = await project.workspace.snapshot();
@@ -74,6 +75,6 @@ export async function buildAndAudit({root, libraryDir, effect, specPath, deliver
     return {...out, ok: true, audit: built.audit, deterministic: built.deterministic, gate, compare,
       table: {count: frames.length, size: built.meta.frame_size, anchor: built.meta.anchor, fps: built.meta.fps, loop: built.meta.loop, durationsMs: built.meta.frames.map(f => f.duration), events: built.meta.events ?? []},
       sheet: {png: built.sheetBytes.toString('base64'), width: sheet.width, height: sheet.height, frames: built.meta.frames.map(f => ({x: f.x, y: f.y, w: f.w, h: f.h}))}};
-  } finally { running--; project.close(); }
+  } finally { running--; project?.close(); }
 }
 

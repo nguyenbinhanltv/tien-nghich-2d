@@ -5,7 +5,8 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { Readable } from 'node:stream';
 import { handle } from './server.mjs';
-import { compareFrames } from './build.mjs';
+import os from 'node:os';
+import { compareFrames, buildAndAudit } from './build.mjs';
 
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
 const context = {root, prefix: '/api/tabs/vfx/'};
@@ -108,4 +109,13 @@ test('build: rebuilds a core and a Longtime effect in scratch, reports audits an
   assert.equal(lt.compare.byteIdentical, true, 'the rebuilt sheet matches the hash its provenance recorded');
   assert.equal(lt.compare.verdict, 'byte-identical');
   assert.equal(dirty(), before, 'no tracked or new project file changed');
+});
+
+test('build: a project that cannot be opened does not leave the build slot taken', async () => {
+  const empty = fs.mkdtempSync(os.tmpdir() + '/vfx-nopack-');
+  const effect = {id: 'x'};
+  for (let i = 0; i < 2; i++) {
+    await assert.rejects(buildAndAudit({root: empty, effect, specPath: 'x.json', deliveredPaths: []}), e => e.code !== 'build_running', `attempt ${i + 1} fails on the project, not on a stuck slot`);
+  }
+  fs.rmSync(empty, {recursive: true});
 });
