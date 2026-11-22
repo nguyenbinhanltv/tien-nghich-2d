@@ -35,8 +35,10 @@ function checkClip(asset, name, clip) {
   const spec = clipSpec(asset, name);
   if (!spec) invalid(`${asset.id} has no clip "${name}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
   if (clip === null) return; // null clears a real clip's entry
-  if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events'].includes(k)))
-    invalid(`clips.${name} may only contain frameMs and events`);
+  if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events', 'loopPolicy'].includes(k)))
+    invalid(`clips.${name} may only contain frameMs, events and loopPolicy`);
+  if ('loopPolicy' in clip && !['loop', 'once', 'hold'].includes(clip.loopPolicy))
+    invalid(`clips.${name}.loopPolicy must be loop, once or hold`);
   if ('frameMs' in clip) {
     const ms = clip.frameMs;
     if (!Array.isArray(ms) || ms.length !== spec.frames || !ms.every(v => isInt(v) && v >= 1 && v <= 60000))

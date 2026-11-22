@@ -347,6 +347,34 @@
       }
     }
   },
+  "motion": {
+    "measured": "measured with studio/core/motion-qa runMotion over every shipped processed clip of outlined assets (146 assets with animation, 784 clip-directions): pair change is 0.11 to 0.17 of the opaque pixels at the 5th percentile and 0.5 to 0.65 at the median, so nearDuplicate (3% of mean opaque pixels, at least 4 px) catches 7 assets; cadence ratio 4 flags the one jump in 5 assets; 1-pixel orphans appear in 8 Longtime characters and detached pieces of 4 px or less in 16 assets (mostly sparks in strike clips). Result: 24 of 146 assets (16%) carry at least one warning; Longtime characters 14 of 32 assets (37 of 416 clip-directions, 9%), core characters 5 of 22 (23 of 242, 10%); 0 errors, lint only warns. Telegraph limits sit under the shortest shipped telegraph (3 frames x 160 ms = 480 ms; limit 200 ms and 2 frames) so none of the roster is flagged.",
+    "roles": {"telegraph": "tell", "charge": "tell"},
+    "lint": {
+      "orphanMaxPx": 1,
+      "fragmentMaxPx": 4,
+      "nearDuplicate": {"ratio": 0.03, "minPx": 4},
+      "cadence": {"ratio": 4, "floorPx": 8},
+      "tell": {"minMs": 200, "minFrames": 2}
+    }
+  },
+  "rubric": {
+    "minConfidence": 0.5,
+    "criteria": [
+      {"id": "silhouette", "mandatory": true, "label": {"en": "Silhouette reads at native size", "vi": "Hình bóng rõ ở cỡ gốc"},
+       "expectation": "The figure is recognisable at its native size: head, body and limbs separate; no limb thinner than the pack's minimum."},
+      {"id": "perspective", "mandatory": true, "label": {"en": "3/4 top-down view, faces the viewer", "vi": "Góc nhìn 3/4 từ trên, quay về người xem"},
+       "expectation": "Characters face the viewer in the 3/4 top-down dungeon view; no side view and no 2:1 isometric diamond."},
+      {"id": "identity", "mandatory": true, "label": {"en": "Matches its reference or description", "vi": "Khớp mẫu hoặc mô tả"},
+       "expectation": "The marks the description names (asymmetric ear, apron on one shoulder, held tool) are there and on the right side."},
+      {"id": "proportion", "mandatory": false, "label": {"en": "Sturdy, large-headed build", "vi": "Dáng chắc, đầu to"},
+       "expectation": "The head share and limb width sit inside the pack's figure guide; the build matches the approved roster."},
+      {"id": "palette_light", "mandatory": false, "label": {"en": "Palette ramps, light from the top left", "vi": "Dải màu, ánh sáng từ trên trái"},
+       "expectation": "Shade ramps run dark to light inside one colour group; light comes from the top left."},
+      {"id": "motion", "mandatory": false, "label": {"en": "Motion reads and loops cleanly", "vi": "Chuyển động rõ và lặp mượt"},
+       "expectation": "Every clip reads at game speed: no pop, no jump, a telegraph long enough to react to, a clean loop seam."}
+    ]
+  },
   "review": {
     "baseline": {"file": "assets/review/baseline_frames.json", "roots": ["assets/processed"]}
   },
