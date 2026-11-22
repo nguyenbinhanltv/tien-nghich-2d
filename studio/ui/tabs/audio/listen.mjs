@@ -13,18 +13,18 @@ export function versionOf(ctx, detail, codec, packId) {
   if (codec === 'master') {
     const m = detail.masterInfo;
     if (!m) return null;
-    return {codec, url: base + 'master?id=' + q(detail.id), sampleRate: m.sampleRate, frames: m.frames, loop: detail.kind === 'bed' ? detail.loop : null, region: detail.kind === 'effect' ? {start: 0, end: m.frames} : null};
+    return {codec, version: m.sha256, url: base + 'master?id=' + q(detail.id), sampleRate: m.sampleRate, frames: m.frames, loop: detail.kind === 'bed' ? detail.loop : null, region: detail.kind === 'effect' ? {start: 0, end: m.frames} : null};
   }
   const pack = detail.packDetails.find(p => p.id === packId) ?? detail.packDetails[0];
   if (!pack) return null;
   if (detail.kind === 'bed') {
     const c = pack.bed?.codecs?.[codec];
     if (!c) return null;
-    return {codec, pack: pack.id, url: base + `packfile?pack=${q(pack.id)}&name=${q(c.file)}`, sampleRate: pack.bed.sampleRate, frames: c.decodedFrames, loop: c.loop, info: c};
+    return {codec, pack: pack.id, version: c.sha256 ?? `${pack.id}@${pack.revision}`, url: base + `packfile?pack=${q(pack.id)}&name=${q(c.file)}`, sampleRate: pack.bed.sampleRate, frames: c.decodedFrames, loop: c.loop, info: c};
   }
   const c = pack.sfx?.codecs?.[codec], mark = c?.markers?.find(m => m.id === detail.id);
   if (!c || !mark) return null;
-  return {codec, pack: pack.id, url: base + `packfile?pack=${q(pack.id)}&name=${q(c.file)}`, sampleRate: pack.sfx.sampleRate, frames: c.decodedFrames,
+  return {codec, pack: pack.id, version: c.sha256 ?? `${pack.id}@${pack.revision}`, url: base + `packfile?pack=${q(pack.id)}&name=${q(c.file)}`, sampleRate: pack.sfx.sampleRate, frames: c.decodedFrames,
     region: {start: mark.sprite_start, end: mark.sprite_end_exclusive}, info: c};
 }
 
@@ -99,7 +99,7 @@ export async function renderListen(app, el, detail, entry, current) {
 
   // ---- playing
   async function bufferFor(v) {
-    try { return await engine.load(v.url, v.sampleRate); }
+    try { return await engine.load(v.url, v.sampleRate, v.version); }
     catch (error) { say(ctx.t('listen.decodeFailed', {codec: ctx.t('codec.' + v.codec), message: error.message})); return null; }
   }
   function checkDecode(v, buffer) {

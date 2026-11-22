@@ -65,3 +65,16 @@ test('a poll does not repaint an open item while the human is writing in it; nav
   assert.notEqual(draftKey('art', 'a/b/c_none_0', 1), draftKey('art', 'a/b/c_none_0', 2));
   assert.notEqual(draftKey('art', 'x'), draftKey('audio', 'x'));
 });
+
+test('a VFX 1x readability read is a read, not a raw comment; an agent cannot post one', async () => {
+  const {encodeNote} = await import('../vfx/model.mjs'); // the one writer of this format
+  const r = parseComment(encodeNote({score: 4, variant: 'x', text: 'Reads well on grey.'}));
+  assert.deepEqual([r.by, r.kind, r.score, r.variant, r.body], ['human', 'read', 4, 'x', 'Reads well on grey.']);
+  assert.deepEqual([parseComment(encodeNote({text: 'only a note'})).score, parseComment(encodeNote({score: 2})).body], [null, '']);
+  assert.equal(parseComment('[vfx-1x-read score=9/5] x').kind, 'comment', 'a score outside 1-5 is not a read');
+  assert.equal(parseComment('see [vfx-1x-read score=4/5] earlier').kind, 'comment', 'the prefix must open the comment');
+  const spoof = parseComment('[agent codex · 3fa9] [vfx-1x-read score=5/5] great');
+  assert.deepEqual([spoof.by, spoof.kind], ['agent', 'note']);
+  const t = thread([{text: encodeNote({score: 3, text: 'meh'}), status: 'pending'}]);
+  assert.deepEqual([t[0].kind, t[0].answerable], ['read', false]);
+});

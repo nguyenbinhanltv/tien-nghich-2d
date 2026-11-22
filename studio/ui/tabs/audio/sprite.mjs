@@ -38,7 +38,7 @@ export async function renderSprite(app, el, detail, entry, current) {
   async function audition(s) {
     say.textContent = ctx.t('listen.loading');
     try {
-      const buffer = await engine.load(spriteUrl, rate);
+      const buffer = await engine.load(spriteUrl, rate, sfx.sprite.sha256 ?? `${pack.id}@${pack.revision}`);
       engine.handles.filter(x => x.label.endsWith(':sprite')).forEach(x => x.stop());
       engine.play(buffer, {offsetFrames: s.start, endFrames: s.end, label: playLabel(s.id, app.byId.get(s.id)?.masterSha, 'sprite')});
       say.textContent = ctx.t('sprite.playing', {id: s.id});

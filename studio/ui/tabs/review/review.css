@@ -62,3 +62,7 @@ audio { width: 100%; max-width: 640px; display: block; }
 .quote { margin: .4rem 0; padding: .3rem .7rem; border-left: 4px solid var(--accent); background: var(--ink); font-style: italic; }
 .earlier { border-top-style: solid; }
 .rtext b { overflow-wrap: anywhere; word-break: normal; } .row { grid-template-columns: 3.6rem minmax(0, 1fr) auto; }
+
+/* Readability reads recorded in the VFX tab */
+.read-line { margin: .2rem 0; font-size: .85rem; }
+.read-item { border-left: 4px solid var(--accent-soft, var(--accent)); padding: .2rem .6rem; margin: .3rem 0; background: var(--ink); }

@@ -67,7 +67,6 @@ export function auditPanel(ctx, ev, clip, variant) {
   }
   const checks = ev.group === 'longtime' && ev.recorded.acceptance?.readability_1x;
   return h('div', 'vx-sec', recorded, computed,
-    h('p', 'vx-note vx-honest', ctx.t('audit.notRerun')),
     checks && h('div', 'vx-block', h('h4', '', ctx.t('audit.criteria')), h('ul', '', ...checks.map(t => h('li', '', t)))));
 }
 
@@ -98,6 +97,7 @@ export function roundsPanel(ctx, ev, state, go) {
   if (!ev.rounds) return h('p', 'muted', ctx.t('rounds.coreOnly'));
   const {rounds, sheets} = ev.rounds;
   const have = rounds.filter(r => r.exists);
+  if (!have.length) return h('p', 'muted', ctx.t('rounds.none'));
   const pickSel = (field, label) => {
     const sel = h('select', {'aria-label': label}, ...have.map(r => h('option', {value: r.round, selected: r.round === state[field] ? 'selected' : null}, ctx.t('rounds.round', {n: r.round}))));
     sel.addEventListener('change', () => go({[field]: Number(sel.value)}));
@@ -132,8 +132,7 @@ function diff(a, b) {
 
 /**
  * Human 1× readability: the effect at 1× on each floor, a 1–5 score and a note stored as a typed comment
- * on the effect's first frame through the review API. It never sets a status. A separate block shows the
- * disabled build control.
+ * on the effect's first frame through the review API. It never sets a status.
  */
 export async function readPanel(ctx, effect, clip, frames, floors, variant, live, setTimer) {
   const root = h('div', 'vx-sec');
@@ -208,9 +207,6 @@ export async function readPanel(ctx, effect, clip, frames, floors, variant, live
     h('p', 'vx-note', ctx.t('read.intro')), strip,
     criteria && h('div', 'vx-block', h('h4', '', ctx.t('read.criteria')), h('ul', '', ...criteria.map(t => h('li', '', t)))),
     h('div', 'vx-block', h('h4', '', ctx.t('read.yourRead')), scoreBox, text, h("div", "vx-row-line", save, h('span', 'vx-note', ctx.t('read.stored'))), msg),
-    h('div', 'vx-block', h('h4', '', ctx.t('read.history')), list),
-    h('div', 'vx-block', h('h4', '', ctx.t('build.title')),
-      h('button', {type: 'button', class: 'plain', disabled: 'disabled', 'aria-disabled': 'true', 'aria-describedby': 'vx-build-note'}, ctx.t('build.button')),
-      h('p', {class: 'vx-note vx-honest', id: 'vx-build-note'}, ctx.t('build.note'))));
+    h('div', 'vx-block', h('h4', '', ctx.t('read.history')), list));
   return root;
 }

@@ -5,6 +5,7 @@ import { h, button } from './dom.mjs';
 import { parseRoute as parse, stateParams, resolveClip, resolveVariant, views, applyFilters } from './model.mjs';
 import { renderBrowser } from './browser.mjs';
 import { mountStage, loadFrames, loadCharacter } from './stage.mjs';
+import { buildPanel } from './buildpanel.mjs';
 import { specPanel, auditPanel, provenancePanel, roundsPanel, readPanel } from './panels.mjs';
 
 export function parseRoute(route) { return parse(route); }
@@ -133,7 +134,7 @@ async function paintAside(app, ctx_, token) {
     if (token !== app.token) return false;
     let node;
     if (state.view === 'spec') node = specPanel(ctx, ev, clip, variant);
-    else if (state.view === 'audit') node = auditPanel(ctx, ev, clip, variant);
+    else if (state.view === 'audit') node = h('div', 'vx-sec', auditPanel(ctx, ev, clip, variant), buildPanel(ctx, effect, clip, variant, app.live));
     else if (state.view === 'provenance') node = provenancePanel(ctx, ev);
     else if (state.view === 'rounds') node = roundsPanel(ctx, ev, state, patch => app.go(patch, {replace: true}));
     else node = await readPanel(ctx, {...effect, acceptance: ev.recorded?.acceptance}, clip, app.live.frames, app.live.floors, variant, {frame: () => app.stage?.getFrame() ?? 0}, t => { clearInterval(app.readTimer); app.readTimer = t; });

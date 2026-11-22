@@ -99,5 +99,11 @@
   "approval.noDate": "date not recorded",
   "approval.evidence": "Evidence:",
   "detail.updated": "This item changed while you were writing. Your draft is kept.",
-  "detail.showUpdate": "Show the update"
+  "detail.showUpdate": "Show the update",
+  "read.tag": "1× read",
+  "read.title": "Readability read (1×)",
+  "read.intro": "A human's note from the VFX tab on how this effect reads at its real size. It is information only: it changes no status.",
+  "read.score": "{score}/5",
+  "read.noScore": "no score",
+  "read.variant": "palette {variant}"
 }
