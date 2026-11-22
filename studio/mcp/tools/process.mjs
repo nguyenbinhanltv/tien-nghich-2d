@@ -114,7 +114,7 @@ export default {
         const frames = Object.fromEntries(Object.entries(map).map(([name, i]) => [name, pixelized.cells.get(pixelized.record.cells[i].id).native]));
         const markText = sha256(JSON.stringify(processDoc.marks ?? [])).slice(0, 12);
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller,
-          provenance: { tool: `${doc.tool} + studio_process`, prompt: doc.prompt, sourceHash: doc.sheet.sha256, notes: `layout ${doc.layout.id}; marks ${markText}; sheet ${doc.sheet.file}` } });
+          provenance: { tool: `${doc.tool} + studio_process`, prompt: doc.prompt, sourceHash: doc.sheet.sha256, notes: `layout ${doc.layout.id}; marks ${markText}; sheet ${doc.sheet.file}${doc.reference ? `; reference ${doc.reference.name} ${doc.reference.sha256.slice(0, 12)} verbatim ${doc.reference.verbatim ? 'yes' : 'no'}` : ''}` } });
         submitted = { accepted, written: report.written, unchanged: report.unchanged, message: report.message, frames: report.frames?.map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) { shown.structured.submit = submitted; return { content: shown.content, structuredContent: shown.structured, isError: true }; }
         shown.content[0].text += ` Submitted ${report.written.length} frame(s) as raw (status pending); ask for review after an independent check.`;

@@ -24,6 +24,20 @@ export function isRootRelative(value) {
   return value.split('/').every(part => part && part !== '.' && part !== '..');
 }
 
+/** Style-locked references: an asset belongs to at most one entry. The image file is NOT required to exist when the pack loads (other projects' fixtures copy this pack); the tool that hands it out checks the file and its hash. */
+function validateReferences(references = {}) {
+  const issues = [], owner = new Map();
+  for (const [name, r] of Object.entries(references)) {
+    const at = `references.${name}`;
+    if (!/^[a-z][a-z0-9_]{0,30}$/.test(name)) issues.push(`${at}: name must be lowercase letters, digits and underscores`);
+    for (const id of r.assets ?? []) {
+      if (owner.has(id)) issues.push(`${at}.assets: "${id}" is already locked by references.${owner.get(id)}`);
+      owner.set(id, name);
+    }
+  }
+  return issues;
+}
+
 const placeholders = template => [...template.matchAll(/\{([A-Za-z_]+)\}/g)].map(m => m[1]);
 
 function pathFields(pack) {
@@ -97,6 +111,7 @@ export function validatePack(pack) {
   for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.theme.${role}: must be a palette colour id`);
   issues.push(...validateGenerators(pack.adapters));
   issues.push(...validateFigures(pack.figures));
+  issues.push(...validateReferences(pack.references));
   if (pack.rules.outline.mode === 'none' && pack.rules.outline.color !== 'palette') issues.push('rules.outline: color is meaningless when mode is "none"');
   return issues;
 }

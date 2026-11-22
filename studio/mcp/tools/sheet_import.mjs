@@ -7,6 +7,8 @@ import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
 import { MAX_SHEET_BYTES, forgeCall, forgeDir, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
+import { referenceFor, referenceRecord } from '../workflow/reference.mjs';
+import { carriesVerbatim } from '../workflow/prompt.mjs';
 import { loadAsset, jsonResult, requireFrames } from './_shared.mjs';
 
 const ADVICE = {
@@ -24,6 +26,7 @@ export default {
     'and records the sheet\'s SHA-256 and your prompt VERBATIM as provenance. The sheet is stored once beside the asset and never changed; later steps re-derive everything from it. ' +
     'Give the layout (inline, or the layoutId when you used write=true). The top layout.labelBand.fraction of every cell (0.13 in the shipped templates) is treated as the label area and never as drawing: if your sheet has NO labels, set it to 0 in the layout you pass, or crowns get cut. warnings say where a crop may cut the drawing and what to do. ' +
     'A character can have BOTH a turnaround sheet (slot rig: idle and small motions) and a pose sheet (slot pose: locomotion): each kind of sheet keeps its own import, chosen by the layout, so importing one never replaces the other. Importing the same kind again replaces that slot (the old sheet stays stored). ' +
+    'If the asset has a locked reference in the pack, your prompt must carry its description paragraph verbatim (studio_template_get gives it in prompt.text); the check and the reference hash are recorded in provenance, and the result says when it is missing. ' +
     'Next: studio_process to pixelise.',
   scope: 'author',
   inputSchema: {
@@ -92,7 +95,10 @@ export default {
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
       const stored = await storeSheet(ws, asset, bytes);
-      const doc = { sheet: { file: stored.rel, sha256: stored.sha256, width: image.width, height: image.height }, layout, prompt: args.prompt, tool: args.tool,
+      // A style-locked entity: the prompt must carry the pack's description paragraph verbatim; the check is recorded either way.
+      const lock = referenceFor(snap.pack, asset.id);
+      const reference = lock ? referenceRecord(lock, carriesVerbatim(args.prompt, lock.description)) : null;
+      const doc = { ...(reference ? { reference } : {}), sheet: { file: stored.rel, sha256: stored.sha256, width: image.width, height: image.height }, layout, prompt: args.prompt, tool: args.tool,
         agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), ...(args.scaleOptions ? { scaleOptions: args.scaleOptions } : {}) };
       const slot = slotOfLayout(layout);
       const previous = await writeImport(ws, asset, doc, slot);
@@ -103,6 +109,7 @@ export default {
         ok: true, asset: asset.id, slot, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
         cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, ground: c.ground, scale: c.scale ?? null, limit: c.limit ?? null, warnings: c.warnings })),
         warnings,
+        ...(reference ? { reference: { ...reference, message: reference.verbatim ? `The prompt carries the locked description of ${lock.name} verbatim; recorded in provenance.` : `Your prompt does NOT carry the locked description of ${lock.name} verbatim. Recorded as verbatim:false in provenance. Paste this paragraph unchanged into the sheet prompt, redraw, and import again: ${lock.description}` } } : {}),
         next: warnings.length ? 'Fix the warnings (move a seam in the layout, redraw) and import again, or go on if the crops are whole.' : 'studio_process to pixelise and look at the native sprites.',
       });
     });
