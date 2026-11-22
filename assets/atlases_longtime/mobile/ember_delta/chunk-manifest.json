@@ -4,20 +4,21 @@
     "lt_cinder_heron",
     "lt_ember_delta",
     "lt_ember_diver",
-    "lt_furnace_ferryman"
+    "lt_furnace_ferryman",
+    "lt_kiln_crab"
   ],
   "chunk_group": "ember_delta",
-  "frame_count": 264,
+  "frame_count": 320,
   "mobile_page_budget": 3,
   "page_count": 1,
   "pages": [
     {
-      "frames": 264,
+      "frames": 320,
       "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "d91907d73f2a6ecf649985db10949d4b24a9db4032730d2677f084e88f6ca365",
-      "png_sha256": "f11071aaf12e20f5ad0f61eace1fef2af3ec9e6fb7b0002a90b875c9dc9fa92c",
+      "json_sha256": "c954d0aaee31ae5f39a61a476f1c3dc855cde345b0f594c0338df03d31eb08c2",
+      "png_sha256": "1f10f6a00a681cfb24cf777e44ae6c8d9e15931532020bb2f90e5f95019b549a",
       "rgba8_bytes": 4194304,
       "width": 1024
     }

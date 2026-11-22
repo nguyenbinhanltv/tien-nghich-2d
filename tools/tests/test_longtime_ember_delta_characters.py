@@ -26,7 +26,7 @@ def load(name):
 blc = load("build_longtime_ember_delta")
 ql = load("qa_longtime")
 
-IDS = {"lt_furnace_ferryman": "boss", "lt_ash_skater": "mob", "lt_cinder_heron": "mob", "lt_ember_diver": "mob"}
+IDS = {"lt_furnace_ferryman": "boss", "lt_ash_skater": "mob", "lt_cinder_heron": "mob", "lt_ember_diver": "mob", "lt_kiln_crab": "mob"}
 RAW = ROOT / "assets/raw/longtime"
 PROCESSED = ROOT / "assets/processed_longtime"
 MANIFEST = json.loads((ROOT / "assets/manifest_longtime.json").read_text(encoding="utf-8"))
