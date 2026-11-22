@@ -52,18 +52,65 @@
       "keep_first_frame": false,
       "animation_group_id": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad",
       "job_ids": {
-        "south": "a52a5f68-2361-4b59-b83a-846400202aec",
+        "south": "b8ef578b-a490-48b3-afa6-3cc339758f30",
         "west": "96c9cc0c-5cd9-4dfd-a8e9-5df4af653e59",
         "north": "f8d00c5b-7243-4fac-8362-962b77d428ae",
         "east": "c4e3ee18-b0f0-46e2-bd72-95c05c85baac"
       },
-      "action_description": "braces its legs wide and heaves the heavy slate slab up off its back over its head with both arms, the cyan crack on the slab glowing brighter, winding up to throw it down",
+      "action_description": "per direction: see shipped, first_attempt and retry",
       "direction_prompts": {
-        "south": "seen from the front, braces legs wide and heaves the slab up over its head with both arms, the cyan crack glowing brighter",
+        "south": "seen from the front, both arms straight up holding the big slate slab high above its head, cyan crack glowing, leaning back",
         "west": "seen from the left side, braces and heaves the slab up over its head, the cyan crack glowing brighter",
         "north": "seen from behind, heaves the big slab up over its head with both arms, the cyan crack glowing brighter",
         "east": "seen from the right side, braces and heaves the slab up over its head, the cyan crack glowing brighter"
-      }
+      },
+      "first_attempt": {
+        "animation_group_id": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad",
+        "job_ids": {
+          "south": "a52a5f68-2361-4b59-b83a-846400202aec",
+          "west": "96c9cc0c-5cd9-4dfd-a8e9-5df4af653e59",
+          "north": "f8d00c5b-7243-4fac-8362-962b77d428ae",
+          "east": "c4e3ee18-b0f0-46e2-bd72-95c05c85baac"
+        },
+        "action_description": "braces its legs wide and heaves the heavy slate slab up off its back over its head with both arms, the cyan crack on the slab glowing brighter, winding up to throw it down",
+        "direction_prompts": {
+          "south": "seen from the front, braces legs wide and heaves the slab up over its head with both arms, the cyan crack glowing brighter",
+          "west": "seen from the left side, braces and heaves the slab up over its head, the cyan crack glowing brighter",
+          "north": "seen from behind, heaves the big slab up over its head with both arms, the cyan crack glowing brighter",
+          "east": "seen from the right side, braces and heaves the slab up over its head, the cyan crack glowing brighter"
+        },
+        "note": "first attempt, 2026-11-22. Its PixelLab animations were deleted before the retry. Its raw frames are still the shipped ones wherever shipped says first_attempt; where shipped says retry they were replaced in the repo."
+      },
+      "retry": {
+        "animation_group_id": "7270c0c0-0c37-46a5-8cec-bf772c146e9e",
+        "job_ids": {
+          "south": "b8ef578b-a490-48b3-afa6-3cc339758f30",
+          "west": "9d31feec-e752-45a3-ac10-3bba15be75d8",
+          "north": "60421a21-2be6-4491-a94c-a57ed4f1f3fa",
+          "east": "8952d0ce-ae86-4dc8-86eb-99c7c5033380"
+        },
+        "action_description": "unstraps the big slate slab and lifts it off its back, both arms straight up holding the slab high above its head, the cyan crack on the slab glowing bright, body leaning back to throw",
+        "direction_prompts": {
+          "south": "seen from the front, both arms straight up holding the big slate slab high above its head, cyan crack glowing, leaning back",
+          "west": "seen from the left side, both arms up holding the big slate slab high above its head, cyan crack glowing, leaning back",
+          "north": "seen from behind, both arms straight up holding the big slate slab high above its head, cyan crack glowing",
+          "east": "seen from the right side, both arms up holding the big slate slab high above its head, cyan crack glowing, leaning back"
+        },
+        "note": "retry queued with frame_count 4 keep_first_frame false and the 40-colour palette; south created the group, west/north/east were appended to it. West, north and east retries were rejected (not clearly better; west added floating cyan specks) and their raw frames are not kept in the repo."
+      },
+      "shipped": {
+        "south": "retry",
+        "west": "first_attempt",
+        "north": "first_attempt",
+        "east": "first_attempt"
+      },
+      "animation_group_ids": {
+        "south": "7270c0c0-0c37-46a5-8cec-bf772c146e9e",
+        "west": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad",
+        "north": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad",
+        "east": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad"
+      },
+      "note": "job_ids, animation_group_ids and direction_prompts describe the SHIPPED frames per direction"
     },
     "strike": {
       "mode": "v3",
@@ -71,18 +118,65 @@
       "keep_first_frame": false,
       "animation_group_id": "eb16c3b3-8eeb-4342-b338-0e3d71bbd465",
       "job_ids": {
-        "south": "10df6c41-9f0f-43a8-ab6d-3b91807312ef",
-        "west": "313d047e-607e-4861-bcf6-e0356ce0bc70",
-        "north": "6b2f8ed9-ec91-4f0d-bb42-4a87827f5193",
-        "east": "e34c311c-3040-4ba4-b43f-0418f403f57b"
+        "south": "0b295e8d-1b3c-461d-b396-90d3e9c27f43",
+        "west": "f4b49a99-40ad-4094-8e58-32e223c86691",
+        "north": "277e1c77-dd32-4612-8da5-ea145ed8435a",
+        "east": "a03ec5e3-571a-407b-b974-69f938968c55"
       },
-      "action_description": "slams the heavy slate slab down in front of it with both arms in a crushing overhead smash, the cyan crack flashing, then lifts it back",
+      "action_description": "per direction: see shipped, first_attempt and retry",
       "direction_prompts": {
-        "south": "seen from the front, slams the slab down toward the viewer in an overhead smash, then lifts it back",
-        "west": "seen from the left side, slams the slab down to the left in an overhead smash, then lifts it back",
-        "north": "seen from behind, slams the slab down away from the viewer in an overhead smash, then lifts it back",
-        "east": "seen from the right side, slams the slab down to the right in an overhead smash, then lifts it back"
-      }
+        "south": "seen from the front, arms stretched forward and down, the big slate slab swung down to the ground in front of it, cyan crack flaring",
+        "west": "seen from the left side, arms stretched forward to the left and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring",
+        "north": "seen from behind, arms stretched forward and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring",
+        "east": "seen from the right side, arms stretched forward to the right and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring"
+      },
+      "first_attempt": {
+        "animation_group_id": "eb16c3b3-8eeb-4342-b338-0e3d71bbd465",
+        "job_ids": {
+          "south": "10df6c41-9f0f-43a8-ab6d-3b91807312ef",
+          "west": "313d047e-607e-4861-bcf6-e0356ce0bc70",
+          "north": "6b2f8ed9-ec91-4f0d-bb42-4a87827f5193",
+          "east": "e34c311c-3040-4ba4-b43f-0418f403f57b"
+        },
+        "action_description": "slams the heavy slate slab down in front of it with both arms in a crushing overhead smash, the cyan crack flashing, then lifts it back",
+        "direction_prompts": {
+          "south": "seen from the front, slams the slab down toward the viewer in an overhead smash, then lifts it back",
+          "west": "seen from the left side, slams the slab down to the left in an overhead smash, then lifts it back",
+          "north": "seen from behind, slams the slab down away from the viewer in an overhead smash, then lifts it back",
+          "east": "seen from the right side, slams the slab down to the right in an overhead smash, then lifts it back"
+        },
+        "note": "first attempt, 2026-11-22. Its PixelLab animations were deleted before the retry. Its raw frames are still the shipped ones wherever shipped says first_attempt; where shipped says retry they were replaced in the repo."
+      },
+      "retry": {
+        "animation_group_id": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98",
+        "job_ids": {
+          "south": "0b295e8d-1b3c-461d-b396-90d3e9c27f43",
+          "west": "f4b49a99-40ad-4094-8e58-32e223c86691",
+          "north": "277e1c77-dd32-4612-8da5-ea145ed8435a",
+          "east": "a03ec5e3-571a-407b-b974-69f938968c55"
+        },
+        "action_description": "hurls the big slate slab down hard in front of it, the slab swings from above its head down to the ground ahead of it, the cyan crack flaring bright on impact, arms stretched forward and down",
+        "direction_prompts": {
+          "south": "seen from the front, arms stretched forward and down, the big slate slab swung down to the ground in front of it, cyan crack flaring",
+          "west": "seen from the left side, arms stretched forward to the left and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring",
+          "north": "seen from behind, arms stretched forward and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring",
+          "east": "seen from the right side, arms stretched forward to the right and down, the big slate slab swung down to the ground ahead of it, cyan crack flaring"
+        },
+        "note": "retry queued with frame_count 4 keep_first_frame false and the 40-colour palette; south created the group, west/north/east were appended to it. All four retry directions shipped."
+      },
+      "shipped": {
+        "south": "retry",
+        "west": "retry",
+        "north": "retry",
+        "east": "retry"
+      },
+      "animation_group_ids": {
+        "south": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98",
+        "west": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98",
+        "north": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98",
+        "east": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98"
+      },
+      "note": "job_ids, animation_group_ids and direction_prompts describe the SHIPPED frames per direction"
     }
   },
   "attempts": [
@@ -96,7 +190,40 @@
       "n": 2,
       "what": "touch-up: telegraph and strike re-generated for all four directions with stronger prompts (one new attempt per clip-direction)",
       "credits": 8,
-      "result": "strike: retry shipped in all 4 directions; telegraph: retry shipped for south only, first attempt kept for west, north, east"
+      "result": "strike: retry shipped in all 4 directions; telegraph: retry shipped for south only, first attempt kept for west, north, east",
+      "retry_job_ids": {
+        "telegraph": {
+          "south": "b8ef578b-a490-48b3-afa6-3cc339758f30",
+          "west": "9d31feec-e752-45a3-ac10-3bba15be75d8",
+          "north": "60421a21-2be6-4491-a94c-a57ed4f1f3fa",
+          "east": "8952d0ce-ae86-4dc8-86eb-99c7c5033380"
+        },
+        "strike": {
+          "south": "0b295e8d-1b3c-461d-b396-90d3e9c27f43",
+          "west": "f4b49a99-40ad-4094-8e58-32e223c86691",
+          "north": "277e1c77-dd32-4612-8da5-ea145ed8435a",
+          "east": "a03ec5e3-571a-407b-b974-69f938968c55"
+        }
+      },
+      "retry_group_ids": {
+        "telegraph": "7270c0c0-0c37-46a5-8cec-bf772c146e9e",
+        "strike": "df67df4c-dd5e-4b19-a6dc-ce1a4514ea98"
+      },
+      "selected": {
+        "telegraph": {
+          "south": "retry",
+          "west": "first_attempt",
+          "north": "first_attempt",
+          "east": "first_attempt"
+        },
+        "strike": {
+          "south": "retry",
+          "west": "retry",
+          "north": "retry",
+          "east": "retry"
+        }
+      },
+      "why_kept_first": "telegraph west/north/east: retry not clearly better at 1x/4x (west added floating cyan specks)"
     }
   ],
   "credits_spent": {
