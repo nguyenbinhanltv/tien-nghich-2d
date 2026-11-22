@@ -1,0 +1,89 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "3447682c-38b2-44e1-9df1-7642e15b6911",
+  "character_job_id": "0e87d7e4-43ee-439b-89c0-77e72ef74518",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Stocky xianxia bell founder, small human in a short dark-brown work tunic with rolled sleeves, thick grey-blue forearm wrapping, bald head with a headband. In the RIGHT hand a bronze handbell held up at his side with a clapper; the LEFT hand wears a thick brown leather glove that reaches the elbow (asymmetric), the other hand bare. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c904c0d6-e128-421d-a881-69907bb8491b",
+      "job_ids": {
+        "south": "ac622e78-e282-400f-aa43-990aba1ebece",
+        "west": "1c9b25a3-25b4-4c35-9611-8d5d6d5bb165",
+        "north": "9838a40b-9474-45a6-90c4-4945d806b749",
+        "east": "5d89287b-a079-4c47-8251-33ddfa61b420"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the small bronze handbell stays held in the same right hand and the big leather glove stays on the other arm, both clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the bronze handbell stays held in his right hand on the viewer's left, the big brown leather glove stays on his other arm on the viewer's right",
+        "west": "facing left, standing upright on both feet, breathes gently; both arms hang at his sides, a small golden bell stays held low in front of his chest in EVERY frame; both feet stay on the ground (second attempt, west only)",
+        "north": "back to the viewer, breathes gently; the bronze handbell stays visible in his right hand on the viewer's right side, the big brown glove stays on the other arm on the viewer's left",
+        "east": "facing right, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "c07abe25-e813-440c-a703-b613a33ce012",
+          "prompt": "facing left, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm",
+          "why": "bell lost, the glove swung up like a kicking leg"
+        }
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "36a9c1b5-8d2f-42d3-a39d-c827c3ff18ea",
+      "job_ids": {
+        "south": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+        "west": "f548d35e-3a44-4fec-a942-131c8f391014",
+        "north": "bee2ab41-4ff2-46a2-bf4e-58126504766e",
+        "east": "9bccbce1-9e08-41d3-ace1-637305777dad"
+      },
+      "action_description": "raises the small bronze handbell a little forward and up as if ringing it once, then lowers it; the bell always stays in the same right hand and clearly visible; the leather glove stays on the other arm",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+        "west": "facing left, holds the bronze handbell out in front toward the left a little higher, then lowers it; bell stays on the left",
+        "north": "seen from behind, his right arm is on the viewer's RIGHT; the bronze handbell is held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly then lowered",
+        "east": "facing right, standing upright; he holds a small round golden handbell in front of his chest and lifts it a little then lowers it; the bell is a small round golden dome, never a long stick or handle (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "b10f21e7-7223-4207-9117-93dfde226324",
+          "prompt": "facing right, holds the bronze handbell out in front toward the right a little higher, then lowers it; bell stays on the right and does not rise above his head",
+          "why": "the bell became a long diagonal handle that reads as a crossbow"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted except idle west and interact east"
+    },
+    {
+      "n": 2,
+      "what": "idle west and interact east regenerated once each",
+      "credits": 2,
+      "result": "both take-2 clips kept (clearly better); raw idle/west and interact/east frames replaced, take 1 is not shipped"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "regenerations": 2,
+    "total_generations": 16
+  },
+  "known_flaws": [
+    "the bell is a 3-6 px golden dot at 1x and is partly hidden in west views",
+    "interact west and interact north change the bell pose from frame to frame without a clear ring motion",
+    "idle west take 2: the bell is a glint only in frames 2-4"
+  ]
+}
