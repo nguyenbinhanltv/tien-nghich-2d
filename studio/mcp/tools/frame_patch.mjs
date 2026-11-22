@@ -9,7 +9,8 @@ import { ToolError } from '../registry.mjs';
 import { forgeCall, parseFrameName, readDoc, settingsFor, writeDoc } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { appendOps, applyPatch, blank, checkOps, decode, emptyPatch, expandOps } from '../workflow/patch.mjs';
-import { loadAsset, requireFrames } from './_shared.mjs';
+import { currentFrame, diffImages, glyphTable, rowsToChanges } from '../workflow/glyphs.mjs';
+import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 
 const OPS = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'grid'];
 
@@ -22,7 +23,9 @@ export default {
     'target "revision" (default for a frame you already submitted) applies the operations to the frame\'s newest revision and saves the result as a NEW revision, pending, leaving the raw file as submitted; ' +
     'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame); ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
-    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. Cannot approve or change a review status.',
+    'TEXT FORM (edit the frame you read with studio_frame_read): instead of ops give rows (the whole region as characters, "." transparent), a legend {char: palette id}, at [x, y] (default [0, 0]) and the frame\'s hash from studio_frame_read. ' +
+    'Only pixels that differ become stored operations; an unknown character, a colour outside the palette or a stale hash is refused. ' +
+    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. dryRun returns every pixel it would change and saves nothing. Cannot approve or change a review status.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -34,15 +37,20 @@ export default {
           type: 'object',
           properties: {
             frame: { type: 'string', pattern: '^[a-z0-9]+(?:_[a-z0-9]+)*_(south|east|north|west|none)_[0-9]+$', maxLength: 80, description: 'Frame name <clip>_<direction>_<n>, e.g. idle_south_2.' },
+            rows: { type: 'array', minItems: 1, maxItems: 256, items: { type: 'string', maxLength: 256 }, description: 'Text form: pixel rows of the region, one character per pixel. Give rows or ops, not both.' },
+            legend: { type: 'object', additionalProperties: { type: 'string', maxLength: 40 }, description: 'Text form: character to palette id, e.g. {"a":"ink_01"}. "." is transparent and needs no entry.' },
+            at: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 0 }, description: 'Text form: [x, y] of the top-left of rows (default [0, 0]).' },
+            hash: { type: 'string', pattern: '^[0-9a-f]{64}$', description: 'Text form: the hash studio_frame_read returned for this frame. Not needed for target create.' },
             ops: {
               type: 'array', minItems: 1, maxItems: 500,
               items: { type: 'object', properties: { op: { type: 'string', enum: OPS } }, required: ['op'], description: 'One operation: {op:"set",pixels:[[x,y,"ink_01"]]}, {op:"line",from:[x,y],to:[x,y],color}, {op:"fill",box:[x0,y0,x1,y1],color}, {op:"flood",at:[x,y],color}, {op:"shift",box,dx,dy}, {op:"copy",box,dx,dy,from?:{facing,frame}}, {op:"outline"}, {op:"grid",at:[x,y],rows:["..ab.."],legend:{a:"ink_01"}}.' },
             },
           },
-          required: ['frame', 'ops'], additionalProperties: false,
+          required: ['frame'], additionalProperties: false,
         },
       },
       target: { type: 'string', enum: ['auto', 'revision', 'bake', 'create'], description: 'auto (default): revision if the frame was submitted, otherwise bake. create must be asked for.' },
+      dryRun: dryRunProp,
     },
     required: ['assetId', 'edits'],
     additionalProperties: false,
@@ -54,6 +62,7 @@ export default {
     return forgeCall(async () => {
       if (isShipped(await milestones(ws.root, asset))) throw new ToolError(`${asset.id} already has processed or packed frames; its pixels change through reviewed revisions, not here.`);
       const { settings, palette } = await settingsFor(snap, ws, asset);
+      const table = glyphTable(snap.paletteFile);
       const [width, height] = settings.profile.nativePx;
       const options = pixelOptions(snap, asset);
       const store = await ws.store();
@@ -74,15 +83,45 @@ export default {
         if (target === 'auto') target = raw || hasHistory ? 'revision' : 'bake';
         if (target === 'revision' && !raw && !hasHistory) throw new ToolError(`${edit.frame} has not been submitted, so there is no revision to change. Use target "bake" (applied at the next bake) or "create" (draw it from blank).`);
         if (target === 'create' && (raw || hasHistory)) throw new ToolError(`${edit.frame} already exists (raw frames are immutable). Use target "revision" to change its pixels.`);
-        const ops = expandOps(edit.ops);
+        let ops, changes = null;
+        if (edit.rows !== undefined) {
+          if (edit.ops !== undefined) throw new ToolError(`${edit.frame}: give rows (text form) or ops, not both.`);
+          let base;
+          if (target === 'create') {
+            if (edit.hash !== undefined) throw new ToolError(`${edit.frame} does not exist yet, so there is no hash to give; leave hash out for target create.`);
+            base = blank(width, height);
+          } else {
+            const now = raw || hasHistory ? await currentFrame(ws, asset, addr, 'raw') : null;
+            if (!now) throw new ToolError(`${edit.frame} has no pixels to read, so rows cannot be matched to it. Use target "create" to draw it from blank, or ops.`);
+            if (!edit.hash) throw new ToolError(`${edit.frame}: rows need the hash from studio_frame_read, so a frame that changed since you read it is never overwritten. Read it again.`);
+            if (edit.hash !== now.hash) throw new ToolError(`${edit.frame} changed since you read it (you have ${edit.hash.slice(0, 12)}, it is now ${now.hash.slice(0, 12)}). Read it again with studio_frame_read and redo the edit.`);
+            base = now.image;
+          }
+          const converted = rowsToChanges({ rows: edit.rows, legend: edit.legend, at: edit.at, image: base, table, label: edit.frame });
+          if (!converted.ops.length) throw new ToolError(`${edit.frame}: the rows are identical to the frame, so there is nothing to change.`);
+          ops = converted.ops;
+          changes = converted.changes;
+        } else {
+          if (edit.ops === undefined) throw new ToolError(`${edit.frame}: give ops, or rows with a legend and the hash.`);
+          if (edit.legend !== undefined || edit.at !== undefined || edit.hash !== undefined) throw new ToolError(`${edit.frame}: legend, at and hash belong to the text form (rows).`);
+          ops = expandOps(edit.ops);
+        }
         checkOps(edit.frame, ops, { palette, width, height });
-        plan.push({ ...edit, addr, key, rawRel, raw, target, ops });
+        plan.push({ ...edit, addr, key, rawRel, raw, target, ops, changes });
       }
       const targets = new Set(plan.map((p) => p.target));
       if (targets.size > 1) throw new ToolError(`one call, one target: these edits need ${[...targets].join(' and ')}. Split them.`);
       const [target] = targets;
 
+      const MAX_SHOWN = 400;
+      const listChanges = (list) => ({ changedPixels: list.length, changes: list.slice(0, MAX_SHOWN), ...(list.length > MAX_SHOWN ? { truncated: true } : {}) });
+
       if (target === 'bake') {
+        if (args.dryRun) {
+          const patchRel = `${asset.layout.rawDir}/forge/patch.json`;
+          return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target, wouldWrite: [patchRel], frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length, ...(p.changes ? listChanges(p.changes) : {}) })),
+            note: 'These operations would be appended to the asset\'s stored patch and applied after every studio_rig_bake; the baked pixels they land on are not known until then.' });
+        }
         let patch = (await readDoc(ws, asset, 'patch')) ?? emptyPatch();
         for (const p of plan) patch = appendOps(patch, p.frame, p.ops);
         await writeDoc(ws, asset, 'patch', patch);
@@ -92,6 +131,13 @@ export default {
 
       if (target === 'create') {
         const results = Object.fromEntries(plan.map((p) => [p.frame, applyPatch(blank(width, height), p.ops, palette)]));
+        if (args.dryRun) {
+          const { accepted, report } = await submitBaked({ ws, snap, asset, frames: results, caller: ctx.caller, dryRun: true,
+            provenance: { tool: 'studio_frame_patch (stored pixel operations)', prompt: 'dry run', sourceHash: sha256(JSON.stringify(plan.map((p) => p.ops))) } });
+          const out = { ok: accepted, dryRun: true, wrote: 'nothing', target, accepted, wouldWrite: report.wouldWrite ?? [], message: report.message,
+            frames: plan.map((p) => ({ frame: p.frame, ...listChanges(diffImages(blank(width, height), results[p.frame], table, Infinity).changes), gates: report.frames?.find((f) => f.name === p.frame) && { errors: report.frames.find((f) => f.name === p.frame).errors, defects: report.frames.find((f) => f.name === p.frame).defects?.slice(0, 20) } })) };
+          return { content: [{ type: 'text', text: `DRY RUN, nothing was written. ${accepted ? `Would create ${out.wouldWrite.length} frame(s).` : report.message}` }], structuredContent: out, ...(accepted ? {} : { isError: true }) };
+        }
         const sourceText = JSON.stringify(plan.map((p) => ({ frame: p.frame, ops: p.ops })));
         const prompt = sourceText.length <= 7500 ? `pixel operations: ${sourceText}` : `pixel operations (${plan.length} frame(s), ${sourceText.length} characters; sha256 ${sha256(sourceText)})`;
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames: results, caller: ctx.caller,
@@ -129,6 +175,11 @@ export default {
         }
         results.push({ p, next, baseline });
         before[`${p.frame}`] = current; after[p.frame] = next;
+      }
+      if (args.dryRun) {
+        const frames = results.map(({ p, next }) => ({ frame: p.frame, key: p.key, ...listChanges(diffImages(before[p.frame], next, table, Infinity).changes), gates: { errors: 0 } }));
+        return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target, wouldSave: frames.map((f) => ({ frame: f.frame, key: f.key, as: 'new revision, pending' })), frames,
+          note: 'Saved for real, each frame becomes a new pending revision; the raw file stays as submitted. Only a human approves.' });
       }
       const saved = [];
       for (const { p, next, baseline } of results) {

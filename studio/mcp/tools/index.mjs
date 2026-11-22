@@ -19,6 +19,7 @@ import sheetImport from './sheet_import.mjs';
 import processTool from './process.mjs';
 import rigBake from './rig_bake.mjs';
 import framePatch from './frame_patch.mjs';
+import frameRead from './frame_read.mjs';
 import generatorRun from './generator_run.mjs';
 import vfxBuild from './vfx_build.mjs';
 import pack from './pack.mjs';
@@ -31,7 +32,7 @@ export function buildRegistry() {
   for (const tool of [
     projectInfo, catalogSearch, assetGet, assetPlan,                 // context
     framesSubmit, metadataSet, qaRun, diff,                          // authoring and checking
-    previewRender, sceneSnapshot,                                    // seeing
+    previewRender, sceneSnapshot, frameRead,                         // seeing: a picture, a scene, a frame as text
     reviewRequest, reviewList, reviewReply,                          // review loop: ask, read, answer. No approve, ever.
     jobStatus, jobWait,                                              // jobs
     templateGet, sheetImport, processTool, rigBake, framePatch,      // forge: template, import, pixelise, bake, pixel operations
