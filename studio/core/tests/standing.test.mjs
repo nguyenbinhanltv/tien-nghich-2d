@@ -6,7 +6,7 @@ import { realpathSync, mkdtempSync, mkdirSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { createStanding, buildBaselineRecord, tallyStandings } from '../standing.mjs';
+import { sameImage, createStanding, buildBaselineRecord, tallyStandings } from '../standing.mjs';
 import { revisionStore } from '../store.mjs';
 import { encodePixels } from '../png.mjs';
 import { loadPack } from '../pack.mjs';
@@ -138,4 +138,12 @@ test('the real project: new Longtime frames await review, the two recorded chara
   const core = [...catalog.frames.values()].filter(f => !f.info.key.startsWith('longtime/'));
   assert.ok(core.length > 1000);
   for (const f of core) assert.equal(await standing.of(f.processed), 'baseline', f.info.key);
+});
+
+test('a transparent pixel with colour does not break the match with the normalized stored copy', () => {
+  const file = encodePixels(2, 1, Buffer.from([10, 20, 30, 0, 1, 2, 3, 255]));
+  const stored = encodePixels(2, 1, Buffer.from([0, 0, 0, 0, 1, 2, 3, 255])); // what normalizePng stores
+  assert.equal(sameImage(stored, file), true);
+  assert.equal(sameImage(encodePixels(2, 1, Buffer.from([0, 0, 0, 0, 1, 2, 4, 255])), file), false);
+  assert.equal(sameImage(encodePixels(2, 1, Buffer.from([0, 0, 0, 255, 1, 2, 3, 255])), file), false);
 });

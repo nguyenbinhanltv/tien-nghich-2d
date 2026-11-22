@@ -23,7 +23,14 @@ export function sameImage(a, b) {
   if (!a || !b) return false;
   try {
     const x = decodeRgba(Buffer.from(a)), y = decodeRgba(Buffer.from(b));
-    return x.width === y.width && x.height === y.height && Buffer.from(x.pixels).equals(Buffer.from(y.pixels));
+    if (x.width !== y.width || x.height !== y.height) return false;
+    // normalizePng zeroes the colour of fully transparent pixels, so those are equal whatever their RGB
+    const p = Buffer.from(x.pixels), q = Buffer.from(y.pixels);
+    for (let i = 0; i < p.length; i += 4) {
+      if (p[i + 3] !== q[i + 3]) return false;
+      if (p[i + 3] !== 0 && (p[i] !== q[i] || p[i + 1] !== q[i + 1] || p[i + 2] !== q[i + 2])) return false;
+    }
+    return true;
   } catch { return false; }
 }
 
