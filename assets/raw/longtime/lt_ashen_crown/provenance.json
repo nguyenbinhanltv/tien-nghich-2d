@@ -23,7 +23,24 @@
         "west": "f05a7bdb-ffd0-4939-a1ae-9e96d31e0863",
         "north": "611bc2b7-7cde-4326-ac55-053b75eb3879",
         "east": "9ec0d6dd-1a97-4bf1-8f49-4be56f79c41a"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "idle_retry",
+          "animation_group_id": "b5ecd2a6-89bc-4c56-81aa-5e927d260d4d",
+          "job_ids": {
+            "south": "1461738d-8687-4d78-97d7-e9d3d82ef8a4"
+          },
+          "action_description": "stands still and breathes gently; he wears a plain LIGHT GREY robe with pale skin, the tall broken ash-grey crown stays on his head; the robe is bright light grey, not dark, in every frame",
+          "shipped": [],
+          "rejected": [
+            "south: robe no lighter (the dark tone comes from the character's rotation views, which v3 animates from) and the crown tip is taller; original kept"
+          ]
+        }
+      ]
     },
     "walk": {
       "mode": "template",
@@ -75,6 +92,12 @@
       "what": "second character (the shipped one) with a taller jagged crown rising above the hair, then the same four clips in 4 directions, no per-clip regeneration",
       "credits": 22,
       "result": "accepted for integration"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): idle south regenerated once as v3 with the robe pinned to light grey (1 credit), as an experiment before spending on more crown clips",
+      "credits": 1,
+      "result": "rejected, no lighter; no further crown clips regenerated. The darker, greyer look needs a new character (not within the touch-up budget)."
     }
   ],
   "credits_spent": {
@@ -84,10 +107,13 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 44,
-    "balance_before": 804.26
+    "total_generations": 45,
+    "balance_before": 804.26,
+    "touch_up": 1
   },
-  "known_flaws": [],
+  "known_flaws": [
+    "darker and greyer than the other three forms (dark robe, long black hair): needs a human decision; prompt-only retries do not change it"
+  ],
   "native_px": [
     32,
     32

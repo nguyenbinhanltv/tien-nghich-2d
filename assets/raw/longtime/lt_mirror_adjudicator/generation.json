@@ -52,7 +52,30 @@
         "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
         "action_description": "walks slowly forward toward the viewer in a steady judge's stride; the huge round cyan mirror shield with gold rim stays held in front of his left side, clearly visible and unchanged in every frame",
         "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "advance_retry2",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "job_ids": {
+            "west": "335ff439-2bb7-45b1-9ee8-1c888fd6c0da",
+            "east": "c384a4f2-393f-44be-a6c9-0e3841af1c52",
+            "north": "9fb5a897-cadd-4517-a5b9-efdc30c91b8e"
+          },
+          "action_description": "walks slowly forward in a steady judge's stride; he always holds the huge round cyan mirror shield with gold rim out in front of his left side, the round shield is clearly visible and the same size in every single frame",
+          "canvas": "104x104 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+          "shipped": [
+            "west",
+            "east"
+          ],
+          "rejected": [
+            "north: old template north kept, the new north hid the shield"
+          ]
+        }
+      ]
     },
     "telegraph": {
       "mode": "template",
@@ -76,7 +99,29 @@
         "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
         "action_description": "raises the huge round cyan mirror shield with gold rim in his left hand and turns it slowly from facing the viewer toward edge-on, as a warning before a verdict strike; the shield stays visible in every frame",
         "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "telegraph_retry2",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "job_ids": {
+            "west": "b19a130b-fde3-48a9-9109-99c1e7532286",
+            "east": "802fdefe-0987-4a42-a585-4d56c6de45d9",
+            "north": "e46da70d-d2dd-4098-a35a-8d7e19a93902"
+          },
+          "action_description": "raises the huge round cyan mirror shield with gold rim in his left hand and slowly turns it toward edge-on as a warning before a verdict strike; the round mirror shield is held and clearly visible in every single frame",
+          "canvas": "104x104 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+          "shipped": [
+            "west",
+            "east",
+            "north"
+          ],
+          "rejected": []
+        }
+      ]
     },
     "strike": {
       "mode": "template",
@@ -103,6 +148,12 @@
       "what": "south direction only of idle, advance and telegraph regenerated as palette-locked v3 with an explicit mirror-shield prompt (the one allowed regeneration per clip-direction)",
       "credits": 3,
       "result": "accepted: mirror present in every frame, and in telegraph it rotates edge-on as the brief asks"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator, spare generations): advance west/east/north and telegraph west/east/north regenerated once as palette-locked v3 with a prompt insisting the round mirror shield is held and visible in every frame (6 credits)",
+      "credits": 6,
+      "result": "shipped: advance west and east, telegraph west, east and north (shield now present in every frame, edge-on turn visible). Kept the old advance north (the new one hid the shield)."
     }
   ],
   "credits_spent": {
@@ -112,11 +163,11 @@
     "telegraph": 4,
     "strike": 4,
     "south_retries": 3,
-    "total_generations": 26
+    "total_generations": 32,
+    "touch_up": 6
   },
   "known_flaws": [
-    "west, north and east of advance and telegraph come from template clips and the mirror shield is not stable in them: it drops out in alternate frames (advance west and east, telegraph west frames 2-3 and east frames 2-3). Needs a human decision; no budget for a second pass of these directions inside the lane cap",
-    "the edge-on rotation of the mirror is only drawn in the south telegraph",
-    "in north and east views the shield shows as a dark disc (its back), which is geometrically right but loses the cyan mark"
+    "advance east: the shield is a thin edge in frames 0-1 and a full cyan disc in frames 2-3 (reads as turning, not missing)",
+    "advance north, strike north, idle north and idle east show the dark back of the shield, which is geometrically right but loses the cyan mark"
   ]
 }

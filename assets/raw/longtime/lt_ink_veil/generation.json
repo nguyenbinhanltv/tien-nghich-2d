@@ -19,7 +19,27 @@
         "west": "228c3e9d-27f6-4fa2-9b8b-716635d8d531",
         "north": "f25f7136-1e90-422b-9df4-9a64bd7a78d4",
         "east": "dd7102a9-4638-493a-a2b1-341f272bdecd"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "idle_retry",
+          "animation_group_id": "e05c223b-7f18-4a92-9bb4-b2195c49421b",
+          "job_ids": {
+            "west": "099fd7ae-cd1e-4cf2-9854-b225dd42493d",
+            "east": "75841281-ef4e-4077-92ca-694dcabc57e5"
+          },
+          "action_description": "stands still and breathes gently; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [
+            "east"
+          ],
+          "rejected": [
+            "west: still dark, no improvement, old kept"
+          ]
+        }
+      ]
     },
     "walk": {
       "mode": "template",
@@ -31,7 +51,27 @@
         "west": "b1c20f7f-d7a5-49cf-bfe1-6851f94d1812",
         "north": "9d1b8432-a0fb-41aa-b50b-03c69504693d",
         "east": "470055c5-bffc-4e08-b119-e961cff4d292"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 6,
+          "keep_first_frame": false,
+          "animation_name": "walk_retry",
+          "animation_group_id": "85971bdb-6437-4f9f-afbe-67dac2008306",
+          "job_ids": {
+            "west": "c69faf57-7dd3-4b67-b4ca-4c7cc6323a70",
+            "east": "4eb2395c-e7c6-4d3b-9a43-b95962267904"
+          },
+          "action_description": "walks in a light steady stride; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [
+            "east"
+          ],
+          "rejected": [
+            "west: still dark, no improvement, old kept"
+          ]
+        }
+      ]
     },
     "cast": {
       "mode": "template",
@@ -43,7 +83,24 @@
         "west": "eff4dfc8-fdd5-4e4b-a747-366d5964fae9",
         "north": "eff3981e-6cb8-48ed-978d-b061a8ec0d91",
         "east": "6f1d0df7-b7cd-49a5-b892-ed1515d08a32"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 6,
+          "keep_first_frame": false,
+          "animation_name": "cast_retry",
+          "animation_group_id": "ba55cc15-dd27-43d6-b8fa-57c578125a06",
+          "job_ids": {
+            "east": "aeba1786-edca-4be3-a14f-ecb5cc977952"
+          },
+          "action_description": "raises one hand and casts a small spell with a flick of the hand, then lowers it; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [],
+          "rejected": [
+            "east: light robe but the spell is only a few sparks, weaker than the template cast; old kept"
+          ]
+        }
+      ]
     },
     "hurt": {
       "mode": "template",
@@ -56,7 +113,24 @@
         "north": "ac3918a8-8d20-4070-8a8e-f2c36ac8193b",
         "east": "3dc75693-94e7-45bc-a147-d3fd4bf53cfb"
       },
-      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)"
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)",
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "hurt_retry",
+          "animation_group_id": "3cf6043a-c88c-489c-a0f1-9b516db0be16",
+          "job_ids": {
+            "east": "1cd171f6-9f2f-4341-878c-347f95519410"
+          },
+          "action_description": "flinches and recoils backward from a hit, then steadies; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [],
+          "rejected": [
+            "east: light robe but the recoil pose is weak; old kept"
+          ]
+        }
+      ]
     }
   },
   "attempts": [
@@ -65,6 +139,12 @@
       "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
       "credits": 22,
       "result": "accepted for integration with flags"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round (orchestrator, spare generations): idle west/east, walk west/east, cast east, hurt east regenerated once as palette-locked v3 with the robe pinned to light grey (6 credits)",
+      "credits": 6,
+      "result": "shipped idle east and walk east (light grey robe, now matching south and north). West did not improve; cast east and hurt east were worse than the originals. So the robe is still dark in west idle/walk/cast/hurt and in east cast/hurt."
     }
   ],
   "credits_spent": {
@@ -73,10 +153,11 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 22
+    "total_generations": 28,
+    "touch_up": 6
   },
   "known_flaws": [
-    "robe tone differs between directions (light grey in south/north, darker in west/east): the veil is a dark mass on the left shoulder in all four but the base robe is not perfectly stable",
-    "needs a human decision: the retry budget did not allow a second regeneration of this form"
+    "robe tone still differs between facings: light grey in south, north, east idle/walk; dark in west (all clips) and in east cast/hurt",
+    "needs a human decision; touch-up retries used"
   ]
 }

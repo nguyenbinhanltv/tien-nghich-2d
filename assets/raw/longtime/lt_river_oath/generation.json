@@ -19,7 +19,23 @@
         "west": "db027da4-820b-4298-94c2-f5b986c28350",
         "north": "80f65ec6-bd23-4a11-9c50-efb792b9f537",
         "east": "5fb115ad-e5d8-4de9-9946-cf5c00b94c7a"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "idle_retry",
+          "animation_group_id": "a97945f8-d3ff-46c1-a009-168e62254209",
+          "job_ids": {
+            "north": "afbcf3fa-5b74-47b6-8f3e-3e2fe60407c6"
+          },
+          "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the long bright blue split sash at his waist stays vivid blue (never purple) in every frame",
+          "shipped": [
+            "north"
+          ]
+        }
+      ]
     },
     "walk": {
       "mode": "template",
@@ -31,7 +47,24 @@
         "west": "50543a4e-b681-4769-a9fd-7d56b023cc90",
         "north": "94429b4c-8c5f-47f4-8263-6b590d09dbf2",
         "east": "e930fb4a-bef5-4bc9-b2e8-daa0b8954837"
-      }
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 6,
+          "keep_first_frame": false,
+          "animation_name": "walk_retry",
+          "animation_group_id": "932c46e8-db49-4d2c-9a87-b4ef7e9ea3a0",
+          "job_ids": {
+            "south": "f1388dc1-bd76-4791-99f1-e66ed7ee09f4"
+          },
+          "action_description": "walks toward the viewer in a light steady stride; the long bright blue split sash at his waist stays vivid blue (never purple) in every frame",
+          "shipped": [],
+          "rejected": [
+            "south: the sash was one clean blue, but the topknot's top row falls one pixel outside the 32x32 canvas in frames 2 and 3 (2 px each) and the build refuses to drop pixels; the original template walk south is kept"
+          ]
+        }
+      ]
     },
     "cast": {
       "mode": "template",
@@ -65,6 +98,12 @@
       "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
       "credits": 22,
       "result": "accepted for integration"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round: idle north and walk south regenerated once as palette-locked v3 (2 credits)",
+      "credits": 2,
+      "result": "idle north shipped. Walk south not shipped (2 px per frame of topknot outside the canvas); original kept. Cause of the purple: the template clips draw an off-palette blue that the 40-colour snap turned purple; palette-locked v3 draws a palette blue."
     }
   ],
   "credits_spent": {
@@ -73,9 +112,11 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 22
+    "total_generations": 24,
+    "touch_up": 2
   },
   "known_flaws": [
-    "sash reads purple instead of blue in idle north (all 4 frames) and walk south frames 1,4,5; blue elsewhere. Needs a human decision (no retry spent)."
+    "walk south frames 1, 4, 5 still carry dark navy/purple sash pixels (the retry that fixed it could not be shipped); needs a human decision",
+    "the sash is shorter in idle north (retry) than in the other facings"
   ]
 }
