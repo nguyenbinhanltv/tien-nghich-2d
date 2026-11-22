@@ -25,6 +25,13 @@
         "west": "facing left, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
         "north": "seen from behind, sits and breathes, body rises and falls slightly",
         "east": "facing right, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible"
+      },
+      "rejected": {
+        "north_take2": {
+          "job_id": "1b25c7ce-6153-4f02-bc24-f381f327b51c",
+          "prompt": "seen from behind, sits and breathes, the head turned slightly so the glowing orange-red coal sac swelling out beside its jaw is visible at the edge of the head in EVERY frame, a small bright ember patch (second attempt, north only)",
+          "why": "gold rim light and floating red specks, no sac; take 1 kept"
+        }
       }
     },
     "follow": {
@@ -35,15 +42,22 @@
       "job_ids": {
         "south": "755943d5-52e7-4985-9c5f-08f50a03bb5c",
         "west": "288b8ba3-f65e-4df9-8c60-ef72ee3f47c9",
-        "north": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+        "north": "d14f321a-7012-470a-8731-f6dd88c1a465",
         "east": "7f5980af-d063-4f16-8d9c-91a6c1691035"
       },
       "action_description": "hops forward in short heavy hops, landing with a squash; the red coal sac under the jaw stays visible and bounces",
       "direction_prompts": {
         "south": "hops toward the viewer in short compact hops, staying within a narrow column; the red coal sac under the jaw bounces and stays visible",
         "west": "hops to the left in short hops; the red coal sac under the jaw stays visible",
-        "north": "hops away from the viewer, seen from behind, short compact hops",
+        "north": "hops away from the viewer, seen from behind, short compact hops; the glowing orange-red coal sac bulges out beside its jaw at the edge of the head and stays visible in EVERY frame (second attempt, north only)",
         "east": "hops to the right in short hops; the red coal sac under the jaw stays visible"
+      },
+      "rejected": {
+        "north_take1": {
+          "job_id": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+          "prompt": "hops away from the viewer, seen from behind, short compact hops",
+          "why": "replaced by take 2 in touch-up round 2: no sac visible from behind"
+        }
       }
     }
   },
@@ -53,12 +67,19 @@
       "what": "character, then idle and follow v3, four directions each",
       "credits": 14,
       "result": "accepted with flags; no regeneration used"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round 2: idle north and follow north regenerated once each so the coal sac shows from behind",
+      "credits": 2,
+      "result": "follow north take 2 shipped (red ember at the head edge in 3 of 4 frames); idle north take 2 rejected"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
-    "total_generations": 14
+    "total_generations": 16,
+    "round2_regenerations": 2
   },
   "known_flaws": [
     "idle south frame 1 draws the coal sac as a flat pale-pink block instead of a glowing round pouch",

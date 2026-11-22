@@ -29,6 +29,18 @@
         "west": "facing left, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible",
         "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
         "east": "facing right, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible"
+      },
+      "rejected": {
+        "west_take2": {
+          "job_id": "0e15a282-d1f0-4d1a-b435-58add42b0447",
+          "prompt": "facing left, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, west only)",
+          "why": "adds a white orb blob in frame 2; silhouette unchanged; take 1 kept"
+        },
+        "east_take2": {
+          "job_id": "954ad966-e174-4742-afc1-510f5c8b42b0",
+          "prompt": "facing right, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, east only)",
+          "why": "adds a bright orb in frames 2-3; silhouette unchanged; take 1 kept"
+        }
       }
     },
     "interact": {
@@ -40,14 +52,26 @@
         "south": "4ef42182-8c15-4b0f-a1d4-4f21ddbccb5e",
         "west": "6584ec76-9be7-473b-9d5d-d16c62da8deb",
         "north": "9bdacb88-b302-45d3-aff5-8734aed47592",
-        "east": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7"
+        "east": "abdb1911-6a0b-404a-80e9-4074794d9610"
       },
       "action_description": "tilts the square astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
       "direction_prompts": {
         "south": "facing the viewer, lifts the square astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
         "west": "facing left, holds the square astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him",
         "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
-        "east": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head"
+        "east": "facing right, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, east only)"
+      },
+      "rejected": {
+        "west_take2": {
+          "job_id": "179f00f7-fbae-4569-9e28-f901ccb4b78a",
+          "prompt": "facing left, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, west only)",
+          "why": "adds a white orb in frames 2-3; silhouette unchanged; take 1 kept"
+        },
+        "east_take1": {
+          "job_id": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7",
+          "prompt": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head",
+          "why": "replaced by take 2 in touch-up round 2: the astrolabe is a small dim block"
+        }
       }
     }
   },
@@ -57,12 +81,19 @@
       "what": "character, then idle and interact v3, four directions each",
       "credits": 14,
       "result": "accepted with flags; no regeneration used"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round 2: idle west, idle east, interact west, interact east regenerated once each (appended to the same animation groups) to improve the dark pillar-like side silhouette",
+      "credits": 4,
+      "result": "interact east take 2 shipped (larger bright gold astrolabe in 3 of 4 frames, frame 3 has a spark particle); the other three take-2 clips rejected (white orb blobs); the pillar silhouette did NOT improve in any take because it comes from the west/east rotations, only a character regeneration could change it"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
-    "total_generations": 14
+    "total_generations": 18,
+    "round2_regenerations": 4
   },
   "known_flaws": [
     "west and east views are very tall and narrow: the long robe and hair read as one dark pillar",
@@ -92,7 +123,7 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 2303,
+      "outline_repainted": 2277,
       "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
@@ -100,10 +131,10 @@
     }
   },
   "source": "source.png",
-  "source_sha256": "f5253d65ce140b80e14f99c72871948c261a24edc5103c401f9e5b0e481900bd",
+  "source_sha256": "d240552a065a7e37253aff6824e43b1c9024224c103b67bce3d02c803190d9e6",
   "contact_sheets": {
-    "assets/raw/longtime/lt_chart_reader/contact_1x.png": "6dba30054c81687a54f4baad852953634db9eaf001ca6b3ec54e3f46197a0612",
-    "assets/raw/longtime/lt_chart_reader/contact_4x.png": "7f878406b6a893d5fc0b2d9eb6e9d6e9e72e49c9c732baf9f88b1513035e79b6"
+    "assets/raw/longtime/lt_chart_reader/contact_1x.png": "e32ec3e6de8b887b2b18ff3501e670728a96bf9c40e58bd8666c6050335f75e0",
+    "assets/raw/longtime/lt_chart_reader/contact_4x.png": "da081218a35d479ae248dfc7b0b3d58a2b84531ec73e3dbf335a4d4ee61c2e51"
   },
   "frames": [
     {
@@ -302,49 +333,49 @@
       "key": "longtime/lt_chart_reader/interact_east_0",
       "path": "assets/processed_longtime/lt_chart_reader/interact_east_0.png",
       "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_000.png",
-      "raw_sha256": "b61d0bc914262b1f130985f083671820871d06581393eb6dad374901d00f647e",
+      "raw_sha256": "c3ca08aa1af5dc717ac5fe6ea87d2e9a182bfbcc3865b42457bd5253f3446a23",
       "source_xy": [
         0,
         280
       ],
       "duration_ms": 140,
-      "sha256": "84a6058ae4cff5eb479532eb37667bf509846af5cd58013164650cd58a46c255"
+      "sha256": "344c6674b75037c8e21eb23e19169cb031d9e2f723f13eca60309df2e7d34a38"
     },
     {
       "key": "longtime/lt_chart_reader/interact_east_1",
       "path": "assets/processed_longtime/lt_chart_reader/interact_east_1.png",
       "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_001.png",
-      "raw_sha256": "a958bf01b1d4934bc278e9f4af3254a54f7081cad31931ad35912eb598e145a4",
+      "raw_sha256": "8258de7d803ad19de76944b2d9274534fe10fc19b7798791f6b899df05f2158d",
       "source_xy": [
         40,
         280
       ],
       "duration_ms": 140,
-      "sha256": "e9a086f39fce54685f11bf01a9fd3839ab22f8911df18271ffa5e9696a443e08"
+      "sha256": "656f69e6c64df31dc739d0a196c80485dbc96751d7dd426ac03d8dcae3ebd868"
     },
     {
       "key": "longtime/lt_chart_reader/interact_east_2",
       "path": "assets/processed_longtime/lt_chart_reader/interact_east_2.png",
       "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_002.png",
-      "raw_sha256": "64cf2a47fdb1dad948bc01fb889672935c02ca4e1c2e8baf7a1ceab821ef153d",
+      "raw_sha256": "6bf7f0dd83148cf58adf0c465b4d36fe45656acf68babaa4332fd251dead7962",
       "source_xy": [
         80,
         280
       ],
       "duration_ms": 140,
-      "sha256": "a77441419eabf18db0df232da1a717be0b21f8534a5b1bb0e7693dc741ee7bae"
+      "sha256": "c2ba23241a96fc12ee3ea281a90df0e916dfe78936ede51034108df5762f603e"
     },
     {
       "key": "longtime/lt_chart_reader/interact_east_3",
       "path": "assets/processed_longtime/lt_chart_reader/interact_east_3.png",
       "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_003.png",
-      "raw_sha256": "0fa29456b2b4d3ad7148e8e89e60bf79f46ceb838b268a0a2c34fcee8ce7d639",
+      "raw_sha256": "d959606764983ac7ce2b91982cd7f90ff21436de20e88d3c43342d9c2724e44e",
       "source_xy": [
         120,
         280
       ],
       "duration_ms": 140,
-      "sha256": "8af107bef9a2cacca8883829cfc765f16cd33844982349d40c5400432e4b6238"
+      "sha256": "9b49bcf2ad305d1d9009650f35173c6373070ec6709449e6752a0f7e0531cc22"
     },
     {
       "key": "longtime/lt_chart_reader/interact_north_0",

@@ -35,6 +35,11 @@
           "job_id": "c07abe25-e813-440c-a703-b613a33ce012",
           "prompt": "facing left, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm",
           "why": "bell lost, the glove swung up like a kicking leg"
+        },
+        "south_take2": {
+          "job_id": "5e6acc39-78a3-4bd2-997f-542f42b992ed",
+          "prompt": "facing the viewer, breathes gently; a large bright golden-bronze handbell, as big as his fist, is held up at shoulder height in his right hand on the viewer's left, its round dome and clapper clearly visible in EVERY frame; the big brown leather glove stays on his other arm on the viewer's right (second attempt, south only)",
+          "why": "bell no larger than take 1; take 1 kept"
         }
       }
     },
@@ -44,14 +49,14 @@
       "keep_first_frame": false,
       "animation_group_id": "36a9c1b5-8d2f-42d3-a39d-c827c3ff18ea",
       "job_ids": {
-        "south": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+        "south": "5ffc4959-9b45-4cad-9c3b-918bf13390c2",
         "west": "f548d35e-3a44-4fec-a942-131c8f391014",
         "north": "bee2ab41-4ff2-46a2-bf4e-58126504766e",
         "east": "9bccbce1-9e08-41d3-ace1-637305777dad"
       },
       "action_description": "raises the small bronze handbell a little forward and up as if ringing it once, then lowers it; the bell always stays in the same right hand and clearly visible; the leather glove stays on the other arm",
       "direction_prompts": {
-        "south": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+        "south": "facing the viewer, lifts a large bright golden-bronze handbell, as big as his fist, in his right hand (the viewer's left side) up to head height and shakes it as if ringing, then lowers it; the round dome and clapper are clearly visible in EVERY frame, the bell never crosses to the viewer's right (second attempt, south only)",
         "west": "facing left, holds the bronze handbell out in front toward the left a little higher, then lowers it; bell stays on the left",
         "north": "seen from behind, his right arm is on the viewer's RIGHT; the bronze handbell is held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly then lowered",
         "east": "facing right, standing upright; he holds a small round golden handbell in front of his chest and lifts it a little then lowers it; the bell is a small round golden dome, never a long stick or handle (second attempt, east only)"
@@ -61,6 +66,11 @@
           "job_id": "b10f21e7-7223-4207-9117-93dfde226324",
           "prompt": "facing right, holds the bronze handbell out in front toward the right a little higher, then lowers it; bell stays on the right and does not rise above his head",
           "why": "the bell became a long diagonal handle that reads as a crossbow"
+        },
+        "south_take1": {
+          "job_id": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+          "prompt": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+          "why": "replaced by take 2 in touch-up round 2: bell a few pixels"
         }
       }
     }
@@ -77,13 +87,20 @@
       "what": "idle west and interact east regenerated once each",
       "credits": 2,
       "result": "both take-2 clips kept (clearly better); raw idle/west and interact/east frames replaced, take 1 is not shipped"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 2: idle south and interact south regenerated once each to enlarge the bell",
+      "credits": 2,
+      "result": "interact south take 2 shipped (large golden bell with a clear ringing motion); idle south take 2 rejected (no gain)"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
     "regenerations": 2,
-    "total_generations": 16
+    "total_generations": 18,
+    "round2_regenerations": 2
   },
   "known_flaws": [
     "the bell is a 3-6 px golden dot at 1x and is partly hidden in west views",
@@ -112,7 +129,7 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 2392,
+      "outline_repainted": 2434,
       "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
@@ -120,10 +137,10 @@
     }
   },
   "source": "source.png",
-  "source_sha256": "e1513046ddf72703b287c7bfc1083fa695e305bf984ed9ebe8629179ad1e9487",
+  "source_sha256": "3c7a940a17c6d0056238648550557fd1f53a764d5f8e882f71ffc59a059cf68b",
   "contact_sheets": {
-    "assets/raw/longtime/lt_bell_founder/contact_1x.png": "d4ccb19ffe737b9a25aab237913c395c0e67828789558c79784f7218622bc1b7",
-    "assets/raw/longtime/lt_bell_founder/contact_4x.png": "bf9486be322466f0f453b369d3b6e6b3cf91c5b40d99908a76af65ba36c7b5ce"
+    "assets/raw/longtime/lt_bell_founder/contact_1x.png": "3475cb86e86b3e04364b94b2e1a1b0b863806b8e25ac4cd3610849f5c0006797",
+    "assets/raw/longtime/lt_bell_founder/contact_4x.png": "8c390eb1d98d4c362f53daeb39f8c16220783e790f29547294e227660ef5f8a1"
   },
   "frames": [
     {
@@ -418,49 +435,49 @@
       "key": "longtime/lt_bell_founder/interact_south_0",
       "path": "assets/processed_longtime/lt_bell_founder/interact_south_0.png",
       "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_000.png",
-      "raw_sha256": "e234847cfd0a92038b1991fd9679df41180b783f805bb4b70ecb6e9179cd92a6",
+      "raw_sha256": "b3fa40f870760b51dd4f75f529ba3cd5de680785da48c45d108066dafec34eae",
       "source_xy": [
         0,
         160
       ],
       "duration_ms": 140,
-      "sha256": "6fa0392b3ce95b54899027c0a80da5d87b8c1c18a3da960afbe849a326319443"
+      "sha256": "6ab362cffae856fa160f7b495b541be9d2ed0e3c2c1fc964a14ff91b6128078e"
     },
     {
       "key": "longtime/lt_bell_founder/interact_south_1",
       "path": "assets/processed_longtime/lt_bell_founder/interact_south_1.png",
       "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_001.png",
-      "raw_sha256": "bff239db3cef71b529fd07d883894bd6030fbcd7165bebfafdf855d31014a5d4",
+      "raw_sha256": "19aa4f9358aa67d6205f5ae46297c4dd2d2790eb4c5a44b270ebeef724964590",
       "source_xy": [
         40,
         160
       ],
       "duration_ms": 140,
-      "sha256": "89a8a0096fa25432cd183f28502865264a709d0170ae0e01212761b8b51cf50c"
+      "sha256": "58e568933822676a1c614dfc9c4540f333d8dbf35d8f24de171e9993795baaa2"
     },
     {
       "key": "longtime/lt_bell_founder/interact_south_2",
       "path": "assets/processed_longtime/lt_bell_founder/interact_south_2.png",
       "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_002.png",
-      "raw_sha256": "2954cabcf1df47cef07b109b8a7d69ae34fb1ce7d0a569090ae29c43d357d46c",
+      "raw_sha256": "7c08d4dddfce8f094295a85ba74ea6682492b6cc8bb35b56c8cf4abd176511c7",
       "source_xy": [
         80,
         160
       ],
       "duration_ms": 140,
-      "sha256": "0bce175e38364e42506d310787ebdf52d17b6ba8a382a1d7a1ba04769554a794"
+      "sha256": "a5149e9bb566b0125a35af2fa5f07170374d090856d15882037f86d701e35779"
     },
     {
       "key": "longtime/lt_bell_founder/interact_south_3",
       "path": "assets/processed_longtime/lt_bell_founder/interact_south_3.png",
       "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_003.png",
-      "raw_sha256": "af2953479b5b2c2dd14d46ef5a9a35d93100254a57e9c552bd9a6b50d1d70451",
+      "raw_sha256": "998b6ff162e12c739187d08dd3150c3d80f4289e78721f1922e12d44dffde2d1",
       "source_xy": [
         120,
         160
       ],
       "duration_ms": 140,
-      "sha256": "320ff6ff8c260b6830479a13d2f4d7b3c4645f1cdf0f7cd72e622fc7261ab9aa"
+      "sha256": "9136894820b2687f9b363afad0d8f3d940e9e59dc32783ab35a681cb55c60a80"
     },
     {
       "key": "longtime/lt_bell_founder/interact_west_0",

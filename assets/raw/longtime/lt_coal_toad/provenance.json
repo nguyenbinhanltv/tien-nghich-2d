@@ -29,6 +29,13 @@
         "west": "facing left, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
         "north": "seen from behind, sits and breathes, body rises and falls slightly",
         "east": "facing right, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible"
+      },
+      "rejected": {
+        "north_take2": {
+          "job_id": "1b25c7ce-6153-4f02-bc24-f381f327b51c",
+          "prompt": "seen from behind, sits and breathes, the head turned slightly so the glowing orange-red coal sac swelling out beside its jaw is visible at the edge of the head in EVERY frame, a small bright ember patch (second attempt, north only)",
+          "why": "gold rim light and floating red specks, no sac; take 1 kept"
+        }
       }
     },
     "follow": {
@@ -39,15 +46,22 @@
       "job_ids": {
         "south": "755943d5-52e7-4985-9c5f-08f50a03bb5c",
         "west": "288b8ba3-f65e-4df9-8c60-ef72ee3f47c9",
-        "north": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+        "north": "d14f321a-7012-470a-8731-f6dd88c1a465",
         "east": "7f5980af-d063-4f16-8d9c-91a6c1691035"
       },
       "action_description": "hops forward in short heavy hops, landing with a squash; the red coal sac under the jaw stays visible and bounces",
       "direction_prompts": {
         "south": "hops toward the viewer in short compact hops, staying within a narrow column; the red coal sac under the jaw bounces and stays visible",
         "west": "hops to the left in short hops; the red coal sac under the jaw stays visible",
-        "north": "hops away from the viewer, seen from behind, short compact hops",
+        "north": "hops away from the viewer, seen from behind, short compact hops; the glowing orange-red coal sac bulges out beside its jaw at the edge of the head and stays visible in EVERY frame (second attempt, north only)",
         "east": "hops to the right in short hops; the red coal sac under the jaw stays visible"
+      },
+      "rejected": {
+        "north_take1": {
+          "job_id": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+          "prompt": "hops away from the viewer, seen from behind, short compact hops",
+          "why": "replaced by take 2 in touch-up round 2: no sac visible from behind"
+        }
       }
     }
   },
@@ -57,12 +71,19 @@
       "what": "character, then idle and follow v3, four directions each",
       "credits": 14,
       "result": "accepted with flags; no regeneration used"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round 2: idle north and follow north regenerated once each so the coal sac shows from behind",
+      "credits": 2,
+      "result": "follow north take 2 shipped (red ember at the head edge in 3 of 4 frames); idle north take 2 rejected"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
-    "total_generations": 14
+    "total_generations": 16,
+    "round2_regenerations": 2
   },
   "known_flaws": [
     "idle south frame 1 draws the coal sac as a flat pale-pink block instead of a glowing round pouch",
@@ -90,7 +111,7 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 2099,
+      "outline_repainted": 2138,
       "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
@@ -98,10 +119,10 @@
     }
   },
   "source": "source.png",
-  "source_sha256": "e56f0e4f145ce6cdb0209175d9c1335d8235c72079bac91ee85b564a6cccbd3a",
+  "source_sha256": "f1b9337bb10b1d8455e95cb48bf2afe7fdd730472ce749e3c04df01992cee661",
   "contact_sheets": {
-    "assets/raw/longtime/lt_coal_toad/contact_1x.png": "9cd74736a64604ad5ec98f3944eddc5e5db41fc0a64e4e39ac05b8be6988c172",
-    "assets/raw/longtime/lt_coal_toad/contact_4x.png": "b591c766ab95f492156be2f75845f274cd139d011f29ba313a1ff2209f74b359"
+    "assets/raw/longtime/lt_coal_toad/contact_1x.png": "79e5c8e97d874f16eb5150778eb0f77cc9dec6bac45e24745974d370c7b4991e",
+    "assets/raw/longtime/lt_coal_toad/contact_4x.png": "d8a3e9382d0a9fd16634ac0f1b23c0f232be67a273ce183e4224ac1c858a69ea"
   },
   "frames": [
     {
@@ -156,49 +177,49 @@
       "key": "longtime/lt_coal_toad/follow_north_0",
       "path": "assets/processed_longtime/lt_coal_toad/follow_north_0.png",
       "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_000.png",
-      "raw_sha256": "0567989ce29c5a0aacebf5d6c9c7abd0aca913fe576733bbfbe66a4155af80b9",
+      "raw_sha256": "814863a48d5019a70e6c4e0fc222a5d96d43b9d160632f6d673a9cd950b7946e",
       "source_xy": [
         0,
         216
       ],
       "duration_ms": 120,
-      "sha256": "7b5250bbcb5a2c413afb696113dd77bed962af7335711363021808feaebf958c"
+      "sha256": "6879ab253b6f2ea4295a75a0aca7fac33b694ae90830d7935b57db9416248415"
     },
     {
       "key": "longtime/lt_coal_toad/follow_north_1",
       "path": "assets/processed_longtime/lt_coal_toad/follow_north_1.png",
       "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_001.png",
-      "raw_sha256": "ea5fa6c924f2a84ed2dbb4b837cd2285d57323a808e8349ee6ba33cafb49ce46",
+      "raw_sha256": "e552f9f7bd594761cb074a7d076290eff5ae34693928634dc116713fe0752e3d",
       "source_xy": [
         36,
         216
       ],
       "duration_ms": 120,
-      "sha256": "58e15a872f01b1dd270a3fe85fc445d684d18396b55568ab397a7a439a3bc86f"
+      "sha256": "56ce460a99987d1e6d57cbd211b1311b2f59382f282776cebf07feed636d5e4b"
     },
     {
       "key": "longtime/lt_coal_toad/follow_north_2",
       "path": "assets/processed_longtime/lt_coal_toad/follow_north_2.png",
       "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_002.png",
-      "raw_sha256": "9048794358cf4ea87adbbac4491638259e1578e245c941b85f8e3b633b7ec381",
+      "raw_sha256": "894c3f5f0b1b9df65c71564e88fbe5dc45e522cf60bad1b7e77c6b63548b409b",
       "source_xy": [
         72,
         216
       ],
       "duration_ms": 120,
-      "sha256": "ae597a8b59279679d050497d5a9c93aa834813865a2039002717fa134c836eab"
+      "sha256": "fcbfc04c7a0acd1d37f3d21676609d9c46f7d18e9829a0c7d6b86f787b967898"
     },
     {
       "key": "longtime/lt_coal_toad/follow_north_3",
       "path": "assets/processed_longtime/lt_coal_toad/follow_north_3.png",
       "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_003.png",
-      "raw_sha256": "ae0f95420ee5f2198746ec71bbfcd74ceba6f486493a2b158fc5dadfd06f274e",
+      "raw_sha256": "3ea529a100f8a249d9911c2680ab7d85c36c12f042a565aae9e5ae4cc66e7f8a",
       "source_xy": [
         108,
         216
       ],
       "duration_ms": 120,
-      "sha256": "14daf30c7d3986f0db19d7b0680598c26637e7769799f9362b391ec57f0620b0"
+      "sha256": "86a814e97bd1bf75d07121fcb98519d47b55df6c3466c1fd3f47df21949be6d9"
     },
     {
       "key": "longtime/lt_coal_toad/follow_south_0",

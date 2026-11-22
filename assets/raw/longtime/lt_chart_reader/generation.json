@@ -25,6 +25,18 @@
         "west": "facing left, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible",
         "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
         "east": "facing right, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible"
+      },
+      "rejected": {
+        "west_take2": {
+          "job_id": "0e15a282-d1f0-4d1a-b435-58add42b0447",
+          "prompt": "facing left, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, west only)",
+          "why": "adds a white orb blob in frame 2; silhouette unchanged; take 1 kept"
+        },
+        "east_take2": {
+          "job_id": "954ad966-e174-4742-afc1-510f5c8b42b0",
+          "prompt": "facing right, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, east only)",
+          "why": "adds a bright orb in frames 2-3; silhouette unchanged; take 1 kept"
+        }
       }
     },
     "interact": {
@@ -36,14 +48,26 @@
         "south": "4ef42182-8c15-4b0f-a1d4-4f21ddbccb5e",
         "west": "6584ec76-9be7-473b-9d5d-d16c62da8deb",
         "north": "9bdacb88-b302-45d3-aff5-8734aed47592",
-        "east": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7"
+        "east": "abdb1911-6a0b-404a-80e9-4074794d9610"
       },
       "action_description": "tilts the square astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
       "direction_prompts": {
         "south": "facing the viewer, lifts the square astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
         "west": "facing left, holds the square astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him",
         "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
-        "east": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head"
+        "east": "facing right, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, east only)"
+      },
+      "rejected": {
+        "west_take2": {
+          "job_id": "179f00f7-fbae-4569-9e28-f901ccb4b78a",
+          "prompt": "facing left, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, west only)",
+          "why": "adds a white orb in frames 2-3; silhouette unchanged; take 1 kept"
+        },
+        "east_take1": {
+          "job_id": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7",
+          "prompt": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head",
+          "why": "replaced by take 2 in touch-up round 2: the astrolabe is a small dim block"
+        }
       }
     }
   },
@@ -53,12 +77,19 @@
       "what": "character, then idle and interact v3, four directions each",
       "credits": 14,
       "result": "accepted with flags; no regeneration used"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round 2: idle west, idle east, interact west, interact east regenerated once each (appended to the same animation groups) to improve the dark pillar-like side silhouette",
+      "credits": 4,
+      "result": "interact east take 2 shipped (larger bright gold astrolabe in 3 of 4 frames, frame 3 has a spark particle); the other three take-2 clips rejected (white orb blobs); the pillar silhouette did NOT improve in any take because it comes from the west/east rotations, only a character regeneration could change it"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
-    "total_generations": 14
+    "total_generations": 18,
+    "round2_regenerations": 4
   },
   "known_flaws": [
     "west and east views are very tall and narrow: the long robe and hair read as one dark pillar",

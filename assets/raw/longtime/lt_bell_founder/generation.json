@@ -31,6 +31,11 @@
           "job_id": "c07abe25-e813-440c-a703-b613a33ce012",
           "prompt": "facing left, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm",
           "why": "bell lost, the glove swung up like a kicking leg"
+        },
+        "south_take2": {
+          "job_id": "5e6acc39-78a3-4bd2-997f-542f42b992ed",
+          "prompt": "facing the viewer, breathes gently; a large bright golden-bronze handbell, as big as his fist, is held up at shoulder height in his right hand on the viewer's left, its round dome and clapper clearly visible in EVERY frame; the big brown leather glove stays on his other arm on the viewer's right (second attempt, south only)",
+          "why": "bell no larger than take 1; take 1 kept"
         }
       }
     },
@@ -40,14 +45,14 @@
       "keep_first_frame": false,
       "animation_group_id": "36a9c1b5-8d2f-42d3-a39d-c827c3ff18ea",
       "job_ids": {
-        "south": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+        "south": "5ffc4959-9b45-4cad-9c3b-918bf13390c2",
         "west": "f548d35e-3a44-4fec-a942-131c8f391014",
         "north": "bee2ab41-4ff2-46a2-bf4e-58126504766e",
         "east": "9bccbce1-9e08-41d3-ace1-637305777dad"
       },
       "action_description": "raises the small bronze handbell a little forward and up as if ringing it once, then lowers it; the bell always stays in the same right hand and clearly visible; the leather glove stays on the other arm",
       "direction_prompts": {
-        "south": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+        "south": "facing the viewer, lifts a large bright golden-bronze handbell, as big as his fist, in his right hand (the viewer's left side) up to head height and shakes it as if ringing, then lowers it; the round dome and clapper are clearly visible in EVERY frame, the bell never crosses to the viewer's right (second attempt, south only)",
         "west": "facing left, holds the bronze handbell out in front toward the left a little higher, then lowers it; bell stays on the left",
         "north": "seen from behind, his right arm is on the viewer's RIGHT; the bronze handbell is held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly then lowered",
         "east": "facing right, standing upright; he holds a small round golden handbell in front of his chest and lifts it a little then lowers it; the bell is a small round golden dome, never a long stick or handle (second attempt, east only)"
@@ -57,6 +62,11 @@
           "job_id": "b10f21e7-7223-4207-9117-93dfde226324",
           "prompt": "facing right, holds the bronze handbell out in front toward the right a little higher, then lowers it; bell stays on the right and does not rise above his head",
           "why": "the bell became a long diagonal handle that reads as a crossbow"
+        },
+        "south_take1": {
+          "job_id": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+          "prompt": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+          "why": "replaced by take 2 in touch-up round 2: bell a few pixels"
         }
       }
     }
@@ -73,13 +83,20 @@
       "what": "idle west and interact east regenerated once each",
       "credits": 2,
       "result": "both take-2 clips kept (clearly better); raw idle/west and interact/east frames replaced, take 1 is not shipped"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 2: idle south and interact south regenerated once each to enlarge the bell",
+      "credits": 2,
+      "result": "interact south take 2 shipped (large golden bell with a clear ringing motion); idle south take 2 rejected (no gain)"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 8,
     "regenerations": 2,
-    "total_generations": 16
+    "total_generations": 18,
+    "round2_regenerations": 2
   },
   "known_flaws": [
     "the bell is a 3-6 px golden dot at 1x and is partly hidden in west views",
