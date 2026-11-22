@@ -1,0 +1,87 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "afe37fdb-d73e-4551-be1e-35da74c35390",
+  "character_job_id": "6916f9f9-3eda-4564-a409-c34618abb744",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black hair, pale skin, calm face. On his head stands a tall BROKEN CROWN of pale ash-grey metal that rises clearly ABOVE the hair: three tall jagged points, the right-hand point snapped off to a short stump, ash-white with dark cracks, a bright and unmistakable silhouette from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+      "job_ids": {
+        "south": "0b74177f-7955-4d98-8b2d-5ce259a25838",
+        "west": "f05a7bdb-ffd0-4939-a1ae-9e96d31e0863",
+        "north": "611bc2b7-7cde-4326-ac55-053b75eb3879",
+        "east": "9ec0d6dd-1a97-4bf1-8f49-4be56f79c41a"
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+      "job_ids": {
+        "south": "a7d2275a-c411-47d8-a95c-ba6091b52110",
+        "west": "dc8fc223-8620-44bd-b4cc-c6222fe9e56e",
+        "north": "0445f5d1-9b5a-403a-895b-0bf88636a46f",
+        "east": "5e1a6116-f468-4f13-99f3-0b4e6651cd01"
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+      "job_ids": {
+        "south": "879a730e-16f7-4d84-a51c-73c017790a42",
+        "west": "b91bd0ce-63bb-4a41-8eb7-5785cbb54fb3",
+        "north": "1e10f471-9a4a-43e4-b354-6462d0a35ea0",
+        "east": "eed1fd91-5d59-4cc2-928b-2714ea266818"
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+      "job_ids": {
+        "south": "d32388bf-4346-4a4a-8811-d99b7c5cc4b2",
+        "west": "9b48812e-d95b-46d6-a3f6-d0d9dc7aff27",
+        "north": "1d076b66-632c-49cf-b489-06de10e8b633",
+        "east": "6cca6424-1a27-453a-8f24-17f5ddad6f23"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (the manifest wants 2 frames); the other four are not shipped"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character (id f0adaa73-79c2-4c96-9c1f-2098451794a8, prompt: 'Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A BROKEN ASH-GREY CROWN sits on his head: a pale grey circlet with a clearly jagged gap, one half missing, ash-white with a few dark cracks, easy to see from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.') plus idle, walk, cast, hurt in 4 directions",
+      "credits": 22,
+      "result": "rejected after viewing the contact sheet: the crown read as a plain grey headband at 1x, so the four forms would not be told apart. Raw not shipped. This is the one allowed character regeneration."
+    },
+    {
+      "n": 2,
+      "what": "second character (the shipped one) with a taller jagged crown rising above the hair, then the same four clips in 4 directions, no per-clip regeneration",
+      "credits": 22,
+      "result": "accepted for integration"
+    }
+  ],
+  "credits_spent": {
+    "rejected_attempt_1": 22,
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 44,
+    "balance_before": 804.26
+  },
+  "known_flaws": []
+}

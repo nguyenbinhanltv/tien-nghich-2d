@@ -1,0 +1,26 @@
+{
+  "asset_ids": [
+    "lt_ashen_crown"
+  ],
+  "chunk_group": "forms",
+  "frame_count": 72,
+  "mobile_page_budget": 2,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 72,
+      "height": 128,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "ccbd32435644569abf82ee8c9b810821e6dd970c5a84b14d1ce9048565db728d",
+      "png_sha256": "ee9c1615774794c96af4b772d384c1990d0a1e96ff7959ad7e14852f11e7f0eb",
+      "rgba8_bytes": 524288,
+      "width": 1024
+    }
+  ],
+  "platform": "mobile",
+  "readiness": "packed",
+  "rgba8_bytes": 524288,
+  "rgba8_mib": 0.5,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}
