@@ -115,3 +115,7 @@
 .vx-verdict.fail, .vx-buildout dd.fail { color: var(--danger, #c0504d); }
 .vx-buildout dd.warn { color: var(--gold); }
 .vx-pre { font-size: .72rem; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12rem; overflow: auto; }
+.vx-recorder { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .2rem 0 .5rem; }
+.vx-recorder .vx-note { flex-basis: 100%; margin: 0; }
+.vx-rec { width: 7.5rem; }
+.vx-subhead { margin: .4rem 0 0; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }

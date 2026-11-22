@@ -207,5 +207,13 @@
  "build.delivered": "Đã giao",
  "build.rebuilt": "Vừa dựng",
  "build.frameLabel": "{label}, frame {frame}",
- "build.scratch": "Thư mục nháp: {path}"
+ "build.scratch": "Thư mục nháp: {path}",
+ "build.rec.title": "Máy quay",
+ "build.rec.note": "Tùy chọn: cắt sheet dựng lại. Để trống một ô thì giữ giá trị của hiệu ứng. Bỏ N giữ một frame rồi bỏ qua N frame.",
+ "build.rec.first": "Frame đầu",
+ "build.rec.last": "Frame cuối",
+ "build.rec.skip": "Bỏ frame",
+ "build.rec.columns": "Số cột của sheet",
+ "build.recorded": "Bản cắt đã ghi, không so với hiệu ứng đã giao: {text}.",
+ "build.recordedFrames": "Đã ghi"
 }

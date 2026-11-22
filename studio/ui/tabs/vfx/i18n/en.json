@@ -207,5 +207,13 @@
  "build.delivered": "Delivered",
  "build.rebuilt": "Rebuilt now",
  "build.frameLabel": "{label}, frame {frame}",
- "build.scratch": "Scratch: {path}"
+ "build.scratch": "Scratch: {path}",
+ "build.rec.title": "Recorder",
+ "build.rec.note": "Optional: cut the rebuilt sheet. Leave a box empty to keep the effect's own value. Skip N keeps one frame, then leaves N out.",
+ "build.rec.first": "First frame",
+ "build.rec.last": "Last frame",
+ "build.rec.skip": "Frame skip",
+ "build.rec.columns": "Sheet columns",
+ "build.recorded": "Recorded cut, not compared with the delivered effect: {text}.",
+ "build.recordedFrames": "Recorded"
 }
