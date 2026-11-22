@@ -3,7 +3,7 @@
 import { destinations } from './destinations.mjs';
 import { parseHash, formatHash, hubTab } from './router.mjs';
 import { translator, localize, pickLanguage, storageKey, loadTable } from './i18n.mjs';
-import { createPalette, createCheatSheet, isTyping, loadRecents, saveRecents, pushRecent, loadZoom, nextZoom, zoomKey, nextPending } from './palette.mjs';
+import { createPalette, createCheatSheet, isTyping, loadRecents, saveRecents, pushRecent, recentWorthy, loadZoom, nextZoom, zoomKey, nextPending } from './palette.mjs';
 import { crumbParts } from './crumbs.mjs';
 import * as placeholder from './tabs/_placeholder/index.mjs';
 
@@ -237,7 +237,7 @@ async function route() {
   state.palette?.close(false);
   state.cheat?.close(false);
   state.route = parsed;
-  if (!state.hubOnly && parsed.asset && parsed.tab !== hubTab) {
+  if (!state.hubOnly && recentWorthy(parsed)) {
     state.recents = pushRecent(state.recents, {tab: parsed.tab, asset: parsed.asset, source: parsed.params.source});
     saveRecents(state.project.id, state.recents);
   }

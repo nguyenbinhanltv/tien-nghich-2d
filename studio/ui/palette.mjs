@@ -14,6 +14,9 @@ export function isTyping(el) {
 }
 
 export const recentMax = 10;
+
+/** Only a route that an asset id alone can reopen is worth remembering. Review needs a `key` (or clip, direction and frame) and the hub has no asset, so they are skipped. */
+export const recentWorthy = route => Boolean(route?.asset) && route.tab !== 'review' && route.tab !== 'projects';
 const idPattern = /^[A-Za-z0-9_.-]{1,120}$/;
 const tabPattern = /^[a-z]{2,20}$/;
 
@@ -21,7 +24,7 @@ const tabPattern = /^[a-z]{2,20}$/;
 export function cleanRecents(list) {
   const out = [], seen = new Set();
   for (const e of Array.isArray(list) ? list : []) {
-    if (!e || typeof e.asset !== 'string' || !idPattern.test(e.asset) || typeof e.tab !== 'string' || !tabPattern.test(e.tab)) continue;
+    if (!e || typeof e.asset !== 'string' || !idPattern.test(e.asset) || typeof e.tab !== 'string' || !tabPattern.test(e.tab) || !recentWorthy(e)) continue;
     const source = typeof e.source === 'string' && idPattern.test(e.source) ? e.source : undefined;
     const key = `${e.tab}/${e.asset}/${source ?? ''}`;
     if (seen.has(key)) continue;

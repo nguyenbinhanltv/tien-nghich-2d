@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { isTyping, cleanRecents, pushRecent, recentMax, nextZoom, nextPending, createPalette, createCheatSheet } from '../palette.mjs';
+import { isTyping, cleanRecents, pushRecent, recentWorthy, recentMax, nextZoom, nextPending, createPalette, createCheatSheet } from '../palette.mjs';
 
 const read = f => fs.readFileSync(new URL('../' + f, import.meta.url), 'utf8');
 
@@ -115,4 +115,13 @@ test('SHELL-009: the shell wires ?, shows g+number hints on the rail, lists tab 
   assert.match(shell, /state\.cheat\?\.close\(false\)/);
   assert.match(shell, /afterChoose: \(\) => \$\('main'\)\.focus\(/, 'the #132 focus hand-off stays');
   assert.doesNotMatch(shell.slice(shell.indexOf('function paletteActions'), shell.indexOf('async function boot')), /approv|decision\(|method: 'POST'/, 'the actions never post a decision');
+});
+
+test('SHELL-005: Review and the hub are not remembered as recents, since an asset id alone cannot reopen a Review selection', () => {
+  assert.equal(recentWorthy({tab: 'review', asset: 'hero_01', params: {key: 'k/hero_01'}}), false);
+  assert.deepEqual(cleanRecents([{tab: 'review', asset: 'old'}, {tab: 'vfx', asset: 'ok'}]), [{tab: 'vfx', asset: 'ok'}], 'old stored review entries are dropped');
+  assert.equal(recentWorthy({tab: 'projects', asset: null}), false);
+  assert.equal(recentWorthy({tab: 'characters', asset: null}), false);
+  assert.equal(recentWorthy({tab: 'characters', asset: 'hero_01'}), true);
+  assert.match(read('shell.js'), /recentWorthy\(parsed\)/, 'the shell records only worthy routes');
 });
