@@ -69,7 +69,7 @@ function drawFigure(img, layout, cellId, {width, height, body, head, lift = 0}) 
 }
 
 async function startServer(studio, project) {
-  const child = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', '--project', project, '--port', '0'], {stdio: ['ignore', 'pipe', 'pipe']});
+  const child = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', '--project', project, '--port', '0'], {env: {...process.env, PIXEL_KILN_HOME: path.join(path.dirname(project), 'pk-home')}, stdio: ['ignore', 'pipe', 'pipe']});
   const base = await new Promise((resolve, reject) => {
     let out = '';
     child.stdout.on('data', c => { out += c; const m = /(http:\/\/127\.0\.0\.1:\d+)\/studio\//.exec(out); if (m) resolve(m[1]); });

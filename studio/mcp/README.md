@@ -486,3 +486,7 @@ Verified end to end through the server (tests, no agent): a stored marten turnar
 - Jobs and HTTP sessions are memory-only: they end with the process.
 - Nothing in CI runs `node --test studio/mcp/*.test.mjs` yet; run it by hand until a test runner lands.
 - The schema validator is a deliberate subset (see `schema.mjs`); a tool using an unsupported keyword fails at registration, not silently.
+
+## Which project a connection serves
+
+One connection is bound to one project (`--project`, or the project the HTTP server had open when the session started). `studio_project_info` returns `serving` (`id`, `name`, `root`) so an agent can see it. There is deliberately no tool that creates, opens, removes or switches projects, and none that changes the licence profile or the quota: those are the owner's, in the Projects screen. The tool count stays 27.

@@ -29,7 +29,7 @@ node ~/tools/studio/cli.mjs serve --project ~/my-game   # then open http://127.0
 3. **Ask it to make something.** Start with `studio_guide`, which returns the shortest correct tool sequence for a task.
 4. **Review.** Open the Review tab. Look at what the agent asked about, approve or ask for changes.
 
-The command is `pixel-kiln` (declared as a `bin` in `package.json`; `studio` and `node studio/cli.mjs` keep working as aliases). Every command takes `--project <dir>` (or `--project=<dir>`); with none it uses the current directory. A second, deliberately different project to learn from is in [`examples/moss-lantern/`](examples/moss-lantern/README.md).
+The command is `pixel-kiln` (declared as a `bin` in `package.json`; `studio` and `node studio/cli.mjs` keep working as aliases). `check`, `doctor`, `baseline` and `mcp` take `--project <dir>` (or `--project=<dir>`); with none they use the current directory. `serve` without `--project` opens the **Projects** screen (below). A second, deliberately different project to learn from is in [`examples/moss-lantern/`](examples/moss-lantern/README.md).
 
 ### Bắt đầu nhanh (tiếng Việt)
 
@@ -48,6 +48,26 @@ node ~/tools/studio/cli.mjs serve --project ~/my-game   # rồi mở http://127.
 - Agent không bao giờ duyệt hình, không ký bài nghe audio, không phát hành, không xóa. Chỉ bạn làm được, trong trình duyệt: tab **Review**.
 - Giao diện có tiếng Anh và tiếng Việt (nút ngôn ngữ trên thanh trên).
 - Tên công cụ là **Pixel Kiln**. "Tiên Nghịch 2D" (hay tên bất kỳ trong `studio.project.json`) chỉ là tên một **dự án**. Lệnh là `pixel-kiln`; `studio` và `node studio/cli.mjs` vẫn chạy như bí danh.
+
+## Projects
+
+Pixel Kiln is the tool and a project is a folder with a `studio.project.json`. The tool keeps a short **list of your recent projects** in your own settings folder, never in a project or a repo: `~/Library/Application Support/Pixel Kiln` on macOS, `$XDG_CONFIG_HOME/pixel-kiln` (default `~/.config/pixel-kiln`) elsewhere, or the folder named by `PIXEL_KILN_HOME`. The list holds paths and names only.
+
+```bash
+pixel-kiln serve                       # opens the Projects screen: nothing is open yet (`node studio/serve.mjs` alone still opens the repo around studio/)
+pixel-kiln serve --project ~/my-game   # opens that project (and puts it on the list)
+pixel-kiln projects list [--json]      # the list, with each folder's status
+pixel-kiln projects add ~/my-game      # check the folder against the schema, then list it
+pixel-kiln projects remove <id>        # drop it from the list; no file is deleted
+```
+
+The **Projects** screen (the project button in the top bar) shows each project as a card (name, folder, colours from its palette, asset count, last opened) and lets you: open a project, open a folder by typing its path (the path must be absolute; `studio.project.json` is checked against the schema and every problem is listed), create a project from a template (`Blank`, which is `init`, or the `Moss & Lantern` sample) into a new or empty folder, remove a project from the list, and edit the open project's settings: name, subtitle, mark, theme colours, size classes, licence profile and quota. Opening a project swaps it in the running server, so every tab reads the new one. Settings are written through the same schema check as loading a pack, and the previous file is kept as a revision under the project's revisions directory first. The licence profile and the quota are **decisions of the project's owner**: the screen says so and asks for a confirmation, and an agent has no tool to change them.
+
+Safety: loopback only; there is no folder browser (a path is only ever one you typed); only the chosen project's folder is read. An MCP connection stays bound to the one project it was started with (`--project`); `studio_project_info` reports which (`serving`).
+
+### Dự án (tiếng Việt)
+
+Pixel Kiln là công cụ; một dự án là một thư mục có `studio.project.json`. Công cụ giữ **danh sách dự án gần đây** trong thư mục cấu hình của bạn (macOS: `~/Library/Application Support/Pixel Kiln`; nơi khác: `$XDG_CONFIG_HOME/pixel-kiln`; đổi bằng biến `PIXEL_KILN_HOME`), không bao giờ trong dự án hay repo. `pixel-kiln serve` không kèm `--project` mở màn hình **Dự án**; `pixel-kiln projects list|add <thư mục>|remove <id>` quản lý danh sách (remove không xóa file). Màn hình Dự án (nút dự án ở thanh trên) có thẻ dự án, mở bằng đường dẫn đầy đủ (kiểm theo schema, báo từng lỗi), tạo từ mẫu, chuyển dự án ngay khi máy chủ đang chạy, bỏ khỏi danh sách và sửa thiết lập (tên, phụ đề, màu, cỡ khung, giấy phép, hạn mức). Giấy phép và hạn mức là **quyết định của chủ dự án**; màn hình ghi rõ và đòi xác nhận.
 
 ## The pack
 

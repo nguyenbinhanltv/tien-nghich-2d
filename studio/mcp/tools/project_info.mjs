@@ -4,7 +4,7 @@ export default {
   description:
     'Read-only orientation for the project this Pixel Kiln connection serves: the 43-colour palette (ids and hex), ' +
     'sprite size classes and clip layouts, outline and alpha rules, frame-key templates, and asset counts ' +
-    'by category from the manifests, the fixed review rubric (rubric) and the motion lint thresholds (motion). Call this first in any session.',
+    'by category from the manifests, which project this connection serves (serving), the fixed review rubric (rubric) and the motion lint thresholds (motion). Call this first in any session.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -33,6 +33,8 @@ export default {
     const wanted = sections?.length ? sections : Object.keys(all);
     return {
       project: { root: p.root, source: p.source, pack: p.pack() },
+      // Which project this connection serves. One connection is bound to one project (--project); opening another project in the browser does not move it.
+      serving: { id: p.pack().id, name: p.pack().name, root: p.root, boundTo: 'this connection, for its whole life' },
       connection: { agent: ctx.caller.agent, scope: ctx.scope, protocolEra: ctx.era, protocolVersion: ctx.protocolVersion },
       ...Object.fromEntries(wanted.map((k) => [k, all[k]()])),
     };

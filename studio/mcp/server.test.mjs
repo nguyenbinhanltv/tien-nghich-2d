@@ -68,10 +68,11 @@ test('legacy handshake: initialize, list, call; stdout is protocol-only', async 
     assert.deepEqual(s.sizeClasses.longtimeProfiles.boss.nativePx, [64, 64]);
     assert.ok(s.frameKeys.some((k) => k.key === 'longtime/{id}/{clip}_{direction}_{n}'));
     assert.equal(s.connection.agent, 'test-client');
+    assert.deepEqual([s.serving.id, s.serving.name, s.serving.root], [s.project.pack.id, s.project.pack.name, s.project.root], 'the connection says which project it serves');
     assert.equal(s.connection.scope, 'read');
 
     const sub = await c.request(4, 'tools/call', { name: 'studio_project_info', arguments: { sections: ['palette'] } });
-    assert.deepEqual(Object.keys(sub.result.structuredContent).sort(), ['connection', 'palette', 'project']);
+    assert.deepEqual(Object.keys(sub.result.structuredContent).sort(), ['connection', 'palette', 'project', 'serving']);
 
     for (const line of c.stdoutLines) assert.equal(JSON.parse(line).jsonrpc, '2.0', `non-protocol stdout line: ${line}`);
     assert.match(c.stderr, /serving/, 'diagnostics go to stderr');

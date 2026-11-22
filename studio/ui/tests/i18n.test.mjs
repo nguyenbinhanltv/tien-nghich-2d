@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { pickLanguage, translator, localize, interpolate } from '../i18n.mjs';
 
 const dir = new URL('../', import.meta.url);
-const tables = [dir, ...fs.readdirSync(new URL('tabs/', dir), {withFileTypes: true}).filter(e => e.isDirectory()).map(e => new URL('tabs/' + e.name + '/', dir))];
+const tables = [dir, new URL('hub/', dir), ...fs.readdirSync(new URL('tabs/', dir), {withFileTypes: true}).filter(e => e.isDirectory()).map(e => new URL('tabs/' + e.name + '/', dir))];
 
 test('the stored language wins, then the browser, then the first supported', () => {
   assert.equal(pickLanguage(['en', 'vi'], 'vi', ['en-US']), 'vi');

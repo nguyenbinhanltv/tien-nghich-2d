@@ -6,6 +6,9 @@
 // query parameter, untouched, so a tab can carry its own state in the URL.
 import { destinationIds } from './destinations.mjs';
 
+/** The Projects screen is not one of the nine destinations: it is the shell's own, reached from the project switcher. */
+export const hubTab = 'projects';
+
 const known = ['clip', 'dir', 'frame'];
 const assetPattern = /^[A-Za-z0-9_.-]+$/;
 
@@ -19,8 +22,8 @@ export function parseHash(hash) {
   const [tab, asset] = pathPart.split('/').map(part => {
     try { return decodeURIComponent(part); } catch { return ''; }
   });
-  if (destinationIds.includes(tab)) route.tab = tab;
-  if (route.tab === tab && asset && assetPattern.test(asset)) route.asset = asset;
+  if (destinationIds.includes(tab) || tab === hubTab) route.tab = tab;
+  if (route.tab === tab && tab !== hubTab && asset && assetPattern.test(asset)) route.asset = asset;
   const search = new URLSearchParams(query);
   const clip = search.get('clip');
   if (route.asset && clip && assetPattern.test(clip)) route.clip = clip;

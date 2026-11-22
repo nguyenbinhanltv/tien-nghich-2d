@@ -1,6 +1,6 @@
 # Behaviour specs
 
-One short file per tab (`overview.md`, `characters.md`, `objects.md`, `vfx.md`, `audio.md`, `review.md`, `jobs.md`, `sandbox.md`, `atlas.md`) and one for the MCP (`mcp.md`). Each file lists the behaviours that must stay true, one per line, each with a **stable id**:
+One short file per tab (`overview.md`, `characters.md`, `objects.md`, `vfx.md`, `audio.md`, `review.md`, `jobs.md`, `sandbox.md`, `atlas.md`), one for the Projects screen (`projects.md`) and one for the MCP (`mcp.md`). Each file lists the behaviours that must stay true, one per line, each with a **stable id**:
 
 ```
 - **REVIEW-001** (human-only) A listening sign-off is recorded only by a browser page, for the exact master that was heard.
