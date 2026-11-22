@@ -230,11 +230,12 @@ def build(aid, raw_root=RAW, out_root=OUT):
     palette, outline = qa.load_palette(PALETTE)
     raw, raw_paths = read_raw(aid, prof, raw_root)
     stats = Counter()
-    processed, lost_total = {}, 0
-    rd0 = raw_root / aid
-    gen0 = json.loads((rd0 / "generation.json").read_text(encoding="utf8")) if (rd0 / "generation.json").is_file() else {}
+    gen_path = raw_root / aid / "generation.json"
+    gen0 = json.loads(gen_path.read_text(encoding="utf8")) if gen_path.is_file() else {}
+    allowance = gen0.get("crop_allowance", {})
     et = gen0.get("edge_trim")
     sc = gen0.get("speck_clean")
+    processed, lost_total, cropped = {}, 0, {}
     trimmed, cleaned = {}, {}
     for k, arr in raw.items():
         arr = arr.copy()
@@ -245,7 +246,11 @@ def build(aid, raw_root=RAW, out_root=OUT):
         o = (arr[..., 3] >= 128) & (arr[..., :3] == np.array(bp.PIXELLAB_OUTLINE, np.uint8)).all(-1)
         arr[o, :3] = INK
         placed, lost = centre(arr, size)
-        lost_total += lost
+        key = f"{k[0]}/{k[1]}/{k[2]}"
+        if lost and lost <= allowance.get(key, 0):
+            cropped[key] = lost  # explicitly accepted in generation.json (crop_allowance), reported in provenance
+        else:
+            lost_total += lost
         processed[k] = bp.snap_character(placed, palette, outline, stats, speckle=False)
         if sc:
             processed[k], rm = speck_clean(processed[k], sc["max_px"])
@@ -305,6 +310,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
             "pixels_changed": {k: int(v) for k, v in sorted(stats.items())},
             **({"edge_trim": {"rule": et, "frames": trimmed}} if et else {}),
             **({"speck_clean": {"rule": sc, "frames": cleaned}} if sc else {}),
+            **({"cropped_opaque_pixels": cropped} if cropped else {}),
         },
         "source": "source.png",
         "source_sha256": sha(rd / "source.png"),
