@@ -29,7 +29,7 @@ test('the page never touches an approval, sign-off or delete route, and only the
   assert.match(text('server.mjs'), /sec-fetch-site/);
 });
 
-test('no audio engine is created at load: AudioContext only inside the mixer, only in unlock()', () => {
+test('SANDBOX-001: no audio engine is created at load: AudioContext only inside the mixer, only in unlock()', () => {
   for (const f of files.filter(f => f.endsWith('.mjs') && f !== 'audio.mjs')) assert.doesNotMatch(text(f), /AudioContext/, f);
   const audio = text('audio.mjs');
   assert.equal((audio.match(/new AudioContext/g) ?? []).length, 1);

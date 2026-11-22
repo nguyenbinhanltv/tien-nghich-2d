@@ -6,11 +6,12 @@ import fs from 'node:fs/promises';
 import { realpathSync } from 'node:fs';
 import path from 'node:path';
 import { loadPackSync } from '../../../core/pack.mjs';
-import { loadPack, buildCatalog, describeAsset } from '../../../core/index.mjs';
+import { loadPack, buildCatalog, describeAsset, loadEditableCatalog, createStanding } from '../../../core/index.mjs';
 import { readJson, readInside } from '../../../core/files.mjs';
 import { readSubmissions } from '../../../core/submissions.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
-import { readInbox } from './inbox.mjs';
+import { sameImage } from '../../../core/standing.mjs';
+import { readInbox, readHeads, withStanding } from './inbox.mjs';
 import { openSignoffs, verdicts } from './signoff.mjs';
 import { peaks, maxWavBytes } from './wav.mjs';
 import { hashOf } from './hashes.mjs';
@@ -50,6 +51,48 @@ async function audioAssets(root) {
   libraryCache.set(root, {at: Date.now(), value});
   value.catch(() => libraryCache.delete(root));
   return value;
+}
+
+const artCache = new Map();
+
+/**
+ * The editable art frames (key -> project-relative PNG) and the standing resolver, cached briefly like the audio listing.
+ * Used for the inbox's revision-0 items and for the tab's count of every art frame by state.
+ */
+async function artFrames(root) {
+  const hit = artCache.get(root);
+  if (hit && Date.now() - hit.at < LIBRARY_TTL_MS) return hit.value;
+  const value = (async () => {
+    const pack = await loadPack(root);
+    const editable = await loadEditableCatalog(pack, root);
+    return {files: new Map([...editable.frames].map(([key, f]) => [key, f.processed])),
+      standing: createStanding(root, {review: pack.review, approvalsDir: pack.directories.approvals})};
+  })();
+  artCache.set(root, {at: Date.now(), value});
+  value.catch(() => artCache.delete(root));
+  return value;
+}
+
+/** Every editable art frame counted once by what a reader may say about it: approved, baseline, awaiting review, changes requested. */
+export async function artCounts(root, dir) {
+  const {files, standing} = await artFrames(root);
+  const heads = readHeads(dir);
+  const out = {approved: 0, baseline: 0, awaiting: 0, changes_requested: 0, total: 0};
+  const undecided = [];
+  for (const [key, rel] of files) {
+    const head = heads.get(key);
+    if (head?.status) out[head.status === 'pending' ? 'awaiting' : head.status]++;
+    else if (head && head.head > 0) out.awaiting++; // a saved revision nobody judged
+    else if (head?.zero) {
+      // a lineage at revision 0: the standing counts only if the stored revision shows the pixels that were judged
+      const {standing: s, png} = await standing.judged(rel);
+      out[(s === 'approved' || s === 'baseline') && sameImage(head.zero, png) ? s : 'awaiting']++;
+    } else undecided.push(rel);
+    out.total++;
+  }
+  // revision 0 with no human decision: what the project's records say about the file's bytes
+  for (const [, s] of await standing.ofMany(undecided)) out[s]++;
+  return out;
 }
 
 /** The master file of an audio asset, its sha256, and the measurements its provenance file records. */
@@ -99,7 +142,9 @@ export async function handle(req, res, url, context) {
   const dir = libraryOf(root, context);
 
   if (name === 'inbox' && ['GET', 'HEAD'].includes(req.method)) {
-    const items = readInbox(dir);
+    // If the editable catalog cannot be read (a trimmed project copy), nothing can claim a standing: every undecided frame stays awaiting review.
+    const frames = await artFrames(root).catch(() => null);
+    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.judged(frames.files.get(key)) : {standing: 'awaiting', png: null}));
     const {list, masters, approvals, pack} = await audioAssets(root);
     const sign = signoffs(dir);
     const audio = [];
@@ -112,7 +157,7 @@ export async function handle(req, res, url, context) {
         signoff: history[0] ? {ts: history[0].ts, verdict: history[0].verdict, current: history[0].content === hash} : null,
         approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, kind: approval.kind, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null});
     }
-    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals)});
+    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals), artCounts: frames ? await artCounts(root, dir).catch(() => null) : null});
   }
   if (name === 'authors' && ['GET', 'HEAD'].includes(req.method)) {
     const key = url.searchParams.get('key') ?? '';
@@ -171,4 +216,4 @@ export async function handle(req, res, url, context) {
 }
 
 /** Forget cached audio listings (tests; the 15 s TTL covers everything else). */
-export function clearAudioCache() { libraryCache.clear(); wavCache.clear(); }
+export function clearAudioCache() { libraryCache.clear(); wavCache.clear(); artCache.clear(); }

@@ -18,7 +18,7 @@ async function call(path, method = 'GET') {
   return {status, body};
 }
 
-test('read-only apart from build; unknown routes and ids are refused', async () => {
+test('VFX-001: read-only apart from build; unknown routes and ids are refused', async () => {
   assert.equal((await call('effects', 'POST')).status, 405);
   assert.equal((await call('floors', 'POST')).status, 405);
   assert.equal((await call('nope')).error, 'unknown_route');

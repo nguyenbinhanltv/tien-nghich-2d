@@ -26,6 +26,7 @@ function makeApp(ctx, state) {
       }
       return self.editableMap;
     },
+    forget() { details.clear(); provenance.clear(); self.editableMap = null; },
     selected() { return self.assets.find(a => a.id === self.state.asset && (!self.state.source || a.source === self.state.source)) ?? null; },
     /** A route for `patch` merged into the current state. `asset: entry|null` switches asset; `clip`/`frame` pick a frame. */
     route(patch = {}, opts = {}) {
@@ -83,6 +84,7 @@ export async function mount(ctx, state) {
   ctx.onUnmount(() => mine.runCleanups());
   const ui = layout(ctx);
   app.ui = ui;
+  app.repaint = () => paint(ui);
   ctx.root.setAttribute('aria-busy', 'true');
   try {
     const [list, links] = await Promise.all([ctx.api('assets?limit=1000'), ctx.tabApi('links').catch(() => ({links: {}}))]);

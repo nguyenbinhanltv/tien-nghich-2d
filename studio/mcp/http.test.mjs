@@ -44,7 +44,7 @@ async function start({ git = false, policy } = {}) {
 const withServer = async (fn, opts) => { const s = await start(opts); try { return await fn(s); } finally { await s.close(); } };
 const issue = (s, agent, scope) => s.mcp.tokens.issue({ agent, scope }).token;
 
-test('Host, Origin and fetch-site checks: the same loopback rule as the editor API', () => withServer(async (s) => {
+test('MCP-010: Host, Origin and fetch-site checks: the same loopback rule as the editor API', () => withServer(async (s) => {
   const ok = await s.send({ body: { jsonrpc: '2.0', id: 1, method: 'server/discover', params: { _meta: META } }, headers: { 'MCP-Protocol-Version': '2026-07-28', 'Mcp-Method': 'server/discover' } });
   assert.equal(ok.status, 200);
   const ping = (headers) => s.send({ body: { jsonrpc: '2.0', id: 1, method: 'server/discover', params: { _meta: META } }, headers: { 'MCP-Protocol-Version': '2026-07-28', 'Mcp-Method': 'server/discover', ...headers } });

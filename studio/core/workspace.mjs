@@ -15,7 +15,7 @@ export function openWorkspace(rootArg, {libraryDir, indexer} = {}) {
   const root = fs.realpathSync(rootArg);
   const loadPack = () => loadPackSync(root, undefined, {verifyFiles: false});
   const library = () => libraryDir ?? path.join(root, loadPack().directories.revisions);
-  let store, db;
+  let store, db, standing, standingKey;
   return {
     root,
     loadPack,
@@ -34,6 +34,17 @@ export function openWorkspace(rootArg, {libraryDir, indexer} = {}) {
       }
       return store;
     },
+    /** Resolver for the review standing of frames nobody judged in the revision store (standing.mjs). Rebuilt if the pack's declaration changes. */
+    async standing() {
+      const pack = loadPack();
+      const key = JSON.stringify([pack.review ?? null, pack.directories.approvals ?? null]);
+      if (!standing || key !== standingKey) {
+        const {createStanding} = await import('./standing.mjs');
+        standing = createStanding(root, {review: pack.review, approvalsDir: pack.directories.approvals});
+        standingKey = key;
+      }
+      return standing;
+    },
     async db() {
       if (!db) {
         const {openStudioDb} = await import('./studio-db.mjs');
@@ -41,6 +52,6 @@ export function openWorkspace(rootArg, {libraryDir, indexer} = {}) {
       }
       return db;
     },
-    close() { store?.close(); db?.close(); store = db = undefined; },
+    close() { store?.close(); db?.close(); store = db = standing = undefined; },
   };
 }

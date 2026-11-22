@@ -43,7 +43,7 @@ for (const scope of SCOPES) {
   });
 }
 
-test('after every new tool has been used, and abused, at the highest scope: no rule, manifest, palette, script, shipped atlas or processed frame changed; every status is pending', async () => {
+test('MCP-008: after every new tool has been used, and abused, at the highest scope: no rule, manifest, palette, script, shipped atlas or processed frame changed; every status is pending', async () => {
   const p = makeProject({ git: false, toolchain: true, extraDirs: ['assets/processed/tilesets/ts_hengyue', 'assets/processed/vfx'] });
   try {
     fs.mkdirSync(join(p.root, 'work'), { recursive: true });

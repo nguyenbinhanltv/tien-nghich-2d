@@ -1,4 +1,4 @@
-import { loadCatalog, problem } from './editor-catalog.mjs';
+import { loadCatalog, loadStanding, problem } from './editor-catalog.mjs';
 import { normalizePng } from './editor-png.mjs';
 import { revisionStore } from './editor-store.mjs';
 import { assertLoopback } from './loopback.mjs';
@@ -76,7 +76,7 @@ function exportFrame({key,revision,pngBase64,metadata,width:w,height:h}) {
 }
 export function editorApi(root,dir,packDir) {
   const store=revisionStore(root,dir,packDir);
-  let catalog;
+  let catalog, standing;
   return {close:store.close,async handle(req,res,url,address) {
     if (!url.pathname.startsWith('/api/editor/')) return false;
     function send(status,data,type='application/json') {
@@ -110,7 +110,10 @@ export function editorApi(root,dir,packDir) {
         validate(action,args,frame,library.palette);
         const needsOrigin = action === 'review' && args.status === 'approved';
         const baseline=store.needsBaseline(args.key) || needsOrigin ? await library.baseline(frame) : null;
-        const snap=store.operate(frame,baseline,action,args);
+        // How revision 0 reads when nobody judged it here: approved by a hash-tied record, baseline, or awaiting review.
+        standing ??= loadStanding(root,packDir).catch(error=>{standing=undefined;throw error;});
+        const {standing:state,png:standingPng}=await (await standing).judged(frame.processed);
+        const snap=store.operate({...frame,standing:state,standingPng},baseline,action,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
         else send(200,action==='export'?exportFrame(snap):snap);
       }

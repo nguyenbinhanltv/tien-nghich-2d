@@ -90,6 +90,7 @@
   "edit.failed": "Không dùng được trình sửa frame: {message}",
   "review.pending": "chờ duyệt",
   "review.approved": "đã duyệt",
+  "review.baseline": "mốc gốc, chưa có ghi chép duyệt",
   "review.changes_requested": "yêu cầu sửa",
   "blob.none": "Asset này không có bảng blob 47 ô.",
   "blob.sheet": "Bảng",
@@ -111,5 +112,6 @@
   "hud.help": "Thanh bị cắt từ bên phải; mép trái giữ nguyên.",
   "hud.fill": "Mức đầy",
   "hud.canvas": "Thanh HUD ở mức {fill} phần trăm",
-  "hud.clip": "Mức {fill}% hiện {cw} / {w} px"
+  "hud.clip": "Mức {fill}% hiện {cw} / {w} px",
+  "import.open": "Nhập bảng sprite…"
 }

@@ -26,6 +26,10 @@ const SKIP_DIRS = new Set(['node_modules', '.git']);
 
 // Test files that use this repository's own project as their fixture.
 const FIXTURE_TESTS = new Set([
+  'core/tests/standing.test.mjs',
+  'mcp/review-standing.test.mjs',
+  'ui/importer/import.test.mjs',
+  'ui/tabs/overview/server.test.mjs',
   'mcp/prompt-tools.test.mjs',
   'mcp/figure-tools.test.mjs',
   'ui/tabs/review/art-approvals.test.mjs',

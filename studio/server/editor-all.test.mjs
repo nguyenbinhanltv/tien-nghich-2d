@@ -54,7 +54,10 @@ for (const [name, key] of Object.entries(samples)) test(`save, review and restor
   const api = await setup(t);
   const base = (await api.call('frame', {key})).data;
   assert.equal(base.head, 0);
-  assert.equal(base.status, 'approved', 'canonical frame is approved at revision 0');
+  // Revision 0 of a frame nobody judged here reads by the project's records: approved only for a hash-matching human record
+  // (lt_ink_marten), baseline for the shipped core art, awaiting review ('pending') for new Longtime art.
+  const want = key === samples.longtime ? 'approved' : key.startsWith('longtime/') ? 'pending' : 'baseline';
+  assert.equal(base.status, want, 'revision 0 reads by standing');
   const {width, height} = base;
   const original = Buffer.from(base.pngBase64, 'base64');
   // Edit one opaque pixel to another palette colour: take any opaque pixel from the canonical frame.

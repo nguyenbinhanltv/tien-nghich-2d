@@ -2,6 +2,7 @@ import { h, humanize } from './dom.mjs';
 import { panels, clipFrames } from './state.mjs';
 import { compare, mirrorX, markPixels, markSide } from './facing.mjs';
 import { largestScale, maxSheetPixels } from './layout.mjs';
+import { importButton } from '../../importer/dialog.mjs';
 
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888';
 const hexRgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
@@ -165,7 +166,7 @@ export function renderPanel(app) {
       requestAnimationFrame(() => app.els.panel.querySelector('[aria-selected=true]')?.focus());
     }}, ctx.t('panel.' + name))));
   const body = h('div', {id: 'panel-body', role: 'tabpanel', 'aria-labelledby': 'tab-' + state.panel, tabindex: '0'});
-  root.replaceChildren(tabs, body);
+  root.replaceChildren(h('div', 'panel-import', importButton(ctx, {assetId: detail.id, label: ctx.t('import.open'), onDone: () => app.reload()})), tabs, body);
   if (!app.sel.clip && state.panel !== 'card') { body.append(h('p', 'muted', ctx.t('stage.noFrames', {state: ctx.t('stage.' + detail.readiness)}))); return; }
   if (state.panel === 'frame') body.append(framePanel(app));
   else if (state.panel === 'facing') { body.append(h('p', 'muted', ctx.t('common.loading'))); facingPanel(app, body).catch(error => body.replaceChildren(h('p', {class: 'error', role: 'alert'}, error.message))); }
