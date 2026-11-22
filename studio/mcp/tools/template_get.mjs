@@ -6,6 +6,7 @@ import { ToolError } from '../registry.mjs';
 import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { referenceFor, referenceImage } from '../workflow/reference.mjs';
 import { buildPrompt } from '../workflow/prompt.mjs';
+import { inkOf, lineupGroup, lineupPicture, loadReferences, standingFrames } from '../workflow/lineup.mjs';
 import { dryRunProp, loadAsset, requireFrames, requireScope } from './_shared.mjs';
 import path from 'node:path';
 
@@ -24,6 +25,7 @@ export default {
     'The result also carries formats: the compact shape of the rig and poseClips documents that studio_rig_bake takes, with the rules (coordinates, roles, which annotations turn which gate on), so you need not read source. ' +
     'It also returns prompt: a ready skeleton for your image prompt that follows fixed conventions (the role of each reference image by position, framing as percentages of a cell, each facing said three ways, near and far limbs named, then the proportions and the project style). ' +
     'If the asset has a locked reference in the pack (a style-locked entity: an approved image and a description paragraph), the result carries that image as a second picture, its description goes into prompt.text verbatim, and studio_sheet_import checks and records that your prompt carries it. ' +
+    'lineup=true (when the pack defines a lineup group for this profile) draws the approved REFERENCE characters of the group (style-locked entities of the pack) into every template cell as a green ghost, to the left of the guide, standing on the same ground line at the guide\'s height, and returns a second picture, the lineup: the references on one ground line with the allowed height range of a newcomer drawn as dashed lines. Draw your character next to the ghost, not over it; studio_sheet_import and studio_process then measure it against the references (height, head-to-body share, limb width, outline weight) and studio_process and studio_qa_run BLOCK a build outside the pack\'s tolerance, with numbers. The result\'s lineup carries the references, the pose, the tolerance and the typical band. ' +
     'write=true (needs scope author) saves the template PNG where your image tool can read it (with dryRun it only lists the files it would save). Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
   inputSchema: {
@@ -37,6 +39,7 @@ export default {
       size: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 512, maximum: 2048 }, description: 'Template size in pixels (default [1024, 1024]); the drawn sheet may be any size.' },
       figure: { type: 'string', maxLength: 31, description: 'Name of the pack figure guide to use (default: the one that lists this asset\'s profile); "none" for no guide and no proportion text.' },
       heightPx: { type: 'integer', minimum: 4, maximum: 200, description: 'Wanted figure height at native size, ground to crown (default about 65% of the canvas).' },
+      lineup: { type: 'boolean', description: 'Draw the pack\'s approved reference characters into the template and return the lineup picture (needs a lineup group for this profile in the pack).' },
       write: { type: 'boolean', description: 'Save the template PNG and layout under the work directory and return their paths (needs scope author).' },
       dryRun: dryRunProp,
     },
@@ -77,7 +80,20 @@ export default {
       const layout = turnaroundLayout({ id: layoutId, facings, poses, size: [w, h], heightPx: args.heightPx ?? Math.round(profile.nativePx[1] * 0.65) });
       const named = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
       if (args.figure && args.figure !== 'none' && !named) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
-      const image = renderTemplate(layout, { figure: named });
+      let lineup = null, ghostByFacing = null;
+      if (args.lineup) {
+        const group = lineupGroup(snap.pack, asset);
+        if (!group) throw new ToolError(`The project pack has no lineup group for profile ${asset.profile}. Groups: ${Object.entries(snap.pack.lineup ?? {}).map(([n, g]) => `${n} (${g.profiles.join(', ')})`).join('; ') || 'none are defined'}. Leave out lineup.`);
+        const refs = await loadReferences(ws, snap, group, inkOf(snap));
+        if (!refs.references.length) throw new ToolError(`The lineup group ${group.name} has no usable reference: ${refs.missing.join('; ')}.`);
+        ghostByFacing = new Map();
+        for (const facing of new Set([...facings, group.spec.pose.direction])) {
+          const frames = await standingFrames(ws.root, snap.index.assets.get(refs.references[0].asset), 'processed', { clip: group.spec.pose.clip, direction: facing });
+          if (frames.length) ghostByFacing.set(facing, frames[0].image);
+        }
+        lineup = { group, ...refs };
+      }
+      const image = renderTemplate(layout, { figure: named, ghost: ghostByFacing ? (cell) => ghostByFacing.get(cell.facing) ?? ghostByFacing.get(lineup.group.spec.pose.direction) ?? null : undefined });
       const png = Buffer.from(encodePng(image));
 
       let files;
@@ -92,6 +108,16 @@ export default {
         files = { png: shown(ws, pngPath), layout: shown(ws, layoutPath) };
       }
 
+      let lineupPng = null;
+      if (lineup) {
+        const pic = lineupPicture({ group: lineup.group, references: lineup.references, reference: lineup.reference }, asset, null);
+        lineupPng = pic.png;
+        if (args.write) {
+          const dir = workDir(ws, asset, 'templates'), p = path.join(dir, `${layoutId}-lineup.png`);
+          if (!args.dryRun) await writeFileAtomic(p, pic.png);
+          files = { ...files, lineup: shown(ws, p) };
+        }
+      }
       const ref = referenceFor(snap.pack, asset.id);
       const refBytes = ref ? await referenceImage(ws, ref) : null;
       const prompt = buildPrompt({ layout, nativePx: profile.nativePx, poses: kind === 'pose-sheet' ? poses : null, reference: ref, referenceName: ref?.name,
@@ -106,6 +132,9 @@ export default {
         layout,
         ...(named ? { figure: { name: named.name, description: named.description, headToBody: named.headToBody, minLimbWidthPx: named.minLimbWidthPx, accentMinPixels: named.accentMinPixels, guideDrawn: Boolean(named.guide), measured: named.measured, guidance: guidanceText(named, profile) } } : {}),
         ...(poseClips ? { poseClips } : {}),
+        ...(lineup ? { lineup: { group: lineup.group.name, references: lineup.references.map((r) => ({ name: r.name, asset: r.asset, nativePx: r.size, measure: r.measure })), reference: lineup.reference, pose: lineup.group.spec.pose, tolerance: lineup.group.spec.tolerance, typical: lineup.group.spec.typical ?? null,
+          guidance: `Each template cell shows ${lineup.references.map((r) => r.name).join(' and ')} (the approved reference) as a green ghost on the left, on the same ground line. Draw your figure beside it at the same scale: its height should be ${Math.round((lineup.group.spec.typical?.heightRatio?.min ?? lineup.group.spec.tolerance.heightRatio?.min ?? 0) * 100)}% to ${Math.round((lineup.group.spec.typical?.heightRatio?.max ?? lineup.group.spec.tolerance.heightRatio?.max ?? 1) * 100)}% of the reference's, the same build (head, limbs, outline weight). A build outside the tolerance is blocked by studio_process and studio_qa_run.`,
+          picture: 'the last image: the references on one ground line, dashed lines mark the allowed height range' } } : {}),
         formats: formatsGuide(bodyPlans(), profile),
         motion: { bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
         next: ['Draw the sheet with your own image tool.', 'studio_sheet_import with the sheet, this layout, and the verbatim prompt.', 'studio_process to pixelise and look at the native sprites.',
@@ -114,9 +143,10 @@ export default {
       return {
         content: [
           { type: 'text', text: `Template ${layoutId} for ${asset.id} (${asset.profile}, ${profile.nativePx.join('x')} native): ${layout.cells.length} cells, ${w}x${h}px. ` +
-            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}` },
+            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}${lineupPng ? ' The LAST picture is the lineup: the approved references on one ground line (dashed lines: the allowed height range); each template cell has the reference as a green ghost.' : ''}` },
           { type: 'image', data: png.toString('base64'), mimeType: 'image/png' },
           ...(refBytes ? [{ type: 'image', data: refBytes.toString('base64'), mimeType: 'image/png' }] : []),
+          ...(lineupPng ? [{ type: 'image', data: lineupPng.toString('base64'), mimeType: 'image/png' }] : []),
         ],
         structuredContent: out,
       };
