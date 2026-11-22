@@ -48,7 +48,7 @@ export function studioApi(root, {ttlMs = 2000} = {}) {
     const ui = pack.ui ?? {};
     const theme = Object.fromEntries(Object.entries(ui.theme ?? {}).map(([role, id]) => [role, colors[id]]));
     return {id: pack.id, name: pack.name, brand: ui.brand ?? {mark: pack.name.slice(0, 1)}, languages: ui.languages ?? ['en'],
-      theme, categoryTabs: ui.categoryTabs ?? {}, tools: ui.tools ?? [],
+      theme, categoryTabs: ui.categoryTabs ?? {}, tools: ui.tools ?? [], tabConfig: ui.tabs ?? {},
       sources: pack.catalog.sources.flatMap(s => [{id: s.id, label: s.label ?? {en: s.id}},
         ...(s.effectsLabel ? [{id: s.id + '_effects', label: s.effectsLabel}] : [])]),
       tabs: destinations.map(id => ({id, built: tabBuilt(id)})), palette: {name: rawPalette.name, colors: rawPalette.colors.length}};

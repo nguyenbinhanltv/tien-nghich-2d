@@ -1,0 +1,4983 @@
+{
+  "clip": "follow",
+  "facings": [
+    "south",
+    "west",
+    "north",
+    "east"
+  ],
+  "durationMs": 120,
+  "pivot": [
+    16,
+    29
+  ],
+  "background": [
+    130,
+    124,
+    136
+  ],
+  "versions": {
+    "SHIPPED PIXELLAB": {
+      "rigPixelsMatched": false,
+      "facings": {
+        "south": {
+          "bounds": [
+            [
+              3,
+              3,
+              29,
+              28
+            ],
+            [
+              3,
+              3,
+              29,
+              27
+            ],
+            [
+              3,
+              4,
+              29,
+              28
+            ],
+            [
+              3,
+              5,
+              30,
+              28
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            19,
+            22,
+            4,
+            8
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 0,
+                "pixels": [
+                  [
+                    5,
+                    10
+                  ],
+                  [
+                    6,
+                    10
+                  ],
+                  [
+                    13,
+                    10
+                  ],
+                  [
+                    7,
+                    12
+                  ],
+                  [
+                    9,
+                    12
+                  ],
+                  [
+                    10,
+                    12
+                  ],
+                  [
+                    13,
+                    12
+                  ],
+                  [
+                    8,
+                    13
+                  ],
+                  [
+                    11,
+                    13
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    11,
+                    15
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    7,
+                    17
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    10,
+                    19
+                  ],
+                  [
+                    23,
+                    19
+                  ],
+                  [
+                    24,
+                    19
+                  ],
+                  [
+                    11,
+                    20
+                  ],
+                  [
+                    15,
+                    23
+                  ]
+                ],
+                "measured": 19,
+                "limit": 10,
+                "message": "19 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 1,
+                "pixels": [
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    14,
+                    8
+                  ],
+                  [
+                    5,
+                    11
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    10,
+                    13
+                  ],
+                  [
+                    7,
+                    14
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    20,
+                    14
+                  ],
+                  [
+                    21,
+                    14
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    23,
+                    15
+                  ],
+                  [
+                    8,
+                    16
+                  ],
+                  [
+                    12,
+                    16
+                  ],
+                  [
+                    23,
+                    16
+                  ],
+                  [
+                    12,
+                    17
+                  ],
+                  [
+                    15,
+                    17
+                  ],
+                  [
+                    23,
+                    17
+                  ],
+                  [
+                    7,
+                    18
+                  ],
+                  [
+                    11,
+                    18
+                  ],
+                  [
+                    24,
+                    18
+                  ],
+                  [
+                    25,
+                    18
+                  ],
+                  [
+                    26,
+                    18
+                  ]
+                ],
+                "measured": 22,
+                "limit": 10,
+                "message": "22 interior pixels change for key 1 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 0,
+              "pixels": [
+                [
+                  14,
+                  4
+                ],
+                [
+                  6,
+                  10
+                ],
+                [
+                  8,
+                  14
+                ]
+              ],
+              "measured": 3,
+              "limit": 0,
+              "message": "3 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 0,
+              "pixels": [
+                [
+                  12,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [12,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 1,
+              "pixels": [
+                [
+                  12,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [12,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 2,
+              "pixels": [
+                [
+                  12,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [12,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 3,
+              "pixels": [
+                [
+                  12,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [12,2,18,10] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "west": {
+          "bounds": [
+            [
+              3,
+              2,
+              27,
+              30
+            ],
+            [
+              2,
+              2,
+              28,
+              30
+            ],
+            [
+              2,
+              3,
+              30,
+              30
+            ],
+            [
+              2,
+              4,
+              30,
+              27
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            15,
+            10,
+            5,
+            11
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 0,
+                "pixels": [
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    7,
+                    10
+                  ],
+                  [
+                    5,
+                    11
+                  ],
+                  [
+                    7,
+                    12
+                  ],
+                  [
+                    8,
+                    12
+                  ],
+                  [
+                    23,
+                    17
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    25,
+                    19
+                  ],
+                  [
+                    25,
+                    20
+                  ],
+                  [
+                    25,
+                    21
+                  ],
+                  [
+                    23,
+                    22
+                  ],
+                  [
+                    22,
+                    23
+                  ],
+                  [
+                    20,
+                    24
+                  ],
+                  [
+                    21,
+                    24
+                  ]
+                ],
+                "measured": 15,
+                "limit": 10,
+                "message": "15 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 3,
+                "pixels": [
+                  [
+                    11,
+                    6
+                  ],
+                  [
+                    10,
+                    7
+                  ],
+                  [
+                    11,
+                    7
+                  ],
+                  [
+                    9,
+                    8
+                  ],
+                  [
+                    10,
+                    8
+                  ],
+                  [
+                    9,
+                    9
+                  ],
+                  [
+                    9,
+                    19
+                  ],
+                  [
+                    10,
+                    19
+                  ],
+                  [
+                    17,
+                    19
+                  ],
+                  [
+                    19,
+                    19
+                  ],
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "measured": 11,
+                "limit": 10,
+                "message": "11 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 0,
+              "pixels": [
+                [
+                  9,
+                  5
+                ],
+                [
+                  6,
+                  9
+                ],
+                [
+                  4,
+                  10
+                ],
+                [
+                  9,
+                  15
+                ]
+              ],
+              "measured": 4,
+              "limit": 0,
+              "message": "4 colour(s) in follow do not appear in turnaround"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 0,
+              "pixels": [],
+              "measured": [
+                24,
+                28
+              ],
+              "limit": [
+                29,
+                14
+              ],
+              "message": "silhouette 24x28 in follow key 0 strays from turnaround (29x14) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 1,
+              "pixels": [],
+              "measured": [
+                26,
+                28
+              ],
+              "limit": [
+                29,
+                14
+              ],
+              "message": "silhouette 26x28 in follow key 1 strays from turnaround (29x14) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 2,
+              "pixels": [],
+              "measured": [
+                28,
+                27
+              ],
+              "limit": [
+                29,
+                14
+              ],
+              "message": "silhouette 28x27 in follow key 2 strays from turnaround (29x14) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 3,
+              "pixels": [],
+              "measured": [
+                28,
+                23
+              ],
+              "limit": [
+                29,
+                14
+              ],
+              "message": "silhouette 28x23 in follow key 3 strays from turnaround (29x14) by more than 50%"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 0,
+              "pixels": [
+                [
+                  11,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 1,
+              "pixels": [
+                [
+                  11,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 2,
+              "pixels": [
+                [
+                  11,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,2,18,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 3,
+              "pixels": [
+                [
+                  11,
+                  2
+                ],
+                [
+                  17,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,2,18,10] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "north": {
+          "bounds": [
+            [
+              3,
+              2,
+              28,
+              27
+            ],
+            [
+              3,
+              3,
+              28,
+              27
+            ],
+            [
+              3,
+              5,
+              28,
+              28
+            ],
+            [
+              3,
+              6,
+              28,
+              28
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            19,
+            11,
+            8,
+            14
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "pivot_drift",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 0,
+                "frameTo": 3,
+                "pixels": [
+                  [
+                    15,
+                    14
+                  ],
+                  [
+                    15,
+                    17
+                  ]
+                ],
+                "measured": 2.5,
+                "limit": 2,
+                "message": "silhouette centre drifts 2.5px along y between keys 0 and 3"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 0,
+                "pixels": [
+                  [
+                    25,
+                    7
+                  ],
+                  [
+                    20,
+                    16
+                  ],
+                  [
+                    5,
+                    18
+                  ],
+                  [
+                    18,
+                    19
+                  ],
+                  [
+                    17,
+                    20
+                  ],
+                  [
+                    16,
+                    21
+                  ],
+                  [
+                    5,
+                    22
+                  ],
+                  [
+                    15,
+                    22
+                  ],
+                  [
+                    17,
+                    22
+                  ],
+                  [
+                    8,
+                    23
+                  ],
+                  [
+                    9,
+                    23
+                  ],
+                  [
+                    10,
+                    23
+                  ],
+                  [
+                    11,
+                    23
+                  ],
+                  [
+                    12,
+                    23
+                  ],
+                  [
+                    13,
+                    23
+                  ],
+                  [
+                    14,
+                    23
+                  ],
+                  [
+                    16,
+                    23
+                  ],
+                  [
+                    15,
+                    24
+                  ],
+                  [
+                    13,
+                    25
+                  ]
+                ],
+                "measured": 19,
+                "limit": 10,
+                "message": "19 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 1,
+                "pixels": [
+                  [
+                    25,
+                    6
+                  ],
+                  [
+                    26,
+                    6
+                  ],
+                  [
+                    25,
+                    7
+                  ],
+                  [
+                    22,
+                    14
+                  ],
+                  [
+                    20,
+                    15
+                  ],
+                  [
+                    21,
+                    15
+                  ],
+                  [
+                    20,
+                    16
+                  ],
+                  [
+                    21,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ],
+                  [
+                    8,
+                    24
+                  ],
+                  [
+                    14,
+                    24
+                  ]
+                ],
+                "measured": 11,
+                "limit": 10,
+                "message": "11 interior pixels change for key 1 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 3,
+                "pixels": [
+                  [
+                    18,
+                    7
+                  ],
+                  [
+                    25,
+                    7
+                  ],
+                  [
+                    17,
+                    8
+                  ],
+                  [
+                    26,
+                    9
+                  ],
+                  [
+                    25,
+                    10
+                  ],
+                  [
+                    20,
+                    16
+                  ],
+                  [
+                    21,
+                    16
+                  ],
+                  [
+                    22,
+                    16
+                  ],
+                  [
+                    20,
+                    17
+                  ],
+                  [
+                    21,
+                    18
+                  ],
+                  [
+                    17,
+                    21
+                  ],
+                  [
+                    18,
+                    21
+                  ],
+                  [
+                    18,
+                    22
+                  ],
+                  [
+                    17,
+                    23
+                  ]
+                ],
+                "measured": 14,
+                "limit": 10,
+                "message": "14 interior pixels change for key 3 only and revert"
+              },
+              {
+                "gate": "loop_seam",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 3,
+                "frameTo": 0,
+                "pixels": [
+                  [
+                    16,
+                    2
+                  ],
+                  [
+                    17,
+                    2
+                  ],
+                  [
+                    18,
+                    2
+                  ],
+                  [
+                    24,
+                    2
+                  ],
+                  [
+                    25,
+                    2
+                  ],
+                  [
+                    26,
+                    2
+                  ],
+                  [
+                    15,
+                    3
+                  ],
+                  [
+                    16,
+                    3
+                  ],
+                  [
+                    17,
+                    3
+                  ],
+                  [
+                    18,
+                    3
+                  ],
+                  [
+                    19,
+                    3
+                  ],
+                  [
+                    23,
+                    3
+                  ],
+                  [
+                    24,
+                    3
+                  ],
+                  [
+                    25,
+                    3
+                  ],
+                  [
+                    26,
+                    3
+                  ],
+                  [
+                    27,
+                    3
+                  ],
+                  [
+                    15,
+                    4
+                  ],
+                  [
+                    16,
+                    4
+                  ],
+                  [
+                    17,
+                    4
+                  ],
+                  [
+                    18,
+                    4
+                  ],
+                  [
+                    19,
+                    4
+                  ],
+                  [
+                    20,
+                    4
+                  ],
+                  [
+                    21,
+                    4
+                  ],
+                  [
+                    22,
+                    4
+                  ],
+                  [
+                    23,
+                    4
+                  ],
+                  [
+                    24,
+                    4
+                  ],
+                  [
+                    25,
+                    4
+                  ],
+                  [
+                    26,
+                    4
+                  ],
+                  [
+                    27,
+                    4
+                  ],
+                  [
+                    15,
+                    5
+                  ],
+                  [
+                    16,
+                    5
+                  ],
+                  [
+                    17,
+                    5
+                  ],
+                  [
+                    18,
+                    5
+                  ],
+                  [
+                    19,
+                    5
+                  ],
+                  [
+                    20,
+                    5
+                  ],
+                  [
+                    21,
+                    5
+                  ],
+                  [
+                    22,
+                    5
+                  ],
+                  [
+                    23,
+                    5
+                  ],
+                  [
+                    24,
+                    5
+                  ],
+                  [
+                    25,
+                    5
+                  ]
+                ],
+                "measured": 0.497,
+                "limit": 0.454,
+                "message": "loop seam changes 49.7% of the silhouette; the largest internal step allows 45.4%"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 0,
+              "pixels": [
+                [
+                  13,
+                  2
+                ],
+                [
+                  19,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [13,2,20,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 1,
+              "pixels": [
+                [
+                  13,
+                  2
+                ],
+                [
+                  19,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [13,2,20,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 2,
+              "pixels": [
+                [
+                  13,
+                  2
+                ],
+                [
+                  19,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [13,2,20,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 3,
+              "pixels": [
+                [
+                  13,
+                  2
+                ],
+                [
+                  19,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [13,2,20,11] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "east": {
+          "bounds": [
+            [
+              5,
+              3,
+              26,
+              28
+            ],
+            [
+              3,
+              3,
+              26,
+              27
+            ],
+            [
+              3,
+              4,
+              26,
+              28
+            ],
+            [
+              4,
+              5,
+              27,
+              28
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            4,
+            7,
+            3,
+            15
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 3,
+                "pixels": [
+                  [
+                    20,
+                    7
+                  ],
+                  [
+                    21,
+                    7
+                  ],
+                  [
+                    18,
+                    8
+                  ],
+                  [
+                    18,
+                    9
+                  ],
+                  [
+                    17,
+                    10
+                  ],
+                  [
+                    21,
+                    12
+                  ],
+                  [
+                    21,
+                    15
+                  ],
+                  [
+                    19,
+                    17
+                  ],
+                  [
+                    21,
+                    17
+                  ],
+                  [
+                    10,
+                    18
+                  ],
+                  [
+                    20,
+                    18
+                  ],
+                  [
+                    21,
+                    18
+                  ],
+                  [
+                    19,
+                    19
+                  ],
+                  [
+                    20,
+                    19
+                  ],
+                  [
+                    20,
+                    20
+                  ]
+                ],
+                "measured": 15,
+                "limit": 10,
+                "message": "15 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [
+                [
+                  20,
+                  4
+                ],
+                [
+                  20,
+                  11
+                ],
+                [
+                  21,
+                  13
+                ]
+              ],
+              "measured": 3,
+              "limit": 0,
+              "message": "3 colour(s) in follow do not appear in turnaround"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [],
+              "measured": [
+                21,
+                25
+              ],
+              "limit": [
+                30,
+                15
+              ],
+              "message": "silhouette 21x25 in follow key 0 strays from turnaround (30x15) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 1,
+              "pixels": [],
+              "measured": [
+                23,
+                24
+              ],
+              "limit": [
+                30,
+                15
+              ],
+              "message": "silhouette 23x24 in follow key 1 strays from turnaround (30x15) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 2,
+              "pixels": [],
+              "measured": [
+                23,
+                24
+              ],
+              "limit": [
+                30,
+                15
+              ],
+              "message": "silhouette 23x24 in follow key 2 strays from turnaround (30x15) by more than 50%"
+            },
+            {
+              "gate": "stability_proportion",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 3,
+              "pixels": [],
+              "measured": [
+                23,
+                23
+              ],
+              "limit": [
+                30,
+                15
+              ],
+              "message": "silhouette 23x23 in follow key 3 strays from turnaround (30x15) by more than 50%"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [
+                [
+                  17,
+                  2
+                ],
+                [
+                  23,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [17,2,24,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 1,
+              "pixels": [
+                [
+                  17,
+                  2
+                ],
+                [
+                  23,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [17,2,24,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 2,
+              "pixels": [
+                [
+                  17,
+                  2
+                ],
+                [
+                  23,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [17,2,24,11] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 3,
+              "pixels": [
+                [
+                  17,
+                  2
+                ],
+                [
+                  23,
+                  10
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [17,2,24,11] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        }
+      }
+    },
+    "FIRST TRIAL RIG": {
+      "rigPixelsMatched": true,
+      "facings": {
+        "south": {
+          "bounds": [
+            [
+              8,
+              4,
+              29,
+              25
+            ],
+            [
+              8,
+              4,
+              29,
+              25
+            ],
+            [
+              8,
+              4,
+              29,
+              25
+            ],
+            [
+              8,
+              4,
+              29,
+              25
+            ]
+          ],
+          "markPixels": [
+            [
+              [
+                19,
+                14
+              ],
+              [
+                19,
+                15
+              ]
+            ],
+            [
+              [
+                19,
+                14
+              ],
+              [
+                19,
+                15
+              ]
+            ],
+            [
+              [
+                19,
+                14
+              ],
+              [
+                19,
+                15
+              ]
+            ],
+            [
+              [
+                19,
+                14
+              ],
+              [
+                19,
+                15
+              ]
+            ]
+          ],
+          "flickerPixels": [
+            4,
+            0,
+            4,
+            0
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": true,
+            "findings": [],
+            "metrics": {}
+          },
+          "turnaroundStability": [],
+          "earGate": [],
+          "rigGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "weight_transfer",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 0,
+                "pixels": [],
+                "measured": 0,
+                "limit": 1,
+                "message": "contacts step but the body plate never moves (0px): it reads as a rigid body sliding over stepping feet"
+              }
+            ],
+            "metrics": {
+              "bodyTravel": 0,
+              "supportMisalignment": 4.499,
+              "stepping": true
+            }
+          }
+        },
+        "west": {
+          "bounds": [
+            [
+              1,
+              11,
+              30,
+              25
+            ],
+            [
+              1,
+              11,
+              30,
+              25
+            ],
+            [
+              1,
+              10,
+              30,
+              25
+            ],
+            [
+              1,
+              11,
+              30,
+              25
+            ]
+          ],
+          "markPixels": [
+            [
+              [
+                7,
+                13
+              ],
+              [
+                8,
+                14
+              ]
+            ],
+            [
+              [
+                7,
+                13
+              ],
+              [
+                8,
+                14
+              ]
+            ],
+            [
+              [
+                7,
+                13
+              ],
+              [
+                8,
+                14
+              ]
+            ],
+            [
+              [
+                7,
+                13
+              ],
+              [
+                8,
+                14
+              ]
+            ]
+          ],
+          "flickerPixels": [
+            6,
+            1,
+            6,
+            1
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": true,
+            "findings": [],
+            "metrics": {}
+          },
+          "turnaroundStability": [],
+          "earGate": [],
+          "rigGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "weight_transfer",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 0,
+                "pixels": [],
+                "measured": 0,
+                "limit": 1,
+                "message": "contacts step but the body plate never moves (0px): it reads as a rigid body sliding over stepping feet"
+              }
+            ],
+            "metrics": {
+              "bodyTravel": 0,
+              "supportMisalignment": 0.435,
+              "stepping": true
+            }
+          }
+        },
+        "north": {
+          "bounds": [
+            [
+              1,
+              7,
+              22,
+              31
+            ],
+            [
+              1,
+              7,
+              22,
+              30
+            ],
+            [
+              1,
+              7,
+              22,
+              30
+            ],
+            [
+              1,
+              7,
+              22,
+              30
+            ]
+          ],
+          "markPixels": [
+            [
+              [
+                13,
+                8
+              ],
+              [
+                13,
+                9
+              ]
+            ],
+            [
+              [
+                13,
+                8
+              ],
+              [
+                13,
+                9
+              ]
+            ],
+            [
+              [
+                13,
+                8
+              ],
+              [
+                13,
+                9
+              ]
+            ],
+            [
+              [
+                13,
+                8
+              ],
+              [
+                13,
+                9
+              ]
+            ]
+          ],
+          "flickerPixels": [
+            2,
+            0,
+            2,
+            0
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": true,
+            "findings": [],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 0,
+              "pixels": [
+                [
+                  13,
+                  8
+                ]
+              ],
+              "measured": 1,
+              "limit": 0,
+              "message": "1 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [],
+          "rigGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "weight_transfer",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 0,
+                "pixels": [],
+                "measured": 0,
+                "limit": 1,
+                "message": "contacts step but the body plate never moves (0px): it reads as a rigid body sliding over stepping feet"
+              }
+            ],
+            "metrics": {
+              "bodyTravel": 0,
+              "supportMisalignment": 3.889,
+              "stepping": true
+            }
+          }
+        },
+        "east": {
+          "bounds": [
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              10,
+              31,
+              25
+            ]
+          ],
+          "markPixels": [
+            [
+              [
+                25,
+                11
+              ],
+              [
+                26,
+                12
+              ]
+            ],
+            [
+              [
+                25,
+                11
+              ],
+              [
+                26,
+                12
+              ]
+            ],
+            [
+              [
+                25,
+                11
+              ],
+              [
+                26,
+                12
+              ]
+            ],
+            [
+              [
+                25,
+                11
+              ],
+              [
+                26,
+                12
+              ]
+            ]
+          ],
+          "flickerPixels": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": true,
+            "findings": [],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [
+                [
+                  25,
+                  11
+                ]
+              ],
+              "measured": 1,
+              "limit": 0,
+              "message": "1 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [],
+          "rigGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "weight_transfer",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 0,
+                "pixels": [],
+                "measured": 0,
+                "limit": 1,
+                "message": "contacts step but the body plate never moves (0px): it reads as a rigid body sliding over stepping feet"
+              }
+            ],
+            "metrics": {
+              "bodyTravel": 0,
+              "supportMisalignment": 0.53,
+              "stepping": true
+            }
+          }
+        }
+      }
+    },
+    "POSE SHEET": {
+      "rigPixelsMatched": false,
+      "facings": {
+        "south": {
+          "bounds": [
+            [
+              9,
+              4,
+              28,
+              25
+            ],
+            [
+              10,
+              4,
+              28,
+              25
+            ],
+            [
+              8,
+              4,
+              28,
+              25
+            ],
+            [
+              9,
+              4,
+              28,
+              25
+            ]
+          ],
+          "markPixels": [
+            [],
+            [
+              [
+                19,
+                12
+              ]
+            ],
+            [
+              [
+                19,
+                14
+              ]
+            ],
+            [
+              [
+                19,
+                12
+              ]
+            ]
+          ],
+          "flickerPixels": [
+            38,
+            40,
+            39,
+            38
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 0,
+                "pixels": [
+                  [
+                    20,
+                    7
+                  ],
+                  [
+                    23,
+                    9
+                  ],
+                  [
+                    12,
+                    10
+                  ],
+                  [
+                    17,
+                    10
+                  ],
+                  [
+                    19,
+                    10
+                  ],
+                  [
+                    24,
+                    10
+                  ],
+                  [
+                    12,
+                    11
+                  ],
+                  [
+                    17,
+                    11
+                  ],
+                  [
+                    25,
+                    11
+                  ],
+                  [
+                    17,
+                    12
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    14,
+                    13
+                  ],
+                  [
+                    16,
+                    13
+                  ],
+                  [
+                    18,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    12,
+                    16
+                  ],
+                  [
+                    14,
+                    16
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    19,
+                    16
+                  ],
+                  [
+                    15,
+                    17
+                  ],
+                  [
+                    19,
+                    17
+                  ],
+                  [
+                    11,
+                    18
+                  ],
+                  [
+                    12,
+                    18
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    14,
+                    19
+                  ],
+                  [
+                    17,
+                    19
+                  ],
+                  [
+                    13,
+                    20
+                  ],
+                  [
+                    15,
+                    20
+                  ],
+                  [
+                    19,
+                    20
+                  ],
+                  [
+                    14,
+                    21
+                  ]
+                ],
+                "measured": 38,
+                "limit": 10,
+                "message": "38 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 1,
+                "pixels": [
+                  [
+                    16,
+                    6
+                  ],
+                  [
+                    20,
+                    7
+                  ],
+                  [
+                    22,
+                    8
+                  ],
+                  [
+                    23,
+                    9
+                  ],
+                  [
+                    12,
+                    10
+                  ],
+                  [
+                    17,
+                    10
+                  ],
+                  [
+                    19,
+                    10
+                  ],
+                  [
+                    24,
+                    10
+                  ],
+                  [
+                    12,
+                    11
+                  ],
+                  [
+                    17,
+                    11
+                  ],
+                  [
+                    25,
+                    11
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    13,
+                    13
+                  ],
+                  [
+                    14,
+                    13
+                  ],
+                  [
+                    16,
+                    13
+                  ],
+                  [
+                    18,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    14,
+                    16
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    18,
+                    16
+                  ],
+                  [
+                    11,
+                    18
+                  ],
+                  [
+                    12,
+                    18
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    14,
+                    19
+                  ],
+                  [
+                    15,
+                    19
+                  ],
+                  [
+                    13,
+                    20
+                  ],
+                  [
+                    14,
+                    20
+                  ],
+                  [
+                    15,
+                    20
+                  ],
+                  [
+                    16,
+                    20
+                  ],
+                  [
+                    19,
+                    20
+                  ],
+                  [
+                    14,
+                    21
+                  ]
+                ],
+                "measured": 40,
+                "limit": 10,
+                "message": "40 interior pixels change for key 1 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 2,
+                "pixels": [
+                  [
+                    20,
+                    7
+                  ],
+                  [
+                    16,
+                    8
+                  ],
+                  [
+                    17,
+                    8
+                  ],
+                  [
+                    23,
+                    9
+                  ],
+                  [
+                    12,
+                    10
+                  ],
+                  [
+                    17,
+                    10
+                  ],
+                  [
+                    19,
+                    10
+                  ],
+                  [
+                    24,
+                    10
+                  ],
+                  [
+                    12,
+                    11
+                  ],
+                  [
+                    17,
+                    11
+                  ],
+                  [
+                    25,
+                    11
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    14,
+                    13
+                  ],
+                  [
+                    16,
+                    13
+                  ],
+                  [
+                    18,
+                    13
+                  ],
+                  [
+                    19,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    14,
+                    16
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    11,
+                    17
+                  ],
+                  [
+                    13,
+                    17
+                  ],
+                  [
+                    11,
+                    18
+                  ],
+                  [
+                    12,
+                    18
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    14,
+                    19
+                  ],
+                  [
+                    17,
+                    19
+                  ],
+                  [
+                    13,
+                    20
+                  ],
+                  [
+                    15,
+                    20
+                  ],
+                  [
+                    18,
+                    20
+                  ],
+                  [
+                    19,
+                    20
+                  ],
+                  [
+                    14,
+                    21
+                  ],
+                  [
+                    19,
+                    21
+                  ]
+                ],
+                "measured": 39,
+                "limit": 10,
+                "message": "39 interior pixels change for key 2 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "south",
+                "frame": 3,
+                "pixels": [
+                  [
+                    20,
+                    7
+                  ],
+                  [
+                    21,
+                    7
+                  ],
+                  [
+                    22,
+                    7
+                  ],
+                  [
+                    13,
+                    8
+                  ],
+                  [
+                    23,
+                    9
+                  ],
+                  [
+                    12,
+                    10
+                  ],
+                  [
+                    17,
+                    10
+                  ],
+                  [
+                    19,
+                    10
+                  ],
+                  [
+                    24,
+                    10
+                  ],
+                  [
+                    12,
+                    11
+                  ],
+                  [
+                    17,
+                    11
+                  ],
+                  [
+                    25,
+                    11
+                  ],
+                  [
+                    12,
+                    12
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    14,
+                    13
+                  ],
+                  [
+                    16,
+                    13
+                  ],
+                  [
+                    18,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    14,
+                    16
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    10,
+                    17
+                  ],
+                  [
+                    11,
+                    18
+                  ],
+                  [
+                    12,
+                    18
+                  ],
+                  [
+                    17,
+                    18
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    14,
+                    19
+                  ],
+                  [
+                    13,
+                    20
+                  ],
+                  [
+                    15,
+                    20
+                  ],
+                  [
+                    17,
+                    20
+                  ],
+                  [
+                    19,
+                    20
+                  ],
+                  [
+                    14,
+                    21
+                  ]
+                ],
+                "measured": 38,
+                "limit": 10,
+                "message": "38 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 2,
+              "pixels": [
+                [
+                  20,
+                  11
+                ]
+              ],
+              "measured": 1,
+              "limit": 0,
+              "message": "1 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "south",
+              "frame": 0,
+              "pixels": [
+                [
+                  17,
+                  10
+                ],
+                [
+                  21,
+                  16
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [17,10,22,17] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "west": {
+          "bounds": [
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              8,
+              31,
+              25
+            ],
+            [
+              1,
+              9,
+              31,
+              25
+            ],
+            [
+              1,
+              8,
+              31,
+              25
+            ]
+          ],
+          "markPixels": [
+            [
+              [
+                9,
+                13
+              ]
+            ],
+            [
+              [
+                9,
+                12
+              ]
+            ],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            47,
+            39,
+            43,
+            32
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 0,
+                "pixels": [
+                  [
+                    21,
+                    11
+                  ],
+                  [
+                    22,
+                    11
+                  ],
+                  [
+                    23,
+                    11
+                  ],
+                  [
+                    24,
+                    11
+                  ],
+                  [
+                    5,
+                    12
+                  ],
+                  [
+                    7,
+                    12
+                  ],
+                  [
+                    8,
+                    12
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    20,
+                    12
+                  ],
+                  [
+                    21,
+                    12
+                  ],
+                  [
+                    22,
+                    12
+                  ],
+                  [
+                    4,
+                    13
+                  ],
+                  [
+                    5,
+                    13
+                  ],
+                  [
+                    20,
+                    13
+                  ],
+                  [
+                    25,
+                    13
+                  ],
+                  [
+                    26,
+                    13
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    8,
+                    14
+                  ],
+                  [
+                    9,
+                    14
+                  ],
+                  [
+                    10,
+                    14
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    14,
+                    14
+                  ],
+                  [
+                    15,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    5,
+                    15
+                  ],
+                  [
+                    8,
+                    15
+                  ],
+                  [
+                    9,
+                    15
+                  ],
+                  [
+                    26,
+                    15
+                  ],
+                  [
+                    3,
+                    16
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    7,
+                    16
+                  ],
+                  [
+                    8,
+                    16
+                  ],
+                  [
+                    10,
+                    16
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    27,
+                    16
+                  ],
+                  [
+                    29,
+                    16
+                  ],
+                  [
+                    5,
+                    17
+                  ]
+                ],
+                "measured": 47,
+                "limit": 10,
+                "message": "47 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 1,
+                "pixels": [
+                  [
+                    21,
+                    11
+                  ],
+                  [
+                    22,
+                    11
+                  ],
+                  [
+                    23,
+                    11
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    25,
+                    12
+                  ],
+                  [
+                    4,
+                    13
+                  ],
+                  [
+                    20,
+                    13
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    10,
+                    14
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    15,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    26,
+                    14
+                  ],
+                  [
+                    27,
+                    15
+                  ],
+                  [
+                    5,
+                    16
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    8,
+                    16
+                  ],
+                  [
+                    10,
+                    16
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    28,
+                    16
+                  ],
+                  [
+                    29,
+                    16
+                  ],
+                  [
+                    8,
+                    17
+                  ],
+                  [
+                    9,
+                    17
+                  ],
+                  [
+                    15,
+                    17
+                  ],
+                  [
+                    20,
+                    17
+                  ],
+                  [
+                    28,
+                    17
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    20,
+                    18
+                  ],
+                  [
+                    8,
+                    19
+                  ],
+                  [
+                    9,
+                    19
+                  ],
+                  [
+                    19,
+                    19
+                  ],
+                  [
+                    20,
+                    19
+                  ],
+                  [
+                    10,
+                    20
+                  ],
+                  [
+                    18,
+                    20
+                  ],
+                  [
+                    17,
+                    21
+                  ]
+                ],
+                "measured": 39,
+                "limit": 10,
+                "message": "39 interior pixels change for key 1 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 2,
+                "pixels": [
+                  [
+                    23,
+                    10
+                  ],
+                  [
+                    24,
+                    10
+                  ],
+                  [
+                    5,
+                    11
+                  ],
+                  [
+                    7,
+                    11
+                  ],
+                  [
+                    19,
+                    11
+                  ],
+                  [
+                    20,
+                    11
+                  ],
+                  [
+                    21,
+                    11
+                  ],
+                  [
+                    22,
+                    11
+                  ],
+                  [
+                    23,
+                    11
+                  ],
+                  [
+                    18,
+                    12
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    4,
+                    13
+                  ],
+                  [
+                    20,
+                    13
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    5,
+                    14
+                  ],
+                  [
+                    9,
+                    14
+                  ],
+                  [
+                    10,
+                    14
+                  ],
+                  [
+                    11,
+                    14
+                  ],
+                  [
+                    12,
+                    14
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    15,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    2,
+                    15
+                  ],
+                  [
+                    3,
+                    15
+                  ],
+                  [
+                    4,
+                    15
+                  ],
+                  [
+                    3,
+                    16
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    8,
+                    16
+                  ],
+                  [
+                    10,
+                    16
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    29,
+                    16
+                  ],
+                  [
+                    15,
+                    17
+                  ],
+                  [
+                    7,
+                    18
+                  ],
+                  [
+                    8,
+                    18
+                  ],
+                  [
+                    12,
+                    18
+                  ],
+                  [
+                    17,
+                    18
+                  ],
+                  [
+                    8,
+                    19
+                  ]
+                ],
+                "measured": 43,
+                "limit": 10,
+                "message": "43 interior pixels change for key 2 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "west",
+                "frame": 3,
+                "pixels": [
+                  [
+                    21,
+                    11
+                  ],
+                  [
+                    22,
+                    11
+                  ],
+                  [
+                    23,
+                    11
+                  ],
+                  [
+                    25,
+                    11
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    4,
+                    13
+                  ],
+                  [
+                    20,
+                    13
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    10,
+                    14
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    15,
+                    14
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    21,
+                    14
+                  ],
+                  [
+                    22,
+                    14
+                  ],
+                  [
+                    21,
+                    15
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    8,
+                    16
+                  ],
+                  [
+                    10,
+                    16
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    17,
+                    16
+                  ],
+                  [
+                    29,
+                    16
+                  ],
+                  [
+                    8,
+                    17
+                  ],
+                  [
+                    15,
+                    17
+                  ],
+                  [
+                    8,
+                    19
+                  ],
+                  [
+                    9,
+                    19
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    19,
+                    19
+                  ],
+                  [
+                    7,
+                    20
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ],
+                "measured": 32,
+                "limit": 10,
+                "message": "32 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 0,
+              "pixels": [
+                [
+                  7,
+                  12
+                ],
+                [
+                  22,
+                  16
+                ]
+              ],
+              "measured": 2,
+              "limit": 0,
+              "message": "2 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 2,
+              "pixels": [
+                [
+                  6,
+                  10
+                ],
+                [
+                  11,
+                  15
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [6,10,12,16] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "west",
+              "frame": 3,
+              "pixels": [
+                [
+                  6,
+                  10
+                ],
+                [
+                  11,
+                  15
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [6,10,12,16] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "north": {
+          "bounds": [
+            [
+              3,
+              4,
+              23,
+              27
+            ],
+            [
+              3,
+              4,
+              24,
+              28
+            ],
+            [
+              3,
+              4,
+              24,
+              28
+            ],
+            [
+              2,
+              4,
+              24,
+              28
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            21,
+            20,
+            26,
+            16
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 0,
+                "pixels": [
+                  [
+                    17,
+                    7
+                  ],
+                  [
+                    19,
+                    7
+                  ],
+                  [
+                    19,
+                    8
+                  ],
+                  [
+                    18,
+                    9
+                  ],
+                  [
+                    19,
+                    11
+                  ],
+                  [
+                    19,
+                    12
+                  ],
+                  [
+                    17,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    20,
+                    14
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    21,
+                    16
+                  ],
+                  [
+                    18,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    20,
+                    19
+                  ],
+                  [
+                    20,
+                    20
+                  ],
+                  [
+                    7,
+                    22
+                  ],
+                  [
+                    5,
+                    23
+                  ],
+                  [
+                    20,
+                    23
+                  ],
+                  [
+                    6,
+                    24
+                  ]
+                ],
+                "measured": 21,
+                "limit": 10,
+                "message": "21 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 1,
+                "pixels": [
+                  [
+                    14,
+                    7
+                  ],
+                  [
+                    15,
+                    7
+                  ],
+                  [
+                    17,
+                    7
+                  ],
+                  [
+                    18,
+                    7
+                  ],
+                  [
+                    18,
+                    9
+                  ],
+                  [
+                    19,
+                    9
+                  ],
+                  [
+                    14,
+                    11
+                  ],
+                  [
+                    14,
+                    12
+                  ],
+                  [
+                    20,
+                    12
+                  ],
+                  [
+                    17,
+                    13
+                  ],
+                  [
+                    18,
+                    13
+                  ],
+                  [
+                    20,
+                    13
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    14
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    21,
+                    15
+                  ],
+                  [
+                    16,
+                    16
+                  ],
+                  [
+                    16,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    20,
+                    18
+                  ]
+                ],
+                "measured": 20,
+                "limit": 10,
+                "message": "20 interior pixels change for key 1 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 2,
+                "pixels": [
+                  [
+                    17,
+                    7
+                  ],
+                  [
+                    15,
+                    9
+                  ],
+                  [
+                    18,
+                    9
+                  ],
+                  [
+                    14,
+                    13
+                  ],
+                  [
+                    17,
+                    13
+                  ],
+                  [
+                    16,
+                    14
+                  ],
+                  [
+                    17,
+                    14
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    14,
+                    15
+                  ],
+                  [
+                    15,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    20,
+                    15
+                  ],
+                  [
+                    14,
+                    16
+                  ],
+                  [
+                    20,
+                    16
+                  ],
+                  [
+                    14,
+                    18
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    18,
+                    20
+                  ],
+                  [
+                    17,
+                    21
+                  ],
+                  [
+                    12,
+                    22
+                  ],
+                  [
+                    16,
+                    22
+                  ],
+                  [
+                    20,
+                    22
+                  ],
+                  [
+                    12,
+                    23
+                  ],
+                  [
+                    13,
+                    23
+                  ],
+                  [
+                    5,
+                    24
+                  ],
+                  [
+                    7,
+                    24
+                  ]
+                ],
+                "measured": 26,
+                "limit": 10,
+                "message": "26 interior pixels change for key 2 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "north",
+                "frame": 3,
+                "pixels": [
+                  [
+                    16,
+                    7
+                  ],
+                  [
+                    17,
+                    7
+                  ],
+                  [
+                    18,
+                    9
+                  ],
+                  [
+                    16,
+                    13
+                  ],
+                  [
+                    17,
+                    13
+                  ],
+                  [
+                    18,
+                    14
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    12,
+                    17
+                  ],
+                  [
+                    14,
+                    17
+                  ],
+                  [
+                    19,
+                    18
+                  ],
+                  [
+                    7,
+                    19
+                  ],
+                  [
+                    14,
+                    19
+                  ],
+                  [
+                    19,
+                    20
+                  ],
+                  [
+                    6,
+                    21
+                  ],
+                  [
+                    16,
+                    21
+                  ]
+                ],
+                "measured": 16,
+                "limit": 10,
+                "message": "16 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 3,
+              "pixels": [
+                [
+                  22,
+                  17
+                ]
+              ],
+              "measured": 1,
+              "limit": 0,
+              "message": "1 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 0,
+              "pixels": [
+                [
+                  11,
+                  4
+                ],
+                [
+                  15,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,4,16,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 1,
+              "pixels": [
+                [
+                  11,
+                  4
+                ],
+                [
+                  15,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,4,16,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 2,
+              "pixels": [
+                [
+                  11,
+                  4
+                ],
+                [
+                  15,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,4,16,10] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "north",
+              "frame": 3,
+              "pixels": [
+                [
+                  11,
+                  4
+                ],
+                [
+                  15,
+                  9
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [11,4,16,10] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        },
+        "east": {
+          "bounds": [
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              9,
+              31,
+              25
+            ],
+            [
+              1,
+              10,
+              31,
+              25
+            ],
+            [
+              1,
+              9,
+              31,
+              25
+            ]
+          ],
+          "markPixels": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "flickerPixels": [
+            26,
+            28,
+            21,
+            28
+          ],
+          "pixels": [
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "imageGates": {
+            "pass": false,
+            "findings": [
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 0,
+                "pixels": [
+                  [
+                    8,
+                    13
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    10,
+                    13
+                  ],
+                  [
+                    25,
+                    13
+                  ],
+                  [
+                    8,
+                    14
+                  ],
+                  [
+                    12,
+                    14
+                  ],
+                  [
+                    24,
+                    14
+                  ],
+                  [
+                    27,
+                    14
+                  ],
+                  [
+                    28,
+                    14
+                  ],
+                  [
+                    7,
+                    15
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    18,
+                    15
+                  ],
+                  [
+                    19,
+                    15
+                  ],
+                  [
+                    24,
+                    15
+                  ],
+                  [
+                    27,
+                    15
+                  ],
+                  [
+                    28,
+                    15
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    22,
+                    16
+                  ],
+                  [
+                    26,
+                    16
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    16,
+                    18
+                  ],
+                  [
+                    23,
+                    18
+                  ],
+                  [
+                    24,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    20,
+                    20
+                  ],
+                  [
+                    21,
+                    20
+                  ]
+                ],
+                "measured": 26,
+                "limit": 10,
+                "message": "26 interior pixels change for key 0 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 1,
+                "pixels": [
+                  [
+                    8,
+                    13
+                  ],
+                  [
+                    10,
+                    13
+                  ],
+                  [
+                    25,
+                    13
+                  ],
+                  [
+                    27,
+                    13
+                  ],
+                  [
+                    12,
+                    14
+                  ],
+                  [
+                    24,
+                    14
+                  ],
+                  [
+                    28,
+                    14
+                  ],
+                  [
+                    12,
+                    15
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    24,
+                    15
+                  ],
+                  [
+                    25,
+                    15
+                  ],
+                  [
+                    27,
+                    15
+                  ],
+                  [
+                    28,
+                    15
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    22,
+                    16
+                  ],
+                  [
+                    26,
+                    16
+                  ],
+                  [
+                    2,
+                    17
+                  ],
+                  [
+                    19,
+                    17
+                  ],
+                  [
+                    23,
+                    17
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    16,
+                    18
+                  ],
+                  [
+                    17,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    15,
+                    19
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    21,
+                    20
+                  ],
+                  [
+                    24,
+                    20
+                  ]
+                ],
+                "measured": 28,
+                "limit": 10,
+                "message": "28 interior pixels change for key 1 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 2,
+                "pixels": [
+                  [
+                    5,
+                    13
+                  ],
+                  [
+                    8,
+                    13
+                  ],
+                  [
+                    10,
+                    13
+                  ],
+                  [
+                    25,
+                    13
+                  ],
+                  [
+                    12,
+                    14
+                  ],
+                  [
+                    24,
+                    14
+                  ],
+                  [
+                    27,
+                    14
+                  ],
+                  [
+                    28,
+                    14
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    24,
+                    15
+                  ],
+                  [
+                    27,
+                    15
+                  ],
+                  [
+                    28,
+                    15
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    22,
+                    16
+                  ],
+                  [
+                    23,
+                    16
+                  ],
+                  [
+                    26,
+                    16
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    16,
+                    18
+                  ],
+                  [
+                    24,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    21,
+                    20
+                  ]
+                ],
+                "measured": 21,
+                "limit": 10,
+                "message": "21 interior pixels change for key 2 only and revert"
+              },
+              {
+                "gate": "flicker",
+                "severity": "error",
+                "clip": "follow",
+                "facing": "east",
+                "frame": 3,
+                "pixels": [
+                  [
+                    25,
+                    12
+                  ],
+                  [
+                    8,
+                    13
+                  ],
+                  [
+                    10,
+                    13
+                  ],
+                  [
+                    25,
+                    13
+                  ],
+                  [
+                    27,
+                    13
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    12,
+                    14
+                  ],
+                  [
+                    24,
+                    14
+                  ],
+                  [
+                    28,
+                    14
+                  ],
+                  [
+                    15,
+                    15
+                  ],
+                  [
+                    16,
+                    15
+                  ],
+                  [
+                    17,
+                    15
+                  ],
+                  [
+                    24,
+                    15
+                  ],
+                  [
+                    27,
+                    15
+                  ],
+                  [
+                    28,
+                    15
+                  ],
+                  [
+                    2,
+                    16
+                  ],
+                  [
+                    6,
+                    16
+                  ],
+                  [
+                    22,
+                    16
+                  ],
+                  [
+                    26,
+                    16
+                  ],
+                  [
+                    4,
+                    17
+                  ],
+                  [
+                    17,
+                    17
+                  ],
+                  [
+                    24,
+                    17
+                  ],
+                  [
+                    3,
+                    18
+                  ],
+                  [
+                    16,
+                    18
+                  ],
+                  [
+                    12,
+                    19
+                  ],
+                  [
+                    23,
+                    19
+                  ],
+                  [
+                    21,
+                    20
+                  ],
+                  [
+                    24,
+                    20
+                  ]
+                ],
+                "measured": 28,
+                "limit": 10,
+                "message": "28 interior pixels change for key 3 only and revert"
+              }
+            ],
+            "metrics": {}
+          },
+          "turnaroundStability": [
+            {
+              "gate": "stability_palette",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [
+                [
+                  27,
+                  15
+                ]
+              ],
+              "measured": 1,
+              "limit": 0,
+              "message": "1 colour(s) in follow do not appear in turnaround"
+            }
+          ],
+          "earGate": [
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 0,
+              "pixels": [
+                [
+                  25,
+                  9
+                ],
+                [
+                  28,
+                  12
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [25,9,29,13] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 1,
+              "pixels": [
+                [
+                  25,
+                  9
+                ],
+                [
+                  28,
+                  12
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [25,9,29,13] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 2,
+              "pixels": [
+                [
+                  25,
+                  9
+                ],
+                [
+                  28,
+                  12
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [25,9,29,13] in key 0"
+            },
+            {
+              "gate": "mark_side",
+              "severity": "error",
+              "clip": "follow",
+              "facing": "east",
+              "frame": 3,
+              "pixels": [
+                [
+                  25,
+                  9
+                ],
+                [
+                  28,
+                  12
+                ]
+              ],
+              "landmark": "left-ear",
+              "measured": 0,
+              "limit": 1,
+              "message": "left-ear: no marker pixel inside its box [25,9,29,13] in key 0"
+            }
+          ],
+          "rigGates": {
+            "skipped": [
+              "foot_slide requires planted contacts",
+              "weight_transfer requires body offsets and planted contacts",
+              "feature_contrast requires feature boxes and accent thresholds"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

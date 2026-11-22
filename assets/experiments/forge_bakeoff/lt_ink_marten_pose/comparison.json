@@ -1,0 +1,147 @@
+{
+  "project": "../../../..",
+  "manifest": "../../../../assets/manifest_longtime.json",
+  "palette": "../../../../tools/generators/palette.json",
+  "profile": "pet",
+  "clip": "follow",
+  "facings": [
+    "south",
+    "west",
+    "north",
+    "east"
+  ],
+  "background": [
+    130,
+    124,
+    136
+  ],
+  "mark": "soul_07",
+  "turnaround": "../lt_ink_marten/turnaround_native",
+  "versions": [
+    {
+      "label": "SHIPPED PIXELLAB",
+      "frames": "../../../processed_longtime/lt_ink_marten",
+      "ears": {
+        "south": [
+          [
+            12,
+            2,
+            18,
+            10
+          ]
+        ],
+        "west": [
+          [
+            11,
+            2,
+            18,
+            10
+          ]
+        ],
+        "north": [
+          [
+            13,
+            2,
+            20,
+            11
+          ]
+        ],
+        "east": [
+          [
+            17,
+            2,
+            24,
+            11
+          ]
+        ]
+      }
+    },
+    {
+      "label": "FIRST TRIAL RIG",
+      "frames": "../lt_ink_marten/frames",
+      "rig": {
+        "spec": "../../../../studio/forge/rig/tests/fixtures/marten/rig.json",
+        "motion": "../../../../studio/forge/rig/tests/fixtures/marten/bakeoff-motion.json",
+        "native": "../../../../studio/forge/rig/tests/fixtures/marten/imported"
+      },
+      "ears": {
+        "south": [
+          [
+            19,
+            13,
+            22,
+            17
+          ]
+        ],
+        "west": [
+          [
+            7,
+            11,
+            11,
+            16
+          ]
+        ],
+        "north": [
+          [
+            13,
+            6,
+            16,
+            10
+          ]
+        ],
+        "east": [
+          [
+            25,
+            9,
+            29,
+            14
+          ]
+        ]
+      }
+    },
+    {
+      "label": "POSE SHEET",
+      "frames": "frames",
+      "poses": [
+        "contact_a",
+        "passing_a",
+        "contact_b",
+        "passing_b"
+      ],
+      "ears": {
+        "south": [
+          [
+            17,
+            10,
+            22,
+            17
+          ]
+        ],
+        "west": [
+          [
+            6,
+            10,
+            12,
+            16
+          ]
+        ],
+        "north": [
+          [
+            11,
+            4,
+            16,
+            10
+          ]
+        ],
+        "east": [
+          [
+            25,
+            9,
+            29,
+            13
+          ]
+        ]
+      }
+    }
+  ]
+}
