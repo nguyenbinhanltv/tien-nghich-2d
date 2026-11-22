@@ -374,7 +374,7 @@ Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh
 
 ## Ghi nhận (2026-11-22): quyết định của chủ dự án và trạng thái P0 đến P5
 
-Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
+Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Khoảng 18:20 cùng ngày chủ dự án nói "Duyệt hết assets trên studio cho tôi"; worker `tien-nghich-2d-37` ghi lại thành mục `owner_all_studio_art_2026-11-22` trong `art_approvals.json` (toàn bộ 4.980 frame tab Review đếm đều đã duyệt theo hash; không còn frame nào ở trạng thái chờ duyệt hay baseline). Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
 
 **Quyết định 5: những gì orchestrator tự đặt, chủ dự án nói "làm theo đề xuất".**
 

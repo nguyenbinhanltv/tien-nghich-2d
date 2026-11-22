@@ -43,14 +43,14 @@ for (const key of [ui,vfx]) test('save, review, restart, export and restore '+ke
   const dir=await scratch(t);
   let api=await start(t,dir);
   const baseline=(await api.call('frame',{key})).data;
-  assert.equal(baseline.status,'baseline','shipped legacy art with no review record is baseline, never approved');
-  assert.equal(baseline.history[0].status,'baseline');
+  assert.equal(baseline.status,'approved','shipped art the owner approved on record (art_approvals.json, tied to its bytes) reads as approved');
+  assert.equal(baseline.history[0].status,'approved');
   assert.equal(baseline.head,0);
   const originalFiles=await Promise.all([baseline.sourceUrl,baseline.processedUrl].map(p=>fs.readFile(path.join(root,p))));
   await assert.rejects(fs.stat(dir),{code:'ENOENT'});
   const noop=(await api.post('save',{key,baseRevision:0,metadata:baseline.metadata})).data;
   assert.equal(noop.head,0);
-  assert.equal(noop.status,'baseline');
+  assert.equal(noop.status,'approved');
   assert.deepEqual(noop.comments,[]);
   await assert.rejects(fs.stat(dir),{code:'ENOENT'});
   // The snapshot encoder emits one IDAT and a zero filter byte before each row.
@@ -109,7 +109,7 @@ for (const key of [ui,vfx]) test('save, review, restart, export and restore '+ke
   assert.deepEqual(after,originalFiles);
 });
 
-test('legacy rows read as baseline (never approved), explicit decisions and comments survive read-only opens',async t=>{
+test('legacy rows read by the record of their bytes (approved on record), explicit decisions and comments survive read-only opens',async t=>{
   const dir=await scratch(t);
   const api=await start(t,dir);
   const baseline=(await api.call('frame',{key:ui})).data;
@@ -123,8 +123,8 @@ test('legacy rows read as baseline (never approved), explicit decisions and comm
   db.close();
   const before=await fs.readFile(filename);
   const loaded=(await api.call('frame',{key:ui})).data;
-  assert.equal(loaded.status,'baseline');
-  assert.deepEqual(loaded.comments,[{text:'Legacy note',status:'baseline'}]);
+  assert.equal(loaded.status,'approved');
+  assert.deepEqual(loaded.comments,[{text:'Legacy note',status:'approved'}]);
   assert.deepEqual(await fs.readFile(filename),before);
   await api.post('review',{key:ui,revision:0,status:'changes_requested',text:'Keep note'});
   const noop=(await api.post('save',{key:ui,baseRevision:0,metadata:baseline.metadata})).data;

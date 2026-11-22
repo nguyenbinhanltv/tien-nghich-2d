@@ -153,7 +153,7 @@ test('the inbox hashes each master once: unchanged files are not read again', as
 
 test('the inbox carries the art approved on record, and a changed frame stops being covered', async () => {
   const {body} = await call(lib(), 'inbox');
-  assert.equal(body.artRecords.length, 8);
+  assert.equal(body.artRecords.length, 233, 'eight earlier assets plus the 225 of the owner\'s approval of all studio art');
   assert.ok(body.artRecords.every(r => r.current && r.matching === r.frames));
   const p = makeProject({extraDirs: ['assets/audio/bgm_blood_sea']});
   fs.mkdirSync(path.join(p.root, 'assets/review'), {recursive: true});

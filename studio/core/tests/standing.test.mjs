@@ -120,24 +120,18 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: new Longtime frames await review, the two recorded characters are approved, the core roster is baseline', async () => {
+test('the real project: every catalog frame is approved on record; without the approvals the old three states still hold', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
-  const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
   const catalog = await loadEditableCatalog(pack, repoRoot);
-  const byAsset = {};
-  for (const frame of catalog.frames.values()) {
-    const s = await standing.of(frame.processed);
-    const at = (byAsset[frame.info.assetId] ??= {approved: 0, baseline: 0, awaiting: 0});
-    at[s]++;
-  }
-  for (const id of ['lt_kiln_keeper', 'lt_ink_marten']) assert.ok(byAsset[id].approved > 0 && !byAsset[id].awaiting, id);
-  const longtime = [...catalog.frames.values()].filter(f => f.info.key.startsWith('longtime/'));
-  assert.ok(longtime.length > 0);
-  for (const f of longtime) assert.notEqual(await standing.of(f.processed), 'baseline', f.info.key);
-  assert.ok(Object.entries(byAsset).some(([id, c]) => id.startsWith('lt_') && c.awaiting > 0));
-  const core = [...catalog.frames.values()].filter(f => !f.info.key.startsWith('longtime/'));
+  const frames = [...catalog.frames.values()];
+  const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
+  for (const [rel, s] of await standing.ofMany(frames.map(f => f.processed))) assert.equal(s, 'approved', rel);
+  // the baseline record is kept as a historical fact: read alone it still labels the legacy core art, never the Longtime art
+  const baselineOnly = createStanding(repoRoot, {review: pack.review});
+  const core = frames.filter(f => !f.info.key.startsWith('longtime/'));
   assert.ok(core.length > 1000);
-  for (const f of core) assert.equal(await standing.of(f.processed), 'baseline', f.info.key);
+  for (const f of core) assert.equal(await baselineOnly.of(f.processed), 'baseline', f.info.key);
+  for (const f of frames.filter(f => f.info.key.startsWith('longtime/'))) assert.notEqual(await baselineOnly.of(f.processed), 'baseline', f.info.key);
 });
 
 test('a transparent pixel with colour does not break the match with the normalized stored copy', () => {
