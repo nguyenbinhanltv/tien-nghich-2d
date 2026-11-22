@@ -56,7 +56,7 @@ export default {
       if (!rig && !poseClips) throw new ToolError('Give rig (for rig clips) and/or poseClips (for clips built from drawn key poses). studio_template_get shows which fits each clip.');
       if (rig) { const issues = validateRig(rig, { palette }); if (issues.length) throw new ToolError(`the rig is invalid:\n  ${issues.join('\n  ')}`); }
 
-      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings);
+      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings, { poseClips, rig, poseRig: args.poseRig, library });
       if (poseClips) {
         const table = clipTable({ clips: settings.profile.clips });
         const issues = validatePoseClips(poseClips, { table, layerIds: new Set(pixelized.cells.keys()), palette });
@@ -70,7 +70,7 @@ export default {
       }
       const bodyPlan = (rig ?? args.poseRig)?.bodyPlan;
       log(`baking ${asset.id}: rig ${rig ? 'yes' : 'no'}, pose clips ${poseClips ? Object.keys(poseClips.clips).join(',') : 'none'}, patch ops on ${Object.keys(patch?.frames ?? {}).length} frame(s)`);
-      const baked = bakeStage({ settings, palette, cells: pixelized.cells, rig, poseRig: args.poseRig, poseClips, library: library ?? (bodyPlan ? loadLibrary(bodyPlan) : undefined), patch, clips: args.clips });
+      const baked = bakeStage({ settings, palette, cells: pixelized.cells, held: pixelized.held, rig, poseRig: args.poseRig, poseClips, library: library ?? (bodyPlan ? loadLibrary(bodyPlan) : undefined), patch, clips: args.clips });
       const gates = qaStage(baked, { settings, palette, rig, poseRig: args.poseRig, options: args.qa });
 
       const storing = save ? Object.entries({ rig: args.rig, poseclips: args.poseClips, library: args.library }).filter(([, v]) => v).map(([k]) => k) : [];

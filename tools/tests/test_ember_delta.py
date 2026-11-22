@@ -118,18 +118,20 @@ class EmberDeltaTests(unittest.TestCase):
     def test_web_and_mobile_atlases_and_determinism(self):
         manifest = json.loads((ROOT / "assets/manifest_longtime.json").read_text(encoding="utf-8"))
         palette, outline = ql.load_palette(PALETTE)
-        selected = ql.select_assets(manifest, wave=None, agent=None, ids=[ASSET])
+        chunk_ids = json.loads((ROOT / "assets/atlases_longtime/web" / CHUNK / "chunk-manifest.json").read_bytes())["asset_ids"]
+        self.assertIn(ASSET, chunk_ids)
+        selected = ql.select_assets(manifest, wave=None, agent=None, ids=chunk_ids)
         res = ql.validate_group(manifest, ROOT / "assets/processed_longtime", palette, outline, selected, source_root=ROOT / "assets/raw/longtime")
         self.assertEqual([i for i in res["issues"] if i["severity"] == "error"], [])
-        self.assertEqual(len(res["sprites"]), 24)
+        self.assertEqual(len([k for k in res["sprites"] if k.startswith(f"longtime/{ASSET}/")]), 24)
 
         with tempfile.TemporaryDirectory() as td:
             rebuilt = ql.pack_chunks(manifest, res["sprites"], Path(td))
             for platform in ("web", "mobile"):
                 chunk_dir = ROOT / "assets/atlases_longtime" / platform / CHUNK
                 cm = json.loads((chunk_dir / "chunk-manifest.json").read_bytes())
-                self.assertEqual(cm["asset_ids"], [ASSET])
-                self.assertEqual(cm["frame_count"], 24)
+                self.assertEqual(cm["asset_ids"], chunk_ids)
+                self.assertEqual(cm["frame_count"], len(res["sprites"]))
                 self.assertEqual(cm["page_count"], 1)
                 self.assertEqual(cm["readiness"], "packed")
                 page = cm["pages"][0]
@@ -141,13 +143,15 @@ class EmberDeltaTests(unittest.TestCase):
                 self.assertEqual(sha(chunk_dir / "chunk-manifest.json"), rebuilt[CHUNK][platform]["manifest_sha256"])
 
                 data = json.loads((chunk_dir / page["json"]).read_bytes())
-                self.assertEqual(set(data["frames"]), {f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")})
+                self.assertEqual(set(data["frames"]), set(res["sprites"]))
+                tile_keys = {f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")}
+                self.assertLessEqual(tile_keys, set(data["frames"]))
                 with Image.open(chunk_dir / page["image"]) as atlas:
                     if platform == "mobile":
                         self.assertEqual((data["meta"]["padding"], data["meta"]["extrude"]), (2, 1))
                         self.assertLessEqual(cm["page_count"], cm["mobile_page_budget"])
                         self.assertTrue(all(s <= 1024 and (s & (s - 1)) == 0 for s in atlas.size))
-                    for key, entry in data["frames"].items():
+                    for key, entry in ((k, v) for k, v in data["frames"].items() if k in tile_keys):
                         self.assertEqual((entry["pivotPx"], entry["durationMs"]), ([0, 0], 0))
                         rect = entry["frame"]
                         x, y = rect["x"], rect["y"]

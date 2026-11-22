@@ -1,0 +1,855 @@
+{
+  "id": "lt_cinder_heron",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Show the cinder heron silhouette before its strike.",
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom body template because a bird fits no skeleton, 8 views, 40-colour palette, seed 31) then animate_character v3 per direction (frames come back on 40-44 px canvases, centred on 32x32 without scaling). v3 only makes even frame counts, so idle keeps frames 0-2 of 4 and telegraph keeps frames 1-3 of 4; dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "88172888-4773-4708-b1c6-5ef44e3f1394",
+  "character_job_id": "0c010bc8-3a39-450d-8782-0f223438d6bf",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Cinder heron, a small chibi wading bird with a large round head, charcoal-grey feathers with glowing orange ember tips on the wings and crest, a long sharp pale yellow beak, two long thin dark stilt legs, a long S-curved neck folded down, a tall spiky ember-orange head crest. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "0-2",
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "a9e70848-b1ee-4241-b351-767165b3d449",
+        "west": "65f5647c-5923-46ec-b6a9-96d3a775e95f",
+        "north": "23c57695-f3ac-4e92-8962-406e7baa6016",
+        "east": "ec3bed9d-1092-42f8-8e25-4b813f9b627c"
+      },
+      "action_description": "stands on its long legs and bobs its head slowly, ember crest flickering, wing feathers glowing faintly",
+      "direction_prompts": {
+        "south": "facing the viewer, stands still and bobs its head slightly, crest flickering",
+        "west": "facing left, stands on its long legs and bobs its head slowly, crest flickering",
+        "north": "seen from behind, stands still and bobs its head slightly, crest flickering",
+        "east": "facing right, stands on its long legs and bobs its head slowly, crest flickering"
+      },
+      "group_ids": {
+        "south": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "west": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "north": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "east": "51dad761-c593-45d2-9d3f-7cc590b136ad"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "e9027cd9-2ae3-4b77-b50d-7e32081500f8",
+        "west": "395104b0-475e-41b2-be05-2227d7036815",
+        "north": "90a79c56-ee4e-41f8-8fef-ab0116d23971",
+        "east": "099209c7-f7c2-4a7c-8213-d123bc949f6d"
+      },
+      "action_description": "strides forward on its long thin legs in a high-stepping wading walk, head bobbing, crest flickering",
+      "direction_prompts": {
+        "south": "walks toward the viewer lifting its long legs high, head bobbing",
+        "west": "walks to the left lifting its long legs high, head bobbing forward",
+        "north": "walks away from the viewer seen from behind, lifting its long legs",
+        "east": "walks to the right lifting its long legs high, head bobbing forward"
+      },
+      "group_ids": {
+        "south": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "west": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "north": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "east": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "1-3",
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "9b90b431-6870-4865-bbfa-e0e64ce1b014",
+        "west": "a7b359d6-0e72-4a85-baf6-2a88d611cd9b",
+        "north": "68a7e548-a821-4eee-8559-4486d79d306d",
+        "east": "81ae34cc-842e-4f3a-9a00-88ddc465f02b"
+      },
+      "action_description": "draws its neck back into a tight S-curve and spreads both wings wide open, crest flaring tall and glowing bright, beak aimed forward, before a stab",
+      "direction_prompts": {
+        "south": "facing the viewer, draws its neck back and spreads both wings wide, crest flaring tall",
+        "west": "facing left, draws its neck back into an S-curve and spreads its wings, beak pointing left",
+        "north": "seen from behind, spreads both wings wide and flares the crest",
+        "east": "facing right, draws its neck back into an S-curve and spreads its wings, beak pointing right"
+      },
+      "group_ids": {
+        "south": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "west": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "north": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "east": "51ec59eb-1cd1-46cb-913f-52653e7d67aa"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "23db9718-0ba1-4501-adce-9a533b0e9d69",
+        "west": "54cd979f-f8ec-4ff8-9911-b564a5a38c26",
+        "north": "3ea52f0d-bc61-4803-bff9-e81359566572",
+        "east": "3ec40dca-2b9c-49ff-a255-650a721d2c45"
+      },
+      "action_description": "stabs its long beak forward fast with its neck snapping out straight, wings flaring, then pulls back to standing",
+      "direction_prompts": {
+        "south": "facing the viewer, snaps its neck and beak forward toward the viewer, then pulls back",
+        "west": "facing left, snaps its neck and beak out straight to the left, then pulls back",
+        "north": "seen from behind, snaps its neck forward away from the viewer, wings flaring, then pulls back",
+        "east": "facing right, snaps its neck and beak out straight to the right, then pulls back"
+      },
+      "group_ids": {
+        "south": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "west": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "north": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "east": "93766676-6143-4259-889e-d6ab3a6fdcba"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32 (seed 31, custom body), 8 views",
+      "credits": 6,
+      "result": "accepted"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "accepted with flags; no regeneration spent (left for the human review)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 16,
+    "total": 22,
+    "model_estimate": 22
+  },
+  "known_flaws": [
+    "south and north read as a thin humanoid column with wing-arms rather than a bird; the beak and legs carry the heron in west and east only",
+    "south crest is hard to see at 1x in several frames",
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 4330,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_ember_delta.py",
+    "entry_point_sha256": "c7ebf494add1d1e579dcdf79f46bde7620175712199528d0887660108688ddcb"
+  },
+  "source": "source.png",
+  "source_sha256": "0b4821d866fba4f4c64df62b712659762d6823e0337a51ad4a4a78d1259a2f6c",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_cinder_heron/contact_1x.png": "10c1d76dd1ac7633893f8dd02e17796db5239e45f0e09b610c3d8b862eb4db9b",
+    "assets/raw/longtime/lt_cinder_heron/contact_4x.png": "5f629c13b0717ac6dc66e9b4df1808484868b18c94826ca1eb5f13179d76209c"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_cinder_heron/idle_east_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/east/frame_000.png",
+      "raw_sha256": "fd014793cab0db6cb6285b6b91f8a1c898a02b7b130691c673701e84a1661e11",
+      "source_xy": [
+        0,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "74579367bc72c941836580809fad1b4debc219e630af70bc8556bcd0602fe284"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_east_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/east/frame_001.png",
+      "raw_sha256": "a8c58b5f1ba994fc28fe5626fa414626d7366f8999cdc12eb806f9f1f683bde4",
+      "source_xy": [
+        44,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "de68cb70b4d768a197c82ee9d31c2a5ff4a2a6a9b1c496b375639f563ad3a2ce"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_east_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/east/frame_002.png",
+      "raw_sha256": "fa927ecd67f50ea239bb01dc8b5f87654f1364e21e9bc5cb9d4cc39b706ff958",
+      "source_xy": [
+        88,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "615f1b9be0f3b8a24a737e704d50b74e699f010198592807364928f88638fc98"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_north_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/north/frame_000.png",
+      "raw_sha256": "2719bf0df9a162aa6250a40b40af5c427cbebab799014a6d5acddf03ec211f11",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "0d398bc489614c686f77be38c0ad6e9e2fa828d6375be75670c9138f3e654876"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_north_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/north/frame_001.png",
+      "raw_sha256": "82ae1c7e86b809f949d4c7afa40a4d9f6d01edf6725145d818dd2f5e8ad02364",
+      "source_xy": [
+        44,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "b60789509db5ea0b3818e7113e41b985c7c1ddf925abcda3bc8d4925d5fc6827"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_north_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/north/frame_002.png",
+      "raw_sha256": "44a020ceab761765f48c7435ead3ac4f1e1b6a0f300b32d3f1edeaf8c460c103",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "bf5c3851899ca528947e41bb5a452548228cdf5046cf2cc06697018edb8dcfef"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_south_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/south/frame_000.png",
+      "raw_sha256": "511a60086ace67f168a6b3e9919f370191e1b5bfba8b5609511d4b630a946da8",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "3182c45cd7cd0631239af6d5425e7e62ea713e57b459b96d72317d7f950428bd"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_south_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/south/frame_001.png",
+      "raw_sha256": "d5980a8024f6aef872d77b6f216b2a2f611c7ee3dee606e75ea6d887b0488716",
+      "source_xy": [
+        44,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "9ccc4f8dc89b82efaf6ec04f04b4576463ea80ff62c32985fd5f1cfd43f3c580"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_south_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/south/frame_002.png",
+      "raw_sha256": "f774aac465d95c8e274c8bdd8f7616b80fa923658f5ca53d0dab9c1ca0c41b54",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "8f4d3184cf12e8a1985db4a1c2adae32bd54182e63c968f12d2b0559f04dc987"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_west_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/west/frame_000.png",
+      "raw_sha256": "1c3847b616a58f64e2f59258f58ee68967377f50e1068661bbd39088feb2b0cf",
+      "source_xy": [
+        0,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "210a49ef676b0ac400a01059fdec1193cfc076d2a2cfeb0c2122b095b5f76e7b"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_west_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/west/frame_001.png",
+      "raw_sha256": "85670603354b0bb93dcf90cd2a6236673f23d22a809059dbbe7d65c50cc3b9bc",
+      "source_xy": [
+        44,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "b13dc64a82348b2c732dce674475846264aba944639ec563fb280350e1c5a7b8"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/idle_west_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/idle/west/frame_002.png",
+      "raw_sha256": "288f71e3d11684d18cd5d87a1ad4e97572209197c684acc1e587acbdc96d30ec",
+      "source_xy": [
+        88,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "bd4b97d04baa65e572dfa94cd9241d00d703dee01f9acc9016220b0f728772cf"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_east_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/east/frame_000.png",
+      "raw_sha256": "8368ce3f39ca9d4a139200626c0229effb84d4729f0405756f3140853130d875",
+      "source_xy": [
+        0,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "1896410dfdc695c0769623901562a85b1c7acd0495a30ef98c05378f099a89a0"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_east_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/east/frame_001.png",
+      "raw_sha256": "081b715e7089500f80ff94f37482afb34a15d068c3f06a40e4ab11e3c1616817",
+      "source_xy": [
+        44,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "a69f32995fad0354c2038a3ed1f07465ebe52c15f210abb5f4ecbafd0576a978"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_east_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/east/frame_002.png",
+      "raw_sha256": "69a2b4ad2af3230b173e83ca9686ddbbec56ebab82fbd8744610ff6cbb0ff28c",
+      "source_xy": [
+        88,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "cfcf6b7ee6f1fa108a0bc887e0951dc59b8c6dbdc42f2fd86f572cf402cfd597"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_east_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/east/frame_003.png",
+      "raw_sha256": "4db75ad7e560beb035ae9d393f4ae5ebffe79a1987638adc9fa564ffd25adec4",
+      "source_xy": [
+        132,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "b41928dff039160e2f19e192a31533bf5faba2df1c23ada37e37bb1cc7a8797e"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_north_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/north/frame_000.png",
+      "raw_sha256": "808d538b7162710ac9e6caf505e67dc4e963fce7b9d7687279193fb8e6349956",
+      "source_xy": [
+        0,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "add2281833a6ccdf17dc550218132197a682bbbf3e4deb612a4d6eaa8c893305"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_north_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/north/frame_001.png",
+      "raw_sha256": "3b3d4b772eee9f326afc712b3c685e1327b5f5da6c6102a80f99c39ba6823fbe",
+      "source_xy": [
+        44,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "8d13b1d00af2aedb24eea8609c860b46f08cfa6afcc13e63fb51725c89af2408"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_north_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/north/frame_002.png",
+      "raw_sha256": "8cb49ddf6a9c4942386995973733e84c56eb9e0cf5d7f3a76b1e742938286536",
+      "source_xy": [
+        88,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "76cc694f5c65cf627cf6d99dbdffa56eeac56081f177bf65e2aca36f4fc87be9"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_north_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/north/frame_003.png",
+      "raw_sha256": "311d9b216749c0935f5a609bc3126c2cadaa247cbe0cb91c6efe339668c7c21e",
+      "source_xy": [
+        132,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "64bd2539613010c4b45438a2c1362708b6f2284cd2f4b4fcb268141cd04ac96a"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_south_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/south/frame_000.png",
+      "raw_sha256": "6017f5c4367ac27b331a045dbb3543f8fa74629dd44406677fd6153fb7d186ed",
+      "source_xy": [
+        0,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "26b821cb0f7857249181d55ef1a182228f1c138f910a73a7a331238ac83f0896"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_south_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/south/frame_001.png",
+      "raw_sha256": "3e7c1e9fcae6a25f2dd7f9b87e034a9b3d7dd9523e9e96bd4faea2cdc091e23c",
+      "source_xy": [
+        44,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "fb3423e5d94207930544acea45dcbc4dc3670bfcd14f6ee5885a9ac2ad7da024"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_south_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/south/frame_002.png",
+      "raw_sha256": "fec8f2288dd97ff19dd1b26dadae1d6e0e88ad1134f4108bb28874082e13b289",
+      "source_xy": [
+        88,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "8047e26e9ef1e2d7f14ce036ce89036e7b0caa20b884617c1d7ba7fa4be53c47"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_south_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/south/frame_003.png",
+      "raw_sha256": "f2bb625a61ddeefe9ddccdcfe255c03c6555a5d451b2daf8d9dd3707f27b9100",
+      "source_xy": [
+        132,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "21115d246ce9e0f521354c75b44d2bc943bed3691ec548dc64d8de33f22a5036"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_west_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/west/frame_000.png",
+      "raw_sha256": "82a508fed2541ce0f1088393d626cbd33b0b0dc4fac19afb22e7e6da5352140f",
+      "source_xy": [
+        0,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "959985bc1497faab2bae5d165a28a946ccfed114170b885f244a503174213094"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_west_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/west/frame_001.png",
+      "raw_sha256": "1c8dcad629e363236d7661f214ac0cfe7fb16197043a89f3907473675c0bf27f",
+      "source_xy": [
+        44,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "76a4eebcee972997451effd8b318e8cb98a69d5410c5f643409ff171539169f3"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_west_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/west/frame_002.png",
+      "raw_sha256": "3c89cb968da2ca7feab1fe8e90a1ff8df7a13776d88082423e6411426a0bf454",
+      "source_xy": [
+        88,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "b2fbdb5839a06f496bbe2e95673bb56cfd074887cd5025bdbe401af83aaafec5"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/strike_west_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/strike/west/frame_003.png",
+      "raw_sha256": "234f2331dcbbd5bbe6932b4ab2d7cfea25e00c73c31544517dbd91b3418719b7",
+      "source_xy": [
+        132,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "828ddcdbb49e6118a4c66312c50af7f1e09468047a30384508b06638aae38470"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/east/frame_000.png",
+      "raw_sha256": "c93449b4555bda68732a77840f21528684acc47703609c5fc853953ab59ffc09",
+      "source_xy": [
+        0,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "05dc139195261354f43a5a635f6bc1c90bbdc14c45ebea30837e38c7f6f04374"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/east/frame_001.png",
+      "raw_sha256": "85f7e4933dd6e7b14194fa8ffbc26ba87e6fa3a313c4c71efcbb07216e774cf7",
+      "source_xy": [
+        44,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "406801856749b0993ba861cf10ca11d3ff0d9975de0fca21f8dc9a9d1804e2f8"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/east/frame_002.png",
+      "raw_sha256": "6b51403eb76bb0f6582ee46dfea2f1e168b47cd87cbb3ec8909ad5cf3d1022d5",
+      "source_xy": [
+        88,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "7fc4e8c0124de7d0e64c82efae58191304c89ed7bd0095d003ae36cb014e728d"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/north/frame_000.png",
+      "raw_sha256": "738d5488574450a70ec6bcd5bce1de8a27c7d34db3f31773cf28af509b52a1a8",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "098a688f39deaa3854f753d4e6bdc3cc24767eec1dcbebf6a04939f9d7988a3e"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/north/frame_001.png",
+      "raw_sha256": "95c0aaf21744796f4fccf2414d899479e098950625b9e2106e2d85f6a3ad5822",
+      "source_xy": [
+        44,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "1bf65fe377b09f1af409c5f8ece7312ff8903e4b95b5dcdaa9eb33e6e637a1bf"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/north/frame_002.png",
+      "raw_sha256": "166596bdbea0642a547886900688ce4dd00c2f5959fe4d4666419be8ada0fb82",
+      "source_xy": [
+        88,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "99a7cc387834351b1d93a3319f79b08911126489a028749daea57a81932bb6b1"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/south/frame_000.png",
+      "raw_sha256": "2e8ee6373f6bd73c086cd8478f2312786009f10dade5d4cb716e69bed74a608b",
+      "source_xy": [
+        0,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "e3c28c5920715573d51feb897733060d55e1017ddfc6bc972c3afa17ee71053d"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/south/frame_001.png",
+      "raw_sha256": "ec65639d9868af0116a597428cd27d28faadc251da5182f475fbb00f64add48e",
+      "source_xy": [
+        44,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "923c53f8f5c5e975f30567109b30256c639a45486bd1a1777c26e4722fccc504"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/south/frame_002.png",
+      "raw_sha256": "93827dc24e1e559e7f267419e4f8812820fd5eabfdfd61537cdfb0fa8267215a",
+      "source_xy": [
+        88,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "220c2601aa505a416a542b6488049417f4383ab49472352facfeb9928e223dbb"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/west/frame_000.png",
+      "raw_sha256": "8ba8551b9bb4ac9049926699ca55c6a76574494f7f1a1b1fe8e7770b5a618f7b",
+      "source_xy": [
+        0,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "dae29a5209634b2b70d0340fd1d260ba505f81291fea39de7b6e7a873a0a3b19"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/west/frame_001.png",
+      "raw_sha256": "48128b3725defdcdb5ccc023ea5d3ade8af875fc36a47825f26b5ff5fb96224c",
+      "source_xy": [
+        44,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "fad62d2a5e0b32265b791268e3b70f6d7f23b6b0b5cbd37765ff102492313c5a"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/telegraph/west/frame_002.png",
+      "raw_sha256": "b6ba308b8ff116da7ac4d3967b7f7e2f5f4f7bd11da942a629cec017fb717d7c",
+      "source_xy": [
+        88,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "a2aa511fc25b374f05b8f0e52ba85342d07d5138abe08b5e1d79e945b59adfec"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_east_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/east/frame_000.png",
+      "raw_sha256": "129d71a295830d1527ffd28cdeab212fd009af4626aef8a91d9467168fb69a88",
+      "source_xy": [
+        0,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "e315417836715b9af8cc8ab413ccec2b52d2fcee300722c3a1048b5db6d7c682"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_east_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/east/frame_001.png",
+      "raw_sha256": "887438a1c509ee37d46f52ca19cf9f1c0837ce570af77c6280169bd3eb40950d",
+      "source_xy": [
+        44,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "00224ef731cd95b81bd5b17d33b19f82be23bc5b0ae710bd6e53b68f42ee9406"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_east_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/east/frame_002.png",
+      "raw_sha256": "4002a5105de916b1b00158a83d5acfb6131d7ac6a6efb5d94bdfcbac921f7e30",
+      "source_xy": [
+        88,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "5aa480356862f1d5e3daa5ba7f686d10aef25f764876fd638348e82aed7fc325"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_east_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/east/frame_003.png",
+      "raw_sha256": "5f1746fb79a84a361c8a38c9bfed0b5d72ee13e8d46dfc2b3549ff7f1d1db551",
+      "source_xy": [
+        132,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "2234e233455e0be7f92c5b24a4c48329bca645eb5384d565e00bc67d3fd4749b"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_north_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/north/frame_000.png",
+      "raw_sha256": "6aac1e631990d44dda80dd25e87852ed7bc8e94b079826e5c11ceb7807431542",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "832d703158b283cbebfc9ef4fee7f8390448c9c9bee1894d11f56cb13bb14715"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_north_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/north/frame_001.png",
+      "raw_sha256": "563cec5e4fbaec63014f1d40a55ab8d309ca8b3deeeda12a622db59791a38256",
+      "source_xy": [
+        44,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "349c3081c537cd07a9cb531d4203cef721854472ec4c314b5d34db9ec884c92a"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_north_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/north/frame_002.png",
+      "raw_sha256": "265253539b313eca02a55bfa5dcdbac15ee0793925e3afef48ba08f00c933647",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "9dc218fa9799f46bef649c7691ec31e75781cefd0aa615e9c39ccc2b26f57cea"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_north_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/north/frame_003.png",
+      "raw_sha256": "af8b634a100d322d12b2d4dd04074ac07b4e56ae56685ee06f34428ef6074d3d",
+      "source_xy": [
+        132,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "94cbb9c6fb83b877506640b39506a94190c2c6e8b1d1b61e13cffe9f0e658c0e"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_south_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/south/frame_000.png",
+      "raw_sha256": "bd4a9b65cade07e954f766e09e2317c2d3600aec1ea9211a37625c880283ab63",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "97f9e031e31f8d3dd4b0af97eb97d9ab92eb2c181d3cc9a5ae1cad47824c67ae"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_south_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/south/frame_001.png",
+      "raw_sha256": "71194773f937590cc3781ebba9d610393bc15cdf046b6999795ac80591b49cb6",
+      "source_xy": [
+        44,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "28cf7a772f98e95900bd813e62960ce5adec7b15c84edeff47ad047b4d12b7ae"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_south_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/south/frame_002.png",
+      "raw_sha256": "c5831407818e76cd8d76bc01294917dca54c802be5b4b4c7544bee4e95fafe9a",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "5359fc3577dd7c06034e4ab4099bcaffb62df58e6f4779618c36fd1a98f33ca5"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_south_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/south/frame_003.png",
+      "raw_sha256": "1f04a98dca53ac5c4a057275ecf1a9082d14f97dea3c71ec17381e13dd851f18",
+      "source_xy": [
+        132,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "6621c10455af5b767089d5532620ba4f043be83dba4e700fc09c0423dd169644"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_west_0",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/west/frame_000.png",
+      "raw_sha256": "82c9cee94093403e1e9bd0cca6c372eb880ebe7919151829ad663c76521311df",
+      "source_xy": [
+        0,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "7f90467ea9f1fc865a1405717d390598ab1d5af6a83a0c859da018be7aa0d763"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_west_1",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/west/frame_001.png",
+      "raw_sha256": "806dd95cf5694f928e80fea1677444f44fd62dadd60f332fa4656b5e4de140f3",
+      "source_xy": [
+        44,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "503789aea5e2851d0789147f2d7e6e8faf94bbb163e44e688b755e581438445d"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_west_2",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/west/frame_002.png",
+      "raw_sha256": "fc3d14ad16ecc25a20d66cb14eefa3d2a0fde87c89d05516e8e9cba49f44d72d",
+      "source_xy": [
+        88,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "76779abeae31b775d0f5354514c15de309d4856593e5e41ecdbc84a5f4d47fc2"
+    },
+    {
+      "key": "longtime/lt_cinder_heron/walk_west_3",
+      "path": "assets/processed_longtime/lt_cinder_heron/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_cinder_heron/walk/west/frame_003.png",
+      "raw_sha256": "2ee5ca1c10183fe0b82e1d7a47ba3169172ed13d928efd35d868cdb8f433da65",
+      "source_xy": [
+        132,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "5e30fc798caba6c7bdad0479a85d95927a55ef8fdfaec4d16d2ad1dc9dcaad8e"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

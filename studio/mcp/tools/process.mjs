@@ -50,7 +50,7 @@ export default {
     'It also checks the figure against the project\'s readability guide (pack figures, when one applies to this profile): warnings for limbs thinner than the minimum, a head far from the proportion range, and any accent colour you named in accents that drops below its minimum pixel count (warnings, never a refusal). ' +
     'marks keep an ASYMMETRIC colour through pixelisation (a coloured ear, a tool in one hand): they are stored and reused by every later step. ' +
     'For a single-frame asset, submit=true commits the sprites as its raw frames (cell "<pose>_<facing>" becomes frame "<pose>_<facing>_0" of the one-frame clip named like the pose; a plain facing cell becomes the asset\'s only clip). ' +
-    'For a clip with several frames do not submit here: use studio_rig_bake.' +
+    'For a clip with several frames do not submit here: use studio_rig_bake. The sprites here are always snapped one by one; the colour hold across the frames of a pose clip is applied when studio_rig_bake builds the clip from poseClips (hold=false turns it off).' +
     ' dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
   scope: 'author',
   inputSchema: {
@@ -58,6 +58,7 @@ export default {
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Design asset id with an imported sheet.' },
       marks: { type: 'array', maxItems: 4, items: markItem, description: 'Asymmetric marks to keep. Replaces the stored marks; [] clears them. Omit to reuse the stored ones.' },
+      hold: { type: 'boolean', description: 'Colour hold across the frames of a clip: a pixel keeps its previous palette entry when the new colour is close (stops shimmer). Applied by studio_rig_bake to the own key sequence of each pose clip (its loop setting decides whether the last key leads into the first); static cells and one-frame clips are never held. On by default; false snaps every frame alone. Stored with the marks.' },
       accents: { type: 'array', maxItems: 8, items: { type: 'string', maxLength: 20 }, description: 'Palette ids of the accent colours (a scarf, a sash, a gem) that must survive pixelisation. Each is checked in every sprite against the pack\'s minimum pixel count and warned about if it is lost. Stored; [] clears; omit to reuse.' },
       figure: { type: 'string', maxLength: 31, description: 'Pack figure guide to check the sprites against (default: the one that lists this asset\'s profile); "none" turns the figure check off.' },
       submit: { type: 'boolean', description: 'Commit the sprites as the asset\'s raw frames (single-frame clips only). Refused if any sprite fails the pixel gates.' },
@@ -76,14 +77,15 @@ export default {
     requireFrames(asset);
     return inlineOrJob(ctx, 'process', args, (log) => forgeCall(async () => {
       const { settings } = await settingsFor(snap, ws, asset);
-      // Validate every input first, then store once: a refused call changes nothing, and a marks-only call keeps the stored accents.
+      // Validate every input first, then store once: a refused call changes nothing, and a marks-only call keeps the stored accents and hold.
       if (args.marks !== undefined) resolveMarks(args.marks, settings.palette);
       if (args.accents !== undefined) for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
       if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
-      if (!args.dryRun && (args.marks !== undefined || args.accents !== undefined)) {
-        await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
+      if (!args.dryRun && (args.marks !== undefined || args.accents !== undefined || args.hold !== undefined)) {
+        await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}),
+          ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
-      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot, ...(args.dryRun ? { overlay: { ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}) } } : {}) });
+      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot, ...(args.dryRun ? { overlay: { ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}) } } : {}) });
       if (args.submit && slots.length > 1) throw new ToolError('Both a turnaround and a pose sheet are imported: say which one to submit with slot ("rig" or "pose"). Frames of moving clips come from studio_rig_bake, which credits each frame to its own sheet.');
       log(`pixelised ${pixelized.cells.size} cell(s) of ${slots.map((s) => s.doc.layout.id).join(' + ')}`);
       const options = pixelOptions(snap, asset);
@@ -93,6 +95,7 @@ export default {
         marks: (processDoc.marks ?? []).map((m) => m.color),
         cells: pixelized.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, scale: c.scale, limit: c.scaleLimit, bounds: c.bounds, marks: c.marks, warnings: c.warnings,
           defects: cells[pixelized.record.cells.indexOf(c)].errors })),
+        ...(pixelized.record.hold ? { hold: { ...pixelized.record.hold, heldPerFrame: Object.fromEntries((pixelized.record.held ?? []).map((h) => [`${h.clip}/${h.facing}/${h.key}`, h.held])) } } : { hold: false }),
         warnings: pixelized.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings })),
       };
       // The figure check: only warnings, judged against the pack's guide for this profile.
@@ -118,7 +121,7 @@ export default {
         if (!accepted) { shown.structured.submit = submitted; return { content: shown.content, structuredContent: shown.structured, isError: true }; }
         shown.content[0].text += args.dryRun ? ` DRY RUN: would submit ${report.wouldWrite.length} frame(s) as raw; nothing was written.` : ` Submitted ${report.written.length} frame(s) as raw (status pending); ask for review after an independent check.`;
       }
-      return { content: shown.content, structuredContent: { ...shown.structured, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', ...(args.marks !== undefined || args.accents !== undefined ? { wouldStoreMarks: `${forgeDir(asset)}/process.json` } : {}) } : {}), ...(submitted ? { submit: submitted } : {}),
+      return { content: shown.content, structuredContent: { ...shown.structured, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', ...(args.marks !== undefined || args.accents !== undefined || args.hold !== undefined ? { wouldStoreMarks: `${forgeDir(asset)}/process.json` } : {}) } : {}), ...(submitted ? { submit: submitted } : {}),
         next: args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : submitted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : 'Look at the sprites. For a moving clip: studio_rig_bake. For a single frame: studio_process with submit=true.' } };
     }));
   },
