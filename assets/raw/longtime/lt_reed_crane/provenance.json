@@ -96,7 +96,9 @@
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
-    }
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
   },
   "source": "source.png",
   "source_sha256": "d9148d4cce29898affb0f906380076066f9f4d19fee70ed33daaabf7430664c7",
@@ -489,5 +491,9 @@
       "duration_ms": 180,
       "sha256": "bcb5afc94ff9ddce1be3951130d80a3f739927faebb62478fc5d16cfc09b54ae"
     }
-  ]
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
 }
