@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Viewport harness</title>
+<!--
+  Pixel Kiln viewport harness: embeds the running studio in an iframe at 1600 / 1280 / 900 / 420 px,
+  for one tab and one language at a time. Open it from the studio's own server:
+    http://127.0.0.1:4173/studio/ui/tests/viewport-harness.html?tab=review&w=900&lang=vi
+  Query: tab (one of the nine ids), w (any width; presets 1600 1280 900 420), h (iframe height, default 800),
+  lang (en|vi), fit (1 = shrink to the panel, default; 0 = real size, scroll), nav (hash after #/, optional).
+  The page title is a one-line report once the tab has settled:
+    READY <tab> <lang> <w>x<h> overflowX=<px> offenders=<n> | TIMEOUT ...
+  No dependency, no build step, same origin as the studio so it can set the language and read the layout.
+-->
+<style>
+  :root { color-scheme: dark; font: 13px/1.4 system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #1b1b1f; color: #e6e6ea; display: flex; flex-direction: column; min-height: 100vh; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding: 6px 10px; background: #26262c; border-bottom: 1px solid #3a3a42; }
+  .group { display: flex; gap: 2px; align-items: center; }
+  .group > span { color: #9a9aa6; margin-right: 4px; }
+  button { font: inherit; color: inherit; background: #33333b; border: 1px solid #4a4a54; padding: 2px 8px; cursor: pointer; border-radius: 3px; }
+  button[aria-pressed="true"] { background: #5b6bd6; border-color: #8793ee; color: #fff; }
+  button:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+  .status { margin-left: auto; font-family: ui-monospace, monospace; color: #9a9aa6; }
+  .status[data-state="ready"] { color: #7fd48a; }
+  .status[data-state="timeout"] { color: #e9b66a; }
+  .stage { flex: 1; overflow: auto; padding: 8px; }
+  .frame-box { transform-origin: top left; background: #fff; box-shadow: 0 0 0 1px #4a4a54; }
+  iframe { display: block; border: 0; background: #fff; }
+  body[data-capture="1"] .bar { display: none; }
+  body[data-capture="1"] .stage { padding: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+  <div class="bar" id="bar">
+    <div class="group" id="tabs" role="group" aria-label="Tab"><span>Tab</span></div>
+    <div class="group" id="widths" role="group" aria-label="Width"><span>Width</span></div>
+    <div class="group" id="langs" role="group" aria-label="Language"><span>Lang</span></div>
+    <div class="group" id="fits" role="group" aria-label="Scale"><span>Scale</span></div>
+    <div class="status" id="status" data-state="loading" role="status">loading</div>
+  </div>
+  <div class="stage" id="stage"><div class="frame-box" id="box"></div></div>
+
+<script>
+'use strict';
+const TABS = ['overview', 'characters', 'objects', 'vfx', 'audio', 'review', 'jobs', 'sandbox', 'atlas'];
+const WIDTHS = [1600, 1280, 900, 420];
+const LANGS = ['en', 'vi'];
+const LANG_KEY = 'studio.lang';        // the shell's own storage key (studio/ui/i18n.mjs)
+const SETTLE_MS = 700;                 // no DOM change for this long = settled
+const GIVE_UP_MS = 9000;
+
+const q = new URLSearchParams(location.search);
+const pick = (v, list, d) => (list.includes(v) ? v : d);
+const state = {
+  tab: pick(q.get('tab'), TABS, 'overview'),
+  w: Math.max(240, Math.min(3000, parseInt(q.get('w'), 10) || 1280)),
+  h: Math.max(300, Math.min(3000, parseInt(q.get('h'), 10) || 800)),
+  lang: pick(q.get('lang'), LANGS, 'en'),
+  fit: q.get('fit') !== '0',
+  nav: q.get('nav') || ''
+};
+const capture = q.get('capture') === '1';
+document.body.dataset.capture = capture ? '1' : '0';
+
+const el = id => document.getElementById(id);
+const status = el('status');
+let run = 0;
+
+function button(parent, label, pressed, onclick) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = label; b.setAttribute('aria-pressed', String(pressed)); b.onclick = onclick;
+  parent.appendChild(b);
+}
+
+function syncUrl() {
+  const p = new URLSearchParams({tab: state.tab, w: state.w, h: state.h, lang: state.lang, fit: state.fit ? 1 : 0});
+  if (state.nav) p.set('nav', state.nav);
+  if (capture) p.set('capture', '1');
+  history.replaceState(null, '', `${location.pathname}?${p}`);
+}
+
+function drawControls() {
+  for (const id of ['tabs', 'widths', 'langs', 'fits']) { const g = el(id); while (g.children.length > 1) g.lastChild.remove(); }
+  TABS.forEach(t => button(el('tabs'), t, t === state.tab, () => { state.tab = t; state.nav = ''; load(); }));
+  WIDTHS.forEach(w => button(el('widths'), String(w), w === state.w, () => { state.w = w; load(); }));
+  LANGS.forEach(l => button(el('langs'), l.toUpperCase(), l === state.lang, () => { state.lang = l; load(); }));
+  button(el('fits'), 'fit', state.fit, () => { state.fit = true; load(); });
+  button(el('fits'), '1:1', !state.fit, () => { state.fit = false; load(); });
+}
+
+function applyScale() {
+  const box = el('box'), stage = el('stage');
+  const avail = stage.clientWidth - (capture ? 0 : 16);
+  const availH = capture ? stage.clientHeight : Infinity;
+  const scale = state.fit ? Math.min(1, avail / state.w, availH / state.h) : 1;
+  box.style.width = state.w + 'px';
+  box.style.height = state.h + 'px';
+  box.style.transform = scale === 1 ? '' : `scale(${scale})`;
+  // the transformed box keeps its layout size, so reserve the scaled size to avoid dead scroll space
+  box.style.marginBottom = scale === 1 ? '' : `${-(state.h * (1 - scale))}px`;
+  box.style.marginRight = scale === 1 ? '' : `${-(state.w * (1 - scale))}px`;
+  return scale;
+}
+
+function measure(doc, win) {
+  const root = doc.documentElement;
+  const vw = root.clientWidth;
+  const overflowX = Math.max(0, root.scrollWidth - vw);
+  const offenders = [];
+  for (const node of doc.body.querySelectorAll('*')) {
+    const r = node.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) continue;
+    if (r.right > vw + 1) {
+      // skip children of a scroll container that clips them on purpose
+      let p = node.parentElement, clipped = false;
+      while (p && p !== doc.body) {
+        const s = win.getComputedStyle(p);
+        if (/(auto|scroll|hidden|clip)/.test(s.overflowX) && p.getBoundingClientRect().right <= vw + 1) { clipped = true; break; }
+        p = p.parentElement;
+      }
+      if (!clipped) offenders.push(`${node.tagName.toLowerCase()}${node.id ? '#' + node.id : ''}${typeof node.className === 'string' && node.className ? '.' + node.className.trim().split(/\s+/)[0] : ''}`);
+    }
+  }
+  return {overflowX, offenders: [...new Set(offenders)]};
+}
+
+function report(kind, extra) {
+  const m = extra || {overflowX: -1, offenders: []};
+  const line = `${kind} ${state.tab} ${state.lang} ${state.w}x${state.h} overflowX=${m.overflowX} offenders=${m.offenders.length}`;
+  document.title = line;
+  status.textContent = line + (m.offenders.length ? ' [' + m.offenders.slice(0, 6).join(', ') + ']' : '');
+  status.dataset.state = kind === 'READY' ? 'ready' : 'timeout';
+  document.body.dataset.ready = 'true';
+  window.__viewportReport = {kind, tab: state.tab, lang: state.lang, w: state.w, h: state.h, ...m};
+}
+
+function watch(frame, mine) {
+  const started = performance.now();
+  let lastChange = performance.now(), observer = null, timer = null;
+  const finish = (kind) => {
+    clearInterval(timer); observer?.disconnect();
+    if (mine !== run) return;
+    let m;
+    try { m = measure(frame.contentDocument, frame.contentWindow); } catch { m = undefined; }
+    report(kind, m);
+  };
+  const attach = () => {
+    const doc = frame.contentDocument;
+    if (!doc || !doc.body) return false;
+    observer = new MutationObserver(() => { lastChange = performance.now(); });
+    observer.observe(doc.body, {subtree: true, childList: true, characterData: true, attributes: true});
+    return true;
+  };
+  frame.addEventListener('load', () => { if (!observer) attach(); lastChange = performance.now(); });
+  timer = setInterval(() => {
+    if (mine !== run) { clearInterval(timer); return; }
+    const now = performance.now();
+    if (now - started > GIVE_UP_MS) return finish('TIMEOUT');
+    try {
+      const doc = frame.contentDocument;
+      if (!doc || doc.readyState !== 'complete') return;
+      if (!observer && !attach()) return;
+      const main = doc.getElementById('main');
+      const busy = doc.querySelector('[aria-busy="true"], .loading, .skeleton');
+      if (main && main.children.length && !busy && now - lastChange > SETTLE_MS) finish('READY');
+    } catch { /* not yet navigable */ }
+  }, 150);
+}
+
+function load() {
+  run += 1;
+  const mine = run;
+  document.body.dataset.ready = 'false';
+  status.dataset.state = 'loading'; status.textContent = 'loading';
+  try { localStorage.setItem(LANG_KEY, state.lang); } catch { /* same-origin storage unavailable: the shell falls back to the browser language */ }
+  syncUrl(); drawControls(); applyScale();
+  const box = el('box');
+  box.textContent = '';
+  const frame = document.createElement('iframe');
+  frame.title = `Studio ${state.tab} ${state.lang} ${state.w}px`;
+  frame.width = state.w; frame.height = state.h;
+  frame.src = `/studio/#/${state.nav || state.tab}`;
+  box.appendChild(frame);
+  watch(frame, mine);
+}
+
+addEventListener('resize', applyScale);
+load();
+</script>
+</body>
+</html>
