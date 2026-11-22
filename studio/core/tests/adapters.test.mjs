@@ -193,3 +193,54 @@ test('output over the cap also stops the program and what it started', { skip: p
   for (let i = 0; i < 40 && alive(); i++) await new Promise(res => setTimeout(res, 50));
   if (alive()) { process.kill(pid, 'SIGKILL'); assert.fail('the sleeper survived the output cap'); }
 });
+
+test('validatePack: a number that can be negative may not be a separate token ("-5" reads as an option); --flag={name} is fine', () => {
+  const args = (mutate, a) => issues(p => { mutate(gen(p)); gen(p).args = a ?? gen(p).args; });
+  const swap = (from, to) => gen(pack()).args.map(a => (a === from ? to : a));
+  assert.match(args(g => { delete g.params.size.minimum; }).join(), /parameter \{size\} can be negative .*--name=\{size\}/, 'no minimum at all');
+  assert.match(args(g => { g.params.size.minimum = -4; g.params.size.maximum = 96; delete g.params.size.default; }).join(), /can be negative/);
+  assert.deepEqual(args(g => { g.params.size.minimum = 0; }), [], 'a minimum of 0 or more is fine');
+  const embedded = gen(pack()).args.flatMap((a, i, all) => (all[i - 1] === '--size' ? [] : a === '--size' ? ['--size={size}'] : [a]));
+  assert.deepEqual(args(g => { delete g.params.size.minimum; }, embedded), [], 'embedded as --size={size} a negative value cannot be read as a separate option');
+  assert.deepEqual(args(() => {}), [], 'the real registration still passes');
+});
+
+test('runProgram: what the leader leaves running is stopped when the leader exits, and the call does not wait for it', { skip: process.platform === 'win32' && 'POSIX process groups' }, async t => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'orphan-'));
+  t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
+  const pidFile = path.join(dir, 'sleeper.pid');
+  // The grandchild inherits our output pipes and would keep them open for a minute; the leader exits at once.
+  const code = `const {spawn}=require('child_process');const c=spawn(process.execPath,['-e','setTimeout(()=>{},60000)'],{stdio:['ignore','inherit','inherit']});c.unref();require('fs').writeFileSync(${JSON.stringify(pidFile)},String(c.pid));`;
+  const r = await runProgram({file: process.execPath, argv: ['-e', code], cwd: dir, timeoutMs: 20000});
+  assert.equal(r.timedOut, false);
+  assert.equal(r.code, 0);
+  assert.ok(r.ms < 10000, `returned in ${r.ms} ms, not after the sleeper's minute`);
+  const pid = Number(fs.readFileSync(pidFile, 'utf8'));
+  const alive = () => { try { process.kill(pid, 0); return true; } catch { return false; } };
+  for (let i = 0; i < 40 && alive(); i++) await new Promise(res => setTimeout(res, 50));
+  if (alive()) { process.kill(pid, 'SIGKILL'); assert.fail('the leftover grandchild survived the leader'); }
+});
+
+test('runProgram: programs still running when the server is stopped are stopped with it (SIGTERM)', { skip: process.platform === 'win32' && 'POSIX process groups' }, async t => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'reap-'));
+  t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
+  const pidFile = path.join(dir, 'prog.pid');
+  const host = path.join(dir, 'host.mjs');
+  const adaptersUrl = new URL('../adapters.mjs', import.meta.url).href;
+  const program = `require('fs').writeFileSync(${JSON.stringify(pidFile)}, String(process.pid)); setTimeout(() => {}, 60000)`;
+  fs.writeFileSync(host, `import {runProgram} from ${JSON.stringify(adaptersUrl)};
+    runProgram({file: process.execPath, argv: ['-e', ${JSON.stringify(program)}], cwd: ${JSON.stringify(dir)}, timeoutMs: 60000});
+    setTimeout(() => {}, 60000);`);
+  const {spawn} = await import('node:child_process');
+  const server = spawn(process.execPath, [host], {stdio: 'ignore'});
+  for (let i = 0; i < 100 && !fs.existsSync(pidFile); i++) await new Promise(res => setTimeout(res, 50));
+  const pid = Number(fs.readFileSync(pidFile, 'utf8'));
+  assert.ok(pid > 0);
+  const alive = () => { try { process.kill(pid, 0); return true; } catch { return false; } };
+  assert.equal(alive(), true, 'the program is running');
+  const exited = new Promise(res => server.on('exit', (code, signal) => res(signal)));
+  server.kill('SIGTERM');
+  assert.equal(await exited, 'SIGTERM', 'the server still dies of the signal');
+  for (let i = 0; i < 60 && alive(); i++) await new Promise(res => setTimeout(res, 50));
+  if (alive()) { process.kill(pid, 'SIGKILL'); assert.fail('the program outlived the server'); }
+});

@@ -6,14 +6,14 @@ import { readInside } from '../../core/files.mjs';
 import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
-import { MAX_SHEET_BYTES, forgeCall, forgeDir, readDoc, settingsFor, storeSheet, workDir, writeDoc } from '../workflow/forge.mjs';
+import { MAX_SHEET_BYTES, forgeCall, forgeDir, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
 import { loadAsset, jsonResult, requireFrames } from './_shared.mjs';
 
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
   right_edge: 'the drawing touches the right edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
   bottom_edge: 'the drawing touches the bottom edge of its cell crop and may be cut',
-  label_band: 'foreground in the first row under the label band: the band may have cropped the drawing; lower labelBand.fraction or redraw lower',
+  label_band: 'foreground in the first row under the label band: the band may have cropped the drawing. If your sheet has no printed labels, set layout.labelBand.fraction to 0 and import again; otherwise lower it or redraw lower',
 };
 
 export default {
@@ -22,8 +22,9 @@ export default {
   description:
     'Bring in a sheet you drew with your own image tool on the template from studio_template_get. The forge cuts one crop per cell, removes the green key, measures the ground line and scale, ' +
     'and records the sheet\'s SHA-256 and your prompt VERBATIM as provenance. The sheet is stored once beside the asset and never changed; later steps re-derive everything from it. ' +
-    'Give the layout (inline, or the layoutId when you used write=true). warnings say where a crop may cut the drawing and what to do. ' +
-    'Next: studio_process to pixelise. Importing again replaces the current import (the old sheet stays stored).',
+    'Give the layout (inline, or the layoutId when you used write=true). The top layout.labelBand.fraction of every cell (0.13 in the shipped templates) is treated as the label area and never as drawing: if your sheet has NO labels, set it to 0 in the layout you pass, or crowns get cut. warnings say where a crop may cut the drawing and what to do. ' +
+    'A character can have BOTH a turnaround sheet (slot rig: idle and small motions) and a pose sheet (slot pose: locomotion): each kind of sheet keeps its own import, chosen by the layout, so importing one never replaces the other. Importing the same kind again replaces that slot (the old sheet stays stored). ' +
+    'Next: studio_process to pixelise.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -93,13 +94,13 @@ export default {
       const stored = await storeSheet(ws, asset, bytes);
       const doc = { sheet: { file: stored.rel, sha256: stored.sha256, width: image.width, height: image.height }, layout, prompt: args.prompt, tool: args.tool,
         agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), ...(args.scaleOptions ? { scaleOptions: args.scaleOptions } : {}) };
-      const previous = await readDoc(ws, asset, 'import');
-      await writeDoc(ws, asset, 'import', doc);
+      const slot = slotOfLayout(layout);
+      const previous = await writeImport(ws, asset, doc, slot);
       await appendFile(containedPath(ws.root, `${forgeDir(asset)}/imports.jsonl`), JSON.stringify({ ...doc, layout: undefined, layoutId: layout.id }) + '\n');
 
       const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
       return jsonResult({
-        ok: true, asset: asset.id, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
+        ok: true, asset: asset.id, slot, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
         cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, ground: c.ground, scale: c.scale ?? null, limit: c.limit ?? null, warnings: c.warnings })),
         warnings,
         next: warnings.length ? 'Fix the warnings (move a seam in the layout, redraw) and import again, or go on if the crops are whole.' : 'studio_process to pixelise and look at the native sprites.',

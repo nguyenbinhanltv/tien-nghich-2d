@@ -110,7 +110,15 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
   const m = await milestones(root, asset);
   if (isShipped(m)) throw problem(409, 'already_processed', `${asset.id} already has processed or packed frames (${m.processed.found} processed). New work on it goes through revisions, not raw submission.`);
   if (!Array.isArray(frames) || !frames.length || frames.length > MAX_BATCH_FRAMES) invalid(`frames must hold 1 to ${MAX_BATCH_FRAMES} frames`);
-  const prov = validateProvenance(provenance, index);
+  // One provenance for the batch, or a list of {frames: [names], ...provenance}: frames made from different sources
+  // (two sheets) still go in ONE all-or-nothing submission, each credited to its own source.
+  const grouped = Array.isArray(provenance);
+  const provs = grouped ? provenance.map(({frames: names, ...rest}) => ({names, prov: validateProvenance(rest, index)})) : [{names: null, prov: validateProvenance(provenance, index)}];
+  const prov = provs[0].prov;
+  if (grouped) {
+    const claimed = provs.flatMap(g => g.names ?? []);
+    if (!provs.length || new Set(claimed).size !== claimed.length) invalid('provenance groups must each name their frames, and no frame may be in two groups');
+  }
 
   const seen = new Set(), loaded = [];
   let total = 0;
@@ -194,11 +202,17 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
         // 'pending' explicitly: an agent submission starts unreviewed, and only a human can change that.
         store.operate(frame, f.bytes, 'review', {revision: 0, status: 'pending'});
       }
-      const record = {at: new Date().toISOString(), agent: caller.agent, session: caller.session, kind: 'frames', ...prov,
-        frames: plan.map(p => ({name: p.f.name, file: p.rel, sha256: sha256(p.f.bytes), width: w, height: h, created: !p.exists})),
-        gates: {errors: 0, warnings: report.frames.reduce((n, x) => n + x.warnings, 0)}};
-      // A resubmission that wrote nothing adds no provenance: the pixels' origin is the first record.
-      if (created.length) await fs.appendFile(logFile, JSON.stringify(record) + '\n');
+      const lines = [];
+      for (const g of provs) {
+        const mine = g.names ? plan.filter(p => g.names.includes(p.f.name)) : plan;
+        if (!mine.length) continue;
+        const record = {at: new Date().toISOString(), agent: caller.agent, session: caller.session, kind: 'frames', ...g.prov,
+          frames: mine.map(p => ({name: p.f.name, file: p.rel, sha256: sha256(p.f.bytes), width: w, height: h, created: !p.exists})),
+          gates: {errors: 0, warnings: report.frames.reduce((n, x) => n + x.warnings, 0)}};
+        // A resubmission that wrote nothing adds no provenance: the pixels' origin is the first record.
+        if (mine.some(p => !p.exists)) lines.push(JSON.stringify(record));
+      }
+      if (lines.length) await fs.appendFile(logFile, lines.join('\n') + '\n');
     } catch (error) {
       for (const rel of created) await fs.rm(containedPath(root, rel), {force: true});
       throw error;

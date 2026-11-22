@@ -7,6 +7,17 @@ import { loadAsset, requireFrames } from './_shared.mjs';
 import { pickStage } from '../../core/qa.mjs';
 
 const MAX_PIXELS = 2048 * 2048;
+/** Frame names closest to a wanted one (shared name parts, then shared leading letters), and the name groups with their counts. */
+export function nearNames(names, wanted, limit = 6) {
+  const parts = (n) => n.split('_').filter((x) => x && !/^\d+$/.test(x));
+  const want = new Set(parts(wanted));
+  const lead = (n) => { let i = 0; while (i < n.length && i < wanted.length && n[i] === wanted[i]) i++; return i; };
+  const scored = names.map((n) => ({ n, shared: parts(n).filter((x) => want.has(x)).length, lead: lead(n) }));
+  const closest = scored.filter((x) => x.shared || x.lead >= 3).sort((a, b) => b.shared - a.shared || b.lead - a.lead || a.n.localeCompare(b.n)).slice(0, limit).map((x) => x.n);
+  const groups = new Map();
+  for (const n of names) { const g = n.replace(/_\d+$/, ''); groups.set(g, (groups.get(g) ?? 0) + 1); }
+  return { closest, groups: [...groups].slice(0, 12).map(([g, c]) => `${g} (${c})`), groupCount: groups.size };
+}
 const hexOf = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 
 export default {
@@ -16,7 +27,8 @@ export default {
     'Composite an asset on a background and return the picture, so you can judge it where it will be used: a character standing on the real floor tile, a weapon on a flat colour, an effect at a character\'s feet or head. ' +
     'background: "checker" (default), "flat" (a palette colour) or "tile" (repeat the first processed frame of a tileset asset, or one you name). ' +
     'The subject stands with its pivot on the ground point (default: centre, 80% down). vfx places a frame of an effect so ITS pivot sits at an anchor of the subject: feet (the pivot), center, head, or an x/y offset in native pixels. ' +
-    'mode "strip" shows every frame of the chosen clip and direction side by side. Pixels are native, then enlarged with nearest-neighbour. Read-only.',
+    'mode "strip" shows every frame of the chosen clip and direction side by side. Pixels are native, then enlarged with nearest-neighbour. ' +
+    'It shows STORED frames only: raw frames you have submitted, or processed ones. A build with submit=false (studio_vfx_build, studio_rig_bake, studio_generator_run) stores nothing and returns its own contact sheet, so submit first, then look at it in place. Read-only.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -88,7 +100,11 @@ export default {
       if (!tileAsset?.layout) throw new ToolError(`No tile asset "${bg.tileAsset}" with frames. Find tilesets with studio_catalog_search category=tileset.`);
       const tiles = (await listFrames(ws.root, tileAsset, 'processed')).frames;
       const tile = bg.tileFrame ? tiles.find((f) => f.name === bg.tileFrame) : tiles[0];
-      if (!tile) throw new ToolError(bg.tileFrame ? `${bg.tileAsset} has no frame "${bg.tileFrame}" (first few: ${tiles.slice(0, 5).map((f) => f.name).join(', ')}).` : `${bg.tileAsset} has no processed frames.`);
+      if (!tile) {
+        if (!bg.tileFrame) throw new ToolError(`${bg.tileAsset} has no processed frames.`);
+        const near = nearNames(tiles.map((f) => f.name), bg.tileFrame);
+        throw new ToolError(`${bg.tileAsset} has no frame "${bg.tileFrame}". It has ${tiles.length} frames in ${near.groupCount} name group(s): ${near.groups.join(', ')}${near.groupCount > 12 ? ', ...' : ''}.${near.closest.length ? ` Closest to your request: ${near.closest.join(', ')}.` : ''}`);
+      }
       const image = decodeRgba(await readInside(ws.root, tile.rel));
       backdrop = { kind: 'tile', image };
       bgInfo = { kind: 'tile', asset: bg.tileAsset, frame: tile.name, tileSize: [image.width, image.height] };

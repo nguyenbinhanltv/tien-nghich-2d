@@ -19,7 +19,7 @@ test('qa_run: shipped frames pass every check; partial raw work passes with warn
   const kk = await ok('studio_qa_run', { assetId: 'lt_kiln_keeper' });
   assert.equal(kk.stage, 'processed');
   assert.equal(kk.pass, true);
-  assert.deepEqual(kk.summary, { frames: 32, expected: 32, errors: 0, warnings: 0, framesWithErrors: 0, partial: false });
+  assert.deepEqual(kk.summary, { frames: 32, expected: 32, errors: 0, warnings: 0, framesWithErrors: 0, rawStage: false });
   assert.deepEqual(Object.values(kk.checks).map((c) => c.pass), [true, true, true, true, true, true]);
   assert.deepEqual(Object.keys(kk.checks), ['palette', 'alpha', 'outline', 'size', 'frameCount', 'naming']);
 
@@ -28,7 +28,9 @@ test('qa_run: shipped frames pass every check; partial raw work passes with warn
   const raw = await a.ok('studio_qa_run', { assetId: 'lt_seed_broker' });
   assert.equal(raw.stage, 'raw', 'no processed frames, so the raw submissions are judged');
   assert.equal(raw.pass, true);
-  assert.equal(raw.summary.partial, true);
+  assert.equal(raw.summary.rawStage, true);
+  assert.match(raw.stageNote, /raw stage: .*warnings \(not errors\).*does not mean the run skipped anything/);
+  assert.equal(kk.stageNote, undefined);
   assert.equal(raw.summary.frames, 4);
   assert.equal(raw.checks.frameCount.pass, true, 'a partial raw set is progress, not failure');
   assert.equal(raw.checks.frameCount.warnings, 28);
@@ -263,6 +265,7 @@ test('preview_render: returns a real image with a status bar and defect boxes in
 
   const bare = decodeRgba(Buffer.from((await call('studio_preview_render', { assetId: 'lt_seed_broker', overlay: false })).content[1].data, 'base64'));
   assert.notDeepEqual(pixelAt(bare, cellX + 10 * 4, top + 12 * 4), RED, 'overlay=false draws no defect box');
+  for (const x of [6, cellX]) assert.ok(![GREEN, RED, [255, 200, 0]].some((c) => JSON.stringify(c) === JSON.stringify(pixelAt(bare, x, 6))), 'overlay=false draws no status bar either');
 
   const two = await call('studio_preview_render', { assetId: 'lt_seed_broker', scale: 2, frame: 1 });
   assert.equal(two.structuredContent.frames, 1);
