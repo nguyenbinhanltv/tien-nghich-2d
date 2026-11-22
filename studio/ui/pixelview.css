@@ -1,0 +1,22 @@
+/* Pixel viewer (studio/ui/pixelview.mjs). A frame holds a canvas plus a grid layer drawn by CSS, so the grid and the checker
+   cost nothing while a clip plays. Colours are --ui-* tokens with neutral fallbacks; nothing here names a project. */
+.pv { --pv-a: #17171d; --pv-b: #23232b; --pv-line: rgba(255, 255, 255, .2); position: relative; line-height: 0; max-width: 100%;
+  border: 1px solid var(--ui-line, #46464e); }
+.pv[data-bg="light"] { --pv-a: #cfcfd6; --pv-b: #eeeef2; --pv-line: rgba(0, 0, 0, .28); }
+.pv[data-bg="palette"] { --pv-a: var(--ui-surface, #26262c); --pv-b: color-mix(in srgb, var(--ui-accent-soft, #2f6b6b) 55%, var(--ui-bg, #101014)); --pv-line: rgba(255, 255, 255, .22); }
+.pv canvas { display: block; max-width: 100%; height: auto; image-rendering: pixelated; cursor: pointer;
+  background: repeating-conic-gradient(var(--pv-a) 0 25%, var(--pv-b) 0 50%) 0 0 / 16px 16px; }
+.pv-grid { position: absolute; inset: 0; display: none; pointer-events: none;
+  background-image: linear-gradient(to right, var(--pv-line) 1px, transparent 1px), linear-gradient(to bottom, var(--pv-line) 1px, transparent 1px);
+  background-size: calc(100% / var(--pv-cols, 1)) calc(100% / var(--pv-rows, 1)); }
+.pv[data-grid="on"] .pv-grid { display: block; }
+.pv[data-wipe] canvas { cursor: ew-resize; touch-action: pan-y; }
+
+.pv-bar { display: contents; }
+.pv-group { display: inline-flex; gap: var(--ui-sp-1, .25rem); align-items: center; }
+.pv-zoom { display: inline-flex; }
+.pv-wipe { display: inline-flex; gap: var(--ui-sp-2, .5rem); align-items: center; font-size: var(--ui-fs-sm, .85rem); }
+.pv-wipe-input { accent-color: var(--ui-accent, #4aa3a3); width: 7rem; }
+.pv-hint { font-size: var(--ui-fs-xs, .75rem); }
+.pv-readout { display: inline-flex; gap: var(--ui-sp-1, .25rem); align-items: baseline; margin-left: auto; }
+.pv-coords { font-family: var(--ui-font-mono, ui-monospace, Menlo, Consolas, monospace); min-width: 5ch; color: var(--ui-gold-soft, #ecd890); }

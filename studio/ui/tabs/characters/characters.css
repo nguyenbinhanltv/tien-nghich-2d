@@ -41,8 +41,6 @@
 .turnaround { display: flex; flex-wrap: wrap; gap: var(--ui-sp-3); justify-content: center; padding: var(--ui-sp-3); background: var(--ui-bg); border: var(--ui-bw) solid var(--ui-line); outline-offset: 2px; }
 .cell { display: grid; gap: var(--ui-sp-1); justify-items: center; padding: var(--ui-sp-1); border: var(--ui-bw) solid transparent; max-width: 100%; }
 .cell[aria-current="true"] { border-color: var(--ui-gold); }
-.cell canvas { max-width: 100%; height: auto; image-rendering: pixelated; border: 1px solid var(--ui-line); cursor: pointer;
-  background: repeating-conic-gradient(var(--ui-surface) 0 25%, var(--ui-bg) 0 50%) 0 0 / 16px 16px; }
 .cell-name { text-transform: uppercase; letter-spacing: .1em; } .timeline { display: grid; gap: var(--ui-sp-2); } .transport .play { min-width: 5.5rem; }
 .strip { list-style: none; margin: 0; padding: var(--ui-sp-2); display: flex; gap: var(--ui-sp-1); overflow-x: auto; background: var(--ui-bg); border: var(--ui-bw) solid var(--ui-line); }
 .strip .btn { flex-direction: column; height: auto; padding: var(--ui-sp-1); gap: 2px; }

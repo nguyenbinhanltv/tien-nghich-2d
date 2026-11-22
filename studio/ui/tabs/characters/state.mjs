@@ -1,6 +1,8 @@
 // Pure logic of the Characters tab: route state, roster filtering, timeline and frame lookup.
 // No DOM here, so Node tests cover it.
 
+import { isZoom, fitZoom } from '../../pixelview.mjs';
+
 export const panels = ['frame', 'facing', 'card', 'export'];
 export const compares = ['processed', 'raw', 'split', 'diff'];
 export const sources = ['library', 'bake'];
@@ -12,7 +14,7 @@ export function parseRoute(route) {
   const p = route.params ?? {};
   const id = route.asset && idPattern.test(route.asset) ? route.asset : null;
   const overlay = p.ov === undefined ? ['pivot', 'foot'] : p.ov.split(',').filter(x => overlayNames.includes(x));
-  const zoom = /^([1-9]|1[0-6])$/.test(p.zoom ?? '') ? Number(p.zoom) : null;
+  const zoom = /^\d{1,2}$/.test(p.zoom ?? '') && isZoom(Number(p.zoom)) ? Number(p.zoom) : null;
   return {
     id, source: p.source && idPattern.test(p.source) ? p.source : null,
     clip: id ? route.clip : null, direction: id ? route.direction : null, frame: id ? route.frame : null,
@@ -90,7 +92,7 @@ export function frameAt(t, ms, loop = true) {
 /** The raw frame matching a processed frame, if the raw tree has one. */
 export const rawFor = (detail, f) => detail.rawFrames.find(r => r.clip === f.clip && r.direction === f.direction && r.n === f.n) ?? null;
 
-/** Integer zoom that fits `columns` canvases in the stage width, each cell costing about 56px of padding and gap: 1..8. */
+/** Integer zoom (one of the viewer's levels, 1..8 here) that fits `columns` canvases in the stage width, each cell costing about 56px of padding and gap. */
 export function autoZoom(width, size, columns = 4) {
-  return Math.max(1, Math.min(8, Math.floor((width - 56 * columns) / (columns * Math.max(size, 1)))));
+  return Math.min(8, fitZoom(Math.floor((width - 56 * columns) / (columns * Math.max(size, 1)))));
 }
