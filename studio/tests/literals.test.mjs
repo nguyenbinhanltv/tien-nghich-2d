@@ -38,6 +38,7 @@ const FIXTURE_TESTS = new Set([
   'ui/tabs/overview/server.test.mjs',
   'mcp/prompt-tools.test.mjs',
   'mcp/figure-tools.test.mjs',
+  'mcp/motion-tools.test.mjs',
   'ui/tabs/review/art-approvals.test.mjs',
   'ui/tabs/review/owner-approval-all-art.test.mjs',
   'audio/tests/determinism.test.mjs',

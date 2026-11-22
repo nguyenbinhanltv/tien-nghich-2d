@@ -1,4 +1,6 @@
 import { runQa, pickStage } from '../../core/qa.mjs';
+import { runMotion } from '../../core/motion-qa.mjs';
+import { evaluateRubric } from '../../core/rubric.mjs';
 import { latestVersion } from '../../core/audio-candidates.mjs';
 import { auditCandidate } from '../workflow/audio.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
@@ -19,6 +21,8 @@ export default {
     'summary.rawStage is true when the frames checked are the raw (submitted) ones: expected frames that are not there yet are then warnings, not errors; it never means a check was skipped. ' +
     'Every result carries qa, the one QA envelope all tools share: status (fail, partial when nothing failed but something was NOT proven, pass), method, each check with its measured value and threshold, notProven (what was not checked and why) and the hashes of the inputs; read notProven before trusting a pass. ' +
     'When the pack has a stop policy, a whole-asset run also reports stopPolicy: the fix round, whether it made progress, and whether the work must stop and ask the human. ' +
+    'It also MEASURES the animation of every clip (skipped when the selection is one frame): per clip and direction the opaque bounds of each frame, the changed pixels and box of each neighbouring pair (and the loop seam), and lint for lone pixels, detached fragments, near-duplicate held frames, uneven cadence and a telegraph too short to read, against the clip contract (loopPolicy and tell/hit/step events from studio_metadata_set, or the pack\'s clip roles) and the pack\'s thresholds. These are warnings with the measured value and the limit, never failures; effects, tiles and UI are measured but not linted. Results are in motion; detail=frames lists every finding. ' +
+    'rubric: pass the rows of the project\'s fixed review rubric (one per criterion: id, observation, result pass|fail|unknown, confidence 0-1, evidence [{file or frame, region}]); the result weighs them: unknown is never a pass, a pass needs confidence and evidence, a failed mandatory criterion fails the rubric whatever else passed. The rubric is evidence for the reviewer and never an approval. ' +
     'record=true writes the result as a check (needs scope author); independent=true also claims it is an independent check, which the server accepts only from a session OTHER than the one that submitted the frames. ' +
     'For an AUDIO cue it checks the newest candidate: reproducible from its source, no clipping, not silent, endpoints at digital zero (patches), notes in the key (scores); never listening. ' +
     'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate). ' +
@@ -31,6 +35,7 @@ export default {
       stage: { type: 'string', enum: ['processed', 'raw'], description: 'processed frames, or raw frames submitted through studio_frames_submit. Default: processed if any exist, else raw.' },
       ...selectionProps,
       detail: { type: 'string', enum: ['summary', 'frames'], description: 'summary: per-check verdicts and totals (default); frames: also the defects of every frame that has any.' },
+      rubric: { type: 'array', maxItems: 24, items: { type: 'object' }, description: 'Rows of the fixed review rubric: {id, observation, result: pass|fail|unknown, confidence: 0-1, evidence: [{file|frame, region: {x,y,w,h}, note}]}. The criteria are in studio_project_info (rubric).' },
       record: { type: 'boolean', description: 'Store this run as a check on the current frames. Needs scope author and a run over the whole asset (no clip, direction or frame).' },
       dryRun: dryRunProp,
       independent: { type: 'boolean', description: 'Claim an independent check (implies record). Refused if this session submitted frames for the asset.' },
@@ -86,13 +91,20 @@ export default {
           'Start another session (a new connection) and run studio_qa_run with independent=true there. A plain run without independent=true is fine for your own checking.');
       }
       const narrowed = Object.keys(select).length > 0;
+      const motion = select.n === undefined ? await runMotion({ root: ws.root, pack: snap.pack, asset, stage, select }) : null;
+      const rubric = args.rubric ? evaluateRubric(snap.pack, args.rubric) : null;
       const animated = Object.values(asset.clips ?? {}).some((c) => c.frames > 1);
       const envelopeOf = envelope({
         method: `static pixel gates over ${qa.summary.frames} ${stage} frame(s)${narrowed ? ` (narrowed to ${JSON.stringify(select)})` : ''}`,
-        checks: Object.entries(qa.checks).map(([name, v]) => check(name, { ok: v.errors === 0, warn: v.warnings > 0, measured: { errors: v.errors, warnings: v.warnings }, threshold: { errors: 0 } })),
+        checks: [...Object.entries(qa.checks).map(([name, v]) => check(name, { ok: v.errors === 0, warn: v.warnings > 0, measured: { errors: v.errors, warnings: v.warnings }, threshold: { errors: 0 } })),
+          ...(motion && motion.clips.length ? [check('motion', { ok: true, warn: motion.findings.length > 0, measured: { clips: motion.clips.length, frames: motion.clips.reduce((n, c) => n + c.frames, 0), findings: motion.byCode }, threshold: motion.thresholds, detail: motion.findings.length ? `${motion.findings.length} lint warning(s); see motion` : undefined })] : []),
+          ...(rubric ? [check('rubric', { ok: rubric.status !== 'fail', warn: rubric.status === 'partial', measured: { status: rubric.status, ...rubric.counts, failedMandatory: rubric.failedMandatory, unknownMandatory: rubric.unknownMandatory }, threshold: 'every mandatory criterion passes; unknown is never a pass' })] : [])],
         notProven: [
           ...(qa.summary.rawStage && qa.missing.length ? [{ what: `${qa.missing.length} expected frame(s) are not there yet`, why: 'raw stage: only the frames submitted so far were judged (missing frames are warnings until processed frames exist)' }] : []),
           ...(narrowed ? [{ what: 'the frames outside the selection', why: 'the run was narrowed with clip, direction or frame' }] : []),
+          ...(motion ? motion.notProven : []),
+          ...(!motion && animated ? [{ what: 'motion measures and lint', why: 'the selection is a single frame; nothing moves in one frame' }] : []),
+          ...(rubric && rubric.status !== 'pass' && rubric.status !== 'fail' ? [{ what: `rubric: ${rubric.counts.unknown} criterion(s) unknown, ${rubric.counts.fail} failed (optional)`, why: 'unknown is never a pass; see rubric' }] : []),
           ...(animated ? [{ what: 'motion: foot slide, pivot drift, flicker, loop seam', why: 'this tool judges single frames; the animation gates run in studio_rig_bake', turnOn: 'studio_rig_bake' }] : []),
         ],
         inputs: { frames: (await contentHash(ws.root, asset, stage)) ?? sha('no frames') } });
@@ -103,12 +115,14 @@ export default {
         ...(qa.missing.length ? { missing: qa.missing.slice(0, 40), missingCount: qa.missing.length } : {}),
         ...(qa.unexpected.length ? { unexpected: qa.unexpected } : {}),
         frames: args.detail === 'frames' ? qa.frames.filter((f) => f.errors || f.warnings) : undefined,
+        ...(motion ? { motion: { thresholds: motion.thresholds, byCode: motion.byCode, skippedSingleFrame: motion.skipped, clips: motion.clips.map((c) => ({ clip: c.clip, direction: c.direction, frames: c.frames, loopPolicy: c.loopPolicy, events: c.events, findingCount: c.findings.length, findings: c.findings.slice(0, args.detail === 'frames' ? 60 : 5), ...(args.detail === 'frames' ? { bounds: c.bounds, pairs: c.pairs } : {}) })) } } : {}),
+        ...(rubric ? { rubric } : {}),
         authors: authors.map((a) => ({ agent: a.agent, session: a.session.slice(0, 8) })),
       };
       if (record) {
         const content = await contentHash(ws.root, asset, stage);
         const independent = !authoredByThisSession;
-        if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings, evidence: await gather(ws, asset, { stage, content: content ?? '', session: ctx.caller.session }) });
+        if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings, evidence: { ...(await gather(ws, asset, { stage, content: content ?? '', session: ctx.caller.session })), ...(rubric ? { rubric: { status: rubric.status, counts: rubric.counts, failedMandatory: rubric.failedMandatory } } : {}) } });
         out[args.dryRun ? 'wouldRecord' : 'recorded'] = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
       }
       if (!narrowed) {
