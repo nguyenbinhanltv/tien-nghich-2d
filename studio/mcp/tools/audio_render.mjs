@@ -13,7 +13,7 @@ export default {
   description:
     'Make a sound effect or a music loop by sending DATA: a studio.audio.patch (one-shot: layers of oscillators and noise with envelopes, filters, FM, glides) or a studio.audio.score (a loop: instruments, a key, patterns, reverb). ' +
     'The studio\'s engine renders it deterministically (the same document always gives the same bytes; it renders twice to prove it), measures it (peak, true peak, RMS, loudness, endpoints, onset, tail, loop seam) and draws a waveform and a spectrogram. ' +
-    'You get the numbers AND both pictures: that is how you hear. NO AGENT LISTENS, and no tool can sign a listening: a human does that in the Review tab. ' +
+    'You get the numbers AND both pictures: that is how you inspect it. NO AGENT LISTENS, and no tool can sign a listening: a human does that in the Review tab. ' +
     'A patch must start and end at digital zero and must not clip. See studio/audio/README.md for the formats. ' +
     'keep=true stores the render as the next immutable CANDIDATE of the cue (source, WAV, pictures, measurements, provenance) and starts a review history for it; without keep it renders into scratch only. ' +
     'It never writes to the delivered audio directories. Use studio_qa_run on the cue for the audio checks, and studio_review_request to ask a human.',

@@ -108,11 +108,13 @@ tools and commit its frames, following the project's animation defaults:
    ember-orange, on the green key colour, one drawing per cell), then the pose sheet. Save them as
    tmp/sample/turnaround.png and tmp/sample/poses.png. Keep the exact prompt you gave the image tool.
 4. studio_sheet_import for each (file path, the layout or layoutId, the prompt VERBATIM, the tool name).
-   Read the warnings. If a crop cuts the drawing, say so and redraw once.
+   The two sheets keep separate slots, so the second import does not replace the first. Read the
+   warnings. If a crop cuts the drawing, say so and redraw once.
 5. studio_process (pixelise onto the palette and size class). Look at the contact sheet image.
-6. studio_rig_bake: poseClips for the locomotion clip, rig + clips for idle. Fix what the gates report
-   (foot slide, drift, flicker, loop seam) by changing the inputs, not by turning gates off. Run with
-   submit=false first and look; submit=true only when the gates pass.
+6. studio_rig_bake with BOTH poseClips (locomotion clip) and rig (idle and the other rig clips) in one
+   call. Read verdicts.animationGates and verdicts.pixelGates, and the gates listed as notRun (a gate
+   that did not run judged nothing). Fix what the gates report by changing the inputs, not by turning
+   gates off. Run with submit=false first and look; submit=true only when both verdicts pass.
 7. studio_frame_patch: add one asymmetric mark (a single scar pixel pair on the left side), target
    "bake" (so it survives every re-bake). Re-bake and confirm the mark is on the right side in every
    frame the gate checks.
@@ -165,9 +167,9 @@ its frames.
    Specs cannot reference files: send it inline.
 3. studio_vfx_build with the spec, submit=false. Read the SpriteFX fault count and audits and look at
    the contact sheet. If there are faults or gate defects, change the spec (not the gates) and rebuild.
-4. studio_scene_snapshot the effect at its anchor on a dark floor tile, mode "strip", and say whether it
-   reads as a hit.
-5. studio_vfx_build again with submit=true (provenance keeps the spec and its hash).
+4. studio_vfx_build again with submit=true (provenance keeps the spec and its hash).
+5. studio_scene_snapshot the effect at its anchor on a dark floor tile, mode "strip", and say whether it
+   reads as a hit. (It shows stored frames only, so it comes after the submit; a dry run stores nothing.)
 6. studio_metadata_set pivot [16,16] and frame durations. studio_qa_run (not independent). Stop. Do NOT
    call studio_review_request.
 ```
@@ -215,7 +217,8 @@ the studio's audio engine, and keep it as a candidate.
    studio_audio_render (keep=false). Read the numbers (peak, true peak, loudness, endpoints, onset, tail)
    and look at the waveform and the spectrogram. Change the document at least once on the evidence
    (for example "peak too hot", "tail too long") and render again. Say what you changed and why.
-4. studio_audio_analyze on your final document with the same cue to confirm the numbers agree.
+4. studio_audio_analyze with document only (a document names its own cue; give exactly one of file,
+   cueId or document) on your final document, to confirm the numbers agree.
 5. studio_audio_render with keep=true and a note. It stores the next immutable candidate of sfx_cancel
    and starts its review history. Note the candidate version.
 6. studio_qa_run on sfx_cancel (not independent) and report the measurements verdict.
