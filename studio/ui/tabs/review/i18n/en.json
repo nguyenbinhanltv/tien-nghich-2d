@@ -92,9 +92,9 @@
   "audio.changed": "The master changed since you loaded it; reloaded. Listen again.",
   "audio.failed": "Could not record: {message}",
   "audio.otherMaster": "older master",
-  "signoff.approved_before": "approved before the studio",
-  "approval.title": "Approved before the studio existed",
-  "approval.text": "{by} listened to this and approved it ({pack}, {date}). This is the project's record, not a sign-off made here.",
+  "signoff.approved_before": "approved on record",
+  "approval.title": "Approved outside the studio sign-off form",
+  "approval.text": "{by} listened to this and approved it ({pack}, {date}), before the studio existed or in chat. This is the project's record (assets/audio/listening_approvals.json), not a sign-off made here.",
   "approval.stale": "{by} approved an earlier version of this master ({pack}, {date}). The master has changed since, so it needs a fresh listening.",
   "approval.noDate": "date not recorded",
   "approval.evidence": "Evidence:",
@@ -105,5 +105,12 @@
   "read.intro": "A human's note from the VFX tab on how this effect reads at its real size. It is information only: it changes no status.",
   "read.score": "{score}/5",
   "read.noScore": "no score",
-  "read.variant": "palette {variant}"
+  "read.variant": "palette {variant}",
+  "artrec.title": "Art approved on record",
+  "artrec.intro": "Approved by a person in chat, then written down in assets/review/art_approvals.json against the exact bytes. If a frame changes, it is no longer covered.",
+  "artrec.line": "{by} · {date} · {id}",
+  "artrec.current": "all {n} frames match the approved bytes",
+  "artrec.changed": "{changed} of {n} frames (or raw files) changed since approval: not covered, needs a fresh look",
+  "artrec.badge": "approved on record",
+  "artrec.badgeStale": "changed since approval"
 }

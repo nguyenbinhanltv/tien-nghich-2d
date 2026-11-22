@@ -37,7 +37,7 @@ function makeApp(ctx, state) {
       for (const e of self.entries) {
         const item = self.review.items.get(e.id);
         e.signoff = item?.signoff ?? null;
-        e.listening = listeningOf({stage: e.stage, signoff: e.signoff, masterSha: e.masterSha, evidence: e.evidenceListening});
+        e.listening = listeningOf({stage: e.stage, signoff: e.signoff, masterSha: e.masterSha, evidence: e.evidenceListening, record: item?.label});
       }
     },
     async refreshReview() {

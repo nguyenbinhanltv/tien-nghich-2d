@@ -40,14 +40,17 @@ export const stageOf = readiness => (readiness === 'packed' ? 'packed' : readine
 
 /**
  * Listening state of one cue. `signoff` is the Review store's latest verdict for the id, `masterSha` the hash of
- * the master now on disk, `evidence` the pack evidence's `human_listening` word (or null).
+ * the master now on disk, `evidence` the pack evidence's `human_listening` word (or null), `record` the Review inbox's label for
+ * the project's approvals record ('approved_before' when a human's approval outside the sign-off form covers this exact master).
  */
-export function listeningOf({stage, signoff, masterSha, evidence}) {
+export function listeningOf({stage, signoff, masterSha, evidence, record}) {
   if (stage === 'planned') return 'none';
   if (signoff) {
     if (signoff.verdict === 'needs_work') return signoff.content === masterSha ? 'needs_work' : 'stale';
-    if (signoff.verdict === 'signed') return signoff.content === masterSha ? 'approved' : 'stale';
+    if (signoff.verdict === 'signed') return signoff.content === masterSha ? 'approved' : (record === 'approved_before' ? 'approved' : 'stale');
   }
+  if (record === 'approved_before') return 'approved';
+  if (record === 'stale') return 'stale';
   return evidence === 'approved' ? 'approved' : 'pending';
 }
 

@@ -34,7 +34,7 @@ function pathFields(pack) {
     if (s.atlas) fields.push([`catalog.sources[${i}].atlas.dir`, s.atlas.dir]);
     for (const [name, value] of Object.entries(s.evidence ?? {})) fields.push([`catalog.sources[${i}].evidence.${name}`, value]);
   });
-  fields.push(['directories.revisions', pack.directories?.revisions]);
+  fields.push(['directories.revisions', pack.directories?.revisions], ['directories.approvals', pack.directories?.approvals]);
   (pack.catalog?.sources ?? []).forEach((s, i) => fields.push([`catalog.sources[${i}].file`, s.file]));
   fields.push(['adapters.interpreter.command', pack.adapters?.interpreter?.command]);
   for (const [name, command] of Object.entries(pack.adapters?.commands ?? {})) fields.push([`adapters.commands.${name}.script`, command.script]);

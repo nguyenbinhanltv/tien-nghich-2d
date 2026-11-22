@@ -20,6 +20,8 @@ test('stateParams round-trips and drops defaults', () => {
 });
 
 test('stage and listening state', () => {
+  assert.equal(listeningOf({stage: 'packed', masterSha: 'a'.repeat(64), evidence: 'pending', record: 'approved_before'}), 'approved', 'a human approval on record covers the master');
+  assert.equal(listeningOf({stage: 'packed', masterSha: 'a'.repeat(64), evidence: 'pending', record: 'stale'}), 'stale');
   assert.deepEqual(['planned', 'authored', 'packed'].map(stageOf), ['planned', 'master', 'packed']);
   const sha = 'a'.repeat(64);
   assert.equal(listeningOf({stage: 'planned'}), 'none');

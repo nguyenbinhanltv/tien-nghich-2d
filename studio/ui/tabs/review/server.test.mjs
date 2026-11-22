@@ -55,13 +55,16 @@ test('route inbox returns art items and the audio masters waiting for a listenin
   assert.deepEqual(body.items, []);
   assert.ok(body.audio.length > 10 && body.audio.every(a => a.signoff === null));
   const by = label => body.audio.filter(a => a.label === label).map(a => a.id).sort();
-  // pilot_v1 (bgm_dong_phu + 8 cues) and wave2_batch1_v1 (bgm_blood_sea + 8 cues): 18 approved earlier by the user, from the project record
-  assert.equal(by('approved_before').length, 18);
+  // all 46 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 stated by the owner on 2026-11-22
+  assert.equal(body.audio.length, 46);
+  assert.equal(by('approved_before').length, 46);
   assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light'));
-  assert.ok(body.audio.filter(a => a.state === 'decided').length === 18);
-  const waiting = body.audio.filter(a => a.state === 'waiting');
-  assert.ok(waiting.length >= 20 && waiting.every(a => a.label === 'none'));
-  assert.ok(['bgm_blood_sea', 'bgm_ancient_god', 'bgm_boss_trial', 'bgm_endless'].every(id => waiting.some(a => a.id === id)), 'batches 2 to 4 still wait');
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 46);
+  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 0);
+  const kinds = Object.fromEntries(body.audio.map(a => [a.id, a.approval.kind]));
+  assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 28, 'batches 2 to 4 are owner statements');
+  assert.equal(kinds.bgm_blood_sea, 'owner_statement');
+  assert.equal(kinds.bgm_dong_phu, 'before_studio');
 });
 
 test('audio detail: real master, waveform, recorded measurements and hash', async () => {
@@ -83,7 +86,7 @@ test('listening sign-off: only a browser page records it, only for the exact mas
   const browser = {'sec-fetch-site': 'same-origin'};
   assert.equal((await call(dir, 'audio-signoff', {method: 'POST', body: ok})).error, 'human_only');                                   // no browser header
   assert.equal((await call(dir, 'audio-signoff', {method: 'POST', headers: {'sec-fetch-site': 'none'}, body: ok})).error, 'human_only');
-  assert.equal((await call(dir, 'audio?id=bgm_blood_sea')).body.status.label, 'none');                                                   // nothing was written
+  assert.equal((await call(dir, 'audio?id=bgm_blood_sea')).body.status.label, 'approved_before');                                       // nothing was written: the record still covers it
   assert.equal((await call(dir, 'audio-signoff', {method: 'POST', headers: browser, body: {...ok, content: 'a'.repeat(64)}})).error, 'master_changed');
   assert.equal((await call(dir, 'audio-signoff', {method: 'POST', headers: browser, body: {...ok, verdict: 'approved'}})).status, 422);
   assert.equal((await call(dir, 'audio-signoff', {method: 'POST', headers: browser, body: {...ok, extra: 1}})).status, 422);
@@ -95,10 +98,10 @@ test('listening sign-off: only a browser page records it, only for the exact mas
   assert.equal(after.signoffs[0].note, 'Heard it.');
   const row = (await call(dir, 'inbox')).body.audio.find(a => a.id === 'bgm_blood_sea');
   assert.deepEqual([row.state, row.label, row.signoff.verdict, row.signoff.current], ['decided', 'signed', 'signed', true]);
-  // a sign-off given to other bytes no longer counts
+  // a sign-off given to other bytes no longer counts; the record's approval of the exact current bytes still does
   const other = openSignoffs(dir);
   other.record({asset: 'bgm_blood_sea', content: 'b'.repeat(64), verdict: 'signed'});
-  assert.equal((await call(dir, 'audio?id=bgm_blood_sea')).body.status.label, 'stale');
+  assert.equal((await call(dir, 'audio?id=bgm_blood_sea')).body.status.label, 'approved_before');
   other.close();
 });
 
@@ -146,4 +149,35 @@ test('the inbox hashes each master once: unchanged files are not read again', as
   const t0 = performance.now();
   for (let i = 0; i < 50; i++) assert.equal(await hashOf(root, 'assets/audio/bgm_dong_phu/master.wav'), first);
   assert.ok(performance.now() - t0 < 500, 'cached hashes are a stat each, not a 12 MB read');
+});
+
+test('the inbox carries the art approved on record, and a changed frame stops being covered', async () => {
+  const {body} = await call(lib(), 'inbox');
+  assert.equal(body.artRecords.length, 8);
+  assert.ok(body.artRecords.every(r => r.current && r.matching === r.frames));
+  const p = makeProject({extraDirs: ['assets/audio/bgm_blood_sea']});
+  fs.mkdirSync(path.join(p.root, 'assets/review'), {recursive: true});
+  const frame = 'assets/x/a/a_0.png';
+  fs.mkdirSync(path.join(p.root, 'assets/x/a'), {recursive: true}); fs.writeFileSync(path.join(p.root, frame), 'png');
+  const sha = (await import('node:crypto')).createHash('sha256').update('png').digest('hex');
+  fs.writeFileSync(path.join(p.root, 'assets/review/art_approvals.json'), JSON.stringify({approvals: [{id: 'r', approved_by: 'user', assets: {a: {frame_dir: 'assets/x/a', frames: {'g/a/a_0': sha}}}}]}));
+  try {
+    for (const d of ['assets/atlases/web', 'assets/audio/packs', 'assets/audio/source']) fs.mkdirSync(path.join(p.root, d), {recursive: true});
+    clearAudioCache();
+    const pack = JSON.parse(fs.readFileSync(path.join(p.root, 'studio.project.json'), 'utf8'));
+    pack.directories.approvals = 'assets/review'; fs.writeFileSync(path.join(p.root, 'studio.project.json'), JSON.stringify(pack));
+    clearAudioCache();
+    assert.deepEqual((await call(lib(), 'inbox', {projectRoot: p.root})).body.artRecords.map(r => [r.assetId, r.current]), [['a', true]]);
+    fs.writeFileSync(path.join(p.root, frame), 'edited');
+    assert.deepEqual((await call(lib(), 'inbox', {projectRoot: p.root})).body.artRecords.map(r => [r.current, r.changed]), [[false, 1]]);
+  } finally { clearAudioCache(); p.cleanup?.(); }
+});
+
+test('Review and Audio both read 46 of 46 audio assets as approved', async () => {
+  const {listeningOf, stageOf} = await import('../audio/model.mjs');
+  const {body} = await call(lib(), 'inbox');
+  assert.equal(body.audio.length, 46);
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 46, 'Review: 46 decided, none waiting');
+  const audioTab = body.audio.map(a => listeningOf({stage: stageOf(a.readiness), signoff: a.signoff, masterSha: null, evidence: 'pending', record: a.label}));
+  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [46, 46], 'Audio tab: 46 of 46 approved');
 });

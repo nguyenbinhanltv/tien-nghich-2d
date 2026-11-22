@@ -48,15 +48,22 @@ test('an asset with no record is "not recorded", and planned ones are counted as
   assert.ok(md.split('\n').some(l => l.startsWith(`| ${none[0].id} |`) && l.includes(NOT_RECORDED)));
 });
 
-test('tools and inputs: licences as recorded, the noncommercial skill flagged, the unrecorded FFmpeg licence left for a human', () => {
+test('tools and inputs: licences as recorded, the noncommercial skill flagged, the FFmpeg and PixelLab facts recorded, what only the owner can know left flagged', () => {
   const c = Object.fromEntries(ledger.components.map(x => [x.id, x]));
   assert.equal(c.spritefx.licence, 'MIT');
   assert.ok(c.spritefx.usedBy >= 6, 'SpriteFX is named by the VFX provenance');
   assert.equal(c['spine-animation-ai'].licence, 'PolyForm Noncommercial 1.0.0');
   assert.equal(c['spine-animation-ai'].mustNotShip, true);
   assert.ok(c['spine-animation-ai'].flags.some(f => /must-not-ship/.test(f)));
-  assert.equal(c.ffmpeg.licence, NOT_RECORDED);
-  assert.ok(c.ffmpeg.flags.some(f => /human/.test(f)));
+  assert.match(c.ffmpeg.licence, /^LGPL 2\.1 or later/, 'the pinned build prints LGPL; recorded as a fact');
+  assert.match(c.ffmpeg.ships, /not the binary/);
+  assert.ok(c.ffmpeg.flags.some(f => /owner/.test(f)), 'what only the owner can know stays flagged');
+  assert.match(c.pixellab.licence, /pixellab\.ai\/termsofservice/);
+  assert.ok(c.pixellab.flags.some(f => /Plan tier.*owner to confirm/.test(f)));
+  for (const id of ['ui_card_frame', 'ui_form_portraits', 'ui_hud_bars', 'ui_minimap', 'ui_panel_cursor']) {
+    const a = ledger.assets.find(x => x.id === id);
+    assert.deepEqual([a.origin.kind, a.origin.script, a.recorded, a.missing], ['generator', 'tools/generators/gen_phase2_ui.py', true, []], id + ' has a reconstructed provenance record');
+  }
   assert.ok(c.ffmpeg.evidence.every(e => e.exists), 'its evidence files exist');
   assert.deepEqual(ledger.fonts.files, [], 'no font files in the project');
   assert.equal(ledger.thirdPartySources.present, false);
