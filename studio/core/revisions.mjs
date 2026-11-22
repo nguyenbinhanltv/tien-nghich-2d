@@ -5,7 +5,7 @@
 import { bareFrame } from './review.mjs';
 
 /**
- * Save several frames' new revisions all-or-nothing. items: [{key, baseline, png, baseRevision?}]. The checks and the saves run in one
+ * Save several frames' new revisions all-or-nothing. items: [{key, baseline, png, baseRevision?, provenance?}] (`provenance`, a plain object saying where the pixels came from, is stored with the new revision; nothing else can ride along, so no save can carry a decision). The checks and the saves run in one
  * synchronous stretch (the store is synchronous), so no other save can land between them: if any frame's head is not the revision its
  * pixels were computed from, NOTHING is saved and the first such item is named in the error.
  */
@@ -18,8 +18,8 @@ export async function saveRevisions(ws, items) {
     items.forEach(({key, baseRevision}, i) => {
       if (baseRevision !== undefined && baseRevision !== heads[i]) throw Object.assign(new Error('Reload the current revision'), {status: 409, code: 'revision_conflict', head: heads[i], key, index: i});
     });
-    return items.map(({key, baseline, png, baseRevision}, i) => {
-      const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? heads[i], png});
+    return items.map(({key, baseline, png, baseRevision, provenance}, i) => {
+      const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? heads[i], png, ...(provenance ? {metadata: {provenance}} : {})});
       return {revision: snap.revision, head: snap.head, changed: snap.head > heads[i], status: snap.status, previous: heads[i]};
     });
   });
