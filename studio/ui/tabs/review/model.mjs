@@ -112,3 +112,9 @@ export const countsByState = items => items.reduce((all, i) => (all[i.state] = (
 export const shouldDeferRepaint = ({poll, sameItem, hasDraft}) => !!(poll && sameItem && hasDraft);
 
 export const draftKey = (kind, id, revision = '') => `${kind}:${id}@${revision}`;
+
+/** hh:mm:ss on a 24-hour clock in the page language's own locale conventions. */
+export const clock = (date, lang) => date.toLocaleTimeString(lang === 'vi' ? 'vi-VN' : 'en-GB', {hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'});
+
+/** Whole seconds waited since `since` (ms); never negative. */
+export const elapsedSeconds = (since, now) => Math.max(0, Math.floor((now - since) / 1000));

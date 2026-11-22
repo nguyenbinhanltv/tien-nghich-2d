@@ -85,3 +85,12 @@ audio { width: 100%; max-width: 640px; display: block; }
 .boxrow .num { width: 4.5rem; }
 .regionlist { list-style: none; padding: 0; display: grid; gap: .75rem; }
 .takes { margin: .25rem 0 .5rem; }
+.live { flex-wrap: wrap; justify-content: flex-end; }
+.rv-wait { color: var(--gold-soft); font: 600 .8rem var(--font-mono); }
+.rv-fail { display: inline-flex; gap: .4rem; align-items: center; color: var(--danger); }
+.rv-error { display: grid; gap: .5rem; padding: .5rem 0; color: var(--danger); }
+.skeleton .row { pointer-events: none; }
+.sk { display: block; background: var(--line); opacity: .55; animation: sk-fade 1.2s steps(2, jump-none) infinite; }
+.sk.bar { height: .7rem; } .sk.bar.short { width: 55%; height: .55rem; margin-top: .25rem; }
+@keyframes sk-fade { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } }
