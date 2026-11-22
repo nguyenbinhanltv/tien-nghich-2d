@@ -1,11 +1,14 @@
-# Studio MCP server (P0 lane C)
+# Studio MCP server
 
-A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server over stdio, written by hand for Node 24. It exists to prove that an agent harness can connect to the studio before the 25 real tools are built. Today it exposes one read-only tool, `studio_project_info`.
+A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **14 of the 25 planned tools** (see [Tools](#tools)): everything that does not depend on the forge. The other 11 are not stubbed; each arrives with the module that implements it.
 
 ```
-node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name>] [--audit-log <file>] [--max-line-bytes <n>]
-node studio/mcp.mjs --self-test          # human-runnable proof: real handshakes, a real call, exit code
-node --test studio/mcp/*.test.mjs        # 30 tests
+node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name>] [--audit-log <file>]
+                    [--library-dir <abs>] [--max-line-bytes <n>] [--skip-independent-check]
+node studio/mcp.mjs --issue-token --agent <name> --scope <scope>     # HTTP bearer token, shown once
+node studio/mcp.mjs --self-test          # human-runnable proof: real handshakes, real calls, exit code
+node --test studio/mcp/*.test.mjs studio/core/tests/*.test.mjs        # the tests
+node studio/mcp/eval/run.mjs             # the evaluation, as a real agent (needs the `claude` CLI)
 ```
 
 You need **one** agent connected, not several. Claude Code, Codex and Antigravity below are independent alternatives; pick the one you use. Nothing in the server assumes more than one connection.
@@ -22,25 +25,113 @@ Checked against the live spec on 2026-11-22. **Latest published revision: `2026-
 
 Wire rules implemented: newline-delimited JSON, **only protocol messages on stdout** (logs on stderr; `console.log` is redirected to stderr as a guard); `-32700` parse error, `-32600` invalid request (batches, bad `jsonrpc`, null/fractional ids), `-32601` unknown method, `-32602` bad params/unknown tool, `-32603` internal; notifications never get a reply; ids of either type are echoed; exit 0 on stdin EOF after in-flight calls finish. Per the tools page, an unknown tool or malformed `tools/call` is a JSON-RPC error, while bad arguments, a denied scope and handler failures are results with `isError: true` so the model can recover.
 
-Not implemented (not needed yet): resources, prompts, `subscriptions/listen`, tasks, pagination, progress/cancellation, sampling/elicitation.
+Not implemented (not needed yet): resources, prompts, `subscriptions/listen`, tasks, protocol-level pagination (`catalog_search` pages itself), progress/cancellation, sampling/elicitation.
+
+## Tools
+
+Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read` < `author` < `pack`. A connection sees only the tools its scope allows, and the server refuses the rest. **No tool needs `pack` yet** (that scope is for the later `pack` tool), and no committed config grants it.
+
+| Group | Tool | Scope | What it does |
+|---|---|---|---|
+| Context | `studio_project_info` | read | Palette (40 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
+| | `studio_catalog_search` | read | Find assets by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging |
+| | `studio_asset_get` | read | One asset: spec, four milestones, frames present or missing, provenance, metadata, review state, checks, dependencies, and the etags editing needs |
+| | `studio_asset_plan` | author | Create, or edit one you created, a planned Longtime entry (stored beside the locked manifest) |
+| Authoring | `studio_frames_submit` | author | Native PNG frames with mandatory provenance; pixel gates run first; raw is immutable |
+| | `studio_metadata_set` | author | Pivot, hitbox, per-frame durations, clip events |
+| Checking | `studio_qa_run` | read (record: author) | Palette, alpha, outline, size, frame count, naming, with pixel coordinates; can record an independent check |
+| | `studio_diff` | read | Against the previous revision, or against main: changed pixels, bounding box, hashes |
+| Seeing | `studio_preview_render` | read | An **image**: contact sheet by clip and direction, nearest-neighbour x4, defect overlay |
+| Review loop | `studio_review_request` | author | Ask a human to review (a comment, never a status) |
+| | `studio_review_list` | read | The human's decisions and comments, and which comments still wait for an answer |
+| | `studio_review_reply` | author | Answer a human comment, optionally mark it handled (a comment, never a status) |
+| Jobs | `studio_job_status` | read | Status, log tail, cost of a background job |
+| | `studio_job_wait` | read | Wait for a job and get its result (images included) |
+
+**Not yet** (left for the forge and later parts, deliberately not stubbed): `template_get`, `sheet_import`, `frame_patch`, `rig_bake`, `process`, `generator_run`, `vfx_build`, `audio_render`, `audio_analyze`, `pack`, `scene_snapshot`.
+
+Design follows the mcp-builder rules: action-named tools, concise descriptions that say what comes back, `additionalProperties: false` everywhere, filters and paging on lists, errors that say what to do next ("Did you mean: lt_seed_broker?", "pass the etag from studio_asset_get"), annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`).
+
+### A sample loop
+
+1. `studio_catalog_search` (source longtime, status planned) then `studio_asset_get`: profile, clips, directions, size. For a brand-new idea, `studio_asset_plan` first.
+2. Make the frames with the agent's own image tool or a generator, save PNGs in the worktree.
+3. `studio_frames_submit` with `file` paths and provenance (tool, prompt or generator, sha256 of the source). A defective batch writes nothing and returns every bad pixel as `x, y`; fix and resubmit, or use `dryRun`.
+4. `studio_preview_render` to look, `studio_qa_run` for the verdict, `studio_metadata_set` for pivot, hitbox, timings.
+5. **A different session** runs `studio_qa_run` with `independent=true`.
+6. `studio_review_request`, then (later) `studio_review_list`, `studio_review_reply`.
+
+### What gets written, and where
+
+| What | Where | Tracked by git? |
+|---|---|---|
+| Submitted frames (written once, never overwritten) | `<raw>/<id>/frames/<clip>_<direction>_<n>.png` | yes |
+| Who submitted what (agent, session, tool, prompt or generator, source hash, rights, parents, frame hashes) | `<raw>/<id>/studio-submissions.jsonl`, append-only | yes |
+| Pivot, hitbox, durations, events | `<raw>/<id>/studio-metadata.json` | yes |
+| Planned entries | `assets/studio_plans.json`, beside the design manifest | yes |
+| Revision history and review comments | the revision store (`<revisions>/editor.sqlite`) | no (git-ignored) |
+| Checks, structured review traffic | `<revisions>/studio.sqlite` | no |
+| HTTP tokens (hashes only) | `<revisions>/mcp-tokens.json`, mode 0600 | no |
+
+`assets/manifest_longtime.json` is a **locked contract** (`check_longtime.py` pins its totals), so the studio never edits it: new plans go to `studio_plans.json`, and a human promotes them into the manifest in a reviewed change.
+
+### Guardrails the server enforces
+
+- **Provenance is mandatory** and specific: a tool, a prompt or a generator, and the sha256 of the source. The agent name and the session id are written by the server, never taken from the client.
+- **Raw is immutable.** Frames are created with `O_EXCL`; identical resubmission is a no-op, different pixels for an existing frame are refused. A batch is all or nothing, and a failure after writing removes what it created.
+- **Gates first.** Palette, binary alpha, silhouette outline, exact canvas size; the batch is rejected with coordinates if any frame has an error.
+- **Only open assets.** Submission and metadata are refused once an asset has processed or packed frames, and for core (shipped) assets; those change only through reviewed revisions.
+- **Optimistic concurrency.** Edits to plans and metadata need the etag from `studio_asset_get`.
+- **Project path containment.** `file` inputs must be project-relative, are size-checked before they are read, and may not resolve outside the project.
+
+### Review loop: an agent can ask, read and answer, never decide
+
+`studio_review_request` and `studio_review_reply` add a **comment** to the existing revision and review store (so a human sees it in the existing review UI, prefixed with the agent and session). Nothing in the server writes `approved`, `changes_requested` or `rejected`. The single status the studio ever writes is `pending`, when a new frame's history is created: the store would otherwise treat revision 0 as approved. It also never reopens a frame a human approved (a request skips it; a request for only approved frames is refused).
+
+There is no approve, reject, sign, publish, delete or shell tool, at any scope, and no tool takes a status, decision or force argument. `humanonly.test.mjs` proves it at `read`, `author` and `pack`:
+
+- tool names and every input-schema property are scanned for approve, reject, sign, publish, delete, status and the like;
+- 17 human-only tool names return `-32602 Unknown tool`; every real tool rejects `approve`, `status`, `decision`, `publish`, `delete`, `session` arguments;
+- after a full agent loop at `pack` scope, and after a human has approved one frame and requested changes on another, every status is exactly what the human left;
+- **a static scan** lists every call in the code an agent can reach that writes to the revision store, and requires each to be a reviewed one (two comment-only writes, one `pending`); adding another fails the test until someone decides it cannot approve. The evaluation harness, which plays the human, is excluded, and a second test proves no server code imports it.
+
+### Independent check
+
+The plan says the session that checks an asset must differ from the session that authored it. Enforced like this:
+
+- Every connection has a **session id assigned by the server** (stdio: per process; HTTP: per token, plus a per-handshake part for legacy clients). A client cannot choose it, and a tool argument named `session` is rejected.
+- `studio_qa_run` with `independent=true` is **refused** if this session submitted frames for the asset. A plain run, or `record=true` without `independent`, is allowed and recorded as *not* independent.
+- `studio_review_request` requires, by default, a recorded **independent, passing** check on **exactly the current frames** (a hash of every frame's bytes, so any later change makes it stale). `--skip-independent-check` turns that off for local experiments only; no committed config uses it, and a test enforces that.
+- Different *agents* are better but not required: two sessions of the same agent are independent. This is a guard against doing it by accident and an audit trail, **not a security boundary**: an agent with a shell can start another server process. The human review remains the real gate.
+
+### Jobs
+
+`background: true` on `studio_qa_run`, `studio_preview_render` or `studio_diff` returns a `jobId` immediately; `studio_job_status` shows status, log tail and cost (wall time, approximate CPU), and `studio_job_wait` returns the finished result exactly as the foreground call would have, images included. The runner (`studio/core/jobs.mjs`) is in-process and memory-only: at most 4 jobs run at once, the newest 100 finished jobs are kept, jobs die with the process. It is cooperative (long loops yield to the event loop); CPU-heavy forge work will need a worker thread, which the interface allows without changing callers.
 
 ## Layout and extension seams
 
 ```
-studio/mcp.mjs            entry point, flag parsing, stdout guard
-studio/mcp/server.mjs     McpServer (transport-agnostic handleMessage) + serveStdio + audit sink
-studio/mcp/protocol.mjs   versions, error codes, JSON-RPC helpers
-studio/mcp/registry.mjs   ToolRegistry, scopes, ToolError
-studio/mcp/schema.mjs     JSON Schema subset validator (rejects $ref etc. at registration)
-studio/mcp/project.mjs    THE ONLY file that reads project files; goes through the project pack
-studio/mcp/tools/         one module per tool; tools/index.mjs registers them
-studio/mcp/stdio_client.mjs, self_test.mjs, server.test.mjs, config.test.mjs
+studio/mcp.mjs              entry point, flags, token CLI, stdout guard
+studio/mcp/server.mjs       McpServer (transport-agnostic handleMessage) + serveStdio + audit sink
+studio/mcp/http.mjs         loopback HTTP transport mounted at /mcp by studio/serve.mjs
+studio/mcp/tokens.mjs       bearer tokens (hashes only)
+studio/mcp/protocol.mjs     versions, error codes, JSON-RPC helpers
+studio/mcp/registry.mjs     ToolRegistry, scopes, ToolError
+studio/mcp/schema.mjs       JSON Schema subset validator (rejects $ref etc. at registration)
+studio/mcp/project.mjs      project_info's view of the pack (the only file reading project files for it)
+studio/mcp/asset-index.mjs  THE PROJECT ADAPTER: this project's manifests -> asset records
+studio/mcp/tools/           one module per tool; tools/index.mjs registers them
+studio/mcp/eval/            the evaluation: questions.xml, scene.mjs, run.mjs, results/
+studio/core/                project-agnostic engines the tools call (see below)
 ```
+
+`studio/core` stays **project-agnostic**: `core/tests/literals.test.mjs` fails if it names a project path or asset. So the engines work on *asset records* that an **indexer** supplies, and everything Tien Nghich specific (which categories carry an outline, how processed frames are grouped and keyed, the `lt_` id prefix, atlas locations) lives in `studio/mcp/asset-index.mjs`, which shrinks to reading the pack as the pack learns to describe those conventions. New core modules: `assets.mjs` (record helpers, milestones), `defects.mjs` (pixel defects with coordinates, held in agreement with `gates.mjs` by a test), `qa.mjs`, `submissions.mjs`, `metadata.mjs`, `plans.mjs`, `review.mjs`, `contact-sheet.mjs`, `pixdiff.mjs`, `jobs.mjs`, `workspace.mjs`, `studio-db.mjs`, `fsutil.mjs`. `catalog.mjs`, `editable.mjs`, `store.mjs` and `studio/server/` are unchanged apart from the one `/mcp` route in `serve.mjs`.
+
 
 - **Add a tool:** create `tools/<name>.mjs` exporting `{ name, title, description, scope, inputSchema, annotations?, handler(args, ctx) }`, add one `registry.register(...)` line in `tools/index.mjs`. `server.mjs` does not change. A handler returns a plain object (sent as `structuredContent` plus a JSON text block) or a full `{content, structuredContent, isError}`; throw `ToolError` for expected failures. `ctx` = `{ project, caller: {agent, clientInfo}, scope, era, protocolVersion }`.
 - **Scopes:** each tool declares `read`, `author` or `pack` (cumulative: `pack` ⊃ `author` ⊃ `read`). The connection gets one scope from `--scope` (default `read`). Tools above it are hidden from `tools/list` and refused on call. Scope is an operator decision at launch, never something the agent can raise. Approving art or signing audio listening is deliberately not a tool at any scope.
 - **Caller recorded:** the agent name is `--agent` if given, else the client's self-reported `clientInfo.name` (legacy `initialize`, or modern `_meta`), else `unknown`. It is passed to every handler, returned in `studio_project_info.connection`, and written to `--audit-log` as JSONL (`ts, agent, scope, tool, era, ok, ms, reason?`). Self-reported names are not authenticated; use `--agent` when the operator knows who is on the other end.
-- **Project pack:** `project.mjs` loads `studio.project.json` through `studio/core/pack.mjs` (`loadPackSync`, schema-validated) and reads only files the pack names: `palette.file` and the `catalog.sources` of kind `asset-manifest`, `design-manifest` and `audio-plan`. Moving or renaming one of those files in the pack needs no code change (a test does exactly that). `openProject(root).snapshot()` loads the pack and files **once** and returns a consistent view; a tool takes one snapshot per call, so every section of a response comes from the same moment, and nothing is cached between calls. A missing, invalid or half-written pack or file is an `isError` result naming it (`ProjectError` is a `ToolError`); startup fails fast with exit 2. It imports `studio/core/pack.mjs` directly, not `studio/core/index.mjs`, which would pull in `node:sqlite` (an experimental-warning on every start) for nothing.
+- **Project pack:** `project.mjs` (for `studio_project_info`) loads `studio.project.json` through `studio/core/pack.mjs` (`loadPackSync`, schema-validated) and reads only files the pack names: `palette.file` and the `catalog.sources` of kind `asset-manifest`, `design-manifest` and `audio-plan`. Moving or renaming one of those files in the pack needs no code change (a test does exactly that). `openProject(root).snapshot()` loads the pack and files **once** and returns a consistent view; a tool takes one snapshot per call, so every section of a response comes from the same moment, and nothing is cached between calls. A missing, invalid or half-written pack or file is an `isError` result naming it (`ProjectError` is a `ToolError`); startup fails fast with exit 2. It imports `studio/core/pack.mjs` directly, not `studio/core/index.mjs`, which would pull in `node:sqlite` (an experimental-warning on every start) for nothing.
 - **What is still not in the pack:** the outline categories (`player, mob, boss, weapon, prop, icon` carry the outline; `tileset, ui, projectile, vfx` do not), the alpha detail (values 0/255, RGB 0,0,0 under alpha 0) and the atlas-packer key groups (`characters/…`, `tilesets/…`) live in `docs/ART_BIBLE.md` and Python. They are constants at the top of `project.mjs` with their sources named in the output; move them into the pack when it can hold them.
 - **Output stability:** `studio_project_info` keeps every key it had before the pack switch. Palette and asset counts are byte-identical (checked by diffing old and new output on the same data). Additions: `project.pack.{id,name,version}`, `sizeClasses.packClasses` and `.atlasProfiles`, `rules.outline.{mode,borderIsEdge}`, `rules.alpha.mode`, `rules.packSource`, and a fourth `manifests` entry for the pack (appended, so earlier positions did not move). `project.source` is now `project-pack` and `project.pack.consumed` is `true`.
 - **Line limit:** an input line over `--max-line-bytes` (default 8 MiB, counted in UTF-8 bytes) is never parsed. It gets one `-32700` "message too large" and is skipped to its newline, however many chunks it spans, then the stream carries on.
@@ -51,9 +142,11 @@ studio/mcp/stdio_client.mjs, self_test.mjs, server.test.mjs, config.test.mjs
 
 | Harness | Project file (committed) | Contents |
 |---|---|---|
-| Claude Code | `.mcp.json` | `node studio/mcp.mjs` |
-| Codex | `.codex/config.toml` | `node studio/mcp.mjs --agent codex`, 20 s start timeout, `default_tools_approval_mode = "writes"` |
-| Antigravity | `.agents/mcp_config.json` | `node studio/mcp.mjs --agent antigravity`, 60 s timeout |
+| Claude Code | `.mcp.json` | `node studio/mcp.mjs --scope author` |
+| Codex | `.codex/config.toml` | `node studio/mcp.mjs --scope author --agent codex`, 20 s start timeout, `default_tools_approval_mode = "writes"` |
+| Antigravity | `.agents/mcp_config.json` | `node studio/mcp.mjs --scope author --agent antigravity`, 60 s timeout |
+
+**Scope.** The configs grant `author`, which is what the authoring and review tools need. They never grant `pack` (an operator decision at launch), and no config turns off the independent-check policy; `config.test.mjs` enforces both. A read-only connection is `node studio/mcp.mjs` with no `--scope`.
 
 Design decisions, deliberate:
 
@@ -77,7 +170,13 @@ claude -p --settings '{"enableAllProjectMcpServers":true}' --allowedTools mcp__s
 
 Result: init listed `{"name":"studio","status":"connected","source":"project"}`; the call returned `agent: claude-code`, `protocolVersion: 2026-07-28`, `project.source: project-pack`, `palette.count: 40`, and `project.root: /private/tmp/tn2d-fresh-wt` while `pwd` printed `/tmp/tn2d-fresh-wt` (`/tmp` is a symlink to `/private/tmp` on macOS; same directory). The worktree's own copy was served. An earlier trial (PR #59) with an explicit `--mcp-config` file recorded `agent: claude-code`, era `modern`, and an audit line with `ok: true`.
 
-### Codex: configuration verified against docs; not yet run by a real Codex (no `codex` binary on this machine)
+### Codex: verified by a real session (2026-11-22)
+
+**Trial record.** A real Codex session, started by the orchestrator in a fresh worktree, called `studio_project_info` through the committed `.codex/config.toml`: `connection.agent` `codex`, scope `read` (the config granted `read` then; it grants `author` since this README's change), `project.root` equal to its `pwd`, `project.source` `project-pack`, palette 40, base assets 90, Longtime assets 125, **legacy era, protocol `2025-06-18`**, and **no approval prompt** for the read-only tool. So: Codex honours `mcp_servers` in the project `.codex/config.toml` once the project is trusted; it starts the stdio server with the session's directory as its working directory; and it opens with `initialize` (legacy), which is why this server speaks both eras. The author tools were not part of that trial.
+
+**Open question for the first authoring session.** `default_tools_approval_mode = "writes"` prompts for tools not marked read-only, and the author tools are annotated `readOnlyHint: false`. In an interactive session the human approves each call; a non-interactive `codex exec` run cannot, so author calls may be refused there. If so, set the mode to `approve` after confirming what the docs mean by it in that session; the server enforces scope and the review rules itself, and none of the author tools is destructive.
+
+Configuration, as checked against the docs:
 
 Docs: <https://developers.openai.com/codex/mcp> (MCP page), <https://developers.openai.com/codex/config-basic> (precedence and trust). Read 2026-11-22.
 
@@ -87,7 +186,7 @@ Docs: <https://developers.openai.com/codex/mcp> (MCP page), <https://developers.
 - Not documented: the default working directory of a stdio server when `cwd` is unset; which MCP revision Codex speaks (the docs say only that it reads the `instructions` field "returned during initialization").
 - If `studio` is missing from `/mcp`: the project is untrusted (trust it), or the project file is not honoured for `mcp_servers` (then use the user-level fallback `codex mcp add studio -- node /abs/path/to/checkout/studio/mcp.mjs --agent codex`, which pins that one checkout). If `project.root` is wrong: add `cwd = "<absolute path>"` to the table.
 
-### Antigravity: configuration verified against docs; not yet run by a real Antigravity (not installed)
+### Antigravity: configuration verified against docs; not yet run by a real Antigravity
 
 Docs: <https://antigravity.google/docs/mcp> and <https://antigravity.google/docs/cli/reference/> (Google's site). Read 2026-11-22.
 
@@ -133,30 +232,96 @@ Paste this to the agent, unchanged:
 
 - The reply has all twelve lines, not `TOOL MISSING`.
 - `connection.agent` is `codex` (Codex) or `antigravity` (Antigravity), which proves the project file was the one used, since the name comes from its `--agent` flag.
-- `connection.scope` is `read`, and `project.source` is `project-pack`.
+- `connection.scope` is `author` (what the committed configs grant), and `project.source` is `project-pack`. (The 2026-11-22 trial above ran when the configs granted `read`.)
 - `project.root` is the same directory as `pwd` (a symlink prefix such as `/private/tmp` versus `/tmp` is fine). A different directory means the server ran against another checkout or another working directory: a fail.
 - `palette.count` is 40, and `assetCounts.base.total` and `assetCounts.longtime.total` equal the first and the second and third numbers on the `expected` line, in that order (today 90 and 125, so `expected` reads `40 90 125`).
-- `connection.protocolEra` and `connection.protocolVersion` can be anything; record them, because the docs do not say which revision Codex and Antigravity speak (`legacy` / `2025-11-25` or `modern` / `2026-07-28` are both correct). The approval line is information too: it is not a failure either way.
+- `connection.protocolEra` and `connection.protocolVersion` can be anything; record them (Codex was `legacy` / `2025-06-18`; Antigravity is not yet known; `legacy` or `modern` are both correct). The approval line is information too: it is not a failure either way.
 
 Failure map: `TOOL MISSING` → project untrusted, or the harness does not honour its project file (see the harness sections above). `project.root` ≠ `pwd` → set `cwd` as described. `connection.agent` is `unknown`, or a name other than the expected one → the harness ignored `args` or a different config won.
+
+### Authoring trial prompt (settles the approval question for author tools)
+
+Same setup as above, in a **disposable** worktree (the prompt writes two files and does not commit them). Paste unchanged:
+
+> You are testing the authoring tools of the MCP server `studio`. Do the steps in order. Do not edit any file yourself and do not commit anything: only the studio tools may write.
+>
+> 1. Call `studio_asset_plan` with `{"op":"create","id":"lt_trial_marker","profile":"npc","chunk":"abode","brief":"Trial entry for the authoring check."}`. Record `created` and `etag`.
+> 2. Call `studio_metadata_set` with `{"assetId":"lt_trial_marker","pivot":[16,29],"hitbox":{"x":8,"y":6,"w":16,"h":24}}`. Record `file` and `etag`.
+> 3. Call `studio_asset_get` with `{"assetId":"lt_trial_marker","sections":["spec","metadata"]}`. Record `plan.etag`, `metadata.pivot`, `metadata.hitbox`.
+> 4. Call `studio_review_request` with `{"assetId":"lt_trial_marker","note":"Trial."}` and record whether it was refused and the first sentence of its message.
+> 5. In the shell run `git status --short` and record the output.
+> 6. Reply with exactly: `plan created: <true|false>`, `metadata file: <path>`, `pivot/hitbox read back: <yes|no>`, `review_request: <refused|accepted> - <first sentence>`, `git status: <output on one line>`, `approval prompts shown: <number>`.
+
+**Pass:** `plan created: true`; the metadata file is `assets/raw/longtime/lt_trial_marker/studio-metadata.json`; pivot and hitbox read back `yes`; `review_request` is **refused** with a message about frames or an independent check (there are no frames, so nothing may be asked of a human); `git status --short` shows exactly `?? assets/raw/longtime/lt_trial_marker/` and `?? assets/studio_plans.json` and nothing else (the revision store and database are git-ignored); I ran these steps against a scratch worktree of the real repo and got exactly that; and the number of approval prompts is recorded. If author calls were blocked by approval (for example in `codex exec`), the Codex config needs `default_tools_approval_mode = "approve"` (see the Codex section); that is the finding this trial exists to produce.
 
 ## Does a server launched in a git worktree see that worktree's files?
 
 **Yes, provided the paths in the config resolve inside that worktree, which the committed project configs guarantee by using a relative script path.** The server is a plain process that reads files by path; it knows nothing about git. A linked worktree is an ordinary directory with its own checked-out copy of `assets/`, `tools/` and `studio/`. Two things decide which copy is read: the script path (`studio/mcp.mjs` relative to the harness's working directory, or an absolute path) and `--project` (default: the repo that contains `mcp.mjs`, not the shell's cwd). Relative paths followed by a harness started in the worktree give that worktree's files: verified above for Claude Code in a fresh worktree, where `project.root` was that worktree and `pwd` agreed. An absolute path to the main checkout in a user-level config sees the main checkout instead, whatever worktree the session is in. Two worktrees do not share state: each session launches its own server process. Uncommitted edits are visible immediately because manifests are re-read per call. Whether Codex and Antigravity start stdio servers in the session's directory is undocumented; the test prompt's `project.root` versus `pwd` check settles it.
 
-## What changes for the HTTP loopback transport
+## HTTP loopback transport
 
-`McpServer.handleMessage` is already transport-agnostic; HTTP is a second binding, but these differences matter:
+`node studio/serve.mjs` mounts the same registry at **`/mcp`** (one added route; the editor API and static files are untouched). It speaks both protocol eras like stdio, answers every POST with one JSON object, and keeps the editor API's loopback rule: a loopback socket, a `Host` of `localhost`/`127.0.0.1`/`[::1]` with this server's port, an absent or same-origin `Origin`, and no cross-site fetch. It exists so the UI can show agent activity live.
 
-1. **One long-lived process, not one per session.** The project root is fixed when the server starts, so a worktree session would see the *server's* files, not its own. Either run one server per worktree on its own port, or have connections select a project (a server-minted handle passed as a tool argument; the 2026-07-28 spec removes protocol sessions and `Mcp-Session-Id`, so state cannot ride on a session).
-2. **Identity and scope can no longer come from launch flags.** `--agent` and `--scope` describe a process; many agents will share one. They must come from per-connection credentials (a token per agent mapped to agent name and scope), not from self-reported `clientInfo`.
-3. **Loopback is not authentication.** Bind `127.0.0.1` only; reject non-loopback `Host` and any unexpected `Origin` (DNS rebinding); require the token above.
-4. **Wire format:** Streamable HTTP POST with `MCP-Protocol-Version`, `Mcp-Method` and `Mcp-Name` headers (2026-07-28); version mismatch is a `400` with the modern error body; legacy clients would need the `initialize`/session path if they must be supported.
-5. **Concurrency and staleness:** requests arrive in parallel and clients stay connected for days. Handlers must be reentrant and must not cache project state (this server already re-reads manifests per call); write tools need a lock per project.
-6. **Audit** moves from a per-process file to one shared log with the credential's identity.
+```
+node studio/serve.mjs --port 4173
+node studio/mcp.mjs --issue-token --agent codex --scope author       # prints a token once; keep it in an env var
+curl http://127.0.0.1:4173/mcp/activity                              # who called what, no arguments or secrets
+```
+
+| Request | Answer |
+|---|---|
+| anything but POST on `/mcp` | `405`, `Allow: POST` (no GET stream, no session to delete) |
+| not `application/json` / unparseable / over 4 MiB | `415` / `400 -32700` / `413` |
+| modern request whose `MCP-Protocol-Version`, `Mcp-Method` or `Mcp-Name` header is missing or differs from the body | `400`, `-32020` HeaderMismatch (a base64 `Mcp-Name` is decoded first) |
+| unsupported protocol version / unknown method | `400 -32022` with the supported list / `404 -32601` |
+| notification | `202`, no body |
+| legacy `initialize` | `200` plus an `MCP-Session-Id`; later requests carry it (unknown id `404`; a different token `403`) |
+| bad or revoked bearer token | `401` (never a silent downgrade to anonymous) |
+
+**Identity and scope come from a bearer token**, not from flags or from what the client says. `--issue-token` stores only a SHA-256 of the secret in `<revisions>/mcp-tokens.json` (0600); `--list-tokens` and `--revoke-token <id>` manage them, and a revoked token stops working at once. No token means a **read-only** connection. The server's session id is the token id (plus a per-handshake part for legacy clients), so two tokens are two sessions and the independent-check rule works across agents; one token is one session.
+
+`GET /mcp/activity?since=<seq>` returns the last 500 calls: time, agent, session, scope, tool, ok, milliseconds. The live UI will poll it; nothing in it is an argument or a secret.
+
+Client snippets (the token in an environment variable, never in a committed file). **Claude Code** was verified with a real session over HTTP with an author token: `studio` connected, 14 tools listed, calls succeeded, agent name taken from the token, calls visible in the activity feed. The Codex and Antigravity forms follow their docs and have not been run:
+
+```
+claude mcp add --transport http studio http://127.0.0.1:4173/mcp --header "Authorization: Bearer $STUDIO_MCP_TOKEN"
+
+# Codex (config.toml): url and bearer_token_env_var are documented MCP keys
+[mcp_servers.studio-http]
+url = "http://127.0.0.1:4173/mcp"
+bearer_token_env_var = "STUDIO_MCP_TOKEN"
+
+# Antigravity (mcp_config.json): serverUrl and headers are documented keys
+{ "mcpServers": { "studio-http": { "serverUrl": "http://127.0.0.1:4173/mcp", "headers": { "Authorization": "Bearer <token>" } } } }
+```
+
+What still differs from stdio: the HTTP server is **one long-lived process serving one project root** (the checkout it was started in, since `studio/serve.mjs` serves its own repo), so a worktree's own files are seen only by running that worktree's server on its own port; stdio remains the per-worktree transport. Jobs are shared by all HTTP connections of the process. The server never sends anything unprompted, so there is no SSE.
+
+## Evaluation (first half of ten)
+
+The plan requires ten questions in the mcp-builder format, each answerable only by using the tools correctly. This is the first half; the second half (forge tools) is written when those tools exist. Five read-only, independent questions with one short verifiable answer each are in `eval/questions.xml`, answered against a **scene**: a throwaway copy of the project that a harness (not the agent) puts into a known state through the same tools and the review store: frames submitted by one session, an independent check by another, a human approving, commenting and requesting changes, a human edit as a second revision, and one frame damaged on disk afterwards. Ground truth is computed **without** the studio tools (reading files and the databases directly).
+
+- **Offline** (`eval.test.mjs`, part of `node --test`): the answers in `questions.xml` equal the ground truth; and an oracle answers every question using only studio tool calls through the real server at read scope. So the questions are answerable, verifiable and stable.
+- **As a real agent** (`node studio/mcp/eval/run.mjs --out <file>`): headless Claude Code with **no built-in tools at all** (no shell, no file access), only the studio tools at read scope. 2026-11-22, default model, `eval/results/2026-11-22-claude-code.json`:
+
+| Q | Needs | Answer | Tool calls | Result |
+|---|---|---|---|---|
+| 1 | `catalog_search`, `asset_get` (multi-hop: find the planned ember_delta boss, count its frames) | 72 | 2 | correct |
+| 2 | `catalog_search` paging (planned assets in every chunk that has a planned boss, of any size) | 19 | 9 | correct |
+| 3 | `qa_run` (which frame breaks the palette rule, and the colour) | `idle_south_2 #010203` | 2 | correct |
+| 4 | `review_list` (the human comment about the carried pole, and that frame's status) | `idle_south_1 pending` | 1 | correct |
+| 5 | `asset_get` checks (who made the independent check, and is it still current) | `claude-code no` | 1 | correct |
+
+**5 of 5 correct, no tool errors, 0.53 USD in total.** Coverage is honest: this run did not call `preview_render`, `diff` or the job tools (the tests cover them). A separate probe confirmed an agent can *see* the preview: asked to look at the image and not the text, it reported the four status bars (green, green, red, green) and the boxed pixel in the third cell, which is the damaged frame. Re-run after changing a tool description; a wrong answer or a tool error in `results` is the signal to improve it.
 
 ## Known limits
 
-- Codex and Antigravity could not be run on this machine; their committed configs are checked against the official pages above, not against a live client. The first real trial (the test prompt above) settles whether `.codex/config.toml` `mcp_servers` and `.agents/mcp_config.json` are honoured and what working directory they use.
+- **Antigravity has not been run** (not installed here); its committed config and HTTP form follow Google's documentation. Codex's stdio read path is verified by the trial above; its author tools and its HTTP form are not.
+- **Only Longtime design assets can be authored** (frames, metadata). Core assets are shipped and change through reviewed revisions, which arrive with `frame_patch`.
+- **Frames are checked, not yet processed.** `process`, `pack` and the animation gate belong to the forge; `qa_run` covers the static gates today, not slide, drift or loop seams.
+- **`studio_review_*` work per frame**, so a 32-frame request is 32 comments with the same note; the review UI will aggregate them per asset.
+- **The independent check is a process guard, not a security boundary** (see above).
+- Jobs and HTTP sessions are memory-only: they end with the process.
 - Nothing in CI runs `node --test studio/mcp/*.test.mjs` yet; run it by hand until a test runner lands.
 - The schema validator is a deliberate subset (see `schema.mjs`); a tool using an unsupported keyword fails at registration, not silently.
