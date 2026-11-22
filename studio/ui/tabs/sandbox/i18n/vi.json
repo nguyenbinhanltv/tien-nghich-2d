@@ -7,7 +7,7 @@
  "scenes.title": "Scene",
  "scenes.label": "Scene đã lưu",
  "scenes.testRoom": "Phòng thử",
- "scenes.testRoomNote": "Phòng trống: thêm bất kỳ thứ gì từ danh mục",
+ "scenes.testRoomNote": "Phòng thử: thêm bất kỳ thứ gì từ danh mục",
  "scenes.invalid": "tệp không hợp lệ",
  "scenes.noDir": "Pack của dự án chưa chỉ ra thư mục scene nên không thể liệt kê hay lưu scene.",
  "kind.data": "scene dữ liệu",
@@ -88,5 +88,10 @@
  "save.confirmReplace": "{file} đang được git theo dõi. Thay thế?",
  "save.kept": "Giữ nguyên tệp cũ.",
  "common.error": "Không tải được Phòng thử: {message}",
- "common.retry": "Thử lại"
+ "common.retry": "Thử lại",
+  "view.toList": "Cảnh và vật phẩm",
+  "view.toStage": "Xem sân khấu",
+  "stage.starter": "Phòng mẫu để bắt đầu: một nhân vật và một hiệu ứng. Bấm vào sân khấu để kích hiệu ứng, hoặc đổi danh sách.",
+  "stage.starterNoFx": "Phòng mẫu để bắt đầu: một nhân vật. Thêm hiệu ứng hoặc cue từ danh sách.",
+  "loading": "Đang nạp Sandbox…"
 }

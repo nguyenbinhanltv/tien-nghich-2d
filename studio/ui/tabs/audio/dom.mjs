@@ -15,18 +15,23 @@ export function h(tag, attrs, ...kids) {
 export const humanize = id => String(id).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', class: 'btn', ...attrs}, label);
   if (onClick) b.addEventListener('click', onClick);
   return b;
 }
 
 /** A labelled <select>; `options` is [[value, label]]. */
 export function select(label, value, options, onChange, attrs = {}) {
-  const el = h('select', attrs, ...options.map(([v, l]) => h('option', {value: v, selected: v === value}, l)));
+  const el = h('select', {class: 'field', ...attrs}, ...options.map(([v, l]) => h('option', {value: v, selected: v === value}, l)));
   el.value = value;
   el.addEventListener('change', () => onChange(el.value));
-  return h('label', 'field', h('span', '', label), el);
+  return h('label', 'field-wrap', h('span', 'field-label', label), el);
 }
+
+/** Chip class for one fact about a cue: the kit tone (ok / warn / danger) plus a hook class `<kind letter>-<value>`. */
+const TONES = {stage: {packed: 'ok', master: 'warn'}, listening: {approved: 'ok', pending: 'warn', needs_work: 'danger', stale: 'danger'}};
+export const chipClass = (kind, value) => `chip ${kind[0]}-${value}` + (TONES[kind]?.[value] ? ' ' + TONES[kind][value] : '');
+
 
 export const short = (sha, n = 10) => (sha ? sha.slice(0, n) : '—');
 

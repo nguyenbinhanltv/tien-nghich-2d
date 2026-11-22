@@ -7,10 +7,13 @@ export function h(tag, attrs, ...kids) {
 }
 export const humanize = id => String(id).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', class: 'btn', ...attrs}, label);
   b.addEventListener('click', onClick);
   return b;
 }
+/** Chip class for a status word: the colour tone the kit gives ok / warn / danger. */
+const TONES = {pending: 'warn', none: 'warn', approved: 'ok', signed: 'ok', approved_before: 'ok', changes_requested: 'danger', needs_work: 'danger', stale: 'danger'};
+export const badgeClass = status => `chip s-${status}${TONES[status] ? ' ' + TONES[status] : ''}`;
 export const dataUrl = b64 => 'data:image/png;base64,' + b64;
 export function loadImg(src) {
   return new Promise((resolve, reject) => { const i = new Image(); i.onload = () => resolve(i); i.onerror = () => reject(new Error('image')); i.src = src; });

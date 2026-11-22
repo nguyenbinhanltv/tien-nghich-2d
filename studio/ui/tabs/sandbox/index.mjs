@@ -33,25 +33,31 @@ function layout(ctx) {
   const side = h('aside', {class: 'sb-side', 'aria-label': ctx.t('side.label')});
   const center = h('section', {class: 'sb-center', 'aria-label': ctx.t('stage.label')});
   const aside = h('aside', {class: 'sb-aside', 'aria-label': ctx.t('inspector.label')});
-  ctx.root.replaceChildren(h('header', 'sb-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))), h('div', 'sb', side, center, aside));
-  return {side, center, aside};
+  const toList = button('← ' + ctx.t('view.toList'), () => setView('list'), {class: 'btn quiet sb-to-list'});
+  const toStage = button(ctx.t('view.toStage') + ' →', () => setView('stage'), {class: 'btn primary sb-to-stage'});
+  const root = h('div', {class: 'sb', 'data-view': 'stage'}, toList, toStage, side, center, aside);
+  ctx.root.replaceChildren(h('header', 'sb-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))), root);
+  return {side, center, aside, sb: root};
 }
 
 const label = (ctx, a) => (a ? ctx.label(a.name) || a.id : '');
 
 function select(text, value, options, onChange, id) {
-  const s = h('select', {'aria-label': text, id}, ...options.map(([v, t]) => h('option', {value: v, selected: v === value ? 'selected' : null}, t)));
+  const s = h('select', {class: 'field', 'aria-label': text, id}, ...options.map(([v, t]) => h('option', {value: v, selected: v === value ? 'selected' : null}, t)));
   s.addEventListener('change', () => onChange(s.value));
-  return h('label', 'sb-field', text, s);
+  return h('label', 'sb-field', h('span', 'field-label', text), s);
 }
+
+/** Below 900 px the list (scenes, pickers) and the stage take turns; the stage is the default. */
+function setView(view) { app.sb.dataset.view = view; if (view === 'stage') window.scrollTo?.({top: 0}); }
 
 function renderSide(app) {
   const {ctx, state, catalog, scenes} = app;
   const list = h('ul', {class: 'sb-list', 'aria-label': ctx.t('scenes.label')},
     h('li', '', h('a', {class: 'sb-row' + (!state.scene ? ' on' : ''), href: ctx.href(app.route({}, {scene: null})), 'aria-current': !state.scene ? 'true' : null}, h('span', 'sb-rowid', ctx.t('scenes.testRoom')), h('span', 'sb-rowmeta', ctx.t('scenes.testRoomNote')))),
     ...scenes.map(s => h('li', '', h('a', {class: 'sb-row' + (state.scene === s.id ? ' on' : '') + (s.valid ? '' : ' bad'), href: ctx.href(app.route({}, {scene: s.id})), 'aria-current': state.scene === s.id ? 'true' : null},
-      h('span', 'sb-rowid', ctx.label(s.name) || s.id),
-      h('span', 'sb-rowmeta', [s.valid ? ctx.t('kind.' + s.kind) : ctx.t('scenes.invalid'), s.size && `${s.size[0]}×${s.size[1]}`, s.id].filter(Boolean).join(' · '))))));
+      h('span', {class: 'sb-rowid', title: ctx.label(s.name) || s.id}, ctx.label(s.name) || s.id),
+      h('span', {class: 'sb-rowmeta', title: s.id}, [s.valid ? ctx.t('kind.' + s.kind) : ctx.t('scenes.invalid'), s.size && `${s.size[0]}×${s.size[1]}`, s.id].filter(Boolean).join(' · '))))));
   const parts = [h('h2', '', ctx.t('scenes.title')), scenes.length ? list : list, !app.config.scenesDir && h('p', 'sb-note', ctx.t('scenes.noDir'))];
   if (!state.scene) parts.push(pickers(app, catalog));
   return parts;
@@ -61,8 +67,8 @@ function pickers(app, catalog) {
   const {ctx, state} = app;
   const add = (field, token) => app.go({[field]: [...state[field], token]});
   const picker = (title, items, field, fmt = a => a.id) => {
-    const sel = h('select', {'aria-label': title}, ...items.map(a => h('option', {value: a.id}, fmt(a))));
-    return h('div', 'sb-picker', h('label', 'sb-field', title, sel), button(ctx.t('pick.add'), () => sel.value && add(field, sel.value), {'aria-label': ctx.t('pick.addTo', {what: title})}));
+    const sel = h('select', {class: 'field', 'aria-label': title}, ...items.map(a => h('option', {value: a.id}, fmt(a))));
+    return h('div', 'sb-picker', h('label', 'sb-field', h('span', 'field-label', title), sel), button(ctx.t('pick.add'), () => sel.value && add(field, sel.value), {'aria-label': ctx.t('pick.addTo', {what: title})}));
   };
   const flats = app.config.palette.map(c => [`flat:${c.id}`, c.id]);
   const floor = state.floor ?? floorText({kind: 'flat', color: app.defaultColor});
@@ -72,9 +78,9 @@ function pickers(app, catalog) {
     picker(ctx.t('pick.cue'), catalog.cues, 'cues'),
     select(ctx.t('pick.floor'), floor, [...flats, ...catalog.tilesets.map(t => [`tile:${t.id}`, ctx.t('pick.tile', {id: t.id})])], v => app.go({floor: v}), 'sb-floor'),
     h('div', 'sb-size', ...['w', 'h'].map(k => {
-      const input = h('input', {type: 'number', min: 16, max: 512, step: 8, value: state[k], 'aria-label': ctx.t('pick.size.' + k)});
+      const input = h('input', {class: 'field', type: 'number', min: 16, max: 512, step: 8, value: state[k], 'aria-label': ctx.t('pick.size.' + k)});
       input.addEventListener('change', () => app.go({[k]: Math.min(512, Math.max(16, Number(input.value) || defaultRoom[k]))}, {replace: true}));
-      return h('label', 'sb-field', ctx.t('pick.size.' + k), input);
+      return h('label', 'sb-field', h('span', 'field-label', ctx.t('pick.size.' + k)), input);
     })));
 }
 
@@ -107,7 +113,8 @@ async function paintCenter(app, token) {
   const colors = new Map(app.config.palette.map(c => [c.id, c.hex]));
   const head = h('div', 'sb-title', h('h2', '', state.scene ? ctx.label(scene.name) || scene.id : ctx.t('scenes.testRoom')), h('p', 'sb-meta', [ctx.t('kind.data'), `${scene.room.size[0]}×${scene.room.size[1]}`, ctx.t('meta.counts', {actors: scene.actors.length, effects: scene.effects.length, cues: scene.audio?.cues?.length ?? 0})].join(' · ')));
   const warn = loaded.missing.length ? h('p', {class: 'sb-warn', role: 'alert'}, ctx.t('stage.missing', {ids: loaded.missing.join(', ')})) : null;
-  const empty = !scene.actors.length && !scene.effects.length ? h('p', 'sb-note', ctx.t('stage.empty')) : null;
+  const isStarter = !state.scene && app.starter && JSON.stringify([state.actors, state.fx]) === JSON.stringify([app.starter.actors, app.starter.fx]);
+  const empty = !scene.actors.length && !scene.effects.length ? h('p', 'sb-note', ctx.t('stage.empty')) : isStarter ? h('p', 'sb-note sb-honest', scene.effects.length ? ctx.t('stage.starter') : ctx.t('stage.starterNoFx')) : null;
   app.center.replaceChildren(...[head, warn, empty, host, bedControl(app, scene)].filter(Boolean));
   app.stageKey = key;
   app.stage = mountStage(app, host, {scene, loaded, colors, mixer: app.mixer, state,
@@ -119,7 +126,7 @@ function bedControl(app, scene) {
   const {ctx} = app;
   if (!scene.audio?.bed) return null;
   const b = button('', async () => { const on = await app.mixer.toggleBed(scene.audio.bed); b.textContent = on ? ctx.t('audio.bedOff', {id: scene.audio.bed}) : ctx.t('audio.bedOn', {id: scene.audio.bed}); b.setAttribute('aria-pressed', String(on)); },
-    {class: 'plain sb-bed', 'aria-pressed': 'false'});
+    {class: 'btn sb-bed', 'aria-pressed': 'false'});
   b.textContent = ctx.t('audio.bedOn', {id: scene.audio.bed});
   return h('div', 'sb-bedrow', b, h('span', 'sb-note', ctx.t('audio.silent')));
 }
@@ -183,8 +190,8 @@ const triggerOptions = ctx => [['click', ctx.t('when.click')], ['key:E', ctx.t('
 
 function savePanel(app, scene) {
   const {ctx} = app;
-  const id = h('input', {type: 'text', id: 'sb-save-id', maxlength: 48, pattern: '[a-z0-9][a-z0-9_-]*', placeholder: ctx.t('save.idHint'), autocomplete: 'off', value: app.state.scene ? '' : ''});
-  const name = h('input', {type: 'text', id: 'sb-save-name', maxlength: 80, autocomplete: 'off'});
+  const id = h('input', {class: 'field', type: 'text', id: 'sb-save-id', maxlength: 48, pattern: '[a-z0-9][a-z0-9_-]*', placeholder: ctx.t('save.idHint'), autocomplete: 'off', value: app.state.scene ? '' : ''});
+  const name = h('input', {class: 'field', type: 'text', id: 'sb-save-name', maxlength: 80, autocomplete: 'off'});
   const status = h('p', {class: 'sb-note', role: 'status'});
   const go = async confirm => {
     const check = sceneForSave(scene, id.value.trim(), name.value.trim(), app.config.palette.map(c => c.id));
@@ -200,13 +207,18 @@ function savePanel(app, scene) {
     app.scenes = (await ctx.tabApi('scenes')).scenes;
     renderSideInto(app);
   };
-  const form = h('form', {class: 'sb-save'}, h('label', 'sb-field', ctx.t('save.id'), id), h('label', 'sb-field', ctx.t('save.name'), name),
-    h('button', {type: 'submit', class: 'plain', disabled: app.config.scenesDir ? null : true}, ctx.t('save.button')));
+  const form = h('form', {class: 'sb-save'}, h('label', 'sb-field', h('span', 'field-label', ctx.t('save.id')), id), h('label', 'sb-field', h('span', 'field-label', ctx.t('save.name')), name),
+    h('button', {type: 'submit', class: 'btn primary', disabled: app.config.scenesDir ? null : true}, ctx.t('save.button')));
   form.addEventListener('submit', event => { event.preventDefault(); go(false); });
   return h('div', 'sb-panel', h('h2', '', ctx.t('save.title')), h('p', 'sb-note', app.config.scenesDir ? ctx.t('save.where', {dir: app.config.scenesDir}) : ctx.t('scenes.noDir')), form, status);
 }
 
 function renderSideInto(app) { app.side.replaceChildren(...renderSide(app).filter(Boolean)); }
+
+/** A failed request: the message and a button that tries again. */
+function errorBox(ctx, error, retry) {
+  return h('div', 'empty sb-error', h('p', {class: 'empty-body', role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), retry, {class: 'btn primary'}));
+}
 
 async function paint() {
   const token = ++app.token;
@@ -217,30 +229,58 @@ async function paint() {
     renderAside(app, shown);
   } catch (error) {
     if (error.name === 'AbortError') return;
-    app.center.replaceChildren(h('p', {role: 'alert'}, app.ctx.t('common.error', {message: error.message})));
+    app.center.replaceChildren(errorBox(app.ctx, error, paint));
     app.aside.replaceChildren();
   }
 }
 
+/** A fresh test room (no scene, nothing added) opens with one character and one effect so the stage is not an empty box. */
+export function starterPatch(state, catalog) {
+  const pristine = !state.scene && !state.actors.length && !state.fx.length && !state.cues.length && !state.bed;
+  const character = catalog.characters[0];
+  if (!pristine || !character) return null;
+  return {actors: [character.id], fx: catalog.effects[0] ? [catalog.effects[0].id] : []};
+}
+
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./sandbox.css', import.meta.url));
+  ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
   ctx.onUnmount(() => { mine.stage?.destroy(); mine.mixer.dispose(); });
   const ui = layout(ctx);
   Object.assign(app, ui);
-  ctx.root.setAttribute('aria-busy', 'true');
-  try {
-    [app.config, app.catalog] = await Promise.all([ctx.tabApi('config'), loadCatalog(ctx)]);
-    app.scenes = (await ctx.tabApi('scenes')).scenes;
-  } catch (error) {
-    if (error.name === 'AbortError') return;
+  async function load() {
+    ctx.root.setAttribute('aria-busy', 'true');
+    app.side.replaceChildren(h('p', {class: 'muted', role: 'status'}, ctx.t('loading')), h('span', 'skeleton block'), h('span', 'skeleton block'));
+    app.center.replaceChildren(h('span', {class: 'skeleton block sb-skeleton-stage', 'aria-hidden': 'true'}));
+    app.aside.replaceChildren();
+    try {
+      [app.config, app.catalog] = await Promise.all([ctx.tabApi('config'), loadCatalog(ctx)]);
+      app.scenes = (await ctx.tabApi('scenes')).scenes;
+    } catch (error) {
+      if (error.name === 'AbortError') return;
+      ctx.root.removeAttribute('aria-busy');
+      app.side.replaceChildren();
+      app.center.replaceChildren(errorBox(ctx, error, load));
+      return;
+    }
     ctx.root.removeAttribute('aria-busy');
-    ctx.root.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
-    return;
+    const starter = starterPatch(app.state, app.catalog);
+    if (starter) {   // the route change comes back through update(), which paints
+      app.starter = starter;
+      app.go(starter, {replace: true});
+      return;
+    }
+    await paint();
   }
-  ctx.root.removeAttribute('aria-busy');
-  await paint();
+  await load();
 }
 
-export async function update(ctx, state) { app.state = state; await paint(); }
+export async function update(ctx, state) {
+  const sceneChanged = state.scene !== app.state.scene;
+  app.state = state;
+  if (sceneChanged && app.sb) setView('stage');
+  if (!app.catalog) return;   // the first load is still running; it paints when it is done
+  await paint();
+}
 export async function unmount() { app?.stage?.destroy(); app?.mixer.dispose(); }

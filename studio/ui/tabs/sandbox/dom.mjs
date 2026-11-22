@@ -14,7 +14,7 @@ export function h(tag, attrs, ...kids) {
 }
 
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', class: 'btn', ...attrs}, label);
   b.addEventListener('click', onClick);
   return b;
 }

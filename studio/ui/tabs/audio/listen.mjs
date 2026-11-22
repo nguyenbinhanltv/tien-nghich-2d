@@ -44,10 +44,10 @@ export async function renderListen(app, el, detail, entry, current) {
 
   // ---- version and level controls
   const available = c => c === 'master' ? Boolean(detail.masterInfo) : Boolean(versionOf(ctx, detail, c, packId));
-  const versions = h('div', {class: 'au-versions', role: 'group', 'aria-label': ctx.t('listen.version')},
+  const versions = h('div', {class: 'seg au-versions', role: 'group', 'aria-label': ctx.t('listen.version')},
     ...codecs.map(c => {
       const ok = available(c), canDecode = c === 'master' || engine.canPlay(mimeFor[c]);
-      const b = h('a', {class: 'au-ver' + (c === codec ? ' on' : '') + (ok ? '' : ' off'), href: ok ? ctx.href(app.route({codec: c})) : false, 'aria-disabled': ok ? false : 'true',
+      const b = h('a', {class: 'seg-item au-ver' + (c === codec ? ' is-pressed' : '') + (ok ? '' : ' off'), href: ok ? ctx.href(app.route({codec: c})) : false, 'aria-disabled': ok ? false : 'true',
         title: !ok ? ctx.t('listen.noVersion') : !canDecode ? ctx.t('listen.noDecoder') : false}, ctx.t('codec.' + c), canDecode ? '' : ' ⚠');
       return b;
     }));
@@ -154,9 +154,9 @@ export async function renderListen(app, el, detail, entry, current) {
   }));
 
   let bedHandle = null;
-  const stop = button(ctx.t('listen.stop'), () => { engine.stopAll(); bedHandle = null; say(ctx.t('listen.stopped')); }, {class: 'plain danger'});
+  const stop = button(ctx.t('listen.stop'), () => { engine.stopAll(); bedHandle = null; say(ctx.t('listen.stopped')); }, {class: 'btn danger'});
   if (entry.kind === 'bed') {
-    put(transport, button(ctx.t('listen.play'), () => playMain('loop'), {class: 'plain primary'}), button(ctx.t('listen.x3'), () => playMain('x3'), {title: ctx.t('listen.x3Hint')}),
+    put(transport, button(ctx.t('listen.play'), () => playMain('loop'), {class: 'btn primary'}), button(ctx.t('listen.x3'), () => playMain('x3'), {title: ctx.t('listen.x3Hint')}),
       button(ctx.t('listen.seam'), () => playMain('seam'), {title: ctx.t('listen.seamHint')}), stop);
   } else {
     const beds = detail.beds, bedId = state.bed && beds.some(b => b.id === state.bed) ? state.bed : beds[0]?.id;
@@ -173,7 +173,7 @@ export async function renderListen(app, el, detail, entry, current) {
       say(ctx.t('listen.bedPlaying', {bed: bedId}));
     };
     const trigger = async () => { await playMain('solo'); };
-    put(transport, button(ctx.t('listen.solo'), async () => { bedHandle?.stop(); bedHandle = null; await playMain('solo'); }, {class: 'plain primary'}),
+    put(transport, button(ctx.t('listen.solo'), async () => { bedHandle?.stop(); bedHandle = null; await playMain('solo'); }, {class: 'btn primary'}),
       bedPick, button(ctx.t('listen.bedStart'), startBed), button(ctx.t('listen.trigger'), trigger, {title: ctx.t('listen.triggerHint')}), stop);
   }
 

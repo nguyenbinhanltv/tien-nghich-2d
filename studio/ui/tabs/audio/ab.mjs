@@ -76,6 +76,6 @@ export async function renderBlind(app, root, detail, entry, current, {say}) {
     trials = makeTrials(TRIALS, rand); answers = []; heardBoth = trials.map(() => new Set()); at = 0;
     draw();
   }
-  put(arena, button(ctx.t('blind.start'), start, {class: 'plain primary'}),
+  put(arena, button(ctx.t('blind.start'), start, {class: 'btn primary'}),
     app.blind?.cue === entry.id && app.blind.partner === partner ? h('p', 'muted', ctx.t('blind.last', {correct: app.blind.correct, n: app.blind.n, p: app.blind.p.toFixed(3)})) : null);
 }

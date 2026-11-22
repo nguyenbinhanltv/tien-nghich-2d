@@ -1,7 +1,7 @@
 // The right column: the numbers (recorded where the ledger or pack has them, measured live otherwise), the listening checklist and the
 // human sign-off. Sign-off is recorded by the Review tab's route (POST /api/tabs/review/audio-signoff, tied to the master's sha256);
 // this tab owns no store of its own. Only a click in this page can send it, and no MCP tool reaches that route.
-import { h, button, short, put } from './dom.mjs';
+import { h, button, short, put, chipClass } from './dom.mjs';
 import { checklistItems, allChecked, signoffNote, heardFor } from './model.mjs';
 
 const dbfsOfPcm = pcm => (Array.isArray(pcm) && Math.max(...pcm) > 0 ? 20 * Math.log10(Math.max(...pcm) / 32768) : null);
@@ -76,11 +76,11 @@ async function signoffPanel(app, detail, entry) {
     return h('li', '', h('label', 'check', box, h('span', '', labels[id])), h('span', 'muted au-fine', ctx.t('check.hint.' + id)));
   }));
   const heardLine = h('p', 'muted au-fine');
-  const note = h('textarea', {rows: 2, maxlength: 400, 'aria-label': ctx.t('sign.note'), placeholder: ctx.t('sign.note')});
+  const note = h('textarea', {class: 'field', rows: 2, maxlength: 400, 'aria-label': ctx.t('sign.note'), placeholder: ctx.t('sign.note')});
   const messages = h('p', {class: 'au-status', role: 'status'});
   const state = h('p', 'au-signstate');
   const history = h('ul', 'au-history');
-  const sign = button(ctx.t('sign.sign'), event => submit(event, 'signed'), {class: 'plain primary'});
+  const sign = button(ctx.t('sign.sign'), event => submit(event, 'signed'), {class: 'btn primary'});
   const needs = button(ctx.t('sign.needsWork'), event => submit(event, 'needs_work'));
   let info = null;
 
@@ -97,7 +97,7 @@ async function signoffPanel(app, detail, entry) {
     try { info = await ctx.fetchJson('/api/tabs/review/audio?id=' + encodeURIComponent(entry.id)); } catch (error) { if (error.name === 'AbortError') return; state.textContent = ctx.t('sign.unavailable'); return; }
     state.textContent = ctx.t('sign.state.' + info.signoffState);
     state.className = 'au-signstate s-' + info.signoffState;
-    put(history, ...(info.signoffs ?? []).slice(0, 5).map(s => h('li', '', h('span', 'chip l-' + (s.verdict === 'signed' ? 'approved' : 'needs_work'), ctx.t('sign.verdict.' + s.verdict)),
+    put(history, ...(info.signoffs ?? []).slice(0, 5).map(s => h('li', '', h('span', chipClass('listening', s.verdict === 'signed' ? 'approved' : 'needs_work'), ctx.t('sign.verdict.' + s.verdict)),
       ' ', h('time', {datetime: s.ts}, new Date(s.ts).toLocaleString(ctx.lang === 'vi' ? 'vi-VN' : 'en-GB')), s.content !== info.contentHash ? h('span', 'muted', ' ' + ctx.t('sign.older')) : null,
       s.note ? h('div', 'muted au-fine', s.note) : null)));
     refresh();

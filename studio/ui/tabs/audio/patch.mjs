@@ -31,7 +31,7 @@ export async function renderPatch(app, el, detail, entry, current) {
     for (const p of numericParams(original)) { const g = paramGroup(p.path); groups.set(g, [...(groups.get(g) ?? []), p]); }
     put(grid, ...[...groups].map(([group, params]) => h('fieldset', 'au-group', h('legend', '', group || ctx.t('patch.document')),
       ...params.map(p => {
-        const input = h('input', {type: 'number', value: valueAt(doc, p.path), step: stepFor(p.value), id: 'p-' + p.label, 'aria-label': p.label});
+        const input = h('input', {class: 'field', type: 'number', value: valueAt(doc, p.path), step: stepFor(p.value), id: 'p-' + p.label, 'aria-label': p.label});
         input.addEventListener('change', () => { const v = Number(input.value); if (Number.isFinite(v)) { doc = withParam(doc, p.path, v); input.classList.toggle('changed', v !== p.value); } });
         input.classList.toggle('changed', valueAt(doc, p.path) !== p.value);
         return h('label', 'au-param', h('span', '', p.label.replace(group + '.', '')), input);
@@ -58,8 +58,8 @@ export async function renderPatch(app, el, detail, entry, current) {
     const row = (label, a, b, unit = '') => h('tr', '', h('th', {scope: 'row'}, label), h('td', 'num', formatDb(b) + unit), h('td', 'num', formatDb(a) + unit),
       h('td', 'num', Number.isFinite(a) && Number.isFinite(b) ? (a - b >= 0 ? '+' : '') + (a - b).toFixed(1) + unit : '—'));
     put(out, 
-      h('div', 'au-transport', button(ctx.t('patch.playPreview'), () => playPreview(preview), {class: 'plain primary'}), button(ctx.t('patch.playMaster'), () => playMaster()),
-        button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'plain danger'})),
+      h('div', 'au-transport', button(ctx.t('patch.playPreview'), () => playPreview(preview), {class: 'btn primary'}), button(ctx.t('patch.playMaster'), () => playMaster()),
+        button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'btn danger'})),
       h('label', 'check', h('input', {type: 'checkbox', id: 'au-pmatch', checked: true}), h('span', '', ctx.t('listen.matched'))),
       h('table', 'au-table', h('caption', 'sr-only', ctx.t('patch.compare')),
         h('thead', '', h('tr', '', h('th', {scope: 'col'}, ''), h('th', {scope: 'col'}, ctx.t('patch.delivered')), h('th', {scope: 'col'}, ctx.t('patch.preview')), h('th', {scope: 'col'}, ctx.t('patch.delta')))),
@@ -86,7 +86,7 @@ export async function renderPatch(app, el, detail, entry, current) {
     say(ctx.t('patch.playingMaster'));
   }
 
-  const renderButton = button(ctx.t('patch.render'), render, {class: 'plain primary'});
+  const renderButton = button(ctx.t('patch.render'), render, {class: 'btn primary'});
   const reset = button(ctx.t('patch.reset'), () => { doc = structuredClone(original); drawParams(); preview = null; put(out, ); say(''); });
   const json = h('details', 'au-json', h('summary', '', ctx.t('patch.json')), h('pre', '', JSON.stringify(original, null, 1)));
   put(el, h('p', 'muted', ctx.t('patch.help')), summary, h('div', 'au-transport', renderButton, reset), status, grid, out, json);

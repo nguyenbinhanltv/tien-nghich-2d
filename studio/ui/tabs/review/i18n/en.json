@@ -169,5 +169,13 @@
   "region.open": "no answer yet",
   "region.before": "Region before (r{revision})",
   "region.after": "Region after (r{revision})",
-  "region.answeredBy": "Answered by {agent} · {session} on r{revision}:"
+  "region.answeredBy": "Answered by {agent} · {session} on r{revision}:",
+  "inbox.filters": "Filters",
+  "inbox.nothingTitle": "Nothing here",
+  "inbox.showAll": "Show everything",
+  "inbox.emptyTitle": "Your inbox is empty",
+  "inbox.emptyNext": "Next: ask an agent to submit frames or a cue for review, or open Characters to draw one.",
+  "detail.back": "Back to the list",
+  "detail.noneTitle": "Pick an item",
+  "detail.unknownTitle": "Item not found"
 }

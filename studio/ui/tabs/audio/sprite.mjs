@@ -45,11 +45,11 @@ export async function renderSprite(app, el, detail, entry, current) {
     } catch (error) { say.textContent = ctx.t('listen.decodeFailed', {codec: 'WAV', message: error.message}); }
   }
   for (const s of segments) {
-    const g = svg('g', {class: 'seg' + (s.id === entry.id ? ' on' : ''), tabindex: 0, role: 'button', 'aria-label': ctx.t('sprite.segment', {id: s.id, ms: ms(s.activeFrames)})});
+    const g = svg('g', {class: 'strip-seg' + (s.id === entry.id ? ' on' : ''), tabindex: 0, role: 'button', 'aria-label': ctx.t('sprite.segment', {id: s.id, ms: ms(s.activeFrames)})});
     g.append(svg('title', {}, document.createTextNode(`${s.id}: ${ms(s.activeFrames)} ms`)),
-      svg('rect', {x: s.start * scale, y: 6, width: Math.max(1, (s.end - s.start) * scale), height: H - 28, class: 'seg-box'}),
-      svg('rect', {x: s.onset * scale, y: 6, width: Math.max(1, s.activeFrames * scale), height: H - 28, class: 'seg-active'}));
-    const label = svg('text', {x: s.start * scale + 2, y: H - 8, class: 'seg-label'});
+      svg('rect', {x: s.start * scale, y: 6, width: Math.max(1, (s.end - s.start) * scale), height: H - 28, class: 'strip-box'}),
+      svg('rect', {x: s.onset * scale, y: 6, width: Math.max(1, s.activeFrames * scale), height: H - 28, class: 'strip-active'}));
+    const label = svg('text', {x: s.start * scale + 2, y: H - 8, class: 'strip-label'});
     label.textContent = s.id.replace(/^[a-z]+_/, '');
     g.append(label);
     g.addEventListener('click', () => audition(s));
@@ -63,7 +63,7 @@ export async function renderSprite(app, el, detail, entry, current) {
   const problems = issues.length ? h('ul', 'au-issues', ...issues.map(i => h('li', 'bad', ctx.t('sprite.issue.' + i.kind, {id: i.id, frames: i.frames ?? '', other: i.with ?? ''})))) : h('p', 'au-ok', ctx.t('sprite.noIssues', {guard, ms: ms(guard)}));
   const packPick = packs.length > 1 ? select(ctx.t('listen.pack'), pack.id, packs.map(p => [p.id, p.id]), v => app.go({pack: v})) : null;
   put(el, h('p', 'muted', ctx.t('sprite.help', {pack: pack.id, frames: total.toLocaleString('en-US'), seconds: (total / rate).toFixed(2), guard})), packPick,
-    h('div', 'au-strip-wrap', strip), h('div', 'au-transport', button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'plain danger'})), say, problems,
+    h('div', 'au-strip-wrap', strip), h('div', 'au-transport', button(ctx.t('listen.stop'), () => engine.stopAll(), {class: 'btn danger'})), say, problems,
     h('div', 'au-table-wrap', h('table', 'au-table', h('caption', 'sr-only', ctx.t('sprite.caption')),
       h('thead', '', h('tr', '', ...['cue', 'start', 'onset', 'tailEnd', 'end', 'gaps', 'active', 'ogg', 'm4a'].map(k => h('th', {scope: 'col'}, ctx.t('sprite.col.' + k))))), h('tbody', '', ...rows))),
     h('p', 'muted', ctx.t('sprite.units')));

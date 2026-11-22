@@ -1,12 +1,12 @@
 // Takes, candidate runs and region requests in the Review tab. Newest, selected and in the game are three separate facts, shown
 // separately everywhere. Selecting a take or a candidate is a person's act and records a pick only: no game file changes.
-import { h, button, fill, loadImg, dataUrl, pixelCanvas } from './dom.mjs';
+import { h, button, badgeClass, fill, loadImg, dataUrl, pixelCanvas } from './dom.mjs';
 
 const post = (ctx, route, body) => ctx.tabApi(route, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify(body)});
 
 /** The three facts about one revision, as badges. Each shows only when true; absence is meaningful. */
 export function takeBadges(ctx, r) {
-  return [r.newest ? h('span', 'tag', ctx.t('take.newest')) : null, r.selected ? h('span', 'tag ok', ctx.t('take.selected')) : null, r.inUse ? h('span', 'tag warn', ctx.t('take.inUse')) : null];
+  return [r.newest ? h('span', 'chip', ctx.t('take.newest')) : null, r.selected ? h('span', 'chip ok', ctx.t('take.selected')) : null, r.inUse ? h('span', 'chip warn', ctx.t('take.inUse')) : null];
 }
 
 export function takeLegend(ctx, takes) {
@@ -37,13 +37,13 @@ export function candidatesSection(app) {
         r.reference ? h('figure', 'cmp', h('img', {src: `/api/tabs/review/candidate-reference?run=${r.run}`, alt: ctx.t('cand.referenceAlt'), class: 'ref'}), h('figcaption', '', ctx.t('cand.reference'))) : h('p', 'muted', ctx.t('cand.noReference')),
         survivors.length ? h('figure', 'cmp', h('img', {src: `/api/tabs/review/candidate-sheet?run=${r.run}`, alt: ctx.t('cand.sheetAlt', {labels: survivors.map(c => c.label).join(', ')}), class: 'sheet'}), h('figcaption', '', ctx.t('cand.sheet'))) : null),
       h('ul', 'cands', ...r.candidates.map(c => h('li', '', h('b', '', c.label), ' ',
-        c.verdict === 'survivor' ? h('span', 'badge s-pending', ctx.t('cand.survivor')) : h('span', 'badge s-changes_requested', ctx.t('cand.rejected')),
+        c.verdict === 'survivor' ? h('span', badgeClass('pending'), ctx.t('cand.survivor')) : h('span', badgeClass('changes_requested'), ctx.t('cand.rejected')),
         c.verdict === 'rejected' ? h('small', 'muted', ' ' + (c.reason ?? '')) : null,
         c.verdict === 'survivor' && !r.picked ? button(ctx.t('cand.pick', {label: c.label}), async () => {
           try { await post(ctx, 'candidate-pick', {run: r.run, label: c.label}); ctx.announce(ctx.t('cand.picked', {label: c.label})); await app.refresh({keepSelection: true}); }
           catch (error) { msg.textContent = ctx.t('decide.failed', {message: error.message}); }
         }) : null,
-        r.picked?.label === c.label ? h('span', 'tag ok', ctx.t('cand.pickedTag')) : null)),
+        r.picked?.label === c.label ? h('span', 'chip ok', ctx.t('cand.pickedTag')) : null)),
       msg),
       h('p', 'muted', ctx.t('cand.nothingChanges')));
   };
@@ -67,7 +67,7 @@ export async function regionSection(app, item, snap, api, token) {
   const zoom = Math.max(2, Math.min(state.zoom, Math.floor(256 / Math.max(img.naturalWidth, img.naturalHeight)) || 2));
   const [canvas, g] = pixelCanvas(img.naturalWidth, img.naturalHeight, zoom);
   const box = {x: 0, y: 0, w: 1, h: 1};
-  const num = (k, max) => { const i = h('input', {type: 'number', min: k === 'w' || k === 'h' ? 1 : 0, max, value: box[k], 'aria-label': ctx.t('region.' + k), class: 'num'}); i.addEventListener('input', () => { box[k] = Math.max(0, Math.floor(Number(i.value) || 0)); draw(); }); return i; };
+  const num = (k, max) => { const i = h('input', {type: 'number', min: k === 'w' || k === 'h' ? 1 : 0, max, value: box[k], 'aria-label': ctx.t('region.' + k), class: 'field num'}); i.addEventListener('input', () => { box[k] = Math.max(0, Math.floor(Number(i.value) || 0)); draw(); }); return i; };
   const inputs = {x: num('x', img.naturalWidth - 1), y: num('y', img.naturalHeight - 1), w: num('w', img.naturalWidth), h: num('h', img.naturalHeight)};
   const gold = getComputedStyle(ctx.root).getPropertyValue('--gold').trim() || '#bf8a1e';
   function draw() {
@@ -84,7 +84,7 @@ export async function regionSection(app, item, snap, api, token) {
   canvas.addEventListener('pointermove', e => { if (!from) return; const p = at(e); Object.assign(box, {x: Math.min(from.x, p.x), y: Math.min(from.y, p.y), w: Math.abs(p.x - from.x) + 1, h: Math.abs(p.y - from.y) + 1}); draw(); });
   canvas.addEventListener('pointerup', () => { from = null; });
   canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', ctx.t('region.canvas', {w: img.naturalWidth, h: img.naturalHeight}));
-  const text = h('textarea', {rows: 2, maxlength: 1500, placeholder: ctx.t('region.placeholder'), 'aria-label': ctx.t('region.text')});
+  const text = h('textarea', {class: 'field', rows: 2, maxlength: 1500, placeholder: ctx.t('region.placeholder'), 'aria-label': ctx.t('region.text')});
   const msg = h('p', {class: 'muted', role: 'status'});
   const add = button(ctx.t('region.add'), async () => {
     if (!text.value.trim()) { msg.textContent = ctx.t('decide.needText'); text.focus(); return; }
@@ -103,7 +103,7 @@ export async function regionSection(app, item, snap, api, token) {
     }
     shown.push(h('li', 'region', h('p', '', h('code', '', r.id), ' ', ctx.t('region.line', {revision: r.revision, x: r.box.x, y: r.box.y, w: r.box.w, h: r.box.h})), h('p', 'msg-body', r.text),
       h('p', 'mono muted', ctx.t('region.hash', {hash: r.hash.slice(0, 16)})),
-      r.answers.length ? h('span', 'tag ok', ctx.t('region.answered')) : h('span', 'tag warn', ctx.t('region.open')), ...answers));
+      r.answers.length ? h('span', 'chip ok', ctx.t('region.answered')) : h('span', 'chip warn', ctx.t('region.open')), ...answers));
   }
   return h('section', 'dsec regions', h('h3', '', ctx.t('region.title')), h('p', 'muted', ctx.t('region.intro')),
     h('span', 'checker', canvas), h('div', 'boxrow', ...['x', 'y', 'w', 'h'].map(k => h('label', '', ctx.t('region.' + k), ' ', inputs[k]))),
