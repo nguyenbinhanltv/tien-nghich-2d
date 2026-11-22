@@ -44,7 +44,8 @@ export function renderContactSheet(cells, {scale = 4, overlay = true} = {}) {
     row.cells.forEach((c, ci) => {
       const x0 = EDGE + ci * (cellW + GUTTER);
       const status = c.errors ? 'error' : c.warnings ? 'warn' : 'clean';
-      for (let x = 0; x < cellW; x++) for (let y = 0; y < BAR; y++) put(x0 + x, y0 + y, COLORS[status]);
+      const barColor = overlay ? COLORS[status] : COLORS.dark;   // overlay off: a plain sheet, no status bar either
+      for (let x = 0; x < cellW; x++) for (let y = 0; y < BAR; y++) put(x0 + x, y0 + y, barColor);
       const top = y0 + BAR + 1;
       const {width: iw, height: ih, pixels} = c.image;
       for (let py = 0; py < ch * scale; py++) {
@@ -69,7 +70,7 @@ export function renderContactSheet(cells, {scale = 4, overlay = true} = {}) {
   });
   return {
     png: encodePixels(width, height, out), width, height,
-    layout: {scale, cell: {w: cw, h: ch}, bar: 'green clean, yellow warnings only, red errors',
+    layout: {scale, cell: {w: cw, h: ch}, bar: overlay ? 'green clean, yellow warnings only, red errors' : 'none (overlay is off: no boxes and no status bars; the per-frame status is still in rows[].status)',
       rows: rows.map(r => ({clip: r.clip, direction: r.direction, frames: r.cells.map(c => c.n),
         status: r.cells.map(c => (c.errors ? 'error' : c.warnings ? 'warn' : 'clean'))}))},
   };
