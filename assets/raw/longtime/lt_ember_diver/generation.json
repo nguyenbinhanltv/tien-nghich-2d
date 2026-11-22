@@ -1,0 +1,116 @@
+{
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 41) then animate_character v3 per direction (frames come back on 40 px canvases, centred on 32x32 without scaling). v3 only makes even frame counts, so idle keeps frames 0-2 of 4 and telegraph keeps frames 1-3 of 4; dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "fe40790f-542a-4161-af30-5a0be3582431",
+  "character_job_id": "9876b9f4-88ed-4ee0-9ffe-e6243d379251",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Ember diver, a small chibi sea-creature diver with a very large round head, a round dark brass diving helmet with one glowing orange-red round porthole window, a charcoal-grey wetsuit with glowing ember cracks, stubby fins on the feet, a coiled dark rubber air hose trailing from the back of the helmet, short arms holding a small glowing coal lantern in the RIGHT hand. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "0-2",
+      "keep_first_frame": false,
+      "animation_group_id": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
+      "job_ids": {
+        "south": "148e0ba0-f490-438f-84f6-248567d255ff",
+        "west": "3e9fd0f4-b1fd-4c42-a271-13d35e2263be",
+        "north": "85ba2155-0ca4-41b7-9b46-89466c6e8eab",
+        "east": "0121d077-36b8-4b0e-8315-849021ce7dfa"
+      },
+      "action_description": "stands and sways gently as if buoyant, the lantern in the right hand swinging slightly, porthole glowing, air hose bobbing",
+      "direction_prompts": {
+        "south": "facing the viewer, sways gently, lantern swings slightly in the right hand on the viewer's left",
+        "west": "facing left, sways gently, lantern swings slightly in front",
+        "north": "seen from behind, sways gently, air hose bobbing behind the helmet",
+        "east": "facing right, sways gently, lantern swings slightly in front"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
+      "job_ids": {
+        "south": "e427e67b-5cae-41a5-87da-07f01a0caf00",
+        "west": "ce041226-9478-400f-8c55-0f9732c57d71",
+        "north": "b72dbe66-6eb1-41a1-ac20-43b0a9fcc070",
+        "east": "0adcb592-896f-44ee-88e8-869049dedd6d"
+      },
+      "action_description": "waddles forward in heavy finned steps, lantern swinging in the right hand, air hose trailing and bobbing behind",
+      "direction_prompts": {
+        "south": "waddles toward the viewer in heavy finned steps, lantern swinging in the right hand on the viewer's left",
+        "west": "waddles to the left in heavy finned steps, lantern swinging in front, hose trailing to the right",
+        "north": "waddles away from the viewer seen from behind, air hose bobbing",
+        "east": "waddles to the right in heavy finned steps, lantern swinging in front, hose trailing to the left"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "1-3",
+      "keep_first_frame": false,
+      "animation_group_id": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
+      "job_ids": {
+        "south": "50287572-5526-47ca-9a33-7033a88c681f",
+        "west": "329eff57-d5a7-4b9e-a321-22dd2257ae90",
+        "north": "2b4a1034-c665-4e9c-93a9-fd6a70cc14ba",
+        "east": "012de8f9-d695-4744-b270-7a3786fa0eeb"
+      },
+      "action_description": "crouches and coils back, raising the glowing lantern high overhead with the right hand, porthole flaring bright orange, body tensed before a dive-lunge",
+      "direction_prompts": {
+        "south": "facing the viewer, crouches and lifts the glowing lantern high above the helmet with the right hand (viewer's left), porthole flaring",
+        "west": "facing left, crouches and lifts the glowing lantern high overhead, porthole flaring",
+        "north": "seen from behind, crouches and lifts the lantern high overhead on the viewer's right, air hose swinging",
+        "east": "facing right, crouches and lifts the glowing lantern high overhead, porthole flaring"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
+      "job_ids": {
+        "south": "d5c0a997-03e6-4d63-9075-4835a05c360b",
+        "west": "1a861af7-9dee-45c1-accd-3edc49630a5f",
+        "north": "341f1a27-6197-4b22-b6c5-1a92031b62ff",
+        "east": "85be39ff-7ceb-442b-973d-ba0b6de77e12"
+      },
+      "action_description": "lunges forward headfirst in a fast dive, swinging the glowing lantern down in an arc, then straightens back up",
+      "direction_prompts": {
+        "south": "facing the viewer, lunges toward the viewer swinging the lantern down in an arc, then straightens",
+        "west": "facing left, lunges left swinging the lantern down in an arc, then straightens",
+        "north": "seen from behind, lunges away from the viewer swinging the lantern down, then straightens",
+        "east": "facing right, lunges right swinging the lantern down in an arc, then straightens"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32 (seed 41), 8 views",
+      "credits": 6,
+      "result": "accepted"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "accepted; no regeneration needed"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 16,
+    "total": 22,
+    "model_estimate": 22
+  },
+  "known_flaws": [
+    "the south face shows a skin-coloured face inside the helmet in idle/strike but a glowing orange porthole in telegraph: the porthole look is not constant",
+    "the lantern hand follows the right hand in south/north, in west/east it sits in front",
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+  ]
+}

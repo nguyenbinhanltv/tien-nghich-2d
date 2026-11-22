@@ -1,0 +1,830 @@
+{
+  "id": "lt_ember_diver",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Show the ember diver silhouette before its strike.",
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 41) then animate_character v3 per direction (frames come back on 40 px canvases, centred on 32x32 without scaling). v3 only makes even frame counts, so idle keeps frames 0-2 of 4 and telegraph keeps frames 1-3 of 4; dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "fe40790f-542a-4161-af30-5a0be3582431",
+  "character_job_id": "9876b9f4-88ed-4ee0-9ffe-e6243d379251",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Ember diver, a small chibi sea-creature diver with a very large round head, a round dark brass diving helmet with one glowing orange-red round porthole window, a charcoal-grey wetsuit with glowing ember cracks, stubby fins on the feet, a coiled dark rubber air hose trailing from the back of the helmet, short arms holding a small glowing coal lantern in the RIGHT hand. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "0-2",
+      "keep_first_frame": false,
+      "animation_group_id": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
+      "job_ids": {
+        "south": "148e0ba0-f490-438f-84f6-248567d255ff",
+        "west": "3e9fd0f4-b1fd-4c42-a271-13d35e2263be",
+        "north": "85ba2155-0ca4-41b7-9b46-89466c6e8eab",
+        "east": "0121d077-36b8-4b0e-8315-849021ce7dfa"
+      },
+      "action_description": "stands and sways gently as if buoyant, the lantern in the right hand swinging slightly, porthole glowing, air hose bobbing",
+      "direction_prompts": {
+        "south": "facing the viewer, sways gently, lantern swings slightly in the right hand on the viewer's left",
+        "west": "facing left, sways gently, lantern swings slightly in front",
+        "north": "seen from behind, sways gently, air hose bobbing behind the helmet",
+        "east": "facing right, sways gently, lantern swings slightly in front"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
+      "job_ids": {
+        "south": "e427e67b-5cae-41a5-87da-07f01a0caf00",
+        "west": "ce041226-9478-400f-8c55-0f9732c57d71",
+        "north": "b72dbe66-6eb1-41a1-ac20-43b0a9fcc070",
+        "east": "0adcb592-896f-44ee-88e8-869049dedd6d"
+      },
+      "action_description": "waddles forward in heavy finned steps, lantern swinging in the right hand, air hose trailing and bobbing behind",
+      "direction_prompts": {
+        "south": "waddles toward the viewer in heavy finned steps, lantern swinging in the right hand on the viewer's left",
+        "west": "waddles to the left in heavy finned steps, lantern swinging in front, hose trailing to the right",
+        "north": "waddles away from the viewer seen from behind, air hose bobbing",
+        "east": "waddles to the right in heavy finned steps, lantern swinging in front, hose trailing to the left"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "1-3",
+      "keep_first_frame": false,
+      "animation_group_id": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
+      "job_ids": {
+        "south": "50287572-5526-47ca-9a33-7033a88c681f",
+        "west": "329eff57-d5a7-4b9e-a321-22dd2257ae90",
+        "north": "2b4a1034-c665-4e9c-93a9-fd6a70cc14ba",
+        "east": "012de8f9-d695-4744-b270-7a3786fa0eeb"
+      },
+      "action_description": "crouches and coils back, raising the glowing lantern high overhead with the right hand, porthole flaring bright orange, body tensed before a dive-lunge",
+      "direction_prompts": {
+        "south": "facing the viewer, crouches and lifts the glowing lantern high above the helmet with the right hand (viewer's left), porthole flaring",
+        "west": "facing left, crouches and lifts the glowing lantern high overhead, porthole flaring",
+        "north": "seen from behind, crouches and lifts the lantern high overhead on the viewer's right, air hose swinging",
+        "east": "facing right, crouches and lifts the glowing lantern high overhead, porthole flaring"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
+      "job_ids": {
+        "south": "d5c0a997-03e6-4d63-9075-4835a05c360b",
+        "west": "1a861af7-9dee-45c1-accd-3edc49630a5f",
+        "north": "341f1a27-6197-4b22-b6c5-1a92031b62ff",
+        "east": "85be39ff-7ceb-442b-973d-ba0b6de77e12"
+      },
+      "action_description": "lunges forward headfirst in a fast dive, swinging the glowing lantern down in an arc, then straightens back up",
+      "direction_prompts": {
+        "south": "facing the viewer, lunges toward the viewer swinging the lantern down in an arc, then straightens",
+        "west": "facing left, lunges left swinging the lantern down in an arc, then straightens",
+        "north": "seen from behind, lunges away from the viewer swinging the lantern down, then straightens",
+        "east": "facing right, lunges right swinging the lantern down in an arc, then straightens"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32 (seed 41), 8 views",
+      "credits": 6,
+      "result": "accepted"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "accepted; no regeneration needed"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 16,
+    "total": 22,
+    "model_estimate": 22
+  },
+  "known_flaws": [
+    "the south face shows a skin-coloured face inside the helmet in idle/strike but a glowing orange porthole in telegraph: the porthole look is not constant",
+    "the lantern hand follows the right hand in south/north, in west/east it sits in front",
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 4813,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "cropped_opaque_pixels": 0
+  },
+  "source": "source.png",
+  "source_sha256": "b82e869cf297c2d191822a944c87db8fa6e88b4ff1b89329703218a5171c860d",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ember_diver/contact_1x.png": "871a3b96aa533218d7a6d253964999d40e9a29b3c3b40d5c54211b6f04b523a7",
+    "assets/raw/longtime/lt_ember_diver/contact_4x.png": "9a790d731824035daf913869c5483aa136aa90679a2a91d4c9cf2238e588edd6"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ember_diver/idle_east_0",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/east/frame_000.png",
+      "raw_sha256": "daca3db7dd1b539e91a7c76b40bf577c9102850d8aa76b8b79411c76295e32c9",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "63e1a62285582263b497241266f02471128da96bb6f619602b601c6925e06df8"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_east_1",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/east/frame_001.png",
+      "raw_sha256": "cf9fd2e5ed90324552584e493bbbdae358acdc821a952deb70d62d96ed48d24d",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "cc3389fe020437c0879f53fc8b6bf53c75f9ddeae361e00435596eba471a066d"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_east_2",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/east/frame_002.png",
+      "raw_sha256": "cfeca4151ea1705f839aa6ebf2d4774d486cfb28a3ee296cd54de4ad79b22281",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "478ac204d580463b76a28a721664f9869a128aca4f90c2280ff5a7d03a7ffc31"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_north_0",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/north/frame_000.png",
+      "raw_sha256": "2500a06ed155538eab882d2cd2d5e3d32ddde1db64b3942e44a08bfa10d015d2",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "eeaf9d337ea79ea03bb779590050c6dcbe95bfe3540eda662442756cda4a5468"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_north_1",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/north/frame_001.png",
+      "raw_sha256": "f60859ea8995827efa9fc7e7383c18543d42e3d54a4af6e478b673a1acd91bdf",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "b09f14b84ab4e637297570193cddb7cbc87a85e0a9ecf2d44212940aa0a72dbc"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_north_2",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/north/frame_002.png",
+      "raw_sha256": "c7235a575145a8812bccf49816bb7c2603ef58fcafa70f226c748adc272b1667",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "6562cf0286926c28964bca265cfee22aaffbd208a8e2d9c5c28f1fd875571622"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_south_0",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/south/frame_000.png",
+      "raw_sha256": "c7d4582aa03f38fd7ffa9546262eb1d2a15e9b6ba905ecde2e9ce0cc6f8abf2a",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "d6862c98fd362ca88f9fe795b8d434704033356481f5809b23cee62fc4316c3f"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_south_1",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/south/frame_001.png",
+      "raw_sha256": "662eec476814faab9a688b7ca5f103277d939f5bc81a200677336cc7e5a6c5d9",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b4c55996fbc485bef99cacfb76070416ce6c3db931fc683ab8b42a604de720d5"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_south_2",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/south/frame_002.png",
+      "raw_sha256": "1ac4b933d42878c264d1ff04588b0dddbf1d56965bd6cb076261b2ca83e3fe25",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b22a8b9df3d2e849a56c8497c87f60ddb15d68ca99b0993bc81bf3fc86166c41"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_west_0",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/west/frame_000.png",
+      "raw_sha256": "75bc9c708549a30b478e39f212e5016d6cb8bc72558d80761954001b3a8befc0",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "23307016a426f36defcdf256fab9cd0597ddd727f08beb22a7839b33398cf40b"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_west_1",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/west/frame_001.png",
+      "raw_sha256": "8d6d9995432a2e42c6fec4d84bfc058d96599972e0aeedea5f6d477d42c1108f",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "b363b5b1701054ee833578a20f4cea8c43e5de81cad2425334191d10caea379e"
+    },
+    {
+      "key": "longtime/lt_ember_diver/idle_west_2",
+      "path": "assets/processed_longtime/lt_ember_diver/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/idle/west/frame_002.png",
+      "raw_sha256": "5c2469a56b8733236958188f035c805e1035576e0d16008deb475ff7341c5359",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "09fcd4af3ee4b9402988e83aca8843cc2174403ea338a1c7c034e3794dc3a9bc"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_east_0",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/east/frame_000.png",
+      "raw_sha256": "7151e01ec8d83e9d5e109e86222639c40e531175af4220f22bbd819254feeaba",
+      "source_xy": [
+        0,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "146e632655f13a32f889e4867e53937c283d655ab8995166d706fb731f861ab7"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_east_1",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/east/frame_001.png",
+      "raw_sha256": "8a9de32b662256a83448bb2140a82b12f8c8270a4fdb7722aa2461940ae7f431",
+      "source_xy": [
+        40,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "556858fb073e633ceaa691f4a7ccb74582f349d42c802dc2e5041cfd689a5d2a"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_east_2",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/east/frame_002.png",
+      "raw_sha256": "56a13814b40ca5f38e8e78c8d0d9322dc043811342652805669a9572e753cdf2",
+      "source_xy": [
+        80,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "437c000c8f9813608f17844fd924617271a5fc389eaec88da3ffc25645376ca1"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_east_3",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/east/frame_003.png",
+      "raw_sha256": "7b13a4387a6684334d9b06db2c3d33370c8a8563e926606059fb294d34842dfb",
+      "source_xy": [
+        120,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "4abdf41caa3f7595e61989bf5f402e3dfb52111614ac1eb67a822d2dd0b510ef"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_north_0",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/north/frame_000.png",
+      "raw_sha256": "60bd7cb85fd12882b771322f831e2cabbf418ef7122163c241653bac4b5bc5c7",
+      "source_xy": [
+        0,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "3cb2852bcc38407628aafb896f226837063ef65649c9d52287584d46e2bd9973"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_north_1",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/north/frame_001.png",
+      "raw_sha256": "4a0af006b3fee4a842a6cb151b4e125e5b6fcf0d264eb73f1e74a8c9d71bf049",
+      "source_xy": [
+        40,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "cb98e6bb88ee0441c5d8858946451a492030751df4d96c07ecefea071db1ef98"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_north_2",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/north/frame_002.png",
+      "raw_sha256": "912956d171836045b250ce1ace67f229701f1938c0df2c7e7da4fd1cc7551f8f",
+      "source_xy": [
+        80,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "0fd63e8cf125c20472e81e5dee2eded9473abc19f87d1828a211b64571e1603a"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_north_3",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/north/frame_003.png",
+      "raw_sha256": "6a0f3648ac11b0fd250e64cdaa5aea56f3125ec42432b75d6ea7aac24c1470f1",
+      "source_xy": [
+        120,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "d0c7d42a386403bd8a444906da9c2b6c6b8351563a0dd66da2448918a0ceed72"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_south_0",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/south/frame_000.png",
+      "raw_sha256": "e3f3b458a3d981586d0d77bdefd2b29eb87ae8eba5210b991b5a2a3dfd1f2fd6",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "71b9161b54183a4597c398e93d3d9ce740d9b816f9f29f3f6d9c15d0f333a913"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_south_1",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/south/frame_001.png",
+      "raw_sha256": "720a0cb40efdaaf9f474390497757e896952b50ab54ed1906f6c2c59051e0951",
+      "source_xy": [
+        40,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "4d29c9f7bb7ddd38b65215b8a477172f453a537ad06c4efa6258f87cfb8ce816"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_south_2",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/south/frame_002.png",
+      "raw_sha256": "85c844b3a477433f45d4d148d11f840ad1deedcdaba475672c8d93e77a37713f",
+      "source_xy": [
+        80,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "6c71e5335a0eaff03d722375cf08d5e906a5172bc54b13e1ccb73f444e7dbea5"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_south_3",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/south/frame_003.png",
+      "raw_sha256": "ecac22163d70042c0ce8e68d74cd2bd8eeb11bbe836df209c62c1c0067daa37a",
+      "source_xy": [
+        120,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "7f3af3bf91dd1c4b4dfa2136c79bc517d51f16a0638ae0b945a1dc2787f0f0dc"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_west_0",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/west/frame_000.png",
+      "raw_sha256": "f80ace59df918266e5bcae3b8ec6777aa0560770458460f45cb9e2e124b125d0",
+      "source_xy": [
+        0,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "4aea0d186f93ce4f4f043fa5839ee5ccd44ef0ebb1eabccbeef218161f2c4349"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_west_1",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/west/frame_001.png",
+      "raw_sha256": "695a05f4630827374ae29cb3d6119f0a40d8eb1936c004aab41d37489ad82791",
+      "source_xy": [
+        40,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "a8f914d176972b5d21b4b68de0c328c6574aa2e89b8f261d5c94206022997fda"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_west_2",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/west/frame_002.png",
+      "raw_sha256": "5f13c6dafe6439bd9d30c436c7b75be38b018b7022511abb1ebf938214517ecb",
+      "source_xy": [
+        80,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "4b8c05c62d8a59e49bb5227544b9ed3dd6b57ee132d071e76fe890dbcde2437d"
+    },
+    {
+      "key": "longtime/lt_ember_diver/strike_west_3",
+      "path": "assets/processed_longtime/lt_ember_diver/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/strike/west/frame_003.png",
+      "raw_sha256": "c7e659a5228082cb78cd4ddecc49b2ecc336db62acdd0024cdcc01ea92b5a21a",
+      "source_xy": [
+        120,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "c7707d58805aeb5584678c5e7ef101ec600be0546cefeaac99250dbc2b1cadb5"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/east/frame_000.png",
+      "raw_sha256": "c87c493161d5788ee4f749277e415c3aaa7fe547335b5b6bb39654f0f6813517",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "c3edb4eb2a311d1d5f339556c4002c740820b5b3d726db3e88f8567d4a31ba33"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/east/frame_001.png",
+      "raw_sha256": "3b3a0e7777dc16aa8ba422da779234e0e14ad7d6a30fd3430f9ed1798ea43af9",
+      "source_xy": [
+        40,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "7caa9a5cdfd8ece5202641b209395e14e9448371e5b3380ad08596144fd36083"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/east/frame_002.png",
+      "raw_sha256": "30a4e188c8fa8be491abba241c034f69e7d992c8416b484cd0fa26c624e6aa56",
+      "source_xy": [
+        80,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "04f2397bd7c26924c565ce417a066a950b40af7101a379249fff05806d3566ac"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/north/frame_000.png",
+      "raw_sha256": "13bfb4245a358aa13a8690dca6929d802c85a71d3bf520a49ae119bd3e0c6ea5",
+      "source_xy": [
+        0,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "09f2226e6a2f2fb5ef5690cea8559c6dc61e31cbfcb99923bfe9d8c7c6d08678"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/north/frame_001.png",
+      "raw_sha256": "44f2226debbe1fbf11b6c462ef520bb6540f59140dc6e964e5588915f2c2a072",
+      "source_xy": [
+        40,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "0fc0f632b93aed7e96759811e75ad63c18128116c41cdecee7bb0042c5410ed3"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/north/frame_002.png",
+      "raw_sha256": "0574f6f35c5db2fdad36aa04daaab56b26d405c0908d59dfc9510feda3173527",
+      "source_xy": [
+        80,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "72490eebc8b7cb1201070141427284efb2f09461b1a14ebb67db30ce4b63a60d"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/south/frame_000.png",
+      "raw_sha256": "b407a4348b40530406313b2d080425bbd26744dc9a002122aa55df76a039977f",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "0da72a1cf1a8dbef06ef757129f02d26986b49e39c309b75282824bee5f907b8"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/south/frame_001.png",
+      "raw_sha256": "2705905caf134d03cba7e3ab9065aff3027b6f8b3ce4a08bf582e091aa6ab7df",
+      "source_xy": [
+        40,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "8f26a4bb74bdfefaeea1fe7302c0c310157adb76ea2026c7bde65254a7052536"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/south/frame_002.png",
+      "raw_sha256": "1433423b9aed6265f332ad95ad3ca255f7422860dfb067a9ef956ee609db8faa",
+      "source_xy": [
+        80,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "efa908278d485734e764faefb7d910f727547d6c785171f77b8e1e7a20a7863d"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/west/frame_000.png",
+      "raw_sha256": "530d8b9cf081ad534a2a968c1458499bceb8dcf8cefc84bc70043ee18bdd429d",
+      "source_xy": [
+        0,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "e8e4bf60b3d773c17408ed7682fd454e670305aa06be0ca7858ef9e824c4fa46"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/west/frame_001.png",
+      "raw_sha256": "0247b99d0f889aa3bcae646f06f4724a609bc8150683e5d6e7fbb88a155f4f19",
+      "source_xy": [
+        40,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "0dacf87e301a857669acb40297b57f9f1b9cada039635835c41eec9f746a82e3"
+    },
+    {
+      "key": "longtime/lt_ember_diver/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_ember_diver/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/telegraph/west/frame_002.png",
+      "raw_sha256": "fac071690a2cfe9e8071fdd94edd3fedad93acdb81503b7712b4009bbd37023d",
+      "source_xy": [
+        80,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "c903d2a1bacaad8812e1384df1da4920d80caaa9915e19cb913600eb178ce2fa"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_east_0",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/east/frame_000.png",
+      "raw_sha256": "c62b8ebec27b29c9018398f241e1581c54b7440463b69f4e5ada8bbd4bdb305c",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "74ea99d70fa6b9cd57e0f23cd51cf936bd11434d98e9f0f3ae36d2dfc002c89e"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_east_1",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/east/frame_001.png",
+      "raw_sha256": "00db85fda08c1543a345609f942d83d37c25b1360df060b097dd100056e20f2d",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "b2122f5ee5156a8b5634a75c34f63f4c9cded83a0f116462c1763a3717ee2ae9"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_east_2",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/east/frame_002.png",
+      "raw_sha256": "4276081f4ef497a4ba883de1cacb82ee6fca03948fbd579889881f0322af2db3",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "3d0f9dcc60dc21e7cc1ad174d7a228a97915de15728103f4f6fa092600fa0c8f"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_east_3",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/east/frame_003.png",
+      "raw_sha256": "2fe1ba63e9f11d987fd688a7d1e3c317bba3c60caed313462ae0983e449cbe69",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "c4a12ca582df19b215870f36e6c7541672e4c03292ed3554e50f67b871a57fe9"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_north_0",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/north/frame_000.png",
+      "raw_sha256": "59a30428b78236eb1858f4c25abff0d4f15ac9e49c2423bc29df1259cde8ee16",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "ae71b85298025a3bd4e732e47e5d8d110ee39dd10845db880c0e9342666269e5"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_north_1",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/north/frame_001.png",
+      "raw_sha256": "62ad91e7e07b946b490970a76cd0e747e13ffa15a04ae0340b5e3ef54a36865a",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "65a473fc54716a9bd33442acc1a5ffd57d4678805c31b2e8beed8dce40328ce1"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_north_2",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/north/frame_002.png",
+      "raw_sha256": "703b802d2f1c4a2335a5818b034a58b1b198c14d5e94a5234f6a721889310020",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "1b1d4b36e50cfd6e3ae1172b4c81b8918643b4457e82f5ff2a45b4022e3c6d41"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_north_3",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/north/frame_003.png",
+      "raw_sha256": "421bc84d347d5bd24a58c9e4a80232820fd404ae6c0181919470a6306dab476e",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "bbc437f62046db6b119484d3e05b26377f1adfb9d851c71ea757296b91e0183c"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_south_0",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/south/frame_000.png",
+      "raw_sha256": "cdbecc7a2f9af74f9631894c9760904785edc30241c14a74513261e0be0f5fd7",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "80ced9d10911860f8fa8490698a98eba23387b00fef8f5b863ae6be53b4f4082"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_south_1",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/south/frame_001.png",
+      "raw_sha256": "3704050e514303807d5c88b3a9c327baf383d5f08b747d5776a6ce73169e4b28",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "4f9024bfddd64a3feb58aad924a6222d7dd57269974d1962f2dadd6d2bb96d47"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_south_2",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/south/frame_002.png",
+      "raw_sha256": "76bd8b0093dfd33270ed1bc6a588800a69f53db7e2c8f6ed3f826a92f57f47ee",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "21eee1f16cf1c12b294d4b3f7cec53a2225f47f8caa63134281c55ae13736a6c"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_south_3",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/south/frame_003.png",
+      "raw_sha256": "7139941e99d0acee538a7e619c8184418947ba10050c14855eb4fd2d0b0362de",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "d0f6ab7501eabc0760afd23bf3d9e61816d0babdce9e4343a10fb89d3e8fbdd1"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_west_0",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/west/frame_000.png",
+      "raw_sha256": "78a949d298ff7e3897130ef0eb4e38cd85f74dee4d995fa8e8012f800d318e4a",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "345425b0e0cc1ee908b43a5e0975c561484199e7fb051a57d49542d3c7528f0f"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_west_1",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/west/frame_001.png",
+      "raw_sha256": "428e8c558e45a32b3d029d5feea2def129b53681bb64c7a85eb0be29bd45d4ef",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "473036653298ec8f21a31f4ed50a8dddea244f727a8c564a8adf661eb02731b5"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_west_2",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/west/frame_002.png",
+      "raw_sha256": "c910319cc0d848e8016ecb709e01b34b23af8bc154223621eafb005b642a222a",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "13993163d475b1c51ee96184faac7eb7cdf3b1a05d94dc0a0093a5ed20814560"
+    },
+    {
+      "key": "longtime/lt_ember_diver/walk_west_3",
+      "path": "assets/processed_longtime/lt_ember_diver/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ember_diver/walk/west/frame_003.png",
+      "raw_sha256": "27c83ad54fc3485b38aaeadfa4f0f0710669a43e388cf95a8683dd30c3438e46",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "73be070bc35a4741dc36e2c53768cb2aab51a23f6e844f5f94a80aee574c0240"
+    }
+  ]
+}
