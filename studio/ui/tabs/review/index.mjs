@@ -5,6 +5,7 @@ import { h, button, humanize, fill } from './dom.mjs';
 import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint } from './model.mjs';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
+import { candidatesSection } from './takes.mjs';
 
 export const POLL_MS = 10000;
 export function parseRoute(route) { return parse(route); }
@@ -47,9 +48,10 @@ function makeApp(ctx, state) {
     async refresh({keepSelection = false} = {}) {
       const data = await self.ctx.tabApi('inbox');
       const audio = data.audio;
-      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), data.artCounts ?? null, (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
+      const runs = (await self.ctx.tabApi('candidates').catch(() => ({runs: []}))).runs;
+      const signature = JSON.stringify([runs.map(r => [r.run, r.picked?.label ?? null]), data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), data.artCounts ?? null, (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
       const changed = signature !== self.signature;
-          self.items = data.items; self.audio = audio; self.artRecords = data.artRecords ?? []; self.artCounts = data.artCounts ?? null; self.signature = signature;
+          self.items = data.items; self.runs = runs; self.audio = audio; self.artRecords = data.artRecords ?? []; self.artCounts = data.artCounts ?? null; self.signature = signature;
       if (changed || keepSelection) {
         await paint(self.ui, {force: keepSelection, poll: !keepSelection});
         const waiting = (countsByState(self.items).waiting ?? 0) + audio.filter(a => a.state === 'waiting').length;
@@ -82,7 +84,7 @@ function renderList(app, host) {
   const shownAudio = showAudio ? audio.filter(a => state.state === 'all' || a.state === state.state) : [];
   const sel = app.selection();
   const agents = [...new Set(art.flatMap(i => i.requests.map(r => r.agent)))];
-  fill(host, artCountsView(ctx, app.artCounts),
+  fill(host, candidatesSection(app), artCountsView(ctx, app.artCounts),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.state')}, ...states.map(s => chip('state', s, ctx.t('state.' + s), s === 'all' ? all.length : counts[s] ?? 0, state.state === s))),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.kind')}, chip('kind', null, ctx.t('kind.both'), null, !state.kind), chip('kind', 'art', ctx.t('kind.art'), art.length, state.kind === 'art'), chip('kind', 'audio', ctx.t('kind.audio'), audio.length, state.kind === 'audio')),
     agents.length ? h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.agent')}, chip('agent', null, ctx.t('agent.any'), null, !state.agent), ...agents.map(a => chip('agent', a, a, null, state.agent === a))) : null,

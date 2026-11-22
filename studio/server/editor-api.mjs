@@ -113,7 +113,9 @@ export function editorApi(root,dir,packDir) {
         // How revision 0 reads when nobody judged it here: approved by a hash-tied record, baseline, or awaiting review.
         standing ??= loadStanding(root,packDir).catch(error=>{standing=undefined;throw error;});
         const {standing:state,png:standingPng}=await (await standing).judged(frame.processed);
-        const snap=store.operate({...frame,standing:state,standingPng},baseline,action,args);
+        // The frame's file as it is now, so a snapshot can say which take is in the game (pixels compared, see store.mjs).
+        const filePng=action==='frame'?(baseline??await library.baseline(frame).catch(()=>null)):undefined;
+        const snap=store.operate({...frame,standing:state,standingPng,filePng},baseline,action,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
         else send(200,action==='export'?exportFrame(snap):snap);
       }

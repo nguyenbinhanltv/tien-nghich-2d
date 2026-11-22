@@ -162,12 +162,23 @@ function sources(dir, out = []) {
   return out;
 }
 
+test('REVIEW-007: static: nothing under studio/mcp or studio/core can reach the Review tab\'s human-only writes (pick, region request, select)', () => {
+  const files = [...sources(join(REPO, 'studio/mcp')), ...sources(join(REPO, 'studio/core'))];
+  for (const f of files) {
+    if (f.endsWith('humanonly.test.mjs')) continue;
+    const src = readFileSync(f, 'utf8');
+    const code = src.split('\n').filter((l) => !l.trim().startsWith('//')).join('\n');
+    assert.doesNotMatch(code, /tabs\/review\/(human|server)\.mjs|\bpickCandidate\b|\baddRegionRequest\b/, `${f.slice(REPO.length + 1)} reaches a human-only write`);
+    assert.doesNotMatch(code, /\.operate\([^;]*'select'/, `${f.slice(REPO.length + 1)} writes a selection`);
+  }
+});
+
 test('MCP-006: static: the only code that writes to the revision store is reviewed and cannot set a decision', () => {
   const files = [...sources(join(REPO, 'studio/mcp')), ...sources(join(REPO, 'studio/core'))];
   const calls = [];
   for (const f of files) {
     const src = readFileSync(f, 'utf8');
-    for (const m of src.matchAll(/\.operate\([^;]*?'(review|save|restore)'[^;]*;/gs)) calls.push({ file: f.slice(REPO.length + 1), action: m[1], code: m[0].replace(/\s+/g, ' ') });
+    for (const m of src.matchAll(/\.operate\([^;]*?'(review|save|restore|select)'[^;]*;/gs)) calls.push({ file: f.slice(REPO.length + 1), action: m[1], code: m[0].replace(/\s+/g, ' ') });
   }
   const expected = [
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text\}\)/ },            // request: text only

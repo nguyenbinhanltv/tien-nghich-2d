@@ -11,6 +11,11 @@ import { readJson, readInside } from '../../../core/files.mjs';
 import { readSubmissions } from '../../../core/submissions.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
 import { sameImage } from '../../../core/standing.mjs';
+import { openWorkspace } from '../../../core/workspace.mjs';
+import { loadAssetIndex } from '../../../mcp/asset-index.mjs';
+import { listRuns, runSheet } from '../../../core/candidates.mjs';
+import { addRegionRequest, pickCandidate } from './human.mjs';
+import { decodeRgba } from '../../../core/png.mjs';
 import { readInbox, readHeads, withStanding } from './inbox.mjs';
 import { openSignoffs, verdicts } from './signoff.mjs';
 import { peaks, maxWavBytes } from './wav.mjs';
@@ -109,7 +114,7 @@ export async function audioDetail(root, asset, {pack, catalog}) {
 async function readBody(req) {
   if (req.headers['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') throw problem(415, 'unsupported_media_type', 'Send application/json');
   let size = 0; const chunks = [];
-  for await (const chunk of req.iterator({destroyOnReturn: false})) { size += chunk.length; if (size > 4096) throw problem(413, 'too_large', 'Request too large'); chunks.push(chunk); }
+  for await (const chunk of req.iterator({destroyOnReturn: false})) { size += chunk.length; if (size > 8192) throw problem(413, 'too_large', 'Request too large'); chunks.push(chunk); }
   try { return JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(Buffer.concat(chunks))); } catch { throw problem(400, 'invalid_json', 'Invalid JSON'); }
 }
 
@@ -123,7 +128,7 @@ async function submissionFor(root, key) {
     const asset = (await project.workspace.snapshot()).index.assets.get(assetId);
     if (!asset?.layout) return null;
     const name = key.split('/').at(-1);
-    const record = (await readSubmissions(root, asset)).reverse().find(r => r.frames?.some(f => f.name === name));
+    const record = (await readSubmissions(root, asset)).reverse().find(r => r.kind !== 'take' && r.frames?.some(f => f.name === name));
     if (!record) return null;
     const clip = (t, n) => (typeof t === 'string' ? t.slice(0, n) : undefined);
     return {agent: record.agent, session: String(record.session ?? '').slice(0, 8), at: record.at, tool: clip(record.tool, 200), generator: clip(record.generator, 300),
@@ -211,6 +216,60 @@ export async function handle(req, res, url, context) {
     if (sha256 !== body.content) throw problem(409, 'master_changed', 'The master changed since you loaded it; reload and listen again');
     signoffs(dir).record({asset: body.id, content: sha256, verdict: body.verdict, note: body.note ?? ''});
     return send(200, {id: body.id, verdict: body.verdict, content: sha256});
+  }
+  if (['candidates', 'candidate-sheet', 'candidate-reference', 'regions'].includes(name) && ['GET', 'HEAD'].includes(req.method)) {
+    const ws = openWorkspace(root, {indexer: loadAssetIndex, libraryDir: dir});
+    try {
+      if (name === 'candidates') return send(200, {runs: await listRuns(ws, {asset: url.searchParams.get('asset') ?? undefined, limit: 30})});
+      if (name === 'regions') {
+        const key = url.searchParams.get('key') ?? '';
+        if (!/^[A-Za-z0-9_./-]{1,200}$/.test(key) || key.includes('..')) throw problem(422, 'invalid_input', 'key is required');
+        return send(200, {key, requests: (await ws.db()).changeRequests(key)});
+      }
+      const run = url.searchParams.get('run') ?? '';
+      if (!/^cand-[0-9a-f]{8}$/.test(run)) throw problem(422, 'invalid_input', 'run is required');
+      const png = res2 => { res.writeHead(200, {'Content-Type': 'image/png', 'Content-Length': res2.length, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'}); res.end(res2); };
+      if (name === 'candidate-sheet') {
+        const scale = Math.min(8, Math.max(1, Number(url.searchParams.get('scale')) || 4));
+        return png((await runSheet(ws, run, {scale})).sheet.png);
+      }
+      const [r] = (await ws.db()).candidateRuns({run});
+      if (!r?.reference) throw problem(404, 'no_reference', 'This run has no reference picture');
+      const bytes = await readInside(root, r.reference).catch(() => null);
+      let ok = false;
+      try { decodeRgba(bytes); ok = bytes.length <= 4 * 1024 * 1024; } catch { /* not a PNG */ }
+      if (!ok) throw problem(404, 'no_reference', 'The reference is not a readable PNG');
+      return png(bytes);
+    } finally { ws.close(); }
+  }
+  if (['candidate-pick', 'region-request', 'take-select'].includes(name)) {
+    if (req.method !== 'POST') throw problem(405, 'method_not_allowed', 'POST only');
+    // A person's act. A browser always sends Sec-Fetch-Site and page script cannot forge it; no MCP tool reaches this route.
+    if (req.headers['sec-fetch-site'] !== 'same-origin') throw problem(403, 'human_only', 'This must come from the studio page itself');
+    const body = await readBody(req);
+    const ws = openWorkspace(root, {indexer: loadAssetIndex, libraryDir: dir});
+    try {
+      if (name === 'take-select') {
+        if (!body || Object.keys(body).some(k => !['key', 'revision'].includes(k)) || typeof body.key !== 'string' || !/^[A-Za-z0-9_./-]{1,200}$/.test(body.key) || body.key.includes('..') || !Number.isInteger(body.revision)) throw problem(422, 'invalid_input', 'key and revision are required');
+        const store = await ws.store();
+        if (store.needsBaseline(body.key)) throw problem(409, 'no_history', 'This frame has no revision history yet');
+        const snap = store.operate({info: {key: body.key}, metadata: {}}, Buffer.alloc(0), 'select', {revision: body.revision});
+        return send(200, {key: body.key, takes: snap.takes, note: 'Selected only. The file the project uses did not change.'});
+      }
+      if (name === 'candidate-pick') {
+        if (!body || Object.keys(body).some(k => !['run', 'label'].includes(k)) || !/^cand-[0-9a-f]{8}$/.test(body.run ?? '') || typeof body.label !== 'string') throw problem(422, 'invalid_input', 'run and label are required');
+        return send(200, await pickCandidate(ws, body.run, body.label));
+      }
+      if (!body || Object.keys(body).some(k => !['key', 'revision', 'x', 'y', 'w', 'h', 'text'].includes(k)) || typeof body.key !== 'string' || !/^[A-Za-z0-9_./-]{1,200}$/.test(body.key) || body.key.includes('..')
+        || !Number.isInteger(body.revision) || body.revision < 0) throw problem(422, 'invalid_input', 'key, revision, x, y, w, h and text are required');
+      let baseline = null;
+      if ((await ws.store()).needsBaseline(body.key)) {
+        const rel = (await artFrames(root)).files.get(body.key);
+        if (!rel) throw problem(404, 'unknown_frame', 'Frame is outside the editable catalog');
+        baseline = await readInside(root, rel);
+      }
+      return send(200, await addRegionRequest({ws, key: body.key, revision: body.revision, box: {x: body.x, y: body.y, w: body.w, h: body.h}, text: body.text, baseline}));
+    } finally { ws.close(); }
   }
   throw problem(404, 'unknown_route', 'Unknown Review route');
 }
