@@ -39,7 +39,7 @@ export function starterPack({id, name}) {
     agentGuidance: {rules: ['Write the rules of your art here: palette use, outline, sizes. Agents read them when they connect.']},
     adapters: {interpreter: {runtime: 'node'}, commands: {}},
     ui: {
-      brand: {mark: id.slice(0, 2).toUpperCase(), subtitle: {en: 'Pixel studio'}},
+      brand: {mark: id.slice(0, 2).toUpperCase(), subtitle: {en: 'Pixel-art project', vi: 'Dự án pixel art'}},
       languages: ['en'],
       theme: {ink: 'ink_1', surface: 'ink_2', line: 'stone_1', muted: 'stone_2', text: 'stone_2', accent: 'leaf_2', accentSoft: 'leaf_1', gold: 'sun_1', goldSoft: 'sun_1', danger: 'rose_1'},
       categoryTabs: {sprite: 'characters', tile: 'objects'},

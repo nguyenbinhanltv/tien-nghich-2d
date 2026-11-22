@@ -18,7 +18,7 @@ const FPS = 10;
 const UI_COLOR = 'ui' + '_color';
 
 /** doc -> Buffer (.pxo). */
-export function encodePxo(doc, {name = 'sprite', app = 'pixel studio'} = {}) {
+export function encodePxo(doc, {name = 'sprite', app = 'Pixel Kiln'} = {}) {
   const {width, height, frames, tags = []} = doc;
   if (!frames.length || frames.length > PXO_LIMITS.frames) bad(`a .pxo here holds 1 to ${PXO_LIMITS.frames} frames`);
   const data = {

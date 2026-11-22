@@ -1,4 +1,4 @@
-# Studio MCP server
+# Pixel Kiln MCP server
 
 A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **27 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
 

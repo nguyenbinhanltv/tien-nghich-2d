@@ -1,4 +1,4 @@
-# Pixel Studio: ý tưởng lấy từ mã nguồn mở (kế hoạch đã duyệt)
+# Pixel Kiln: ý tưởng lấy từ mã nguồn mở (kế hoạch đã duyệt)
 
 **Trạng thái:** đã được chủ dự án duyệt ngày 2026-11-22 (khoảng 14:10 giờ Việt Nam), nói trực tiếp với orchestrator trong chat, phiên `tien-nghich-2d-1`; orchestrator chuyển lại cho worker này rằng chủ dự án duyệt kế hoạch ý tưởng từ công cụ mã nguồn mở và năm quyết định của nó theo phương án đề xuất (lời chuyển lại, không phải nguyên văn). Worker `tien-nghich-2d-30` ghi lại thành tài liệu này từ bản `/tmp/tn2d-studio-plan/oss-plan-approved.html` (bảng 44 ý tưởng lấy nguyên từ mảng `I` của bản đó). Đây là bản bổ sung cho [STUDIO_PLAN.md](STUDIO_PLAN.md), không thay thế nó.
 

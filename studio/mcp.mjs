@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Studio MCP server entry point.  node studio/mcp.mjs --project <path> [--scope read|author|pack]
+// Pixel Kiln MCP server entry point.  node studio/mcp.mjs --project <path> [--scope read|author|pack]
 //   [--agent <name>] [--audit-log <file>] [--max-line-bytes <n>] [--library-dir <abs>] [--skip-independent-check]
 //   [--self-test] [--help]
 //   node studio/mcp.mjs --issue-token --agent <name> --scope <scope> | --list-tokens | --revoke-token <id>   (HTTP bearer tokens)
@@ -17,7 +17,8 @@ import { JobRunner } from './core/jobs.mjs';
 // Guard: nothing may reach stdout by accident (a stray console.log would corrupt the stream).
 console.log = console.info = console.debug = (...a) => console.error(...a);
 
-const HELP = `Usage: node studio/mcp.mjs [options]
+const HELP = `Pixel Kiln MCP server.
+Usage: node studio/mcp.mjs [options]
   --project <path>      repo root to serve (default: the repo containing this script)
   --scope <scope>       permission for this connection: ${SCOPES.join(' | ')} (default: read)
   --agent <name>        agent name to record (default: the client's self-reported name)
@@ -42,14 +43,14 @@ try {
     strict: true,
   }));
 } catch (e) {
-  console.error(`studio-mcp: ${e.message}\n${HELP}`);
+  console.error(`pixel-kiln-mcp: ${e.message}\n${HELP}`);
   process.exit(2);
 }
 if (values.help) { process.stdout.write(HELP); process.exit(0); }
-if (!SCOPES.includes(values.scope)) { console.error(`studio-mcp: --scope must be one of ${SCOPES.join(', ')}`); process.exit(2); }
+if (!SCOPES.includes(values.scope)) { console.error(`pixel-kiln-mcp: --scope must be one of ${SCOPES.join(', ')}`); process.exit(2); }
 
 const maxLineBytes = values['max-line-bytes'] === undefined ? DEFAULT_MAX_LINE_BYTES : Number(values['max-line-bytes']);
-if (!Number.isInteger(maxLineBytes) || maxLineBytes < 256) { console.error('studio-mcp: --max-line-bytes must be an integer >= 256'); process.exit(2); }
+if (!Number.isInteger(maxLineBytes) || maxLineBytes < 256) { console.error('pixel-kiln-mcp: --max-line-bytes must be an integer >= 256'); process.exit(2); }
 
 const here = dirname(fileURLToPath(import.meta.url));
 // Default to the repo that holds this script, not the cwd: a worktree's own copy serves its own files.
@@ -65,7 +66,7 @@ try {
   project = openProject(projectRoot, { libraryDir: values['library-dir'] });
 } catch (e) {
   if (!(e instanceof ProjectError)) throw e;
-  console.error(`studio-mcp: ${e.message}`);
+  console.error(`pixel-kiln-mcp: ${e.message}`);
   process.exit(2);
 }
 if (values['issue-token'] || values['list-tokens'] || values['revoke-token']) {
@@ -82,7 +83,7 @@ if (values['issue-token'] || values['list-tokens'] || values['revoke-token']) {
       if (!tokens.revoke(values['revoke-token'])) throw new Error(`no token with id ${values['revoke-token']}`);
       process.stdout.write(`revoked ${values['revoke-token']}\n`);
     }
-  } catch (e) { console.error(`studio-mcp: ${e.message}`); process.exit(2); }
+  } catch (e) { console.error(`pixel-kiln-mcp: ${e.message}`); process.exit(2); }
   project.close();
   process.exit(0);
 }
@@ -91,6 +92,6 @@ const server = new McpServer({
   registry: buildRegistry(), project, scope: values.scope, agent: values.agent, audit: makeAudit(values['audit-log']),
   jobs: new JobRunner(), policy: { requireIndependentCheck: !values['skip-independent-check'] },
 });
-console.error(`studio-mcp: serving ${project.root} (scope ${values.scope}) on stdio`);
+console.error(`pixel-kiln-mcp: serving ${project.root} (scope ${values.scope}) on stdio`);
 await serveStdio({ input: process.stdin, output: process.stdout, server, maxLineBytes });
 project.close();

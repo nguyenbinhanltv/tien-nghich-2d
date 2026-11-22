@@ -1,4 +1,4 @@
-# Studio shell and tab contract
+# Pixel Kiln shell and tab contract
 
 The studio UI is plain ES modules and CSS served as-is: no bundler, no framework, no dependencies, loopback only. `studio/index.html` is the shell at `/studio/`. It owns the rail with the nine destinations, the top bar, URL routing, the Cmd/Ctrl+K palette, the English/Vietnamese switch and the project name. Each destination is a **tab module** that the shell mounts into `<main>`.
 
