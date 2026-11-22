@@ -6,7 +6,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createHasher } from './hashes.mjs';
-import { parseArtApprovals, evaluateArtApproval, readArtApprovals, artApprovalsFile } from './art-approvals.mjs';
+import { parseArtApprovals, evaluateArtApproval, pngInventory, readArtApprovals, artApprovalsFile } from './art-approvals.mjs';
 
 const repo = fileURLToPath(new URL('../../../../', import.meta.url));
 const sha = b => createHash('sha256').update(b).digest('hex');
@@ -52,7 +52,7 @@ test('a frame ADDED to an approved asset breaks coverage even though every recor
   assert.equal((await evaluateArtApproval(root, rec)).current, true);
   fs.writeFileSync(path.join(root, 'f/a_1.png'), 'new');
   const e = await evaluateArtApproval(root, rec);
-  assert.deepEqual([e.current, e.matching, e.changed, e.added, e.addedFiles], [false, 1, 0, 1, ['a_1.png']]);
+  assert.deepEqual([e.current, e.matching, e.changed, e.added, e.addedFiles], [false, 1, 0, 1, ['f/a_1.png']]);
 });
 
 test('a hasher keeps its own entries: a big scan on one cannot evict another', async () => {
@@ -65,4 +65,41 @@ test('a hasher keeps its own entries: a big scan on one cannot evict another', a
   assert.equal(art.size(), 12);
   for (let i = 1; i < 12; i++) await audio(root, i + '.bin');
   assert.equal(audio.size(), 4, 'and each is still bounded');
+});
+
+test('a raw PNG added under an approved character breaks coverage', async () => {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'artrec-'));
+  fs.mkdirSync(path.join(root, 'p')); fs.mkdirSync(path.join(root, 'raw/c/idle'), {recursive: true});
+  fs.writeFileSync(path.join(root, 'p/c_0.png'), 'p'); fs.writeFileSync(path.join(root, 'raw/c/idle/f0.png'), 'r');
+  const rec = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {c: {frame_dir: 'p', raw_dir: 'raw/c', frames: {'g/c/c_0': sha('p')}, raw_files: {'raw/c/idle/f0.png': sha('r')}}}}]})[0];
+  assert.equal((await evaluateArtApproval(root, rec)).current, true);
+  fs.writeFileSync(path.join(root, 'raw/c/idle/f1.png'), 'new');
+  const e = await evaluateArtApproval(root, rec);
+  assert.deepEqual([e.current, e.added, e.addedFiles], [false, 1, ['raw/c/idle/f1.png']]);
+});
+
+test('a frame_dir that is a symlink out of the project is unverified and its file names are not exposed', async () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'artrec-')));
+  const outside = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'outside-')));
+  fs.writeFileSync(path.join(outside, 'secret_0.png'), 'x'); fs.symlinkSync(outside, path.join(root, 'link'));
+  const rec = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {a: {frame_dir: 'link', frames: {'g/a/a_0': A}}}}]})[0];
+  const e = await evaluateArtApproval(root, rec);
+  assert.deepEqual([e.current, e.unverified, e.addedFiles], [false, true, []]);
+  assert.equal(await pngInventory(root, 'nonexistent'), null, 'unreadable is unverified too');
+});
+
+test('counts: changed/missing are measured against recorded files (frames + raw), added files are reported apart', async () => {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'artrec-'));
+  fs.mkdirSync(path.join(root, 'p')); fs.mkdirSync(path.join(root, 'raw/c'), {recursive: true});
+  fs.writeFileSync(path.join(root, 'p/c_0.png'), 'p');
+  const rawFiles = {}; for (let i = 0; i < 5; i++) { fs.writeFileSync(path.join(root, `raw/c/${i}.png`), 'r' + i); rawFiles[`raw/c/${i}.png`] = sha('r' + i); }
+  const rec = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {c: {frame_dir: 'p', raw_dir: 'raw/c', frames: {'g/c/c_0': sha('p')}, raw_files: rawFiles}}}]})[0];
+  for (let i = 0; i < 5; i++) fs.writeFileSync(path.join(root, `raw/c/${i}.png`), 'changed');
+  const e = await evaluateArtApproval(root, rec);
+  assert.deepEqual([e.changed + e.missing + e.rawChanged, e.frames + e.rawFiles, e.added], [5, 6, 0], '5 of 6, never more changed than recorded');
+});
+
+test('the repaint signature of the Review inbox covers every displayed art count', () => {
+  const src = fs.readFileSync(path.join(repo, 'studio/ui/tabs/review/index.mjs'), 'utf8');
+  for (const field of ['matching', 'changed', 'missing', 'rawChanged', 'added', 'unverified', 'current']) assert.match(src, new RegExp(`artRecords[^\\n]*r\\.${field}\\b`), field);
 });

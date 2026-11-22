@@ -47,7 +47,7 @@ function makeApp(ctx, state) {
     async refresh({keepSelection = false} = {}) {
       const data = await self.ctx.tabApi('inbox');
       const audio = data.audio;
-      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.current])]);
+      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
       const changed = signature !== self.signature;
           self.items = data.items; self.audio = audio; self.artRecords = data.artRecords ?? []; self.signature = signature;
       if (changed || keepSelection) {
@@ -97,7 +97,7 @@ function artRecordsView(ctx, records) {
   return h('section', {class: 'artrec', 'aria-label': ctx.t('artrec.title')}, h('h3', '', ctx.t('artrec.title')), h('p', 'muted', ctx.t('artrec.intro')),
     h('ul', 'rows', ...records.map(r => h('li', '', h('div', 'row artrow',
       h('span', 'rtext', h('b', '', r.assetId), h('small', 'muted', ctx.t('artrec.line', {by: r.approvedBy, date: r.recorded ? r.recorded.slice(0, 10) : ctx.t('approval.noDate'), id: r.approvalId})),
-        h('small', r.current ? 'muted' : 'note', r.current ? ctx.t('artrec.current', {n: r.frames}) : ctx.t('artrec.changed', {changed: r.changed + r.missing + r.rawChanged + (r.added ?? 0), n: r.frames}))),
+        h('small', r.current ? 'muted' : 'note', r.current ? ctx.t('artrec.current', {n: r.frames + r.rawFiles}) : ctx.t('artrec.changed', {changed: r.changed + r.missing + r.rawChanged, n: r.frames + r.rawFiles, added: r.added ?? 0}) + (r.unverified ? ' ' + ctx.t('artrec.unverified') : ''))),
       h('span', 'badge s-' + (r.current ? 'approved' : 'pending'), ctx.t(r.current ? 'artrec.badge' : 'artrec.badgeStale')))))));
 }
 

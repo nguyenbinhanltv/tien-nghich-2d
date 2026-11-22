@@ -109,8 +109,9 @@
   "artrec.title": "Art approved on record",
   "artrec.intro": "Approved by a person in chat, then written down in assets/review/art_approvals.json against the exact bytes. If a frame changes, it is no longer covered.",
   "artrec.line": "{by} · {date} · {id}",
-  "artrec.current": "all {n} frames match the approved bytes",
-  "artrec.changed": "{changed} of {n} frames (or raw files) changed or were added since approval: not covered, needs a fresh look",
+  "artrec.current": "all {n} recorded files match the approved bytes",
+  "artrec.changed": "{changed} of {n} recorded files changed or are missing; {added} files added since approval. Not covered, needs a fresh look",
   "artrec.badge": "approved on record",
-  "artrec.badgeStale": "changed since approval"
+  "artrec.badgeStale": "changed since approval",
+  "artrec.unverified": "The folder could not be checked safely, so the asset is not treated as covered."
 }

@@ -15,6 +15,27 @@ import { createHasher } from './hashes.mjs';
 // its own cache: the record covers hundreds of frames and must not push the audio masters out of theirs
 const hashOf = createHasher(1024);
 
+/**
+ * PNG file names (relative to `dir`, recursive) under a project directory, or null when the inventory cannot be trusted:
+ * the directory's real path must stay inside the project root, and symlinks inside it are not followed.
+ */
+export async function pngInventory(root, dir) {
+  try {
+    const realRoot = await fs.realpath(root), real = await fs.realpath(path.join(root, dir));
+    const rel = path.relative(realRoot, real);
+    if (rel === '..' || rel.startsWith('..' + path.sep) || path.isAbsolute(rel)) return null;
+    const out = [];
+    const visit = async (abs, prefix) => {
+      for (const e of await fs.readdir(abs, {withFileTypes: true})) {
+        if (e.isDirectory()) await visit(path.join(abs, e.name), prefix + e.name + '/');
+        else if (e.isFile() && e.name.endsWith('.png')) out.push(prefix + e.name);
+      }
+    };
+    await visit(real, '');
+    return out.sort();
+  } catch { return null; }
+}
+
 export const artApprovalsFile = 'art_approvals.json';
 const str = (v, n) => (typeof v === 'string' ? v.slice(0, n) : undefined);
 const sha = v => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);
@@ -32,7 +53,8 @@ export function parseArtApprovals(data) {
       const frames = Object.entries(info.frames ?? {}).filter(([k, v]) => keyOk(k) && sha(v));
       if (!frames.length) continue;
       const rawFiles = Object.entries(info.raw_files ?? {}).filter(([k, v]) => dirOk(k) && sha(v));
-      out.push({approvalId: id, assetId, approvedBy: by, kind: str(a.kind, 40) ?? 'owner_statement', scope: str(a.scope, 60) ?? null, covers: str(a.covers, 400) ?? null,
+      const rawDir = dirOk(info.raw_dir) ? info.raw_dir : null;
+      out.push({approvalId: id, assetId, rawDir, approvedBy: by, kind: str(a.kind, 40) ?? 'owner_statement', scope: str(a.scope, 60) ?? null, covers: str(a.covers, 400) ?? null,
         recorded: str(a.recorded, 40) ?? null, recordedBy: str(a.recorded_by, 200) ?? null,
         evidence: {quote: str(a.evidence?.quote, 400), source: str(a.evidence?.source, 200)}, frameDir: info.frame_dir, frames, rawFiles});
     }
@@ -51,13 +73,21 @@ export async function evaluateArtApproval(root, rec) {
   }
   // a frame added to the asset's directory is not covered either: compare the inventory with the record
   const known = new Set(rec.frames.map(([k]) => `${k.split('/').at(-1)}.png`));
-  const added = (await fs.readdir(path.join(root, rec.frameDir)).catch(() => [])).filter(f => f.endsWith('.png') && !known.has(f)).sort();
+  const listed = await pngInventory(root, rec.frameDir);
+  const added = (listed ?? []).filter(f => !known.has(f)).map(f => `${rec.frameDir}/${f}`);
+  let unverified = listed === null;
+  // the same for the raw files of a character: anything under its raw directory that the record does not list
+  if (rec.rawDir) {
+    const rawKnown = new Set(rec.rawFiles.map(([p]) => p));
+    const rawListed = await pngInventory(root, rec.rawDir);
+    if (rawListed === null) unverified = true; else added.push(...rawListed.map(f => `${rec.rawDir}/${f}`).filter(p => !rawKnown.has(p)));
+  }
   let rawChanged = 0;
   for (const [file, expected] of rec.rawFiles) if ((await hashOf(root, file).catch(() => null)) !== expected) rawChanged++;
   return {assetId: rec.assetId, approvalId: rec.approvalId, approvedBy: rec.approvedBy, kind: rec.kind, scope: rec.scope, covers: rec.covers, recorded: rec.recorded,
     recordedBy: rec.recordedBy, evidence: rec.evidence, frames: rec.frames.length, matching: ok, changed, missing, rawFiles: rec.rawFiles.length, rawChanged,
-    added: added.length, addedFiles: added.slice(0, 20),
-    current: changed === 0 && missing === 0 && rawChanged === 0 && added.length === 0, changedKeys: changedKeys.slice(0, 20)};
+    added: added.length, addedFiles: added.slice(0, 20), unverified,
+    current: changed === 0 && missing === 0 && rawChanged === 0 && added.length === 0 && !unverified, changedKeys: changedKeys.slice(0, 20)};
 }
 
 export async function readArtApprovals(root, dir) {

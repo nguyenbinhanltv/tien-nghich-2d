@@ -109,8 +109,9 @@
   "artrec.title": "Art đã duyệt theo ghi chép",
   "artrec.intro": "Một người đã duyệt trong chat, rồi được ghi vào assets/review/art_approvals.json theo đúng từng byte. Khung nào đổi thì không còn được phủ.",
   "artrec.line": "{by} · {date} · {id}",
-  "artrec.current": "cả {n} khung khớp với bản đã duyệt",
-  "artrec.changed": "{changed} trên {n} khung (hoặc tệp thô) đã đổi hoặc được thêm sau khi duyệt: không còn được phủ, cần xem lại",
+  "artrec.current": "cả {n} tệp đã ghi khớp với bản đã duyệt",
+  "artrec.changed": "{changed} trên {n} tệp đã ghi bị đổi hoặc mất; {added} tệp được thêm sau khi duyệt. Không còn được phủ, cần xem lại",
   "artrec.badge": "đã duyệt theo ghi chép",
-  "artrec.badgeStale": "đã đổi sau khi duyệt"
+  "artrec.badgeStale": "đã đổi sau khi duyệt",
+  "artrec.unverified": "Không kiểm tra an toàn được thư mục, nên asset không được coi là đã phủ."
 }

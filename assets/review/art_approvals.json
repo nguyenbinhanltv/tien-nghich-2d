@@ -246,6 +246,7 @@
    "assets": {
     "lt_kiln_keeper": {
      "frame_dir": "assets/processed_longtime/lt_kiln_keeper",
+     "raw_dir": "assets/raw/longtime/lt_kiln_keeper",
      "frames": {
       "longtime/lt_kiln_keeper/idle_east_0": "bbcde4229f9cfa4d8b2477873df902f295c8df64d35d08da9ed6e5d5a0433bff",
       "longtime/lt_kiln_keeper/idle_east_1": "4e6cef2c2429f25bf84d814bee3a92e946e1eb423830fd3bd9c4e7a1e6b20535",
@@ -328,6 +329,7 @@
     },
     "lt_ink_marten": {
      "frame_dir": "assets/processed_longtime/lt_ink_marten",
+     "raw_dir": "assets/raw/longtime/lt_ink_marten",
      "frames": {
       "longtime/lt_ink_marten/follow_east_0": "ce31bd4d9722d297893df3ee1b5b1a6c9fabd2b82cdd26aba011e965c696a26f",
       "longtime/lt_ink_marten/follow_east_1": "2bc3dde57976a2dc15607e4498fc2231309fa60f577633b464b3d0267cdd1eb8",
