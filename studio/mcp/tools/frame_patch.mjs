@@ -17,13 +17,13 @@ import { loadFrame, planTransform, savePlan } from '../../core/timeline-ops.mjs'
 import { TRANSFORMS, SCOPES, MIRROR_AXES, mirrorOps } from '../../core/transform.mjs';
 import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 
-const OPS = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'grid'];
+const OPS = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'grid', 'shade', 'dither', 'pattern', 'gradient'];
 
 export default {
   name: 'studio_frame_patch',
   title: 'Draw or fix pixels with stored operations',
   description:
-    'Change pixels by COMMAND, not by redrawing: set pixels, draw a line, fill a box, flood a region, shift or copy a region (also from another frame of the clip), rebuild the outline, or write a GRID of palette ids. ' +
+    'Change pixels by COMMAND, not by redrawing: set pixels, draw a line, fill a box, flood a region, shift or copy a region (also from another frame of the clip), rebuild the outline, write a GRID of palette ids, or use the palette-bound helpers shade, dither, pattern and gradient (ramps, Bayer dithering, material patterns, directional shading; none can leave the palette). ' +
     'Colours are palette ids (see studio_project_info). Coordinates are x, y from the top left of the native frame; boxes are [x0, y0, x1, y1) half-open. ' +
     'target "revision" (default for a frame you already submitted) applies the operations to the frame\'s newest revision and saves the result as a NEW revision, pending, leaving the raw file as submitted; ' +
     'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame). ' +
@@ -54,7 +54,7 @@ export default {
             note: { type: 'string', maxLength: 200, description: 'What this edit is for (stored on its first operation, so a later reader knows a patch is the scar and not a highlight).' },
             ops: {
               type: 'array', minItems: 1, maxItems: 500,
-              items: { type: 'object', properties: { op: { type: 'string', enum: OPS } }, required: ['op'], description: 'One operation: {op:"set",pixels:[[x,y,"ink_01"]]}, {op:"line",from:[x,y],to:[x,y],color}, {op:"fill",box:[x0,y0,x1,y1],color}, {op:"flood",at:[x,y],color}, {op:"shift",box,dx,dy}, {op:"copy",box,dx,dy,from?:{facing,frame}}, {op:"outline"}, {op:"grid",at:[x,y],rows:["..ab.."],legend:{a:"ink_01"}}.' },
+              items: { type: 'object', properties: { op: { type: 'string', enum: OPS } }, required: ['op'], description: 'One operation: {op:"set",pixels:[[x,y,"ink_01"]]}, {op:"line",from:[x,y],to:[x,y],color}, {op:"fill",box:[x0,y0,x1,y1],color}, {op:"flood",at:[x,y],color}, {op:"shift",box,dx,dy}, {op:"copy",box,dx,dy,from?:{facing,frame}}, {op:"outline"}, {op:"grid",at:[x,y],rows:["..ab.."],legend:{a:"ink_01"}}. PALETTE-BOUND helpers, which can only write project palette colours: {op:"shade",box,light?:"tl",strength?:1|2} moves each pixel up or down ITS OWN colour group\'s ramp for the light (never leaves the ramp); {op:"dither",box,from,to,ratio:0..1,size?:2|4|8} Bayer-mixes two palette ids; {op:"pattern",box,name:"checker|stripes_h|stripes_v|diagonal|brick|scales|speckle",colors:[a,b],over?:"opaque"|"all"}; {op:"gradient",box,base,steps?:2..9,shift?:degrees,light?:"tl",dither?:2|4|8|false,over?} paints a hue-shifted ramp built from the palette around base.' },
             },
           },
           required: ['frame'], additionalProperties: false,

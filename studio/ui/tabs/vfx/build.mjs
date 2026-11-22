@@ -8,6 +8,7 @@ import { crop, decodePng } from '../../../forge/index.mjs';
 import { openProject } from '../../../mcp/project.mjs';
 import { callDir, shown } from '../../../mcp/workflow/forge.mjs';
 import { buildTwice, checkSpec, vfxAdapter } from '../../../mcp/workflow/vfx.mjs';
+import { composeSheet, describeRecord, recordedDurations, recordedEvents, resolveRecord } from '../../../mcp/workflow/vfx-record.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -30,7 +31,7 @@ export function compareFrames(rebuilt, delivered) {
  * Rebuild `effect` (clip, variant) from `specPath`. `reference` is {path?, sha256?, source}: the delivered or recorded sheet to compare
  * byte for byte. `deliveredPaths` are the delivered frames of that clip and variant, in order.
  */
-export async function buildAndAudit({root, libraryDir, effect, specPath, deliveredPaths, reference}) {
+export async function buildAndAudit({root, libraryDir, effect, specPath, deliveredPaths, reference, record}) {
   if (running >= 1) throw problem(409, 'build_running', 'A build is already running. Wait for it to finish.');
   running++;
   let project;
@@ -56,7 +57,14 @@ export async function buildAndAudit({root, libraryDir, effect, specPath, deliver
     built.audit.output = tidy(built.audit.output);
     if (!built.ok) return {...out, ok: false, audit: built.audit};
     const sheet = decodePng(built.sheetBytes);
-    const frames = built.meta.frames.map(f => crop(sheet, f.x, f.y, f.x + f.w, f.y + f.h));
+    const rendered = built.meta.frames.map(f => crop(sheet, f.x, f.y, f.x + f.w, f.y + f.h));
+    // The recorder (F8): the same cut studio_vfx_build makes. A recorded sheet is not the delivered effect, so it is not compared with it.
+    let cut = null;
+    if (record !== undefined && record !== null) {
+      try { cut = resolveRecord(record, rendered.length); } catch (error) { if (error.recordError) throw problem(422, 'bad_record', error.message); throw error; }
+    }
+    const frames = cut ? cut.indices.map(i => rendered[i]) : rendered;
+    const recorded = cut ? composeSheet(frames, cut.columns) : null;
     const options = assetGateOptions(snap.pack, snap.palette, asset, 'warn');
     const gate = {errors: 0, warnings: 0, counts: {}, framesWithDefects: 0};
     for (const img of frames) {
@@ -67,14 +75,16 @@ export async function buildAndAudit({root, libraryDir, effect, specPath, deliver
     }
     gate.verdict = gate.errors ? 'fail' : gate.warnings ? 'warn' : 'pass';
     const delivered = [];
-    for (const p of deliveredPaths) { try { delivered.push(p ? decodePng(await readInside(root, p)) : null); } catch { delivered.push(null); } }
-    const compare = {frames: compareFrames(frames, delivered), sheet: {rebuiltSha256: built.sheetSha256, reference: null}};
-    if (reference?.sha256) compare.sheet.reference = {source: reference.source, sha256: reference.sha256, identical: reference.sha256 === built.sheetSha256};
+    if (!cut) for (const p of deliveredPaths) { try { delivered.push(p ? decodePng(await readInside(root, p)) : null); } catch { delivered.push(null); } }
+    const compare = {frames: compareFrames(frames, delivered), sheet: {rebuiltSha256: recorded?.sha256 ?? built.sheetSha256, reference: null}};
+    if (!cut && reference?.sha256) compare.sheet.reference = {source: reference.source, sha256: reference.sha256, identical: reference.sha256 === built.sheetSha256};
     compare.byteIdentical = compare.sheet.reference ? compare.sheet.reference.identical : null;
     compare.verdict = compare.byteIdentical ? 'byte-identical' : compare.frames.identical ? 'pixel-identical' : 'different';
-    return {...out, ok: true, audit: built.audit, deterministic: built.deterministic, gate, compare,
-      table: {count: frames.length, size: built.meta.frame_size, anchor: built.meta.anchor, fps: built.meta.fps, loop: built.meta.loop, durationsMs: built.meta.frames.map(f => f.duration), events: built.meta.events ?? []},
-      sheet: {png: built.sheetBytes.toString('base64'), width: sheet.width, height: sheet.height, frames: built.meta.frames.map(f => ({x: f.x, y: f.y, w: f.w, h: f.h}))}};
+    const shownSheet = recorded ? {png: recorded.png.toString('base64'), width: recorded.width, height: recorded.height, frames: recorded.cells} : null;
+    const durations = built.meta.frames.map(f => f.duration);
+    return {...out, ok: true, record: cut ? {first: cut.first, last: cut.last, skip: cut.skip, columns: cut.columns, rows: cut.rows, kept: cut.indices, rendered: rendered.length, text: describeRecord(cut, rendered.length), sheetSha256: recorded.sha256} : null, audit: built.audit, deterministic: built.deterministic, gate, compare,
+      table: {count: frames.length, size: built.meta.frame_size, anchor: built.meta.anchor, fps: built.meta.fps, loop: built.meta.loop, durationsMs: cut ? recordedDurations(durations, cut) : durations, events: cut ? recordedEvents(built.meta.events, cut) : built.meta.events ?? []},
+      sheet: shownSheet ?? {png: built.sheetBytes.toString('base64'), width: sheet.width, height: sheet.height, frames: built.meta.frames.map(f => ({x: f.x, y: f.y, w: f.w, h: f.h}))}};
   } finally { running--; project?.close(); }
 }
 

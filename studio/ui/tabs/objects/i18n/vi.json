@@ -114,5 +114,14 @@
   "hud.canvas": "Thanh HUD ở mức {fill} phần trăm",
   "hud.clip": "Mức {fill}% hiện {cw} / {w} px",
   "import.open": "Nhập bảng sprite…",
+  "tiles.title": "Animation tile và va chạm",
+  "tiles.none": "Chưa tile nào của asset này có animation hay hình va chạm. Đặt bằng studio_metadata_set (tiles).",
+  "tiles.animation": "Tile {n}: animation {steps}",
+  "tiles.step": "{n} trong {ms} ms",
+  "tiles.shapes": "Tile {n}: va chạm {shapes}",
+  "tiles.rect": "chữ nhật {x},{y} {w}×{h}",
+  "tiles.ellipse": "elip {x},{y} {w}×{h}",
+  "tiles.point": "điểm {x},{y}",
+  "tiles.polygon": "đa giác {count} điểm",
   "timeline.open": "Dòng thời gian và trình vẽ ngoài…"
 }

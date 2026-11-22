@@ -6,6 +6,9 @@ import { contentOf } from '../../core/audio-candidates.mjs';
 import { containedPath } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
 import fs from 'node:fs/promises';
+import { clipContract, durationMs } from '../../core/clips.mjs';
+import { readMetadata } from '../../core/metadata.mjs';
+import { resolveWindow } from '../../audio/window.mjs';
 
 export const MAX_DOC_BYTES = 200 * 1024;
 export const MAX_PATCH_MS = 30_000;
@@ -86,3 +89,38 @@ export async function auditCandidate(root, candidate) {
 }
 
 export { insideProtected };
+
+/**
+ * Where a clip window's milliseconds come from: the clip contract of the asset it names (B7). The clip's frame timing is its declared
+ * frameMs (asset metadata) or the plan's; `from` and `to` are event names of the contract (default: the clip's start and its end). The window is
+ * the time from the start of the `from` event's frame to the start of the `to` event's frame. Throws a ToolError that says what is missing.
+ */
+export async function clipWindowTiming({ ws, snap, ref }) {
+  const asset = snap.index.assets.get(ref.asset);
+  if (!asset?.clips) throw new ToolError(`window.clip.asset "${ref.asset}" is not a frame asset with clips; use studio_catalog_search to find one.`);
+  const spec = asset.clips[ref.clip];
+  if (!spec) throw new ToolError(`${asset.id} has no clip "${ref.clip}" (clips: ${Object.keys(asset.clips).join(', ')}).`);
+  const declared = (await readMetadata(ws.root, asset))?.data?.clips?.[ref.clip];
+  const contract = clipContract({ asset, clip: ref.clip, declared, pack: snap.pack });
+  const frameMs = declared?.frameMs ?? spec.frameMs;
+  const frameOf = (name, fallback) => {
+    if (name === undefined) return fallback;
+    const event = contract.events.find((e) => e.name === name);
+    if (!event) throw new ToolError(`${asset.id} clip ${ref.clip} has no event "${name}" in its contract (events: ${contract.events.map((e) => `${e.name}@${e.frame}`).join(', ') || 'none'}). Declare it with studio_metadata_set.`);
+    return event.frame;
+  };
+  const from = frameOf(ref.from, 0), to = frameOf(ref.to, spec.frames);
+  if (!(to > from) || to > spec.frames) throw new ToolError(`the window runs from frame ${from} to frame ${to} of ${spec.frames}; it must have at least one frame.`);
+  const ms = durationMs(frameMs, from, to);
+  if (ms === null) throw new ToolError(`${asset.id} clip ${ref.clip} has no frame timing (frameMs), so its length in milliseconds is unknown; set it with studio_metadata_set or plan it with frameMs.`);
+  return { ms, source: `${asset.id} clip ${ref.clip}: frames ${from} to ${to} (${ref.from ?? 'start'} to ${ref.to ?? 'end'}), ${Array.isArray(frameMs) ? 'per-frame ms' : `${frameMs} ms a frame`}, contract ${contract.eventsSource ?? 'without events'}` };
+}
+
+/** Resolve a patch's `window` (if any) into a sized patch and the record of what sized it. Returns {document, window}. */
+export async function sizeByWindow({ ws, snap, document }) {
+  if (!document || typeof document !== 'object' || document.window === undefined) return { document, window: null };
+  const ref = document.window?.clip;
+  let timing = null;
+  if (ref && typeof ref === 'object' && typeof ref.asset === 'string' && typeof ref.clip === 'string') timing = await clipWindowTiming({ ws, snap, ref });
+  try { return resolveWindow(document, { clipTiming: () => timing }); } catch (error) { throw engineError(error); }
+}

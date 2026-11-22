@@ -1,0 +1,51 @@
+// The palette-bound drawing helpers in the editor: POST /api/editor/apply (idea A6).
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { createPreviewServer } from '../serve.mjs';
+import { encodePixels, decodeRgba } from '../core/png.mjs';
+import { realPack } from '../core/tests/helpers.mjs';
+
+test('SHADING-006 the editor applies shade, dither, pattern and gradient to the newest pixels, with a dry run and no off-palette colour', async t => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'studio-editor-shade-'));
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const write = (file, data) => fs.mkdir(path.dirname(path.join(dir, file)), {recursive: true}).then(() => fs.writeFile(path.join(dir, file), data));
+  const pack = realPack();
+  pack.id = 'other-game'; pack.palette.file = 'pal.json'; pack.directories.revisions = '.other-revisions';
+  pack.catalog.sources = [{id: 'main', kind: 'asset-manifest', file: 'm.json'}];
+  pack.frameKeys = {hud: 'hud/{id}/{clip}_{n}'};
+  pack.editable = {overlay: 'approved.json', groups: [{kind: 'asset-animations', source: 'main', category: 'hud', frameKey: 'hud', raw: 'src/{id}_{clip}_{n}.png', processed: 'out/{key}.png'}]};
+  const colors = [['k', '#101010'], ['a1', '#103020'], ['a2', '#206040'], ['a3', '#40a070'], ['a4', '#a0e0c0'], ['b1', '#402010'], ['b2', '#a06030']].map(([id, hex]) => ({id, hex, group: id[0] === 'a' ? 'green' : id[0] === 'b' ? 'brown' : undefined}));
+  await write('studio.project.json', JSON.stringify(pack));
+  await write('pal.json', JSON.stringify({outline: '#101010', outline_id: 'k', colors}));
+  await write('m.json', JSON.stringify({assets: [{id: 'btn', category: 'hud', size: [8, 8], output_path: 'src/', animations: {idle: {frames: 1}}}]}));
+  const px = Buffer.alloc(8 * 8 * 4);
+  for (let y = 1; y < 7; y++) for (let x = 1; x < 7; x++) px.set([0x20, 0x60, 0x40, 255], (y * 8 + x) * 4);
+  const png = encodePixels(8, 8, px);
+  await write('src/btn_idle_0.png', png); await write('out/hud/btn/idle_0.png', png);
+  const server = createPreviewServer({root: dir});
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  t.after(() => server.close());
+  const post = async body => { const r = await fetch(`http://127.0.0.1:${server.address().port}/api/editor/apply`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: 'hud/btn/idle_0', baseRevision: 0, ...body})}); return [r.status, await r.json()]; };
+  const ops = [{op: 'shade', box: [0, 0, 8, 8]}, {op: 'dither', box: [0, 0, 8, 8], from: 'a2', to: 'a3', ratio: 0.5}, {op: 'pattern', box: [2, 2, 5, 5], name: 'checker', colors: ['b1', null]}];
+  const [dryStatus, dry] = await post({ops, dryRun: true});
+  assert.equal(dryStatus, 200, JSON.stringify(dry));
+  assert.equal(dry.wrote, 'nothing');
+  assert.ok(dry.changedPixels > 10);
+  const [headStatus, head] = await (await fetch(`http://127.0.0.1:${server.address().port}/api/editor/frame?key=hud/btn/idle_0`)).json().then(j => [200, j]);
+  assert.equal(head.head, 0, 'the dry run saved nothing');
+  const [status, saved] = await post({ops});
+  assert.equal(status, 200, JSON.stringify(saved));
+  assert.equal(saved.head, 1);
+  assert.equal(saved.status, 'pending');
+  const out = decodeRgba(Buffer.from(saved.pngBase64, 'base64'));
+  const allowed = new Set(colors.map(c => parseInt(c.hex.slice(1), 16)));
+  for (let i = 0; i < out.pixels.length; i += 4) if (out.pixels[i + 3]) assert.ok(allowed.has(out.pixels.readUIntBE(i, 3)));
+  // refusals
+  assert.equal((await post({ops: [{op: 'pattern', box: [0, 0, 4, 4], name: 'checker', colors: ['nope', null]}]}))[0], 422);
+  assert.equal((await post({ops: [{op: 'fill', box: [0, 0, 4, 4], color: 'a1'}]}))[0], 422);
+  assert.equal((await post({ops: []}))[0], 422);
+  assert.equal((await post({ops, baseRevision: 0}))[0], 409, 'a stale base is refused like a save');
+});
