@@ -495,7 +495,8 @@
       "lt_icon_floor_five",
       "lt_icon_pressure",
       "lt_icon_bank",
-      "lt_ashen_crown"
+      "lt_ashen_crown",
+      "lt_ashen_crown_b"
     ],
     "trial": [
       "charge_up",
@@ -546,6 +547,7 @@
     {"id":"lt_river_oath","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Long split river sash","dependencies":["wl_extreme_jing"]},
     {"id":"lt_star_vessel","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Circular bronze backplate","dependencies":["wl_extreme_jing"]},
     {"id":"lt_ashen_crown","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Broken ash-colored crown","dependencies":["wl_extreme_jing"]},
+    {"id":"lt_ashen_crown_b","profile":"player","chunk_group":"forms","phase":"later","method":"new_source","brief":"Broken ash-colored crown, variant B: light grey robe, dark ash circlet with an ember crack (owner-chosen, ships beside lt_ashen_crown)","dependencies":["wl_extreme_jing"]},
     {"id":"lt_mist_archive","profile":"terrain","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Paper walls, ink drains and seal-block threshold.","dependencies":[]},
     {"id":"lt_scroll_moth","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the scroll moth silhouette before its strike.","dependencies":["lt_mist_archive"]},
     {"id":"lt_wax_sentinel","profile":"mob","chunk_group":"mist_archive","phase":"later","method":"new_source","brief":"Show the wax sentinel silhouette before its strike.","dependencies":["lt_mist_archive"]},

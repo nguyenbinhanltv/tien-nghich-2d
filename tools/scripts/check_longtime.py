@@ -9,7 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "assets/manifest_longtime.json"
 CHARACTERS = {"player", "mob", "boss", "pet", "npc"}
-COUNTS = dict(player=4, mob=12, boss=4, pet=6, npc=6, tileset=4, facility=3,
+COUNTS = dict(player=5, mob=12, boss=4, pet=6, npc=6, tileset=4, facility=3,
               weapon=24, projectile=24, tower=6, icon=32)
 
 
@@ -268,7 +268,7 @@ if __name__ == "__main__":
         pages = validate(read(CATALOG))
     except (OSError, KeyError, TypeError, ValueError) as error:
         sys.exit(f"Design catalog error: {error}")
-    print("102 inherited IDs; 125 planned IDs; wave 1: 9 IDs / 101 frames")
+    print("102 inherited IDs; 126 planned IDs; wave 1: 9 IDs / 101 frames")
     effects = read(CATALOG)["vfx"]["entries"]
     print(f"VFX: {len(effects)} new IDs / {sum(map(vfx_frames, effects))} frames ({Counter(e['status'] for e in effects)}); 12 inherited reused")
     print("Estimated mobile pages by chunk (assets + VFX):", json.dumps(pages, sort_keys=True))

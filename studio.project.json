@@ -211,6 +211,7 @@
             ],
             "strict": true
           },
+          "rightsDecisions": ["assets/review/licence_decisions.json"],
           "originLogs": [
             {"origin": "retired-tool", "file": "assets/raw/characters/pixellab_log.json", "list": "entries", "id": "id", "fields": ["character_uuid", "fetched_utc", "tool"]},
             {"origin": "retired-tool", "file": "assets/raw/characters/pixellab_log_mobs.json", "list": "entries", "id": "id", "fields": ["character_uuid", "fetched_utc", "tool"]},
