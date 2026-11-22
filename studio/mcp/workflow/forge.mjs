@@ -238,11 +238,12 @@ export function formatsGuide(bodyPlans, { nativePx, pivotPx }) {
     poseClips: {
       use: 'studio_rig_bake poseClips (locomotion from drawn key poses). The skeleton for the clip you asked for is in this result as poseClips.',
       shape: { schema: 'forge.poseclips', version: 1, clips: { '<clip>': { keys: ['<pose per frame>'], facings: ['<facing>'], loop: true,
-        contacts: 'optional {<facing>: [[{id, xy:[x,y], planted:true}] per key]}: planted contacts TURN ON the foot-slide gate',
-        landmarks: 'optional {<facing>: [{id, color, box}]}: turns ON the mark-side gate for this clip', qa: 'optional gate options for this clip, e.g. {flicker:{maxPixels:60}}',
+        contacts: 'optional {<facing>: [[{id, xy:[x,y], planted:true}] per key]}: planted contacts TURN ON the foot-slide gate. Left out, they are taken from the annotations given at studio_sheet_import',
+        landmarks: 'optional {<facing>: [{id, color, box}]}: turns ON the mark-side gate for this clip. Left out, they are taken from the annotations given at studio_sheet_import', qa: 'optional gate options for this clip, e.g. {flicker:{maxPixels:60}}',
         secondary: 'optional {template:"idle"}: rig motion layered on top (needs a rig)' } } },
       rules: ['the cell for key <pose> of facing <f> is the layout cell "<pose>_<f>" (they come from the pose sheet template)', 'keys needs exactly as many names as the clip has frames; a pose name may repeat (stand, step_a, stand, step_b)'],
     },
+    annotations: 'studio_sheet_import annotations (pose sheets): {<cell id>: {contacts: [{id, at:[fx,fy], planted}], landmarks: [{id, color, box:[fx0,fy0,fx1,fy1]}]}}, every number a fraction (0 to 1) of that template cell. The template cells list their slots (cell.slots). The studio converts them to native pixels with the figure\'s own fit.',
     twoSheets: 'A character may have both a turnaround (rig clips) and a pose sheet (pose clips): import each (they keep separate slots), then studio_rig_bake with rig AND poseClips in one call. Each frame is credited to the sheet it came from.',
   };
 }

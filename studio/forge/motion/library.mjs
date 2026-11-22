@@ -76,7 +76,13 @@ function scaled(tracks, scale) {
 /** Look up and expand a template: {bodyPlan, profile, clip, loop, tracks}. Throws if there is none. */
 export function getTemplate(library, profile, clip) {
   const binding = library.templates[`${profile}/${clip}`];
-  if (!binding) throw new Error(`no ${library.bodyPlan} motion template for ${profile}/${clip}`);
+  if (!binding) {
+    const own = Object.keys(library.templates).filter(k => k.startsWith(`${profile}/`)).map(k => k.split('/')[1]);
+    throw new Error(`no ${library.bodyPlan} motion template for ${profile}/${clip}. ` +
+      `This library has ${own.length ? `templates for ${profile} clips: ${own.join(', ')}` : `no template for "${profile}" at all (an asset planned with a custom spec has its own id as its profile name)`}; archetypes: ${Object.keys(library.archetypes).join(', ')}. ` +
+      `Bind the clip to an archetype: pass library to studio_rig_bake (the ${library.bodyPlan} library with the template "${profile}/${clip}": {"use": "<archetype>"} added under templates; the archetype names are in studio_template_get motion.archetypes), ` +
+      `or bake this clip from drawn key poses instead (poseClips, no library needed).`);
+  }
   const archetype = library.archetypes[binding.use];
   return {
     bodyPlan: library.bodyPlan, profile, clip, loop: archetype.loop !== false,

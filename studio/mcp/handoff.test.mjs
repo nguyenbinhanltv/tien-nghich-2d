@@ -84,7 +84,7 @@ test('ATLAS-003: the handoff is blocked while a recorded output licence mismatch
   assert.equal(manifest.published, false);
   for (const file of manifest.files) assert.equal(sha(path.join(dir, file.path)), file.sha256);
   assert.equal(fs.readdirSync(p.root).includes('handoff'), false, 'nothing lands in the project');
-}));
+}, (pack) => { delete pack.ui.tabs.atlas.ledger.licenceProfile; }));
 
 test('ATLAS-005: the drafts state the ledger counts, flag what a person decides and draw no conclusion', () => withProject(async (p) => {
   const snap = await read(p);

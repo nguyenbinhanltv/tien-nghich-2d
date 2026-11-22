@@ -53,7 +53,7 @@ function validateFields(fields, index, selfId) {
   const phases = new Set(['later']), methods = new Set(['new_source']);
   for (const a of index.assets.values()) { if (a.profile !== undefined) { phases.add(a.phase); methods.add(a.method); } }
   if ('profile' in fields && !Object.hasOwn(profiles, fields.profile)) invalid(`Unknown profile "${fields.profile}". Choose one of: ${Object.keys(profiles).join(', ')}`);
-  if ('chunk_group' in fields && !Object.hasOwn(chunks, fields.chunk_group)) invalid(`Unknown chunk "${fields.chunk_group}". Choose one of: ${Object.keys(chunks).join(', ')}`);
+  if ('chunk_group' in fields && !Object.hasOwn(chunks, fields.chunk_group)) invalid(`Unknown chunk "${fields.chunk_group}" (the chunk parameter). Choose one of: ${Object.keys(chunks).join(', ')}`);
   if ('phase' in fields && !phases.has(fields.phase)) invalid(`Unknown phase "${fields.phase}". Choose one of: ${[...phases].join(', ')}`);
   if ('method' in fields && !methods.has(fields.method)) invalid(`Unknown method "${fields.method}". Choose one of: ${[...methods].join(', ')}`);
   if ('brief' in fields && !text(fields.brief, 400)) invalid('brief must be 1 to 400 characters');
@@ -81,7 +81,7 @@ function buildCreate(index, id, fields, stamp) {
   const rule = index.info.planId;
   if (!new RegExp(rule.pattern).test(id) || id.length > 64) invalid(`id must look like ${rule.hint} (lowercase words joined by underscores, at most 64 characters)`);
   if (index.assets.has(id)) throw problem(409, 'id_taken', `An asset "${id}" already exists`);
-  for (const f of ['chunk_group', 'brief']) if (!(f in fields)) invalid(`create needs ${f}`);
+  for (const [f, label] of [['chunk_group', 'chunk (the chunk group the asset ships with)'], ['brief', 'brief']]) if (!(f in fields)) invalid(`create needs ${label}`);
   if (('profile' in fields) === ('custom' in fields)) invalid('create needs exactly one of profile (a manifest profile: size, pivot and clips come from it) or custom (an inline size, pivot and clips)');
   const merged = {...('profile' in fields ? {profile: fields.profile} : {custom: fields.custom}), chunk_group: fields.chunk_group, phase: fields.phase ?? 'later',
     method: fields.method ?? 'new_source', brief: fields.brief, dependencies: fields.dependencies ?? []};

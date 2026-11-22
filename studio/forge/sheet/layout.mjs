@@ -11,7 +11,9 @@
 //     id, facing, pose, label,          // pose may be null; id is unique and names the output files
 //     rect: [x0, y0, x1, y1],           // fractions of the sheet; cells may differ and need not tile
 //     landmarks: {centerX, footWindow: [a, b], heightPx}   // ground x, window that finds the lowest foot row,
-//   }]                                  // and the figure height (ground to crown) wanted at native size
+//                                       // and the figure height (ground to crown) wanted at native size
+//     slots?: {contacts: [id], landmarks: [{id, color}]}   // optional: the contacts (a foot) and landmarks (an asymmetric mark) the
+//   }]                                  // drawer may annotate for this cell at import (see sheet/annotations.mjs)
 // }
 import { roundHalfEven } from '../image.mjs';
 import { canDraw, glyphWidth } from './font.mjs';
@@ -55,6 +57,14 @@ export function validateLayout(layout) {
     if (!isFraction(m?.centerX)) bad(`${where}.landmarks.centerX must be a fraction`);
     if (!Array.isArray(m?.footWindow) || !m.footWindow.every(isFraction) || m.footWindow[1] <= m.footWindow[0]) bad(`${where}.landmarks.footWindow must be [a, b] fractions with b > a`);
     if (!(m?.heightPx > 0)) bad(`${where}.landmarks.heightPx must be positive`);
+    if (cell.slots !== undefined) {
+      const s = cell.slots, id = v => typeof v === 'string' && /^[a-z][a-z0-9_]{0,23}$/.test(v);
+      if (!s || typeof s !== 'object' || Array.isArray(s) || Object.keys(s).some(k => !['contacts', 'landmarks'].includes(k))) bad(`${where}.slots may only hold contacts and landmarks`);
+      else {
+        if (s.contacts !== undefined && (!Array.isArray(s.contacts) || !s.contacts.every(id))) bad(`${where}.slots.contacts must be a list of ids (lower_snake_case)`);
+        if (s.landmarks !== undefined && (!Array.isArray(s.landmarks) || !s.landmarks.every(l => id(l?.id) && id(l?.color)))) bad(`${where}.slots.landmarks must be a list of {id, color} (palette colour id)`);
+      }
+    }
   });
   return issues;
 }
@@ -91,6 +101,7 @@ export function gridLayout({id, columns, rows, size = [1024, 1024], cells, heigh
         label: cell.label ?? (cell.id.toUpperCase().replace(/[^A-Z0-9 _.-]/g, '-')),
         rect: [column / columns, row / rows, (column + 1) / columns, (row + 1) / rows],
         landmarks: cell.landmarks ?? {centerX: 0.5, footWindow: [0.25, 0.75], heightPx: heightPx ?? 20},
+        ...(cell.slots ? {slots: structuredClone(cell.slots)} : {}),
       };
     }),
   };
@@ -101,9 +112,9 @@ export function gridLayout({id, columns, rows, size = [1024, 1024], cells, heigh
  * Turnaround or pose sheet: one cell per facing and pose. A single pose is laid out as a near-square
  * grid, several poses as one row per pose. Cell ids are the facing, or "<pose>_<facing>" with poses.
  */
-export function turnaroundLayout({id, facings, poses = [null], columns, ...rest}) {
+export function turnaroundLayout({id, facings, poses = [null], columns, slots, ...rest}) {
   const cells = poses.flatMap(pose => facings.map(facing => ({
-    id: pose ? `${pose}_${facing}` : facing, facing, pose,
+    id: pose ? `${pose}_${facing}` : facing, facing, pose, ...(slots ? {slots} : {}),
     label: (pose ? `${pose} ${facing}` : facing).toUpperCase().replace(/[^A-Z0-9 _.-]/g, '-'),
   })));
   const cols = columns ?? (poses.length === 1 ? Math.ceil(Math.sqrt(cells.length)) : facings.length);

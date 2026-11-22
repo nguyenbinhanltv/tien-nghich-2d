@@ -5,14 +5,25 @@
 // A figure guide (all lengths are fractions of the figure's height, ground to crown):
 //   headToBody      {min, max, target}   head height / figure height (0.38 = about 2.6 heads tall)
 //   minLimbWidthPx  integer              narrowest leg or arm in FINAL pixels, outline included
+//   categories      [string]             optional: asset categories this guide also covers when the asset has no manifest profile (an inline spec)
 //   accentMinPixels integer              pixels an accent colour needs in a final frame to still read
 //   guide           {headWidth, bodyWidth, legWidth, legGap}   the silhouette drawn into template cells
 
-/** The guide of this figure name, or the first whose profiles list `profile`; null when none applies. */
-export function figureFor(figures = {}, profile, name) {
-  if (name !== undefined) return Object.hasOwn(figures, name) ? { ...figures[name], name } : null;
-  const hit = Object.entries(figures).find(([, f]) => f.profiles.includes(profile));
-  return hit ? { ...hit[1], name: hit[0] } : null;
+/**
+ * The guide of this figure name, or the first whose `profiles` list `profile`, or (an asset with an inline spec has no manifest
+ * profile) the first whose `categories` list `category`; null when none applies.
+ */
+export function figureFor(figures = {}, profile, name, category) {
+  return figureChoice(figures, profile, name, category)?.figure ?? null;
+}
+
+/** Like figureFor, and says how it was chosen: {figure, source: 'explicit' | 'profile' | 'category'} or null. */
+export function figureChoice(figures = {}, profile, name, category) {
+  if (name !== undefined) return Object.hasOwn(figures, name) ? { figure: { ...figures[name], name }, source: 'explicit' } : null;
+  const byProfile = Object.entries(figures).find(([, f]) => f.profiles.includes(profile));
+  if (byProfile) return { figure: { ...byProfile[1], name: byProfile[0] }, source: 'profile' };
+  const byCategory = category === undefined ? undefined : Object.entries(figures).find(([, f]) => (f.categories ?? []).includes(category));
+  return byCategory ? { figure: { ...byCategory[1], name: byCategory[0] }, source: 'category' } : null;
 }
 
 /** The guidance as text for an image prompt, from the numbers alone. */

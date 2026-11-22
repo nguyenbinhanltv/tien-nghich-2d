@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { sha256 } from '../../core/fsutil.mjs';
-import { bakeStage, qaStage, validatePatch, validateRig, validatePoseClips, writeBakeDir, clipTable, loadLibrary } from '../../forge/index.mjs';
+import { applyToPoseClips, bakeStage, nativeAnnotations, qaStage, validatePatch, validateRig, validatePoseClips, writeBakeDir, clipTable, loadLibrary } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { forgeCall, forgeDir, pixelizedFor, readDoc, settingsFor, workDir, writeDoc, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
@@ -55,11 +55,18 @@ export default {
       const save = args.save !== false;
       const docs = {};
       for (const [name, given] of [['rig', args.rig], ['poseclips', args.poseClips], ['library', args.library]]) docs[name] = given ?? (await readDoc(ws, asset, name));
-      const rig = docs.rig, poseClips = docs.poseclips, library = docs.library;
-      if (!rig && !poseClips) throw new ToolError('Give rig (for rig clips) and/or poseClips (for clips built from drawn key poses). studio_template_get shows which fits each clip.');
+      const rig = docs.rig, storedPoseClips = docs.poseclips, library = docs.library;
+      if (!rig && !storedPoseClips) throw new ToolError('Give rig (for rig clips) and/or poseClips (for clips built from drawn key poses). studio_template_get shows which fits each clip.');
       if (rig) { const issues = validateRig(rig, { palette }); if (issues.length) throw new ToolError(`the rig is invalid:\n  ${issues.join('\n  ')}`); }
 
-      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings, { poseClips, rig, poseRig: args.poseRig, library });
+      const { doc, pixelized, slots } = await pixelizedFor(ws, asset, settings, { poseClips: storedPoseClips, rig, poseRig: args.poseRig, library });
+      // Contacts and landmarks annotated on the pose sheet at import are filled into clips that declare none (an explicit declaration wins).
+      let poseClips = storedPoseClips, annotated = [];
+      const poseSlot = slots.find((x) => x.slot === 'pose');
+      if (storedPoseClips && poseSlot?.doc.annotations) {
+        const native = nativeAnnotations(poseSlot.doc.annotations, poseSlot.imported.record.cells, poseSlot.pixelized.record.cells, { nativePx: settings.profile.nativePx });
+        ({ poseClips, applied: annotated } = applyToPoseClips(storedPoseClips, native));
+      }
       if (poseClips) {
         const table = clipTable({ clips: settings.profile.clips });
         const issues = validatePoseClips(poseClips, { table, layerIds: new Set(pixelized.cells.keys()), palette });
@@ -79,7 +86,7 @@ export default {
       const storing = save ? Object.entries({ rig: args.rig, poseclips: args.poseClips, library: args.library }).filter(([, v]) => v).map(([k]) => k) : [];
       const dir = workDir(ws, asset, 'bake');
       if (!args.dryRun) {
-        if (save) for (const [name, doc2, given] of [['rig', rig, args.rig], ['poseclips', poseClips, args.poseClips], ['library', library, args.library]]) if (given) await writeDoc(ws, asset, name, doc2);
+        if (save) for (const [name, doc2, given] of [['rig', rig, args.rig], ['poseclips', storedPoseClips, args.poseClips], ['library', library, args.library]]) if (given) await writeDoc(ws, asset, name, doc2);
         await fs.rm(dir, { recursive: true, force: true });
         await fs.mkdir(dir, { recursive: true });
         await writeBakeDir(baked, dir);
@@ -110,7 +117,7 @@ export default {
           check('pixelGates', { ok: pixelErrors === 0, warn: pixelWarnings > 0, measured: { errorPixels: pixelErrors, warningPixels: pixelWarnings }, threshold: { errorPixels: 0 } })],
         notProven: coverage.notRun.map((n) => ({ what: `${n.gate} for ${n.clips.join(', ')}`, why: n.reason, turnOn: n.turnOn })),
         inputs: { sheets: slots.map((x) => `${x.slot}:${x.doc.sheet.sha256.slice(0, 16)}`).join(' '), rig: rig ? sha(rig) : '-', poseClips: poseClips ? sha(poseClips) : '-', patch: patch ? sha(patch) : '-', frames: sha(Object.entries(baked.frames).map(([k, f]) => `${k}:${sha(f.pixels)}`).join(',')) } });
-      const out = { asset: asset.id, pass: ready, qa, verdicts, clips: clipsOut, frames: Object.keys(baked.frames).length,
+      const out = { asset: asset.id, pass: ready, qa, verdicts, ...(annotated.length ? { annotationsApplied: annotated } : {}), clips: clipsOut, frames: Object.keys(baked.frames).length,
         gates: { errors: errors.length, warnings: warnings.length, byGate, findings: listed, ...(gates.findings.length > CAP ? { truncated: gates.findings.length - CAP } : {}) },
         patched: Object.keys(patch?.frames ?? {}).length, ...view.structured,
         ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldStore: storing.map((k) => `${forgeDir(asset)}/${k}.json`) } : { bakeDir: shown(ws, dir), stored: storing }) };
@@ -139,9 +146,13 @@ export default {
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
         view.content[0].text += args.dryRun ? ` DRY RUN: would commit ${report.wouldWrite.length} raw frame(s); nothing was written.` : ` Committed ${written} raw frame(s) (status pending).`;
       }
-      out.next = args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' :
-        !ready ? `Not ready to submit: ${[!verdicts.animationGates.pass ? 'fix the animation findings (adjust the rig or poseClips)' : null, !verdicts.pixelGates.pass ? 'fix the error pixels (studio_frame_patch target "bake")' : null].filter(Boolean).join(' and ')}, then bake again.` :
-        `Both verdicts pass${coverage.notRun.length ? ` (gates not run: ${[...new Set(coverage.notRun.map((n) => n.gate))].join(', ')}; see verdicts.animationGates.notRun for what turns them on)` : ''}. Look at the sheet; if it reads well, run again with submit=true.`;
+      // next never suggests submitting while a verdict fails, in a dry run or not.
+      const notReady = `Not ready to submit: ${[!verdicts.animationGates.pass ? `fix the animation findings (${errors.length} error finding(s); adjust the rig or poseClips)` : null, !verdicts.pixelGates.pass ? `fix the error pixels (${pixelErrors}; studio_frame_patch target "bake")` : null].filter(Boolean).join(' and ')}, then bake again.`;
+      const passing = `Both verdicts pass${coverage.notRun.length ? ` (gates not run: ${[...new Set(coverage.notRun.map((n) => n.gate))].join(', ')}; see verdicts.animationGates.notRun for what turns them on)` : ''}.`;
+      out.next = out.submit?.accepted ? (args.dryRun ? 'Nothing was written. Run again without dryRun to commit.' : 'studio_qa_run from a different session (independent=true), then studio_review_request.')
+        : !ready ? (args.dryRun ? `Nothing was written. ${notReady}` : notReady)
+          : args.dryRun ? `Nothing was written. ${passing} Run again without dryRun to store the bake and look at the sheet; submit=true commits it.`
+            : `${passing} Look at the sheet; if it reads well, run again with submit=true.`;
       return { content: view.content, structuredContent: out };
     }));
   },

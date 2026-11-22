@@ -106,6 +106,7 @@ const FIXTURE_TESTS = new Set([
   'ui/tabs/vfx/server.test.mjs',
   'ui/tests/router.test.mjs',
   'mcp/self_test.mjs',
+  'mcp/pack-decisions.test.mjs',
   // PENDING: example ids in the MCP tool descriptions (and the source enum of catalog_search). These files are being
   // edited by another worker; the change is described in the PR that introduced this test. Remove these lines when done.
   'mcp/tools/asset_get.mjs',
