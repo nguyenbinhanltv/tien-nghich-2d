@@ -1,0 +1,493 @@
+{
+  "id": "lt_reed_crane",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Folded reed wings",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6a87b39c-19f8-4d7e-9eee-c9b39feb875e",
+  "character_job_id": "7b241e4c-5c8a-4d9b-a6ac-2bfd7f5988a1",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi crane, a slender grey-white wading bird standing upright on two thin dark legs, large round head with a long straight beak, short neck, body wrapped in two folded wings made of woven pale golden reeds laid flat against its sides like a reed cloak, a red crest patch on the crown. Calm eyes. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c9157f2f-ad22-4479-92dd-229e8ef9bd8f",
+      "job_ids": {
+        "south": "dc1392e4-679f-4330-baab-c289bdcb774c",
+        "west": "33fd8623-6f9b-4285-befb-f6e9445ffccd",
+        "north": "05faad8f-5d5f-4712-95de-55e2844855e3",
+        "east": "997b4de5-fffb-4d37-b537-7b2f554cfd05"
+      },
+      "action_description": "stands still breathing gently, the head bobs slightly and the beak dips a little; the woven golden reed wings stay folded against the sides",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently, head bobs slightly; the golden reed wings stay folded at its sides",
+        "west": "facing left, breathes gently, head bobs slightly, the long beak points left; the golden reed wing stays folded on its side",
+        "north": "seen from behind, breathes gently, head bobs slightly; the golden reed wings stay folded at its sides",
+        "east": "facing right, breathes gently, head bobs slightly, the long beak points right; the golden reed wing stays folded on its side"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "a2b7bfd3-8928-43fa-896d-ac6eaf1397c7",
+      "job_ids": {
+        "south": "937d0505-5580-4981-af88-80de035a28dd",
+        "west": "605b7f1c-cde0-45e7-9844-b625c40081b1",
+        "north": "b1c95d42-03ec-4fde-a112-d204dcacfc60",
+        "east": "62654f49-a2ca-4430-8f38-a010300a235f"
+      },
+      "action_description": "walks forward in a quick bobbing walk cycle on its two thin legs, the head nodding with each step; the woven golden reed wings stay folded against the sides",
+      "direction_prompts": {
+        "south": "walks toward the viewer with short quick steps, head nodding, compact and narrow; the golden reed wings stay folded at its sides",
+        "west": "walks to the left with short quick steps, head nodding, the long beak points left; the golden reed wing stays folded on its side",
+        "north": "walks away from the viewer, seen from behind, short quick steps, compact and narrow; the golden reed wings stay folded",
+        "east": "walks to the right with short quick steps, head nodding, the long beak points right; the golden reed wing stays folded on its side"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each (idle in two calls because only 2-3 job slots were free)",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "idle east frames 3-4 show a stray dark/pale speck beside the beak (reads as a spit droplet)",
+    "follow west/east leg poses are thin at 1x",
+    "the wings read as a golden torso in north view rather than folded wings"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2287,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "d9148d4cce29898affb0f906380076066f9f4d19fee70ed33daaabf7430664c7",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_reed_crane/contact_1x.png": "fd9123e5bdf97868b4f8568123729a522a33a5ed13208084b7572e5b5c278dc3",
+    "assets/raw/longtime/lt_reed_crane/contact_4x.png": "91588b7ddedd8761ce502f7d4bd6389ec641f09f26d94c2aad5652974c5e3750"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_reed_crane/follow_east_0",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/east/frame_000.png",
+      "raw_sha256": "e0576d57cced1eac6bbad58bcf19c487925d9b996c4b0f26b39cb9d05f70d938",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "3677ffba1ae149c27541423060fd2dbac472eb5c80c79d520bf60aaef93e742a"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_east_1",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/east/frame_001.png",
+      "raw_sha256": "6dfdb14a24993cefe878b4ab6d0f40a03397b88296a18a79b354fc896b12fe3a",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "c1f1c85f5407c4295ecca9567dfc27ba3c14d4a79e3445af60fb440cfe1c547b"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_east_2",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/east/frame_002.png",
+      "raw_sha256": "c5e909f2ac87091f4fe37c7840fa7d124f083a6b0bf658801a33dd98c1d0ddb9",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "7ae7db9229fc7602fd82a181800a82ccc7c7929bd401d9f56e4794f28276db74"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_east_3",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/east/frame_003.png",
+      "raw_sha256": "e58cbb40d899caadeb633593b70cbbc2c59399de286462446e206a895e32cbf0",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "daf9ff26944046578afc39ec56170c3f73cfc79f96d07942bafc0c847f5b9a87"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_north_0",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/north/frame_000.png",
+      "raw_sha256": "ec5aca22cedae15ddf2034669c3afd86783b84d96e20bd4006d6b1e2cf2664f8",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "76322cd8898b8785fcb5e82c76206bbd934c0152dd4278b727f2cc2df6786aef"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_north_1",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/north/frame_001.png",
+      "raw_sha256": "92c96b6efa2bf6af63c96b7d7f877821ddd606f7ca9be74ad812333497c54ee6",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "7cc3d72c94c5ee603be105cd1cc283616ffd569dd65c9716ebeab7cdef63b9b5"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_north_2",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/north/frame_002.png",
+      "raw_sha256": "700e596adfd4cf06dac2e9a832696b1e5667ad5a800d412ff5638ea381322b47",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "1816feddf5b9301c8975fe89d14edc7c1dc8eedce0a491f0e8e1c2ffa8579b04"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_north_3",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/north/frame_003.png",
+      "raw_sha256": "3ffdb8550b14e140f4c133557fa311e724cd6c7ca023b9dca139302b881e04cc",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "95d3e3f60f2b518ae7813efa5e9b41b5ac3e20392c2732f5a663b566f857ce7d"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_south_0",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/south/frame_000.png",
+      "raw_sha256": "287bf8829633315778a7e4dc645325edce51d038d13bfc4e0eb173a4ed8efa28",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "abb12c5cacf18b4d9b570d17225c5833909085d14030b9889b8f75f631dead50"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_south_1",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/south/frame_001.png",
+      "raw_sha256": "5a653c26aad5a09356fbb15ab5eb89ef34d878c4af88cb10f4aaeeb02d26c659",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "7855993c7ef4fdbfbaaa62283d1c227490129dd4334d288d0adc2387cff616e3"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_south_2",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/south/frame_002.png",
+      "raw_sha256": "e6c99a5d402b0673e2895b2c251df27f95dad763e4c1b6781028ec7ba0ac2070",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "2dc5e815e2c9f95cc12c3b9112d6a1524dda0b4d3a627dc42c09c6dcb09c0779"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_south_3",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/south/frame_003.png",
+      "raw_sha256": "5344a33eaac6a65ba6d0c6c0508c4376af44a3fd92d6b7b02a56c48aa6822bbb",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "0b5911f1cd2283a7ad5aea63b2a62538addeb0d508a74caf26de084e23465957"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_west_0",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/west/frame_000.png",
+      "raw_sha256": "048a7d9a6173059d0a215fbce7d756beb7962b6579f1ab7dbb9e9bafa4f0b057",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "9bf25bc63101f04a839cea2e420ff34c078bbc02e1f310506cc6afcd4b31ee44"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_west_1",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/west/frame_001.png",
+      "raw_sha256": "51c80749c2955bcc82adc6439731c64bd8ebd0bed41d362b78227b1920a2f47c",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "258db3e295251c4f46250158bef5c62e1bc85ea86468b3faf4750da97cf6e95c"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_west_2",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/west/frame_002.png",
+      "raw_sha256": "e11df187e67a667e8d8b63a465d7bc9ed459b89261123fadeda4ee247b9824a7",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "38f0cfd1c8f6b16cbef1c13c6e748306fff027a700cd6aadcd0122c5c962d674"
+    },
+    {
+      "key": "longtime/lt_reed_crane/follow_west_3",
+      "path": "assets/processed_longtime/lt_reed_crane/follow_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/follow/west/frame_003.png",
+      "raw_sha256": "350d8c4e9d9712789465320dce3be30336d7a8a5bd186a610f9579d2fb5425d1",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "acad4b942becb923c6863656cd20092bc279591e12708876e585138c3d249b36"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_east_0",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/east/frame_000.png",
+      "raw_sha256": "23bc28c3c2e806930ff60b94912eac83a947a9556dfbcf91b026a74cbb85a40b",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "7ff47f9b2907ca246481d5d7e45cc665e5eee09123c0b99b36464d98631bb9d3"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_east_1",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/east/frame_001.png",
+      "raw_sha256": "dae81b8836ec79ee3e4ddcc296488960a242b1e35d8ce45bfa59103110e82ac9",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "8dc7df2d11e86c27422b1d485dabdd0b0c66d6731357c4da5b8d4171eb88b24f"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_east_2",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/east/frame_002.png",
+      "raw_sha256": "75a586dd5e01eac238b5b9b168568de7705bd9acf048e9b8685bbcd96eeb6523",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "dcdaab0fae741c1b2eebf1c738f6ced87f64aacf4cc7d8473ee1d63981d271cf"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_east_3",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/east/frame_003.png",
+      "raw_sha256": "d4407c3e8ecf81ab89dcf4d74f292d4e349c8d7dff437feef95790ef96bff209",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "4de1bf998d4532e5116ce9f6f30356533aaa3ecbf364f5c29d642f5ebc252138"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_north_0",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/north/frame_000.png",
+      "raw_sha256": "ddf07a3b7749782bbda2554a01e6f6c17762a4beb4a52647f3015342c198f81d",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "505d6ac321e01e886c7524c2a9084d6020b9c42e1f45216c43f068ea43e994ec"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_north_1",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/north/frame_001.png",
+      "raw_sha256": "82b67f3e02f480f97af5306f95a2fed84ec61f65f032241849839995427aaf7c",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "66868d1bbe9aaec2dee9be695d09be93564344e891cdd83418a3ae7688785463"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_north_2",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/north/frame_002.png",
+      "raw_sha256": "051cf073d5a30a4250638ea6351ee97159622b5e1130c0f6032b182d32c4d9e1",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "7d55c7dda8fd4ac4f51a69f1d2b07768c81187a14550139e924358883139473a"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_north_3",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/north/frame_003.png",
+      "raw_sha256": "0d9b6cd451c60f528ae9442cfa99f871d91cd339bb2d3bcdbe9d8ee94644b146",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "4ad4cfb7066a57e3f834c0ddf2bd381fc4965a1f1fdc8f261a67a070bfc37ba5"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_south_0",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/south/frame_000.png",
+      "raw_sha256": "9d4b65425efc86ec3c056dee7e535c51aadb8652b653061739f2054834259410",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "129f1081d2115d0358bd2a0822c3530b07ccf8b0773bff65fe64522316222d1b"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_south_1",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/south/frame_001.png",
+      "raw_sha256": "d6484583cb1f4fabfa226e52efe89e6a49a7c255f0c7b6811b464efb0392a7e0",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "f5c758722e4dbfdf6336e68a2174b775d02ad4eae316f4122fd37a07f8e2f2b9"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_south_2",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/south/frame_002.png",
+      "raw_sha256": "c2735d8ec00f6f458303c345677d4f8ac400e86bdc77845b668378ffa3264f8c",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "b0fb39517abd628e0e719311d954e7807ad5e4bc5c0d1c80a821f8f4bde46a46"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_south_3",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/south/frame_003.png",
+      "raw_sha256": "51a6ac777f633b86f0f466bcc8324cd92c2bb94a5c405cda1ce524820045bc53",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "45cb69d7d938a4716509abbc79c4bc1029ab3a8b194d9a3fb44aa05d1a517630"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_west_0",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/west/frame_000.png",
+      "raw_sha256": "e777a93f07352e919344b31e93b6a17544f8b7159433e5b1fd6bbdbfa74ccb00",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "183e25b998d73015f6afad2c67dd99af1dbd0f885b4ea670e33e63b90e24f638"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_west_1",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/west/frame_001.png",
+      "raw_sha256": "d9fa85c037b3ce49b8bef93f7c93d7834be1a1051d3dd21a6b01fb84df9310fb",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "a40ed3fb574742b573d404004b1c9352dc2f1f43b5e83aefdbfa77f74f82e941"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_west_2",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/west/frame_002.png",
+      "raw_sha256": "672a6f2d682fcb51a3e9766465ad74d9539a7b648c11f45db264f080eec399c0",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "945c1c7158a5c49547c554cc97b372e842078fac7a52abe058645f30e4954d1e"
+    },
+    {
+      "key": "longtime/lt_reed_crane/idle_west_3",
+      "path": "assets/processed_longtime/lt_reed_crane/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_reed_crane/idle/west/frame_003.png",
+      "raw_sha256": "4587566b9deaf6c072c72192dd4189ef88e2c71a7412dfde72e2895c034cc4e5",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "bcb5afc94ff9ddce1be3951130d80a3f739927faebb62478fc5d16cfc09b54ae"
+    }
+  ]
+}

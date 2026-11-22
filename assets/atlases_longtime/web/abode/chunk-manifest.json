@@ -6,20 +6,22 @@
     "lt_ink_marten",
     "lt_kiln",
     "lt_kiln_keeper",
-    "lt_moon_gate"
+    "lt_moon_gate",
+    "lt_reed_crane",
+    "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 110,
+  "frame_count": 174,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 110,
+      "frames": 174,
       "height": 128,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "4bdded9bab61a3186ed9cada7440d1505781726b22b6cf0f9220810426835725",
-      "png_sha256": "10a4e89bca0b219b86d8034fae9d0b5071fd1ae2688cb955e81e82ee28664b68",
+      "json_sha256": "169ad7eee7368bdde6426aecf4665a0ec0b49c85315241534d97d89eca555354",
+      "png_sha256": "7734c4c0a44b1ae0aa666dd5f9d4608744753a9fe3842470b9d1b00aa2b1632b",
       "rgba8_bytes": 1048576,
       "width": 2048
     }

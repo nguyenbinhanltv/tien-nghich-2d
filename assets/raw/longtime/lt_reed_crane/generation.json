@@ -1,0 +1,68 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6a87b39c-19f8-4d7e-9eee-c9b39feb875e",
+  "character_job_id": "7b241e4c-5c8a-4d9b-a6ac-2bfd7f5988a1",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi crane, a slender grey-white wading bird standing upright on two thin dark legs, large round head with a long straight beak, short neck, body wrapped in two folded wings made of woven pale golden reeds laid flat against its sides like a reed cloak, a red crest patch on the crown. Calm eyes. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c9157f2f-ad22-4479-92dd-229e8ef9bd8f",
+      "job_ids": {
+        "south": "dc1392e4-679f-4330-baab-c289bdcb774c",
+        "west": "33fd8623-6f9b-4285-befb-f6e9445ffccd",
+        "north": "05faad8f-5d5f-4712-95de-55e2844855e3",
+        "east": "997b4de5-fffb-4d37-b537-7b2f554cfd05"
+      },
+      "action_description": "stands still breathing gently, the head bobs slightly and the beak dips a little; the woven golden reed wings stay folded against the sides",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently, head bobs slightly; the golden reed wings stay folded at its sides",
+        "west": "facing left, breathes gently, head bobs slightly, the long beak points left; the golden reed wing stays folded on its side",
+        "north": "seen from behind, breathes gently, head bobs slightly; the golden reed wings stay folded at its sides",
+        "east": "facing right, breathes gently, head bobs slightly, the long beak points right; the golden reed wing stays folded on its side"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "a2b7bfd3-8928-43fa-896d-ac6eaf1397c7",
+      "job_ids": {
+        "south": "937d0505-5580-4981-af88-80de035a28dd",
+        "west": "605b7f1c-cde0-45e7-9844-b625c40081b1",
+        "north": "b1c95d42-03ec-4fde-a112-d204dcacfc60",
+        "east": "62654f49-a2ca-4430-8f38-a010300a235f"
+      },
+      "action_description": "walks forward in a quick bobbing walk cycle on its two thin legs, the head nodding with each step; the woven golden reed wings stay folded against the sides",
+      "direction_prompts": {
+        "south": "walks toward the viewer with short quick steps, head nodding, compact and narrow; the golden reed wings stay folded at its sides",
+        "west": "walks to the left with short quick steps, head nodding, the long beak points left; the golden reed wing stays folded on its side",
+        "north": "walks away from the viewer, seen from behind, short quick steps, compact and narrow; the golden reed wings stay folded",
+        "east": "walks to the right with short quick steps, head nodding, the long beak points right; the golden reed wing stays folded on its side"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each (idle in two calls because only 2-3 job slots were free)",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "idle east frames 3-4 show a stray dark/pale speck beside the beak (reads as a spit droplet)",
+    "follow west/east leg poses are thin at 1x",
+    "the wings read as a golden torso in north view rather than folded wings"
+  ]
+}

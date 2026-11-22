@@ -26,10 +26,17 @@ def load(name):
 blc = load("build_longtime_characters")
 ql = load("qa_longtime")
 
-IDS = {"lt_kiln_keeper": ("npc", {"idle", "interact"}), "lt_ink_marten": ("pet", {"idle", "follow"})}
-DIRECTIONS = {"south", "west", "north", "east"}
 RAW = ROOT / "assets/raw/longtime"
 PROCESSED = ROOT / "assets/processed_longtime"
+_MANIFEST = json.loads((ROOT / "assets/manifest_longtime.json").read_text(encoding="utf-8"))
+_PROFILE = {a["id"]: a["profile"] for a in _MANIFEST["assets"]}
+# every PixelLab Longtime character: discovered from raw/<id>/generation.json, so new ones need no edit here
+IDS = {}
+for _gen in sorted(RAW.glob("*/generation.json")):
+    if "pixellab_character_id" in json.loads(_gen.read_text(encoding="utf-8")):
+        _prof = _PROFILE[_gen.parent.name]
+        IDS[_gen.parent.name] = (_prof, set(_MANIFEST["profiles"][_prof]["clips"]))
+DIRECTIONS = {"south", "west", "north", "east"}
 
 
 def sha(path):

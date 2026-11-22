@@ -6,27 +6,29 @@
     "lt_ink_marten",
     "lt_kiln",
     "lt_kiln_keeper",
-    "lt_moon_gate"
+    "lt_moon_gate",
+    "lt_reed_crane",
+    "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 110,
+  "frame_count": 174,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 110,
-      "height": 256,
+      "frames": 174,
+      "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "937a9e02aab625e457926b9674ee75058edb30e26ddd05a418506c57db4c6e68",
-      "png_sha256": "4f110dde3020d3b6e35ccc1d0c4b0772b41389c2b03e206fc8ae40c7777907ec",
-      "rgba8_bytes": 1048576,
+      "json_sha256": "7c5fd57be9a1f50b1edda1421539732c68631f4f69a43d6407928cfc4bdff1c7",
+      "png_sha256": "ed2d460ac844450dbb31adf44d79059432fc065338ba67ee5bafc22afd60e3ca",
+      "rgba8_bytes": 2097152,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 1048576,
-  "rgba8_mib": 1.0,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

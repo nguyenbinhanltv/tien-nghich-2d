@@ -131,7 +131,8 @@ test('staging never lands in a shipped directory, and what packing staged assets
   await assert.rejects(stageAndProve({root: REPO, pack, index, set: chunkSet, chunk: 'nope', base}), e => e.code === 'unknown_chunk');
   await assert.rejects(stageAndProve({root: REPO, pack, index, set: chunkSet, chunk: '../x', base}), e => e.code === 'unknown_chunk');
   const w = await whatIf(REPO, pack, index, chunkSet, 'abode');
-  assert.equal(w.frames.before, 110);
+  const shippedAbode = JSON.parse(await fs.readFile(path.join(REPO, 'assets/atlases_longtime/web/abode/chunk-manifest.json'), 'utf8'));
+  assert.equal(w.frames.before, shippedAbode.frame_count);
   assert.equal(w.profiles.mobile.before.pages, 1);
   assert.deepEqual(w.staged, []);
 });
