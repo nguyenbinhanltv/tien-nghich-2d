@@ -114,5 +114,14 @@
   "hud.canvas": "HUD bar at {fill} percent",
   "hud.clip": "{fill}% fill shows {cw} of {w} px",
   "import.open": "Import a spritesheet…",
+  "tiles.title": "Tile animation and collision",
+  "tiles.none": "No tile of this asset has an animation or a collision shape. Set them with studio_metadata_set (tiles).",
+  "tiles.animation": "Tile {n}: animation {steps}",
+  "tiles.step": "{n} for {ms} ms",
+  "tiles.shapes": "Tile {n}: collision {shapes}",
+  "tiles.rect": "rectangle {x},{y} {w}×{h}",
+  "tiles.ellipse": "ellipse {x},{y} {w}×{h}",
+  "tiles.point": "point {x},{y}",
+  "tiles.polygon": "polygon of {count} points",
   "timeline.open": "Timeline and drawing tools…"
 }

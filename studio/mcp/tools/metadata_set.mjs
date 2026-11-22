@@ -9,6 +9,7 @@ function fieldChanges(before, after) {
   const field = (name, a, b) => { if (!same(a, b)) out.push({ field: name, from: a ?? null, to: b ?? null }); };
   field('pivot', before?.pivot, after.pivot);
   field('hitbox', before?.hitbox, after.hitbox);
+  for (const sheet of new Set([...Object.keys(before?.tiles ?? {}), ...Object.keys(after.tiles ?? {})])) for (const n of new Set([...Object.keys(before?.tiles?.[sheet] ?? {}), ...Object.keys(after.tiles?.[sheet] ?? {})])) field(`tiles.${sheet}.${n}`, before?.tiles?.[sheet]?.[n], after.tiles?.[sheet]?.[n]);
   for (const clip of new Set([...Object.keys(before?.clips ?? {}), ...Object.keys(after.clips ?? {})])) {
     for (const k of new Set([...Object.keys(before?.clips?.[clip] ?? {}), ...Object.keys(after.clips?.[clip] ?? {})])) field(`clips.${clip}.${k}`, before?.clips?.[clip]?.[k], after.clips?.[clip]?.[k]);
   }
@@ -19,9 +20,9 @@ export default {
   name: 'studio_metadata_set',
   title: 'Set pivot, hitbox, frame durations and events',
   description:
-    'Set authoring metadata for a Longtime asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame) and named events on frames of a clip. ' +
+    'Set authoring metadata for a Longtime asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame), named events on frames of a clip, and for a tileset tile animations and collision shapes. ' +
     'Fields you do not mention keep their value; null clears one. Stored beside the asset\'s raw frames. ' +
-    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames. ' +
+    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames, except `tiles`, which only describes tiles and may be set on a shipped tileset. ' +
     'dryRun returns each field that would change (from, to) and writes nothing.',
   scope: 'author',
   inputSchema: {
@@ -49,6 +50,11 @@ export default {
           },
           additionalProperties: false,
         },
+      },
+      tiles: {
+        type: 'object',
+        description: 'Tile animation and collision shapes of a TILESET asset: {<sheet clip>: {<tile number>: {animation: [{n, ms}], shapes: [{kind: rect|ellipse|point|polygon, x, y, w, h | points: [[x, y]], name?, properties?: {snake_case: string|number|boolean}}]}}}. Pixels in tile coordinates from the top-left. Fields you leave out of a tile keep their value; null clears the animation, the shapes, a tile or a sheet. They are exported to Tiled (.tsj) and LDtk.',
+        additionalProperties: { type: ['object', 'null'], additionalProperties: { type: ['object', 'null'] } },
       },
       etag: { type: 'string', maxLength: 64, description: 'metadata.etag from studio_asset_get; required when metadata already exists.' },
       dryRun: dryRunProp,

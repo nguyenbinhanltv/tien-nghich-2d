@@ -8,6 +8,7 @@ import { decodeRgba } from '../png.mjs';
 import { shippedPages, setDir } from '../atlas-sets.mjs';
 import { stagingFor } from '../atlas-proof.mjs';
 import { describeAtlas } from './describe.mjs';
+import { attachTileData } from './tiledata.mjs';
 import { formats, formatOf } from './index.mjs';
 
 /** The neutral description of the shipped pages of a set (and chunk) at a profile. */
@@ -15,7 +16,9 @@ export async function describeShipped(root, pack, index, set, profile, chunk) {
   const {pages} = await shippedPages(root, pack, set, profile, chunk);
   if (!pages.length) throw problem(409, 'no_pages', `Set ${set.id}${chunk ? ` chunk ${chunk}` : ''} has no shipped ${profile} pages to export.`);
   const config = pack.ui?.tabs?.atlas?.export ?? {};
-  return {desc: describeAtlas(index, pages, {name: chunk ?? set.id, tilesetCategories: config.tilesetCategories ?? []}), pages, config};
+  const desc = describeAtlas(index, pages, {name: chunk ?? set.id, tilesetCategories: config.tilesetCategories ?? []});
+  await attachTileData(desc, index, root);
+  return {desc, pages, config};
 }
 
 /**

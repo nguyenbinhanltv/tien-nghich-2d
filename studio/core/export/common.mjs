@@ -3,7 +3,8 @@
 //   {schema: 'studio.atlas-description', version: 1, name, pages: [{index, name, image, width, height, source}],
 //    frames: [{key, page, x, y, w, h, asset|null, category|null, clip|null, direction|null, n|null, pivotPx: [x, y] | null, durationMs: number | null}],
 //    clips: [{id, asset, clip, direction, loop: boolean | null, frames: [key…]}]   // in play order, one per asset, clip and direction
-//    tilesets: [{asset, sheet, tileSize: [w, h], tiles: [{id, key}]}]}
+//    tilesets: [{asset, sheet, tileSize: [w, h], tiles: [{id, key, n, animation?: [{tileId, ms}], shapes?: [shape]}], dropped?: [string]}]}
+//    (a tile's `animation` and `shapes` come from the asset's metadata, tiledata.mjs; shapes are in tile pixels)
 //
 // and exports {id, label, build(desc, options) -> {files: [{name, data}], copies: [{page, name}], notes: [string]}}: `name` is relative to the output
 // directory, `copies` are page images to place beside the metadata (under the format's own folder).
