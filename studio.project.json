@@ -208,6 +208,9 @@
        "label": {"en": "Evening Bell", "vi": "Chuông Chiều"}, "note": {"en": "Courtyard bell trial", "vi": "Thử chuông ở sân"}}
     ]
   },
+  "policy": {
+    "stop": {"maxFixRounds": 3, "noProgressRounds": 2}
+  },
   "figures": {
     "humanoid": {
       "description": "Upright characters with a head, a torso and two legs: the shipped players, and humanoid mobs and NPCs. Head share is head height over figure height; every length of the guide is a fraction of the figure height.",

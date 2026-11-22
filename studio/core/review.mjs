@@ -59,7 +59,7 @@ export async function snapshotOf(ws, f, revision) {
  * a status), refuses frames that fail the gates, and, when policy says so, requires a passing check
  * from a session other than the author's against exactly the current pixels.
  */
-export async function requestReview({ws, asset, select, note, questions = [], caller, policy, qa, independentCheck}) {
+export async function requestReview({ws, asset, select, note, questions = [], caller, policy, qa, independentCheck, staleCheck = [], evidence = null, escalation = null}) {
   const store = await ws.store(), db = await ws.db();
   if (typeof note !== 'string' || !note.trim() || note.length > 1200) invalid('note must be 1 to 1200 characters');
   if (!Array.isArray(questions) || questions.length > 8 || questions.some(q => typeof q !== 'string' || !q.trim() || q.length > 300)) invalid('questions: up to 8 strings of at most 300 characters');
@@ -75,22 +75,24 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
   }
   if (!targets.length) throw problem(409, 'already_approved', 'Every selected frame is already approved by a human; a request cannot change that. Submit a new revision to ask again.');
 
-  if (!qa.pass) throw problem(409, 'gates_failed', `${qa.summary.errors} gate error(s) on the current frames; fix them (studio_qa_run lists each) before asking a human.`);
-  if (policy.requireIndependentCheck && !independentCheck) {
-    throw problem(409, 'independent_check_required', 'A human is asked only after a different session than the author has run studio_qa_run (record=true, independent=true) on exactly the current frames and it passed. Have another session do that, then ask again.');
+  // An escalation (the stop policy has ended the work) is a request for help: it needs neither a passing check nor a fresh independent check.
+  if (!escalation && !qa.pass) throw problem(409, 'gates_failed', `${qa.summary.errors} gate error(s) on the current frames; fix them (studio_qa_run lists each) before asking a human.`);
+  if (!escalation && policy.requireIndependentCheck && !independentCheck) {
+    throw problem(409, 'independent_check_required', 'A human is asked only after a different session than the author has run studio_qa_run (record=true, independent=true) on exactly the current frames and it passed. Have another session do that, then ask again.' + (staleCheck.length ? ` An independent check exists but it is stale and proves nothing now: ${staleCheck.map(x => `${x.what}: ${x.why}`).join('; ')}.` : ''));
   }
 
   const request = 'rq-' + randomBytes(4).toString('hex');
-  const body = `${agentTag(caller)} REVIEW REQUEST ${request}: ${note.trim()}` + (questions.length ? '\nQuestions:\n' + questions.map((q, i) => `${i + 1}. ${q.trim()}`).join('\n') : '');
+  const body = `${agentTag(caller)} ${escalation ? `ESCALATION ${request} (${escalation})` : 'REVIEW REQUEST ' + request}: ${note.trim()}` + (questions.length ? '\nQuestions:\n' + questions.map((q, i) => `${i + 1}. ${q.trim()}`).join('\n') : '');
   const text = clip(body, MAX_COMMENT);
   const asked = [];
   for (const {f, snap} of targets) {
     const baseline = await readInside(ws.root, f.rel);
     store.operate(bareFrame(f.key), baseline, 'review', {revision: snap.revision, text}); // text only: never a status
-    db.addEvent({request, key: f.key, rev: snap.revision, kind: 'request', agent: caller.agent, session: caller.session, text: clip(note.trim(), 1200)});
+    db.addEvent({request, key: f.key, rev: snap.revision, kind: 'request', agent: caller.agent, session: caller.session, text: clip(note.trim(), 1200), evidence: evidence ? {...evidence, ...(escalation ? {escalation} : {})} : null});
     asked.push({key: f.key, revision: snap.revision, status: snap.status});
   }
-  return {request, asked: asked.length, frames: asked.length <= 12 ? asked : undefined, sampleFrames: asked.length > 12 ? asked.slice(0, 3) : undefined,
+  db.recordCycle({asset: asset.id, kind: escalation ? 'escalation' : 'request', session: caller.session, note: clip(note.trim(), 300)});   // a new count of fix rounds starts here
+  return {request, ...(escalation ? {escalation} : {}), asked: asked.length, frames: asked.length <= 12 ? asked : undefined, sampleFrames: asked.length > 12 ? asked.slice(0, 3) : undefined,
     alreadyDecided, status: 'status is unchanged: only a human decides',
     independentCheck: independentCheck ? {agent: independentCheck.agent, session: independentCheck.session.slice(0, 8), at: independentCheck.ts} : null};
 }

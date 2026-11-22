@@ -6,6 +6,8 @@ import { ToolError } from '../registry.mjs';
 import { LISTENING, analyzeRender, glance, insideProtected, renderChecked } from '../workflow/audio.mjs';
 import { shown } from '../workflow/forge.mjs';
 import { loadAsset } from './_shared.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 export default {
   name: 'studio_audio_render',
@@ -31,7 +33,8 @@ export default {
   },
   annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
   async handler(args, ctx) {
-    const { ws, asset } = await loadAsset(ctx, args.cueId);
+    const { ws, snap, asset } = await loadAsset(ctx, args.cueId);
+    if (args.keep) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     if (!asset.audio) throw new ToolError(`${asset.id} is not an audio cue. Audio cues come from studio_catalog_search source=audio.`);
     const { doc, kind, render, deterministic, protectedDirs } = await renderChecked(ws.root, args.document);
     const analysis = analyzeRender(render, 800, doc);
@@ -54,6 +57,10 @@ export default {
         spectrogram: { width: analysis.images.spectrogram.width, height: analysis.images.spectrogram.height, axes: analysis.images.spectrogram.axes } },
       scratch: shown(ws, scratch), listening: LISTENING,
     };
+    out.qa = envelope({ method: 'rendered the document twice in memory and measured the result', 
+      checks: [check('deterministic', { ok: deterministic, measured: deterministic, threshold: true }), check('clipping', { ok: (analysis.measurements.peak?.clippedSamples ?? 0) === 0, measured: analysis.measurements.peak?.clippedSamples ?? 0, threshold: 0 })],
+      notProven: [{ what: 'how it sounds', why: 'no agent listens; a human signs listening in the Review tab' }],
+      inputs: { document: docSha, wav: wavSha } });
     if (!deterministic) out.warning = 'Two renders of the same document gave different bytes: it cannot be kept.';
     if (args.keep) {
       if (!deterministic) throw new ToolError('Two renders of the same document gave different bytes, so it cannot be kept as a candidate.');

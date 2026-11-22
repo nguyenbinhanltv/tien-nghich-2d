@@ -434,6 +434,20 @@
         }
       }
     },
+    "policy": {
+      "description": "Rules the studio enforces on agents, with the numbers kept in the pack. Optional; absent means no limit.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stop": {
+          "description": "Stop policy: at most maxFixRounds fix rounds per asset per review request; noProgressRounds rounds in a row without measurable progress ends the work and asks the human.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxFixRounds", "noProgressRounds"],
+          "properties": {"maxFixRounds": {"type": "integer", "minimum": 1, "maximum": 20}, "noProgressRounds": {"type": "integer", "minimum": 1, "maximum": 20}}
+        }
+      }
+    },
     "figures": {
       "description": "Readability guides for characters at native size: what the sheet template shows the artist and what studio_process checks. Keyed by a guide name; each lists the manifest profiles it applies to. Optional.",
       "type": "object",
