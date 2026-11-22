@@ -1,0 +1,265 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (96x96 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, no style anchor) then animate_character in template mode per clip (1 credit per direction at 96 px; frames come back at the native 96x96 canvas, nothing is scaled). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "8ccf5e02-e862-41f1-ad59-56e12c2fc126",
+  "character_job_id": "e81ed3f7-c268-40ad-a906-23a34ac15d9d",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Imposing xianxia trial adjudicator boss, chibi proportions with a large head, tall pale-grey judge robe with a dark violet sash, black hair under a flat judge's hat, stern face. In his LEFT hand he carries a huge ROUND MIRROR SHIELD of polished silver with a bright cyan glass face and a gold rim, held out in front of his body as large as his torso. His right hand is empty. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+      "job_ids": {
+        "south": "33bfa68e-37a6-4bfe-b247-3ca9a916111f",
+        "west": "83a1e26b-289e-4487-8ecf-81d4157dcac4",
+        "north": "68a37a6c-5c15-4b2d-9e9f-4996786a8030",
+        "east": "47278c15-104c-42c3-8bd5-020b74d3be9a"
+      },
+      "south_replacement": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_name": "idle_retry",
+        "animation_group_id": "d5a74dfc-7b01-4713-a9d4-35af9b4f85f7",
+        "job_id": "f95eb139-27e3-4026-9281-20ad26428310",
+        "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+        "action_description": "stands still and breathes gently, chest rising and falling; the huge round cyan mirror shield with gold rim stays held in front of his left side, clearly visible and unchanged in every frame",
+        "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "f95eb139-27e3-4026-9281-20ad26428310",
+          "animation_group_id": "d5a74dfc-7b01-4713-a9d4-35af9b4f85f7",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "83a1e26b-289e-4487-8ecf-81d4157dcac4",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "68a37a6c-5c15-4b2d-9e9f-4996786a8030",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "47278c15-104c-42c3-8bd5-020b74d3be9a",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        }
+      }
+    },
+    "advance": {
+      "mode": "template",
+      "template_animation_id": "walking-4-frames",
+      "frame_count": 4,
+      "animation_group_id": "b10f9ee5-355a-4de7-910e-b92a90b5120b",
+      "job_ids": {
+        "south": "56bedaff-b604-484e-b39e-0e5000320469",
+        "west": "b519fe5d-9244-43d0-a968-5e418da3700a",
+        "north": "fb2b2c9f-bd15-45b4-927f-7c43b08dda0c",
+        "east": "76bf2b6e-88e5-48da-9042-46bdb3ec4b42"
+      },
+      "south_replacement": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_name": "advance_retry",
+        "animation_group_id": "b9c7c9eb-f76b-4b3a-910b-bb29d6287e21",
+        "job_id": "a098b1b4-ba03-4b00-b98d-f4899922f9f9",
+        "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+        "action_description": "walks slowly forward toward the viewer in a steady judge's stride; the huge round cyan mirror shield with gold rim stays held in front of his left side, clearly visible and unchanged in every frame",
+        "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "advance_retry2",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "job_ids": {
+            "west": "335ff439-2bb7-45b1-9ee8-1c888fd6c0da",
+            "east": "c384a4f2-393f-44be-a6c9-0e3841af1c52",
+            "north": "9fb5a897-cadd-4517-a5b9-efdc30c91b8e"
+          },
+          "action_description": "walks slowly forward in a steady judge's stride; he always holds the huge round cyan mirror shield with gold rim out in front of his left side, the round shield is clearly visible and the same size in every single frame",
+          "canvas": "104x104 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+          "shipped": [
+            "west",
+            "east"
+          ],
+          "rejected": [
+            "north: old template north kept, the new north hid the shield"
+          ]
+        }
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a098b1b4-ba03-4b00-b98d-f4899922f9f9",
+          "animation_group_id": "b9c7c9eb-f76b-4b3a-910b-bb29d6287e21",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "335ff439-2bb7-45b1-9ee8-1c888fd6c0da",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "source": "touch_up advance_retry2"
+        },
+        "north": {
+          "job_id": "fb2b2c9f-bd15-45b4-927f-7c43b08dda0c",
+          "animation_group_id": "b10f9ee5-355a-4de7-910e-b92a90b5120b",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "c384a4f2-393f-44be-a6c9-0e3841af1c52",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "source": "touch_up advance_retry2"
+        }
+      }
+    },
+    "telegraph": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "c1776438-6886-4fc6-9821-a73156d1191a",
+      "job_ids": {
+        "south": "358ee6d6-301d-488b-a5ec-df1057428f75",
+        "west": "bbdf5063-19e4-40a7-8d52-c69a747ccf58",
+        "north": "f366e446-0182-4286-bd5a-990d8fc22c2d",
+        "east": "73ad3fe0-415c-49ea-9ce2-e9ce3216969a"
+      },
+      "kept_frames": "template frames 0-3 of 6 (manifest wants 4)",
+      "south_replacement": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_name": "telegraph_retry",
+        "animation_group_id": "937403ce-1a7c-4803-862f-193ffe8a4cde",
+        "job_id": "f3ab6b6a-f136-4315-8819-899e2574df0f",
+        "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+        "action_description": "raises the huge round cyan mirror shield with gold rim in his left hand and turns it slowly from facing the viewer toward edge-on, as a warning before a verdict strike; the shield stays visible in every frame",
+        "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "telegraph_retry2",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "job_ids": {
+            "west": "b19a130b-fde3-48a9-9109-99c1e7532286",
+            "east": "802fdefe-0987-4a42-a585-4d56c6de45d9",
+            "north": "e46da70d-d2dd-4098-a35a-8d7e19a93902"
+          },
+          "action_description": "raises the huge round cyan mirror shield with gold rim in his left hand and slowly turns it toward edge-on as a warning before a verdict strike; the round mirror shield is held and clearly visible in every single frame",
+          "canvas": "104x104 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
+          "shipped": [
+            "west",
+            "east",
+            "north"
+          ],
+          "rejected": []
+        }
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "f3ab6b6a-f136-4315-8819-899e2574df0f",
+          "animation_group_id": "937403ce-1a7c-4803-862f-193ffe8a4cde",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "b19a130b-fde3-48a9-9109-99c1e7532286",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        },
+        "north": {
+          "job_id": "e46da70d-d2dd-4098-a35a-8d7e19a93902",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        },
+        "east": {
+          "job_id": "802fdefe-0987-4a42-a585-4d56c6de45d9",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        }
+      }
+    },
+    "strike": {
+      "mode": "template",
+      "template_animation_id": "cross-punch",
+      "frame_count": 6,
+      "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+      "job_ids": {
+        "south": "a26604ed-994d-4b66-98cb-80ea9e9b2720",
+        "west": "7c73b584-4c77-41ce-8767-cc18f7dc9463",
+        "north": "edc37d8d-c2cc-48c4-8284-1959f4bf7889",
+        "east": "f30a6e07-73d2-4aa4-9264-5b6f2373b21e"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a26604ed-994d-4b66-98cb-80ea9e9b2720",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "7c73b584-4c77-41ce-8767-cc18f7dc9463",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "edc37d8d-c2cc-48c4-8284-1959f4bf7889",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "f30a6e07-73d2-4aa4-9264-5b6f2373b21e",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation (96x96, 7 credits) plus idle, advance, telegraph, strike as template clips, 4 directions each (16 credits); no regeneration",
+      "credits": 23,
+      "result": "accepted for integration with flags: see known_flaws; needs a human decision"
+    },
+    {
+      "n": 2,
+      "what": "south direction only of idle, advance and telegraph regenerated as palette-locked v3 with an explicit mirror-shield prompt (the one allowed regeneration per clip-direction)",
+      "credits": 3,
+      "result": "accepted: mirror present in every frame, and in telegraph it rotates edge-on as the brief asks"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator, spare generations): advance west/east/north and telegraph west/east/north regenerated once as palette-locked v3 with a prompt insisting the round mirror shield is held and visible in every frame (6 credits)",
+      "credits": 6,
+      "result": "shipped: advance west and east, telegraph west, east and north (shield now present in every frame, edge-on turn visible). Kept the old advance north (the new one hid the shield)."
+    }
+  ],
+  "credits_spent": {
+    "character": 7,
+    "idle": 4,
+    "advance": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "south_retries": 3,
+    "total_generations": 32,
+    "touch_up": 6
+  },
+  "known_flaws": [
+    "advance east: the shield is a thin edge in frames 0-1 and a full cyan disc in frames 2-3 (reads as turning, not missing)",
+    "advance north, strike north, idle north and idle east show the dark back of the shield, which is geometrically right but loses the cyan mark"
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

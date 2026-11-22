@@ -1,0 +1,1197 @@
+{
+  "id": "lt_ashen_crown",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Broken ash-colored crown",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "afe37fdb-d73e-4551-be1e-35da74c35390",
+  "character_job_id": "6916f9f9-3eda-4564-a409-c34618abb744",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black hair, pale skin, calm face. On his head stands a tall BROKEN CROWN of pale ash-grey metal that rises clearly ABOVE the hair: three tall jagged points, the right-hand point snapped off to a short stump, ash-white with dark cracks, a bright and unmistakable silhouette from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+      "job_ids": {
+        "south": "0b74177f-7955-4d98-8b2d-5ce259a25838",
+        "west": "f05a7bdb-ffd0-4939-a1ae-9e96d31e0863",
+        "north": "611bc2b7-7cde-4326-ac55-053b75eb3879",
+        "east": "9ec0d6dd-1a97-4bf1-8f49-4be56f79c41a"
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "idle_retry",
+          "animation_group_id": "b5ecd2a6-89bc-4c56-81aa-5e927d260d4d",
+          "job_ids": {
+            "south": "1461738d-8687-4d78-97d7-e9d3d82ef8a4"
+          },
+          "action_description": "stands still and breathes gently; he wears a plain LIGHT GREY robe with pale skin, the tall broken ash-grey crown stays on his head; the robe is bright light grey, not dark, in every frame",
+          "shipped": [],
+          "rejected": [
+            "south: robe no lighter (the dark tone comes from the character's rotation views, which v3 animates from) and the crown tip is taller; original kept"
+          ]
+        }
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "0b74177f-7955-4d98-8b2d-5ce259a25838",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "f05a7bdb-ffd0-4939-a1ae-9e96d31e0863",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "611bc2b7-7cde-4326-ac55-053b75eb3879",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "9ec0d6dd-1a97-4bf1-8f49-4be56f79c41a",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        }
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+      "job_ids": {
+        "south": "a7d2275a-c411-47d8-a95c-ba6091b52110",
+        "west": "dc8fc223-8620-44bd-b4cc-c6222fe9e56e",
+        "north": "0445f5d1-9b5a-403a-895b-0bf88636a46f",
+        "east": "5e1a6116-f468-4f13-99f3-0b4e6651cd01"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a7d2275a-c411-47d8-a95c-ba6091b52110",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "dc8fc223-8620-44bd-b4cc-c6222fe9e56e",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "0445f5d1-9b5a-403a-895b-0bf88636a46f",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "5e1a6116-f468-4f13-99f3-0b4e6651cd01",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        }
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+      "job_ids": {
+        "south": "879a730e-16f7-4d84-a51c-73c017790a42",
+        "west": "b91bd0ce-63bb-4a41-8eb7-5785cbb54fb3",
+        "north": "1e10f471-9a4a-43e4-b354-6462d0a35ea0",
+        "east": "eed1fd91-5d59-4cc2-928b-2714ea266818"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "879a730e-16f7-4d84-a51c-73c017790a42",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "b91bd0ce-63bb-4a41-8eb7-5785cbb54fb3",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "1e10f471-9a4a-43e4-b354-6462d0a35ea0",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "eed1fd91-5d59-4cc2-928b-2714ea266818",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        }
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+      "job_ids": {
+        "south": "d32388bf-4346-4a4a-8811-d99b7c5cc4b2",
+        "west": "9b48812e-d95b-46d6-a3f6-d0d9dc7aff27",
+        "north": "1d076b66-632c-49cf-b489-06de10e8b633",
+        "east": "6cca6424-1a27-453a-8f24-17f5ddad6f23"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (the manifest wants 2 frames); the other four are not shipped",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "d32388bf-4346-4a4a-8811-d99b7c5cc4b2",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "9b48812e-d95b-46d6-a3f6-d0d9dc7aff27",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "1d076b66-632c-49cf-b489-06de10e8b633",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "6cca6424-1a27-453a-8f24-17f5ddad6f23",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character (id f0adaa73-79c2-4c96-9c1f-2098451794a8, prompt: 'Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A BROKEN ASH-GREY CROWN sits on his head: a pale grey circlet with a clearly jagged gap, one half missing, ash-white with a few dark cracks, easy to see from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.') plus idle, walk, cast, hurt in 4 directions",
+      "credits": 22,
+      "result": "rejected after viewing the contact sheet: the crown read as a plain grey headband at 1x, so the four forms would not be told apart. Raw not shipped. This is the one allowed character regeneration."
+    },
+    {
+      "n": 2,
+      "what": "second character (the shipped one) with a taller jagged crown rising above the hair, then the same four clips in 4 directions, no per-clip regeneration",
+      "credits": 22,
+      "result": "accepted for integration"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): idle south regenerated once as v3 with the robe pinned to light grey (1 credit), as an experiment before spending on more crown clips",
+      "credits": 1,
+      "result": "rejected, no lighter; no further crown clips regenerated. The darker, greyer look needs a new character (not within the touch-up budget)."
+    },
+    {
+      "n": 4,
+      "what": "second touch-up round: one character regeneration, character id e71aba51-06aa-458f-b43a-2518a3e258c9, job 3946e59c-5a4b-4686-b3df-3609f6dfcb6e (6 credits, 8 rotations only, not animated). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, black topknot hair, pale skin, calm face. A tall BROKEN CROWN of pale ash-grey metal sits on his head in front of the black topknot: three jagged points rising clearly above the hair, the right-hand point snapped off to a short stump, ash-white with dark cracks, unmistakable from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.' 32x32, seed 7, 40-colour palette, style_image = lt_river_oath south rotation with the sash ignored",
+      "credits": 6,
+      "result": "rejected at rotation level, never animated: the robe and face match the other forms, but the crown, the form's defining mark, shrinks to a pale band that is barely visible against the black hair in north and west, and the robe is a long flared gown unlike the other forms. Not clearly better at 1x, so the original (attempt 2) ships and the remaining 16 credits for clips were not spent."
+    },
+    {
+      "n": 5,
+      "what": "third touch-up round, character attempt A (6 credits, rotations only, never animated): character id 87fd1dec-8736-4a4b-88ad-80ac56b2e931, job 6bbdbc01-b7a7-404b-b1f2-c25435e9d395, seed 11, 32x32, view low top-down, 40-colour palette, style_image = lt_river_oath south rotation (usage: copy face, black topknot hair, chibi proportions, line weight, shading and light grey robe; ignore the sash). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, black topknot hair, pale skin, calm face, same hero as the reference. On his head sits a LARGE BROKEN CROWN, jagged and ash-black with one bright orange ember crack glowing across it, clearly taller than the hairline: three tall spiky points rising well above the head, the right-hand point snapped off to a short stump, with a thick pale ash-grey rim at its base so it stands out from the black hair. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.'",
+      "credits": 6,
+      "result": "rejected at rotation level: large readable ember crown and light robe, but cluttered: ragged hair, ember noise, and the crown band covers the eyes in the south view. Not clearly better than the shipped art."
+    },
+    {
+      "n": 6,
+      "what": "third touch-up round, character attempt B (6 credits for the character; rotations only at this point, animated later in attempt n=7): character id 437f5423-fa41-4939-b14b-bb74ea9c91fc, job 6f8451e4-ec43-416c-9f0c-1ac1dd580c15, seed 23, 32x32, view low top-down, 40-colour palette, style_image = lt_river_oath south rotation (usage: copy face, black topknot hair, chibi proportions, line weight, shading and light grey robe; ignore the sash). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, neat black topknot hair, pale skin, calm face with clearly visible eyes, same hero as the reference. A clean, simple BROKEN CROWN sits on top of his head above the hairline: a dark ash-black circlet with three tall jagged points, the right point snapped short, a thin pale grey rim, and one small bright orange ember crack. The crown is clearly taller than the hairline and sits above the forehead, not over the eyes. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.'",
+      "credits": 6,
+      "result": "not shipped: clean, face and light robe match lt_ink_veil / lt_river_oath / lt_star_vessel, but the crown is dark on dark hair and reads as a faint mark at 1x, weaker than the shipped crown. Neither attempt was clearly better, so the shipped art (attempt 2) stays and the 16 credits for clips were not spent at this point. Character B was later animated as the unshipped owner candidate (attempt n=7)."
+    },
+    {
+      "n": 7,
+      "what": "owner candidate: attempt B (437f5423, n=6) animated with the full player clip set, 16 credits, no retries (idle, walk, cast, hurt x 4 directions, template clips)",
+      "credits": 16,
+      "result": "NOT shipped, by instruction: kept as an unshipped owner candidate under assets/candidates/lt_ashen_crown_b/ (same clips, own contact sheets and a side-by-side with the shipped art). The shipped art, manifest, processed frames and atlases are unchanged."
+    }
+  ],
+  "credits_spent": {
+    "rejected_attempt_1": 22,
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 79,
+    "balance_before": 804.26,
+    "touch_up": 35
+  },
+  "known_flaws": [
+    "darker and greyer than the other three forms (dark robe, long black hair): needs a human decision; prompt-only retries do not change it"
+  ],
+  "rejected_character_regenerations": [
+    {
+      "pixellab_character_id": "e71aba51-06aa-458f-b43a-2518a3e258c9",
+      "character_job_id": "3946e59c-5a4b-4686-b3df-3609f6dfcb6e",
+      "shipped": false
+    },
+    {
+      "pixellab_character_id": "87fd1dec-8736-4a4b-88ad-80ac56b2e931",
+      "character_job_id": "6bbdbc01-b7a7-404b-b1f2-c25435e9d395",
+      "shipped": false
+    },
+    {
+      "pixellab_character_id": "437f5423-fa41-4939-b14b-bb74ea9c91fc",
+      "character_job_id": "6f8451e4-ec43-416c-9f0c-1ac1dd580c15",
+      "shipped": false,
+      "note": "animated as the unshipped owner candidate, see unshipped_owner_candidate / assets/candidates/lt_ashen_crown_b/"
+    }
+  ],
+  "unshipped_owner_candidate": {
+    "pixellab_character_id": "437f5423-fa41-4939-b14b-bb74ea9c91fc",
+    "stored_at": "assets/candidates/lt_ashen_crown_b/",
+    "record": "assets/candidates/lt_ashen_crown_b/generation.json",
+    "animations": {
+      "idle": {
+        "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+        "job_ids": {
+          "south": "0256c324-a611-400a-b11f-910d8c385803",
+          "west": "1621e968-0abf-43db-a7e8-44dc5d47c8af",
+          "north": "70d925ed-afeb-41d0-b3a4-501d4eea8028",
+          "east": "8620af43-8267-4987-aac0-cdc411b2ce20"
+        }
+      },
+      "walk": {
+        "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+        "job_ids": {
+          "south": "b60738b4-b870-48cf-bc44-9889f6d5a8bb",
+          "west": "a8bfe244-b9b0-4c0b-b967-e9ac21f31013",
+          "north": "0bf722e0-6de8-4c9a-be9f-dcd08ebf0d06",
+          "east": "5d39cd9a-f025-481b-9b47-200fe3d8e751"
+        }
+      },
+      "cast": {
+        "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+        "job_ids": {
+          "south": "f16824df-a4a3-43ce-938c-e0e55df1339b",
+          "west": "3cee1c55-efa9-438a-99d9-e2874e9c9a37",
+          "north": "4047f06f-b556-4b40-ba8c-1a6259514195",
+          "east": "00630bec-4dd3-4df5-975f-cb0f11c4d6e4"
+        }
+      },
+      "hurt": {
+        "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+        "job_ids": {
+          "south": "de24135b-c05b-4cf8-b31d-cfa56bf6b449",
+          "west": "97708c99-73e9-46b8-8a55-f714be994db5",
+          "north": "4dce505f-5b34-4e1f-8bae-15dd359fff3d",
+          "east": "790eedbd-69c1-47c6-b6ee-ec8c3ef724e0"
+        }
+      }
+    },
+    "credits_for_clips": 16,
+    "shipped": false
+  },
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2889,
+      "outline_thinned": 97,
+      "quantized": 3804,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "4c305b33d1c40a897b4b87c091b30fea430bf7e1f9531b1f2ed57fe603faf672",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ashen_crown/contact_1x.png": "dc8be594681d533b81a6f38da330fccff271f5f164b049406ac92c6f7c11bbea",
+    "assets/raw/longtime/lt_ashen_crown/contact_4x.png": "eb109190918d1bdcdf81fc12aaa7d82d15f84507968e484e121ccfcf90f27190"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_000.png",
+      "raw_sha256": "436213efba7b1dd62f793e9cf937965eecc079ea38eefe8f42ab62f0fc6465bd",
+      "source_xy": [
+        0,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "23dcb9987acca7a275e9aaee0f197e88f89ab0001badc90051341caf8cee0c45"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_001.png",
+      "raw_sha256": "0ae03abbe3a978dd01c925b3f198e6889099d550ac7bc9d42b98eeb099a80d42",
+      "source_xy": [
+        32,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "f592913b0c1103ee9fe401442950229cc73d18f095ffb16b3fd19a888888a73a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_002.png",
+      "raw_sha256": "226efbe62abe137c5d87aca67a11d201a134333eaeba64fc9f768b4eaf058cb8",
+      "source_xy": [
+        64,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "70530cc693c0e11770f95e73fe1436a72860744852109b6e2483d2ba768197e5"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_003.png",
+      "raw_sha256": "ac8a9067d7f1e63a318672b0cfb03edf6cb4916d5a0458fd3955a0af1e729730",
+      "source_xy": [
+        96,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "22e7a6a5872eb6f4c20bfc3417ebd6d0437377528117439d41289cc78fcb0b41"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_004.png",
+      "raw_sha256": "85d71ba17019c089e7fce87305b4a008c72c3d6be6a71380f6d3c4883ed23f54",
+      "source_xy": [
+        128,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "09f1908149e5d62d3a8d5091a7120eb4e5f900a9601aeab44e1c5a00aa4b3077"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_east_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/east/frame_005.png",
+      "raw_sha256": "01eb5b6b538a483ec5e8416a5e8516b99b8609b740b4725d2f49cc62797aef3a",
+      "source_xy": [
+        160,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "f981dfefb9a3f69b339e10d580e6f11f9663d66586bbf9e3da752926ceb8633a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_000.png",
+      "raw_sha256": "f3dbe3c4bc79984b2084081670e02d2cc2446b3ee26777dca28fb67585a5573a",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "fec33322714d957d00475eea0d05b472573a5c5fc3987f61b96aeedcada20492"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_001.png",
+      "raw_sha256": "ba6603388d92be7b040c30388f41da5ce4d09cde4434cef057b267d120c32d38",
+      "source_xy": [
+        32,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "823170320268527c132e89eaacf0413bd87f7e919ec018023e70e1485b7b34b2"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_002.png",
+      "raw_sha256": "979377fbcc7d5fed9e2f5c7c2ed7390b5ea743bbd8b6aacaed6e5e79ea5127f5",
+      "source_xy": [
+        64,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "e14e2d899f8bbfc3784078d7090842888b444a606ffb17d0212904ebcff73fae"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_003.png",
+      "raw_sha256": "787ab4d3b07dc3a4d6b735afd3a6898b3853fa4f7841d860d19e80e6c3ef930e",
+      "source_xy": [
+        96,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "0c477ad71f763e7b35e0def926a8b150268f07a425264e4d42160310f1d3fc3e"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_004.png",
+      "raw_sha256": "79188ab85a02c6ce7424493029b627594196f3fd424e716c886b128a8c7d14a9",
+      "source_xy": [
+        128,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "ea89b686aeadbaf2ab7df60cd863990bf35006c47d815359ce18adc6288ad00a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_north_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/north/frame_005.png",
+      "raw_sha256": "fef7379409c3509710cac0798e7155a74250126905fd9ab183f31c479fdaa456",
+      "source_xy": [
+        160,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "6f0aa209b2360a23f03bf05123a614bfdbf15392323ceffc7e6895ce8d741d9b"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_000.png",
+      "raw_sha256": "09e310fa77f6c66ae51a14b88ed8d1d9c1ba54ab48dbcda11df5c0f8a12f3bfe",
+      "source_xy": [
+        0,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "d7292cdf379cab456934657546064662a3093736bd324cfe527e2bc77e40b901"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_001.png",
+      "raw_sha256": "0c24273946b749b17943fc32574bd67b9270f89e4339cb51a91a0d85d1fa6d34",
+      "source_xy": [
+        32,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "349edb935c1ab9dbebebe4297c70e3737d2e7c8898668f1541dda9a49db6f53a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_002.png",
+      "raw_sha256": "05fe0de2280d0289f6d5989cea231f904b334f1815e6c0000c1dfd98a9ebdf7d",
+      "source_xy": [
+        64,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "8f7497a4efcdffff85e4386d6e159649264544c6db5fa90493b932314fe0a8aa"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_003.png",
+      "raw_sha256": "4d700b03185af41ae51bc6c6c91676a1e7f248e0ce54038311a62269a31b28e8",
+      "source_xy": [
+        96,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "83ed0df2e2f5af1a1fb3c4be593bf0a61005418c16652744dca085ae4b088711"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_004.png",
+      "raw_sha256": "7950e8d215fc41ea0ba06bc1f77a79555488480667a47fda79c7929d21bac3ee",
+      "source_xy": [
+        128,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "44401cd03d2801d10e3b91a59f801e5897f0c82ce9c33d366218fceae954f713"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_south_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/south/frame_005.png",
+      "raw_sha256": "c546fc7dedb54f93484d4eae3369207ffd69a4a5a3914b5b308f496ba2eaf321",
+      "source_xy": [
+        160,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "3b555541c989c34e6d3c5b9d37aa1b99162bb313a3187f851bb0c515249247bf"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_000.png",
+      "raw_sha256": "1fb7a69afcdb0014c57a26ed6bc09831eef91c0218f2adf3d20c8c543748fc62",
+      "source_xy": [
+        0,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "4de149ad3729fc3a90cc8d27aa1851475b997d675278a90f0289c6671217289b"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_001.png",
+      "raw_sha256": "8f9280ff3ac380e0688b6ea01f4eb706421c2f09630dda1ac5c38ce01133c507",
+      "source_xy": [
+        32,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "2c0dd0eb31b5317d363fc497ffd2b0d76754dbcecf22a2373a542ab8af84504c"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_002.png",
+      "raw_sha256": "f2d337ca76b855bfdd579def91fc744dd0411b4f4409676ba36f75ffe53461c2",
+      "source_xy": [
+        64,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "a73343e7ea00db0a9f4ce5c3441cb2a33b214aa413651be5887d2e645fca0210"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_003.png",
+      "raw_sha256": "edd3c32c47a13d17140262007e329fb2ebae41f095b59f92d027958914f3c034",
+      "source_xy": [
+        96,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "cf406b3860448377518b8ca1eb8cd7efdd00456def5afa73ffea00a265f733ae"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_004.png",
+      "raw_sha256": "beaa159d327a1fe9b221efb655a4f978cdcf20759467e621da628df8e06e5b5a",
+      "source_xy": [
+        128,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "31699affddc1955510ecf225cbfd94643638664575d5e0511e946a2c16c89c4f"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/cast_west_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/cast_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/cast/west/frame_005.png",
+      "raw_sha256": "f002d6eaf9c682abc97c4a30804d26d3904623c403cba5a13d6ed352aa0ab34c",
+      "source_xy": [
+        160,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "51da3ae97f3f6c9672b9440ebb783f85d1ae4b4910a0aa51ed6c5b06a97b7ba4"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_east_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/east/frame_000.png",
+      "raw_sha256": "83269bac8588a2810f8efbf96db2317d1a40cacbd705d7f9c46f091c48aa361b",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "b58473441f6e1a83d5eff34ed975c40f71c4fd805ee0f17a5942ffbbc3a4a6cd"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_east_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/east/frame_001.png",
+      "raw_sha256": "b8cd6e31bcc03831a6f6e82f208f47443f1968e387a6e5029334793514798137",
+      "source_xy": [
+        32,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "7a68efb9a1299cd4a7f47fd727d70e0dd75af7c84ca179bde8af0fa9a3071cdf"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_north_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/north/frame_000.png",
+      "raw_sha256": "cdaa8fb89a8716cf865ae2fd2f3f46da3e6e2331e46146f199f84e3149ae29f6",
+      "source_xy": [
+        0,
+        448
+      ],
+      "duration_ms": 130,
+      "sha256": "25ef97864db3c9e51e7799c5af5bf91a24fdc25e1a2f8dd097e7d33aa75b8327"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_north_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/north/frame_001.png",
+      "raw_sha256": "28d6955eccae686bab4c814b8c9447958e6518c6cd83a7998cb26aa6cc413284",
+      "source_xy": [
+        32,
+        448
+      ],
+      "duration_ms": 130,
+      "sha256": "89f8bab38ca91e29ab87bb5e40ab63edda91c476c9f873a61829134b1c016154"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_south_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/south/frame_000.png",
+      "raw_sha256": "e4204b34aae586a470bd52d4cad009e5e3066d7f9accd3fe6aa0c68abe0301bb",
+      "source_xy": [
+        0,
+        384
+      ],
+      "duration_ms": 130,
+      "sha256": "1cf6f2987a5681e07c58b75340fa2485a8d6c79c65290364fc734feb27530a99"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_south_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/south/frame_001.png",
+      "raw_sha256": "4ff4a9b2b7e6930ed2598a1d0b3fd8b56f55b5d795de81e3a707d36775c9a0f9",
+      "source_xy": [
+        32,
+        384
+      ],
+      "duration_ms": 130,
+      "sha256": "127c9dd1316884a861696221eab0518cf94c9145eaef094c4b129e1bb3778470"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_west_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/west/frame_000.png",
+      "raw_sha256": "5e983b9600e6012452cf186fe4a2d6b05b08674990f2ed131863efe2e787a99c",
+      "source_xy": [
+        0,
+        416
+      ],
+      "duration_ms": 130,
+      "sha256": "2853baf939f2d6b8a4136ad7119e36bfa2820cae372aadfc821004f0f99be9f4"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/hurt_west_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/hurt_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/hurt/west/frame_001.png",
+      "raw_sha256": "864680c7fe9cb77e3e2705ec0952fe70467d85fe36b2968054abdabfc79d17e6",
+      "source_xy": [
+        32,
+        416
+      ],
+      "duration_ms": 130,
+      "sha256": "101a1369ae1c3ea4c6189b405422cc71d2a879f29cdfba4276ba83e958093fb1"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_east_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/east/frame_000.png",
+      "raw_sha256": "0aab282e6680343761ceaa7469d4f92e0482639e28d45535a0742d51515ff012",
+      "source_xy": [
+        0,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "aa40811ecd70ad736097e50088437e652e3df26358319ac57c6d938ea17f009f"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_east_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/east/frame_001.png",
+      "raw_sha256": "764365b61fbf3b8b8a231cf5a9f7d792dceda935c7409ddeaf83356600994b12",
+      "source_xy": [
+        32,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "6506dce478695712cd8d0ca71076e4fa8330653677e8f68f4df6c5e85cdc85c6"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_east_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/east/frame_002.png",
+      "raw_sha256": "47cb0005f7b0f4a5363f437d47e059057ac50b4c35ded7e55d9cf979f12611ae",
+      "source_xy": [
+        64,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "03eb02bcbbedb653ef5c72e28059cae90baa232cc9ccd833e3ecc729b91d55e8"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_east_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/east/frame_003.png",
+      "raw_sha256": "c4b35f828d46d86d5b75a5b16d30941a88976d83a13481ed7b4d03fe0867a715",
+      "source_xy": [
+        96,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "b4ca9294fac24c73b6ac499d6fb11cc1cacfd65b3cb4cc24afd8a6e34fa44436"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_north_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/north/frame_000.png",
+      "raw_sha256": "33b5efb3669405ed6957c9d64c409ef07a48bb4e1301ea15d46e447320cd4689",
+      "source_xy": [
+        0,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "727aa83fcf5796e438725af589600fa0e5cf4cbbceedee38d16df372996dd71c"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_north_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/north/frame_001.png",
+      "raw_sha256": "4497268f2a942860fc7ce839f936269285a9443906ea95086322354eaa3ab34c",
+      "source_xy": [
+        32,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "ecdf5d9194a1cbb257b0c6fa1a36636c8de1231a478b2459364e88c1a7bd3264"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_north_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/north/frame_002.png",
+      "raw_sha256": "75f168e27588dcac982987d5cdeaf426e4c035f77e3da639eaebb9a37d57400d",
+      "source_xy": [
+        64,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "2130cc277052d55c7828a35728c149360e782eca416d6f8c53fb08dc0ae97b3a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_north_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/north/frame_003.png",
+      "raw_sha256": "8591acc374ea9beb85caaf17063ece4245f63212a279acdd49ed304156a84dea",
+      "source_xy": [
+        96,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "b9a2800355897367e3f5b92e1113dcff0476294e4030242018160d6dbe7dd28d"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_south_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/south/frame_000.png",
+      "raw_sha256": "b2ccabc88bd9ae1ad3cfd599f8c6c263c6490a950b3315ebbb83f366bc96146b",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "2cc8254191d9d0c6a5ef6c4b8485522afbeeceabec918cc0b82553bb17cf037a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_south_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/south/frame_001.png",
+      "raw_sha256": "c8436c966265e9c7fd5398309278d374e6f04efe89bed9f4ab9d67eda9f80bca",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "fe11297607d0c73e5b6ebd421244b503eb1528d7f063481a94252b61775b804d"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_south_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/south/frame_002.png",
+      "raw_sha256": "ac168f8e7d6640846ec6beb9413486fdca9b50ace0afb5a34c51a53ad5ed05a4",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "8963c04aed9fa028d123e651a76465ebf0bb2be3426e8220bd84df3583a07252"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_south_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/south/frame_003.png",
+      "raw_sha256": "849eced6eec31de0f0e56cabe5528fe5544d26efd7cf6978eccd1d1e1ce8247b",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "e2c4ddb2cacfce7e27e625d38605502bea08edba635d9a756f374c3d1ec71fe4"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_west_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/west/frame_000.png",
+      "raw_sha256": "5554d1c5c2cbeeba990151659c31a4786d679a963598435d6cfa54ed44e7ec91",
+      "source_xy": [
+        0,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "a949e81a92883cd154858c2beca86455892fc6326651ca1325d3ac6c160ba8e7"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_west_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/west/frame_001.png",
+      "raw_sha256": "2b8469b423fecb4a07e3a5ed850cbde5e9b06e7f64f87587aebd752d4c3bce9a",
+      "source_xy": [
+        32,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "2bc7c914f5b72aa5467c63dc7aae3a7b71f12b7148b6e716700a716b4d197fa0"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_west_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/west/frame_002.png",
+      "raw_sha256": "32eb52332d73605f01e8bef479ae8c5bcc83c3b3127020cb28f464f5a7a7d6c9",
+      "source_xy": [
+        64,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "37e7757e7ab9e16eff7de9fa5cc60ef1d3044b75bafb714bfb8f2ee0c262c2ee"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/idle_west_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/idle/west/frame_003.png",
+      "raw_sha256": "b0fb6f4ce87c56d8c08029a9215be486077f9415cbd0cbc565194365d69307f7",
+      "source_xy": [
+        96,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "5c4a0309aa8d77a9a1caa6ba41c980ac6d639990abccb4889277b025912d472c"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_000.png",
+      "raw_sha256": "41943f6381cb09965be010fe350a0f09b4e959db06dfd9d0cecd654793a11e07",
+      "source_xy": [
+        0,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "5fd98447fd798d7b8a09de3fd1becfeeaf4d525fc49ff848773d464fc538e072"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_001.png",
+      "raw_sha256": "3f55f67963b5d06640ed1d642b911589d7390417cb897a7f51344cfe391e47fe",
+      "source_xy": [
+        32,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "bf61e3601f18f89a2049e339343d9a0bcfa3612a0a19a3cc68215d8272ebe7fe"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_002.png",
+      "raw_sha256": "b7d231df0a708899e951d474bdbf6c2d1092becc718e88d3a349e13ac0e5642d",
+      "source_xy": [
+        64,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "739306e9f4aef49cf345f6163cfe4bafd2d9321606d66b27be976e4e19b10e08"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_003.png",
+      "raw_sha256": "b0d081460b901bf629da537b07d8b14be6a61cc38789abcef47069389d9d072b",
+      "source_xy": [
+        96,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "51a0316dbb9b69a9d93c52b3f5794f80a04488efe3dd32e8fd927914102d3500"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_004.png",
+      "raw_sha256": "fdc3e661a9fc17146087ced5bd6021286c9df96c8cde1e1ddfcc369b3e811f4a",
+      "source_xy": [
+        128,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "76866a812f247ebcdfad6b86776cfb1b4823c1cb6473042e016ae91e3a0c4c9f"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_east_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/east/frame_005.png",
+      "raw_sha256": "ac90dbb9ab2e89e921cb6d20373b38a6a05f2cad9adeb617124a962ea78aefc7",
+      "source_xy": [
+        160,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "7a41823137bc9626fa07b5085c97fa22d6f3139ed90ccc5d3e1c53c054708d92"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_000.png",
+      "raw_sha256": "8bd202ed624569aea47b6c3f3462f58a51bf4d81effcd14fa3aa6bd3846c430e",
+      "source_xy": [
+        0,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "fb29b6db249c59931483f413dcb4fed8223540c6adfb89c473555e87a848c493"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_001.png",
+      "raw_sha256": "03b3b3bac20170bb02c27a598f13ab61b8e217e78f5e041462a8664c127642b4",
+      "source_xy": [
+        32,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "2203188a6397c12efa51ebb0c4fd40887633f144591eacabb72e4110719a5c95"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_002.png",
+      "raw_sha256": "33764352a4e5977c9a0e53f7daaf8550f22a6794be25201d3d6ce17ca72b4c6c",
+      "source_xy": [
+        64,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "3bc05ca0a13b7eff14e0d22ddad7bd991725d03adcd69bc01b64a47ad674897a"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_003.png",
+      "raw_sha256": "d44b76435ab9071a7c8305092d7a5a471ff8cbe3b34a9e9f01ef63315b9e3d83",
+      "source_xy": [
+        96,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "442ececb69405a0cb3cc10a1c4d424354c67e740a42f1cdccc5cf52a4877b850"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_004.png",
+      "raw_sha256": "144aa99faec9d6d40de7bc65370ee4e42791348f2e7a8da631d2b0e1c916c009",
+      "source_xy": [
+        128,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "db14e1e6126b622a45fe410a5fc944b957f7fc8dc91f3d4ae5c9fda828a7b816"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_north_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/north/frame_005.png",
+      "raw_sha256": "5c0033c166c67fb8458a0248d83c5a97f8d16f4dcc23a43205e61559e191b6f8",
+      "source_xy": [
+        160,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "c1cdd1b59fa0d86c6f8e66dca5f2fa366bd467c8c423db86596f94cdba638634"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_000.png",
+      "raw_sha256": "d12733f8b83a1cb870a96f239a411fbcc9d1f62929e4709f06d2381bd209f346",
+      "source_xy": [
+        0,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "776f3586597d9458b84f5de6edb7245a47698ae110c880dfcdd65e9e95520997"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_001.png",
+      "raw_sha256": "93b9f69b77e87864f449d8245fabf2721b6bc1cde3e4d36d896a62149c8131b1",
+      "source_xy": [
+        32,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "15181b1f0a72200b8b2fb5d7c36a98def368f03e07e122960ee739cfcafb28eb"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_002.png",
+      "raw_sha256": "6f271a6578324a5a2d90c905006fef78a35d3b42c78f1836b7bbc6bd36e13057",
+      "source_xy": [
+        64,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "ff4220549e9654bb509c499386b11f59bfbc2afed686a28f13853e4f67fe044e"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_003.png",
+      "raw_sha256": "7cb91cf14189376c8c69c09c5265ad7e163e25c0a2f826d3fb5c01894b00887b",
+      "source_xy": [
+        96,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "b0edbd77acd97a53e23a00665fe7feb1888008fff301397e80af025f8510db3c"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_004.png",
+      "raw_sha256": "aa4f0effc569d9ef6775930d3ed60ac031f147c518ae51cd88e0e24525311a62",
+      "source_xy": [
+        128,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "77dcc611460a5c7aa53d78700aeb99f760a7066de25451c1881229589265ec66"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_south_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/south/frame_005.png",
+      "raw_sha256": "814bbc8b7b8b29943dc183dfdcf89f9054eab6dc3eb800168f880d99735d70c6",
+      "source_xy": [
+        160,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "9953b8cdb3b4d784bc1398f01fe713d530fdd76dfc77cf98dcaac8a4fd186b05"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_0",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_000.png",
+      "raw_sha256": "079746bdc70688265ce1dd2d51bc243c7faf0aba4c4115f257afcdf5341159dd",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "bcfe3c917e3533b5ffa3c8d65ab5f93c29ab8599c5c41e13bb01a3b23f8a243e"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_1",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_001.png",
+      "raw_sha256": "afef705fde8033da1e1e948e3d68fe9313d51007b0bca938e59b85ce979e979e",
+      "source_xy": [
+        32,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "5d8f63bd988d69076bcfe9f8add8b71db2beb5a54c098c8a6b82261732904ef3"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_2",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_002.png",
+      "raw_sha256": "30793b5ad34a5105ae65e1a206f41720403d7a36105cf2bfb04774921da1d8ba",
+      "source_xy": [
+        64,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "b4f6b046c3893c375a820bf52a8dd91b137184fee2204319e3f2e917c1ee97c1"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_3",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_003.png",
+      "raw_sha256": "81e5bd8c94a67da77ea63e0c2690b79c926d33cb059c3228881f3e44b883d360",
+      "source_xy": [
+        96,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "633ca768fbe7dba8ea8b83c34d3aca605e7be6676b834dc04e425b4fd865ff8f"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_4",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_004.png",
+      "raw_sha256": "8122192c9f32df94f2d5801ef48c253b918f34628115349a5a10aef1eddc49d9",
+      "source_xy": [
+        128,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "1fd41bcf69cf55ea471b9505070a8363de52ac7015a2374f3663156451c4af80"
+    },
+    {
+      "key": "longtime/lt_ashen_crown/walk_west_5",
+      "path": "assets/processed_longtime/lt_ashen_crown/walk_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_ashen_crown/walk/west/frame_005.png",
+      "raw_sha256": "81df10c07c224d357c45d839865ea39885e76369dab92c93a0e2d1d00c8a42ec",
+      "source_xy": [
+        160,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "f9eaa554fc6ee8258b24f50a6b9ec43b7779bb7db16622bda139de5ca969ada1"
+    }
+  ]
+}
