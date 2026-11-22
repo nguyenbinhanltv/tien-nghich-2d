@@ -88,6 +88,7 @@ test('SHADING-004 no operation can introduce an off-palette colour or change the
     const out = applyPatch(img, [op], pal);
     for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) {
       assert.equal(alphaAt(out, x, y), alphaAt(img, x, y), `${op.op} keeps the silhouette`);
+      if (alphaAt(img, x, y) === 255 && pal.idOf(getRgb(img, x, y)) === 'ink') assert.equal(pal.idOf(getRgb(out, x, y)), 'ink', `${op.op} leaves the outline at ${x},${y}`);
       if (alphaAt(out, x, y) === 255) assert.ok(ids.has(pal.idOf(getRgb(out, x, y))), `${op.op} at ${x},${y} is a palette colour`);
     }
   }

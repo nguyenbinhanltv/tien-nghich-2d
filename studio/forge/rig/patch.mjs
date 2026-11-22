@@ -158,6 +158,8 @@ function applyShading(frame, op, palette) {
   const light = op.light ?? 'tl';
   const opaque = (x, y) => alphaAt(out, x, y) === 255;
   const idAt = (x, y) => palette.idOf(getRgb(out, x, y));
+  // The silhouette's outline is never repainted: pattern, gradient and dither skip outline-coloured pixels, as shade does.
+  const isInk = (x, y) => outlineId !== null && opaque(x, y) && idAt(x, y) === outlineId;
   // The lit and far edges are measured on the pixels that are actually there, not on the whole box.
   let tight = op.box;
   if (op.op === 'shade' || (op.op === 'gradient' && (op.over ?? 'opaque') === 'opaque')) {
@@ -174,13 +176,15 @@ function applyShading(frame, op, palette) {
       const next = shadeId(palette.colors, id, lightPosition(light, tight, x, y), {strength: op.strength ?? 1, outlineId});
       if (next !== id) paint(out, x, y, next, palette);
     } else if (op.op === 'dither') {
-      if (opaque(x, y) && idAt(x, y) === op.from && ditherAt(x, y, op.ratio, op.size ?? 4)) paint(out, x, y, op.to, palette);
+      if (opaque(x, y) && !isInk(x, y) && idAt(x, y) === op.from && ditherAt(x, y, op.ratio, op.size ?? 4)) paint(out, x, y, op.to, palette);
     } else if (op.op === 'pattern') {
       if ((op.over ?? 'opaque') === 'opaque' && !opaque(x, y)) continue;
+      if (isInk(x, y)) continue;
       const id = op.colors[patternAt(op.name, x - x0, y - y0)];
       if (id !== null && id !== undefined) paint(out, x, y, id, palette);
     } else {
       if ((op.over ?? 'opaque') === 'opaque' && !opaque(x, y)) continue;
+      if (isInk(x, y)) continue;
       // A position along the light picks a step; Bayer dithering mixes it with the next step so bands blend.
       const at = lightPosition(light, tight, x, y) * (ramp.length - 1);
       const lower = Math.floor(at), frac = at - lower;
