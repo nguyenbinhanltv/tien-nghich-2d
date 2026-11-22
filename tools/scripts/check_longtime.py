@@ -175,6 +175,11 @@ def validate(m):
     for (file, count, digest), (name, field, size) in zip(contracts, expected):
         require(file == name, "Unexpected base file")
         source = read(ROOT / name)
+        if name == "assets/manifest.json":
+            # The pinned digest predates the 2026-11-22 orange ramp (palette indices 41 to 43, appended after the
+            # original 40). Hash the manifest as it was: the first 40 palette ids; the three new ids are checked
+            # against palette.json by check_manifest.py.
+            source["palette"]["ids"] = source["palette"]["ids"][:40]
         normalized = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
         require(hashlib.sha256(normalized).hexdigest() == digest, "Base contract drift: " + name)
         ids = [a["id"] for a in source[field]]
@@ -183,7 +188,7 @@ def validate(m):
     defaults = m["defaults"]
     require(defaults["readiness"] == "planned" and defaults["provenance"].strip(), "Missing planned provenance")
     require(defaults["palette"] == "tools/generators/palette.json" and
-            len(read(ROOT / defaults["palette"])["colors"]) == 40, "Unexpected palette")
+            len(read(ROOT / defaults["palette"])["colors"]) == 43, "Unexpected palette")
     require((defaults["source"], defaults["processed"], defaults["export"], defaults["key"]) ==
             ("assets/raw/longtime/{id}/", "assets/processed_longtime/{id}/{clip}_{direction}_{n}.png",
              "assets/atlases_longtime/{platform}/{chunk_group}/", "longtime/{id}/{clip}_{direction}_{n}"),

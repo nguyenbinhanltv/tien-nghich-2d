@@ -17,7 +17,7 @@ export default {
   name: 'studio_qa_run',
   title: 'Run the QA gates on an asset',
   description:
-    'Check an asset\'s frames against the project rules: palette (40 colours), alpha (binary), silhouette outline, canvas size, frame count against the spec, and file naming. ' +
+    'Check an asset\'s frames against the project rules: palette (43 colours), alpha (binary), silhouette outline, canvas size, frame count against the spec, and file naming. ' +
     'Each frame\'s defects come back with x, y coordinates. By default it only reads. ' +
     'summary.rawStage is true when the frames checked are the raw (submitted) ones: expected frames that are not there yet are then warnings, not errors; it never means a check was skipped. ' +
     'Every result carries qa, the one QA envelope all tools share: status (fail, partial when nothing failed but something was NOT proven, pass), method, each check with its measured value and threshold, notProven (what was not checked and why) and the hashes of the inputs; read notProven before trusting a pass. ' +

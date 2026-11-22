@@ -48,7 +48,7 @@ export default {
   name: 'studio_process',
   title: 'Pixelise the imported sheet: native size, project palette, outline, ground line',
   description:
-    'Turn the imported sheet into native-size sprites: scale each figure to the profile, snap to the project palette (40 colours), rebuild the 1px outline, align the feet to the pivot. ' +
+    'Turn the imported sheet into native-size sprites: scale each figure to the profile, snap to the project palette (43 colours), rebuild the 1px outline, align the feet to the pivot. ' +
     'Raw is untouched. Returns a contact sheet of the sprites (look at it) with defects boxed, the fit per cell (scale and what limited it), and warnings. ' +
     'When the pack has a lineup group for this profile, it also measures the standing pose against the approved reference characters (height, head-to-body share, limb width, outline weight) and BLOCKS a build outside the pack\'s tolerance: the result is an error with the numbers and submit=true writes nothing; inside the tolerance but outside the typical band it is a warning (lineup in the result and the qa envelope). '+
     'It also checks the figure against the project\'s readability guide (pack figures, when one applies to this profile): warnings for limbs thinner than the minimum, a head far from the proportion range, and any accent colour you named in accents that drops below its minimum pixel count (warnings, never a refusal). ' +

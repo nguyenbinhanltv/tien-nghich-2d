@@ -72,7 +72,7 @@ test('prompt conventions: image roles by position, framing in percentages of the
   assert.match(t, /EAST: the NEAR limbs .* RIGHT arm and leg, the FAR limbs are its LEFT/);
   assert.match(t, /POSES: .* contact_a, passing_a, contact_b, passing_b/);
   assert.match(t, /PROPORTIONS: .*LARGE head/, 'combined with the pack proportions');
-  assert.match(t, /STYLE: .*40 palette colours.*Camera: mild 3\/4 top-down game camera\. Lighting: light from the upper left\./, 'style words come from the pack');
+  assert.match(t, /STYLE: .*43 palette colours.*Camera: mild 3\/4 top-down game camera\. Lighting: light from the upper left\./, 'style words come from the pack');
   assert.equal(facingLine('up'), null);
   assert.match(limbLine('south'), /both sides are equally near/);
   // The conventions are in the studio, but no project wording is: change the pack and the prompt follows.

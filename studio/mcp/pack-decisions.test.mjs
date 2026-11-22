@@ -99,7 +99,7 @@ test('MCP-014: a custom mob gets the humanoid guide by category and the result s
   assert.ok(tpl.motion.archetypes.biped.length > 0, 'template_get lists the archetype names a binding uses');
 }));
 
-test('MCP-017: each colour word in the brief gets its nearest palette colours; orange has no close one, red does; the palette is untouched', () => withProject(async (p) => {
+test('MCP-017: each colour word in the brief gets its nearest palette colours; orange now has a close one (orange_02), brown and red are judged too; the palette is untouched', () => withProject(async (p) => {
   const before = fs.readFileSync(join(p.root, 'studio.project.json'), 'utf8');
   const a = connect(openProject(p.root), { agent: 'codex' });
   await a.ok('studio_asset_plan', { op: 'create', id: 'lt_probe_courier', custom: CUSTOM, chunk: 'abode', brief: 'A courier with an ember-orange scarf, a brown satchel and a red cord.' });
@@ -107,13 +107,18 @@ test('MCP-017: each colour word in the brief gets its nearest palette colours; o
   const by = Object.fromEntries(tpl.accents.map((x) => [x.word, x]));
   assert.deepEqual(Object.keys(by), ['orange', 'brown', 'red']);
   assert.equal(by.orange.item, 'scarf');
-  assert.equal(by.orange.survives, false);
-  assert.ok(by.orange.nearest.length === 3 && by.orange.nearest[0].distance > 25, 'the nearest colour is far from orange');
-  assert.match(by.orange.advice, /No palette colour is close to "orange".*Prompt for the colour you want to see/);
+  assert.equal(by.orange.survives, true, 'the ember-orange ramp (orange_01 to 03) gives the scarf a colour that survives pixelisation');
+  assert.equal(by.orange.nearest[0].id, 'orange_02');
+  assert.ok(by.orange.nearest.length === 3 && by.orange.nearest[0].distance <= 25, 'the nearest colour is close to orange');
+  assert.match(by.orange.advice, /"orange" has a close palette colour: orange_02/);
   assert.equal(by.red.survives, true);
   assert.equal(by.red.nearest[0].id, 'thunder_05');
-  assert.match(text(await a.call('studio_template_get', { assetId: 'lt_probe_courier' })), /orange has NO close palette colour/);
+  assert.match(text(await a.call('studio_template_get', { assetId: 'lt_probe_courier' })), /orange -> orange_02/);
   assert.equal(fs.readFileSync(join(p.root, 'studio.project.json'), 'utf8'), before, 'the pack is not changed');
+  // a palette without an orange still gets the warning: the branch is kept covered with a small list
+  const noOrange = accentsInBrief('an orange scarf', [{ id: 'blood_05', hex: '#d03a4a' }, { id: 'bronze_05', hex: '#e0b030' }, { id: 'jade_04', hex: '#2fa27a' }]);
+  assert.equal(noOrange[0].survives, false);
+  assert.match(noOrange[0].advice, /No palette colour is close to "orange".*Prompt for the colour you want to see/);
   // pure function, no palette needed beyond the list
   assert.deepEqual(accentsInBrief('plain grey stone', [{ id: 'g', hex: '#808080' }]).map((x) => [x.word, x.survives]), [['grey', true]]);
   assert.deepEqual(accentsInBrief('no colour here', [{ id: 'g', hex: '#808080' }]), []);

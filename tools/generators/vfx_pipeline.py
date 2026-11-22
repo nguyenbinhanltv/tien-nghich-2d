@@ -80,7 +80,7 @@ def cmd_export(a):
 def cmd_verify(a):
     from PIL import Image
     pal = palette_set()
-    assert len(pal) == 40, len(pal)
+    assert len(pal) == 43, len(pal)
     bad = 0
     for jf in sorted(Path(a.dest).glob("*.json")):
         d = json.loads(jf.read_text(encoding="utf-8"))
