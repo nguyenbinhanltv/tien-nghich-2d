@@ -47,8 +47,9 @@ class EmberDeltaCharacters(unittest.TestCase):
             with self.subTest(aid=aid), tempfile.TemporaryDirectory() as tmp:
                 tmp = Path(tmp)
                 shutil.copytree(RAW / aid, tmp / "raw" / aid)
-                crop = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))["processing"].get("cropped_opaque_pixels", 0)
-                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out", allow_crop=crop)
+                proc = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))["processing"]
+                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out",
+                                        allow_crop=proc.get("cropped_opaque_pixels", 0), clean_feet="cleanup" in proc)
                 want = sorted(p.name for p in (PROCESSED / aid).glob("*.png"))
                 got = sorted(p.name for p in (tmp / "out" / aid).glob("*.png"))
                 self.assertEqual(got, want)
@@ -80,6 +81,22 @@ class EmberDeltaCharacters(unittest.TestCase):
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
                 self.assertIn("tien-nghich-2d-27", prov["operator"])
+
+    def test_group_ids_agree_with_shipped_jobs(self):
+        for aid, profile in IDS.items():
+            with self.subTest(aid=aid):
+                gen = json.loads((RAW / aid / "generation.json").read_text(encoding="utf-8"))
+                prof = MANIFEST["profiles"][profile]
+                for clip in prof["clips"]:
+                    clip_rec = gen["animations"][clip]
+                    self.assertNotIn("animation_group_id", clip_rec, f"{clip}: group ids are per direction")
+                    self.assertEqual(set(clip_rec["job_ids"]), set(prof["directions"]), clip)
+                    self.assertEqual(set(clip_rec["group_ids"]), set(prof["directions"]), clip)
+                    rejected = set(clip_rec.get("rejected_job_ids", {}).values())
+                    self.assertFalse(rejected & set(clip_rec["job_ids"].values()), f"{clip}: a rejected job is also listed as shipped")
+                    for d, job in clip_rec["job_ids"].items():
+                        self.assertRegex(job, r"^[0-9a-f-]{36}$")
+                        self.assertRegex(clip_rec["group_ids"][d], r"^[0-9a-f-]{36}$")
 
     def test_not_in_owner_approval_record(self):
         record = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))

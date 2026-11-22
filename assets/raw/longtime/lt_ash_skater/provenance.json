@@ -18,7 +18,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "e1281224-923c-4e10-acdf-b5fcfba97e45",
       "job_ids": {
         "south": "4f3e4774-a646-4d42-a3e5-470e581291a0",
         "west": "a40d6de6-76d5-409f-a715-24f002b037e6",
@@ -31,13 +30,18 @@
         "west": "facing left, sways slightly on the skate board, scarf fluttering to the right",
         "north": "seen from behind, sways slightly on the skate board, scarf fluttering",
         "east": "facing right, sways slightly on the skate board, scarf fluttering to the left"
+      },
+      "group_ids": {
+        "south": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "west": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "north": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "east": "e1281224-923c-4e10-acdf-b5fcfba97e45"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
       "job_ids": {
         "south": "99b35b56-7eec-4916-acc5-e0998fe15d04",
         "west": "620c015d-d273-4f7b-9449-bcc8936337e3",
@@ -50,6 +54,12 @@
         "west": "skates to the left on its board, leaning forward, scarf streaming to the right",
         "north": "skates away from the viewer, seen from behind, scarf streaming",
         "east": "skates to the right on its board, leaning forward, scarf streaming to the left"
+      },
+      "group_ids": {
+        "south": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "west": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "north": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "east": "6ac61f33-883e-4379-8fe5-3221f8b53d25"
       }
     },
     "telegraph": {
@@ -57,7 +67,6 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "4491aa6b-f804-4781-b81d-c5527556346c",
       "job_ids": {
         "south": "c75807e1-bb81-4f58-8855-31f5b98a12d0",
         "west": "a17521d9-02c9-439c-8d7d-481b21e5e34f",
@@ -70,13 +79,18 @@
         "west": "facing left, crouches and rears back, claws spread and raised, scarf flaring to the right",
         "north": "seen from behind, crouches and rears back, scarf flaring, arms raised",
         "east": "facing right, crouches and rears back, claws spread and raised, scarf flaring to the left"
+      },
+      "group_ids": {
+        "south": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "west": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "north": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "east": "4491aa6b-f804-4781-b81d-c5527556346c"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "4d744878-5842-4020-87c4-6d49cf3c7018",
       "job_ids": {
         "south": "ff188998-548f-4d7f-9dac-4b4277ad82ba",
         "west": "c78e5808-16c5-41e8-b959-a2c69446eaab",
@@ -89,6 +103,12 @@
         "west": "facing left, lunges left slashing both claws across, then returns",
         "north": "seen from behind, lunges away from the viewer slashing both claws, then returns",
         "east": "facing right, lunges right slashing both claws across, then returns"
+      },
+      "group_ids": {
+        "south": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "west": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "north": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "east": "4d744878-5842-4020-87c4-6d49cf3c7018"
       }
     }
   },
@@ -240,14 +260,18 @@
     "cropped_opaque_pixels": 0,
     "crop_limit": 0,
     "entry_point": "tools/scripts/build_longtime_ember_delta.py",
-    "entry_point_sha256": "d313607f5e8a024b78a57d059638dc75e68b1294db1fc21f231a37e0c88663d5",
+    "entry_point_sha256": "ecc6520feb3f141640ee8db66d38c6ffa05dd07f4dd9e2ed9c3808b6bc6f2ffd",
+    "cleanup": {
+      "rule": "after the 40-colour snap, clear opaque 8-connected groups of <= 3 px lying entirely in rows >= 22",
+      "removed_pixels": 49
+    },
     "builder_dependency": "tools/scripts/build_longtime_characters.py (script / script_sha256 above); it refuses any crop when run on its own, so this entry point is the one that reproduces these files"
   },
   "source": "source.png",
   "source_sha256": "7084f2e123b22334f8d401b17da6821ff4bfd53983c916451f24486d03fe592e",
   "contact_sheets": {
-    "assets/raw/longtime/lt_ash_skater/contact_1x.png": "b124249094606387e955489be84bd7893e1b5d7599d85bc88dfa0bafde3e8eb9",
-    "assets/raw/longtime/lt_ash_skater/contact_4x.png": "a71e59f645fd425276ec1f61a429fa995d34d88ce4ed7b196facd3147a79667e"
+    "assets/raw/longtime/lt_ash_skater/contact_1x.png": "e5b818da17677ebdd1bd74ab67eac8cc1a85870a07cf9ba9e5f9bd3edc9491ec",
+    "assets/raw/longtime/lt_ash_skater/contact_4x.png": "46dd1282316205a7d585455ae8d918b7001e6d9840f714d65b5b731e719e0299"
   },
   "frames": [
     {
@@ -296,7 +320,7 @@
         80
       ],
       "duration_ms": 160,
-      "sha256": "30503d01e21bdf771de146fef6e49190b60620882f956a708b7597cd02ed8f43"
+      "sha256": "146132a5a58dd4b0d756d9175686eaa1d9c4677d8f1f59f6591a12a0a8cf7d53"
     },
     {
       "key": "longtime/lt_ash_skater/idle_north_1",
@@ -308,7 +332,7 @@
         80
       ],
       "duration_ms": 160,
-      "sha256": "ec15346683aced0b3ad265c8ccc83a9c8bd05051136c80e47242427a06efc359"
+      "sha256": "9794055ba716e65df0abdc59aa5d3ff8fb006d04a3c2875838f5b73cbcca2d81"
     },
     {
       "key": "longtime/lt_ash_skater/idle_north_2",
@@ -332,7 +356,7 @@
         0
       ],
       "duration_ms": 160,
-      "sha256": "5ab0e6f54f219506fbacaaf877468f694ba75ddda1bc96adc44cc2e95d9e5885"
+      "sha256": "09dbe81ffb2738d97e148aee3fae1d459c93e8c9070ff5cc44b292bdb5fdf888"
     },
     {
       "key": "longtime/lt_ash_skater/idle_south_1",
@@ -368,7 +392,7 @@
         40
       ],
       "duration_ms": 160,
-      "sha256": "29bc67218cafb3fe76f327dd7dea56f5068515fca66705e9bc1a3aa5135a0bff"
+      "sha256": "4806998b44f3117ecbbd38b7fbaa12fd4d65c308a2a0346c934ab92a15149728"
     },
     {
       "key": "longtime/lt_ash_skater/idle_west_1",
@@ -380,7 +404,7 @@
         40
       ],
       "duration_ms": 160,
-      "sha256": "885523905166544bdb90624f972be98b9945b35cef1abf5fd1eb601eb1b0c204"
+      "sha256": "3a4858ba5969cde881302b61475a775c7d7ca581b253ff90d4715826a56c8414"
     },
     {
       "key": "longtime/lt_ash_skater/idle_west_2",
@@ -392,7 +416,7 @@
         40
       ],
       "duration_ms": 160,
-      "sha256": "2e68c22bd98a25f1b0bb17ad3035999454fa47889e6a22b993b4adb4fc9a731f"
+      "sha256": "989fb98d1474cba230c00a22e5ca39c0a44bd6b9d9871f1ad4bea076a9646e35"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_0",
@@ -404,7 +428,7 @@
         600
       ],
       "duration_ms": 90,
-      "sha256": "28bc037e398f7edc8e43dc138588022ed7833f6ccd66b9d2a21d7db9e876c7d4"
+      "sha256": "9318057d174f8629a830c920b8662f6ca525ada8051d8212b8ced3f5fb2c728d"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_1",
@@ -416,7 +440,7 @@
         600
       ],
       "duration_ms": 90,
-      "sha256": "45de15ae7d16b67faffa4cf79d32cab860aedbd85b89c98efd1662638b9c043e"
+      "sha256": "e1a0cdfa462a24e0dd16c9b266a4395256318b918750b93116b7680b04676034"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_2",
@@ -440,7 +464,7 @@
         600
       ],
       "duration_ms": 90,
-      "sha256": "87d2d0cd6e8a16e8c17a6c2196ff25a4abc41280e0d11c2107ca79f13a158349"
+      "sha256": "6a720560092e7ac37d6a0f3d7eb47803fcbea14b5c3dde87077c8eec8e84951c"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_0",
@@ -452,7 +476,7 @@
         560
       ],
       "duration_ms": 90,
-      "sha256": "a7b05c1d4c9326d10b124cdc980ce759edb94a259c15625bf230ed6105bdd0c4"
+      "sha256": "5ec16097b4bf97988cb4b98e768d968f9928fc9e9d7c59a54ce8ca53f5e648b7"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_1",
@@ -548,7 +572,7 @@
         520
       ],
       "duration_ms": 90,
-      "sha256": "3ed91d09d2da54e89f8512a4921bad1543c286b42b09d35396744e726e06f500"
+      "sha256": "3bedc77c5336030b2812e1ab6fca3ff69fb957bb10347ca0f96854f823bce8ff"
     },
     {
       "key": "longtime/lt_ash_skater/strike_west_1",
@@ -608,7 +632,7 @@
         440
       ],
       "duration_ms": 160,
-      "sha256": "b4544b9b423619a964ab803f03ad7b3db41e1cfe781d29912dc77d6e9cec52c1"
+      "sha256": "0f2471e897a8386bd57e6981698b32b1c3c4f781db109a269f0875329ca13787"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_east_2",
@@ -644,7 +668,7 @@
         400
       ],
       "duration_ms": 160,
-      "sha256": "ced838ef8cf6ca87eb502c5aab5b22cfecfd80fea05ce02acfc7b885ff7353b6"
+      "sha256": "8df9b54505bf03315dd87b747dae54e1f60c27c716e093ca50a8510e31891734"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_north_2",
@@ -656,7 +680,7 @@
         400
       ],
       "duration_ms": 160,
-      "sha256": "9bab692a63c6940c2b2a1445b1c8bbe17c50b53d68b6b7c80a2bba3a28c883a0"
+      "sha256": "ed4e4a2bcd5706b45d18b68ce0f53f36dea4c4c7817869d70ec4c4c499064f8a"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_south_0",
@@ -668,7 +692,7 @@
         320
       ],
       "duration_ms": 160,
-      "sha256": "fcad232a2abd8a2b53883a9ba66b468d41b7c93beaf2eb868c284d1bb5e77022"
+      "sha256": "4a20d4d3785574574139fd5c075201d677c14aef4c2c876c74625b9a6e25c1d0"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_south_1",
@@ -692,7 +716,7 @@
         320
       ],
       "duration_ms": 160,
-      "sha256": "5fe78242507b7b734384eba2f2d517a9a34d6fe9ca486cfef158712d4b7299a7"
+      "sha256": "d802dd1d24c0681a1390f3858aedf7b985d05cec1739c8e698489152410f2b73"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_0",
@@ -704,7 +728,7 @@
         360
       ],
       "duration_ms": 160,
-      "sha256": "11bf9b2a385df8821b7b12f72c37ef49ad02bd02244a669f52dcf8522ba6e1bc"
+      "sha256": "e0ef78716493442d6f91792ed2da8eb325c0f6734d5f7ccf7a20d854c04eba66"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_1",
@@ -716,7 +740,7 @@
         360
       ],
       "duration_ms": 160,
-      "sha256": "1d44831d19a665e838beddd37c4c5bee1ffef9e0a5bde40bdd9353b4bdc888a5"
+      "sha256": "87d27986692fd55b4d329929ba395a0d14561685d096903e22d5b44866880de0"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_2",
@@ -776,7 +800,7 @@
         280
       ],
       "duration_ms": 120,
-      "sha256": "816dba9a07781b63ae58d4161271334ae504a7162f6d74bf4b56f1367b5a105e"
+      "sha256": "e45d57ac2c6d64b6df2b3023288c46b4fdc21ad6bf4ea01bc914c38a4d04de2c"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_0",
@@ -788,7 +812,7 @@
         240
       ],
       "duration_ms": 120,
-      "sha256": "9e1cf8540eb62d0d9703d409ff1e6e2d33c1e39b448ca57e0f0343f934eaa595"
+      "sha256": "d3fe97d529c9e07471ce124dcd68fad1a6c67aab4736f6b81032d1e21bd21bb3"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_1",
@@ -836,7 +860,7 @@
         160
       ],
       "duration_ms": 120,
-      "sha256": "f3ea384aecae5723cf8e2958edad99552fb4800ea613730bba958d9c14c62ea0"
+      "sha256": "aeff6f3436e98e601f36d9422803d0c42b2a1557b495907d8c6afeb0f5551fdd"
     },
     {
       "key": "longtime/lt_ash_skater/walk_south_1",
@@ -896,7 +920,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "4df70e4df38552a4cd2d92726954be3cd7c84b5a900f39e3e02d989222a46f20"
+      "sha256": "b3ce82d6ad8ef0c6e29d357caa3c7cc5e8d53231f650d6df39e0fb743ef2a3e6"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_2",
@@ -908,7 +932,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "00bd8374fbcd68bba32c3da56b640cc30c3122a6e38d2033c6c1be1ca5ec080e"
+      "sha256": "86aafbdcb7c960e81696cbbc67dc448da1c38a83760273025ff12c7ecd58abce"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_3",
@@ -920,7 +944,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "b49fbc462b6ef74538bf25e339f9b9306a7c009741163d58e923134b6f4ef981"
+      "sha256": "eb0c5ed10a81763ed9d63a935523100429a64b2262e021fe0282cc9d2ef3e377"
     }
   ],
   "review": {

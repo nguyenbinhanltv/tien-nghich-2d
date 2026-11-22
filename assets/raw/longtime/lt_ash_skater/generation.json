@@ -14,7 +14,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "e1281224-923c-4e10-acdf-b5fcfba97e45",
       "job_ids": {
         "south": "4f3e4774-a646-4d42-a3e5-470e581291a0",
         "west": "a40d6de6-76d5-409f-a715-24f002b037e6",
@@ -27,13 +26,18 @@
         "west": "facing left, sways slightly on the skate board, scarf fluttering to the right",
         "north": "seen from behind, sways slightly on the skate board, scarf fluttering",
         "east": "facing right, sways slightly on the skate board, scarf fluttering to the left"
+      },
+      "group_ids": {
+        "south": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "west": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "north": "e1281224-923c-4e10-acdf-b5fcfba97e45",
+        "east": "e1281224-923c-4e10-acdf-b5fcfba97e45"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
       "job_ids": {
         "south": "99b35b56-7eec-4916-acc5-e0998fe15d04",
         "west": "620c015d-d273-4f7b-9449-bcc8936337e3",
@@ -46,6 +50,12 @@
         "west": "skates to the left on its board, leaning forward, scarf streaming to the right",
         "north": "skates away from the viewer, seen from behind, scarf streaming",
         "east": "skates to the right on its board, leaning forward, scarf streaming to the left"
+      },
+      "group_ids": {
+        "south": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "west": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "north": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
+        "east": "6ac61f33-883e-4379-8fe5-3221f8b53d25"
       }
     },
     "telegraph": {
@@ -53,7 +63,6 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "4491aa6b-f804-4781-b81d-c5527556346c",
       "job_ids": {
         "south": "c75807e1-bb81-4f58-8855-31f5b98a12d0",
         "west": "a17521d9-02c9-439c-8d7d-481b21e5e34f",
@@ -66,13 +75,18 @@
         "west": "facing left, crouches and rears back, claws spread and raised, scarf flaring to the right",
         "north": "seen from behind, crouches and rears back, scarf flaring, arms raised",
         "east": "facing right, crouches and rears back, claws spread and raised, scarf flaring to the left"
+      },
+      "group_ids": {
+        "south": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "west": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "north": "4491aa6b-f804-4781-b81d-c5527556346c",
+        "east": "4491aa6b-f804-4781-b81d-c5527556346c"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "4d744878-5842-4020-87c4-6d49cf3c7018",
       "job_ids": {
         "south": "ff188998-548f-4d7f-9dac-4b4277ad82ba",
         "west": "c78e5808-16c5-41e8-b959-a2c69446eaab",
@@ -85,6 +99,12 @@
         "west": "facing left, lunges left slashing both claws across, then returns",
         "north": "seen from behind, lunges away from the viewer slashing both claws, then returns",
         "east": "facing right, lunges right slashing both claws across, then returns"
+      },
+      "group_ids": {
+        "south": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "west": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "north": "4d744878-5842-4020-87c4-6d49cf3c7018",
+        "east": "4d744878-5842-4020-87c4-6d49cf3c7018"
       }
     }
   },

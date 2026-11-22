@@ -18,7 +18,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "3883671c-6f42-4cb4-93c3-f84b1b708855",
       "job_ids": {
         "south": "c25d809d-305d-44a2-b028-58c0d1932d7c",
         "west": "9639f086-d490-4f75-84fe-7d129cdd7a88",
@@ -31,13 +30,18 @@
         "west": "facing left, sits low, pincers slowly open and close, vent pulsing",
         "north": "seen from behind, sits low, shell vent pulsing, legs shifting slightly",
         "east": "facing right, sits low, pincers slowly open and close, vent pulsing"
+      },
+      "group_ids": {
+        "south": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "west": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "north": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "east": "3883671c-6f42-4cb4-93c3-f84b1b708855"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
       "job_ids": {
         "south": "ee43aff6-d39a-4828-9239-e90f4407d0f5",
         "west": "2246fb25-a128-485e-9895-b2d602873877",
@@ -50,6 +54,12 @@
         "west": "scuttles to the left on stubby legs, pincers held forward",
         "north": "scuttles away from the viewer, seen from behind, legs moving",
         "east": "scuttles to the right on stubby legs, pincers held forward"
+      },
+      "group_ids": {
+        "south": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "west": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "north": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "east": "570dff8a-6d80-4e0e-996e-28d2e31e562b"
       }
     },
     "telegraph": {
@@ -57,12 +67,11 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "198cb06a-bf76-4393-af1c-400fca0950e3",
       "job_ids": {
         "south": "31d1f408-9049-4439-a85e-6f6de79c5bba",
         "west": "1aa0328d-629f-4d01-9d31-cd4b1d705e93",
         "north": "a37fc56e-82a9-4589-af21-5fabd006d3d3",
-        "east": "377c7914-6635-4c26-b9e6-807fe8d54913"
+        "east": "4f9d61f2-5874-4dc1-868d-ed1267d23ff2"
       },
       "action_description": "rears up on its back legs and raises both big pincers high and wide apart, shell vent flaring bright orange and bursting with glow, before a snapping strike",
       "direction_prompts": {
@@ -75,25 +84,35 @@
         "south": "touch-up attempt (animation_group_id d32e2067-21d2-417f-bceb-eebfbbb2b537), frames 1-3",
         "west": "touch-up attempt (same group), frames 1-3",
         "north": "attempt 1",
-        "east": "attempt 1 (touch-up east rejected: noisier)"
+        "east": "second touch-up attempt (group 4a9944aa-e289-4dd8-8b6c-ac542d094bda), frames 1-3"
       },
       "rejected_job_ids": {
         "south": "27cc65f8-aaea-4d48-b598-44bb77f4dfd1",
         "west": "a5aa0054-6950-468b-92cf-3f02ea7f8f9c",
-        "east_touch_up": "dd67a59d-94b8-4fff-b488-8b90d2ae1ee3"
+        "east_touch_up": "dd67a59d-94b8-4fff-b488-8b90d2ae1ee3",
+        "east_attempt_1": "377c7914-6635-4c26-b9e6-807fe8d54913"
       },
       "action_description_touch_up": "rears up on its back legs and raises both big deep red pincers high, kept close to the body, shell vent flaring bright orange; the pincers stay deep red the whole time, never white or cream",
       "direction_prompts_touch_up": {
         "south": "facing the viewer, rears up and raises both deep red pincers high but close together above the shell, not spreading wide, vent flaring bright, pincers stay deep red",
         "west": "facing left, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white",
         "east": "facing right, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white"
+      },
+      "action_description_second_touch_up": "rears up slightly and lifts both deep red pincers a little, keeping the whole shape simple and compact, shell vent glowing orange; every pincer stays one solid deep red color with a dark outline in every frame",
+      "direction_prompts_second_touch_up": {
+        "east": "facing right, rears up slightly and lifts both deep red pincers a little in front, simple compact shapes, vent glowing orange, pincers stay one solid deep red color the whole time, no white, cream, or yellow patches"
+      },
+      "group_ids": {
+        "north": "198cb06a-bf76-4393-af1c-400fca0950e3",
+        "south": "d32e2067-21d2-417f-bceb-eebfbbb2b537",
+        "west": "d32e2067-21d2-417f-bceb-eebfbbb2b537",
+        "east": "4a9944aa-e289-4dd8-8b6c-ac542d094bda"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "c4341953-c985-4b28-9506-c20d6ea3e0f5",
       "job_ids": {
         "south": "624e2221-65ea-42d1-a59c-68aa1c68476b",
         "west": "6ab91deb-abe6-4417-9d60-b752667386c4",
@@ -123,6 +142,12 @@
         "south": "facing the viewer, lunges toward the viewer and snaps both deep red pincers shut, pincers stay deep red, then backs off",
         "north": "seen from behind, lunges away from the viewer, both deep red pincers visible snapping out at the sides of the shell, pincers stay deep red, then backs off",
         "east": "facing right, lunges right and snaps both deep red pincers shut, the pincers stay solid deep red and never turn white or cream, then backs off"
+      },
+      "group_ids": {
+        "west": "c4341953-c985-4b28-9506-c20d6ea3e0f5",
+        "south": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb",
+        "north": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb",
+        "east": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb"
       }
     }
   },
@@ -144,21 +169,28 @@
       "what": "touch-up: one regeneration each of strike south/north/east and telegraph south/west/east (cream-white pincer blobs, white bar, crop), 6 credits",
       "credits": 6,
       "result": "shipped: strike south, north, east; telegraph south, west. Rejected: telegraph east (noisier, messy white/red specks), old east kept. strike south: white bar gone, 4 px of claw tips cropped. telegraph south: red pincers, crop 13 -> 2 px but the pincers are not raised as high as the brief asks. telegraph west: red pincers, vent glows pale blue-white in frames 1-2. strike west was not regenerated (it was already red)."
+    },
+    {
+      "n": 4,
+      "what": "second touch-up: one more regeneration of telegraph east (job 4f9d61f2, group 4a9944aa)",
+      "credits": 1,
+      "result": "shipped: pincers one solid deep red, vent glows orange, no cream blobs, 0 px cropped. Compact pose with little motion."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 16,
-    "touch_up": 6,
-    "total": 28,
+    "touch_up_1": 6,
+    "touch_up_2": 1,
+    "total": 29,
     "model_estimate": 22
   },
   "known_flaws": [
-    "telegraph east (first attempt): pincers read as large cream-white blobs in two frames, the touch-up was noisier so it was not used: NEEDS A HUMAN DECISION",
     "telegraph south: pincers held low rather than raised; 2 px cropped",
     "telegraph west: vent glows pale blue-white in frames 1-2",
     "strike south: 4 px of claw tips cropped",
-    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3",
+    "telegraph east: compact, low-motion pose (pincers barely lifted)"
   ],
   "native_px": [
     32,
@@ -182,7 +214,7 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 4569,
+      "outline_repainted": 4558,
       "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
@@ -191,14 +223,14 @@
     "cropped_opaque_pixels": 6,
     "crop_limit": 6,
     "entry_point": "tools/scripts/build_longtime_ember_delta.py",
-    "entry_point_sha256": "d313607f5e8a024b78a57d059638dc75e68b1294db1fc21f231a37e0c88663d5",
+    "entry_point_sha256": "ecc6520feb3f141640ee8db66d38c6ffa05dd07f4dd9e2ed9c3808b6bc6f2ffd",
     "builder_dependency": "tools/scripts/build_longtime_characters.py (script / script_sha256 above); it refuses any crop when run on its own, so this entry point is the one that reproduces these files"
   },
   "source": "source.png",
-  "source_sha256": "72643e8f4bd0c67e3edc889278065747b17f3ebd0be39ce9267ab9997fafc39e",
+  "source_sha256": "cd450b0c12aab73e66748a0bc1167fce9026beaa93aedc121cfaef27a269aea7",
   "contact_sheets": {
-    "assets/raw/longtime/lt_kiln_crab/contact_1x.png": "b65a66099be8a9460a5605d1e25e71e66e68e6bd0cbac444a9ecb8fc28f6bf45",
-    "assets/raw/longtime/lt_kiln_crab/contact_4x.png": "5175abb5f34096baee2cde5a9112c50d1fd910a33f1cf65d33cc102a6aba3e9f"
+    "assets/raw/longtime/lt_kiln_crab/contact_1x.png": "f517c904f2c9fe2484a66bc7d55c9415c1cfa8e8bbd851ac73242c87057a6a10",
+    "assets/raw/longtime/lt_kiln_crab/contact_4x.png": "a4423961fef1b17818fda8e9a1a13e0fa402b9cfec656c5c6750047a4e669e9a"
   },
   "frames": [
     {
@@ -541,37 +573,37 @@
       "key": "longtime/lt_kiln_crab/telegraph_east_0",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_east_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/east/frame_000.png",
-      "raw_sha256": "fd73d99f47d4bddbf3df48cb9cc044f8ef4b4d0b3ce29d0a42ff523b36203b85",
+      "raw_sha256": "1d64d92e341c0f4d18b32d1b3d6ccbccf09de708654e84f7cba0f11ff0fc058f",
       "source_xy": [
         0,
         484
       ],
       "duration_ms": 160,
-      "sha256": "efb76db1227a07bf536b6f3b2605675005e6972ff1040d8434765c4661938f7f"
+      "sha256": "6923479430f690c2bcd70082e6ddbdab1c8c64a0a03a2c043d4dd0345c441720"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_east_1",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_east_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/east/frame_001.png",
-      "raw_sha256": "4589678811dfbb27173714a41861c9027dd9ef6ec24416407090e0c1475cf4f6",
+      "raw_sha256": "4671c61a44dfd59c1627f9c117c90593172e6a1a1b8e3ac9f13972931b9be0aa",
       "source_xy": [
         44,
         484
       ],
       "duration_ms": 160,
-      "sha256": "6e400ff082c2e16bb47668e6ab7e6382832322361f512d130e9e30f983f7dc36"
+      "sha256": "e98b3c11f26b37e80a2ba6f8cbe59e31f676751b512460465d6917e983fb6de4"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_east_2",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_east_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/east/frame_002.png",
-      "raw_sha256": "d4bb0e6e979dff542676885cc458cc5cb032003a534bf2e071666489a65c2f34",
+      "raw_sha256": "1b976d0e96e4a918d2be36f41ac5112e605437313d2c671e55320c2e266387d0",
       "source_xy": [
         88,
         484
       ],
       "duration_ms": 160,
-      "sha256": "b34a31bff3d58d52b3e65664060eb81b29f6bca6eba1c532d03b1bde14604126"
+      "sha256": "372f68f9cd55aba60b923948a5fdd04abd8b08a94eef1e6b0bf75a3568719e28"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_north_0",

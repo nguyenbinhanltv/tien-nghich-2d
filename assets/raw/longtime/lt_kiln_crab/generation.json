@@ -14,7 +14,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "3883671c-6f42-4cb4-93c3-f84b1b708855",
       "job_ids": {
         "south": "c25d809d-305d-44a2-b028-58c0d1932d7c",
         "west": "9639f086-d490-4f75-84fe-7d129cdd7a88",
@@ -27,13 +26,18 @@
         "west": "facing left, sits low, pincers slowly open and close, vent pulsing",
         "north": "seen from behind, sits low, shell vent pulsing, legs shifting slightly",
         "east": "facing right, sits low, pincers slowly open and close, vent pulsing"
+      },
+      "group_ids": {
+        "south": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "west": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "north": "3883671c-6f42-4cb4-93c3-f84b1b708855",
+        "east": "3883671c-6f42-4cb4-93c3-f84b1b708855"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
       "job_ids": {
         "south": "ee43aff6-d39a-4828-9239-e90f4407d0f5",
         "west": "2246fb25-a128-485e-9895-b2d602873877",
@@ -46,6 +50,12 @@
         "west": "scuttles to the left on stubby legs, pincers held forward",
         "north": "scuttles away from the viewer, seen from behind, legs moving",
         "east": "scuttles to the right on stubby legs, pincers held forward"
+      },
+      "group_ids": {
+        "south": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "west": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "north": "570dff8a-6d80-4e0e-996e-28d2e31e562b",
+        "east": "570dff8a-6d80-4e0e-996e-28d2e31e562b"
       }
     },
     "telegraph": {
@@ -53,12 +63,11 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "198cb06a-bf76-4393-af1c-400fca0950e3",
       "job_ids": {
         "south": "31d1f408-9049-4439-a85e-6f6de79c5bba",
         "west": "1aa0328d-629f-4d01-9d31-cd4b1d705e93",
         "north": "a37fc56e-82a9-4589-af21-5fabd006d3d3",
-        "east": "377c7914-6635-4c26-b9e6-807fe8d54913"
+        "east": "4f9d61f2-5874-4dc1-868d-ed1267d23ff2"
       },
       "action_description": "rears up on its back legs and raises both big pincers high and wide apart, shell vent flaring bright orange and bursting with glow, before a snapping strike",
       "direction_prompts": {
@@ -71,25 +80,35 @@
         "south": "touch-up attempt (animation_group_id d32e2067-21d2-417f-bceb-eebfbbb2b537), frames 1-3",
         "west": "touch-up attempt (same group), frames 1-3",
         "north": "attempt 1",
-        "east": "attempt 1 (touch-up east rejected: noisier)"
+        "east": "second touch-up attempt (group 4a9944aa-e289-4dd8-8b6c-ac542d094bda), frames 1-3"
       },
       "rejected_job_ids": {
         "south": "27cc65f8-aaea-4d48-b598-44bb77f4dfd1",
         "west": "a5aa0054-6950-468b-92cf-3f02ea7f8f9c",
-        "east_touch_up": "dd67a59d-94b8-4fff-b488-8b90d2ae1ee3"
+        "east_touch_up": "dd67a59d-94b8-4fff-b488-8b90d2ae1ee3",
+        "east_attempt_1": "377c7914-6635-4c26-b9e6-807fe8d54913"
       },
       "action_description_touch_up": "rears up on its back legs and raises both big deep red pincers high, kept close to the body, shell vent flaring bright orange; the pincers stay deep red the whole time, never white or cream",
       "direction_prompts_touch_up": {
         "south": "facing the viewer, rears up and raises both deep red pincers high but close together above the shell, not spreading wide, vent flaring bright, pincers stay deep red",
         "west": "facing left, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white",
         "east": "facing right, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white"
+      },
+      "action_description_second_touch_up": "rears up slightly and lifts both deep red pincers a little, keeping the whole shape simple and compact, shell vent glowing orange; every pincer stays one solid deep red color with a dark outline in every frame",
+      "direction_prompts_second_touch_up": {
+        "east": "facing right, rears up slightly and lifts both deep red pincers a little in front, simple compact shapes, vent glowing orange, pincers stay one solid deep red color the whole time, no white, cream, or yellow patches"
+      },
+      "group_ids": {
+        "north": "198cb06a-bf76-4393-af1c-400fca0950e3",
+        "south": "d32e2067-21d2-417f-bceb-eebfbbb2b537",
+        "west": "d32e2067-21d2-417f-bceb-eebfbbb2b537",
+        "east": "4a9944aa-e289-4dd8-8b6c-ac542d094bda"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "c4341953-c985-4b28-9506-c20d6ea3e0f5",
       "job_ids": {
         "south": "624e2221-65ea-42d1-a59c-68aa1c68476b",
         "west": "6ab91deb-abe6-4417-9d60-b752667386c4",
@@ -119,6 +138,12 @@
         "south": "facing the viewer, lunges toward the viewer and snaps both deep red pincers shut, pincers stay deep red, then backs off",
         "north": "seen from behind, lunges away from the viewer, both deep red pincers visible snapping out at the sides of the shell, pincers stay deep red, then backs off",
         "east": "facing right, lunges right and snaps both deep red pincers shut, the pincers stay solid deep red and never turn white or cream, then backs off"
+      },
+      "group_ids": {
+        "west": "c4341953-c985-4b28-9506-c20d6ea3e0f5",
+        "south": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb",
+        "north": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb",
+        "east": "af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb"
       }
     }
   },
@@ -140,20 +165,27 @@
       "what": "touch-up: one regeneration each of strike south/north/east and telegraph south/west/east (cream-white pincer blobs, white bar, crop), 6 credits",
       "credits": 6,
       "result": "shipped: strike south, north, east; telegraph south, west. Rejected: telegraph east (noisier, messy white/red specks), old east kept. strike south: white bar gone, 4 px of claw tips cropped. telegraph south: red pincers, crop 13 -> 2 px but the pincers are not raised as high as the brief asks. telegraph west: red pincers, vent glows pale blue-white in frames 1-2. strike west was not regenerated (it was already red)."
+    },
+    {
+      "n": 4,
+      "what": "second touch-up: one more regeneration of telegraph east (job 4f9d61f2, group 4a9944aa)",
+      "credits": 1,
+      "result": "shipped: pincers one solid deep red, vent glows orange, no cream blobs, 0 px cropped. Compact pose with little motion."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 16,
-    "touch_up": 6,
-    "total": 28,
+    "touch_up_1": 6,
+    "touch_up_2": 1,
+    "total": 29,
     "model_estimate": 22
   },
   "known_flaws": [
-    "telegraph east (first attempt): pincers read as large cream-white blobs in two frames, the touch-up was noisier so it was not used: NEEDS A HUMAN DECISION",
     "telegraph south: pincers held low rather than raised; 2 px cropped",
     "telegraph west: vent glows pale blue-white in frames 1-2",
     "strike south: 4 px of claw tips cropped",
-    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3",
+    "telegraph east: compact, low-motion pose (pincers barely lifted)"
   ]
 }

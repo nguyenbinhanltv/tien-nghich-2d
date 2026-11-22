@@ -18,7 +18,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
       "job_ids": {
         "south": "148e0ba0-f490-438f-84f6-248567d255ff",
         "west": "3e9fd0f4-b1fd-4c42-a271-13d35e2263be",
@@ -31,13 +30,18 @@
         "west": "facing left, sways gently, lantern swings slightly in front",
         "north": "seen from behind, sways gently, air hose bobbing behind the helmet",
         "east": "facing right, sways gently, lantern swings slightly in front"
+      },
+      "group_ids": {
+        "south": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
+        "west": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
+        "north": "0c9ce244-3220-44e3-99c9-a2605e7eebb9",
+        "east": "0c9ce244-3220-44e3-99c9-a2605e7eebb9"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
       "job_ids": {
         "south": "e427e67b-5cae-41a5-87da-07f01a0caf00",
         "west": "ce041226-9478-400f-8c55-0f9732c57d71",
@@ -50,6 +54,12 @@
         "west": "waddles to the left in heavy finned steps, lantern swinging in front, hose trailing to the right",
         "north": "waddles away from the viewer seen from behind, air hose bobbing",
         "east": "waddles to the right in heavy finned steps, lantern swinging in front, hose trailing to the left"
+      },
+      "group_ids": {
+        "south": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
+        "west": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
+        "north": "22d3dec5-6b4c-4225-b0db-d44279bdec2c",
+        "east": "22d3dec5-6b4c-4225-b0db-d44279bdec2c"
       }
     },
     "telegraph": {
@@ -57,7 +67,6 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
       "job_ids": {
         "south": "50287572-5526-47ca-9a33-7033a88c681f",
         "west": "329eff57-d5a7-4b9e-a321-22dd2257ae90",
@@ -70,13 +79,18 @@
         "west": "facing left, crouches and lifts the glowing lantern high overhead, porthole flaring",
         "north": "seen from behind, crouches and lifts the lantern high overhead on the viewer's right, air hose swinging",
         "east": "facing right, crouches and lifts the glowing lantern high overhead, porthole flaring"
+      },
+      "group_ids": {
+        "south": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
+        "west": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
+        "north": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c",
+        "east": "21346f8c-917b-4b6b-98c8-3d9971d0ab9c"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
       "job_ids": {
         "south": "d5c0a997-03e6-4d63-9075-4835a05c360b",
         "west": "1a861af7-9dee-45c1-accd-3edc49630a5f",
@@ -89,6 +103,12 @@
         "west": "facing left, lunges left swinging the lantern down in an arc, then straightens",
         "north": "seen from behind, lunges away from the viewer swinging the lantern down, then straightens",
         "east": "facing right, lunges right swinging the lantern down in an arc, then straightens"
+      },
+      "group_ids": {
+        "south": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
+        "west": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
+        "north": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1",
+        "east": "1fdf75ce-8b78-47c1-bb0e-b1edcae5a3d1"
       }
     }
   },
@@ -148,7 +168,7 @@
     "cropped_opaque_pixels": 0,
     "crop_limit": 0,
     "entry_point": "tools/scripts/build_longtime_ember_delta.py",
-    "entry_point_sha256": "d313607f5e8a024b78a57d059638dc75e68b1294db1fc21f231a37e0c88663d5",
+    "entry_point_sha256": "ecc6520feb3f141640ee8db66d38c6ffa05dd07f4dd9e2ed9c3808b6bc6f2ffd",
     "builder_dependency": "tools/scripts/build_longtime_characters.py (script / script_sha256 above); it refuses any crop when run on its own, so this entry point is the one that reproduces these files"
   },
   "source": "source.png",

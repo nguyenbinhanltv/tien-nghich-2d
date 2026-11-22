@@ -18,7 +18,6 @@
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "51dad761-c593-45d2-9d3f-7cc590b136ad",
       "job_ids": {
         "south": "a9e70848-b1ee-4241-b351-767165b3d449",
         "west": "65f5647c-5923-46ec-b6a9-96d3a775e95f",
@@ -31,13 +30,18 @@
         "west": "facing left, stands on its long legs and bobs its head slowly, crest flickering",
         "north": "seen from behind, stands still and bobs its head slightly, crest flickering",
         "east": "facing right, stands on its long legs and bobs its head slowly, crest flickering"
+      },
+      "group_ids": {
+        "south": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "west": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "north": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+        "east": "51dad761-c593-45d2-9d3f-7cc590b136ad"
       }
     },
     "walk": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
       "job_ids": {
         "south": "e9027cd9-2ae3-4b77-b50d-7e32081500f8",
         "west": "395104b0-475e-41b2-be05-2227d7036815",
@@ -50,6 +54,12 @@
         "west": "walks to the left lifting its long legs high, head bobbing forward",
         "north": "walks away from the viewer seen from behind, lifting its long legs",
         "east": "walks to the right lifting its long legs high, head bobbing forward"
+      },
+      "group_ids": {
+        "south": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "west": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "north": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+        "east": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f"
       }
     },
     "telegraph": {
@@ -57,7 +67,6 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
       "job_ids": {
         "south": "9b90b431-6870-4865-bbfa-e0e64ce1b014",
         "west": "a7b359d6-0e72-4a85-baf6-2a88d611cd9b",
@@ -70,13 +79,18 @@
         "west": "facing left, draws its neck back into an S-curve and spreads its wings, beak pointing left",
         "north": "seen from behind, spreads both wings wide and flares the crest",
         "east": "facing right, draws its neck back into an S-curve and spreads its wings, beak pointing right"
+      },
+      "group_ids": {
+        "south": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "west": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "north": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+        "east": "51ec59eb-1cd1-46cb-913f-52653e7d67aa"
       }
     },
     "strike": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "93766676-6143-4259-889e-d6ab3a6fdcba",
       "job_ids": {
         "south": "23db9718-0ba1-4501-adce-9a533b0e9d69",
         "west": "54cd979f-f8ec-4ff8-9911-b564a5a38c26",
@@ -89,6 +103,12 @@
         "west": "facing left, snaps its neck and beak out straight to the left, then pulls back",
         "north": "seen from behind, snaps its neck forward away from the viewer, wings flaring, then pulls back",
         "east": "facing right, snaps its neck and beak out straight to the right, then pulls back"
+      },
+      "group_ids": {
+        "south": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "west": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "north": "93766676-6143-4259-889e-d6ab3a6fdcba",
+        "east": "93766676-6143-4259-889e-d6ab3a6fdcba"
       }
     }
   },
@@ -148,7 +168,7 @@
     "cropped_opaque_pixels": 0,
     "crop_limit": 0,
     "entry_point": "tools/scripts/build_longtime_ember_delta.py",
-    "entry_point_sha256": "d313607f5e8a024b78a57d059638dc75e68b1294db1fc21f231a37e0c88663d5",
+    "entry_point_sha256": "ecc6520feb3f141640ee8db66d38c6ffa05dd07f4dd9e2ed9c3808b6bc6f2ffd",
     "builder_dependency": "tools/scripts/build_longtime_characters.py (script / script_sha256 above); it refuses any crop when run on its own, so this entry point is the one that reproduces these files"
   },
   "source": "source.png",
