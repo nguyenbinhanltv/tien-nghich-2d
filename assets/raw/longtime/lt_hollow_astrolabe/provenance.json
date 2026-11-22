@@ -1,0 +1,1061 @@
+{
+  "id": "lt_hollow_astrolabe",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Broken orbital rings align before a radial strike.",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (96x96 native, low top-down, template custom (no skeleton), 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 108-120 px canvas, centred on the 96 px manifest canvas without scaling). All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "c1c34fe2-1529-4be7-a14e-783d00956bc0",
+  "character_job_id": "e3052780-def9-426b-a94c-dd901e91ee7a",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Hollow Astrolabe, a xianxia stone-quarry guardian boss: three broken bronze orbital rings of different sizes floating tilted around a hollow centre, a bright cyan star-crystal core glowing in the middle, ring segments cracked with gaps, a dark grey-violet carved stone base hovering under it, tiny jade-cyan rune marks on the rings. Chunky chibi proportions, big central core. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "374693a0-f64d-4462-b514-132fb96e0869",
+      "job_ids": {
+        "south": "915ea257-b534-4bc5-9660-56df1013959b",
+        "west": "a9fd61b8-ba1c-4ce0-a569-2689177b8a4d",
+        "north": "e6cdfedc-f4dd-4933-a688-b2c5fc31a1bb",
+        "east": "2c533f90-ed47-4608-9fd2-c8988b51d620"
+      },
+      "action_description": "hovers and drifts in place, the broken bronze rings turn slowly around the glowing cyan core, the stone base bobs gently up and down; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "west": "seen from the left side, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "north": "seen from behind, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "east": "seen from the right side, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact"
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "4c3b7bdc-08cb-41a5-8c83-20b49953c44e",
+      "job_ids": {
+        "south": "f5655831-fe97-4f66-be5e-57aa1caf8d7e",
+        "west": "27a573bf-8d75-410b-be1c-4e9857e817f3",
+        "north": "e75d237e-217a-499a-b327-20c7a59b4e04",
+        "east": "a68b3288-fe11-4bcc-9634-5d357c728f5c"
+      },
+      "action_description": "glides slowly forward, the bronze rings wobble and turn around the glowing cyan core, the stone base tilts forward slightly; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, glides toward the viewer, rings wobble and turn around the cyan core; stays compact",
+        "west": "seen from the left side, glides to the left, rings wobble and turn around the cyan core; stays compact",
+        "north": "seen from behind, glides away from the viewer, rings wobble and turn around the core; stays compact",
+        "east": "seen from the right side, glides to the right, rings wobble and turn around the cyan core; stays compact"
+      },
+      "note": "west and east were queued later into the same group (shared job slots) and reuse the group's direction prompts"
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "578f0741-80e1-41a1-9f08-c25d3961ea35",
+      "job_ids": {
+        "south": "8cc3b342-4410-4d84-a4c1-c8f60ac477d3",
+        "west": "99781de8-88ff-40ca-80c7-a17a88890e03",
+        "north": "3575b97f-7143-43b1-bbea-b3bb21a704e0",
+        "east": "ed7783cf-566e-4743-bdb0-855ef07ff8f8"
+      },
+      "action_description": "the broken bronze rings swing and slowly align into one straight row of rings around the core, the cyan core grows brighter and glows as if charging a radial strike; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, the rings swing into alignment around the core and the core glows brighter, charging; stays compact",
+        "west": "seen from the left side, the rings swing into alignment and the core glows brighter, charging; stays compact",
+        "north": "seen from behind, the rings swing into alignment and the core glows brighter, charging; stays compact",
+        "east": "seen from the right side, the rings swing into alignment and the core glows brighter, charging; stays compact"
+      },
+      "note": "west, north and east queued later into the same group"
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "animation_group_id": "6b8ba706-1a83-47f8-a765-918077ed2757",
+      "job_ids": {
+        "south": "4787b934-68a7-4048-80f8-eb63202da2dc",
+        "west": "f54cc062-3d3a-4591-a256-d8f0196db157",
+        "north": "cff5fb7c-6f1c-4e54-a72a-ae053beb2b51",
+        "east": "f72f3d91-e509-4ef1-8ffb-64d529ca31b2"
+      },
+      "action_description": "the aligned bronze rings pulse slightly outward in a quick radial burst around the cyan core, the core flashes bright, then the rings settle back; the rings and sparks never move more than a few pixels beyond the original sprite outline, no long spark rays, no flying debris, sprite stays the same size (south, west, east: second prompt; north kept from the first attempt: 'the aligned bronze rings snap outward in a quick radial burst around the cyan core, the core flashes bright, then the rings settle back; stays compact, same size, never bigger than the original sprite')",
+      "direction_prompts": {
+        "south": "seen from the front, the rings pulse slightly outward around the flashing cyan core then settle back; short sparks only, stays inside the original sprite outline, no long rays",
+        "west": "seen from the left side, the rings pulse slightly outward around the flashing core then settle back; short sparks only, stays inside the original sprite outline, no long rays",
+        "north": "seen from behind, the rings snap outward in a radial burst around the flashing core then settle back; stays compact (first attempt, kept)",
+        "east": "seen from the right side, the rings pulse slightly outward around the flashing core then settle back; short sparks only, stays inside the original sprite outline, no long rays"
+      },
+      "note": "north and east queued later into the same group"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character (96x96, custom template) + idle, advance, telegraph, strike for 4 directions",
+      "credits": 27,
+      "result": "accepted except strike south/west/east: sparks and rings crossed the 96 px canvas (frames 2-5)"
+    },
+    {
+      "n": 2,
+      "what": "strike regenerated for south, west and east only (north kept) with a tighter prompt: rings pulse a few px beyond the outline, short sparks only, no long rays. Group 6b8ba706-1a83-47f8-a765-918077ed2757; new job ids south 4787b934-68a7-4048-80f8-eb63202da2dc, west f54cc062-3d3a-4591-a256-d8f0196db157, east f72f3d91-e509-4ef1-8ffb-64d529ca31b2; the first strike jobs (south 5933dbe5-a8c9-4e26-b5ab-88dca2843366, west 16d2b2a0-035f-4b84-b6b4-c092b8be556f, east efc42b5b-a760-422a-a686-584e2d133629) were deleted in PixelLab",
+      "credits": 6,
+      "result": "accepted: a few stray spark specks still cross the canvas in 5 frames, handled by edge_trim"
+    }
+  ],
+  "credits_spent": {
+    "character": 7,
+    "idle": 4,
+    "advance": 4,
+    "telegraph": 4,
+    "strike": 8,
+    "strike_regeneration_3_directions": 6,
+    "total_generations": 33,
+    "balance_before": 804.26,
+    "note": "v3 at 96 px bills 1/dir for 4 frames and 2/dir for 6 frames (canvas 108-120 px); cheaper than the 35 modelled"
+  },
+  "known_flaws": [
+    "strike: thin dark spark specks and short rays around the burst; detached specks that crossed the 96 px canvas were trimmed (processing.edge_trim)",
+    "strike east: the burst shows the core as a hollow dark eye in frames 3-5",
+    "qa_longtime outline_thick: 67 single 2x2 outline blocks across frames (same warning class as the approved characters)",
+    "north views read as a tilted ring stack, less clear than south"
+  ],
+  "edge_trim": {
+    "speck_max": 40,
+    "clip_max": 3,
+    "why": "strike spark rays cross the 96 px canvas in 5 frames after the one allowed regeneration; detached specks of <=40 px are dropped and at most 3 body px per frame clipped (see processing.edge_trim in provenance.json)"
+  },
+  "native_px": [
+    96,
+    96
+  ],
+  "pivot_px": [
+    48,
+    93
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 17177,
+      "outline_thinned": 1485,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "edge_trim": {
+      "rule": {
+        "speck_max": 40,
+        "clip_max": 3,
+        "why": "strike spark rays cross the 96 px canvas in 5 frames after the one allowed regeneration; detached specks of <=40 px are dropped and at most 3 body px per frame clipped (see processing.edge_trim in provenance.json)"
+      },
+      "frames": {
+        "strike/south/3": {
+          "speck_px": 13,
+          "clipped_px": 0
+        },
+        "strike/west/3": {
+          "speck_px": 101,
+          "clipped_px": 0
+        },
+        "strike/west/4": {
+          "speck_px": 22,
+          "clipped_px": 0
+        },
+        "strike/east/3": {
+          "speck_px": 20,
+          "clipped_px": 1
+        },
+        "strike/east/4": {
+          "speck_px": 4,
+          "clipped_px": 0
+        }
+      }
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "09acab02f3a090c3752cc90f4b382e7d1ffad09573898b3b98e7750025a5f1c3",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_hollow_astrolabe/contact_1x.png": "53f0ccae749732a566c22eea2b804177e8c57aa4f14c9aa7d16c274b69bb45ee",
+    "assets/raw/longtime/lt_hollow_astrolabe/contact_4x.png": "f5356f4dc127bc499755083731806e6001538eb3828ff8df09effce2701168c0"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_east_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/east/frame_000.png",
+      "raw_sha256": "85a047b0d12246548d27172a3d9b4b3fbed7e7d2c602e36ff11c65fa8cedad7e",
+      "source_xy": [
+        0,
+        840
+      ],
+      "duration_ms": 140,
+      "sha256": "b41ca92a6f841aad1b18c780607cc8fba12b33154842f874081bf681f2814e4d"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_east_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/east/frame_001.png",
+      "raw_sha256": "f8dd16c01019fa8d10f6f4063f57d9becbfd704b9180cd7775ebd2bf7bcfcdad",
+      "source_xy": [
+        120,
+        840
+      ],
+      "duration_ms": 140,
+      "sha256": "d7875355b683321364e96107acbbd8d84ff05cb558fbba77e8d5955f650c0b8a"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_east_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/east/frame_002.png",
+      "raw_sha256": "53a14ad77a06d059891537c9d12c9fe87d74500f4eed7ed9921f044bc2962531",
+      "source_xy": [
+        240,
+        840
+      ],
+      "duration_ms": 140,
+      "sha256": "c9e76e6001672fd7d28e99f3d37d91cd3e868cd48c13136b14541bcea2a67bd6"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_east_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/east/frame_003.png",
+      "raw_sha256": "eb68d31517f170c5ed9fad4d1fb75cd2b0c293155db925b2240e4a070acdb4ad",
+      "source_xy": [
+        360,
+        840
+      ],
+      "duration_ms": 140,
+      "sha256": "ea3bd58dca020af96cbfeda232571c1eb3b2da553b8d7b527254a9498e3ceff7"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_north_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/north/frame_000.png",
+      "raw_sha256": "0f76bf54f9ca03a98e71a202ee2288bcef75b26cb93dc1f6391c7a2eda2f5d4a",
+      "source_xy": [
+        0,
+        720
+      ],
+      "duration_ms": 140,
+      "sha256": "fbf4c5c3108fb4663a32c98559bf4cd978afb82e02fb537efbe11aa2053753fc"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_north_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/north/frame_001.png",
+      "raw_sha256": "40b11ecc4ce583c1d96a884e53817079b77274a4de46dfd808f9a927eb435236",
+      "source_xy": [
+        120,
+        720
+      ],
+      "duration_ms": 140,
+      "sha256": "387cdec2bac763e8b383af8c4047eb0f10f3309edc7723af839a19994f7a326c"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_north_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/north/frame_002.png",
+      "raw_sha256": "1318dfb7c5a58a2c4cd1ff638893f5baef723b7d7e2d0eccce68625643c1b2cc",
+      "source_xy": [
+        240,
+        720
+      ],
+      "duration_ms": 140,
+      "sha256": "0c096d4ffa7432b3956ffbf4152f0af02f958138cf4c0b87ff3944c81715a862"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_north_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/north/frame_003.png",
+      "raw_sha256": "da2ff6096368ffaa49a9e9ffa1c4ba04eba6b8a3cc82a71f0e7c65f0c967d6ce",
+      "source_xy": [
+        360,
+        720
+      ],
+      "duration_ms": 140,
+      "sha256": "4af1598aab8bb6fdb6e3499e1780592d4788370b41ade2197ed698562deb0e57"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_south_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/south/frame_000.png",
+      "raw_sha256": "1e6910a014db455ec309128a01ac43ad3d8c3218e1284b9d81620b55194b6068",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 140,
+      "sha256": "23f5fa97197c2bd3b5eafd746259987ff5c0aace9468b43846e257006c8cd04f"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_south_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/south/frame_001.png",
+      "raw_sha256": "08ffcf61bd8415eeb7c5e66a0a7bca6a3abc0fa73e9972849fbb35d26fd35c42",
+      "source_xy": [
+        120,
+        480
+      ],
+      "duration_ms": 140,
+      "sha256": "2bb8836e6056cec1e5b25e0795ff817628b3a95c7a04ae98b9785a87829ca706"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_south_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/south/frame_002.png",
+      "raw_sha256": "de4938262e37f552e363a1b94e41cf7817e0d7a7e4e0fa610bfc4725f359aade",
+      "source_xy": [
+        240,
+        480
+      ],
+      "duration_ms": 140,
+      "sha256": "e361d1bdf97f08e5b86307fca6d7ea216d58d62496531296f99bbae12bbddc0b"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_south_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/south/frame_003.png",
+      "raw_sha256": "58403bc1a1972673266980a4b513aa553a86acd4280ff54c960b3d5c182fb6f1",
+      "source_xy": [
+        360,
+        480
+      ],
+      "duration_ms": 140,
+      "sha256": "cc9ac4bf8dbe8bc9f317aea8e4a09f6c3235022c42550db0b20f384094bd1d34"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_west_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/west/frame_000.png",
+      "raw_sha256": "4357526aecc41efe9d14c41fbbd1363b2cd329b700c98cb50dc166a5d8ce5cb4",
+      "source_xy": [
+        0,
+        600
+      ],
+      "duration_ms": 140,
+      "sha256": "9490b5c8414233f0561d57980cba59187ec8f090417d05286f1bba652b02f7b8"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_west_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/west/frame_001.png",
+      "raw_sha256": "df39e2bdd8cd8c5439e194e43799ce4a30ad7a31e734c4b9c83850fea78258f5",
+      "source_xy": [
+        120,
+        600
+      ],
+      "duration_ms": 140,
+      "sha256": "b83654b4159489ccd5dbca345405871873d93ff74a98e9ddbaea1f458e66bbd0"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_west_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/west/frame_002.png",
+      "raw_sha256": "bae0444c90c0619615b1344523f7b020e686b34c9b432f19c94f02fd02777d27",
+      "source_xy": [
+        240,
+        600
+      ],
+      "duration_ms": 140,
+      "sha256": "e86c149deb3d267674b433b1afce37d4fc7400a608e78449e34e4522a2fe60e4"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/advance_west_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/advance_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/advance/west/frame_003.png",
+      "raw_sha256": "81d67feb58116b9838d62a662d47bf8bcf1d352d75a8d400e2f4bf8f78e31647",
+      "source_xy": [
+        360,
+        600
+      ],
+      "duration_ms": 140,
+      "sha256": "0384bd80b1ac08ca8cec32e717e1e15ce3ad4d48b8700821b4be477cbd6c8d77"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_east_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/east/frame_000.png",
+      "raw_sha256": "2e9b882012db00d5c5f215c18a139faed6896db33ea7cbf045cdbdbf539c40d3",
+      "source_xy": [
+        0,
+        360
+      ],
+      "duration_ms": 180,
+      "sha256": "fc6fb84a4bd10ebe6cd6c2088b362a842adc097d231fc7b87f2d925864fb6359"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_east_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/east/frame_001.png",
+      "raw_sha256": "232fa279558bfd88e02a9aa30851b8d385b1dde12ae1a2d4a61afa40c39ba443",
+      "source_xy": [
+        120,
+        360
+      ],
+      "duration_ms": 180,
+      "sha256": "02b54e6e1574fe0a4e21dbab5fece488a9abeffe450d807c00cb95c74986867e"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_east_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/east/frame_002.png",
+      "raw_sha256": "79ab45ecb765784bea0a29e20e90e1666cbd0308a86c4e043383b0133e1c7e28",
+      "source_xy": [
+        240,
+        360
+      ],
+      "duration_ms": 180,
+      "sha256": "2cb54e43ffc57d2a827a7c5ae0aeb1e18b0825845f62b7610aa016ec1415d382"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_east_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/east/frame_003.png",
+      "raw_sha256": "f31a4673c9736384bdadb5c74b573acf3a329afb510d0b5ecefbd2ccc31d32f8",
+      "source_xy": [
+        360,
+        360
+      ],
+      "duration_ms": 180,
+      "sha256": "de30f6f54bbd23706567c5fd4e0da0fc4c693fe2de02026fe0bc86a6e0dbe3e6"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_north_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/north/frame_000.png",
+      "raw_sha256": "2d4dbd512d5e8baba7a54d0e56af52a1b67690a82986a4fb2a77b5b83c4ef9dc",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 180,
+      "sha256": "2cd34b38d625827753fd978b0798339df9d67f0ec0fa62fa78c17208d054d842"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_north_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/north/frame_001.png",
+      "raw_sha256": "07c01937b8acad707ca64345b354c8a6a9526198868e32e9ef69c1a3c60df4f4",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 180,
+      "sha256": "3cbcc3794ea299e925d7fef112785f6a97c8b0a43b02b8f88c531c235c71e21d"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_north_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/north/frame_002.png",
+      "raw_sha256": "0db344932b8b4db522a4d2d12f70a1119b304e8b33655a9b5a8b5f6d6e5c9e34",
+      "source_xy": [
+        240,
+        240
+      ],
+      "duration_ms": 180,
+      "sha256": "2641df7589eba7713da83183b30005b1f36b33ec16f5f1fb0a3a69a2f27cfa93"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_north_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/north/frame_003.png",
+      "raw_sha256": "0b900b433f07d2dc728150b47cf9edd57c531789680d0b033008bbb950abe621",
+      "source_xy": [
+        360,
+        240
+      ],
+      "duration_ms": 180,
+      "sha256": "1ce0956d7c1ed1c8e7443f0f3ef280a7932245c96703af66e0cf771df5a46a84"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_south_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/south/frame_000.png",
+      "raw_sha256": "9415005a83be38eb09c5a88d65c77b350831fbc17e8eea6031de8e98ef1903bc",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "7b408d11216b458e51f476f105131d367478d4f96333ede02bef285503a923d8"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_south_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/south/frame_001.png",
+      "raw_sha256": "1ce997875a5f1e024aecb2cde813d5bf1ff1abd3991d3f85d6c9bfee6fb0029c",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "3be36171efa42fc582b384ac2a590a14591a898e87140339b61a1beab669b11e"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_south_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/south/frame_002.png",
+      "raw_sha256": "8048d380a442530fc151668e7b24eecd027ebf36e8cdd2fadfded12e1e1ef749",
+      "source_xy": [
+        240,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "e04104ddc1c1862fd373c1dd07715ffe0d1545ff81c39eeb1b33aef4e85c6bd0"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_south_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/south/frame_003.png",
+      "raw_sha256": "1c3864ef1a857b14fa057eef60a2f08bd98d86c6237f3f1db926ef1bb62bcd1f",
+      "source_xy": [
+        360,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "772682032681ce8ddb8d8e60db851c47022177398cded3082d118904318a78fd"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_west_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/west/frame_000.png",
+      "raw_sha256": "84f9156638e0bfc1a0408454d26b533313f8a80b30c17268b48f95002d839647",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "03986ff149f557392ed34a4603f97b1dc49d95377a66b7cb52e2095e7706d99f"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_west_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/west/frame_001.png",
+      "raw_sha256": "cda709dae70f7e2c0b67f94e14ef4e815dd9d336c5e03e85bd09f4ef79ea392b",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "784555b4c80bdd90147d29bc76ae606b7c64b3518b242e5af93bf7c728f9c088"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_west_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/west/frame_002.png",
+      "raw_sha256": "7820320510ba85c1480db8027c7f0266b5d4de1c6de9a2aa2ff40e2c131a5f47",
+      "source_xy": [
+        240,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "804ca39561a506762442fbaa20ab23a7654c32fcd71672375bd9a64236071604"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/idle_west_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/idle/west/frame_003.png",
+      "raw_sha256": "09c21270c3482e129d89e035e72a66634b8774ebe0dd0f182282a089bd7f3f5b",
+      "source_xy": [
+        360,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "b33ae6ede93cfc96f77af3baf391fc3b7ffe58123360f4d81150aef9959e95c1"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_000.png",
+      "raw_sha256": "8ba5e8dcbd7f1ed56c6e6cc77ec0ed6d68c7f90260efe27e3cdc66281b6a4a43",
+      "source_xy": [
+        0,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "5c18a599f0a43fddae8174e43c6f63299f1ebcacd89c654f3c83733a56959d8c"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_001.png",
+      "raw_sha256": "4a05443406a9d2419ca6de2b01efaaa531d7c19bf0edc2ea9fc949ff5e1c5812",
+      "source_xy": [
+        120,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "781a49a98ab70315ed318b85775176e577249705aa8a0220d0976377f884d27e"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_002.png",
+      "raw_sha256": "59b57e3d92cd0e18b35feba61f76685bcb4a0c81d81ffb7a4c6f4047b600b9e1",
+      "source_xy": [
+        240,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "c7861cc2c140a52b06425d21a19d4daab17a908492e132830499531891fbe575"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_003.png",
+      "raw_sha256": "ec56def6537f4511e95d1572e0c7d006d7ec64f1840baa56bc301d0744a4a583",
+      "source_xy": [
+        360,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "66179fc46a853060b02284c2ac1ce868a20cf0dd5300969f5f261e6cffe3f0c2"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_4",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_004.png",
+      "raw_sha256": "65d50b8068aca3223b55a1fa70c4a695056a38eece602d2662d677fd976ae0d9",
+      "source_xy": [
+        480,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "1461dc0625ec5db65f73ada2f1417fd613af2b0842fb02f12fa57cc8e194fcd3"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_east_5",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/east/frame_005.png",
+      "raw_sha256": "8be157ea2aeee297bfa49a861e44dcc10d9e984549727c9cce43cacbd0a1ac6c",
+      "source_xy": [
+        600,
+        1800
+      ],
+      "duration_ms": 100,
+      "sha256": "c98bd06544dd4f45edc86a3aa1bdf60193ebd0a7fbbd28008d72208b1f9850a5"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_000.png",
+      "raw_sha256": "e3b9286206ce9e3ebfb0c395e420de220c14de95e9607139f225bd712e891974",
+      "source_xy": [
+        0,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "7df3915a59c904846590c31bdcc41777439151655871a2bc6dd9fb853066550c"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_001.png",
+      "raw_sha256": "6bbde53ffc32c2fb74df933d038aec0e1818d950a43ec67e77eeddc9ce4a570c",
+      "source_xy": [
+        120,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "22d982f5e25815a40b723f7bcf365d9835c17d3c5ac909942627098b4de6cb9b"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_002.png",
+      "raw_sha256": "b0365959722ce1f1f4bffac13337600bda9a38aa3af0ca2b82f5dae023f73b6a",
+      "source_xy": [
+        240,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "4c9304a85d192497585d0d1d9c7f17f1bb0f97382dfd9b05f905bf4983d3ca91"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_003.png",
+      "raw_sha256": "3e7488725a9c27570aabe66af021a935295b6727fa00e10847cf347c07338eff",
+      "source_xy": [
+        360,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "e2d4a0adcd4e47330d792b56f36be78e7d4d929e2602111cc33b37101b7785c4"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_4",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_004.png",
+      "raw_sha256": "f73c5eb46f5a81fb5623eecdf50ff44b3c98e7b1ea8e5ffd3147761f17a59531",
+      "source_xy": [
+        480,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "1f169e890f1b12baff22888013124f1bb9c8e2fe214e77124f40fb26c03c4506"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_north_5",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/north/frame_005.png",
+      "raw_sha256": "93575d251ab85463213d2b6cd05ca2354c088917b89690594e5457de94d3c8d7",
+      "source_xy": [
+        600,
+        1680
+      ],
+      "duration_ms": 100,
+      "sha256": "5592c59cbddb9224fe60b1d75fc9663134ba4561be33d1d86c39d40f4e96c86a"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_000.png",
+      "raw_sha256": "86648baf79cb2595b9ef253542ee62e619d7f1da84462d10543642c2bf25c0a9",
+      "source_xy": [
+        0,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "9c39d0832a0b2e68a034a00ead9bd8cae4310b40fb419385b85e24ffb9d60867"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_001.png",
+      "raw_sha256": "4761804c5420c0e9c4ce3f4d7e90a4df4b7a0a4321d515bdb9cbe221ddb1e656",
+      "source_xy": [
+        120,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "a5ec7f53162100978a652af209bb0958aed80518f02ec4fe6e889d72ce1be5bd"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_002.png",
+      "raw_sha256": "8e7919a0fad0b3112d2858a658eeb8bc9011d2abc1950a6c0cf78ca31478a683",
+      "source_xy": [
+        240,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "ed794ad0dc3e64c7497eaaccf202d845cc0f0d949febaf289c79e776633e70a4"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_003.png",
+      "raw_sha256": "1ab5cc34cb096981d0ee66d3aa6057c3410ae26f332c46dc63672b40ec8544ee",
+      "source_xy": [
+        360,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "7b101c73656cafc1a7368ae6c4a184676c1f5fecadbe74d248cd7c2885328562"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_4",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_004.png",
+      "raw_sha256": "fdd6b0a8081d4c21e82f5aa35e31a68131e231ca75c2a1333f4a1e9437be4065",
+      "source_xy": [
+        480,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "ce184f9889ead9806cb90f63c25307e616358d3b69f2cc01506ae6bc881e4bd7"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_south_5",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/south/frame_005.png",
+      "raw_sha256": "339036eccc38e5cc06e9609dbb33f8709a7a78a16e00677e02f2cab63eb4d656",
+      "source_xy": [
+        600,
+        1440
+      ],
+      "duration_ms": 100,
+      "sha256": "09990a61243d798a8cd3e2dafa8593ad659f02d7d548f0f16ccd782f48935442"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_000.png",
+      "raw_sha256": "babdab32b9c1b1fda9682bcd13053df7a9b1618ced2088b878845622fb58e2df",
+      "source_xy": [
+        0,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "369f09b2eacd555a5be63c3dbee93b887c771fdc3cd63fc13908045d912f88a0"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_001.png",
+      "raw_sha256": "0ee19adbe811743415011a6ba73b4c5d6de4030c97d17d1aba14f1c0877bd3ad",
+      "source_xy": [
+        120,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "30f3c22d8b4e5bf2111b866048f9459f5364cb3b2b71eee50a68f151b05b2c79"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_002.png",
+      "raw_sha256": "931f43937ef93a458e6488749a2b6c5a14e9058acd40287a5d12a93a5723611c",
+      "source_xy": [
+        240,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "68c1adcfae9c106b6d5401a7facc48b24ba24475bf7136320a1d7a72ca374331"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_003.png",
+      "raw_sha256": "26003d9a88b26e4ad4e70c15cdf1913890c09f5425fe2a14eb21705a2e135418",
+      "source_xy": [
+        360,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "c4f8ae6ce98d8a34fe1eb3747b6b80bdfb7d0b8a716c8ee6ee08a874afb7c56d"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_4",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_004.png",
+      "raw_sha256": "ac25ac7db313e4c8aa95ce2e80d5c949ed6536d86802ff7a7900669349ec6928",
+      "source_xy": [
+        480,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "f15fa6cc0452d07a30ea06f28b9155e4a766b25dd405d13c1efbbe4ccb142a7a"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/strike_west_5",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/strike_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/strike/west/frame_005.png",
+      "raw_sha256": "4f301db563f2ef431ba1a90eaaaaa14621fef8853810f652a559e8a11ac4f698",
+      "source_xy": [
+        600,
+        1560
+      ],
+      "duration_ms": 100,
+      "sha256": "951b05c0f12405c8d6d5fec2c572239bdee92bfed611bc071de39e2dc04ff570"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/east/frame_000.png",
+      "raw_sha256": "87b74ff87958ee18a3a8373549f1d25bfad6807ec11f073a5373450773ef1133",
+      "source_xy": [
+        0,
+        1320
+      ],
+      "duration_ms": 180,
+      "sha256": "73e8cd877903563a023e354b853bd399b705eea1d4c3ad2dfb63e582b9c50884"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/east/frame_001.png",
+      "raw_sha256": "fd372ac9c8626a646a58675e58271a296149775be44d9cec898f447124535814",
+      "source_xy": [
+        120,
+        1320
+      ],
+      "duration_ms": 180,
+      "sha256": "9bda077700e1e45d1391c9b1ac10278e6f2be8d1c0070c038dfe9650e787a960"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/east/frame_002.png",
+      "raw_sha256": "9470557f9c45248babd87008a9c8db49e4d90b89b5d9bd46599d961e88d8de76",
+      "source_xy": [
+        240,
+        1320
+      ],
+      "duration_ms": 180,
+      "sha256": "f49b1b512e9e2e0e5920f169490ae97fbfc5ce109d3c34a7236971c0e3a225a1"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_east_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/east/frame_003.png",
+      "raw_sha256": "bd5929d6281d3011710645076a1f7373aa99d9d331150462e14bd4980b1703f1",
+      "source_xy": [
+        360,
+        1320
+      ],
+      "duration_ms": 180,
+      "sha256": "d4f60891afccc1f4aac08b34f86513a410c93c116c64f7af9349ee9e88127973"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/north/frame_000.png",
+      "raw_sha256": "46a9c033bd2b95c784789fb44c3569c67f8c347bc670395a637e1752e51bb85c",
+      "source_xy": [
+        0,
+        1200
+      ],
+      "duration_ms": 180,
+      "sha256": "f29ebf76f81b3b4bdd309e750fb9600ef64465e7de64ef20346c384fd9a8bc89"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/north/frame_001.png",
+      "raw_sha256": "45a851ee3c5854aa41dceda1c06c152dda7b69f4040971a2fa0d91aa29ea730c",
+      "source_xy": [
+        120,
+        1200
+      ],
+      "duration_ms": 180,
+      "sha256": "4b45ab22e7fc988810dd02e4926707aefda420e541931e4670cba0b34d20e2de"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/north/frame_002.png",
+      "raw_sha256": "9e0ccd4da25a62eb26df19f620758d7cb13dbdb6529e94c9d24790025be374b1",
+      "source_xy": [
+        240,
+        1200
+      ],
+      "duration_ms": 180,
+      "sha256": "e39064a32f0d22d602f97a4f0e882208963a55e1953d61435139e4842f8ddc15"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_north_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/north/frame_003.png",
+      "raw_sha256": "1ef0e04050fe6d8e5771e58b4fd56146156249e1b5b368cc2e3e943f2fcefa8c",
+      "source_xy": [
+        360,
+        1200
+      ],
+      "duration_ms": 180,
+      "sha256": "81bf12905285bc00e3717c63115be214885de949a01ee384d19248ed6be628c1"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/south/frame_000.png",
+      "raw_sha256": "1725426529cb37532a554d8312dc8e976badbdd150f383d98c7e2d0f756f46c4",
+      "source_xy": [
+        0,
+        960
+      ],
+      "duration_ms": 180,
+      "sha256": "507d5f6c297cbeb779c88d175d2073f5f7270823bae1a87dbf9bcb58a914a3c5"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/south/frame_001.png",
+      "raw_sha256": "d11d31893aac0cefdcf60db615138f554968b8ad44789fd518cd87f553d2598d",
+      "source_xy": [
+        120,
+        960
+      ],
+      "duration_ms": 180,
+      "sha256": "ae4df5c6b3cd8079bd9c625577924e0828fa8b5eba8d284046937064ff6b6875"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/south/frame_002.png",
+      "raw_sha256": "821d74e7f2ff69a488a91a12ebc24c9efa84383f8a95ca3ad7ced7bf09fa7472",
+      "source_xy": [
+        240,
+        960
+      ],
+      "duration_ms": 180,
+      "sha256": "bf85ad466a9a018b85e22ce84f6e14fca632c34bc81120b9175d7298717c6838"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_south_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/south/frame_003.png",
+      "raw_sha256": "91a56707947eaefbb0798cc2a084a92cc1f2aa73c05cec0bb1feed1b35d865d2",
+      "source_xy": [
+        360,
+        960
+      ],
+      "duration_ms": 180,
+      "sha256": "f59d3debb7958b4928db226620341bf523a0efadbdb7111cdec4d93e1a474d73"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/west/frame_000.png",
+      "raw_sha256": "f8afa5d67787da78114f8e81816dc2f2f3996f8568bb3e863d264057b89cdade",
+      "source_xy": [
+        0,
+        1080
+      ],
+      "duration_ms": 180,
+      "sha256": "6610e8b2b90dda2d5fe1dd44607b4da8fed7e4d5dbbf4a2c136065fc1715e0aa"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/west/frame_001.png",
+      "raw_sha256": "3de424d37de127d8e98988655fecf43f7ad294fe43dbcd32be099f296c5df8f8",
+      "source_xy": [
+        120,
+        1080
+      ],
+      "duration_ms": 180,
+      "sha256": "ff1fa1151fe4ef4b0a776edb04f03c45ee1762f77ef540cf88eda09eafd511fe"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/west/frame_002.png",
+      "raw_sha256": "e4888b6e5e5f5e2a713df297100602dba8125aaa87471ceac29535815e0c4b6a",
+      "source_xy": [
+        240,
+        1080
+      ],
+      "duration_ms": 180,
+      "sha256": "a47dcf0e0e468abcbad17b4c669b373fc6383cc68e7f1f1ff1aeec62815fe75a"
+    },
+    {
+      "key": "longtime/lt_hollow_astrolabe/telegraph_west_3",
+      "path": "assets/processed_longtime/lt_hollow_astrolabe/telegraph_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_hollow_astrolabe/telegraph/west/frame_003.png",
+      "raw_sha256": "a12ce61ed51d1ce08ddca974df8e50a8933b2871a7f10b3fe1ed1b4599547ac6",
+      "source_xy": [
+        360,
+        1080
+      ],
+      "duration_ms": 180,
+      "sha256": "c9952e9cf6198a53cfe160ab8f53951948cadb0ec7b134c1c24764758d0c1b83"
+    }
+  ]
+}
