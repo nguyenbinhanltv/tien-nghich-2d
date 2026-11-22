@@ -27,8 +27,9 @@ test('origins come from the recorded files: generator script, tool render, retir
   assert.equal(gen.origin.kind, 'generator');
   assert.equal(gen.origin.script, 'tools/generators/longtime_abode.py');
   assert.match(gen.origin.scriptSha256, /^[0-9a-f]{64}$/);
-  assert.deepEqual(gen.missing, [], 'the supplement states why the seed is "none" (the script imports no random module)');
-  assert.match(gen.origin.seed, /^none: /);
+  assert.deepEqual(gen.missing, [], 'the supplement states why there is no seed (the script imports no random module)');
+  assert.equal(gen.origin.seed, null, 'a reason is not a value');
+  assert.equal(gen.reasons.seed.status, 'not-applicable');
   assert.deepEqual(gen.evidence, ['assets/raw/longtime/lt_abode_stone/provenance.json', 'assets/review/provenance_supplement.json']);
   const fx = byId('lt_fx_gate_unseal');
   assert.deepEqual([fx.origin.kind, fx.origin.tool, fx.origin.toolPin?.length, fx.origin.toolLicence], ['tool-render', 'spritefx', 40, 'MIT']);

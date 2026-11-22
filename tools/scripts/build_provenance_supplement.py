@@ -205,7 +205,7 @@ def main(ledger_path, index_path):
                 if aid in ps:
                     fields['seed'] = f"fixed constant {ps[aid]}: np.random.default_rng({ps[aid]}) in fragments(), used only for the broken, shatter or crumble states"
                 else:
-                    fields['seed'] = 'none: this drawing calls no random generator (only prop debris in fragments() does)'
+                    reasons['seed'] = NA('This drawing calls no random generator (only prop debris in fragments() does); it is deterministic.')
                 fields['method'] = 'Procedural pixel drawing by gen_items_weapons.py with the project palette; checked by verify_items_weapons.py (README_items_weapons.md)'
             elif script.endswith('gen_tilesets.py'):
                 doc = 'tools/generators/README.md'
@@ -274,7 +274,7 @@ def main(ledger_path, index_path):
             reasons['promptHash'] = NA(PROMPT_NA)
             if uses_random(script):
                 sys.exit(f'{script} uses a random generator; hand-write its seed rule before running again')
-            fields['seed'] = f"none: {Path(script).name} imports no random module (checked by AST); the provenance method says the drawing is deterministic"
+            reasons['seed'] = NA(f"{Path(script).name} imports no random module (checked by AST); the drawing is deterministic")
             lab = agent_label(o['producer'])
             if need('agent'):
                 if i['assignedAgent']: fields['agent'] = i['assignedAgent'] + (f' (provenance producer: {o["producer"]})' if o['producer'] else '')
