@@ -12,7 +12,7 @@
 import { decodeRgba, encodePixels, normalizePng } from '../../core/png.mjs';
 import { assetGateOptions, findDefects, severityOf } from '../../core/defects.mjs';
 import { clipSpec, framePath, listFrames, isShipped, milestones } from '../../core/assets.mjs';
-import { headPng, saveRevision } from '../../core/revisions.mjs';
+import { headPng, saveRevisions } from '../../core/revisions.mjs';
 import { submitFrames } from '../../core/submissions.mjs';
 import { readInside } from '../../core/files.mjs';
 import { problem } from '../../core/errors.mjs';
@@ -131,12 +131,13 @@ export async function importSheet({ws, snap, caller, allow = () => true}, option
       frames: fresh.map(r => ({clip, direction, n: r.n, pngBase64: plan.find(p => p.n === r.n).png.toString('base64')}))});
     if (!accepted) { refused.push({code: 'submission', message: sub.message ?? 'the submission was not accepted'}); report.ok = false; return report; }
   }
-  for (const r of plan) {
-    if (r.action !== 'revision') continue;
-    const saved = await saveRevision(ws, {key: r.key, baseline: r.existing.baseline, png: r.png});
-    const row = report.frames.find(f => f.n === r.n);
+  // All revisions of this import save in ONE transaction: if any frame cannot be saved, none is.
+  const revising = plan.filter(r => r.action === 'revision');
+  const saves = await saveRevisions(ws, revising.map(r => ({key: r.key, baseline: r.existing.baseline, png: r.png})));
+  revising.forEach((r, i) => {
+    const row = report.frames.find(f => f.n === r.n), saved = saves[i];
     Object.assign(row, {revision: saved.revision, status: saved.status, action: saved.changed ? 'revision' : 'unchanged'});
-  }
+  });
   report.written = report.frames.some(f => f.action === 'revision' || f.action === 'new');
   return report;
 }

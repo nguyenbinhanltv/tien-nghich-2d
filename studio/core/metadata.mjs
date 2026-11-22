@@ -57,7 +57,7 @@ function checkClip(asset, name, clip) {
  * patch: {pivot?, hitbox?, clips?: {name: {frameMs?, events?}}}. A null value clears a field.
  * Fields not mentioned keep their value. `etag` (from the last read) is required once a sidecar exists.
  */
-export async function setMetadata({root, asset, caller, patch, etag}) {
+export async function setMetadata({root, asset, caller, patch, etag, dryRun = false}) {
   if (!asset.layout?.studioRawDir) throw problem(422, 'unsupported', `${asset.id} (${asset.source}) has no authoring metadata; only design-manifest assets do`);
   const m = await milestones(root, asset);
   if (isShipped(m)) throw problem(409, 'already_processed', `${asset.id} already has processed or packed frames; its metadata changes through a reviewed revision`);
@@ -77,13 +77,15 @@ export async function setMetadata({root, asset, caller, patch, etag}) {
     if (current && etag !== current.etag) {
       throw problem(409, 'etag_mismatch', etag ? `${asset.id} metadata changed since you read it; call studio_asset_get again` : `${asset.id} already has metadata; pass the etag from studio_asset_get`);
     }
-    const data = current?.data ?? {schema: METADATA_SCHEMA, version: 1, id: asset.id, clips: {}};
+    const before = current ? structuredClone(current.data) : null;
+    const data = structuredClone(current?.data ?? {schema: METADATA_SCHEMA, version: 1, id: asset.id, clips: {}});
     for (const f of ['pivot', 'hitbox']) if (f in patch) { if (patch[f] === null) delete data[f]; else data[f] = patch[f]; }
     for (const [name, clip] of Object.entries(patch.clips ?? {})) {
       if (!clipSpec(asset, name)) throw problem(500, 'internal_error', 'unvalidated clip name'); // unreachable: checkClip ran; never assign an unchecked key (__proto__)
       if (clip === null) { delete data.clips[name]; continue; }
       data.clips[name] = {...data.clips[name], ...clip};
     }
+    if (dryRun) return {dryRun: true, before, data, file: rel, etag: current?.etag ?? null};
     data.updated = {agent: caller.agent, session: caller.session, at: new Date().toISOString()};
     const text = JSON.stringify(data, null, 2) + '\n';
     await ensureDirInside(root, asset.layout.rawDir);

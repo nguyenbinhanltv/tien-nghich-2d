@@ -98,6 +98,7 @@ test('the runner parses questions and agent transcripts', () => {
 
 // ---- the second half (forge, toolchain, audio) -------------------------------------------------------
 import { buildForgeScene } from './eval/scene2.mjs';
+import { SETS } from './eval/run.mjs';
 import { HAVE_PYTHON } from './testkit.mjs';
 
 const questions2 = parseQuestions(readFileSync(join(HERE, 'eval/questions2.xml'), 'utf8'));
@@ -105,6 +106,7 @@ const questions2 = parseQuestions(readFileSync(join(HERE, 'eval/questions2.xml')
 test('second half: five questions, each with one short verifiable answer; the two halves make ten', () => {
   assert.equal(questions2.length, 5);
   assert.equal(questions.length + questions2.length, 10, 'the plan requires ten');
+  assert.equal(SETS[1].offset + questions.length, SETS[2].offset, 'question numbers continue across the sets');
   for (const q of questions2) {
     assert.ok(q.question.length > 80 && q.question.length < 800, `Q${q.n + 5} length`);
     assert.ok(q.answer.length > 0 && q.answer.length < 60, `Q${q.n + 5} answer is one short value`);
@@ -156,5 +158,46 @@ test('second half: every question is answerable with studio tool calls alone (an
     for (const tool of ['studio_template_get', 'studio_asset_get', 'studio_generator_run', 'studio_pack']) assert.ok(used.has(tool), `${tool} is exercised`);
     const raw = (id) => join(scene.root, 'assets/raw/longtime', id);
     assert.equal((await import('node:fs')).existsSync(join(raw('lt_icon_realm_step'), 'frames')), false, 'the trial run committed nothing');
+  } finally { await scene.cleanup(); }
+});
+
+// ---- questions 11 and 12: a frame read as text -----------------------------------------------------
+const questions3 = parseQuestions(readFileSync(join(HERE, 'eval/questions3.xml'), 'utf8'));
+
+test('questions 11 and 12 extend the ten, are read-only, and have verifiable answers', async () => {
+  assert.equal(questions3.length, 2);
+  assert.equal(SETS[2].offset + questions2.length, SETS[3].offset, 'they are numbered 11 and 12');
+  assert.equal(SETS[3].scope, 'read');
+  for (const q of questions3) {
+    assert.ok(q.question.length > 80 && q.question.length < 700, `Q${q.n + 10} length`);
+    assert.match(q.question, /Answer (with|as)/);
+    assert.doesNotMatch(q.question, /\b(create|submit|approve|delete|write|record)\b/i, 'no state change is asked for');
+  }
+  const scene = await buildScene();
+  try {
+    assert.deepEqual(questions3.map((q) => normalize(q.answer)), [scene.truth.q11, scene.truth.q12].map(normalize), 'the answers equal ground truth from the PNG files');
+    assert.equal(scene.truth.q12Unique, 1, 'exactly one pixel has a colour of its own, so Q12 has one answer');
+  } finally { await scene.cleanup(); }
+});
+
+test('questions 11 and 12 are answerable with studio_frame_read at read scope, and not from the other read tools alone', async () => {
+  const scene = await buildScene();
+  try {
+    const c = connect(openProject(scene.root), { scope: 'read', agent: 'oracle' });
+    const read = (frame) => c.ok('studio_frame_read', { assetId: 'lt_seed_broker', frame });
+    // Q11: the legend counts the pixels of each colour.
+    const f1 = await read('idle_south_1');
+    const answers = [String(f1.legend.find((l) => l.id === 'ink_01').pixels)];
+    // Q12: the newest revision of idle_south_3 (not the submitted file); the colour that occurs once, and where.
+    const f3 = await read('idle_south_3');
+    const once = f3.legend.find((l) => l.pixels === 1);
+    const y = f3.rows.findIndex((r) => r.includes(once.char));
+    answers.push(`${once.id} ${f3.rows[y].indexOf(once.char)},${y}`);
+    assert.deepEqual(answers.map(normalize), questions3.map((q) => normalize(q.answer)));
+    // The submitted file differs from the newest revision: reading the file would give a different answer.
+    const sub = await c.ok('studio_diff', { assetId: 'lt_seed_broker', against: 'previous' });
+    assert.ok(sub.frames.find((f) => f.frame === 'idle_south_3').changedPixels > 0, 'the frame has a newer revision than its file');
+    // The read tool is read-only: the scene is exactly as it was.
+    assert.equal((await c.call('studio_frame_patch', { assetId: 'lt_seed_broker', edits: [{ frame: 'idle_south_3', ops: [{ op: 'outline' }] }] })).isError, true, 'a read connection cannot patch');
   } finally { await scene.cleanup(); }
 });

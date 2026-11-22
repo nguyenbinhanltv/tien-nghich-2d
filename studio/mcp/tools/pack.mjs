@@ -7,7 +7,7 @@ import { readInside } from '../../core/files.mjs';
 import { decodeRgba } from '../../core/png.mjs';
 import { ToolError } from '../registry.mjs';
 import { shown } from '../workflow/forge.mjs';
-import { backgroundProp, inlineOrJob, jsonResult, loadAsset } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, jsonResult, loadAsset } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 
 /** Real path of `p` even when it does not exist yet: the deepest existing ancestor is resolved (macOS /var is a link), the rest appended. */
@@ -22,6 +22,18 @@ async function realOf(p) {
       at = up;
     }
   }
+}
+
+/** Project-relative paths of every file under a directory (empty when it does not exist), sorted. */
+async function listFiles(ws, dir) {
+  const out = [];
+  async function walk(abs) {
+    let entries;
+    try { entries = await fs.readdir(abs, { withFileTypes: true }); } catch (error) { if (error.code === 'ENOENT') return; throw error; }
+    for (const e of entries) { const p = path.join(abs, e.name); if (e.isDirectory()) await walk(p); else out.push(shown(ws, p)); }
+  }
+  await walk(dir);
+  return out.sort();
 }
 
 /** SHA-256 of every file under the directories, in a stable order: used to prove the shipped atlases did not change. */
@@ -47,13 +59,14 @@ export default {
     'and check the chunk against its budget: the mobile page ceiling and memory ceiling from the design manifest (pages 1024x1024, padding 2, extrude 1, 4 bytes per pixel) and the web page size. ' +
     'It answers "does this asset still fit its chunk, and how many pages" before anything is delivered. ' +
     'It NEVER writes to the shipped atlases or the processed directories, and proves it: the shipped atlas directories are fingerprinted before and after and must be identical. ' +
-    'Output: pages and a description per page under the staging path returned, page counts, bytes, and per-asset frame counts. Packing is deterministic. Delivering atlases is a human step.',
+    'Output: pages and a description per page under the staging path returned, page counts, bytes, and per-asset frame counts. Packing is deterministic. Delivering atlases is a human step. dryRun does the same work and reports the staging files it would write (wouldWrite) without writing them.',
   scope: 'author',
   inputSchema: {
     type: 'object',
     properties: {
       chunk: { type: 'string', maxLength: 40, description: 'Chunk group to pack, e.g. abode or mist_archive (see studio_catalog_search chunk).' },
       platform: { type: 'string', enum: ['web', 'mobile', 'both'], description: 'Which atlas profile to pack and check (default both).' },
+      dryRun: dryRunProp,
       background: backgroundProp,
     },
     required: ['chunk'],
@@ -92,8 +105,11 @@ export default {
       if (!sprites.length) throw new ToolError(`Chunk ${args.chunk} has no frames yet (no processed frames and no submitted raw frames).`);
       log(`packing ${sprites.length} frame(s) of ${Object.keys(perAsset).length} asset(s) for ${platforms.join(' and ')}`);
 
-      await fs.rm(staging, { recursive: true, force: true });
+      // The real call clears the chunk's whole staging directory first; a dry run lists what is there so the removal is visible.
+      const existingStaged = args.dryRun ? await listFiles(ws, staging) : [];
+      if (!args.dryRun) await fs.rm(staging, { recursive: true, force: true });
       const result = {};
+      const wouldWrite = [];
       for (const platform of platforms) {
         const profile = pack.atlasProfiles[platform];
         if (!profile) throw new ToolError(`The pack defines no "${platform}" atlas profile.`);
@@ -101,10 +117,13 @@ export default {
         try { packed = packPages(sprites, profile); } catch (error) { if (error.code === 'sprite_too_large') throw new ToolError(error.message); throw error; }
         const pages = writePages(packed, profile);
         const dir = path.join(staging, platform);
-        await fs.mkdir(dir, { recursive: true });
+        if (!args.dryRun) await fs.mkdir(dir, { recursive: true });
         for (const p of pages) {
-          await fs.writeFile(path.join(dir, `${p.name}.png`), p.png);
-          await fs.writeFile(path.join(dir, `${p.name}.json`), JSON.stringify(p.json, null, 2) + '\n');
+          if (!args.dryRun) {
+            await fs.writeFile(path.join(dir, `${p.name}.png`), p.png);
+            await fs.writeFile(path.join(dir, `${p.name}.json`), JSON.stringify(p.json, null, 2) + '\n');
+          }
+          wouldWrite.push(shown(ws, path.join(dir, `${p.name}.png`)), shown(ws, path.join(dir, `${p.name}.json`)));
         }
         const bpp = platform === 'mobile' ? (index.info.mobile?.bytes_per_pixel ?? 4) : 4;
         const bytes = pageBytes(packed.pages, bpp);
@@ -123,14 +142,14 @@ export default {
       const after = await fingerprint(ws.root, shipped);
       if (after !== before) throw new Error('the shipped atlas directories changed during packing; this must never happen');
       const pass = Object.values(result).every((r) => r.budget.pass);
-      const qa = envelope({ method: `packed ${sprites.length} frame(s) into staging atlases and compared them with the chunk budget`,
+      const qa = envelope({ method: `${args.dryRun ? 'dry run: ' : ''}packed ${sprites.length} frame(s) into staging atlases and compared them with the chunk budget`,
         checks: Object.entries(result).flatMap(([platform, r]) => [
           check(`${platform}Pages`, { ok: !r.budget.problems?.some((x) => /page/i.test(x)), measured: r.budget.pages.used, threshold: r.budget.pages.ceiling ?? 'size only' }),
           ...(r.budget.bytes ? [check(`${platform}Bytes`, { ok: !r.budget.problems?.some((x) => /byte|memory/i.test(x)), measured: r.budget.bytes.used, threshold: r.budget.bytes.ceiling })] : [])]),
         notProven: [{ what: 'delivery of the atlases', why: 'staging only; a human delivers atlases' }],
         inputs: { shippedAtlases: after, frames: sha(sprites.map((s) => s.key).join(',')) } });
-      const out = { ok: true, pass, qa, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
-        note: 'Staging only. Nothing was written to the shipped atlases; delivering atlases is a human step.' };
+      const out = { ok: true, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldWrite, wouldRemove: existingStaged.filter((f) => !wouldWrite.includes(f)), wouldReplace: existingStaged.filter((f) => wouldWrite.includes(f)) } : {}), pass, qa, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
+        note: args.dryRun ? 'Dry run: nothing was written anywhere. Without dryRun the files above are written to staging only; delivering atlases is a human step.' : 'Staging only. Nothing was written to the shipped atlases; delivering atlases is a human step.' };
       return jsonResult(out);
     });
   },

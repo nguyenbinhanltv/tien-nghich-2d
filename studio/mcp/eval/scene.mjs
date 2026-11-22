@@ -89,7 +89,22 @@ export function groundTruth(root) {
   const parts = [0, 1, 2, 3].map((n) => `${RAW}/idle_south_${n}.png:${createHash('sha256').update(readFileSync(join(root, RAW, `idle_south_${n}.png`))).digest('hex')}`);
   const current = createHash('sha256').update(parts.join('\n')).digest('hex');
 
+  // Q11: outline-colour pixels of the submitted frame idle_south_1 (frame 1 has no saved revision, so its file is its newest pixels).
+  const hexOf = (id) => parseInt(palette.colors.find((c) => c.id === id).hex.slice(1), 16);
+  const one = decodeRgba(readFileSync(join(root, RAW, 'idle_south_1.png')));
+  let ink = 0;
+  for (let i = 0; i < one.width * one.height; i++) if (one.pixels[i * 4 + 3] === 255 && one.pixels.readUIntBE(i * 4, 3) === hexOf('ink_01')) ink++;
+
+  // Q12: the one-of-a-kind colour in the newest revision of idle_south_3, which differs from its submitted file.
+  const edited = makeFrame(32, 32, { variant: 40 });
+  const seen = new Map();
+  for (let i = 0; i < 32 * 32; i++) if (edited.pixels[i * 4 + 3] === 255) { const c = edited.pixels.readUIntBE(i * 4, 3); seen.set(c, [...(seen.get(c) ?? []), i]); }
+  const [[accent, [at]]] = [...seen].filter(([, v]) => v.length === 1);
+  const accentId = palette.colors.find((c) => parseInt(c.hex.slice(1), 16) === accent).id;
+  const accentCount = [...seen.values()].filter((v) => v.length === 1).length;
+
   return {
+    q11: String(ink), q12: `${accentId} ${at % 32},${Math.floor(at / 32)}`, q12Unique: accentCount,
     q1: String(frames), q1Asset: boss[0].id,
     q2: String(inBossChunks),
     q3: `${off.frame} ${off.hex}`, q3Pixel: off,

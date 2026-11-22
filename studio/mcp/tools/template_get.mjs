@@ -6,7 +6,7 @@ import { ToolError } from '../registry.mjs';
 import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { referenceFor, referenceImage } from '../workflow/reference.mjs';
 import { buildPrompt } from '../workflow/prompt.mjs';
-import { loadAsset, requireFrames, requireScope } from './_shared.mjs';
+import { dryRunProp, loadAsset, requireFrames, requireScope } from './_shared.mjs';
 import path from 'node:path';
 
 const FACINGS = ['south', 'west', 'north', 'east'];
@@ -24,7 +24,7 @@ export default {
     'The result also carries formats: the compact shape of the rig and poseClips documents that studio_rig_bake takes, with the rules (coordinates, roles, which annotations turn which gate on), so you need not read source. ' +
     'It also returns prompt: a ready skeleton for your image prompt that follows fixed conventions (the role of each reference image by position, framing as percentages of a cell, each facing said three ways, near and far limbs named, then the proportions and the project style). ' +
     'If the asset has a locked reference in the pack (a style-locked entity: an approved image and a description paragraph), the result carries that image as a second picture, its description goes into prompt.text verbatim, and studio_sheet_import checks and records that your prompt carries it. ' +
-    'write=true (needs scope author) saves the template PNG where your image tool can read it. Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
+    'write=true (needs scope author) saves the template PNG where your image tool can read it (with dryRun it only lists the files it would save). Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -38,6 +38,7 @@ export default {
       figure: { type: 'string', maxLength: 31, description: 'Name of the pack figure guide to use (default: the one that lists this asset\'s profile); "none" for no guide and no proportion text.' },
       heightPx: { type: 'integer', minimum: 4, maximum: 200, description: 'Wanted figure height at native size, ground to crown (default about 65% of the canvas).' },
       write: { type: 'boolean', description: 'Save the template PNG and layout under the work directory and return their paths (needs scope author).' },
+      dryRun: dryRunProp,
     },
     required: ['assetId'],
     additionalProperties: false,
@@ -82,10 +83,12 @@ export default {
       let files;
       if (args.write) {
         const dir = workDir(ws, asset, 'templates');
-        await fs.mkdir(dir, { recursive: true });
         const pngPath = path.join(dir, `${layoutId}.png`), layoutPath = path.join(dir, `${layoutId}.layout.json`);
-        await writeFileAtomic(pngPath, png);
-        await writeFileAtomic(layoutPath, JSON.stringify(layout, null, 2) + '\n');
+        if (!args.dryRun) {
+          await fs.mkdir(dir, { recursive: true });
+          await writeFileAtomic(pngPath, png);
+          await writeFileAtomic(layoutPath, JSON.stringify(layout, null, 2) + '\n');
+        }
         files = { png: shown(ws, pngPath), layout: shown(ws, layoutPath) };
       }
 
@@ -94,9 +97,10 @@ export default {
       const prompt = buildPrompt({ layout, nativePx: profile.nativePx, poses: kind === 'pose-sheet' ? poses : null, reference: ref, referenceName: ref?.name,
         style: snap.pack.agentGuidance?.prompt ?? {}, proportions: named ? guidanceText(named, profile) : '' });
       const out = {
+        ...(args.dryRun ? { dryRun: true, wrote: 'nothing' } : {}),
         asset: { id: asset.id, profile: asset.profile, nativePx: profile.nativePx, pivotPx: profile.pivotPx, directions: asset.directions },
         clips,
-        template: { layoutId, kind, size: [w, h], cells: layout.cells.map((c) => ({ id: c.id, label: c.label, facing: c.facing, pose: c.pose })), ...(files ? { files } : {}),
+        template: { layoutId, kind, size: [w, h], cells: layout.cells.map((c) => ({ id: c.id, label: c.label, facing: c.facing, pose: c.pose })), ...(files ? (args.dryRun ? { wouldWrite: files } : { files }) : {}),
           drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.${named ? ` ${guidanceText(named, profile)}` : ''}` },
         prompt: { ...prompt, ...(ref ? { reference: { name: ref.name, image: ref.image, sha256: ref.sha256, approved: ref.approved, description: ref.description } } : {}) },
         layout,
@@ -110,7 +114,7 @@ export default {
       return {
         content: [
           { type: 'text', text: `Template ${layoutId} for ${asset.id} (${asset.profile}, ${profile.nativePx.join('x')} native): ${layout.cells.length} cells, ${w}x${h}px. ` +
-            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? `Saved: ${files.png}. ` : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}` },
+            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}` },
           { type: 'image', data: png.toString('base64'), mimeType: 'image/png' },
           ...(refBytes ? [{ type: 'image', data: refBytes.toString('base64'), mimeType: 'image/png' }] : []),
         ],

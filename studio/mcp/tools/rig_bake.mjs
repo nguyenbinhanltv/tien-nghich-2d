@@ -2,11 +2,11 @@ import fs from 'node:fs/promises';
 import { sha256 } from '../../core/fsutil.mjs';
 import { bakeStage, qaStage, validatePatch, validateRig, validatePoseClips, writeBakeDir, clipTable, loadLibrary } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { forgeCall, pixelizedFor, readDoc, settingsFor, workDir, writeDoc, shown } from '../workflow/forge.mjs';
+import { forgeCall, forgeDir, pixelizedFor, readDoc, settingsFor, workDir, writeDoc, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { gateCoverage } from '../workflow/gates.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
-import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
 const CAP = 40;
@@ -23,7 +23,8 @@ export default {
     'A character with BOTH kinds: import the turnaround AND the pose sheet (each keeps its own slot, importing one never replaces the other), then call this once with rig and poseClips; submit credits each frame to its own sheet. rig, poseClips and library are stored beside the asset and reused when you omit them, so a later bake or submit needs no arguments and loses no definition. ' +
     'Sheets drawn separately can differ in colours; the palette stability gate then reports colours that one clip has and another lacks: redraw to match, or accept a few with qa.stability.maxNewColors. ' +
     'Keep asymmetric marks with studio_process marks and fix stray pixels with studio_frame_patch (patches survive every rebake). qa turns gates off or tunes them (false turns one off, and it then shows as not run). save=false tries without storing. ' +
-    'submit=true commits the baked frames as the asset\'s raw frames, but only if both verdicts pass; raw is immutable afterwards, so look first.',
+    'submit=true commits the baked frames as the asset\'s raw frames, but only if both verdicts pass; raw is immutable afterwards, so look first. ' +
+    'dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -38,6 +39,7 @@ export default {
       save: { type: 'boolean', description: 'Store rig, poseClips and library beside the asset (default true).' },
       submit: { type: 'boolean', description: 'Commit the baked frames as raw frames of the asset if the gates pass.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 3).' },
+      dryRun: dryRunProp,
       background: backgroundProp,
     },
     required: ['assetId'],
@@ -74,11 +76,14 @@ export default {
       const baked = bakeStage({ settings, palette, cells: pixelized.cells, held: pixelized.held, rig, poseRig: args.poseRig, poseClips, library: library ?? (bodyPlan ? loadLibrary(bodyPlan) : undefined), patch, clips: args.clips });
       const gates = qaStage(baked, { settings, palette, rig, poseRig: args.poseRig, options: args.qa });
 
-      if (save) for (const [name, doc2, given] of [['rig', rig, args.rig], ['poseclips', poseClips, args.poseClips], ['library', library, args.library]]) if (given) await writeDoc(ws, asset, name, doc2);
+      const storing = save ? Object.entries({ rig: args.rig, poseclips: args.poseClips, library: args.library }).filter(([, v]) => v).map(([k]) => k) : [];
       const dir = workDir(ws, asset, 'bake');
-      await fs.rm(dir, { recursive: true, force: true });
-      await fs.mkdir(dir, { recursive: true });
-      await writeBakeDir(baked, dir);
+      if (!args.dryRun) {
+        if (save) for (const [name, doc2, given] of [['rig', rig, args.rig], ['poseclips', poseClips, args.poseClips], ['library', library, args.library]]) if (given) await writeDoc(ws, asset, name, doc2);
+        await fs.rm(dir, { recursive: true, force: true });
+        await fs.mkdir(dir, { recursive: true });
+        await writeBakeDir(baked, dir);
+      }
 
       const errors = gates.findings.filter((f) => f.severity === 'error'), warnings = gates.findings.filter((f) => f.severity !== 'error');
       const listed = [...errors, ...warnings].slice(0, CAP);
@@ -107,8 +112,8 @@ export default {
         inputs: { sheets: slots.map((x) => `${x.slot}:${x.doc.sheet.sha256.slice(0, 16)}`).join(' '), rig: rig ? sha(rig) : '-', poseClips: poseClips ? sha(poseClips) : '-', patch: patch ? sha(patch) : '-', frames: sha(Object.entries(baked.frames).map(([k, f]) => `${k}:${sha(f.pixels)}`).join(',')) } });
       const out = { asset: asset.id, pass: ready, qa, verdicts, clips: clipsOut, frames: Object.keys(baked.frames).length,
         gates: { errors: errors.length, warnings: warnings.length, byGate, findings: listed, ...(gates.findings.length > CAP ? { truncated: gates.findings.length - CAP } : {}) },
-        patched: Object.keys(patch?.frames ?? {}).length, bakeDir: shown(ws, dir), ...view.structured,
-        stored: save ? Object.entries({ rig: args.rig, poseclips: args.poseClips, library: args.library }).filter(([, v]) => v).map(([k]) => k) : [] };
+        patched: Object.keys(patch?.frames ?? {}).length, ...view.structured,
+        ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldStore: storing.map((k) => `${forgeDir(asset)}/${k}.json`) } : { bakeDir: shown(ws, dir), stored: storing }) };
 
       if (args.submit) {
         if (!ready) {
@@ -127,14 +132,14 @@ export default {
         const hashes = `rig ${rig ? sha256(JSON.stringify(rig)).slice(0, 12) : '-'}; poseclips ${poseClips ? sha256(JSON.stringify(poseClips)).slice(0, 12) : '-'}; patch ${patch ? sha256(JSON.stringify(patch)).slice(0, 12) : '-'}`;
         const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}${g.doc.reference ? `; reference ${g.doc.reference.name} ${g.doc.reference.sha256.slice(0, 12)} verbatim ${g.doc.reference.verbatim ? 'yes' : 'no'}` : ''}`, frames: Object.keys(g.frames) }));
         // ONE submission: all frames are gated together, written under one lock and rolled back together, each credited to its own sheet.
-        const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller });
+        const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller, dryRun: args.dryRun });
         const written = report.written?.length ?? 0, unchanged = report.unchanged?.length ?? 0;
-        out.submit = { accepted, written, unchanged, message: report.message, sheets: groups.size,
+        out.submit = { accepted, ...(args.dryRun ? { dryRun: true, wouldWrite: report.wouldWrite } : { written }), unchanged, message: report.message, sheets: groups.size,
           frames: accepted ? undefined : report.frames?.filter((f) => f.errors).map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
-        view.content[0].text += ` Committed ${written} raw frame(s) (status pending).`;
+        view.content[0].text += args.dryRun ? ` DRY RUN: would commit ${report.wouldWrite.length} raw frame(s); nothing was written.` : ` Committed ${written} raw frame(s) (status pending).`;
       }
-      out.next = out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' :
+      out.next = args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' :
         !ready ? `Not ready to submit: ${[!verdicts.animationGates.pass ? 'fix the animation findings (adjust the rig or poseClips)' : null, !verdicts.pixelGates.pass ? 'fix the error pixels (studio_frame_patch target "bake")' : null].filter(Boolean).join(' and ')}, then bake again.` :
         `Both verdicts pass${coverage.notRun.length ? ` (gates not run: ${[...new Set(coverage.notRun.map((n) => n.gate))].join(', ')}; see verdicts.animationGates.notRun for what turns them on)` : ''}. Look at the sheet; if it reads well, run again with submit=true.`;
       return { content: view.content, structuredContent: out };

@@ -93,3 +93,12 @@ export async function inlineOrJob(ctx, name, args, fn) {
 export const backgroundProp = { type: 'boolean', description: 'Run as a job and return a jobId at once; fetch the result with studio_job_wait. Use for large assets.' };
 
 export { expectedFrames, listFrames, milestones };
+
+/** The same flag on every tool that writes: a proposal is computed exactly as the real call would, then nothing is written. */
+export const dryRunProp = { type: 'boolean', description: 'Propose only: return exactly what would change and write nothing (no file, no database row, no scratch). Same checks as a real call.' };
+
+/** The result of a dryRun call. `wouldWrite` lists files, `changes` the per-field or per-pixel changes. */
+export const proposal = (fields, text) => {
+  const structured = { ok: true, dryRun: true, wrote: 'nothing', ...fields };
+  return text ? { content: [{ type: 'text', text: `DRY RUN, nothing was written. ${text}` }], structuredContent: structured } : jsonResult(structured);
+};

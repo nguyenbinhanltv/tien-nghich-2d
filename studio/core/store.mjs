@@ -79,6 +79,7 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
       db = connection;
     } catch (error) { connection.close(); throw error; }
   }
+  let depth = 0; // > 0 inside transaction(): operate then nests as a savepoint instead of committing on its own
   function operate(frame, baseline, action, args) {
     const key = frame.info.key;
     if (action === 'save') {
@@ -91,7 +92,7 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
     }
     const write = ['save','restore','review'].includes(action);
     open(write);
-    if (db) db.exec(write ? 'BEGIN IMMEDIATE' : 'BEGIN');
+    if (db) db.exec(depth ? 'SAVEPOINT op' : write ? 'BEGIN IMMEDIATE' : 'BEGIN');
     try {
       function append(rev, parent, png, metadata) {
         db.prepare('INSERT INTO versions VALUES(?,?,?,?,?)').run(key, rev, parent, png, JSON.stringify(metadata));
@@ -147,14 +148,24 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         .map(c => ({...c,status:c.status ?? unjudged(selected,standing)}));
       const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
         status:history.find(item=>item.revision===selected).status,comments,history};
-      if (db) db.exec('COMMIT');
+      if (db) db.exec(depth ? 'RELEASE op' : 'COMMIT');
       return snapshot;
     } catch (error) {
-      if (db) db.exec('ROLLBACK');
+      if (db) db.exec(depth ? 'ROLLBACK TO op; RELEASE op' : 'ROLLBACK');
       throw error;
     }
   }
-  return {operate, origin(key) {
+  /** Run fn() (synchronous: it calls operate) inside ONE write transaction: if it throws, every write it made is rolled back. */
+  function transaction(fn) {
+    if (depth) return fn();
+    open(true);
+    db.exec('BEGIN IMMEDIATE');
+    depth++;
+    try { const out = fn(); db.exec('COMMIT'); return out; }
+    catch (error) { db.exec('ROLLBACK'); throw error; }
+    finally { depth--; }
+  }
+  return {operate, transaction, origin(key) {
     open(false);
     if (!db?.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='origins'").get()) return null;
     return db.prepare('SELECT stamp FROM origins WHERE key=?').get(key)?.stamp;

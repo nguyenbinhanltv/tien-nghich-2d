@@ -174,7 +174,7 @@ test('MCP-006: static: the only code that writes to the revision store is review
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: rev, text: body\}\)/ },                 // reply: text only
     { file: 'studio/core/submissions.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },      // new lineage starts pending
     { file: 'studio/core/audio-candidates.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },  // a new audio candidate's pictures start pending
-    { file: 'studio/core/revisions.mjs', action: 'save', must: /\{baseRevision: head\.head, png\}\)/ },            // a pixel patch is a new revision: pending, never a decision
+    { file: 'studio/core/revisions.mjs', action: 'save', must: /\{baseRevision: baseRevision \?\? heads\[i\], png\}\)/ },            // a pixel patch is a new revision: pending, never a decision
   ];
   assert.equal(calls.length, expected.length, `unexpected store writes:\n${calls.map((c) => `${c.file}: ${c.code}`).join('\n')}`);
   for (const want of expected) {
