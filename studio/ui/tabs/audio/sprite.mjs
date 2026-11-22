@@ -1,7 +1,7 @@
 // The Sprite map view: every cue of a pack's effect sprite on one strip, with the guard gaps between entries, the
 // active region of each cue, the problems spriteSegments finds, and the decoded markers of each codec.
 import { h, select, button, put } from './dom.mjs';
-import { spriteSegments } from './model.mjs';
+import { spriteSegments, playLabel } from './model.mjs';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const svg = (tag, attrs = {}, ...kids) => {
@@ -39,8 +39,8 @@ export async function renderSprite(app, el, detail, entry, current) {
     say.textContent = ctx.t('listen.loading');
     try {
       const buffer = await engine.load(spriteUrl, rate);
-      engine.handles.filter(x => x.label.startsWith('sprite:')).forEach(x => x.stop());
-      engine.play(buffer, {offsetFrames: s.start, endFrames: s.end, label: 'sprite:' + s.id});
+      engine.handles.filter(x => x.label.endsWith(':sprite')).forEach(x => x.stop());
+      engine.play(buffer, {offsetFrames: s.start, endFrames: s.end, label: playLabel(s.id, app.byId.get(s.id)?.masterSha, 'sprite')});
       say.textContent = ctx.t('sprite.playing', {id: s.id});
     } catch (error) { say.textContent = ctx.t('listen.decodeFailed', {codec: 'WAV', message: error.message}); }
   }

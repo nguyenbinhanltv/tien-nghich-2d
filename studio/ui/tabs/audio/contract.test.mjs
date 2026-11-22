@@ -48,3 +48,14 @@ test('playback is only reachable from click handlers: nothing starts at mount', 
   assert.match(text('engine.mjs'), /function ensure/);
   assert.doesNotMatch(text('index.mjs'), /AudioContext|\.play\(/);
 });
+
+test('the sign-off gate and the note use heardFor, and every playback label carries its cue', () => {
+  const side = text('side.mjs');
+  assert.match(side, /heardFor\(engine\.heardLabels\(\), entry\.id, entry\.masterSha\)/);
+  assert.doesNotMatch(side, /heardLabels\(\)\.map/, 'no unscoped label list');
+  for (const f of ['listen.mjs', 'ab.mjs', 'sprite.mjs', 'patch.mjs']) {
+    const src = text(f);
+    for (const m of src.matchAll(/label: ([^,}]+)/g)) assert.match(m[1], /playLabel\(|\btag\(|\blabel\b|'preview'|'bed:'/, `${f}: ${m[1]}`);
+    assert.doesNotMatch(src, /label: 'main:|label: 'ab:|label: 'sprite:/, f);
+  }
+});

@@ -2,7 +2,7 @@
 // human sign-off. Sign-off is recorded by the Review tab's route (POST /api/tabs/review/audio-signoff, tied to the master's sha256);
 // this tab owns no store of its own. Only a click in this page can send it, and no MCP tool reaches that route.
 import { h, button, short, put } from './dom.mjs';
-import { checklistItems, allChecked, signoffNote, formatDb } from './model.mjs';
+import { checklistItems, allChecked, signoffNote, heardFor } from './model.mjs';
 
 const dbfsOfPcm = pcm => (Array.isArray(pcm) && Math.max(...pcm) > 0 ? 20 * Math.log10(Math.max(...pcm) / 32768) : null);
 const within = (a, b, tol) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= tol;
@@ -85,9 +85,9 @@ async function signoffPanel(app, detail, entry) {
   let info = null;
 
   function refresh() {
-    const heard = engine.heardLabels().map(l => l.replace(/^[a-z]+:/, ''));
+    const heard = heardFor(engine.heardLabels(), entry.id, entry.masterSha);
     const everything = allChecked(entry.kind, checked);
-    heardLine.textContent = heard.length ? ctx.t('sign.heard', {what: [...new Set(heard)].join(', ')}) : ctx.t('sign.heardNone');
+    heardLine.textContent = heard.length ? ctx.t('sign.heard', {what: heard.join(', ')}) : ctx.t('sign.heardNone');
     sign.disabled = !(info && everything && heard.length);
     needs.disabled = !(info && heard.length);
     sign.title = !everything ? ctx.t('sign.needChecklist') : !heard.length ? ctx.t('sign.needListen') : '';
@@ -106,7 +106,7 @@ async function signoffPanel(app, detail, entry) {
     if (!event.isTrusted) return; // a scripted click is not a person
     if (!info) return;
     const body = {id: entry.id, content: info.contentHash, verdict,
-      note: signoffNote({kind: entry.kind, checked, labels, blind: app.blind?.cue === entry.id ? app.blind : null, heard: [...new Set(engine.heardLabels().map(l => l.replace(/^[a-z]+:/, '')))], free: note.value.trim()})};
+      note: signoffNote({kind: entry.kind, checked, labels, blind: app.blind?.cue === entry.id ? app.blind : null, heard: heardFor(engine.heardLabels(), entry.id, entry.masterSha), free: note.value.trim()})};
     sign.disabled = needs.disabled = true;
     try {
       const res = await fetch('/api/tabs/review/audio-signoff', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body), signal: ctx.signal});

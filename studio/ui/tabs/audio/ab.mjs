@@ -1,7 +1,7 @@
 // Blind A/B: two cues that may be confused, played level-matched as "1" and "2" in a random order; the listener says which one is
 // the cue under review. The answer is data (correct of n, and a guessing p-value), kept for the sign-off note. Nothing plays until a click.
 import { h, button, select, put } from './dom.mjs';
-import { makeTrials, scoreTrials, matchedGains, parsePair } from './model.mjs';
+import { makeTrials, scoreTrials, matchedGains, parsePair, playLabel } from './model.mjs';
 
 const TRIALS = 6;
 const rand = () => crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
@@ -45,8 +45,8 @@ export async function renderBlind(app, root, detail, entry, current, {say}) {
   }
   function playSlot(slot) {
     const trial = trials[at], id = (slot === 1) === trial.targetFirst ? entry.id : partner, b = buffers[id];
-    engine.handles.filter(x => x.label.startsWith('ab:')).forEach(x => x.stop());
-    engine.play(b.buffer, {gain: b.gain, label: 'ab:' + slot});
+    engine.handles.filter(x => x.label.endsWith(':ab')).forEach(x => x.stop());
+    engine.play(b.buffer, {gain: b.gain, label: playLabel(id, app.byId.get(id)?.masterSha, 'ab')});
     heardBoth[at].add(slot);
     draw();
   }

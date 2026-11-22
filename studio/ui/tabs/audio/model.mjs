@@ -165,6 +165,20 @@ export function signoffNote({kind, checked, labels, blind, heard, free}) {
   return parts.filter(Boolean).join(' | ').slice(0, 1000);
 }
 
+// ---- what counts as having listened ------------------------------------------------------------
+
+/** Label of a playback of one cue's master (or its pack version): `play:<cueId>@<sha12>:<version>`; version is master, ogg, m4a, sprite or ab. */
+export const playLabel = (cueId, masterSha, version) => `play:${cueId}@${(masterSha ?? '?').slice(0, 12)}:${version}`;
+
+/**
+ * The versions of THIS cue and this exact master that were played, from the engine's labels. A playback of another cue, a bed under an
+ * effect, the partner in a blind A/B, a sprite slice of another cue or a scratch preview never counts.
+ */
+export function heardFor(labels, cueId, masterSha) {
+  const prefix = `play:${cueId}@${(masterSha ?? '?').slice(0, 12)}:`;
+  return [...new Set(labels.filter(l => typeof l === 'string' && l.startsWith(prefix)).map(l => l.slice(prefix.length)))];
+}
+
 export const allChecked = (kind, checked) => (checklistItems[kind] ?? []).every(id => checked?.[id]);
 
 export const frameToSeconds = (frames, rate) => frames / rate;

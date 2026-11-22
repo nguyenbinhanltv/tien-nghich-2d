@@ -1,7 +1,7 @@
 // The Listen view: pick the version (master, Ogg, AAC), play it at matched level, loop a bed three times across its seam,
 // play an effect solo or over a bed, fold to mono, and run a blind A/B. Playback only starts from a click here.
 import { h, button, select, humanize, put } from './dom.mjs';
-import { levelGain, dbOf, formatFrames, codecs } from './model.mjs';
+import { levelGain, dbOf, formatFrames, codecs, playLabel } from './model.mjs';
 import { renderBlind } from './ab.mjs';
 
 export const apiBase = ctx => '/api/tabs/' + ctx.tab + '/';
@@ -35,6 +35,8 @@ export async function renderListen(app, el, detail, entry, current) {
   const packId = state.pack ?? detail.packDetails[0]?.id ?? null;
   const codec = codecs.includes(state.codec) ? state.codec : 'master';
   const version = versionOf(ctx, detail, codec, packId);
+  const tag = c => playLabel(entry.id, entry.masterSha, c);
+  const isMain = x => x.label.startsWith(`play:${entry.id}@`) && !x.label.endsWith(':ab') && !x.label.endsWith(':sprite');
   const status = h('p', {class: 'au-status', role: 'status'});
   const say = text => { status.textContent = text; ctx.announce?.(text); };
   const measureP = app.measure(entry.id).catch(() => null);
@@ -83,7 +85,7 @@ export async function renderListen(app, el, detail, entry, current) {
   let raf = 0;
   function frameLoop() {
     cancelAnimationFrame(raf);
-    const handles = engine.handles.filter(x => x.label.startsWith('main:'));
+    const handles = engine.handles.filter(isMain);
     if (!handles.length || !current()) { head.hidden = true; return; }
     const masterFrame = handles[0].position() - (handles[0].delta ?? 0);
     const plotLeft = 54 / (img.naturalWidth || 1062), plotW = 1000 / (img.naturalWidth || 1062);
@@ -111,8 +113,8 @@ export async function renderListen(app, el, detail, entry, current) {
     say(ctx.t('listen.loading'));
     const [buffer, gain] = await Promise.all([bufferFor(v), gainFor()]);
     if (!buffer) return;
-    engine.handles.filter(x => x.label.startsWith('main:')).forEach(x => x.stop());
-    const label = 'main:' + codec;
+    engine.handles.filter(isMain).forEach(x => x.stop());
+    const label = tag(codec);
     let handle;
     if (entry.kind === 'bed') {
       const loop = v.loop, seamFrames = Math.round(4 * buffer.sampleRate);
@@ -130,7 +132,7 @@ export async function renderListen(app, el, detail, entry, current) {
 
   // Switch version while playing at the same position (the decoded-frame map shifts a codec's loop by its lead-in).
   async function switchTo(next) {
-    const playing = engine.handles.find(x => x.label.startsWith('main:'));
+    const playing = engine.handles.find(isMain);
     if (!playing) return app.go({codec: next});
     const masterFrame = playing.position() - (playing.delta ?? 0);
     const v = versionOf(ctx, detail, next, packId);
@@ -139,14 +141,14 @@ export async function renderListen(app, el, detail, entry, current) {
     if (!buffer) return;
     playing.stop();
     const d = v.loop && detail.loop ? v.loop.start - detail.loop.start : 0;
-    const h2 = engine.play(buffer, entry.kind === 'bed' ? {gain, loop: v.loop, offsetFrames: Math.min(v.loop.end - 1, Math.max(v.loop.start, masterFrame + d)), label: 'main:' + next}
-      : {gain, offsetFrames: v.region.start, endFrames: v.region.end, label: 'main:' + next});
+    const h2 = engine.play(buffer, entry.kind === 'bed' ? {gain, loop: v.loop, offsetFrames: Math.min(v.loop.end - 1, Math.max(v.loop.start, masterFrame + d)), label: tag(next)}
+      : {gain, offsetFrames: v.region.start, endFrames: v.region.end, label: tag(next)});
     h2.delta = d;
     app.go({codec: next}, {replace: true});
     frameLoop();
   }
   versions.querySelectorAll('a.au-ver:not(.off)').forEach((a, i) => a.addEventListener('click', event => {
-    if (!engine.handles.some(x => x.label.startsWith('main:'))) return;
+    if (!engine.handles.some(isMain)) return;
     event.preventDefault();
     switchTo(codecs.filter(c => available(c))[i]);
   }));

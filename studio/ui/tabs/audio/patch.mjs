@@ -2,7 +2,7 @@
 // rendered by studio/audio into the OS temp directory (never into delivered audio) so a reviewer can hear a parameter change
 // next to the delivered master. Nothing here changes the delivered files.
 import { h, button, put } from './dom.mjs';
-import { numericParams, withParam, paramGroup, stepFor, levelGain, formatDb } from './model.mjs';
+import { numericParams, withParam, paramGroup, stepFor, levelGain, formatDb, playLabel } from './model.mjs';
 
 export async function renderPatch(app, el, detail, entry, current) {
   const {ctx, engine} = app, base = `/api/tabs/${ctx.tab}/`;
@@ -82,7 +82,7 @@ export async function renderPatch(app, el, detail, entry, current) {
     const buffer = await engine.load(base + 'master?id=' + encodeURIComponent(entry.id), m.sampleRate);
     const gain = document.getElementById('au-pmatch')?.checked ? levelGain(master.measurements) : 1;
     engine.stopAll();
-    engine.play(buffer, {gain, label: 'master', loop: detail.loop ?? undefined});
+    engine.play(buffer, {gain, label: playLabel(entry.id, entry.masterSha, 'master'), loop: detail.loop ?? undefined});
     say(ctx.t('patch.playingMaster'));
   }
 

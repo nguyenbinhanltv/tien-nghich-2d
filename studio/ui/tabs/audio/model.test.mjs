@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseRoute, stateParams, stageOf, listeningOf, filterEntries, facets, matchedGains, levelGain, makeTrials, binomialP, scoreTrials, nearestPairs,
-  spriteSegments, signoffNote, allChecked, checklistItems, numericParams, withParam, paramGroup, parsePair } from './model.mjs';
+  spriteSegments, heardFor, playLabel, signoffNote, allChecked, checklistItems, numericParams, withParam, paramGroup, parsePair } from './model.mjs';
 
 test('parseRoute is total and keeps only known values', () => {
   for (const route of [undefined, null, {}, {params: null}, {asset: 5, params: {view: 'x', codec: 7, ab: 'a'}}]) assert.doesNotThrow(() => parseRoute(route));
@@ -109,4 +109,18 @@ test('editable parameters skip events and ids, and withParam copies', () => {
   assert.equal(paramGroup(['layers', 2, 'gain']), 'layers[2]');
   assert.equal(paramGroup(['instruments', 'pad', 'gains', 0]), 'instruments.pad');
   assert.equal(paramGroup(['seed']), '');
+});
+
+test('only playbacks of this cue and this master count as listening', () => {
+  const sha = 'a'.repeat(64), other = 'b'.repeat(64);
+  const played = [playLabel('sfx_dash', sha, 'master'), playLabel('sfx_dash', sha, 'ogg'), playLabel('sfx_blade', sha, 'ab'), playLabel('sfx_blade', other, 'master'),
+    playLabel('sfx_dash', sha, 'master'), 'bed:bgm_one', 'preview', 'main:master', 'ab:1'];
+  assert.deepEqual(heardFor(played, 'sfx_dash', sha), ['master', 'ogg']);
+  assert.deepEqual(heardFor(played, 'sfx_blade', sha), ['ab'], 'a blind A/B playback of the cue itself counts');
+  assert.deepEqual(heardFor(played, 'sfx_blade', other), ['master']);
+  assert.deepEqual(heardFor(played, 'sfx_chime', sha), [], 'another cue was heard, this one was not');
+  assert.deepEqual(heardFor(['bed:bgm_one', 'preview', 'sprite:sfx_dash', 'ab:1'], 'sfx_dash', sha), [], 'beds, previews and unlabelled playbacks never count');
+  assert.deepEqual(heardFor(played, 'sfx_dash', 'c'.repeat(64)), [], 'a changed master has not been heard');
+  assert.deepEqual(heardFor(played, 'sfx_dash_extra', sha), [], 'a cue id that merely starts the same does not match');
+  assert.equal(playLabel('x', undefined, 'ogg'), 'play:x@?:ogg');
 });
