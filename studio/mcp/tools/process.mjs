@@ -3,7 +3,9 @@ import { ToolError } from '../registry.mjs';
 import { forgeCall, forgeDir, pixelizedFor, settingsFor, updateDoc } from '../workflow/forge.mjs';
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { figureFor, figureWarnings, measureFigure, resolveMarks } from '../../forge/index.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { backgroundProp, dryRunProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 const markItem = {
   type: 'object',
@@ -75,6 +77,7 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
+    if (args.submit) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     return inlineOrJob(ctx, 'process', args, (log) => forgeCall(async () => {
       const { settings } = await settingsFor(snap, ws, asset);
       // Validate every input first, then store once: a refused call changes nothing, and a marks-only call keeps the stored accents and hold.
@@ -108,6 +111,15 @@ export default {
         summary.figure = { guide: guide.name, accents: accents.map((a) => a.id), warnings: found,
           means: `checked against figures.${guide.name} in the project pack: head ${Math.round(guide.headToBody.min * 100)}-${Math.round(guide.headToBody.max * 100)}% of the height (where a neck shows), legs at least ${guide.minLimbWidthPx} px, each named accent at least ${guide.accentMinPixels} px` };
       }
+      const pixelErrors = cells.reduce((n, c) => n + c.errors, 0);
+      summary.qa = envelope({ method: `pixelised ${pixelized.cells.size} cell(s), then ran the pixel gates on every sprite${guide ? ` and the figure check of the pack guide "${guide.name}"` : ''}`,
+        checks: [check('pixelGates', { ok: pixelErrors === 0, measured: { errorPixels: pixelErrors }, threshold: { errorPixels: 0 } }),
+          ...(guide ? [check('figure', { ok: true, warn: summary.figure.warnings.length > 0, measured: { warnings: summary.figure.warnings.length }, threshold: { warnings: 0 }, detail: 'thin limbs, head proportion and named accents; warnings only' })] : [])],
+        notProven: [
+          ...(guide ? [] : [{ what: 'figure proportions', why: `no figure guide in the pack applies to profile ${asset.profile}` }]),
+          ...(guide && !(processDoc.accents ?? []).length ? [{ what: 'accent colours surviving', why: 'none were named in accents', turnOn: 'pass accents: [palette ids]' }] : []),
+          { what: 'motion', why: 'a pixelised sheet is still; the animation gates run in studio_rig_bake' }],
+        inputs: { sheets: slots.map((x) => x.doc.sheet.sha256.slice(0, 16)).join(' ') || doc.sheet.sha256.slice(0, 16), marks: sha(processDoc.marks ?? []), accents: sha(processDoc.accents ?? []) } });
       const shown = sheetContent({ title: `Pixelised ${asset.id}`, cells, scale: args.scale ?? 4, extra: summary });
       if (summary.figure) shown.content[0].text += summary.figure.warnings.length ? ` Figure check: ${summary.figure.warnings.length} warning(s): ${[...new Set(summary.figure.warnings.map((w) => w.check))].join(', ')} (see figure.warnings).` : ` Figure check (${summary.figure.guide}): no warnings.`;
       let submitted;

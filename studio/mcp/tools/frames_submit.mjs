@@ -1,5 +1,7 @@
 import { submitFrames } from '../../core/submissions.mjs';
 import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 const frameItem = {
   type: 'object',
@@ -52,7 +54,13 @@ export default {
   async handler({ assetId, frames, provenance, dryRun }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
+    if (!dryRun) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     const { accepted, report } = await submitFrames({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, frames, provenance, caller: ctx.caller, dryRun });
+    const frameErrors = report.frames?.reduce((n, f) => n + (f.errors ?? 0), 0) ?? 0;
+    report.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${report.frames?.length ?? 0} submitted frame(s)`,
+      checks: [check('pixelGates', { ok: frameErrors === 0, warn: report.frames?.some((f) => f.warnings > 0), measured: { errorPixels: frameErrors }, threshold: { errorPixels: 0 } })],
+      notProven: [{ what: 'the rest of the asset', why: 'only the frames in this batch were judged; studio_qa_run judges the whole asset' }],
+      inputs: Object.fromEntries((report.frames ?? []).slice(0, 40).map((f) => [f.name, f.sha256])) });
     return jsonResult(dryRun ? { ...report, wrote: 'nothing' } : report, !accepted);
   },
 };

@@ -10,6 +10,7 @@ import { MAX_DOC_BYTES, forgeCall, parseFrameName, readDoc, settingsFor, writeDo
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { appendOps, applyPatch, blank, checkOps, decode, emptyPatch, expandOps } from '../workflow/patch.mjs';
 import { currentFrame, diffImages, glyphTable, rowsToChanges } from '../workflow/glyphs.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 
 const OPS = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'grid'];
@@ -60,6 +61,7 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
+    await requireNotStopped(ws, asset, snap.pack);   // stop policy: once the work has been stopped, edits wait for the human
     return forgeCall(async () => {
       if (isShipped(await milestones(ws.root, asset))) throw new ToolError(`${asset.id} already has processed or packed frames; its pixels change through reviewed revisions, not here.`);
       const { settings, palette } = await settingsFor(snap, ws, asset);

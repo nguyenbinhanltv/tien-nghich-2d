@@ -1,3 +1,6 @@
+import { createHash } from 'node:crypto';
+import { scopeAllows } from '../registry.mjs';
+import { contentHash } from '../../core/submissions.mjs';
 import { listFrames } from '../../core/assets.mjs';
 import { MAX_SHEET_PIXELS, renderContactSheet, sheetGeometry } from '../../core/contact-sheet.mjs';
 import { assetGateOptions, findDefects } from '../../core/defects.mjs';
@@ -90,6 +93,11 @@ export default {
         asset: asset.id, stage, frames: cells.length, width: sheet.width, height: sheet.height, bytes: sheet.png.length, layout: sheet.layout, ...(capped ? { capped } : {}),
         defects: { errors: cells.reduce((n, c) => n + c.errors, 0), warnings: cells.reduce((n, c) => n + c.warnings, 0), framesWithErrors: cells.filter((c) => c.errors).length },
       };
+      // The contact sheet a session looked at is evidence too: recorded (for sessions that may record checks) against the frames it showed.
+      if (scopeAllows(ctx.scope, 'author') && !Object.keys(sel).length) {
+        const content = await contentHash(ws.root, asset, stage);
+        if (content) { (await ws.db()).recordLook({ asset: asset.id, session: ctx.caller.session, content, image: createHash('sha256').update(sheet.png).digest('hex') }); summary.looked = { frames: content.slice(0, 12), image: createHash('sha256').update(sheet.png).digest('hex').slice(0, 12) }; }
+      }
       const rows = sheet.layout.rows.map((r, k) => `row ${k + 1}: ${r.clip} ${r.direction}, frames ${r.frames.join(',')}`).join('; ');
       return {
         content: [
