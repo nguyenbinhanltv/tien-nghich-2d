@@ -300,7 +300,7 @@
     "garden": ["lt_herb_bed"],
     "npc": ["lt_kiln_keeper", "lt_seed_broker", "lt_seal_scribe", "lt_chart_reader", "lt_bell_founder", "lt_ward_mason"],
     "pet": ["lt_ink_marten", "lt_reed_crane", "lt_coal_toad", "lt_star_hare", "lt_bronze_cicada", "lt_mist_carp"],
-    "future_form": ["lt_ink_veil", "lt_river_oath", "lt_star_vessel", "lt_ashen_crown"],
+    "future_form": ["lt_ink_veil", "lt_river_oath", "lt_star_vessel", "lt_ashen_crown", "lt_ashen_crown_b"],
     "mist": ["lt_mist_archive"],
     "ember": ["lt_ember_delta"],
     "quarry": ["lt_star_quarry"],
@@ -386,7 +386,7 @@
       }
     },
     "endless": {
-      "anchors": ["cam_che_tran_phap", "lt_icon_floor_five", "lt_icon_pressure", "lt_icon_bank", "lt_ashen_crown"],
+      "anchors": ["cam_che_tran_phap", "lt_icon_floor_five", "lt_icon_pressure", "lt_icon_bank", "lt_ashen_crown", "lt_ashen_crown_b"],
       "events": {
         "entry": "bgm_endless",
         "checkpoint": "sfx_floor_mark",
