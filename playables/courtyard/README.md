@@ -14,10 +14,10 @@ gate. Returning to the courtyard starts a fresh attempt after victory or defeat.
 The trial uses the shared web atlas and mob facing metadata from revision
 `6b4fe66`. It runs on the existing preview server. To repeat the keyboard
 and 390 × 844 touch playthroughs with the courtyard's existing Playwright Core
-installation, run `node studio/courtyard/source/trial-smoke.mjs` with
+installation, run `node playables/courtyard/source/trial-smoke.mjs` with
 `NODE_PATH` set as in the playback smoke instructions below.
 
-Open `studio/courtyard/index.html` in the project preview. From the south gate, walk up the inlaid path to the bell steps. Use WASD, arrow keys or click the ground. **Approach shrine** walks the same collision-checked route. Press **E** or **Ring bell** on the steps. The bell swings, its clapper follows, and a bronze flash appears on impact. The bell settles back into its idle loop and can be rung again.
+Open `playables/courtyard/index.html` in the project preview. From the south gate, walk up the inlaid path to the bell steps. Use WASD, arrow keys or click the ground. **Approach shrine** walks the same collision-checked route. Press **E** or **Ring bell** on the steps. The bell swings, its clapper follows, and a bronze flash appears on impact. The bell settles back into its idle loop and can be rung again.
 
 ## What runs in the room
 
@@ -34,7 +34,7 @@ Codex drew all scenery, plants, koi, the disciple and the separated bell parts i
 Use the pinned checkouts and a Python 3.11+ scratch venv with NumPy 2.4.6, Pillow 12.3.0 and jsonschema 4.26.0. The commands below use PowerShell. Set `$scratch` to a fresh scratch build directory containing the three source checkouts, the venv and optionally Playwright Core. Forge requires fresh output paths. To rebuild the tracked hashed bundle, run its hash step into a new filename in the demo directory first.
 
 ```powershell
-$demo = (Resolve-Path studio/courtyard).Path
+$demo = (Resolve-Path playables/courtyard).Path
 $py = "$scratch/fx-venv/Scripts/python.exe"
 $map = "$scratch/forge/skills/generate2dmap/scripts"
 $bundle = "$demo/courtyard.bundle.json"
@@ -64,7 +64,7 @@ Copy-Item "$scratch/bell-one/bronze_chime/sheets/bronze_chime.png","$scratch/bel
 
 $env:NODE_PATH = "$scratch/court-browser/node_modules"
 & $py -I -B "$map/build_scene_preview.py" --bundle $bundle --output-dir "$scratch/court-scene-final" --verify --strict
-node studio/courtyard/source/playback-smoke.mjs
+node playables/courtyard/source/playback-smoke.mjs
 ```
 
 The two VFX sheets had identical SHA-256 `6fd1fc06d4d54b0f21d9ca813257a59a6ab7aa727f8c9817f11ef06d4b4d8e5b`. Forge verified all three targets, found zero unreachable pockets and thin gaps, and compared the exported image with zero differing pixels. Its strict scene verification used Playwright Core 1.63.0 and Chromium. The independent game smoke starts at the gate, tests both pond banks with keyboard input, walks to the bell, samples actual rendered pixels during the strike, and rings again with E.

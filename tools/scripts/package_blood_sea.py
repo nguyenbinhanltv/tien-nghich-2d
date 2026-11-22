@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTENTS = [
-    "studio", "studio.project.json", "assets/manifest.json", "assets/atlases/web", "assets/processed",
+    "studio", "playables", "studio.project.json", "assets/manifest.json", "assets/atlases/web", "assets/processed",
     "assets/raw/environment_items", "assets/raw/characters", "assets/_fixtures",
     "assets/encounter/blood-sea", "tools/generators/palette.json",
     "tools/scripts/build_blood_sea.py", "tools/scripts/blood_sea_effects.py",
@@ -21,7 +21,7 @@ Extract the full archive. In the extracted folder, start the local preview with
 
 Python 3 can also serve the same files with
 
-    python studio/serve.py --port 4173
+    python playables/serve.py --port 4173
 
 Play at http://127.0.0.1:4173/studio/blood-sea/index.html
 Inspect poses at http://127.0.0.1:4173/studio/index.html?tab=inspector&collection=court
@@ -38,7 +38,7 @@ Select Watch best to replay the recorded inputs from your fastest clear.
 All court art, source prompts, measured anchors and clip timing are under
 assets/encounter/blood-sea/. To verify the native exports with Pillow 13.0.0,
 run python tools/scripts/build_blood_sea.py --check. Simulation and inspector
-tests run with node --test studio/blood-sea/encounter.test.mjs.
+tests run with node --test playables/blood-sea/encounter.test.mjs.
 
 Local source revision {revision}
 """

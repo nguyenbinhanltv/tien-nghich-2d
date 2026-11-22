@@ -11,7 +11,7 @@
  *  4. Optional live browser check via `ao browser` when `--ao-browser` is passed.
  *
  * Usage:
- *   node studio/smoke-test.mjs [--url http://127.0.0.1:4173/studio/] [--ao-browser]
+ *   node playables/smoke-test.mjs [--url http://127.0.0.1:4173/studio/] [--ao-browser]
  */
 
 import assert from 'node:assert/strict';

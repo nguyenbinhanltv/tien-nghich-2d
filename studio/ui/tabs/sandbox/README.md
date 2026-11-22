@@ -73,9 +73,9 @@ The URL is the room: `#/sandbox?actor=<id>~<clip>~<dir>,<id>&fx=<id>&cue=<id>&be
 
 | Scene id | Playable | Kind |
 |---|---|---|
-| `play-arena` | `studio/previewer.html?tab=arena` (Play Arena) | scripted: hosted |
-| `drowned-court` | `studio/blood-sea/index.html` (Drowned Court, the Blood Sea boss encounter) | scripted: hosted |
-| `evening-bell` | `studio/courtyard/index.html` (Evening Bell, the courtyard bell trial) | scripted: hosted |
+| `play-arena` | `playables/previewer.html?tab=arena` (Play Arena) | scripted: hosted |
+| `drowned-court` | `playables/blood-sea/index.html` (Drowned Court, the Blood Sea boss encounter) | scripted: hosted |
+| `evening-bell` | `playables/courtyard/index.html` (Evening Bell, the courtyard bell trial) | scripted: hosted |
 
 Each runs unchanged inside the Sandbox frame, so room, actors, effects and audio are exactly the playable's. None is pure data: each has rules a scene document
 cannot express (generated rooms and projectile behaviours; a boss state machine with replay; navigation-grid walking and a guard trial), and the Evening
