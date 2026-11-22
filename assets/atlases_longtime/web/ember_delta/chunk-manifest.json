@@ -1,20 +1,21 @@
 {
   "asset_ids": [
+    "lt_ash_skater",
     "lt_ember_delta",
     "lt_furnace_ferryman"
   ],
   "chunk_group": "ember_delta",
-  "frame_count": 96,
+  "frame_count": 152,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 96,
+      "frames": 152,
       "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "a178065d7d5b77ca476564a7c1201900680422845f5099c2121961c9a2ec863e",
-      "png_sha256": "2fa87a32ce5b835d10fbbea7fa99695a19ff66f28c79cf13f5f665bd9a6db8eb",
+      "json_sha256": "0504a6724b706a194e0ffac481b5d4be892d91b02ae40bab15da6c70003dcf4f",
+      "png_sha256": "fc2ac98e2821e5e33e2324a07bda72a2c31d41407d3940259004d7a664f785ca",
       "rgba8_bytes": 2097152,
       "width": 2048
     }
