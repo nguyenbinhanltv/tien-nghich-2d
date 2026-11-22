@@ -1,0 +1,149 @@
+{
+  "group_id": "3cd0729f-a645-4aae-85ec-1467510eddc5",
+  "states": [
+    {
+      "character": {
+        "id": "e2ff6ae3-8d9f-42bb-9f43-1bad8829d2fb",
+        "name": "Idle",
+        "prompt": "Furnace Ferryman, a stout chibi boss ferryman with a very large head, wearing a wide conical straw hat with a dark soot-blackened brim, a charcoal-grey robe with glowing orange-red ember cracks along the hem, broad shoulders. He grips ONE very long wooden paddle with a flat broad iron-banded blade in his RIGHT hand, the paddle held upright beside his body, blade end glowing orange like a hot furnace plate. His left hand is empty at his side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T07:14:15.318051+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "telegraph": {
+            "north": [
+              "Idle/animations/telegraph/north/frame_000.png",
+              "Idle/animations/telegraph/north/frame_001.png",
+              "Idle/animations/telegraph/north/frame_002.png",
+              "Idle/animations/telegraph/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/telegraph/west/frame_000.png",
+              "Idle/animations/telegraph/west/frame_001.png",
+              "Idle/animations/telegraph/west/frame_002.png",
+              "Idle/animations/telegraph/west/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/telegraph/east/frame_000.png",
+              "Idle/animations/telegraph/east/frame_001.png",
+              "Idle/animations/telegraph/east/frame_002.png",
+              "Idle/animations/telegraph/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/telegraph/south/frame_000.png",
+              "Idle/animations/telegraph/south/frame_001.png",
+              "Idle/animations/telegraph/south/frame_002.png",
+              "Idle/animations/telegraph/south/frame_003.png"
+            ]
+          },
+          "strike": {
+            "west": [
+              "Idle/animations/strike/west/frame_000.png",
+              "Idle/animations/strike/west/frame_001.png",
+              "Idle/animations/strike/west/frame_002.png",
+              "Idle/animations/strike/west/frame_003.png",
+              "Idle/animations/strike/west/frame_004.png",
+              "Idle/animations/strike/west/frame_005.png"
+            ],
+            "north": [
+              "Idle/animations/strike/north/frame_000.png",
+              "Idle/animations/strike/north/frame_001.png",
+              "Idle/animations/strike/north/frame_002.png",
+              "Idle/animations/strike/north/frame_003.png",
+              "Idle/animations/strike/north/frame_004.png",
+              "Idle/animations/strike/north/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/strike/east/frame_000.png",
+              "Idle/animations/strike/east/frame_001.png",
+              "Idle/animations/strike/east/frame_002.png",
+              "Idle/animations/strike/east/frame_003.png",
+              "Idle/animations/strike/east/frame_004.png",
+              "Idle/animations/strike/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/strike/south/frame_000.png",
+              "Idle/animations/strike/south/frame_001.png",
+              "Idle/animations/strike/south/frame_002.png",
+              "Idle/animations/strike/south/frame_003.png",
+              "Idle/animations/strike/south/frame_004.png",
+              "Idle/animations/strike/south/frame_005.png"
+            ]
+          },
+          "advance": {
+            "south": [
+              "Idle/animations/advance/south/frame_000.png",
+              "Idle/animations/advance/south/frame_001.png",
+              "Idle/animations/advance/south/frame_002.png",
+              "Idle/animations/advance/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/advance/west/frame_000.png",
+              "Idle/animations/advance/west/frame_001.png",
+              "Idle/animations/advance/west/frame_002.png",
+              "Idle/animations/advance/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/advance/north/frame_000.png",
+              "Idle/animations/advance/north/frame_001.png",
+              "Idle/animations/advance/north/frame_002.png",
+              "Idle/animations/advance/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/advance/east/frame_000.png",
+              "Idle/animations/advance/east/frame_001.png",
+              "Idle/animations/advance/east/frame_002.png",
+              "Idle/animations/advance/east/frame_003.png"
+            ]
+          },
+          "idle": {
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T07:22:15.820984"
+}

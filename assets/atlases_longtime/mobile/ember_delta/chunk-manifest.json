@@ -1,26 +1,31 @@
 {
   "asset_ids": [
-    "lt_ember_delta"
+    "lt_ash_skater",
+    "lt_cinder_heron",
+    "lt_ember_delta",
+    "lt_ember_diver",
+    "lt_furnace_ferryman",
+    "lt_kiln_crab"
   ],
   "chunk_group": "ember_delta",
-  "frame_count": 24,
+  "frame_count": 320,
   "mobile_page_budget": 3,
   "page_count": 1,
   "pages": [
     {
-      "frames": 24,
-      "height": 32,
+      "frames": 320,
+      "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "777354b73360b6ed32cceb8e9ee216f7b3dd3e73cfe9794d1c1130fb1773300b",
-      "png_sha256": "a1f58fc7c10968c17a61663c0ca4411e6be79fb949cb1c2af59d32c0c667d8f2",
-      "rgba8_bytes": 131072,
+      "json_sha256": "c954d0aaee31ae5f39a61a476f1c3dc855cde345b0f594c0338df03d31eb08c2",
+      "png_sha256": "db034431d4cd34cacee750aa1b7bded47b3c171e842c08f975242aa41da0cbc1",
+      "rgba8_bytes": 4194304,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 131072,
-  "rgba8_mib": 0.125,
+  "rgba8_bytes": 4194304,
+  "rgba8_mib": 4.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
