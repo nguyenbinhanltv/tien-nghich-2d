@@ -97,7 +97,7 @@ select.field { cursor: pointer; }
     calc(100% - var(--ui-slip-n, 3px) * 2) 0, calc(100% - var(--ui-slip-n, 3px) * 2) var(--ui-slip-n, 3px), calc(100% - var(--ui-slip-n, 3px)) var(--ui-slip-n, 3px), calc(100% - var(--ui-slip-n, 3px)) calc(var(--ui-slip-n, 3px) * 2), 100% calc(var(--ui-slip-n, 3px) * 2),
     100% calc(100% - var(--ui-slip-n, 3px) * 2), calc(100% - var(--ui-slip-n, 3px)) calc(100% - var(--ui-slip-n, 3px) * 2), calc(100% - var(--ui-slip-n, 3px)) calc(100% - var(--ui-slip-n, 3px)), calc(100% - var(--ui-slip-n, 3px) * 2) calc(100% - var(--ui-slip-n, 3px)), calc(100% - var(--ui-slip-n, 3px) * 2) 100%,
     calc(var(--ui-slip-n, 3px) * 2) 100%, calc(var(--ui-slip-n, 3px) * 2) calc(100% - var(--ui-slip-n, 3px)), var(--ui-slip-n, 3px) calc(100% - var(--ui-slip-n, 3px)), var(--ui-slip-n, 3px) calc(100% - var(--ui-slip-n, 3px) * 2), 0 calc(100% - var(--ui-slip-n, 3px) * 2));
-  position: relative; isolation: isolate; display: block; padding: calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px) + 4px) calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px)) calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px));
+  border: 0; font: inherit; text-align: left;   position: relative; isolation: isolate; display: block; padding: calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px) + 4px) calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px)) calc(var(--ui-sp-4, 1rem) + var(--ui-bw, 2px));
   color: var(--ui-text, var(--theme-text, #e4e4e8)); background: var(--ui-line, var(--theme-line, #46464e)); clip-path: var(--ui-slip-cut, none);
   transition: background-color var(--ui-step, 100ms) steps(2, end);
 }

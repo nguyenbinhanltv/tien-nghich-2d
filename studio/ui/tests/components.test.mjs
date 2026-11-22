@@ -4,9 +4,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { createPreviewServer } from '../serve.mjs';
+import { createPreviewServer } from '../../serve.mjs';
 
-const dir = fileURLToPath(new URL('./', import.meta.url));
+const dir = fileURLToPath(new URL('../', import.meta.url));
 const read = name => fs.readFileSync(dir + name, 'utf8');
 const css = read('components.css').replace(/\/\*[\s\S]*?\*\//g, '');
 const guideCss = read('styleguide.css').replace(/\/\*[\s\S]*?\*\//g, '');
@@ -70,7 +70,8 @@ test('every component has all five states', () => {
     const rules = css.split('}').filter(r => r.includes('.' + cls));
     assert.ok(rules.length, `.${cls} missing`);
     const joined = rules.join('}');
-    for (const state of [':hover', ':active', 'aria-pressed', ':disabled', ':focus-visible']) assert.ok(joined.includes(state) || joined.includes('aria-disabled'), `.${cls} lacks ${state}`);
+    for (const state of [':hover', ':active', 'aria-pressed', ':focus-visible']) assert.ok(joined.includes(state), `.${cls} lacks ${state}`);
+    assert.ok(joined.includes(':disabled') || joined.includes('aria-disabled'), `.${cls} lacks a disabled state`);
   }
   for (const v of ['.primary', '.danger', '.quiet']) assert.ok(css.includes('.btn' + v));
   assert.match(css, /clip-path/);
@@ -80,7 +81,7 @@ test('every component has all five states', () => {
 });
 
 test('styleguide loads from the studio server and shows every component in EN and VI', async () => {
-  const server = createPreviewServer({ root: fileURLToPath(new URL('../..', import.meta.url)) });
+  const server = createPreviewServer({ root: fileURLToPath(new URL('../../..', import.meta.url)) });
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   try {
     const origin = `http://127.0.0.1:${server.address().port}`;
