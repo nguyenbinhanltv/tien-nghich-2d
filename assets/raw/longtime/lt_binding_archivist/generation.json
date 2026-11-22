@@ -33,6 +33,14 @@
       "regeneration_direction_prompts": {
         "south": "facing the viewer, breathes very slowly, shoulders and robe hem move only slightly; the head and tall cap stay at the same height in every frame; the fan of bronze-capped scroll spines stays open behind both shoulders and almost still",
         "west": "facing left, breathes very slowly, shoulders and robe hem move only slightly; the fan of bronze-capped scroll spines stays open behind his back on the right and almost still; no marks, no sparkles, no symbols near the head"
+      },
+      "touchup_attempt_not_shipped": {
+        "west": {
+          "job_id": "85b520aa-13fd-4a96-9442-3ce036881d6e",
+          "action_description": "stands still and breathes very slowly, only the robe hem and shoulders move slightly, the face stays clean with nothing in front of the mouth, the fan of rolled scroll spines stays open and almost still",
+          "direction_prompt": "facing left, breathes very slowly, the robe hem and shoulders move slightly; the face is clean: no mist, no breath, no smoke, no marks anywhere near the mouth or head; the fan of bronze-capped scroll spines stays open behind his back on the right",
+          "result": "rejected at 1x/4x: the new take swaps the 2-3 px wisp for a larger grey breath puff in frames 1-2; the shipped take was kept"
+        }
       }
     },
     "advance": {
@@ -130,14 +138,21 @@
       "what": "one regeneration each of strike west/north/east, idle south/west, advance south, with tightened prompts (see regeneration_*)",
       "credits": 6,
       "result": "kept: strike west/north/east (fan stays attached; a few sparks at the rod tip), idle south (fits). idle west: new take has stray marks in frames 0-1 instead of 2-3, kept as flawed. advance south: new take was worse (11 px outside the frame vs 5), first take kept. No further retries are allowed."
+    },
+    {
+      "n": 4,
+      "what": "touch-up round (orchestrator): idle west regenerated once more",
+      "credits": 1,
+      "result": "not shipped (see animations.idle.touchup_attempt_not_shipped); still needs a human decision"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations_first_take": 16,
     "regenerations": 6,
-    "total_generations": 28,
-    "balance_before": 786.26
+    "total_generations": 29,
+    "balance_before": 786.26,
+    "touchup": 1
   },
   "crop_allowance": {
     "advance/south/3": 5,

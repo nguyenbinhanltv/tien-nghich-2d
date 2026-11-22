@@ -93,9 +93,9 @@
       "animation_group_id": "fec645a4-a411-4a61-ada9-2e1b0adb5792",
       "job_ids": {
         "south": "af5b1ce2-0ca8-43a8-ae8a-20616d2d1815",
-        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "west": "88e77244-5cb1-42ba-b0c1-153fe6b2f59c",
         "north": "dbc0b72a-4973-47e3-afe4-3ba0451788fb",
-        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+        "east": "0da9455d-3631-43d1-acf3-99c8c36233e8"
       },
       "action_description": "dives forward fast with the scroll wings swept back, the body stretches long, then snaps back up and the wings spread again, no effects",
       "direction_prompts": {
@@ -103,6 +103,15 @@
         "west": "facing left, dives to the left with wings swept back, then pulls up",
         "north": "seen from behind, dives away from the viewer with wings swept back, then pulls up",
         "east": "facing right, dives to the right with wings swept back, then pulls up"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+      },
+      "touchup_action_description": "lunges forward in a short fast dart with both scroll wings kept open and clearly visible, the body stays upright and compact, then pulls back, never folds up, no effects",
+      "touchup_direction_prompts": {
+        "west": "facing left, darts forward to the left in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright",
+        "east": "facing right, darts forward to the right in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright"
       }
     }
   },
@@ -119,18 +128,25 @@
       "what": "idle, walk, telegraph, strike x 4 directions, first take",
       "credits": 16,
       "result": "all accepted; no regeneration. The retry allowance was left unused (see known_flaws, needs a human decision)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): strike west and east regenerated once each, judged old vs new at 1x and 4x",
+      "credits": 2,
+      "result": "both new takes shipped: the old frames crumpled into a diagonal dive shape; the new ones keep a compact whole-body silhouette with wing masses visible (west reads as a folded wing pair, east as a crescent). Modest improvement; the edge-on view still shows little of the scroll wings. Previous takes superseded."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations_first_take": 16,
     "regenerations": 0,
-    "total_generations": 22
+    "total_generations": 24,
+    "touchup": 2
   },
   "known_flaws": [
     "needs a human decision: west and east are narrow edge-on slivers (the wings are seen from the side), so the scroll-wing identity reads only in south and north",
-    "needs a human decision: strike west frames 2-3 and strike east frames 2-3 fold the moth into a diagonal dive shape that is hard to read at 1x",
     "the spec's pale antenna feathers merge with the cream body at 1x",
-    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)"
+    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)",
+    "strike west and east (touch-up takes) are compact folded-wing silhouettes, not the open scroll wings of south and north; they read as a moth but less specifically"
   ]
 }

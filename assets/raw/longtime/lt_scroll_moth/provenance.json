@@ -97,9 +97,9 @@
       "animation_group_id": "fec645a4-a411-4a61-ada9-2e1b0adb5792",
       "job_ids": {
         "south": "af5b1ce2-0ca8-43a8-ae8a-20616d2d1815",
-        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "west": "88e77244-5cb1-42ba-b0c1-153fe6b2f59c",
         "north": "dbc0b72a-4973-47e3-afe4-3ba0451788fb",
-        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+        "east": "0da9455d-3631-43d1-acf3-99c8c36233e8"
       },
       "action_description": "dives forward fast with the scroll wings swept back, the body stretches long, then snaps back up and the wings spread again, no effects",
       "direction_prompts": {
@@ -107,6 +107,15 @@
         "west": "facing left, dives to the left with wings swept back, then pulls up",
         "north": "seen from behind, dives away from the viewer with wings swept back, then pulls up",
         "east": "facing right, dives to the right with wings swept back, then pulls up"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+      },
+      "touchup_action_description": "lunges forward in a short fast dart with both scroll wings kept open and clearly visible, the body stays upright and compact, then pulls back, never folds up, no effects",
+      "touchup_direction_prompts": {
+        "west": "facing left, darts forward to the left in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright",
+        "east": "facing right, darts forward to the right in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright"
       }
     }
   },
@@ -123,19 +132,26 @@
       "what": "idle, walk, telegraph, strike x 4 directions, first take",
       "credits": 16,
       "result": "all accepted; no regeneration. The retry allowance was left unused (see known_flaws, needs a human decision)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): strike west and east regenerated once each, judged old vs new at 1x and 4x",
+      "credits": 2,
+      "result": "both new takes shipped: the old frames crumpled into a diagonal dive shape; the new ones keep a compact whole-body silhouette with wing masses visible (west reads as a folded wing pair, east as a crescent). Modest improvement; the edge-on view still shows little of the scroll wings. Previous takes superseded."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations_first_take": 16,
     "regenerations": 0,
-    "total_generations": 22
+    "total_generations": 24,
+    "touchup": 2
   },
   "known_flaws": [
     "needs a human decision: west and east are narrow edge-on slivers (the wings are seen from the side), so the scroll-wing identity reads only in south and north",
-    "needs a human decision: strike west frames 2-3 and strike east frames 2-3 fold the moth into a diagonal dive shape that is hard to read at 1x",
     "the spec's pale antenna feathers merge with the cream body at 1x",
-    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)"
+    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)",
+    "strike west and east (touch-up takes) are compact folded-wing silhouettes, not the open scroll wings of south and north; they read as a moth but less specifically"
   ],
   "native_px": [
     32,
@@ -159,18 +175,18 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 460,
-      "outline_thinned": 147,
+      "outline_repainted": 424,
+      "outline_thinned": 163,
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
     }
   },
   "source": "source.png",
-  "source_sha256": "fcce7bd2ee0e115f7e6e01a9c9d3eeb0168dedfb2bcb545761593907c332b5da",
+  "source_sha256": "8277706b567084a4e84fbec91a5e392795bbec5920e87d3da1eadc575736c00f",
   "contact_sheets": {
-    "assets/raw/longtime/lt_scroll_moth/contact_1x.png": "73ecb430520ccf0f2213f9092794415e40df6de468cb0cdba49229f9ff6ee132",
-    "assets/raw/longtime/lt_scroll_moth/contact_4x.png": "5f02a1ee962fe0e0b7611dae8b45336ea605cc7ec1c9a758b98ee522ad39be06"
+    "assets/raw/longtime/lt_scroll_moth/contact_1x.png": "bfb4577cae78205ba93ba3063cf379569245b6dfddb825fda79d96eaae678528",
+    "assets/raw/longtime/lt_scroll_moth/contact_4x.png": "db8abceb3003af0be3021dc3dee66c93e3ce14d38038f3df6f56c3bd4f356f99"
   },
   "frames": [
     {
@@ -321,49 +337,49 @@
       "key": "longtime/lt_scroll_moth/strike_east_0",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_east_0.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_000.png",
-      "raw_sha256": "bde9e5f9a0f6361b605f518cd064a46793eb6d1c6cf778aa9dff586bd02183f7",
+      "raw_sha256": "0f7c4be15c37ab14d2f41f92ae4f0afda4f0556ff37377e2bf76e91f1711e8a4",
       "source_xy": [
         0,
         660
       ],
       "duration_ms": 90,
-      "sha256": "1736903b2419978e7726b6cd52a22e98c41ddfdd20c7d269e9900faf0f2d00a5"
+      "sha256": "bd1cab81bfd167e6c6f88b74880fd62a7c4e00fbc3e8f37ed9bcff1fad482072"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_east_1",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_east_1.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_001.png",
-      "raw_sha256": "4284dff62bf92fc079db2e12739902d9e860836b4937389169ae32d4947d9db0",
+      "raw_sha256": "e023ffd24a1e62b2488279e3d5f1b5b4ef1b4d1849dd6efa1ac7fb5ef1b08e6b",
       "source_xy": [
         44,
         660
       ],
       "duration_ms": 90,
-      "sha256": "74b484cc6f3e96a19faef2156bc577f4c504608115cbc351e516d1002e0c60c0"
+      "sha256": "4a3e5d8a3557266a5c21775922c492ecb5b893d78e7a229589625b0c0c2b77ae"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_east_2",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_east_2.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_002.png",
-      "raw_sha256": "48b85749e99c0aa8cc70fbdc78067c9bb9dd0140c881ae6f634e5f2acad3e835",
+      "raw_sha256": "273ee7883e31c4dde8e8f01e3b00bbf52023d9de86ef0fd5f645823b436ddc1d",
       "source_xy": [
         88,
         660
       ],
       "duration_ms": 90,
-      "sha256": "bc4cbee24035a95923e43bd510436c18339aa31c45a11ec87189c5d6ae3b22d9"
+      "sha256": "2b8ce59b35c0643ed953de4e67ccd106d87095f210bbb7b0c0974a0e67070063"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_east_3",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_east_3.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_003.png",
-      "raw_sha256": "a9ed5205abe81917f018082dfadfc304cd9d4ae5bac42955f67c5f2b0b251cba",
+      "raw_sha256": "fbdf2974db448acd5aeb04ab169aac5e6c35ab0aec9405b8b64d12472f878c85",
       "source_xy": [
         132,
         660
       ],
       "duration_ms": 90,
-      "sha256": "8376f87985cc31cdd9e14d4d5323460dc96c6f6e250ec367de36b652b01bf6e4"
+      "sha256": "8085d609d2725acae92e57e71b46dad11dac5eccc4aa780050791a64992be450"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_north_0",
@@ -465,49 +481,49 @@
       "key": "longtime/lt_scroll_moth/strike_west_0",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_west_0.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_000.png",
-      "raw_sha256": "f1588e25fec9b84423fc383d0c8687f2cbe8cdd9e42ea7e8ebfceaca124302bd",
+      "raw_sha256": "10e471bc68f27a10b71ad832f609737dc25141f2f17e1386eba667de38e66817",
       "source_xy": [
         0,
         572
       ],
       "duration_ms": 90,
-      "sha256": "f67f6945270a0b7be8679a067616df67bdf41d87905f22bdba47c599695c90fd"
+      "sha256": "e94fb7ee3477780ea880f1d308091d0899c8b3558e159e45ee985873c4b6b6f1"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_west_1",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_west_1.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_001.png",
-      "raw_sha256": "ac97e78724cf117a388a418cdc715d0993427884a69a133c6b8f74f41a7f39e8",
+      "raw_sha256": "2db5347dde463889946ed378dae4bd516c814855360e5f09298514ada558ca3f",
       "source_xy": [
         44,
         572
       ],
       "duration_ms": 90,
-      "sha256": "eae326926c85d5aaa9e3b4c9aa3662dd80a06e152c890e9afe70d7b83d59f985"
+      "sha256": "f24168b62e0be38d50daefda8cc9032382c0fb117abcf0ebd7816acc3d51bbbb"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_west_2",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_west_2.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_002.png",
-      "raw_sha256": "33bd9912cd8634339e9131c256e7213dcb1d69ea825ce3d2383a66c8ebde40b5",
+      "raw_sha256": "769adf6bb27e235a3dbe401d9e9b79919f664ae3b4ffda4cd5147e1d16c90c39",
       "source_xy": [
         88,
         572
       ],
       "duration_ms": 90,
-      "sha256": "6e4940bca7c7125a1598ddcd69c460205bba8983dbf985a2d265f53eb7ba1ed7"
+      "sha256": "5c869511d3c8d81d7d7337329a600b6bd969a80bf1d2221875d9c5c12859cafb"
     },
     {
       "key": "longtime/lt_scroll_moth/strike_west_3",
       "path": "assets/processed_longtime/lt_scroll_moth/strike_west_3.png",
       "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_003.png",
-      "raw_sha256": "780ab54330b23e4bca63c26540393cc5ea6fd7428b14c888790d60bb375ba628",
+      "raw_sha256": "af36e9565c03362b77aaafd6634baf73e93a44410224579cb909414493fc99b5",
       "source_xy": [
         132,
         572
       ],
       "duration_ms": 90,
-      "sha256": "bc9174bba0d339697c100628debfcab1e8b9043ee67d73ebc2247e18842dd2d3"
+      "sha256": "ea4ec981733902308aa63e4cf4f0dd1017387b044e587b823929e0c95dc9081c"
     },
     {
       "key": "longtime/lt_scroll_moth/telegraph_east_0",

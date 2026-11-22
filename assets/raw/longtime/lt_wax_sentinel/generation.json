@@ -67,7 +67,7 @@
       ],
       "animation_group_id": "c0dc3e5d-1215-40ea-85c4-c17326314d05",
       "job_ids": {
-        "south": "e38343c1-50d2-49a6-afe8-c9e70576e54a",
+        "south": "d8949086-97c4-453e-b64a-2a5cccece837",
         "west": "66db979e-2e4f-46d5-8b74-65237f99fc5a",
         "north": "c26b2b98-db89-47a6-bb6a-d721e6fc39de",
         "east": "365c3ca3-3cc5-4dfb-96d6-cefec0b7d654"
@@ -78,6 +78,13 @@
         "west": "facing left, raises the candlestick high in front of him and leans back",
         "north": "seen from behind, raises the candlestick high on the viewer's right and leans back",
         "east": "facing right, raises the candlestick high in front of him and leans back"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "south": "e38343c1-50d2-49a6-afe8-c9e70576e54a"
+      },
+      "touchup_action_description": "raises the candlestick high in the right hand and leans back, the wax body swells slightly, nothing appears above the head, no sparks, no particles, no effects",
+      "touchup_direction_prompts": {
+        "south": "facing the viewer, raises the candlestick high with his right hand (viewer's left) and leans back; the candlestick stays below head height; nothing appears above the head, no sparks"
       }
     },
     "strike": {
@@ -93,9 +100,9 @@
       "animation_group_id": "32a41e61-c54d-4f88-b5b4-7cade8a9840c",
       "job_ids": {
         "south": "2b58bb85-d8b0-4f51-87ff-b0ca9b7d41ed",
-        "west": "5888e24c-6e60-4180-a684-dd2f632b2a1e",
+        "west": "2ebf7c8e-4aec-480e-8a61-3973289636d8",
         "north": "e99cce97-89dc-4936-958b-851e63ace376",
-        "east": "bcb54bbd-9612-41fa-b7a4-e63f39a6f341"
+        "east": "68712a63-9195-43d8-8fd8-1073fbb57da3"
       },
       "rejected_first_take_job_ids": {
         "north": "85e12a95-13d0-4f41-ae6f-5ab0bc12f42c",
@@ -112,6 +119,15 @@
       "regeneration_direction_prompts": {
         "north": "seen from behind, his right arm is on the viewer's RIGHT and holds the bronze candlestick; he swings it down and forward past his right side, lurches forward, then stands up; the candlestick stays visible and gripped in every frame; no sparks",
         "east": "facing right, slams the bronze candlestick down in front of him toward the right with the arm nearest the viewer, lurches forward, then stands up; the candlestick stays gripped in his hand in every frame, never detached; no slash, no sparks"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "west": "5888e24c-6e60-4180-a684-dd2f632b2a1e",
+        "east": "bcb54bbd-9612-41fa-b7a4-e63f39a6f341"
+      },
+      "touchup_action_description": "slams the short bronze candlestick down in front of it with the right hand, the thick wax body lurches forward then recovers upright, the candlestick stays gripped in the hand, the plain wax body keeps its width, absolutely no blade, no slash arc, no sparkles, no particles",
+      "touchup_direction_prompts": {
+        "west": "facing left, plain chunky wax guardian slams the short bronze candlestick down in front of him toward the left, body stays thick, candlestick gripped in the hand in every frame, nothing else appears: no blade, no arc, no sparkles",
+        "east": "facing right, plain chunky wax guardian slams the short bronze candlestick down in front of him toward the right, body stays thick and full width, candlestick gripped in the hand in every frame, nothing else appears: no sparkles, no specks, no light"
       }
     }
   },
@@ -134,21 +150,24 @@
       "what": "strike north and east regenerated once each (appended to the same group)",
       "credits": 2,
       "result": "kept: north is clean; east keeps the candlestick attached but shows white sparkle specks in frames 0-2 (needs a human decision)"
+    },
+    {
+      "n": 4,
+      "what": "touch-up round (orchestrator, 2026-11-22 afternoon): strike west, strike east and telegraph south regenerated once each, judged old vs new at 1x and 4x",
+      "credits": 3,
+      "result": "all three new takes shipped. strike west: the large pale blade slab shrank to a small blade with a red handle (better, still a blade); strike east: full-width body, candlestick held and readable, but about ten gold specks around it (in palette); telegraph south: clean, candlestick below head height, no stray pixels, so the 1 px crop allowance was removed. Previous takes superseded (rejected_touchup_superseded_job_ids)."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations_first_take": 16,
     "regenerations": 2,
-    "total_generations": 24
-  },
-  "crop_allowance": {
-    "telegraph/south/2": 1
+    "total_generations": 27,
+    "touchup": 3
   },
   "known_flaws": [
-    "needs a human decision: strike east has white sparkle specks around the head in frames 0-2 and the wax body reads thin and bent",
-    "strike west has a pale-blue slash arc beside the body (palette colour, not requested)",
-    "telegraph south frame 2 has a few dark dotted spark pixels above the head; one opaque pixel at the top edge is cropped (crop_allowance)",
+    "strike west still shows a small pale blade shape beside the candlestick (palette colours, not requested), smaller than before",
+    "strike east has about ten gold specks around the body and candlestick in frames 0-3 (palette colours, not requested)",
     "the cream wax renders as bright gold, so it sits close to the bronze palette group; the candlestick is a small 3 px shape at 1x",
     "ember-slit eyes read as a dark band, not a glow, at 1x"
   ]
