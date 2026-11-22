@@ -122,5 +122,6 @@
   "tiles.rect": "rectangle {x},{y} {w}×{h}",
   "tiles.ellipse": "ellipse {x},{y} {w}×{h}",
   "tiles.point": "point {x},{y}",
-  "tiles.polygon": "polygon of {count} points"
+  "tiles.polygon": "polygon of {count} points",
+  "timeline.open": "Timeline and drawing tools…"
 }

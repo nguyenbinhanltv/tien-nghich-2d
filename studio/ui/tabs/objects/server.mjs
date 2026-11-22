@@ -2,6 +2,7 @@
 //   GET links                       relations between assets, read from every manifest
 //   GET tiles?id=                   tile animations and collision shapes stored in the asset's metadata (F5)
 //   GET provenance?id=&source=      generator, seed and hashes from the asset's provenance file(s)
+//   GET/POST timeline               frame tags, linked cels, scoped transforms, open in a drawing tool and back (studio/ui/timeline)
 //   POST import                     spritesheet importer (studio/ui/importer): cut, gate, revision store; dryRun by default
 // Apart from import, nothing here writes. Running generators and creating planned ids belong to the job runner.
 import { loadPack, buildCatalog, describeAsset } from '../../../core/index.mjs';
@@ -11,6 +12,7 @@ import { handleImport } from '../../importer/route.mjs';
 import { openWorkspace } from '../../../core/workspace.mjs';
 import { loadAssetIndex } from '../../../mcp/asset-index.mjs';
 import { readMetadata } from '../../../core/metadata.mjs';
+import { handleTimeline } from '../../timeline/route.mjs';
 
 const ttlMs = 2000;
 const cache = new Map();
@@ -86,6 +88,10 @@ export async function handle(req, res, url, {root, prefix}) {
       const meta = asset.layout ? await readMetadata(root, asset) : null;
       return send(200, {id, size: asset.size ?? null, sheets: meta?.data?.tiles ?? {}});
     } finally { ws.close(); }
+  }
+  if (name === 'timeline') {
+    const tabs = (await loadPack(root, undefined, {verifyFiles: false})).ui?.categoryTabs ?? {};
+    return handleTimeline(req, res, {root, url, allow: asset => tabs[asset.category] === 'objects'});
   }
   const {pack, catalog} = await library(root);
   if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The Objects tab API is read-only apart from import');

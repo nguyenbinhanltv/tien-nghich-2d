@@ -2,6 +2,7 @@
 //   GET roster                      characters of the configured categories with readiness
 //   GET asset?id=&source=           one character: clips, frames, raw frames, card, rig, motion templates
 //   GET sheet.png?id=&scale=&clip=  contact sheet (all clips x facings), deterministic PNG
+//   GET/POST timeline               frame tags, linked cels, scoped transforms, open in a drawing tool and back (studio/ui/timeline)
 //   POST import                     spritesheet importer (studio/ui/importer): cut, gate, revision store; dryRun by default
 // Everything project specific (categories, facing order, raw and rig locations) comes from
 // `ui.tabs.characters` in the project pack.
@@ -13,6 +14,7 @@ import { readJson, readJsonIfExists, walkFiles } from '../../../core/files.mjs';
 import { loadLibrary, getTemplate } from '../../../forge/motion/library.mjs';
 import { contactSheet } from './sheet.mjs';
 import { handleImport } from '../../importer/route.mjs';
+import { handleTimeline } from '../../timeline/route.mjs';
 
 const json = (res, status, data) => {
   res.writeHead(status, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
@@ -228,6 +230,10 @@ export async function handle(req, res, url, {root, prefix}) {
   if (name === 'import') {
     const categories = (await loadPack(root, undefined, {verifyFiles: false})).ui?.tabs?.characters?.categories ?? [];
     return handleImport(req, res, {root, url, allow: asset => categories.includes(asset.category)});
+  }
+  if (name === 'timeline') {
+    const categories = (await loadPack(root, undefined, {verifyFiles: false})).ui?.tabs?.characters?.categories ?? [];
+    return handleTimeline(req, res, {root, url, allow: asset => categories.includes(asset.category)});
   }
   if (!['GET', 'HEAD'].includes(req.method)) throw fail(405, 'method_not_allowed', 'Read-only');
   if (!Object.hasOwn(routes, name)) throw fail(404, 'unknown_route', 'Unknown route');

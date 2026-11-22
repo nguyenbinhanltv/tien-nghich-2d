@@ -5,6 +5,7 @@ import path from 'node:path';
 import { clipSpec, isShipped, milestones } from './assets.mjs';
 import { problem } from './errors.mjs';
 import { checkTiles, mergeTiles } from './tiledata.mjs';
+import { PLAY_DIRECTIONS, checkLinks } from './timeline.mjs';
 import { ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from './fsutil.mjs';
 
 export const METADATA_FILE = 'studio-metadata.json';
@@ -36,8 +37,10 @@ function checkClip(asset, name, clip) {
   const spec = clipSpec(asset, name);
   if (!spec) invalid(`${asset.id} has no clip "${name}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
   if (clip === null) return; // null clears a real clip's entry
-  if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events', 'loopPolicy'].includes(k)))
-    invalid(`clips.${name} may only contain frameMs, events and loopPolicy`);
+  if (!clip || typeof clip !== 'object' || Array.isArray(clip) || Object.keys(clip).some(k => !['frameMs', 'events', 'loopPolicy', 'play', 'links'].includes(k)))
+    invalid(`clips.${name} may only contain frameMs, events, loopPolicy, play and links`);
+  if ('play' in clip && !PLAY_DIRECTIONS.includes(clip.play)) invalid(`clips.${name}.play must be ${PLAY_DIRECTIONS.join(', ')}`);
+  if ('links' in clip) { try { checkLinks(clip.links, {frames: spec.frames, directions: asset.directions, clip: name}); } catch (error) { invalid(error.message); } }
   if ('loopPolicy' in clip && !['loop', 'once', 'hold'].includes(clip.loopPolicy))
     invalid(`clips.${name}.loopPolicy must be loop, once or hold`);
   if ('frameMs' in clip) {
