@@ -4,6 +4,8 @@ import { SCENE_SCHEMA, SCENE_VERSION, frameAt, frameStart, totalMs, pathAt, dire
 
 export const scales = [1, 2, 4];
 export const overlays = ['pivot', 'hitbox', 'anchor'];
+/** The overlay set after clicking `name`: a new Set with it flipped; the input is not changed. */
+export function toggleOverlay(ov, name) { const next = new Set(ov); if (next.has(name)) next.delete(name); else next.add(name); return next; }
 export const defaultRoom = Object.freeze({w: 160, h: 112});
 const ID = /^[A-Za-z0-9_.-]{1,64}$/;
 const pick = (v, re) => (typeof v === 'string' && re.test(v) ? v : null);

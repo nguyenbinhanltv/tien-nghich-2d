@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseRoute, stateParams, draftScene, parseActor, formatActor, parseTrigger, actorsAt, effectFrame, effectPosition, startOf, cuesDue, triggeredBy, stepTime,
-  sceneForSave, floorOf, floorText, pickDirection } from './model.mjs';
+  sceneForSave, toggleOverlay, floorOf, floorText, pickDirection } from './model.mjs';
 import { validateScene } from '../../../core/scene.mjs';
 
 const route = (params, asset = null) => ({tab: 'sandbox', asset, params});
@@ -88,4 +88,15 @@ test('step moves to the next and previous frame boundary, across loops', () => {
   assert.deepEqual([350, 399, 400, 100, 120].map(t => stepTime(ms, t, 1)), [450, 450, 450, 150, 150]);
   assert.deepEqual([120, 100, 160, 351].map(t => stepTime(ms, t, -1)), [100, 0, 150, 350]);
   assert.equal(stepTime(ms, 0, -1), 0); assert.equal(stepTime([], 5, 1), 5);
+});
+
+test('toggling an overlay flips only that one and never mutates the current set', () => {
+  const none = new Set();
+  const one = toggleOverlay(none, 'hitbox');
+  assert.deepEqual([...one], ['hitbox']); assert.equal(none.size, 0);
+  assert.deepEqual([...toggleOverlay(one, 'pivot')].sort(), ['hitbox', 'pivot']);
+  assert.deepEqual([...toggleOverlay(one, 'hitbox')], [], 'a second click turns it off');
+  // The href after the click comes from the new state: ov=hitbox on, then the link offered next is the empty set.
+  const url = ov => stateParams({...parseRoute({params: {}}), ov}).ov;
+  assert.equal(url(one), 'hitbox'); assert.equal(url(toggleOverlay(one, 'hitbox')), undefined);
 });

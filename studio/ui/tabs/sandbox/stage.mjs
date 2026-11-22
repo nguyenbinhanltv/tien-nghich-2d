@@ -2,7 +2,7 @@
 // per-frame durations, overlays (pivot, hitbox, effect anchors), effects fired by time or by a click/key, cues played from a
 // click/key. Nothing here touches the URL: the page passes callbacks.
 import { h, button, opaqueBounds } from './dom.mjs';
-import { actorsAt, effectFrame, effectPosition, startOf, cuesDue, triggeredBy, stepTime, scales, sceneSpan } from './model.mjs';
+import { actorsAt, effectFrame, effectPosition, startOf, cuesDue, triggeredBy, stepTime, scales, sceneSpan, overlays, toggleOverlay } from './model.mjs';
 
 const MOVE = {ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0], w: [0, -1], s: [0, 1], a: [-1, 0], d: [1, 0]};
 
@@ -143,27 +143,29 @@ export function mountStage(app, host, {scene, loaded, colors, mixer, state, onTi
   document.addEventListener('keyup', keyup);
 
   const bar = (label, items) => h('div', {class: 'sb-seg', role: 'group', 'aria-label': label}, ...items);
-  const scaleBar = bar(ctx.t('stage.scale'), scales.map(s => h('a', {class: 'sb-segbtn' + (s === scale ? ' on' : ''), href: ctx.href(hrefFor({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
-  const ovLinks = ['pivot', 'hitbox', 'anchor'].map(name => {
-    const next = new Set(live.ov); next.has(name) ? next.delete(name) : next.add(name);
-    return h('a', {class: 'sb-segbtn' + (live.ov.has(name) ? ' on' : ''), href: ctx.href(hrefFor({ov: next})), 'aria-pressed': String(live.ov.has(name))}, ctx.t('overlay.' + name));
-  });
+  // The links carry the current URL state (selection, overlays, scale), so they are rebuilt whenever the view changes.
+  const toolbar = h('div', 'sb-toolbar');
+  function renderToolbar() {
+    const scaleBar = bar(ctx.t('stage.scale'), scales.map(s => h('a', {class: 'sb-segbtn' + (s === scale ? ' on' : ''), href: ctx.href(hrefFor({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
+    const ovLinks = overlays.map(name => h('a', {class: 'sb-segbtn' + (live.ov.has(name) ? ' on' : ''), href: ctx.href(hrefFor({ov: toggleOverlay(live.ov, name)})), 'aria-pressed': String(live.ov.has(name))}, ctx.t('overlay.' + name)));
+    toolbar.replaceChildren(scaleBar, bar(ctx.t('overlay.label'), ovLinks));
+  }
   const scrub = h('input', {type: 'range', min: 0, max: Math.max(span, 1), step: 1, value: Math.min(live.t, Math.max(span, 1)), 'aria-label': ctx.t('stage.scrub')});
   scrub.addEventListener('input', () => { pause(false); seek(Number(scrub.value), false); });
   scrub.addEventListener('change', () => onTime(Math.round(live.t)));
   const reset = button(ctx.t('stage.reset'), () => { pause(false); live.fired.clear(); live.player = {}; seek(0, true); });
   host.replaceChildren(
-    h('div', 'sb-toolbar', scaleBar, bar(ctx.t('overlay.label'), ovLinks)),
+    toolbar,
     h('div', 'sb-stagebox', canvas),
     h('div', 'sb-controls', playBtn, button('⏮', stepBy(-1), {'aria-label': ctx.t('stage.stepBack'), title: ctx.t('stage.stepBack')}),
       button('⏭', stepBy(1), {'aria-label': ctx.t('stage.stepForward'), title: ctx.t('stage.stepForward')}), scrub, reset),
     readout, note);
-  syncPlay(); draw();
+  syncPlay(); renderToolbar(); draw();
   if (state.play) play();
   return {
     getTime: () => Math.round(live.t), isPlaying: () => live.playing,
     setTime(t) { pause(false); seek(t, false); scrub.value = Math.min(t, Math.max(span, 1)); },
-    setView(sel, ov) { live.sel = sel; live.ov = ov; draw(); },
+    setView(sel, ov) { live.sel = sel; live.ov = ov; renderToolbar(); draw(); },
     fire, canvas,
     destroy() { live.playing = false; cancelAnimationFrame(live.raf); document.removeEventListener('keydown', keydown); document.removeEventListener('keyup', keyup); }
   };
