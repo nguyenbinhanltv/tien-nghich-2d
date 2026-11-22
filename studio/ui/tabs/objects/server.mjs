@@ -1,5 +1,6 @@
 // Objects tab server routes, read-only, under /api/tabs/objects/:
 //   GET links                       relations between assets, read from every manifest
+//   GET covers                      the thumbnail frame of every asset in this tab, in one call: [{id, source, path|null}]
 //   GET tiles?id=                   tile animations and collision shapes stored in the asset's metadata (F5)
 //   GET provenance?id=&source=      generator, seed and hashes from the asset's provenance file(s)
 //   GET/POST timeline               frame tags, linked cels, scoped transforms, open in a drawing tool and back (studio/ui/timeline)
@@ -13,6 +14,7 @@ import { openWorkspace } from '../../../core/workspace.mjs';
 import { loadAssetIndex } from '../../../mcp/asset-index.mjs';
 import { readMetadata } from '../../../core/metadata.mjs';
 import { handleTimeline } from '../../timeline/route.mjs';
+import { framesOf, coverFrame } from './model.mjs';
 
 const ttlMs = 2000;
 const cache = new Map();
@@ -99,6 +101,17 @@ export async function handle(req, res, url, {root, prefix}) {
     const manifests = [];
     for (const source of pack.catalog.sources) manifests.push(await readJson(root, source.file));
     return send(200, {links: buildLinks(manifests, new Set(catalog.assets.map(a => a.id)))});
+  }
+  if (name === 'covers') {
+    const tabs = pack.ui?.categoryTabs ?? {};
+    const covers = [];
+    for (const a of catalog.assets) {
+      if (tabs[a.category] !== 'objects') continue;
+      const detail = await describeAsset(pack, root, catalog, a.id, a.source);
+      const cover = detail && !detail.ambiguous ? coverFrame(framesOf(detail), a.category) : null;
+      covers.push({id: a.id, source: a.source, path: cover?.path ?? null});
+    }
+    return send(200, {covers});
   }
   if (name === 'provenance') {
     const id = url.searchParams.get('id');

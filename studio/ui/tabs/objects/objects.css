@@ -30,17 +30,18 @@ img, canvas.px { image-rendering: pixelated; }
 .gridhead { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .gridhead p { margin: 0; }
 .zoombar { display: flex; align-items: center; gap: .6rem; font-size: .85rem; color: var(--muted); }
-.grid { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; align-items: stretch; }
-.card { display: flex; flex-direction: column; gap: .2rem; padding: .4rem; min-width: 7.5rem; text-decoration: none; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); position: relative; }
+.grid { --cell: calc(16px * var(--zoom) + 2.6rem); display: grid; grid-template-columns: repeat(auto-fill, var(--cell)); gap: .6rem; margin-top: .6rem; justify-content: start; }
+.card { display: flex; flex-direction: column; gap: .2rem; padding: .4rem; width: var(--cell); min-width: 0; box-sizing: border-box; text-decoration: none; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); position: relative; }
 .card:hover { border-color: var(--accent); }
 .card.on { border-color: var(--gold); box-shadow: 3px 3px 0 var(--accent-soft); }
 .card::before { content: ""; position: absolute; left: -2px; top: -2px; width: .5rem; height: .5rem; background: var(--line); z-index: 1; }
 .card.state-packed::before { background: var(--accent); } .card.state-authored::before { background: var(--gold); }
 .card.state-planned { border-style: dashed; opacity: .8; }
-.cover { display: grid; place-items: center; min-height: calc(16px * var(--zoom)); min-width: 5rem; padding: 4px; flex: 1; }
+.cover { display: grid; place-items: center; aspect-ratio: 1; width: 100%; box-sizing: border-box; padding: 4px; overflow: hidden; }
 .cover img { display: block; max-width: none; }
-.cover-empty { font-size: .72rem; color: var(--muted); text-align: center; padding: .5rem; }
-.card-id { font: .75rem var(--font-mono); overflow-wrap: anywhere; max-width: 12rem; }
+.cover-empty { font-size: .72rem; color: var(--muted); text-align: center; padding: .25rem; }
+.card-id, .card-meta { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-id { font: .75rem var(--font-mono); }
 .card-meta { font-size: .7rem; color: var(--muted); }
 .empty, .pad { padding: 1rem; }
 
