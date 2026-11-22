@@ -110,7 +110,7 @@ export default {
         out.recorded = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
       }
       if (!narrowed) {
-        const sp = await measure(ws, asset, snap.pack, { stage, content: envelopeOf.inputs.frames, errors: qa.frames.reduce((n, f) => n + f.errors, 0) + (qa.summary.errors - qa.frames.filter((f) => f.errors).length), warnings: qa.frames.reduce((n, f) => n + f.warnings, 0), caller: ctx.caller, record: scopeAllows(ctx.scope, 'author') });
+        const sp = await measure(ws, asset, snap.pack, { stage, content: envelopeOf.inputs.frames, errors: qa.summary.pixelErrors + qa.summary.assetErrors, warnings: qa.summary.pixelWarnings + qa.summary.assetWarnings, caller: ctx.caller, record: scopeAllows(ctx.scope, 'author') });
         if (sp) out.stopPolicy = sp;
       }
       return jsonResult(out);

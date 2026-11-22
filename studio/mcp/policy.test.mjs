@@ -116,3 +116,23 @@ test('staleReasons: sheets and the contact sheet are compared too', () => {
   assert.deepEqual(staleReasons(rec, { frames: 'f2', sheets: { rig: 'aaaa', pose: 'bbbb' } }).map((s) => s.what), ['frames', 'contact sheet']);
   assert.deepEqual(staleReasons(null, { frames: 'x' }), [], 'legacy evidence is judged on frames by the caller');
 });
+
+test('progress counts error PIXELS: losing one error code while keeping the pixel total is not progress, and the reverse is', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  await submit(a);
+  const put = (variant, dmg) => writeFileSync(join(p.root, RAW, 'idle_south_1.png'), makeFrame(32, 32, { variant, damage: dmg }).png);
+  const run = async () => (await a.ok('studio_qa_run', { assetId: 'lt_seed_broker' }));
+  put(1, [{ x: 8, y: 12, kind: 'color' }, { x: 9, y: 12, kind: 'alpha' }]);   // two codes, two pixels
+  const first = await run();
+  assert.ok(first.summary.errors > first.summary.pixelErrors - 1, 'summary.errors counts notes (one per code per frame), not pixels');
+  assert.equal(first.summary.pixelErrors, 2);
+  put(2, [{ x: 8, y: 12, kind: 'color' }, { x: 9, y: 12, kind: 'color' }]);   // one code, still two pixels
+  const second = await run();
+  assert.equal(second.summary.pixelErrors, 2);
+  assert.equal(second.stopPolicy.progress, false, 'same error pixels is not progress, even though one error code disappeared');
+  put(3, [{ x: 8, y: 12, kind: 'color' }, { x: 9, y: 12, kind: 'color' }, { x: 10, y: 12, kind: 'alpha' }]);   // two codes, three pixels
+  assert.equal((await run()).stopPolicy.progress, false, 'more pixels is not progress');
+  put(4, [{ x: 8, y: 12, kind: 'color' }]);   // one pixel
+  const last = await run();
+  assert.deepEqual([last.summary.pixelErrors, last.stopPolicy.progress], [1, true], 'fewer pixels is progress');
+}));
