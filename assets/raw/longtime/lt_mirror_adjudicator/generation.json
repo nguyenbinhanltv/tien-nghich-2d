@@ -29,6 +29,28 @@
         "canvas": "100x100 (centre-cropped to 96x96 by the build, no opaque pixel lost)",
         "action_description": "stands still and breathes gently, chest rising and falling; the huge round cyan mirror shield with gold rim stays held in front of his left side, clearly visible and unchanged in every frame",
         "note": "the shipped south frames of this clip come from this retry; the template south frames were rejected (mirror missing)"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "f95eb139-27e3-4026-9281-20ad26428310",
+          "animation_group_id": "d5a74dfc-7b01-4713-a9d4-35af9b4f85f7",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "83a1e26b-289e-4487-8ecf-81d4157dcac4",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "68a37a6c-5c15-4b2d-9e9f-4996786a8030",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "47278c15-104c-42c3-8bd5-020b74d3be9a",
+          "animation_group_id": "40c91621-bf22-4f6a-a72b-886ab26c461d",
+          "source": "original clip"
+        }
       }
     },
     "advance": {
@@ -75,7 +97,29 @@
             "north: old template north kept, the new north hid the shield"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a098b1b4-ba03-4b00-b98d-f4899922f9f9",
+          "animation_group_id": "b9c7c9eb-f76b-4b3a-910b-bb29d6287e21",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "335ff439-2bb7-45b1-9ee8-1c888fd6c0da",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "source": "touch_up advance_retry2"
+        },
+        "north": {
+          "job_id": "fb2b2c9f-bd15-45b4-927f-7c43b08dda0c",
+          "animation_group_id": "b10f9ee5-355a-4de7-910e-b92a90b5120b",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "c384a4f2-393f-44be-a6c9-0e3841af1c52",
+          "animation_group_id": "75891287-50b7-4763-bb89-bc19e20ffb6c",
+          "source": "touch_up advance_retry2"
+        }
+      }
     },
     "telegraph": {
       "mode": "template",
@@ -121,7 +165,29 @@
           ],
           "rejected": []
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "f3ab6b6a-f136-4315-8819-899e2574df0f",
+          "animation_group_id": "937403ce-1a7c-4803-862f-193ffe8a4cde",
+          "source": "south_replacement"
+        },
+        "west": {
+          "job_id": "b19a130b-fde3-48a9-9109-99c1e7532286",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        },
+        "north": {
+          "job_id": "e46da70d-d2dd-4098-a35a-8d7e19a93902",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        },
+        "east": {
+          "job_id": "802fdefe-0987-4a42-a585-4d56c6de45d9",
+          "animation_group_id": "8cb821aa-21eb-45e8-80af-33d7bebfeab1",
+          "source": "touch_up telegraph_retry2"
+        }
+      }
     },
     "strike": {
       "mode": "template",
@@ -133,6 +199,28 @@
         "west": "7c73b584-4c77-41ce-8767-cc18f7dc9463",
         "north": "edc37d8d-c2cc-48c4-8284-1959f4bf7889",
         "east": "f30a6e07-73d2-4aa4-9264-5b6f2373b21e"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a26604ed-994d-4b66-98cb-80ea9e9b2720",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "7c73b584-4c77-41ce-8767-cc18f7dc9463",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "edc37d8d-c2cc-48c4-8284-1959f4bf7889",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "f30a6e07-73d2-4aa4-9264-5b6f2373b21e",
+          "animation_group_id": "21c5d1f9-8815-443a-9fb2-c8760b867a3d",
+          "source": "original clip"
+        }
       }
     }
   },

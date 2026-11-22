@@ -43,7 +43,29 @@
             "west: still dark, no improvement, old kept"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "91ac8cfc-c68a-4be9-8975-aacba89824b5",
+          "animation_group_id": "cbacbf7a-6897-4f71-ba29-4fa516111b31",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "228c3e9d-27f6-4fa2-9b8b-716635d8d531",
+          "animation_group_id": "cbacbf7a-6897-4f71-ba29-4fa516111b31",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "f25f7136-1e90-422b-9df4-9a64bd7a78d4",
+          "animation_group_id": "cbacbf7a-6897-4f71-ba29-4fa516111b31",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "75841281-ef4e-4077-92ca-694dcabc57e5",
+          "animation_group_id": "e05c223b-7f18-4a92-9bb4-b2195c49421b",
+          "source": "touch_up idle_retry"
+        }
+      }
     },
     "walk": {
       "mode": "template",
@@ -75,7 +97,29 @@
             "west: still dark, no improvement, old kept"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "b00c24fe-35e9-49c0-848d-8a220d6b670d",
+          "animation_group_id": "d3097523-d653-4206-987c-044de68f4c51",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "b1c20f7f-d7a5-49cf-bfe1-6851f94d1812",
+          "animation_group_id": "d3097523-d653-4206-987c-044de68f4c51",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "9d1b8432-a0fb-41aa-b50b-03c69504693d",
+          "animation_group_id": "d3097523-d653-4206-987c-044de68f4c51",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "4eb2395c-e7c6-4d3b-9a43-b95962267904",
+          "animation_group_id": "85971bdb-6437-4f9f-afbe-67dac2008306",
+          "source": "touch_up walk_retry"
+        }
+      }
     },
     "cast": {
       "mode": "template",
@@ -103,8 +147,45 @@
           "rejected": [
             "east: light robe but the spell is only a few sparks, weaker than the template cast; old kept"
           ]
+        },
+        {
+          "mode": "v3",
+          "frame_count": 6,
+          "keep_first_frame": false,
+          "animation_name": "cast_retry",
+          "animation_group_id": "d4e81291-f03a-4872-8de8-3f89fb2510ce",
+          "job_ids": {
+            "west": "d5e891e8-52f7-4d86-8be2-8d48742d550e"
+          },
+          "action_description": "raises one hand and casts a small fireball spell with a flick of the hand, a bright flame at the hand, then lowers it; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [],
+          "rejected": [
+            "west: robe still dark and the later frames draw red sparks and a white patch instead of the flame; the original template west cast is kept (round 2)"
+          ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "0fd076e3-e80f-4691-8140-204ecef56b15",
+          "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "eff4dfc8-fdd5-4e4b-a747-366d5964fae9",
+          "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "eff3981e-6cb8-48ed-978d-b061a8ec0d91",
+          "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "6f1d0df7-b7cd-49a5-b892-ed1515d08a32",
+          "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+          "source": "original clip"
+        }
+      }
     },
     "hurt": {
       "mode": "template",
@@ -133,8 +214,45 @@
           "rejected": [
             "east: light robe but the recoil pose is weak; old kept"
           ]
+        },
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "hurt_retry2",
+          "animation_group_id": "509c942d-b7d5-4f39-bb90-511e86516599",
+          "job_ids": {
+            "west": "fe005320-a36c-425a-914b-f70dcc4fbdda"
+          },
+          "action_description": "flinches and recoils backward from a hit with his arms up, then steadies; he wears a plain LIGHT GREY robe, only the long ink-black veil over his left shoulder is black, the robe stays light grey in every frame",
+          "shipped": [],
+          "rejected": [
+            "west: robe still dark, pose weak; the original template west hurt is kept (round 2)"
+          ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "96470595-cc8e-4b87-991b-27fd4c95d43d",
+          "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "46896237-e6b4-4f50-a020-f1560b40d5cf",
+          "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "ac3918a8-8d20-4070-8a8e-f2c36ac8193b",
+          "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "3dc75693-94e7-45bc-a147-d3fd4bf53cfb",
+          "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+          "source": "original clip"
+        }
+      }
     }
   },
   "attempts": [
@@ -149,6 +267,12 @@
       "what": "touch-up round (orchestrator, spare generations): idle west/east, walk west/east, cast east, hurt east regenerated once as palette-locked v3 with the robe pinned to light grey (6 credits)",
       "credits": 6,
       "result": "shipped idle east and walk east (light grey robe, now matching south and north). West did not improve; cast east and hurt east were worse than the originals. So the robe is still dark in west idle/walk/cast/hurt and in east cast/hurt."
+    },
+    {
+      "n": 3,
+      "what": "second touch-up round: cast west and hurt west regenerated once as palette-locked v3 with the robe pinned to light grey (2 credits)",
+      "credits": 2,
+      "result": "both rejected, still dark; the dark west robe comes from the west rotation view that v3 animates from. Every west clip (idle, walk, cast, hurt) keeps the original template frames."
     }
   ],
   "credits_spent": {
@@ -157,12 +281,12 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 28,
-    "touch_up": 6
+    "total_generations": 30,
+    "touch_up": 8
   },
   "known_flaws": [
-    "robe tone still differs between facings: light grey in south, north, east idle/walk; dark in west (all clips) and in east cast/hurt",
-    "needs a human decision; touch-up retries used"
+    "robe tone still differs between facings: light grey in south, north, east idle/walk; dark in west (all clips: retries of idle, walk, cast and hurt all stayed dark) and in east cast/hurt; the cause is the west rotation view, so only a new character would fix it",
+    "needs a human decision"
   ],
   "native_px": [
     32,

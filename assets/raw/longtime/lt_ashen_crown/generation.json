@@ -36,7 +36,29 @@
             "south: robe no lighter (the dark tone comes from the character's rotation views, which v3 animates from) and the crown tip is taller; original kept"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "0b74177f-7955-4d98-8b2d-5ce259a25838",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "f05a7bdb-ffd0-4939-a1ae-9e96d31e0863",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "611bc2b7-7cde-4326-ac55-053b75eb3879",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "9ec0d6dd-1a97-4bf1-8f49-4be56f79c41a",
+          "animation_group_id": "93a6ed43-9a39-4fe7-9f35-45a634c196b9",
+          "source": "original clip"
+        }
+      }
     },
     "walk": {
       "mode": "template",
@@ -48,6 +70,28 @@
         "west": "dc8fc223-8620-44bd-b4cc-c6222fe9e56e",
         "north": "0445f5d1-9b5a-403a-895b-0bf88636a46f",
         "east": "5e1a6116-f468-4f13-99f3-0b4e6651cd01"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "a7d2275a-c411-47d8-a95c-ba6091b52110",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "dc8fc223-8620-44bd-b4cc-c6222fe9e56e",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "0445f5d1-9b5a-403a-895b-0bf88636a46f",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "5e1a6116-f468-4f13-99f3-0b4e6651cd01",
+          "animation_group_id": "e0b26cf9-f695-491a-9d30-42457b01b2b5",
+          "source": "original clip"
+        }
       }
     },
     "cast": {
@@ -60,6 +104,28 @@
         "west": "b91bd0ce-63bb-4a41-8eb7-5785cbb54fb3",
         "north": "1e10f471-9a4a-43e4-b354-6462d0a35ea0",
         "east": "eed1fd91-5d59-4cc2-928b-2714ea266818"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "879a730e-16f7-4d84-a51c-73c017790a42",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "b91bd0ce-63bb-4a41-8eb7-5785cbb54fb3",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "1e10f471-9a4a-43e4-b354-6462d0a35ea0",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "eed1fd91-5d59-4cc2-928b-2714ea266818",
+          "animation_group_id": "c0ac9b51-e0ec-4899-89e7-06d6546d0187",
+          "source": "original clip"
+        }
       }
     },
     "hurt": {
@@ -73,7 +139,29 @@
         "north": "1d076b66-632c-49cf-b489-06de10e8b633",
         "east": "6cca6424-1a27-453a-8f24-17f5ddad6f23"
       },
-      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (the manifest wants 2 frames); the other four are not shipped"
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (the manifest wants 2 frames); the other four are not shipped",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "d32388bf-4346-4a4a-8811-d99b7c5cc4b2",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "9b48812e-d95b-46d6-a3f6-d0d9dc7aff27",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "1d076b66-632c-49cf-b489-06de10e8b633",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "6cca6424-1a27-453a-8f24-17f5ddad6f23",
+          "animation_group_id": "1f13916c-3f4d-4dec-a942-b2edd00ad608",
+          "source": "original clip"
+        }
+      }
     }
   },
   "attempts": [
@@ -94,6 +182,12 @@
       "what": "touch-up round (orchestrator): idle south regenerated once as v3 with the robe pinned to light grey (1 credit), as an experiment before spending on more crown clips",
       "credits": 1,
       "result": "rejected, no lighter; no further crown clips regenerated. The darker, greyer look needs a new character (not within the touch-up budget)."
+    },
+    {
+      "n": 4,
+      "what": "second touch-up round: one character regeneration, character id e71aba51-06aa-458f-b43a-2518a3e258c9, job 3946e59c-5a4b-4686-b3df-3609f6dfcb6e (6 credits, 8 rotations only, not animated). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, black topknot hair, pale skin, calm face. A tall BROKEN CROWN of pale ash-grey metal sits on his head in front of the black topknot: three jagged points rising clearly above the hair, the right-hand point snapped off to a short stump, ash-white with dark cracks, unmistakable from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.' 32x32, seed 7, 40-colour palette, style_image = lt_river_oath south rotation with the sash ignored",
+      "credits": 6,
+      "result": "rejected at rotation level, never animated: the robe and face match the other forms, but the crown, the form's defining mark, shrinks to a pale band that is barely visible against the black hair in north and west, and the robe is a long flared gown unlike the other forms. Not clearly better at 1x, so the original (attempt 2) ships and the remaining 16 credits for clips were not spent."
     }
   ],
   "credits_spent": {
@@ -103,11 +197,16 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 45,
+    "total_generations": 51,
     "balance_before": 804.26,
-    "touch_up": 1
+    "touch_up": 7
   },
   "known_flaws": [
     "darker and greyer than the other three forms (dark robe, long black hair): needs a human decision; prompt-only retries do not change it"
-  ]
+  ],
+  "rejected_character_regeneration": {
+    "pixellab_character_id": "e71aba51-06aa-458f-b43a-2518a3e258c9",
+    "character_job_id": "3946e59c-5a4b-4686-b3df-3609f6dfcb6e",
+    "shipped": false
+  }
 }

@@ -35,7 +35,29 @@
             "north"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "486f5417-318e-48da-bc49-645ec56c1e13",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "db027da4-820b-4298-94c2-f5b986c28350",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "afbcf3fa-5b74-47b6-8f3e-3e2fe60407c6",
+          "animation_group_id": "a97945f8-d3ff-46c1-a009-168e62254209",
+          "source": "touch_up idle_retry"
+        },
+        "east": {
+          "job_id": "5fb115ad-e5d8-4de9-9946-cf5c00b94c7a",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        }
+      }
     },
     "walk": {
       "mode": "template",
@@ -64,7 +86,29 @@
             "south: the sash was one clean blue, but the topknot's top row falls one pixel outside the 32x32 canvas in frames 2 and 3 (2 px each) and the build refuses to drop pixels; the original template walk south is kept"
           ]
         }
-      ]
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "95fbfb45-a764-4f8f-b081-8e58b85fbbc5",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "50543a4e-b681-4769-a9fd-7d56b023cc90",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "94429b4c-8c5f-47f4-8263-6b590d09dbf2",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "e930fb4a-bef5-4bc9-b2e8-daa0b8954837",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        }
+      }
     },
     "cast": {
       "mode": "template",
@@ -76,6 +120,28 @@
         "west": "aaa2b205-f3b7-48e3-b29d-55dfeeb1fa63",
         "north": "08ffe113-a394-429a-bd10-00c2ac9f5060",
         "east": "d2668090-a717-4af4-a8d1-0abd1f7352ff"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "1abf85d8-cb72-42c4-ba22-1a6fed054ba8",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "aaa2b205-f3b7-48e3-b29d-55dfeeb1fa63",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "08ffe113-a394-429a-bd10-00c2ac9f5060",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "d2668090-a717-4af4-a8d1-0abd1f7352ff",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        }
       }
     },
     "hurt": {
@@ -89,7 +155,29 @@
         "north": "af237918-1a29-46c2-93a2-61ac6c9effee",
         "east": "56b355ee-e2f6-46bd-93b0-ece913fb0718"
       },
-      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)"
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "2f898b02-2e30-4c0a-b5bc-4797f4566e91",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "6e91b4b8-3214-4ad5-a261-3fbcf647596b",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "af237918-1a29-46c2-93a2-61ac6c9effee",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "56b355ee-e2f6-46bd-93b0-ece913fb0718",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        }
+      }
     }
   },
   "attempts": [
