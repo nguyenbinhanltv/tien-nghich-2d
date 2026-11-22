@@ -35,6 +35,20 @@ async function call(root, libraryDir, method, route, {query = {}, body} = {}) {
 const ABODE = JSON.parse(await fs.readFile(path.join(REPO, 'assets/atlases_longtime/mobile/abode/chunk-manifest.json'), 'utf8'));
 const ABODE_FRAMES = ABODE.frame_count, ABODE_PAGES = ABODE.page_count, ABODE_BYTES = ABODE.rgba8_bytes, ABODE_CEILING = ABODE.mobile_page_budget;
 const ABODE_STATE = ABODE_PAGES > ABODE_CEILING ? 'over' : ABODE_PAGES === ABODE_CEILING ? 'full' : 'ok';
+// The real project fills its chunks as the asset lanes deliver, so "a chunk with no atlas yet" is tested on a fixture: the real pack
+// with a design manifest of its own whose chunk "hollow" has no assets and no shipped atlas, and "shipped" has one assigned asset.
+async function hollowProject(t) {
+  const dir = await realTemp(t);
+  const write = (file, data) => fs.mkdir(path.dirname(path.join(dir, file)), {recursive: true}).then(() => fs.writeFile(path.join(dir, file), data));
+  const pack = realPack();
+  pack.palette.file = 'pal.json';
+  pack.catalog = {sources: [{...pack.catalog.sources.find(x => x.id === 'longtime'), file: 'design.json'}]};
+  pack.editable = {...pack.editable, groups: []};
+  await write('studio.project.json', JSON.stringify(pack));
+  await write('pal.json', JSON.stringify({outline: '#000001', colors: [{hex: '#000001'}, {hex: '#ffffff'}]}));
+  await write('design.json', JSON.stringify({mobile: {page: [1024, 1024], padding: 2, extrude: 1, bytes_per_pixel: 4}, chunks: {hollow: 1}, profiles: {}, assets: [], vfx: {entries: []}}));
+  return dir;
+}
 const shipped = async () => { const pack = loadPackSync(REPO); return fingerprint(REPO, [...new Set(Object.values(pack.directories.atlases))]); };
 
 test('sets: the core atlas and every Longtime chunk, with shipped pages, budget state and which packing methods exist', async t => {
@@ -48,11 +62,11 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   assert.equal(core.shipped.web.frames, 2854);
   assert.equal(core.studioPack, true);
   assert.equal(typeof core.authority.build, 'boolean');
-  assert.deepEqual(chunks.chunks.map(c => c.id), ['abode', 'armory', 'ember_delta', 'forms', 'interface', 'mist_archive', 'star_quarry', 'trial', 'wards']);
+  const design = JSON.parse(await fs.readFile(path.join(REPO, 'assets/manifest_longtime.json'), 'utf8'));
+  assert.deepEqual(chunks.chunks.map(c => c.id), Object.keys(design.chunks).sort());
   const abode = chunks.chunks.find(c => c.id === 'abode');
   assert.deepEqual([abode.shipped.mobile.pages, abode.shipped.mobile.frames, abode.shipped.mobile.bytes, abode.shipped.mobile.budget.state, abode.ceilingPages], [ABODE_PAGES, ABODE_FRAMES, ABODE_BYTES, ABODE_STATE, ABODE_CEILING]);
   assert.equal(abode.shipped.mobile.budget.ceilingBytes, 4194304);
-  assert.equal(chunks.chunks.find(c => c.id === 'forms').shipped.mobile.budget.state, 'empty', 'a chunk with no shipped atlas yet is empty, not over budget');
   assert.deepEqual(json.formats.map(f => f.id), ['phaser', 'pixi', 'godot', 'unity', 'aseprite', 'tiled']);
 });
 
@@ -124,7 +138,6 @@ test('pack with the project packer (authority) stages byte-identical files', {sk
   assert.equal(r.status, 200, r.message);
   assert.equal(r.json.authority.ok, true);
   assert.deepEqual(Object.values(r.json.profiles).map(p => p.comparison.verdict), ['identical', 'identical']);
-  assert.equal((await call(REPO, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: 'forms', engine: 'authority'}})).status, 409, 'a chunk with no processed frames has nothing to pack');
   assert.equal((await call(REPO, lib, 'POST', 'pack', {body: {set: 'core', engine: 'nope'}})).status, 422);
 });
 
@@ -234,4 +247,19 @@ test('a packer that writes into a shipped directory and then fails is reported a
   assert.deepEqual([moved.status, moved.code], [500, 'shipped_changed']);
   assert.match(moved.message, /atl/);
   assert.match(moved.message, /boom|exited 1|failed/);
+});
+
+test('a chunk with no shipped atlas is empty, not over budget, and has nothing to pack (409)', async t => {
+  const root = await hollowProject(t), lib = path.join(root, 'lib');
+  const {status, json, message} = await call(root, lib, 'GET', 'sets');
+  assert.equal(status, 200, message);
+  const set = json.sets.find(x => x.id === 'longtime');
+  assert.deepEqual(set.chunks.map(c => c.id), ['hollow']);
+  assert.equal(set.chunks[0].shipped.mobile.budget.state, 'empty');
+  assert.equal(set.chunks[0].shipped.mobile.pages, 0);
+  for (const engine of ['studio', 'authority']) {
+    const r = await call(root, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: 'hollow', engine}});
+    assert.equal(r.status, 409, `${engine}: ${r.message}`);
+  }
+  assert.equal((await call(root, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: 'nope', engine: 'studio'}})).status, 404);
 });
