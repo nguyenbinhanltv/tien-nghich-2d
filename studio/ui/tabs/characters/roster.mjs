@@ -25,7 +25,7 @@ export function renderRoster(app) {
       value ? ctx.t('stage.' + value) + ' (' + (counts.byReadiness[value] ?? 0) + ')' : ctx.t('roster.allReadiness'))));
   const active = (filter.category ? 1 : 0) + (filter.readiness ? 1 : 0);
   const toggle = h('button', {type: 'button', class: 'btn filters-toggle', 'aria-expanded': String(Boolean(app.filtersOpen)), 'aria-controls': 'roster-filters',
-    onclick: () => { app.filtersOpen = !app.filtersOpen; renderRoster(app); }}, ctx.t('roster.filters'), active ? h('span', 'chip', String(active)) : null);
+    onclick: event => { app.filtersOpen = !app.filtersOpen; root.dataset.filters = app.filtersOpen ? 'open' : 'closed'; event.currentTarget.setAttribute('aria-expanded', String(app.filtersOpen)); }}, ctx.t('roster.filters'), active ? h('span', 'chip', String(active)) : null);
   const shown = sortRoster(filterRoster(roster.characters, {category: filter.category, readiness: filter.readiness, q: filter.q}), roster.categories);
   const list = h('ul', {class: 'roster-list', 'aria-label': ctx.t('roster.title')}, ...shown.map(c => {
     const selected = c.id === state.id, name = c.name ?? humanize(c.id);
