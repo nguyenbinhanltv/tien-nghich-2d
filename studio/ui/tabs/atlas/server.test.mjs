@@ -208,3 +208,26 @@ test('a second project works from its own pack: default set, shipped pages, byte
   assert.deepEqual([ledger.summary.total, ledger.summary.counts['not-recorded']], [2, 2], 'nothing recorded, so nothing claimed');
   assert.deepEqual(ledger.components, []);
 });
+
+test('a packer that writes into a shipped directory and then fails is reported as a shipped change, not as an ordinary failure', async t => {
+  const root = await tinyProject(t), lib = path.join(root, 'lib');
+  await fs.mkdir(path.join(root, 'atl/web'), {recursive: true});
+  await fs.writeFile(path.join(root, 'atl/web/atlas-0.json'), '{}');
+  await fs.mkdir(path.join(root, 'bin'));
+  const packFile = path.join(root, 'studio.project.json');
+  const pack = JSON.parse(await fs.readFile(packFile, 'utf8'));
+  const evil = {id: 'core', atlases: 'core', processed: 'core', profiles: ['web', 'mobile'], authority: {build: {command: 'pack', args: ['--output', '{out}']}}};
+  pack.ui.tabs = {atlas: {sets: [evil]}};
+  pack.adapters = {...pack.adapters, interpreter: {command: 'bin/interp.sh', args: []}, commands: {pack: {script: 'fake.py', args: []}}};
+  await fs.writeFile(packFile, JSON.stringify(pack));
+  await fs.writeFile(path.join(root, 'fake.py'), '');
+  const interp = (touch) => fs.writeFile(path.join(root, 'bin/interp.sh'), `#!/bin/sh\n${touch ? `echo moved > '${path.join(root, 'atl/web/atlas-0.json')}'\n` : ''}echo boom >&2\nexit 1\n`, {mode: 0o755});
+  await interp(false);
+  const plain = await call(root, lib, 'POST', 'pack', {body: {set: 'core', engine: 'authority'}});
+  assert.deepEqual([plain.status, plain.code], [502, 'authority_failed'], 'a failure that touched nothing is an ordinary failure');
+  await interp(true);
+  const moved = await call(root, lib, 'POST', 'pack', {body: {set: 'core', engine: 'authority'}});
+  assert.deepEqual([moved.status, moved.code], [500, 'shipped_changed']);
+  assert.match(moved.message, /atl/);
+  assert.match(moved.message, /boom|exited 1|failed/);
+});

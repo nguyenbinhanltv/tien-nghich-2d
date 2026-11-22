@@ -2,7 +2,7 @@
 // Two ways to stage, both through code the pack registers or this studio ships, neither able to write a shipped directory:
 //   studio     this studio's packer (atlas-sets.mjs): same layout algorithm, same JSON text, pixel-identical pages.
 //   authority  the project's own packer, run through the registered adapter into the staging directory: byte for byte.
-// Every run fingerprints the shipped atlas directories before and after and fails if they moved.
+// Every run fingerprints the shipped atlas directories before and after, on success and on failure alike, and fails with `shipped_changed` if they moved.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { problem } from './errors.mjs';
@@ -54,59 +54,64 @@ export async function stageAndProve({root, pack, index, set, chunk, engine = 'st
   const dir = await stagingFor(root, pack, base, 'atlas-staging', set.id, chunked ? chunk : '_all', engine);
   const before = await fingerprint(root, shippedDirs(pack));
   const out = {engine, set: set.id, chunk: chunk ?? null, profiles: {}, dir};
-  await fs.rm(dir, {recursive: true, force: true});
-  await fs.mkdir(dir, {recursive: true});
+  let failure = null;
+  try {
+    await fs.rm(dir, {recursive: true, force: true});
+    await fs.mkdir(dir, {recursive: true});
 
-  if (engine === 'studio') {
-    const packed = await packSet(root, pack, index, set, {chunk});
-    out.assets = packed.assets;
-    for (const [name, p] of Object.entries(packed.profiles)) {
-      const rel = setDir(pack, set, name, chunk).slice(pack.directories.atlases[set.atlases].length + 1);
-      const stagedDir = path.join(dir, rel);
-      await writeStaged(stagedDir, p.files);
-      const comparison = await compareDirs(stagedDir, path.join(root, setDir(pack, set, name, chunk)), {producedBy: producedByStudio(set)});
-      out.profiles[name] = {pages: p.pages, bytes: p.bytes, profile: p.profile, comparison, budget: budgetFor(set, index, chunk, name, p.profile, p.pages.length, p.bytes), dir: rel};
-    }
-    if (check) {
-      if (!set.authority?.check) out.check = {ran: false, reason: 'The pack registers no validator for this set.'};
-      else {
-        // The validator reads the whole atlas directory (including files this studio does not write), so it checks a copy of the shipped one with the staged pages laid over it.
-        const merged = path.join(dir, '_check');
-        await fs.cp(path.join(root, pack.directories.atlases[set.atlases]), merged, {recursive: true});
-        for (const rel of await listFilesIn(dir)) {
-          if (rel.startsWith('_check/')) continue;
-          await fs.mkdir(path.dirname(path.join(merged, rel)), {recursive: true});
-          await fs.copyFile(path.join(dir, rel), path.join(merged, rel));
+    if (engine === 'studio') {
+      const packed = await packSet(root, pack, index, set, {chunk});
+      out.assets = packed.assets;
+      for (const [name, p] of Object.entries(packed.profiles)) {
+        const rel = setDir(pack, set, name, chunk).slice(pack.directories.atlases[set.atlases].length + 1);
+        const stagedDir = path.join(dir, rel);
+        await writeStaged(stagedDir, p.files);
+        const comparison = await compareDirs(stagedDir, path.join(root, setDir(pack, set, name, chunk)), {producedBy: producedByStudio(set)});
+        out.profiles[name] = {pages: p.pages, bytes: p.bytes, profile: p.profile, comparison, budget: budgetFor(set, index, chunk, name, p.profile, p.pages.length, p.bytes), dir: rel};
+      }
+      if (check) {
+        if (!set.authority?.check) out.check = {ran: false, reason: 'The pack registers no validator for this set.'};
+        else {
+          // The validator reads the whole atlas directory (including files this studio does not write), so it checks a copy of the shipped one with the staged pages laid over it.
+          const merged = path.join(dir, '_check');
+          await fs.cp(path.join(root, pack.directories.atlases[set.atlases]), merged, {recursive: true});
+          for (const rel of await listFilesIn(dir)) {
+            if (rel.startsWith('_check/')) continue;
+            await fs.mkdir(path.dirname(path.join(merged, rel)), {recursive: true});
+            await fs.copyFile(path.join(dir, rel), path.join(merged, rel));
+          }
+          const r = await runAuthority(root, pack, set.authority.check, {out: merged});
+          out.check = {ran: true, ok: r.ok, code: r.code, ms: r.ms, stdout: r.stdout, stderr: r.stderr};
+          await fs.rm(merged, {recursive: true, force: true});
         }
-        const r = await runAuthority(root, pack, set.authority.check, {out: merged});
-        out.check = {ran: true, ok: r.ok, code: r.code, ms: r.ms, stdout: r.stdout, stderr: r.stderr};
-        await fs.rm(merged, {recursive: true, force: true});
+      }
+    } else {
+      if (!set.authority?.build) throw problem(409, 'no_authority', `The pack registers no authority packer for set ${set.id}.`);
+      const ids = chunked ? await processedIds(root, index, chunk) : [];
+      if (chunked && !ids.length) throw problem(409, 'no_frames', `Chunk ${chunk} has no processed frames to pack.`);
+      const r = await runAuthority(root, pack, set.authority.build, {out: dir, ids});
+      out.authority = {ok: r.ok, code: r.code, ms: r.ms, timedOut: r.timedOut, stdout: r.stdout, stderr: r.stderr, ids};
+      if (!r.ok) throw problem(502, 'authority_failed', `The project packer exited ${r.code}: ${(r.stderr || r.stdout).trim().split('\n').pop()}`);
+      for (const name of set.profiles) {
+        const rel = setDir(pack, set, name, chunk).slice(pack.directories.atlases[set.atlases].length + 1);
+        const stagedDir = path.join(dir, rel);
+        const comparison = await compareDirs(stagedDir, path.join(root, setDir(pack, set, name, chunk)), {producedBy: n => !n.startsWith('.')});
+        const pages = (await shippedPagesOf(stagedDir)).pages;
+        out.profiles[name] = {pages, bytes: null, comparison, dir: rel};
       }
     }
-  } else {
-    if (!set.authority?.build) throw problem(409, 'no_authority', `The pack registers no authority packer for set ${set.id}.`);
-    const ids = chunked ? await processedIds(root, index, chunk) : [];
-    if (chunked && !ids.length) throw problem(409, 'no_frames', `Chunk ${chunk} has no processed frames to pack.`);
-    const r = await runAuthority(root, pack, set.authority.build, {out: dir, ids});
-    out.authority = {ok: r.ok, code: r.code, ms: r.ms, timedOut: r.timedOut, stdout: r.stdout, stderr: r.stderr, ids};
-    if (!r.ok) throw problem(502, 'authority_failed', `The project packer exited ${r.code}: ${(r.stderr || r.stdout).trim().split('\n').pop()}`);
-    for (const name of set.profiles) {
-      const rel = setDir(pack, set, name, chunk).slice(pack.directories.atlases[set.atlases].length + 1);
-      const stagedDir = path.join(dir, rel);
-      const comparison = await compareDirs(stagedDir, path.join(root, setDir(pack, set, name, chunk)), {producedBy: n => !n.startsWith('.')});
-      const pages = (await shippedPagesOf(stagedDir)).pages;
-      out.profiles[name] = {pages, bytes: null, comparison, dir: rel};
+    // Files that live beside the profile directories (type declarations, runtime tables): only the project's packer writes them.
+    out.extra = [];
+    for (const name of set.extraFiles ?? []) {
+      const shipped = await fs.readFile(path.join(root, pack.directories.atlases[set.atlases], name)).catch(() => null);
+      const staged = engine === 'authority' ? await fs.readFile(path.join(dir, name)).catch(() => null) : null;
+      out.extra.push(!shipped ? {name, status: 'absent'} : !staged ? {name, status: 'not_produced', reason: 'authority_only'} : compareFile(name, staged, shipped));
     }
-  }
-  // Files that live beside the profile directories (type declarations, runtime tables): only the project's packer writes them.
-  out.extra = [];
-  for (const name of set.extraFiles ?? []) {
-    const shipped = await fs.readFile(path.join(root, pack.directories.atlases[set.atlases], name)).catch(() => null);
-    const staged = engine === 'authority' ? await fs.readFile(path.join(dir, name)).catch(() => null) : null;
-    out.extra.push(!shipped ? {name, status: 'absent'} : !staged ? {name, status: 'not_produced', reason: 'authority_only'} : compareFile(name, staged, shipped));
-  }
+  } catch (error) { failure = error; }
+  // Whatever happened above, the shipped directories are checked last. A packer that wrote into them and then failed is reported as that, not as an ordinary failure.
   const after = await fingerprint(root, shippedDirs(pack));
-  if (after !== before) throw new Error('the shipped atlas directories changed during staging; this must never happen');
+  if (after !== before) throw problem(500, 'shipped_changed', `The shipped atlas directories (${shippedDirs(pack).join(', ')}) changed while staging${failure ? ` (the run also failed: ${failure.message})` : ''}. This must never happen; check them with git status before doing anything else.`);
+  if (failure) throw failure;
   out.shipped = {unchanged: true, fingerprint: after.slice(0, 16), directories: shippedDirs(pack)};
   return out;
 }
