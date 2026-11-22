@@ -2,8 +2,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { loadPack } from '../../../core/pack.mjs';
-import { createImage, decodePng, effectiveLoops, encodePng, importSheet, pixelizeImport, renderTemplate, runPipeline, settingsFromPack, snapPalette, turnaroundLayout } from '../../index.mjs';
+import { bakeStage, createImage, decodePng, effectiveLoops, encodePng, importSheet, pixelizeImport, readPixelized, rigPalette, writeImport, writePixelized, renderTemplate, runPipeline, settingsFromPack, snapPalette, turnaroundLayout } from '../../index.mjs';
 import { resolveHold, snapHeld } from '../hold.mjs';
 import { drawFigure, makeProject, palette } from '../../tests/fixture.mjs';
 
@@ -193,4 +195,40 @@ test('run forwards --pose-order, pixelise reads --poses (with the rig and librar
   assert.match(src, /poseOrder: opts\['pose-order'\]/);
   assert.match(src, /order: opts\['pose-order'\]\?\.split\(','\), poseClips,/);
   assert.match(src, /held: pixelized\.held, rig, poseRig/);
+});
+
+
+test('writing pixelised output deletes nothing: an import directory called held next to the output survives, with the hold on or off', async t => {
+  const {settings, imported, withHold} = await boundary(t);
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), 'hold-out-'));
+  t.after(() => fs.rm(out, {recursive: true, force: true}));
+  const source = path.join(out, 'held');
+  await writeImport(source, imported);
+  const keep = path.join(source, 'import.json'), before = await fs.readFile(keep);
+  for (const hold of [false, undefined]) {
+    const result = pixelizeImport(imported, withHold, {hold, poseClips: clips({walk: [['a', 'b', 'c']]})});
+    // The CLI protects the source import.json; held frames go under <out>/held, which here is the import directory itself.
+    await writePixelized(out, result, {protect: [keep]});
+    assert.deepEqual(await fs.readFile(keep), before, `import.json survives (hold ${hold})`);
+    assert.ok((await fs.readdir(path.join(source, 'cells'))).length > 0, 'the import cells survive');
+  }
+  // A target that is a protected path is refused.
+  const result = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c']]})});
+  const target = path.join(out, 'held', 'walk_front_0.png');
+  await assert.rejects(() => writePixelized(out, result, {protect: [target]}), /protected input/);
+});
+
+test('a separate bake refuses held frames made for another key order or loop setting, and accepts the same sequence after a disk round trip', async t => {
+  const {settings, imported, withHold} = await boundary(t);
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), 'hold-seq-'));
+  t.after(() => fs.rm(out, {recursive: true, force: true}));
+  const made = clips({walk: [['a', 'b', 'c'], true]});
+  await writePixelized(out, pixelizeImport(imported, withHold, {poseClips: made}));
+  const disk = await readPixelized(out), palette = rigPalette(withHold);
+  const bake = poseClips => bakeStage({settings: withHold, palette, cells: disk.cells, held: disk.held, poseClips});
+  const ok = bake(made);
+  assert.equal(sig({native: ok.clips.walk.facings.front.frames[1]}), sig(disk.held.get('walk/front/1')), 'the same sequence uses the held frame');
+  assert.throws(() => bake(clips({walk: [['c', 'b', 'a'], true]})), /different key sequence or loop/);
+  assert.throws(() => bake(clips({walk: [['a', 'b', 'c'], false]})), /different key sequence or loop/);
+  assert.throws(() => bake(clips({walk: [['a', 'c', 'b'], true]})), /different key sequence or loop/);
 });

@@ -2,6 +2,7 @@
 // palette entry it had in the previous frame when the new source colour is within `margin` of the best entry's distance.
 // The idea is plain hysteresis (it is how a thermostat avoids chattering); the code here is this project's own.
 // Only the colour of pixels that are already opaque changes: alpha and the outline (rebuilt afterwards) are never touched.
+import { createHash } from 'node:crypto';
 import { cloneImage, snapPalette } from '../image.mjs';
 
 /** Colour distances in 0..~441 units. `rgb` is Euclidean; `redmean` weights channels by the mean red (a cheap perceptual fit). */
@@ -58,6 +59,14 @@ function snapNearest(img, colors, dist) {
  */
 export function sequencesOf(poseClips, loops = {}) {
   return Object.entries(poseClips?.clips ?? {}).map(([clip, spec]) => ({clip, keys: Array.isArray(spec.keys) ? spec.keys : [], facings: spec.facings ?? null, loop: loops[clip] ?? spec.loop ?? true}));
+}
+
+/**
+ * Identity of one clip's playing sequence for one facing: what a held frame was made for. A bake that finds a different value
+ * (keys reordered, another loop setting) must not reuse the frame.
+ */
+export function sequenceHash(clip, facing, keys, loop) {
+  return createHash('sha256').update(JSON.stringify({clip, facing, keys, loop: loop !== false})).digest('hex').slice(0, 16);
 }
 
 const keyOf = (r, g, b) => (r << 16) | (g << 8) | b;

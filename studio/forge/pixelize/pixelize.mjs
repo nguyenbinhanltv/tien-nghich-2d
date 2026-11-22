@@ -4,7 +4,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { blit, boundsOf, boxDownscale, createImage, decodePng, encodePng, rebuildOutline, resizeBox, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
-import { resolveHold, sequencesOf, snapHeld } from './hold.mjs';
+import { resolveHold, sequenceHash, sequencesOf, snapHeld } from './hold.mjs';
 import { assertCellId, assertNoOverwrite, defaultScaleOptions, normalizeEntries, normalizeScale } from '../sheet/import.mjs';
 
 export const pixelizeSchema = 'forge.pixelize';
@@ -106,11 +106,12 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions, ho
       // A loop closes: the sequence is snapped `laps` times, the first key following the last, and only the final lap is kept.
       // A one-shot is snapped once and its first key has no predecessor.
       let previous = null;
+      const seq = sequenceHash(q.clip, f, q.keys, q.loop);
       const laps = q.loop === false ? 1 : spec.laps;
       for (let lap = 0; lap < laps; lap++) ids.forEach((id, i) => {
         const r = run(byId.get(id), previous);
         previous = r.indexed;
-        if (lap === laps - 1) { held.set(`${q.clip}/${f}/${i}`, {indexed: r.indexed, native: r.native}); heldInfo.push({clip: q.clip, facing: f, key: i, pose: q.keys[i], held: r.info.held ?? 0, sha256: sha256(encodePng(r.native))}); }
+        if (lap === laps - 1) { held.set(`${q.clip}/${f}/${i}`, {indexed: r.indexed, native: r.native, seq}); heldInfo.push({clip: q.clip, facing: f, key: i, pose: q.keys[i], seq, held: r.info.held ?? 0, sha256: sha256(encodePng(r.native))}); }
       });
     }
   }
@@ -144,13 +145,15 @@ export async function writePixelized(dir, result, {protect = []} = {}) {
   await Promise.all(ids.flatMap((id, i) => [
     fs.writeFile(files[i], encodePng(result.cells.get(id).native)),
     fs.writeFile(layers[i], encodePng(result.cells.get(id).indexed))]));
-  // Held frames, one per clip, facing and key index: held/<clip>_<facing>_<i>.png and held/indexed/...
-  await fs.rm(path.join(root, 'held'), {recursive: true, force: true});
+  // Held frames, one per clip, facing and key index: held/<clip>_<facing>_<i>.png and held/indexed/... Only the files the record names
+  // are written (nothing is deleted: readPixelized reads only what pixelize.json lists, so an older file is never used).
   const keys = [...(result.held?.keys() ?? [])];
   if (keys.length) {
+    const named = keys.map(k => [k, heldName(k)]);
+    assertNoOverwrite(named.flatMap(([, name]) => [path.join(root, 'held', `${name}.png`), path.join(root, 'held', 'indexed', `${name}.png`)]), protect);
     await fs.mkdir(path.join(root, 'held', 'indexed'), {recursive: true});
-    await Promise.all(keys.flatMap(k => {
-      const name = heldName(k), frame = result.held.get(k);
+    await Promise.all(named.flatMap(([k, name]) => {
+      const frame = result.held.get(k);
       return [fs.writeFile(path.join(root, 'held', `${name}.png`), encodePng(frame.native)), fs.writeFile(path.join(root, 'held', 'indexed', `${name}.png`), encodePng(frame.indexed))];
     }));
   }
@@ -172,7 +175,7 @@ export async function readPixelized(dir) {
   const held = new Map();
   for (const h of record.held ?? []) {
     const name = heldName(`${h.clip}/${h.facing}/${h.key}`);
-    held.set(`${h.clip}/${h.facing}/${h.key}`, {native: decodePng(await fs.readFile(path.join(dir, 'held', `${name}.png`))), indexed: decodePng(await fs.readFile(path.join(dir, 'held', 'indexed', `${name}.png`)))});
+    held.set(`${h.clip}/${h.facing}/${h.key}`, {seq: h.seq, native: decodePng(await fs.readFile(path.join(dir, 'held', `${name}.png`))), indexed: decodePng(await fs.readFile(path.join(dir, 'held', 'indexed', `${name}.png`)))});
   }
   return {record, cells, held};
 }

@@ -23,6 +23,7 @@
 import { alphaAt, cloneImage } from '../image.mjs';
 import { prepareFacing, bakeKey, mirrorFacing } from '../rig/bake.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
+import { sequenceHash } from '../pixelize/hold.mjs';
 import { getTemplate, bodyPlans, checkApplicable } from '../motion/library.mjs';
 import { applyPatch, patchKey } from '../rig/patch.mjs';
 
@@ -98,7 +99,15 @@ export function bakePoseClip({name, spec, clip, cells, held, palette, rig, libra
     plan = bodyPlans()[rig.bodyPlan];
   }
   const baked = {};
+  const loop = spec.loop ?? (template?.loop !== false);
   const bakeFacing = f => {
+    // Held frames are valid only for the sequence they were made for: same clip, facing, ordered keys and loop setting.
+    const heldFrames = spec.keys.map((_, i) => held?.get(`${name}/${f}/${i}`));
+    if (heldFrames.some(Boolean)) {
+      const expected = sequenceHash(name, f, spec.keys, loop);
+      const bad = heldFrames.findIndex(h => !h || h.seq !== expected);
+      if (bad >= 0) throw new Error(`pose clip "${name}" (${f}): the held frames were made for a different key sequence or loop setting (key ${bad}); run pixelise again with the same --poses`);
+    }
     const frames = [], contacts = [];
     let poses;
     if (template) {
@@ -130,7 +139,7 @@ export function bakePoseClip({name, spec, clip, cells, held, palette, rig, libra
     baked[f] = {...mirrorFacing(src, {swapColors: m.swapColors}, palette, canvasWidth), poses: src.poses};
   }
   const lookup = (facing, index) => baked[facing]?.frames[index] ?? null;
-  const out = {clip: name, durationMs: clip.durationMs, loop: spec.loop ?? (template?.loop !== false), source: 'poses', secondary: Boolean(template), landmarks: spec.landmarks, qa: spec.qa, facings: {}};
+  const out = {clip: name, durationMs: clip.durationMs, loop, source: 'poses', secondary: Boolean(template), landmarks: spec.landmarks, qa: spec.qa, facings: {}};
   for (const [f, b] of Object.entries(baked)) {
     out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => applyPatch(fr, patch.frames?.[patchKey(name, f, i)], palette, {lookup})) : b.frames};
   }
