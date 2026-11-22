@@ -25,6 +25,10 @@ const jsonLines = async (root, rel) => {
 };
 const jsonFile = async (root, rel) => { try { return await readJsonIfExists(root, rel); } catch { return undefined; } };
 
+/** The origin fields a record can carry. A field that is still empty is either explained (unknown, not applicable, not produced) or open. */
+export const ORIGIN_FIELDS = ['tool', 'toolPin', 'producer', 'script', 'scriptSha256', 'seed', 'promptHash', 'sourceHash', 'method', 'agent', 'document'];
+export const REASON_STATUS = ['unknown', 'not-applicable', 'not-produced'];
+
 const origin = (kind, fields = {}) => ({kind, tool: null, toolPin: null, producer: null, script: null, scriptSha256: null, seed: null, promptHash: null, sourceHash: null, method: null, agent: null, document: null, ...fields});
 
 /** The fields a kind is expected to carry; those it lacks are listed as not recorded. */
@@ -80,13 +84,29 @@ async function loadAudio(root, config) {
   return batches;
 }
 
+/** Supplements (`config.provenanceSupplements`: files of {entries: [{id, defaults, assets: {assetId: {fields, reasons, intent}}}]}): asset id -> {fields, reasons, intent, file}.
+ * `fields` fill origin fields the asset's own provenance leaves empty; `reasons` ({field: {status: unknown|not-applicable, reason}}) say a field was checked and cannot be filled. */
+async function loadSupplements(root, config) {
+  const byId = new Map();
+  for (const file of config.provenanceSupplements ?? []) {
+    const doc = await jsonFile(root, file);
+    for (const entry of Array.isArray(doc?.entries) ? doc.entries : []) {
+      for (const [id, rec] of Object.entries(entry?.assets ?? {})) {
+        const d = entry.defaults ?? {};
+        byId.set(id, {fields: {...d.fields, ...rec.fields}, reasons: {...d.reasons, ...rec.reasons}, intent: rec.intent ?? d.intent ?? null, file, group: str(entry.id)});
+      }
+    }
+  }
+  return byId;
+}
+
 /** The ledger of a project. `index` is the asset index (see assets.mjs), `pack` the loaded pack. */
 export async function buildLedger({root, pack, index}) {
   const config = pack.ui?.tabs?.atlas?.ledger ?? {};
   const retired = Object.entries(config.agentOrigins ?? {}).filter(([, v]) => v.kind === 'retired-tool').map(([key, v]) => ({match: key.replace(/[^A-Za-z0-9]/g, ''), tool: v.tool}));
   const audioIds = new Set([...index.assets.values()].filter(a => a.audio).map(a => a.id));
   const logs = await loadLogs(root, config), batches = await loadAudio(root, config), decided = await loadRightsDecisions(root, config);
-  const records = [];
+  const records = [], supplements = await loadSupplements(root, config);
   const sourcesFile = config.thirdPartySources;
   const thirdParty = {file: sourcesFile ?? null, present: sourcesFile ? await exists(root, sourcesFile) : false};
 
@@ -129,7 +149,7 @@ export async function buildLedger({root, pack, index}) {
       if (docs.length) { o = origin('audio-engine', {document: docs[0], tool: 'studio audio engine'}); evidence.push(...docs.slice(0, 3)); }
       else if (single && await exists(root, single)) {
         const doc = await jsonFile(root, single);
-        o = origin('audio-script', {producer: str(doc?.creator), method: str(doc?.render ?? doc?.patch), script: Object.keys(doc?.inputs ?? {}).find(k => k.endsWith('.py')) ?? null, seed: doc?.patch?.match?.(/seed (\d+)/i)?.[1] ? Number(doc.patch.match(/seed (\d+)/i)[1]) : null, sourceHash: str(doc?.wav_sha256)});
+        o = origin('audio-script', {producer: str(doc?.creator), method: str(doc?.render ?? doc?.patch), script: (name => name && (name.includes('/') ? name : `${path.posix.dirname(single)}/${name}`))(Object.keys(doc?.inputs ?? {}).find(k => k.endsWith('.py'))) ?? null, seed: doc?.patch?.match?.(/seed (\d+)/i)?.[1] ? Number(doc.patch.match(/seed (\d+)/i)[1]) : null, sourceHash: str(doc?.wav_sha256)});
         rights = str(doc?.rights); evidence.push(single);
       } else if (batch) {
         o = origin('audio-script', {producer: str(batch.doc.creator), method: str(batch.doc.synthesis), script: str(batch.doc.rebuild)?.split(/\s+/).find(w => w.endsWith('.py')) ?? null, seed: batch.entry.seed ?? null, sourceHash: str(batch.entry.wav_sha256)});
@@ -159,8 +179,19 @@ export async function buildLedger({root, pack, index}) {
     if (!rights && decided.has(asset.id)) { const d = decided.get(asset.id); rights = d.rights; evidence.push(d.file); }
     // a retired-service character with a source export folder: list the export's own record
     if (o.kind === 'retired-tool' && rawDir) { const meta = `${rawDir}/metadata.json`; if (await exists(root, meta)) evidence.push(meta); }
-    const missing = (EXPECTED[o.kind] ?? []).filter(f => o[f] === null || o[f] === undefined);
-    records.push({id: asset.id, source: asset.source, category: asset.category, readiness: asset.readiness ?? null, origin: o, rights, evidence: [...new Set(evidence)], recorded: o.kind !== 'not-recorded', missing, notes: note});
+    // 8. supplements: fill only what the asset's own record leaves empty, and say why a field stays empty
+    const sup = supplements.get(asset.id), plannedOnly = o.kind === 'not-recorded' && asset.readiness === 'planned';
+    const reasons = {}, filled = [];
+    if (sup) {
+      for (const f of ORIGIN_FIELDS) if (o[f] == null && sup.fields[f] != null && sup.fields[f] !== '') { o[f] = sup.fields[f]; filled.push(f); }
+      for (const [f, r] of Object.entries(sup.reasons)) if (ORIGIN_FIELDS.includes(f) && o[f] == null && REASON_STATUS.includes(r?.status) && str(r.reason)) reasons[f] = {status: r.status, reason: r.reason};
+      if (!plannedOnly) evidence.push(sup.file); // a planned cue's supplement holds only the plan's intent, which is not evidence of how it was made
+    }
+    if (plannedOnly) for (const f of ORIGIN_FIELDS) if (o[f] == null) reasons[f] = {status: 'not-produced', reason: 'Planned, not produced yet: there is no file to trace.'};
+    const intent = sup?.intent ?? null;
+    const missing = (EXPECTED[o.kind] ?? []).filter(f => (o[f] === null || o[f] === undefined) && !reasons[f]);
+    const open = ORIGIN_FIELDS.filter(f => o[f] == null && !reasons[f]);
+    records.push({id: asset.id, source: asset.source, category: asset.category, readiness: asset.readiness ?? null, origin: o, rights, evidence: [...new Set(evidence)], recorded: o.kind !== 'not-recorded', planned: plannedOnly, reasons, filled, intent, open, missing, notes: note});
   }
 
   // components: declared in the pack, then any tool the provenance files name that the pack did not declare
@@ -190,6 +221,8 @@ export async function buildLedger({root, pack, index}) {
 
   const counts = Object.fromEntries(ORIGIN_KINDS.map(k => [k, records.filter(r => r.origin.kind === k).length]));
   const planned = records.filter(r => r.origin.kind === 'not-recorded' && r.readiness === 'planned').length;
+  const fieldStats = Object.fromEntries(ORIGIN_FIELDS.map(f => [f, {filled: 0, unknown: 0, 'not-applicable': 0, 'not-produced': 0, open: 0}]));
+  for (const r of records) for (const f of ORIGIN_FIELDS) fieldStats[f][r.origin[f] != null ? 'filled' : r.reasons[f]?.status ?? 'open']++;
   const producers = {};
   for (const r of records) if (r.origin.producer) producers[r.origin.producer] = (producers[r.origin.producer] ?? 0) + 1;
   const audio = records.filter(r => audioIds.has(r.id)).length, art = records.length - audio;
@@ -202,7 +235,7 @@ export async function buildLedger({root, pack, index}) {
     ...(fonts.length ? [{kind: 'fonts', id: 'fonts', count: fonts.length, flags: ['Font files are present; their licences are not recorded.']}] : [])];
   return {schema: 'studio.ledger', version: 1, project: {id: pack.id, name: pack.name},
     assets: records.sort((a, b) => (a.source + a.id < b.source + b.id ? -1 : 1)), components, fonts: {scanned: scan.roots, files: fonts},
-    thirdPartySources: thirdParty, summary: {total: records.length, art, audio, counts, planned, producers}, decisions};
+    thirdPartySources: thirdParty, summary: {total: records.length, art, audio, counts, planned, producers, fieldStats, open: records.reduce((n, r) => n + r.open.length, 0)}, decisions};
 }
 
 /** What a store page could quote: counts by origin, plain facts, no verdict. `t` maps a key and values to text (see ledgerText). */
@@ -236,6 +269,7 @@ const TEXT = {
     review: 'This list states what the project recorded. Whether any of it counts as "AI-generated" for a store or a law is a human decision.',
     assets: 'Assets', components: 'Tools and inputs', decisions: 'For a human to decide', fonts: 'Fonts', origin: 'Origin', evidence: 'Evidence', rights: 'Recorded rights', licence: 'Licence', pin: 'Pin',
     ships: 'Ships', usedBy: 'Assets using it', missing: 'Not recorded', none: 'none', asset: 'Asset', source: 'Source', category: 'Category', role: 'Role', tool: 'Tool', script: 'Script', seed: 'Seed',
+    status: {unknown: 'unknown (checked)', 'not-applicable': 'not applicable', 'not-produced': 'planned, not produced'}, intent: 'Planned intent (not a record)',
     promptHash: 'Prompt SHA-256', document: 'Document', thirdParty: 'Third-party sources file', present: 'present', absent: 'absent', fontsNone: 'No font files found in', fontsSome: 'Font files found'
   },
   vi: {
@@ -256,6 +290,7 @@ const TEXT = {
     review: 'Danh sách này chỉ nêu những gì dự án đã ghi. Có coi là "do AI tạo" với cửa hàng hay luật hay không là quyết định của con người.',
     assets: 'Asset', components: 'Công cụ và đầu vào', decisions: 'Việc con người cần quyết định', fonts: 'Font', origin: 'Nguồn gốc', evidence: 'Bằng chứng', rights: 'Quyền đã ghi', licence: 'Giấy phép', pin: 'Phiên bản ghim',
     ships: 'Có đi kèm bản phát hành', usedBy: 'Asset dùng nó', missing: 'Chưa ghi', none: 'không có', asset: 'Asset', source: 'Nguồn', category: 'Loại', role: 'Vai trò', tool: 'Công cụ', script: 'Script', seed: 'Seed',
+    status: {unknown: 'không rõ (đã kiểm)', 'not-applicable': 'không áp dụng', 'not-produced': 'dự kiến, chưa sản xuất'}, intent: 'Ý định dự kiến (không phải bản ghi)',
     promptHash: 'SHA-256 của prompt', document: 'Tài liệu', thirdParty: 'File nguồn bên thứ ba', present: 'có', absent: 'không có', fontsNone: 'Không thấy file font trong', fontsSome: 'Có file font'
   }
 };
@@ -278,7 +313,7 @@ export function ledgerMarkdown(ledger, lang = 'en') {
     `| ${L.asset} | ${L.source} | ${L.category} | ${L.origin} | ${L.tool} | ${L.script} | ${L.seed} | ${L.promptHash} | ${L.document} | ${L.rights} | ${L.evidence} |`, '|---|---|---|---|---|---|---|---|---|---|---|');
   for (const a of ledger.assets) {
     const o = a.origin, need = new Set(a.missing);
-    const v = (name, value) => (value ?? null) === null ? (need.has(name) ? NOT_RECORDED : '') : cell(value);
+    const v = (name, value) => (value ?? null) === null ? (a.reasons?.[name] ? L.status[a.reasons[name].status] : need.has(name) ? NOT_RECORDED : '') : cell(value);
     out.push(`| ${cell(a.id)} | ${cell(a.source)} | ${cell(a.category)} | ${o.kind === 'not-recorded' ? NOT_RECORDED : cell(o.kind)} | ${v('tool', o.tool)} | ${v('script', o.script)} | ${v('seed', o.seed)} | ${v('promptHash', o.promptHash)} | ${v('document', o.document)} | ${cell(a.rights ?? (a.recorded ? NOT_RECORDED : ''))} | ${cell(a.evidence.join(', ') || NOT_RECORDED)} |`);
   }
   return out.join('\n') + '\n';

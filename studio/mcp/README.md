@@ -34,7 +34,7 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | Group | Tool | Scope | What it does |
 |---|---|---|---|
 | Context | `studio_guide` | read | The shortest correct tool sequence for a task (static asset, animated character, VFX, audio cue, check someone else's work, answer a review comment), the gotchas earlier runs hit, and the project's rules from the pack. A test fails if a guide names a tool or parameter that does not exist |
-| | `studio_project_info` | read | Palette (40 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
+| | `studio_project_info` | read | Palette (43 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
 | | `studio_catalog_search` | read | Find assets (art and audio cues) by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging (default 25, max 100 per page) |
 | | `studio_asset_get` | read | One asset: spec, four milestones, frames, provenance, metadata, review state, checks, dependencies, audio candidates, and the etags editing needs |
 | | `studio_asset_plan` | author | Create, or edit one you created, a planned entry. `custom: {category, size, pivot, directions, clips}` describes what fits no profile (a VFX, a one-off icon) |
@@ -368,7 +368,7 @@ Paste this to the agent, unchanged:
 - `connection.agent` is `codex` (Codex) or `antigravity` (Antigravity), which proves the project file was the one used, since the name comes from its `--agent` flag.
 - `connection.scope` is `author` (what the committed configs grant), and `project.source` is `project-pack`. (The 2026-11-22 trial above ran when the configs granted `read`.)
 - `project.root` is the same directory as `pwd` (a symlink prefix such as `/private/tmp` versus `/tmp` is fine). A different directory means the server ran against another checkout or another working directory: a fail.
-- `palette.count` is 40, and `assetCounts.base.total` and `assetCounts.longtime.total` equal the first and the second and third numbers on the `expected` line, in that order (today 90 and 125, so `expected` reads `40 90 125`).
+- `palette.count` is 43, and `assetCounts.base.total` and `assetCounts.longtime.total` equal the first and the second and third numbers on the `expected` line, in that order (today 90 and 125, so `expected` reads `43 90 125`).
 - `connection.protocolEra` and `connection.protocolVersion` can be anything; record them (Codex was `legacy` / `2025-06-18`; Antigravity is not yet known; `legacy` or `modern` are both correct). The approval line is information too: it is not a failure either way.
 
 Failure map: `TOOL MISSING` → project untrusted, or the harness does not honour its project file (see the harness sections above). `project.root` ≠ `pwd` → set `cwd` as described. `connection.agent` is `unknown`, or a name other than the expected one → the harness ignored `args` or a different config won.

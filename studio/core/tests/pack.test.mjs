@@ -19,7 +19,7 @@ test('pack size classes match the palette file they replace', async () => {
   const palette = JSON.parse(await fs.readFile(path.join(root, pack.palette.file), 'utf8'));
   const strip = ({note, ...spec}) => spec;
   assert.deepEqual(pack.sizeClasses, Object.fromEntries(Object.entries(palette.size_classes).map(([k, v]) => [k, strip(v)])));
-  assert.equal(parsePalette(palette).colors.size, 40);
+  assert.equal(parsePalette(palette).colors.size, 43);
 });
 
 test('pack manifests agree with the asset manifest delivery block', async () => {

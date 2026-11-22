@@ -29,7 +29,7 @@ Tên Việt là nhãn hiển thị của dự án; các chương đầu bản d�
 
 ## Quy ước hình ảnh và bàn giao
 
-Góc nhìn 3/4 từ trên xuống, ánh sáng trên trái, bóng đổ xuống phải. Dùng 40 màu trong palette, alpha nhị phân, viền silhouette một pixel `#14101a`, phóng đại theo bội số nguyên bằng nearest-neighbor. Tile nền 16×16; nhân vật và mob 32×32; boss dùng kích thước manifest. Kiểm tra hướng, điểm đặt chân và đạo cụ bất đối xứng trước khi đóng gói. Codex tạo mỹ thuật mới và giữ nguồn/prompt; Antigravity có thể lắp animation và QA. Nhãn producer lịch sử vẫn đi cùng nguồn cũ. [Art Bible](ART_BIBLE.md) · [Quy trình nguồn](ASSET_ROUTING.md)
+Góc nhìn 3/4 từ trên xuống, ánh sáng trên trái, bóng đổ xuống phải. Dùng 43 màu trong palette, alpha nhị phân, viền silhouette một pixel `#14101a`, phóng đại theo bội số nguyên bằng nearest-neighbor. Tile nền 16×16; nhân vật và mob 32×32; boss dùng kích thước manifest. Kiểm tra hướng, điểm đặt chân và đạo cụ bất đối xứng trước khi đóng gói. Codex tạo mỹ thuật mới và giữ nguồn/prompt; Antigravity có thể lắp animation và QA. Nhãn producer lịch sử vẫn đi cùng nguồn cũ. [Art Bible](ART_BIBLE.md) · [Quy trình nguồn](ASSET_ROUTING.md)
 
 Manifest 1.1 giữ 90 bản ghi cũ ở `assets`. Trường `status: pending` là dữ liệu kế thừa. Dùng `readiness` và `delivery.profiles` để tra bốn trạng thái độc lập: có nguồn, đủ frame đã xử lý, đủ key web và đủ key mobile. `source_path` ghi thư mục nguồn thực tế khi khác đường dẫn kế hoạch `output_path`. Có nguồn chỉ xác nhận tìm được hình nguồn hoặc spec. Đủ frame chỉ xác nhận bộ frame yêu cầu; chất lượng hình ảnh được kiểm tra riêng.
 

@@ -22,7 +22,7 @@ export async function runSelfTest({ projectRoot, entry }) {
     check('legacy tools/list has the read tools', names.includes('studio_project_info') && names.includes('studio_qa_run') && !names.includes('studio_frames_submit'), `${names.length} tools at scope read`);
     const call = await a.request(3, 'tools/call', { name: 'studio_project_info', arguments: {} });
     const s = call.result?.structuredContent;
-    check('tools/call returns 40 palette colours', s?.palette?.count === 40 && s.palette.colors.length === 40);
+    check('tools/call returns 43 palette colours', s?.palette?.count === 43 && s.palette.colors.length === 43);
     check('tools/call returns asset counts', s?.assetCounts?.base?.total > 0 && s.assetCounts.longtime.total > 0, `base ${s?.assetCounts?.base?.total}, longtime ${s?.assetCounts?.longtime?.total}`);
     check('caller agent recorded', s?.connection?.agent === 'self-test', s?.connection?.agent);
     const search = await a.request(40, 'tools/call', { name: 'studio_catalog_search', arguments: { source: 'longtime', limit: 1 } });
@@ -53,7 +53,7 @@ export async function runSelfTest({ projectRoot, entry }) {
     const d = await b.request('d1', 'server/discover', { _meta: meta });
     check('modern server/discover', d.result?.supportedVersions?.includes(MODERN_VERSIONS[0]) && d.result.resultType === 'complete');
     const c = await b.request('c1', 'tools/call', { name: 'studio_project_info', arguments: { sections: ['palette'] }, _meta: meta });
-    check('modern tools/call', c.result?.resultType === 'complete' && c.result.structuredContent?.palette?.count === 40);
+    check('modern tools/call', c.result?.resultType === 'complete' && c.result.structuredContent?.palette?.count === 43);
     const u = await b.request('u1', 'tools/list', { _meta: { [META_VERSION]: '1900-01-01' } });
     check('unsupported modern version -> -32022', u.error?.code === -32022 && u.error.data?.supported?.includes(MODERN_VERSIONS[0]));
   } catch (e) {

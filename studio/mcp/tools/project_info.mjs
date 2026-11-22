@@ -2,7 +2,7 @@ export default {
   name: 'studio_project_info',
   title: 'Studio project info',
   description:
-    'Read-only orientation for the project this Pixel Kiln connection serves: the 40-colour palette (ids and hex), ' +
+    'Read-only orientation for the project this Pixel Kiln connection serves: the 43-colour palette (ids and hex), ' +
     'sprite size classes and clip layouts, outline and alpha rules, frame-key templates, and asset counts ' +
     'by category from the manifests, the fixed review rubric (rubric) and the motion lint thresholds (motion). Call this first in any session.',
   scope: 'read',

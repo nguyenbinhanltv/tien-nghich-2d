@@ -4,7 +4,7 @@
  * Implements the full local editing workflow over Inspector API v1:
  *  - Pixel editing (Pencil, Eraser, Eyedropper, Pivot click, Undo/Redo, Reset)
  *  - Keyboard pixel cursor navigation & painting (Arrow keys, Space/Enter, B/E/I, [/], Ctrl+Z/Y)
- *  - 40-color project palette enforcement + binary alpha
+ *  - 43-color project palette enforcement + binary alpha
  *  - PNG import with strict client validation + server 422 error display
  *  - Side-by-side Before/After preview with pixel diff highlight & Source/Processed links
  *  - Allowed metadata editing (pivot for UI; pivot + durationMs for VFX)
@@ -496,7 +496,7 @@ export class EditorController {
       this._renderPalettePicker();
       this._showMessage('info', `Picked ${hex} at (${x}, ${y}).`);
     } else {
-      this._showMessage('error', `Pixel at (${x}, ${y}) is ${hex}, which is outside the 40-color project palette.`);
+      this._showMessage('error', `Pixel at (${x}, ${y}) is ${hex}, which is outside the 43-color project palette.`);
     }
   }
 

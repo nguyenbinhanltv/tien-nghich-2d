@@ -51,9 +51,9 @@ test('legacy handshake: initialize, list, call; stdout is protocol-only', async 
     assert.notEqual(call.result.isError, true);
     assert.deepEqual(JSON.parse(call.result.content[0].text), s, 'text block mirrors structuredContent');
 
-    // Palette: 40 ids with hex, equal to the source file.
+    // Palette: 43 ids with hex, equal to the source file.
     const pal = readJson('tools/generators/palette.json');
-    assert.equal(s.palette.count, 40);
+    assert.equal(s.palette.count, 43);
     assert.deepEqual(s.palette.colors.map((x) => [x.id, x.hex]), pal.colors.map((x) => [x.id, x.hex]));
     assert.deepEqual(s.palette.outline, { id: 'ink_01', hex: '#14101a' });
     // Counts agree with an independent read of the manifests.
@@ -304,7 +304,7 @@ test('project module: opens the repo through the pack and rejects a bad root', (
   const p = openProject(ROOT);
   assert.equal(p.source, 'project-pack');
   const view = p.snapshot();
-  assert.equal(view.palette().count, 40);
+  assert.equal(view.palette().count, 43);
   assert.deepEqual(view.pack(), { path: 'studio.project.json', present: true, consumed: true, id: 'tien-nghich-2d', name: view.pack().name, version: 1 });
   assert.throws(() => openProject(join(tmpdir(), 'nope-studio-xyz')), /not a directory/);
   assert.throws(() => openProject(HERE), /missing studio\.project\.json/);

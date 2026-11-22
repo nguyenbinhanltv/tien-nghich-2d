@@ -4,7 +4,7 @@
 Checks:
   1. Expected asset count & PNG presence matching gen_ui_icons_log.json (and no stale PNGs)
   2. Exact dimensions match logged specs AND palette.json size_classes.icon (16x16 or 24x24)
-  3. Palette-only: 100% of opaque pixels exist in tools/generators/palette.json (v2, 40 colors)
+  3. Palette-only: 100% of opaque pixels exist in tools/generators/palette.json (v2, 43 colors)
   4. Transparency: binary alpha (0 or 255 only), both transparent and opaque pixels present
   5. Crisp 1px ink_01 (#14101a) silhouette outline (including image border edges, zero >1px warnings)
   6. Determinism: two independent runs produce byte-identical SHA-256 across all PNGs + workspace output

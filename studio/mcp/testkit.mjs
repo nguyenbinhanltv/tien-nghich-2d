@@ -46,7 +46,9 @@ export function makeProject({ git = false, extraDirs = [], toolchain = false } =
 export function loadPalette() {
   const p = JSON.parse(readFileSync(join(REPO, 'tools/generators/palette.json'), 'utf8'));
   const int = (hex) => parseInt(hex.slice(1), 16);
-  return { ink: int(p.outline), colors: p.colors.map((c) => int(c.hex)).filter((c) => c !== int(p.outline)) };
+  // The slice keeps the fixtures byte-identical to what they were before the orange ramp (palette indices 41 to 43)
+  // was appended: a frame is chosen by `index % colors.length`, so a longer list would move every fixture frame.
+  return { ink: int(p.outline), colors: p.colors.map((c) => int(c.hex)).filter((c) => c !== int(p.outline)).slice(0, 39) };
 }
 
 /**

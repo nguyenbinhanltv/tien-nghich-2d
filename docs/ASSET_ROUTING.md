@@ -9,7 +9,7 @@ Codex or Antigravity authors sources, and either one alone is enough: Codex with
 ### Forge routes for characters, mobs and bosses
 | Route | Use for | Agent provides | Studio or scripts do |
 |---|---|---|---|
-| Image sheet, then pixelisation | Design, turnaround and key poses | High-resolution sheet in the layout frame the studio supplies | Slice, remove background, scale to the foot anchor, downscale to native size, snap to 40 colours, build outline |
+| Image sheet, then pixelisation | Design, turnaround and key poses | High-resolution sheet in the layout frame the studio supplies | Slice, remove background, scale to the foot anchor, downscale to native size, snap to 43 colours, build outline |
 | Part-based rig and motion templates | Idle, walk, cast, hurt, telegraph, strike; bosses and animated props | Separated parts, joints, chosen motion template, key tuning | Bake native frames, clean pixels after rotation, hold the pivot |
 | Direct pixel edits | In-between frames, asymmetric details, fixes after review | Palette-index grids or pixel commands | Apply, return a preview, keep a revision |
 

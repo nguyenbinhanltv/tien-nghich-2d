@@ -36,6 +36,9 @@ test('every key built from a value has a string for each value', () => {
     'view.': ['atlas', 'budget', 'pack', 'export', 'ledger'],
     'viewer.show.': ['borders', 'frames', 'unused'],
     'ledger.download.': ['md', 'json'],
+    'ledger.status.': ['filled', 'unknown', 'not-applicable', 'not-produced', 'open'],
+    'ledger.gap.': ['all', 'unknown', 'planned', 'open'],
+    'ledger.field.': ['tool', 'toolPin', 'producer', 'script', 'scriptSha256', 'seed', 'promptHash', 'sourceHash', 'method', 'agent', 'document'],
     'ledger.kind.': ['generator', 'tool-render', 'forge-sheet', 'retired-tool', 'audio-engine', 'audio-script', 'third-party', 'unclassified', 'not-recorded']
   };
   for (const [prefix, values] of Object.entries(built)) for (const v of values) assert.ok(prefix + v in en, prefix + v);
@@ -50,7 +53,7 @@ test('every key built from a value has a string for each value', () => {
 
 test('every key in the files is used somewhere (no dead strings)', () => {
   const text = sources.map(([, s]) => s).join('\n');
-  const dynamicPrefixes = ['budget.state.', 'pack.status.', 'pack.verdict.', 'pack.engine.', 'view.', 'viewer.show.', 'ledger.download.', 'ledger.kind.', 'diff.', 'viewer.detail.', 'ledger.col.', 'budget.col.', 'pack.col.', 'pack.authority.', 'ledger.present', 'ledger.absent'];
+  const dynamicPrefixes = ['budget.state.', 'pack.status.', 'pack.verdict.', 'pack.engine.', 'view.', 'viewer.show.', 'ledger.download.', 'ledger.kind.', 'ledger.status.', 'ledger.gap.', 'ledger.field.', 'diff.', 'viewer.detail.', 'ledger.col.', 'budget.col.', 'pack.col.', 'pack.authority.', 'ledger.present', 'ledger.absent'];
   const dead = Object.keys(en).filter(k => !text.includes(`'${k}'`) && !dynamicPrefixes.some(p => k.startsWith(p)));
   assert.deepEqual(dead, []);
 });

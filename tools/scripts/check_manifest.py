@@ -226,8 +226,8 @@ def main():
     ids = Counter(a.get("id") for a in assets)
     errs += [f"duplicate id: {i}" for i, n in ids.items() if n > 1]
     roles = set(doc.get("palette", {}).get("ids", []))
-    if len(roles) != 40:
-        errs.append("palette.ids must list 40 palette v2 ids")
+    if len(roles) != 43:
+        errs.append("palette.ids must list 43 palette v2 ids")
     if os.path.exists(PALETTE):
         try:
             with open(PALETTE, encoding="utf-8") as pf:

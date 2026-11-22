@@ -5288,6 +5288,24 @@
     "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1) on 2026-11-22 at about 22:50, choosing between candidate B of lt_ashen_crown and the version already shipped. The orchestrator relayed it verbatim to worker tien-nghich-2d-47 with the task to ship B beside the current version. The time 22:50 is the one the orchestrator gave; this machine's clock read about 22:45 when the record was written, so `recorded` (the write time) is earlier than that stated time.",
     "quote": "Chọn B và bản hiện tại"
    }
+  },
+  {
+   "id": "owner_orange_palette_2026-11-22",
+   "kind": "owner_statement",
+   "approved_by": "user",
+   "recorded": "2026-11-22T23:20:00+07:00",
+   "recorded_by": "claude-code worker tien-nghich-2d-46 (an agent; it transcribed the statement relayed by the orchestrator, it looked at no art, judged nothing and approved nothing)",
+   "scope": "palette_colours",
+   "covers": "The three ember-orange palette colours added in PR #122 (palette indices 41 to 43), by hex as in tools/generators/palette.json. This covers colour values only: no frame, sprite or asset is approved by it, so it has no frame hashes.",
+   "colors": {
+    "orange_01": "#9c3f12",
+    "orange_02": "#e8701a",
+    "orange_03": "#ffb35c"
+   },
+   "evidence": {
+    "source": "The project owner approved the three colours about 23:20 on 2026-11-22 after seeing assets/review/orange_ramp_8x.png and orange_scarf_mockup.png; relayed by the orchestrator (session tien-nghich-2d-1) to worker tien-nghich-2d-46.",
+    "quote": "Duyệt cả ba màu cam: orange_01 #9c3f12, orange_02 #e8701a, orange_03 #ffb35c (relayed, 2026-11-22 about 23:20)"
+   }
   }
  ]
 }

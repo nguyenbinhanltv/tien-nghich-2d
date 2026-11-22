@@ -240,7 +240,7 @@ A generator is a program that draws frames. The studio will run **only** program
 - **No Windows testing.** The studio uses only Node and runs programs through process groups; nothing was run on Windows.
 - **The Review tab does not yet show the rubric and lineup pictures.** The fixed rubric and the lineup ruler exist in the tools and the pack; their rows and images appear in an agent's result and in review notes, but the tab has no panel for them yet.
 - **Image generation is not the studio's job.** Sheets come from your agent's image tool or from code; the studio cuts, scales, pixelises and checks them. A model does not draw native pixel art, so downscaling to a small size loses detail.
-- **Tool wording still names the first project in places** (an example id, "40 colours" in a few descriptions). The behaviour reads your pack.
+- **Tool wording still names the first project in places** (an example id, "43 colours" in a few descriptions). The behaviour reads your pack.
 - **`mcp --self-test` is written for the main project.** For another project, use `check` and the acceptance test.
 - Sound: no tool listens; tool-measured loudness and seams are evidence for your listening, not a substitute.
 

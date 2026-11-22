@@ -154,7 +154,7 @@ test('PNG header inspection rejects non-PNG, truncated, interlaced, and non-8-bi
   assert.equal(inspectPngHeader(bit16).ok, false);
 });
 
-test('validateRgbaBuffer enforces exact dimensions, 40-color palette, and binary alpha', () => {
+test('validateRgbaBuffer enforces exact dimensions, 43-color palette, and binary alpha', () => {
   const c0 = hexToRgba(PALETTE.colors[0].hex);
   const buf = new Uint8ClampedArray(2 * 2 * 4);
   buf.set(c0, 0); // opaque palette pixel

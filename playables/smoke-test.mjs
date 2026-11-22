@@ -85,7 +85,7 @@ async function run() {
 
     // 2. Verify upstream palette & manifest
     const palette = await (await fetchOk(`${origin}/tools/generators/palette.json`)).json();
-    assert.equal(palette.colors.length, 40, 'Palette must have exactly 40 colors');
+    assert.equal(palette.colors.length, 43, 'Palette must have exactly 43 colors');
 
     const manifest = await (await fetchOk(`${origin}/assets/manifest.json`)).json();
     assert.equal(manifest.assets.length, 90, 'Manifest must have 90 vertical-slice assets');

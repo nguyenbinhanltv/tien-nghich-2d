@@ -211,6 +211,7 @@
             ],
             "strict": true
           },
+          "provenanceSupplements": ["assets/review/provenance_supplement.json"],
           "rightsDecisions": ["assets/review/licence_decisions.json"],
           "originLogs": [
             {"origin": "retired-tool", "file": "assets/raw/characters/pixellab_log.json", "list": "entries", "id": "id", "fields": ["character_uuid", "fetched_utc", "tool"]},
@@ -296,7 +297,7 @@
     "rules": [
       "Perspective: 3/4 top-down dungeon view (Soul Knight style). Characters face the viewer; walls are 2.5D (front face plus top cap); floors are flat top faces. No side view, no 2:1 isometric diamond.",
       "Outline: 1 px solid ink_01 (#14101a) on the outer silhouette of every sprite; alpha is binary (0 or 255), and fully transparent pixels carry RGB 0,0,0.",
-      "Palette: exactly the 40 colours in studio_project_info, nothing else; take hex values from there, never invent one. Light comes from the top left and shade ramps run dark to light inside one colour group.",
+      "Palette: exactly the 43 colours in studio_project_info, nothing else; take hex values from there, never invent one. Light comes from the top left and shade ramps run dark to light inside one colour group.",
       "Grid: native pixel art at the size class of the asset (character 32x32, boss 64 to 96 square, tile 16x16, icon 16 or 24); enlarge only by whole-number nearest-neighbour scaling.",
       "Characters are sturdy and large-headed, not realistic: studio_template_get returns this project's proportions; accent colours need bold patches.",
       "Locomotion comes from drawn key poses on a pose sheet, idle and small motions from a rig, asymmetric marks from stored pixel patches (studio_frame_patch), never from redrawing.",
@@ -304,7 +305,7 @@
       "Nothing you call approves art or signs audio listening: a human does, in the review tabs. A different session than the author makes the independent check."
     ],
     "prompt": {
-      "style": "Chunky pixel-art-ready character art: flat colour clusters, clear contours, crisp cel shading, no realism, no texture, no thin lines, no busy highlights; every colour must be one of the project's 40 palette colours.",
+      "style": "Chunky pixel-art-ready character art: flat colour clusters, clear contours, crisp cel shading, no realism, no texture, no thin lines, no busy highlights; every colour must be one of the project's 43 palette colours.",
       "camera": "mild 3/4 top-down game camera",
       "light": "light from the upper left"
     }
