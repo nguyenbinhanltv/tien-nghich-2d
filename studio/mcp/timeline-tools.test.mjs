@@ -67,6 +67,15 @@ test('MCP-040: a scoped transform over a clip saves one new pending revision per
   const all = await a.ok('studio_frame_patch', {assetId: ASSET, scope: 'all', dryRun: true, edits: [{frame: 'idle_south_0', transform: {kind: 'shift', dx: 1, dy: 0}}]});
   assert.equal(all.frames.length, 8);
   assert.ok(all.frames.every(f => typeof f.lost === 'number'));
+  // two transform edits may not reach the same frame: nothing is silently replaced
+  const clash = await a.call('studio_frame_patch', {assetId: ASSET, scope: 'clip', edits: [{frame: 'idle_south_0', transform: {kind: 'flip_h'}}, {frame: 'idle_south_1', transform: {kind: 'rotate180'}}]});
+  assert.match(text(clash), /covered by two transform edits/);
+  assert.match(text(await a.call('studio_frame_patch', {assetId: ASSET, edits: [{frame: 'idle_south_0', transform: {kind: 'flip_h'}}, {frame: 'idle_south_0', transform: {kind: 'flip_v'}}]})), /covered by two/);
+  // disjoint edits each record their own transform
+  const two = await a.ok('studio_frame_patch', {assetId: ASSET, edits: [{frame: 'idle_south_2', transform: {kind: 'flip_v'}}, {frame: 'follow_south_0', transform: {kind: 'flip_h'}}]});
+  assert.equal(two.saved.length, 2);
+  const prov = async name => (await statusOf(a, name)).metadata.provenance.transform.kind;
+  assert.deepEqual([await prov('idle_south_2'), await prov('follow_south_0')], ['flip_v', 'flip_h']);
   // transforms stand alone
   const mixed = await a.call('studio_frame_patch', {assetId: ASSET, edits: [{frame: 'idle_south_0', transform: {kind: 'flip_h'}, ops: [{op: 'outline'}]}]});
   assert.match(text(mixed), /stand alone/);

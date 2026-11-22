@@ -84,10 +84,10 @@ export async function planTransform({ws, snap, asset, anchor, scope = 'frame', t
   return {frames, items, refused, skippedMissing: missing, transform: t, scope};
 }
 
-/** Save a plan's items as pending revisions, all or nothing. `provenance` rides with each revision. */
+/** Save a plan's items as pending revisions, all or nothing. An item's own `provenance` rides with it, else the shared `provenance`. */
 export async function savePlan(ws, plan, provenance) {
   if (plan.refused.length) throw problem(422, 'refused', `nothing was saved: ${plan.refused.join('; ')}`);
-  const saves = await saveRevisions(ws, plan.items.map(i => ({...i, provenance})));
+  const saves = await saveRevisions(ws, plan.items.map(i => ({...i, provenance: i.provenance ?? provenance})));
   const byKey = new Map(plan.items.map((i, x) => [i.key, saves[x]]));
   return plan.frames.map(f => ({...f, ...(byKey.has(f.key) ? {revision: byKey.get(f.key).revision, status: byKey.get(f.key).status} : {})}));
 }

@@ -83,20 +83,23 @@ export default {
       if (args.edits.some((e) => e.transform !== undefined)) {
         if (args.edits.some((e) => e.transform === undefined || e.ops !== undefined || e.rows !== undefined || e.mirror !== undefined)) throw new ToolError('transform edits stand alone: do not mix transform with ops, rows or mirror in one call.');
         if (args.target && !['auto', 'revision'].includes(args.target)) throw new ToolError('transforms save as new revisions of frames that exist; use target revision (or leave it out).');
-        const items = new Map(), frames = [];
+        const items = new Map(), frames = [], owner = new Map();
         for (const edit of args.edits) {
           const addr = parseFrameName(edit.frame);
           const spec = addr && asset.clips && Object.hasOwn(asset.clips, addr.clip) ? asset.clips[addr.clip] : null;
           if (!spec || !asset.directions.includes(addr.direction) || addr.n >= spec.frames) throw new ToolError(`${edit.frame} is not a frame of ${asset.id}.`);
           const planned = await planTransform({ ws, snap, asset, anchor: addr, scope: args.scope ?? 'frame', transform: edit.transform }).catch((e) => { throw e?.status ? new ToolError(e.message) : e; });
-          for (const f of planned.frames) if (!frames.some((x) => x.key === f.key)) frames.push(f);
-          for (const i of planned.items) items.set(i.key, i);
           if (planned.refused.length) throw new ToolError(`nothing was saved: ${planned.refused.join('; ')}`);
+          // Two transform edits may not reach the same frame: one would silently replace the other.
+          const clash = planned.frames.find((f) => owner.has(f.key));
+          if (clash) throw new ToolError(`${clash.name} is covered by two transform edits (${owner.get(clash.key)} and ${edit.frame}); a frame takes one transform per call. Split them, or narrow the scope.`);
+          for (const f of planned.frames) { owner.set(f.key, edit.frame); frames.push(f); }
+          for (const i of planned.items) items.set(i.key, { ...i, provenance: { tool: 'studio_frame_patch (scoped transform)', transform: edit.transform, scope: args.scope ?? 'frame', session: ctx.caller?.session ?? null } });
         }
         const plan = { items: [...items.values()], frames, refused: [] };
         if (args.dryRun) return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target: 'revision', scope: args.scope ?? 'frame', wouldSave: plan.items.map((i) => ({ key: i.key, as: 'new revision, pending' })), frames,
           note: 'Pixels shifted past the frame edge are reported as lost; a linked frame is added with linkedFrom. Only a human approves.' });
-        const saved = await savePlan(ws, plan, { tool: 'studio_frame_patch (scoped transform)', transform: args.edits[0].transform, scope: args.scope ?? 'frame', session: ctx.caller?.session ?? null });
+        const saved = await savePlan(ws, plan, null);
         return jsonResult({ ok: true, target: 'revision', scope: args.scope ?? 'frame', saved, note: 'Saved as new revision(s), pending: only a human approves. The raw files are unchanged.', next: 'studio_diff (against previous) shows the pixels that changed; studio_review_request when ready.' });
       }
 
