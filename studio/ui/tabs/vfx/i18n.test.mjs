@@ -18,7 +18,7 @@ test('every literal t() key exists in the tab strings', () => {
 });
 
 test('dynamic key families are complete', () => {
-  const families = {ready: ['planned', 'authored', 'packed'], group: ['core', 'longtime'], floor: ['grey', 'court', 'dark'], kind: ['once', 'loop'],
+  const families = {ready: ['planned', 'authored', 'packed'], group: ['core', 'design'], floor: ['grey', 'court', 'dark'], kind: ['once', 'loop'],
     view: ['spec', 'audit', 'provenance', 'rounds', 'read'], 'spec.col': ['name', 'ticks', 'fast', 'events'], 'audit.col': ['check', 'measured', 'limit', 'result'],
     'audit.check': ['first', 'last', 'peak', 'jump', 'colors'], 'prov.hash': ['sheet', 'descriptor', 'spec']};
   for (const [family, names] of Object.entries(families)) for (const n of names) assert.ok(`${family}.${n}` in en, `${family}.${n}`);

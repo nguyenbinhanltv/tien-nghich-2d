@@ -19,7 +19,7 @@ import {
   isFloorLike,
   isPatchLike,
   isWallLike,
-} from './blob47.js';
+} from '../../studio/src/blob47.js';
 
 const SKIN_ACCENTS = {
   wl_outer_disciple: { primary: '#9d98a4', trim: '#d4d0d8', aura: '#6e6877', label: 'Form 1 · Outer Disciple' },

@@ -319,6 +319,63 @@
               "raw": {
                 "type": "string",
                 "description": "Key into directories.raw holding this source's per-asset source folders."
+              },
+              "idPattern": {
+                "type": "string",
+                "description": "design-manifest: anchored regex a studio-planned asset id must match."
+              },
+              "idHint": {
+                "type": "string",
+                "description": "design-manifest: an example id shown when idPattern rejects one."
+              },
+              "keyBase": {
+                "type": "string",
+                "description": "design-manifest: frame-key base when no frameKeys.sprites template is given (default: the source id)."
+              },
+              "frameKeys": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "design-manifest: names of the pack frameKeys templates for its sprites and its effects.",
+                "properties": {
+                  "sprites": {
+                    "type": "string"
+                  },
+                  "effects": {
+                    "type": "string"
+                  }
+                }
+              },
+              "atlases": {
+                "type": "string",
+                "description": "Key into directories.atlases holding this source's atlases (default: the processed key)."
+              },
+              "processedSubdir": {
+                "type": "string",
+                "description": "vfx-index: sub-directory of the processed directory holding the flat frame files."
+              }
+            }
+          }
+        },
+        "categories": {
+          "type": "object",
+          "description": "Per-category conventions: the processed sub-directory (group), the atlas key prefix, whether the silhouette must carry the outline colour, whether frames may be empty (an effect fading to nothing).",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "group": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]+$"
+              },
+              "keyPrefix": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]+$"
+              },
+              "outline": {
+                "type": "boolean"
+              },
+              "emptyOk": {
+                "type": "boolean"
               }
             }
           }
@@ -775,7 +832,9 @@
                   "description": "Project-relative directory holding <id>.scene.json files (studio.scene documents). The Sandbox lists, opens and saves scenes here and nowhere else."
                 }
               },
-              "required": ["scenesDir"],
+              "required": [
+                "scenesDir"
+              ],
               "additionalProperties": false
             }
           },
@@ -825,9 +884,229 @@
               "$ref": "#/$defs/path",
               "description": "Markdown write-up holding the core effects' self-score table."
             },
-            "longtimeDoc": {
+            "effectsDoc": {
               "$ref": "#/$defs/path",
               "description": "Markdown write-up holding the design-manifest effects' self-scores."
+            },
+            "coreSpecDir": {
+              "$ref": "#/$defs/path",
+              "description": "Directory holding the committed specs of the vfx-index effects (spec history lives under roundsDir)."
+            },
+            "rounds": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "description": "Round numbers of the spec history."
+            },
+            "effectsRawDir": {
+              "$ref": "#/$defs/path",
+              "description": "Directory holding the design-manifest effects' raw material: <id>/specs, <id>/provenance.json."
+            },
+            "effectsProcessedDir": {
+              "$ref": "#/$defs/path",
+              "description": "Directory of the design-manifest effects' processed frames when the manifest names no vfx.paths.processed."
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "How the dev server exposes the project beyond the studio itself: static overlays, URL aliases, page rewrites and project-side request hooks. All optional.",
+      "properties": {
+        "mounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "url",
+              "dir"
+            ],
+            "description": "Files in `dir` answer under `url` when the studio itself has no file there (a project's own pages keep working at URLs below /studio/).",
+            "properties": {
+              "url": {
+                "type": "string",
+                "pattern": "^/[A-Za-z0-9_.-][A-Za-z0-9_./-]*/$"
+              },
+              "dir": {
+                "$ref": "#/$defs/path"
+              }
+            }
+          }
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "from",
+              "to"
+            ],
+            "properties": {
+              "from": {
+                "type": "string",
+                "pattern": "^/[A-Za-z0-9_.-]+$"
+              },
+              "to": {
+                "type": "string",
+                "pattern": "^/[A-Za-z0-9_./-]*$"
+              }
+            }
+          }
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "query",
+              "serve"
+            ],
+            "description": "Serve another page for `path` when a query parameter has one of the listed values.",
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "query": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "serve": {
+                "type": "string",
+                "pattern": "^/"
+              }
+            }
+          }
+        },
+        "hooks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "module"
+            ],
+            "description": "A project-side module exporting handle(req, res, {root, pack}) answers GET path.",
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "module": {
+                "$ref": "#/$defs/path"
+              }
+            }
+          }
+        }
+      }
+    },
+    "info": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Facts studio_project_info reports that no other pack block carries: the written outline and alpha rules, the atlas key groups and how a frame file is named.",
+      "properties": {
+        "outline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "widthPx": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "appliesToCategories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exemptCategories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "note": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        "alpha": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "transparentPixelRgb": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "paletteOnly": {
+              "type": "boolean"
+            },
+            "note": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        "frameKeyScopes": {
+          "type": "array",
+          "description": "Frame-key scopes reported as written. {scope, key} are literal; {scope, frameKey} takes the template from the pack's frameKeys.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope"
+            ],
+            "properties": {
+              "scope": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string"
+              },
+              "frameKey": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "processedFrom": {
+                "type": "string",
+                "description": "Dotted path in the asset-manifest whose value is reported as `processed`."
+              }
             }
           }
         }

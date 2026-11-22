@@ -5,9 +5,7 @@ import { loadPackSync } from '../../studio/core/index.mjs';
 import { revisionStore as coreStore } from '../../studio/core/store.mjs';
 
 const packRoot = fileURLToPath(new URL('../../', import.meta.url));
-let reserved;
-
-export function revisionStore(root, dir) {
-  reserved ??= loadPackSync(packRoot, undefined, {verifyFiles: false}).directories.revisions;
+export function revisionStore(root, dir, packDir = packRoot) {
+  const reserved = loadPackSync(packDir, undefined, {verifyFiles: false}).directories.revisions;
   return coreStore(root, reserved, dir ?? path.join(root, reserved));
 }
