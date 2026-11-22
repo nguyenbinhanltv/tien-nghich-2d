@@ -7,6 +7,7 @@ class FakeElement {
   constructor(tag) { this.tag = tag; this.className = ''; this.attrs = {}; this.children = []; }
   setAttribute(name, value) { this.attrs[name] = value; }
   append(...kids) { this.children.push(...kids); }
+  addEventListener(type, fn) { (this.listeners ??= []).push([type, fn]); }
 }
 globalThis.document = {createElement: tag => new FakeElement(tag)};
 const { h } = await import('./dom.mjs');
@@ -35,4 +36,16 @@ test('the tab module has no private element builder and no object className', ()
   const source = fs.readFileSync(new URL('./index.mjs', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /function h\(/, 'index.mjs must use the shared builder from dom.mjs');
   assert.doesNotMatch(source, /className\s*=\s*\{/);
+});
+
+test('a function under an on* key is attached as a listener, not stored as an attribute string', () => {
+  let clicks = 0;
+  const fn = () => { clicks++; };
+  const button = h('button', {type: 'button', onclick: fn});
+  assert.equal(button.attrs.onclick, undefined, 'no inline handler text');
+  assert.deepEqual(button.attrs, {type: 'button'});
+  assert.equal(button.listeners.length, 1);
+  assert.equal(button.listeners[0][0], 'click');
+  button.listeners[0][1]();
+  assert.equal(clicks, 1);
 });

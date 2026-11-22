@@ -149,6 +149,7 @@ Keys inside each block that has them:
 - **`ui`**
   - `ui.brand` (required, object): The name plate: mark (a few letters, the fallback), seal (a 12x12 pixel grid for the brand seal) and subtitle.
   - `ui.languages` (optional, array)
+  - `ui.voice` (optional, object): The project's own words and scene on the Overview: name (the page title), greeting (the line under it) and pipeline (the title of the readiness section), each a per-language label, and scene (what the CSS-drawn picture shows). Any may be left out; the Overview then uses neutral wording and a neutral scene.
   - `ui.theme` (required, object): Shell colours by role, each a palette id (never hex). Surfaces: ink (page), surface (raised controls), panel (the slip: cards and panels; default derives from surface and ink). Lines: line (dividers, decoration), lineStrong (control borders; needs 3:1 against the surroundings, WCAG 1.4.11; falls back to muted). Text: text, muted (both 4.5:1 on every surface). Accent: accent (selected, primary action), accentSoft, gold (attention, focus), goldSoft, danger (rejected, error; 4.5:1 as text). Meaning: seal (the seal colour), sealInk (what is carved in it; 4.5:1 on seal), ok (done; falls back to accent), warn (needs attention; falls back to gold), ask (an agent's question; falls back to text), link (links, running; falls back to accent). 18 roles in all; any may be left out and the shell uses neutral defaults, so a small palette still looks right.
   - `ui.categoryTabs` (required, object)
   - `ui.tools` (required, array)

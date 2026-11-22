@@ -1276,6 +1276,71 @@
             ]
           }
         },
+        "voice": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The project's own words and scene on the Overview: name (the page title), greeting (the line under it) and pipeline (the title of the readiness section), each a per-language label, and scene (what the CSS-drawn picture shows). Any may be left out; the Overview then uses neutral wording and a neutral scene.",
+          "properties": {
+            "name": {
+              "type": "object",
+              "required": [
+                "en"
+              ],
+              "properties": {
+                "en": {
+                  "type": "string"
+                },
+                "vi": {
+                  "type": "string"
+                }
+              }
+            },
+            "greeting": {
+              "type": "object",
+              "required": [
+                "en"
+              ],
+              "properties": {
+                "en": {
+                  "type": "string"
+                },
+                "vi": {
+                  "type": "string"
+                }
+              }
+            },
+            "pipeline": {
+              "type": "object",
+              "required": [
+                "en"
+              ],
+              "properties": {
+                "en": {
+                  "type": "string"
+                },
+                "vi": {
+                  "type": "string"
+                }
+              }
+            },
+            "scene": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The culture-specific parts of the Overview scene. Without this block the scene is neutral: hills, moon and stars only. gate: 'pailou' draws a Chinese memorial gate (paifang) with tiled roofs, red posts and a plaque, 'none' (the default) draws no gate. lanterns: true hangs blinking lanterns (on the gate when there is one, else on the hills); default false.",
+              "properties": {
+                "gate": {
+                  "enum": [
+                    "pailou",
+                    "none"
+                  ]
+                },
+                "lanterns": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
         "theme": {
           "type": "object",
           "description": "Shell colours by role, each a palette id (never hex). Surfaces: ink (page), surface (raised controls), panel (the slip: cards and panels; default derives from surface and ink). Lines: line (dividers, decoration), lineStrong (control borders; needs 3:1 against the surroundings, WCAG 1.4.11; falls back to muted). Text: text, muted (both 4.5:1 on every surface). Accent: accent (selected, primary action), accentSoft, gold (attention, focus), goldSoft, danger (rejected, error; 4.5:1 as text). Meaning: seal (the seal colour), sealInk (what is carved in it; 4.5:1 on seal), ok (done; falls back to accent), warn (needs attention; falls back to gold), ask (an agent's question; falls back to text), link (links, running; falls back to accent). 18 roles in all; any may be left out and the shell uses neutral defaults, so a small palette still looks right.",
