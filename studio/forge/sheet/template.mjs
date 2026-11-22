@@ -31,7 +31,8 @@ export function renderTemplate(layoutDoc, {figure} = {}) {
     line(fa, groundY + 2, fa, groundY + 7); line(fb, groundY + 2, fb, groundY + 7);
     if (figure?.guide) {
       const top = y0 + band + Math.round(ch * 0.06);
-      drawGuide(guideShapes(figure, {cx: centerX, ground: groundY, top}), (x, y) => plot(x, y, guide), Math.max(2, Math.round(cw / 170)));
+      const thick = Math.max(2, Math.round(cw / 170)), pad = 4 + thick;
+      drawGuide(guideShapes(figure, {cx: centerX, ground: groundY, top, minX: x0 + pad, maxX: x1 - pad}), (x, y) => plot(x, y, guide), thick);
     }
     const textWidth = cell.label.length * (glyphWidth + 1) - 1;
     const scale = Math.max(1, Math.min(Math.floor((band - 4) / glyphHeight), Math.floor((cw - 8) / textWidth)));

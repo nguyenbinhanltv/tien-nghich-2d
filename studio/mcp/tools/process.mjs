@@ -73,14 +73,13 @@ export default {
     requireFrames(asset);
     return inlineOrJob(ctx, 'process', args, (log) => forgeCall(async () => {
       const { settings } = await settingsFor(snap, ws, asset);
-      if (args.marks !== undefined) {
-        resolveMarks(args.marks, settings.palette); // refuse bad marks before storing them
-        await writeDoc(ws, asset, 'process', { marks: args.marks, by: ctx.caller.agent, at: new Date().toISOString() });
-      }
-      if (args.accents !== undefined) {
-        for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
+      // Validate every input first, then store once: a refused call changes nothing, and a marks-only call keeps the stored accents.
+      if (args.marks !== undefined) resolveMarks(args.marks, settings.palette);
+      if (args.accents !== undefined) for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
+      if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
+      if (args.marks !== undefined || args.accents !== undefined) {
         const current = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
-        await writeDoc(ws, asset, 'process', { ...current, accents: args.accents, by: ctx.caller.agent, at: new Date().toISOString() });
+        await writeDoc(ws, asset, 'process', { ...current, ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), by: ctx.caller.agent, at: new Date().toISOString() });
       }
       const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
       log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);

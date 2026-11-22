@@ -29,10 +29,17 @@ export function guidanceText(figure, { nativePx }) {
 }
 
 /** The silhouette as rectangles and ellipses in cell pixels: {top, ground, cx} -> [{kind, ...}]. */
-export function guideShapes(figure, { cx, ground, top }) {
+export function guideShapes(figure, { cx, ground, top, minX, maxX }) {
   const g = figure.guide;
   if (!g) return [];
-  const H = ground - top, headH = Math.round(H * figure.headToBody.target);
+  let H = ground - top;
+  // Fit the cell in both dimensions, keeping the proportions: shrink about the ground point when the widest part would cross a cell edge.
+  if (minX !== undefined && maxX !== undefined) {
+    const half = Math.min(cx - minX, maxX - cx), widest = Math.max(g.headWidth, g.bodyWidth);
+    H = Math.min(H, Math.floor((half * 2) / widest));
+    top = ground - H;
+  }
+  const headH = Math.round(H * figure.headToBody.target);
   const headW = Math.round(H * g.headWidth), bodyW = Math.round(H * g.bodyWidth), legW = Math.round(H * g.legWidth), gap = Math.round(H * g.legGap);
   const legH = Math.round(H * 0.18), bodyTop = top + headH, bodyBottom = ground - legH;
   return [

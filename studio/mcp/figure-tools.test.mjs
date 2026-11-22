@@ -102,3 +102,43 @@ test('process on a pet: no guide applies, so there is no figure check', () => wi
   assert.equal(r.structuredContent.figure, undefined);
   assert.doesNotMatch(text(r), /Figure check/);
 }));
+
+test('template_get: on a tall, narrow sheet the guide shrinks to fit its cell (proportions kept) and never crosses into a neighbour', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const r = await a.call('studio_template_get', { assetId: MOB, size: [512, 2048] });
+  const bare = await a.call('studio_template_get', { assetId: MOB, size: [512, 2048], figure: 'none' });
+  const [g, b] = [r, bare].map((x) => decodeRgba(Buffer.from(x.content[1].data, 'base64')));
+  const cells = r.structuredContent.layout.cells;
+  assert.equal(cells.length, 4);
+  const guideAt = (x, y) => g.pixels[(y * g.width + x) * 4 + 1] !== b.pixels[(y * g.width + x) * 4 + 1];
+  const colsBy = new Map();
+  for (const c of cells) {
+    const x0 = Math.round(c.rect[0] * g.width), x1 = Math.round(c.rect[2] * g.width), y0 = Math.round(c.rect[1] * g.height), y1 = Math.round(c.rect[3] * g.height);
+    let minX = 1e9, maxX = -1, n = 0;
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (guideAt(x, y)) { n++; minX = Math.min(minX, x); maxX = Math.max(maxX, x); }
+    assert.ok(n > 500, `cell ${c.id} has a guide`);
+    assert.ok(minX > x0 + 2 && maxX < x1 - 3, `cell ${c.id}: guide spans ${minX}..${maxX} inside ${x0}..${x1}`);
+    // Nothing of this cell's guide has leaked over the sheet edge or into the next column either.
+    colsBy.set(c.id, maxX - minX);
+  }
+  const widths = [...colsBy.values()];
+  assert.ok(Math.max(...widths) - Math.min(...widths) <= 2, 'every cell gets the same shape');
+}));
+
+test('process: a marks-only call keeps stored accents; a refused call stores nothing', () => withProject(async (p) => {
+  const a = connect(p.root);
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(EXP, 'turnaround.png'), join(p.root, 'work/turnaround.png'));
+  await a.ok('studio_sheet_import', { assetId: MOB, sheet: { file: 'work/turnaround.png' }, layout: json(join(EXP, 'layout.forge.json')), prompt: 'x', tool: 'test' });
+  const stored = () => json(join(p.root, 'assets/raw/longtime', MOB, 'forge/process.json'));
+  await a.ok('studio_process', { assetId: MOB, accents: ['bronze_04'] });
+  const marks = [{ color: 'soul_07', minRgb: [165, 0, 187], blueOverGreen: 17 }];
+  const r = await a.call('studio_process', { assetId: MOB, marks });
+  assert.deepEqual(r.structuredContent.figure.accents, ['bronze_04'], 'a marks-only update keeps the accents');
+  assert.deepEqual([stored().accents, stored().marks.length], [['bronze_04'], 1]);
+  // A call with good marks but a bad accent or figure refuses before saving anything.
+  const before = JSON.stringify(stored());
+  assert.match(text(await a.call('studio_process', { assetId: MOB, marks: [], accents: ['nope_99'] })), /not a palette colour id/);
+  assert.match(text(await a.call('studio_process', { assetId: MOB, marks: [], figure: 'nope' })), /No figure guide/);
+  assert.equal(JSON.stringify(stored()), before, 'nothing was stored by a refused call');
+}));
