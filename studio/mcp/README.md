@@ -72,6 +72,12 @@ Design follows the mcp-builder rules: action-named tools, concise descriptions t
 - **Asymmetric marks (a scar, a one-sided charm): pixel patches** (`studio_frame_patch`), which are stored operations and survive every re-bake, instead of redrawing.
 - **Environment, items, projectiles, icons: generators** (`studio_generator_run`); **VFX: `studio_vfx_build`**. The image-generation route is not used for these.
 
+A character with both kinds of clip keeps **two imported sheets**: the turnaround (`forge/import.json`, rig clips) and the pose sheet (`forge/import.pose.json`, pose clips); the layout decides the slot, so importing one never replaces the other, and `studio_process` pixelises both with the same stored marks. One `studio_rig_bake` call with `rig` and `poseClips` bakes everything; the stored `rig.json`, `poseclips.json` and `patch.json` are reused when a later call omits them, so a re-bake or a submit needs no arguments and loses nothing. Submitting credits each frame to the sheet it came from (two submissions, two source hashes).
+
+**Bake results report two verdicts**, `verdicts.animationGates` (foot slide, pivot drift, flicker, loop seam, mark side, weight transfer, identity drift, stability across clips) and `verdicts.pixelGates` (the check `submit` applies); `pass` is true only when both are, and `next` never suggests submitting otherwise. A gate that judged nothing is listed in `animationGates.notRun` with its reason and what turns it on (planted contacts for foot slide, `qa.pose.flicker` for drawn clips, landmarks for mark side): not run is never folded into a pass. `studio_template_get` returns `formats`, the compact shape of the rig and poseClips documents and their rules, so a forge run needs no source reading.
+
+Tool schemas never use a top-level `oneOf`/`anyOf` (some clients' tool APIs reject them), so "give exactly one of" rules (`studio_audio_analyze`, `studio_asset_plan`) are stated in the descriptions and enforced in the handlers.
+
 ### The forge's tracked documents
 
 Every forge step is a pure function of documents stored **beside the asset** and tracked by git; intermediates are rebuilt and git-ignored.
@@ -95,8 +101,8 @@ Provenance is mandatory at every door (`submitFrames`): the tool, the prompt or 
 Hardening rules of the registry (`validatePack`, `resolveParams`, `runProgram`), each with a test:
 
 - **Patterns describe the whole value.** A parameter `pattern` must start with `^` and end with an unescaped `$`, and is matched against the whole value (so `^a|b$` cannot let a part match).
-- **No option injection.** A text value that starts with `-` is refused whatever its pattern, enum or default allows. A template may place a parameter only as its own token right after a flag token (`"--shape", "{shape}"`) or exactly as `--flag={name}`: never first, never glued to other text.
-- **A timeout stops everything the program started.** The program runs as the leader of its own process group and the whole group gets SIGKILL on timeout or when output passes the cap (POSIX). On Windows there are no process groups; the server uses `taskkill /T /F` on the program, which ends its descendants too, but that path is **not tested** on this project's machines.
+- **No option injection.** A text value that starts with `-` is refused whatever its pattern, enum or default allows. A template may place a parameter only as its own token right after a flag token (`"--shape", "{shape}"`) or exactly as `--flag={name}`: never first, never glued to other text. A number that can be negative (no `minimum` of 0 or more) may only be written `--flag={name}`, because `-5` as a separate token can be read as an option.
+- **A timeout stops everything the program started.** The program runs as the leader of its own process group and the whole group gets SIGKILL on timeout, when output passes the cap, and when the leader exits (so a grandchild it left running, or one holding the output pipes open, is stopped and the call does not wait for it); programs still running when the server process ends or receives SIGINT/SIGTERM/SIGHUP are killed with it (POSIX). On Windows there are no process groups; the server uses `taskkill /T /F` on the program, which ends its descendants too, but that path is **not tested** on this project's machines.
 - A spec given to `studio_vfx_build` may contain no `/`, `\`, `~` or `..` in any value, array item or **object key**.
 
 A new generator is a reviewed change to the pack and a script, never something an agent can register.
@@ -228,7 +234,15 @@ Result: init listed `{"name":"studio","status":"connected","source":"project"}`;
 
 **Trial record.** A real Codex session, started by the orchestrator in a fresh worktree, called `studio_project_info` through the committed `.codex/config.toml`: `connection.agent` `codex`, scope `read` (the config granted `read` then; it grants `author` since this README's change), `project.root` equal to its `pwd`, `project.source` `project-pack`, palette 40, base assets 90, Longtime assets 125, **legacy era, protocol `2025-06-18`**, and **no approval prompt** for the read-only tool. So: Codex honours `mcp_servers` in the project `.codex/config.toml` once the project is trusted; it starts the stdio server with the session's directory as its working directory; and it opens with `initialize` (legacy), which is why this server speaks both eras. The author tools were not part of that trial.
 
-**Open question for the first authoring session.** `default_tools_approval_mode = "writes"` prompts for tools not marked read-only, and the author tools are annotated `readOnlyHint: false`. In an interactive session the human approves each call; a non-interactive `codex exec` run cannot, so author calls may be refused there. If so, set the mode to `approve` after confirming what the docs mean by it in that session; the server enforces scope and the review rules itself, and none of the author tools is destructive.
+**Approval mode: answered by the four sample runs (2026-11-22, `codex-cli 0.171.0`).** `default_tools_approval_mode = "writes"` prompts for every tool not marked read-only, and the author tools are annotated `readOnlyHint: false`. A person at an **interactive** Codex prompt is asked for each author call, which is the point of keeping it, so the committed `.codex/config.toml` stays as it is. In a **non-interactive `codex exec` the mode cannot work**: the first author call (`studio_asset_plan`) was refused with `MCP tool call requires approval, but approval policy is never.` and nothing was written. For unattended runs, override it **for that launch only**, on the command line, with nothing changed on disk:
+
+```
+codex exec -c 'mcp_servers.studio.default_tools_approval_mode="approve"' -m <model> --json -o <final.txt> - < prompt.txt
+# optionally also write an audit log of every call (the committed config has none):
+#   -c 'mcp_servers.studio.args=["studio/mcp.mjs","--scope","author","--agent","codex","--audit-log","/path/outside/the/repo/audit.jsonl"]'
+```
+
+With `approve` no approval prompt appeared in any of the eight sessions. The server enforces scope, the review rules and the independent-session rule itself, and no author tool is destructive, so the override gives up nothing the server relies on the client for. Do not use `codex exec --trust` for this: it writes to `~/.codex/config.toml`. Not shown: that `writes` works in an interactive Codex session (only the non-interactive failure was observed). Results: `studio/mcp/eval/results/2026-11-22-codex-sample-runs.md`.
 
 Configuration, as checked against the docs:
 
@@ -293,7 +307,7 @@ Paste this to the agent, unchanged:
 
 Failure map: `TOOL MISSING` → project untrusted, or the harness does not honour its project file (see the harness sections above). `project.root` ≠ `pwd` → set `cwd` as described. `connection.agent` is `unknown`, or a name other than the expected one → the harness ignored `args` or a different config won.
 
-### Authoring trial prompt (settles the approval question for author tools)
+### Authoring trial prompt (an interactive check of the approval prompt)
 
 Same setup as above, in a **disposable** worktree (the prompt writes two files and does not commit them). Paste unchanged:
 
@@ -397,7 +411,7 @@ Verified end to end through the server (tests, no agent): a stored marten turnar
 - **Antigravity has not been run** (not installed here); its committed config and HTTP form follow Google's documentation. Codex's stdio read path is verified by the trial above; its author tools and its HTTP form are not.
 - **Only Longtime design assets and audio cues can be authored.** Shipped (core) assets change through reviewed revisions only; `frame_patch` on a submitted frame creates one, but an approved frame is never reopened.
 - **`studio_pack` stages an atlas only.** There is no audio pack kind yet, and nothing packs into the shipped atlas directories; a human promotes staged output in a reviewed change.
-- **Codex approval mode for author tools is still open** (see the authoring trial); the sample runs below record it.
+- **Codex approval mode:** settled for unattended runs (launch-only `approve` override, see the Codex section); an interactive `writes` session is not yet observed.
 - **VFX and generator runs need the project toolchain** (`tools/.venvs/…`, the SpriteFX clone); without it they answer with a message saying what to install.
 - **`studio_review_*` work per frame**, so a 32-frame request is 32 comments with the same note; the review UI will aggregate them per asset.
 - **The independent check is a process guard, not a security boundary** (see above).
