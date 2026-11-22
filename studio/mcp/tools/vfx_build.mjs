@@ -4,6 +4,8 @@ import { crop, decodePng } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { callDir, shown } from '../workflow/forge.mjs';
 import { buildTwice, checkSpec, vfxAdapter } from '../workflow/vfx.mjs';
+
+export { checkSpec }; // kept here for callers that imported it from the tool
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 
