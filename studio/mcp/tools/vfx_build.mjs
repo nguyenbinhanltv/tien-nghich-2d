@@ -4,7 +4,7 @@ import { runProgram, tail, toolchainPath } from '../../core/adapters.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
 import { crop, decodePng } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { shown, workDir } from '../workflow/forge.mjs';
+import { callDir, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 
@@ -68,8 +68,7 @@ export default {
     const clone = toolchainPath(ws.root, vfx.clone, 'The SpriteFX source checkout');
 
     return inlineOrJob(ctx, 'vfx_build', args, async (log) => {
-      const base = workDir(ws, asset, 'vfx');
-      await fs.rm(base, { recursive: true, force: true });
+      const base = await callDir(ws, asset, 'vfx');
       const name = args.spec.name;
       const builds = [];
       for (const label of ['a', 'b']) {

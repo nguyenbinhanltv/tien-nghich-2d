@@ -175,6 +175,32 @@ test('vfx_build: a SpriteFX spec becomes frames, audited twice, judged by the ga
   assert.equal((await a.ok('studio_qa_run', { assetId: FX })).pass, true);
 }));
 
+test('vfx_build: overlapping builds on one asset each keep their own directory, result and provenance', { skip: skipFx }, () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const b = connect(p.root, { agent: 'other', session: 'second-session' });
+  await planFx(a);
+  const variant = (seed) => { const sp = spec(); sp.seed = seed; return sp; };
+  const [s1, s2] = [variant(11), variant(22)];
+  // The truth, one at a time.
+  const solo = async (sp) => (await a.call('studio_vfx_build', { assetId: FX, spec: sp })).structuredContent.sheetSha256;
+  const [want1, want2] = [await solo(s1), await solo(s2)];
+  assert.notEqual(want1, want2, 'the two specs really give different sheets');
+  // The same two at once, from two sessions, one of them committing.
+  const [r1, r2] = await Promise.all([
+    a.call('studio_vfx_build', { assetId: FX, spec: s1, submit: true }),
+    b.call('studio_vfx_build', { assetId: FX, spec: s2 }),
+  ]);
+  assert.equal(r1.isError, undefined, text(r1));
+  assert.equal(r2.isError, undefined, text(r2));
+  assert.equal(r1.structuredContent.sheetSha256, want1);
+  assert.equal(r2.structuredContent.sheetSha256, want2);
+  assert.notEqual(r1.structuredContent.workDir, r2.structuredContent.workDir);
+  const log = fs.readFileSync(join(raw(p, FX), 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse)[0];
+  assert.equal(JSON.parse(log.prompt).seed, 11, 'the committed frames carry the spec that built them');
+  assert.match(log.notes, new RegExp(`sheet ${want1}`));
+  assert.equal(log.sourceHash, crypto.createHash('sha256').update(JSON.stringify(s1)).digest('hex'));
+}));
+
 test('vfx_build: what it refuses before and after running', { skip: skipFx }, () => withProject(async (p) => {
   const a = connect(p.root);
   await planFx(a);

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { expandArgs, generatorOf, resolveParams, runProgram, tail, toolchainPath } from '../../core/adapters.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
-import { shown, workDir } from '../workflow/forge.mjs';
+import { callDir, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { framesOf, harvestPngs, sameOutput } from '../workflow/toolchain.mjs';
 import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
@@ -46,8 +46,7 @@ export default {
     const palette = path.join(ws.root, snap.pack.palette.file);
 
     return inlineOrJob(ctx, 'generator_run', args, async (log) => {
-      const base = workDir(ws, asset, 'generator');
-      await fs.rm(base, { recursive: true, force: true });
+      const base = await callDir(ws, asset, 'generator');
       const runs = [];
       for (const label of ['a', 'b']) {
         const out = path.join(base, label);

@@ -97,6 +97,24 @@ export async function pixelizedFor(ws, asset, settings) {
 /** Where scratch output for an asset goes (git-ignored, safe to delete). */
 export const workDir = (ws, asset, ...parts) => path.join(ws.libraryDir(), 'work', asset.id, ...parts);
 
+/**
+ * A private scratch directory for ONE call (<work>/<asset>/<kind>/<unique>), so overlapping calls on the same asset
+ * (background jobs, several sessions) never delete or read each other's output. Directories of earlier calls stay
+ * (a result points at its own review images) and are pruned once older than ten minutes.
+ */
+export async function callDir(ws, asset, kind) {
+  const parent = workDir(ws, asset, kind);
+  await fs.mkdir(parent, { recursive: true });
+  const now = Date.now();
+  for (const e of await fs.readdir(parent, { withFileTypes: true }).catch(() => [])) {
+    if (!e.isDirectory()) continue;
+    const full = path.join(parent, e.name);
+    const st = await fs.stat(full).catch(() => null);
+    if (st && now - st.mtimeMs > 10 * 60 * 1000) await fs.rm(full, { recursive: true, force: true }).catch(() => {});
+  }
+  return fs.mkdtemp(path.join(parent, 'call-'));
+}
+
 /** Project-relative path when inside the project, else absolute. */
 export const shown = (ws, abs) => { const rel = path.relative(ws.root, abs); return rel.startsWith('..') || path.isAbsolute(rel) ? abs : rel; };
 
