@@ -1,10 +1,10 @@
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
-import { readDoc, forgeCall, pixelizedFor, settingsFor, updateDoc } from '../workflow/forge.mjs';
+import { forgeCall, forgeDir, pixelizedFor, settingsFor, updateDoc } from '../workflow/forge.mjs';
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { figureFor, figureWarnings, measureFigure, resolveMarks } from '../../forge/index.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
-import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
 const markItem = {
@@ -52,7 +52,8 @@ export default {
     'It also checks the figure against the project\'s readability guide (pack figures, when one applies to this profile): warnings for limbs thinner than the minimum, a head far from the proportion range, and any accent colour you named in accents that drops below its minimum pixel count (warnings, never a refusal). ' +
     'marks keep an ASYMMETRIC colour through pixelisation (a coloured ear, a tool in one hand): they are stored and reused by every later step. ' +
     'For a single-frame asset, submit=true commits the sprites as its raw frames (cell "<pose>_<facing>" becomes frame "<pose>_<facing>_0" of the one-frame clip named like the pose; a plain facing cell becomes the asset\'s only clip). ' +
-    'For a clip with several frames do not submit here: use studio_rig_bake. The sprites here are always snapped one by one; the colour hold across the frames of a pose clip is applied when studio_rig_bake builds the clip from poseClips (hold=false turns it off).',
+    'For a clip with several frames do not submit here: use studio_rig_bake. The sprites here are always snapped one by one; the colour hold across the frames of a pose clip is applied when studio_rig_bake builds the clip from poseClips (hold=false turns it off).' +
+    ' dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -66,6 +67,7 @@ export default {
       clip: { type: 'string', maxLength: 40, description: 'With submit: the clip a plain facing cell belongs to.' },
       slot: { type: 'string', enum: ['rig', 'pose'], description: 'Only this imported sheet: rig (turnaround) or pose (pose sheet). Default: every imported sheet; submit needs this when both exist.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
+      dryRun: dryRunProp,
       background: backgroundProp,
     },
     required: ['assetId'],
@@ -82,11 +84,11 @@ export default {
       if (args.marks !== undefined) resolveMarks(args.marks, settings.palette);
       if (args.accents !== undefined) for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
       if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
-      if (args.marks !== undefined || args.accents !== undefined || args.hold !== undefined) {
+      if (!args.dryRun && (args.marks !== undefined || args.accents !== undefined || args.hold !== undefined)) {
         await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}),
           ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
-      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot });
+      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot, ...(args.dryRun ? { overlay: { ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}) } } : {}) });
       if (args.submit && slots.length > 1) throw new ToolError('Both a turnaround and a pose sheet are imported: say which one to submit with slot ("rig" or "pose"). Frames of moving clips come from studio_rig_bake, which credits each frame to its own sheet.');
       log(`pixelised ${pixelized.cells.size} cell(s) of ${slots.map((s) => s.doc.layout.id).join(' + ')}`);
       const options = pixelOptions(snap, asset);
@@ -125,14 +127,14 @@ export default {
         const map = staticMapping(asset, pixelized.record, args.clip);
         const frames = Object.fromEntries(Object.entries(map).map(([name, i]) => [name, pixelized.cells.get(pixelized.record.cells[i].id).native]));
         const markText = sha256(JSON.stringify(processDoc.marks ?? [])).slice(0, 12);
-        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller,
+        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller, dryRun: args.dryRun,
           provenance: { tool: `${doc.tool} + studio_process`, prompt: doc.prompt, sourceHash: doc.sheet.sha256, notes: `layout ${doc.layout.id}; marks ${markText}; sheet ${doc.sheet.file}${doc.reference ? `; reference ${doc.reference.name} ${doc.reference.sha256.slice(0, 12)} verbatim ${doc.reference.verbatim ? 'yes' : 'no'}` : ''}` } });
-        submitted = { accepted, written: report.written, unchanged: report.unchanged, message: report.message, frames: report.frames?.map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
+        submitted = { accepted, ...(args.dryRun ? { dryRun: true, wouldWrite: report.wouldWrite } : { written: report.written }), unchanged: report.unchanged, message: report.message, frames: report.frames?.map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) { shown.structured.submit = submitted; return { content: shown.content, structuredContent: shown.structured, isError: true }; }
-        shown.content[0].text += ` Submitted ${report.written.length} frame(s) as raw (status pending); ask for review after an independent check.`;
+        shown.content[0].text += args.dryRun ? ` DRY RUN: would submit ${report.wouldWrite.length} frame(s) as raw; nothing was written.` : ` Submitted ${report.written.length} frame(s) as raw (status pending); ask for review after an independent check.`;
       }
-      return { content: shown.content, structuredContent: { ...shown.structured, ...(submitted ? { submit: submitted } : {}),
-        next: submitted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : 'Look at the sprites. For a moving clip: studio_rig_bake. For a single frame: studio_process with submit=true.' } };
+      return { content: shown.content, structuredContent: { ...shown.structured, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', ...(args.marks !== undefined || args.accents !== undefined || args.hold !== undefined ? { wouldStoreMarks: `${forgeDir(asset)}/process.json` } : {}) } : {}), ...(submitted ? { submit: submitted } : {}),
+        next: args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : submitted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : 'Look at the sprites. For a moving clip: studio_rig_bake. For a single frame: studio_process with submit=true.' } };
     }));
   },
 };

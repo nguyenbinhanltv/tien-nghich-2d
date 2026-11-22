@@ -14,6 +14,7 @@
 // depends on a scratch directory that a cleanup could remove, and the same documents always give the
 // same frames. Intermediate images (previews, bake directories) go to the git-ignored work directory.
 import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { ToolError } from '../registry.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from '../../core/fsutil.mjs';
@@ -59,6 +60,16 @@ export async function writeDoc(ws, asset, name, doc) {
 /** Read, change and write a tracked document under ONE lock, so concurrent updates of different fields cannot erase each other. `change(current|null)` returns the new document. */
 export async function updateDoc(ws, asset, name, change) {
   return withLock(path.join(ws.root, docRel(asset, name)), async () => putDoc(ws, asset, name, await change(await readDoc(ws, asset, name))));
+}
+
+/** Where a sheet with these bytes is stored, whether it already is, and that what is there really is these bytes (throws if not). */
+export async function checkStoredSheet(ws, asset, bytes) {
+  const hash = sha256(bytes);
+  const rel = `${forgeDir(asset)}/sheets/${hash.slice(0, 16)}.png`;
+  let existing = null;
+  try { existing = await fs.readFile(containedPath(ws.root, rel)); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (existing && sha256(existing) !== hash) throw new ToolError(`${rel} exists with different bytes (a hash-prefix collision or tampering); nothing was written.`);
+  return { rel, exists: !!existing, sha256: hash };
 }
 
 /** Store a drawn sheet by content hash. Written once; identical content is a no-op. */
@@ -123,7 +134,7 @@ async function runImport(ws, asset, settings, doc) {
  * document and result so a step can credit frames to the sheet they came from. `doc` is the primary document (the
  * turnaround if there is one) for steps that need only one.
  */
-export async function pixelizedFor(ws, asset, settings, { only, poseClips, rig, poseRig, library } = {}) {
+export async function pixelizedFor(ws, asset, settings, { only, overlay, poseClips, rig, poseRig, library } = {}) {
   const docs = await readImports(ws, asset);
   const slots = [];
   for (const slot of SLOTS) {
@@ -131,7 +142,8 @@ export async function pixelizedFor(ws, asset, settings, { only, poseClips, rig, 
     slots.push({ slot, doc: docs[slot], imported: await runImport(ws, asset, settings, docs[slot]) });
   }
   if (!slots.length) throw new ToolError(only && (docs.rig || docs.pose) ? `${asset.id} has no ${only === 'pose' ? 'pose sheet' : 'turnaround'} imported. Call studio_sheet_import with a ${only === 'pose' ? 'pose-sheet' : 'turnaround'} layout.` : `${asset.id} has no imported sheet. Call studio_sheet_import first.`);
-  const processDoc = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
+  // overlay: fields a dry run supplies; they sit on the stored document exactly as the real call would merge them (stored accents survive a marks-only call).
+  const processDoc = { ...((await readDoc(ws, asset, 'process')) ?? { marks: [] }), ...(overlay ?? {}) };
   const marks = resolveMarks(processDoc.marks ?? [], settings.palette);
   const clips = poseClips ?? (await readDoc(ws, asset, 'poseclips')) ?? undefined; // the hold follows each clip's own keys and loop flag
   let loops;
@@ -162,7 +174,9 @@ export const workDir = (ws, asset, ...parts) => path.join(ws.libraryDir(), 'work
  * (background jobs, several sessions) never delete or read each other's output. Directories of earlier calls stay
  * (a result points at its own review images) and are pruned once older than ten minutes.
  */
-export async function callDir(ws, asset, kind) {
+export async function callDir(ws, asset, kind, { ephemeral = false } = {}) {
+  // A dry run still has to run a program somewhere: a private directory OUTSIDE the project, removed by the caller.
+  if (ephemeral) return fs.mkdtemp(path.join(os.tmpdir(), `studio-dry-${kind}-`));
   const parent = workDir(ws, asset, kind);
   await fs.mkdir(parent, { recursive: true });
   const now = Date.now();

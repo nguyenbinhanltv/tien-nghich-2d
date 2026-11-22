@@ -6,7 +6,7 @@ import { ToolError } from '../registry.mjs';
 import { callDir, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { framesOf, harvestPngs, sameOutput } from '../workflow/toolchain.mjs';
-import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
@@ -18,6 +18,7 @@ export default {
     'This is the code-drawn route for icons, shots, props and tiles. Only registered generators exist: you cannot name another program or pass free text; parameters are checked against the registry ' +
     '(type, range, enum, pattern) and an unknown one is refused, with the list of what is allowed. ' +
     'The generator runs twice in a scratch directory and the outputs must be byte-identical (deterministic), otherwise submit is refused. ' +
+    'dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite). ' +
     'Output PNGs must be named <clip>_<direction>_<n>.png. You get a contact sheet with defects boxed, hashes, and the gate verdict. ' +
     'submit=true commits the frames as raw frames of the asset (provenance records the generator, its script hash, the parameters and the seed). ' +
     'Call with an unknown generator id to see what is registered.',
@@ -31,6 +32,7 @@ export default {
       seed: { type: 'integer', minimum: 0, maximum: 4294967295, description: 'Seed, for generators that take one (default: the generator\'s own).' },
       submit: { type: 'boolean', description: 'Commit the frames as raw frames of the asset if they pass the gates and the run was deterministic.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 6).' },
+      dryRun: dryRunProp,
       background: backgroundProp,
     },
     required: ['assetId', 'generator'],
@@ -49,7 +51,8 @@ export default {
     const palette = path.join(ws.root, snap.pack.palette.file);
 
     return inlineOrJob(ctx, 'generator_run', args, async (log) => {
-      const base = await callDir(ws, asset, 'generator');
+      const base = await callDir(ws, asset, 'generator', { ephemeral: args.dryRun });
+      try {
       const runs = [];
       for (const label of ['a', 'b']) {
         const out = path.join(base, label);
@@ -73,7 +76,7 @@ export default {
       const out = {
         generator: args.generator, params: values, ...(seed !== undefined ? { seed } : {}), script: spec.script, scriptSha256: scriptHash, deterministic,
         files: first.harvest.files.map((f) => ({ name: f.name, sha256: f.sha256, bytes: f.bytes.length })), unmapped, skipped: first.harvest.skipped,
-        defects: view.structured.defects, ms: first.ms, workDir: shown(ws, base), ...view.structured,
+        defects: view.structured.defects, ms: first.ms, ...(args.dryRun ? { dryRun: true, wrote: 'nothing' } : { workDir: shown(ws, base) }), ...view.structured,
       };
       out.qa = envelope({ method: `ran the registered generator ${args.generator} twice in scratch and gated the frames`,
         checks: [check('deterministic', { ok: deterministic, measured: deterministic, threshold: true, detail: 'two runs, byte-identical output' }),
@@ -85,15 +88,16 @@ export default {
       if (args.submit) {
         if (!deterministic) return { content: view.content, structuredContent: { ...out, submit: { accepted: false, message: out.warning } }, isError: true };
         if (unmapped.length) return { content: view.content, structuredContent: { ...out, submit: { accepted: false, message: `${unmapped.length} output file(s) are not frames (${unmapped.map((u) => u.name).join(', ')}); nothing was committed.` } }, isError: true };
-        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller,
+        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller, dryRun: args.dryRun,
           provenance: { tool: `generator ${args.generator}`, generator: spec.script, sourceHash: scriptHash, notes: `params ${JSON.stringify(values)}${seed !== undefined ? `; seed ${seed}` : ''}; deterministic (two runs identical)` } });
-        out.submit = { accepted, written: report.written, unchanged: report.unchanged, message: report.message,
+        out.submit = { accepted, ...(args.dryRun ? { dryRun: true, wouldWrite: report.wouldWrite } : { written: report.written }), unchanged: report.unchanged, message: report.message,
           frames: accepted ? undefined : report.frames?.filter((f) => f.errors || f.problem).map((f) => ({ name: f.name, errors: f.errors, problem: f.problem, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
-        view.content[0].text += ` Committed ${report.written.length} raw frame(s) (status pending).`;
+        view.content[0].text += args.dryRun ? ` DRY RUN: would commit ${report.wouldWrite.length} raw frame(s); nothing was written.` : ` Committed ${report.written.length} raw frame(s) (status pending).`;
       }
-      out.next = out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : 'Look at the sheet. Change the parameters or seed, or run again with submit=true.';
+      out.next = args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : 'Look at the sheet. Change the parameters or seed, or run again with submit=true.';
       return { content: view.content, structuredContent: out };
+      } finally { if (args.dryRun) await fs.rm(base, { recursive: true, force: true }); }
     });
   },
 };

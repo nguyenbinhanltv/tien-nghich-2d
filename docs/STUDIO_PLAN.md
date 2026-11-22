@@ -374,7 +374,7 @@ Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh
 
 ## Ghi nhận (2026-11-22): quyết định của chủ dự án và trạng thái P0 đến P5
 
-Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
+Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Từ 18:20 đến 18:27 cùng ngày chủ dự án nói "Duyệt hết assets trên studio cho tôi", rồi "Duyệt 30 hình nhân vật mới", và khi được hỏi chọn "30 nhân vật + asset Longtime đang chờ" (câu trả lời sau thu hẹp câu đầu); worker `tien-nghich-2d-37` ghi lại thành hai mục `owner_new_characters_2026-11-22` và `owner_longtime_awaiting_assets_2026-11-22` trong `art_approvals.json`. Tab Review nay đọc 2.126 frame đã duyệt, 2.854 frame baseline (art lõi cũ, chưa duyệt), 0 frame chờ duyệt. Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
 
 **Quyết định 5: những gì orchestrator tự đặt, chủ dự án nói "làm theo đề xuất".**
 

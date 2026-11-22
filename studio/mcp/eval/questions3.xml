@@ -1,0 +1,13 @@
+<evaluation>
+   <!-- Questions 11 and 12 of the evaluation: they cannot be answered without studio_frame_read (a frame as rows of
+        characters). Read-only, answered against the same scene as questions 1 to 5. The ground truth is computed
+        from the PNG files without the studio tools (eval/scene.mjs) and checked by eval.test.mjs. -->
+   <qa_pair>
+      <question>An agent submitted four frames for lt_seed_broker. In the frame idle_south_1, how many pixels have the outline colour ink_01? Answer with the number only.</question>
+      <answer>88</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>The frame idle_south_3 of lt_seed_broker was edited after it was submitted. In its newest version, exactly one pixel has a colour that no other pixel in the frame has. Which palette id is that colour, and at which x,y (x across, y down, from the top left, counting from 0) is the pixel? Answer as "palette_id x,y", for example "ink_01 3,4".</question>
+      <answer>blood_04 9,7</answer>
+   </qa_pair>
+</evaluation>

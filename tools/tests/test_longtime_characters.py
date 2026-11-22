@@ -40,6 +40,7 @@ REQUIRED = {
     "lt_ink_marten", "lt_star_hare", "lt_reed_crane", "lt_mist_carp", "lt_coal_toad", "lt_bronze_cicada",
 }
 _APPROVALS = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))["approvals"]
+OWNER_ALL_ART = "owner_new_characters_2026-11-22"
 _APPROVED_ANYWHERE = {aid for _a in _APPROVALS if _a.get("scope") == "character_art" for aid in _a["assets"]}
 IDS = {aid: (_PROFILE[aid], set(_MANIFEST["profiles"][_PROFILE[aid]]["clips"])) for aid in REQUIRED}
 for _gen in sorted(RAW.glob("*/generation.json")):
@@ -75,16 +76,25 @@ class LongtimeCharacters(unittest.TestCase):
 
     def test_review_status_follows_art_approvals(self):
         self.assertTrue({"lt_kiln_keeper", "lt_ink_marten"} <= APPROVED, "the owner approved these two abode characters")
+        entry = next(a for a in _APPROVALS if a["id"] == OWNER_ALL_ART)
         for aid in sorted(IDS):
             with self.subTest(aid=aid):
                 prov = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))
                 if aid in APPROVED:
-                    self.assertNotIn("review", prov, "approved art must not claim to await review")
-                else:
-                    self.assertEqual(prov["review"]["status"], "awaiting_owner_review")
-                    self.assertIn("No human has approved this art", prov["review"]["note"])
-                    self.assertEqual(prov["processing"]["entry_point"], "tools/scripts/build_longtime_abode.py")
-                    self.assertEqual(prov["processing"]["entry_point_sha256"], sha(ROOT / "tools/scripts/build_longtime_abode.py"))
+                    self.assertNotIn("review", prov, "built by the shared builder alone; the character_art approval is the record")
+                    continue
+                review = prov["review"]
+                self.assertEqual(review["status"], "approved_by_owner")
+                self.assertEqual(review["approval_id"], OWNER_ALL_ART)
+                self.assertEqual(review["approved_on"], "2026-11-22")
+                self.assertNotIn("awaiting", json.dumps(review))
+                self.assertEqual(prov["processing"]["entry_point"], "tools/scripts/build_longtime_abode.py")
+                self.assertEqual(prov["processing"]["entry_point_sha256"], sha(ROOT / "tools/scripts/build_longtime_abode.py"))
+                # the pointer is real: the entry covers every frame of this character by the sha256 provenance records
+                recorded = entry["assets"][aid]["frames"]
+                self.assertEqual(len(recorded), len(prov["frames"]))
+                for f in prov["frames"]:
+                    self.assertEqual(recorded[f"longtime/{aid}/{Path(f['path']).stem}"], f["sha256"], f["path"])
 
     def test_required_characters_keep_their_generation_metadata(self):
         for aid in sorted(REQUIRED):

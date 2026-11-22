@@ -120,23 +120,16 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: new Longtime frames await review, the two recorded characters are approved, the core roster is baseline', async () => {
+test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline, nothing awaits', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
-  const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
   const catalog = await loadEditableCatalog(pack, repoRoot);
-  const byAsset = {};
-  for (const frame of catalog.frames.values()) {
-    const s = await standing.of(frame.processed);
-    const at = (byAsset[frame.info.assetId] ??= {approved: 0, baseline: 0, awaiting: 0});
-    at[s]++;
-  }
-  for (const id of ['lt_kiln_keeper', 'lt_ink_marten']) assert.ok(byAsset[id].approved > 0 && !byAsset[id].awaiting, id);
+  const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
   const longtime = [...catalog.frames.values()].filter(f => f.info.key.startsWith('longtime/'));
-  assert.ok(longtime.length > 0);
-  for (const f of longtime) assert.notEqual(await standing.of(f.processed), 'baseline', f.info.key);
-  assert.ok(Object.entries(byAsset).some(([id, c]) => id.startsWith('lt_') && c.awaiting > 0));
+  assert.ok(longtime.length > 1500);
+  for (const f of longtime) assert.equal(await standing.of(f.processed), 'approved', f.info.key);
   const core = [...catalog.frames.values()].filter(f => !f.info.key.startsWith('longtime/'));
   assert.ok(core.length > 1000);
+  // the owner did not approve the legacy art: it keeps the baseline label (no review record)
   for (const f of core) assert.equal(await standing.of(f.processed), 'baseline', f.info.key);
 });
 

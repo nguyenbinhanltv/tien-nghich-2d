@@ -75,7 +75,8 @@ class EmberDeltaCharacters(unittest.TestCase):
                 self.assertEqual(proc["entry_point_sha256"], sha(ROOT / proc["entry_point"]))
                 gen = json.loads((RAW / aid / "generation.json").read_text(encoding="utf-8"))
                 self.assertEqual(proc.get("cropped_opaque_pixels", {}), gen.get("crop_allowance", {}))
-                self.assertEqual(prov["review"]["status"], "awaiting_owner_review")
+                self.assertEqual(prov["review"]["status"], "approved_by_owner")
+                self.assertEqual(prov["review"]["approval_id"], "owner_new_characters_2026-11-22")
                 self.assertEqual(prov["tool"], "PixelLab")
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
@@ -97,10 +98,17 @@ class EmberDeltaCharacters(unittest.TestCase):
                         self.assertRegex(job, r"^[0-9a-f-]{36}$")
                         self.assertRegex(clip_rec["group_ids"][d], r"^[0-9a-f-]{36}$")
 
-    def test_not_in_owner_approval_record(self):
+    def test_covered_by_owner_approval_record(self):
         record = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))
-        approved = {aid for a in record["approvals"] for aid in a["assets"]}
-        self.assertEqual(approved & set(IDS), set())
+        entry = next(a for a in record["approvals"] if a["id"] == "owner_new_characters_2026-11-22")
+        self.assertEqual(entry["evidence"]["statements"][1]["quote"], "Duyệt 30 hình nhân vật mới")
+        for aid in IDS:
+            with self.subTest(aid=aid):
+                prov = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))
+                recorded = entry["assets"][aid]["frames"]
+                self.assertEqual(len(recorded), len(prov["frames"]))
+                for f in prov["frames"]:
+                    self.assertEqual(recorded[f"longtime/{aid}/{Path(f['path']).stem}"], f["sha256"], f["path"])
 
     def test_rejected_build_writes_nothing(self):
         def snapshot(base):

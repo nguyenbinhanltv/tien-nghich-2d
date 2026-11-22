@@ -1,5 +1,5 @@
 import { submitFrames } from '../../core/submissions.mjs';
-import { jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { dryRunProp, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
@@ -23,7 +23,7 @@ export default {
     'Submit native-size PNG frames for a Longtime asset, with mandatory provenance (tool, prompt or generator, source hash). ' +
     'The pixel gates run first: palette membership, binary alpha, the silhouette outline, exact canvas size. If any frame has an error, NOTHING is written and every defect comes back with x, y coordinates. ' +
     'Accepted frames are written once under the asset\'s raw frames directory and never overwritten; submitting different pixels for an existing frame is refused. ' +
-    'Each frame gets a revision history that starts as pending: only a human approves. Use dryRun to check without writing. ' +
+    'Each frame gets a revision history that starts as pending: only a human approves. dryRun runs the gates and lists the files it would write (wouldWrite) and the ones already stored (unchanged), writing nothing. ' +
     'Works only on Longtime assets that have no processed or packed frames yet.',
   scope: 'author',
   inputSchema: {
@@ -45,7 +45,7 @@ export default {
         required: ['tool', 'sourceHash'],
         additionalProperties: false,
       },
-      dryRun: { type: 'boolean', description: 'Run the gates and report, writing nothing.' },
+      dryRun: dryRunProp,
     },
     required: ['assetId', 'frames', 'provenance'],
     additionalProperties: false,
@@ -61,6 +61,6 @@ export default {
       checks: [check('pixelGates', { ok: frameErrors === 0, warn: report.frames?.some((f) => f.warnings > 0), measured: { errorPixels: frameErrors }, threshold: { errorPixels: 0 } })],
       notProven: [{ what: 'the rest of the asset', why: 'only the frames in this batch were judged; studio_qa_run judges the whole asset' }],
       inputs: Object.fromEntries((report.frames ?? []).slice(0, 40).map((f) => [f.name, f.sha256])) });
-    return jsonResult(report, !accepted);
+    return jsonResult(dryRun ? { ...report, wrote: 'nothing' } : report, !accepted);
   },
 };

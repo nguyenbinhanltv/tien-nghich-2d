@@ -38,7 +38,8 @@ test('REVIEW-005: a frame is covered only while its file hashes to the recorded 
 test('the project record covers the six effects and the two characters, byte for byte, as they are on disk', async () => {
   const records = await readArtApprovals(repo, 'assets/review');
   const byAsset = Object.fromEntries(records.map(r => [r.assetId, r]));
-  assert.deepEqual(Object.keys(byAsset).sort(), ['lt_fx_core_breach', 'lt_fx_craft', 'lt_fx_gate_unseal', 'lt_fx_impact', 'lt_fx_stamp', 'lt_fx_ward_pulse', 'lt_ink_marten', 'lt_kiln_keeper']);
+  for (const id of ['lt_fx_core_breach', 'lt_fx_craft', 'lt_fx_gate_unseal', 'lt_fx_impact', 'lt_fx_stamp', 'lt_fx_ward_pulse', 'lt_ink_marten', 'lt_kiln_keeper']) assert.ok(byAsset[id], id);
+  assert.equal(records.length, 131, 'eight earlier assets, the 30 new characters and 93 other Longtime assets');
   for (const r of records) { assert.equal(r.current, true, `${r.assetId} changed since it was approved`); assert.equal(r.approvedBy, 'user'); assert.equal(r.kind, 'owner_statement'); }
   assert.equal(records.filter(r => r.assetId.startsWith('lt_fx_')).reduce((n, r) => n + r.frames, 0), 188, 'all 188 effect frames');
   assert.equal(byAsset.lt_kiln_keeper.frames, 32);

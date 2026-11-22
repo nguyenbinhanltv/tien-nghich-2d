@@ -6,10 +6,10 @@ import { readInside } from '../../core/files.mjs';
 import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
-import { MAX_SHEET_BYTES, forgeCall, forgeDir, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
+import { MAX_SHEET_BYTES, checkStoredSheet, forgeCall, forgeDir, importName, readDoc, readImports, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
 import { referenceFor, referenceRecord } from '../workflow/reference.mjs';
 import { carriesVerbatim } from '../workflow/prompt.mjs';
-import { loadAsset, jsonResult, requireFrames } from './_shared.mjs';
+import { dryRunProp, loadAsset, jsonResult, proposal, requireFrames } from './_shared.mjs';
 
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
@@ -27,7 +27,7 @@ export default {
     'Give the layout (inline, or the layoutId when you used write=true). The top layout.labelBand.fraction of every cell (0.13 in the shipped templates) is treated as the label area and never as drawing: if your sheet has NO labels, set it to 0 in the layout you pass, or crowns get cut. warnings say where a crop may cut the drawing and what to do. ' +
     'A character can have BOTH a turnaround sheet (slot rig: idle and small motions) and a pose sheet (slot pose: locomotion): each kind of sheet keeps its own import, chosen by the layout, so importing one never replaces the other. Importing the same kind again replaces that slot (the old sheet stays stored). ' +
     'If the asset has a locked reference in the pack, your prompt must carry its description paragraph verbatim (studio_template_get gives it in prompt.text); the check and the reference hash are recorded in provenance, and the result says when it is missing. ' +
-    'Next: studio_process to pixelise.',
+    'Next: studio_process to pixelise. dryRun runs the import and lists the files it would write, storing nothing.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -45,6 +45,7 @@ export default {
       layoutId: { type: 'string', pattern: '^[a-z0-9][a-z0-9-]{0,80}$', description: 'Id of a layout saved by studio_template_get with write=true, instead of layout.' },
       prompt: { type: 'string', minLength: 1, maxLength: 8000, description: 'What you asked the image tool, verbatim. Recorded with the sheet hash.' },
       tool: { type: 'string', minLength: 1, maxLength: 120, description: 'The image tool that drew the sheet (e.g. "Codex built-in image generation").' },
+      dryRun: dryRunProp,
       scaleOptions: {
         type: 'object',
         properties: {
@@ -94,6 +95,17 @@ export default {
 
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
+      if (args.dryRun) {
+        const { rel: sheetRel, exists } = await checkStoredSheet(ws, asset, bytes);
+        const slot = slotOfLayout(layout);
+        const current = await readImports(ws, asset);
+        const previous = current[slot];
+        const legacyMove = slot === 'rig' && current.pose && !(await readDoc(ws, asset, 'import.pose'));
+        const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
+        return proposal({ asset: asset.id, slot, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
+          wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists,
+          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings });
+      }
       const stored = await storeSheet(ws, asset, bytes);
       // A style-locked entity: the prompt must carry the pack's description paragraph verbatim; the check is recorded either way.
       const lock = referenceFor(snap.pack, asset.id);

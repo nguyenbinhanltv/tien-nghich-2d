@@ -212,8 +212,11 @@
     "the sash is shorter in idle north (retry) than in the other facings"
   ],
   "review": {
-    "status": "awaiting_owner_review",
-    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+    "status": "approved_by_owner",
+    "approved_by": "project owner",
+    "approved_on": "2026-11-22",
+    "approval_id": "owner_new_characters_2026-11-22",
+    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."
   },
   "native_px": [
     32,

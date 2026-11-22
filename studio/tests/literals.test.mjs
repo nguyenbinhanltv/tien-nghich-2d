@@ -28,6 +28,10 @@ const SKIP_DIRS = new Set(['node_modules', '.git', 'examples']);
 // Test files that use this repository's own project as their fixture.
 const FIXTURE_TESTS = new Set([
   'mcp/envelope.test.mjs',
+  'mcp/dryrun.test.mjs',
+  'mcp/frame-text.test.mjs',
+  'mcp/preview-inspect.test.mjs',
+  'core/tests/revisions-exports.test.mjs',
   'mcp/policy.test.mjs',
   'core/tests/standing.test.mjs',
   'mcp/review-standing.test.mjs',
@@ -36,6 +40,7 @@ const FIXTURE_TESTS = new Set([
   'mcp/prompt-tools.test.mjs',
   'mcp/figure-tools.test.mjs',
   'ui/tabs/review/art-approvals.test.mjs',
+  'ui/tabs/review/owner-approval-all-art.test.mjs',
   'audio/tests/determinism.test.mjs',
   'audio/tests/helpers.mjs',
   'audio/tests/images-compare-cli.test.mjs',

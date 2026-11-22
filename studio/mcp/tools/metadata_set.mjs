@@ -1,5 +1,19 @@
 import { setMetadata } from '../../core/metadata.mjs';
-import { jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { dryRunProp, jsonResult, loadAsset, proposal, requireFrames } from './_shared.mjs';
+
+const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+
+/** Per-field changes between two metadata documents: pivot, hitbox and each clip's frameMs and events. */
+function fieldChanges(before, after) {
+  const out = [];
+  const field = (name, a, b) => { if (!same(a, b)) out.push({ field: name, from: a ?? null, to: b ?? null }); };
+  field('pivot', before?.pivot, after.pivot);
+  field('hitbox', before?.hitbox, after.hitbox);
+  for (const clip of new Set([...Object.keys(before?.clips ?? {}), ...Object.keys(after.clips ?? {})])) {
+    for (const k of new Set([...Object.keys(before?.clips?.[clip] ?? {}), ...Object.keys(after.clips?.[clip] ?? {})])) field(`clips.${clip}.${k}`, before?.clips?.[clip]?.[k], after.clips?.[clip]?.[k]);
+  }
+  return out;
+}
 
 export default {
   name: 'studio_metadata_set',
@@ -7,7 +21,8 @@ export default {
   description:
     'Set authoring metadata for a Longtime asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame) and named events on frames of a clip. ' +
     'Fields you do not mention keep their value; null clears one. Stored beside the asset\'s raw frames. ' +
-    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames.',
+    'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames. ' +
+    'dryRun returns each field that would change (from, to) and writes nothing.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -33,15 +48,20 @@ export default {
         },
       },
       etag: { type: 'string', maxLength: 64, description: 'metadata.etag from studio_asset_get; required when metadata already exists.' },
+      dryRun: dryRunProp,
     },
     required: ['assetId'],
     additionalProperties: false,
   },
   annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
-  async handler({ assetId, etag, ...patch }, ctx) {
+  async handler({ assetId, etag, dryRun, ...patch }, ctx) {
     const { ws, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
-    const r = await setMetadata({ root: ws.root, asset, caller: ctx.caller, patch, etag });
+    const r = await setMetadata({ root: ws.root, asset, caller: ctx.caller, patch, etag, dryRun });
+    if (dryRun) {
+      const changes = fieldChanges(r.before, r.data);
+      return proposal({ id: asset.id, wouldWrite: changes.length ? [r.file] : [], changes, ...(changes.length ? {} : { note: 'nothing would change' }) });
+    }
     return jsonResult({ ok: true, id: asset.id, etag: r.etag, file: r.file, metadata: r.data });
   },
 };
