@@ -69,6 +69,8 @@ test('tools and inputs: licences as recorded, the noncommercial skill flagged, t
   }
   assert.ok(c.ffmpeg.evidence.every(e => e.exists), 'its evidence files exist');
   assert.deepEqual(ledger.fonts.files, ['studio/ui/fonts/display-serif.woff2', 'studio/ui/fonts/pixel-mono.woff2'], 'the two OFL studio fonts, recorded in studio/ui/fonts/README.md, and nothing else');
+  assert.deepEqual(ledger.fonts.unrecorded, [], 'both fonts have an OFL text and their SHA-256 in the folder README');
+  assert.equal(ledger.decisions.some(d => d.kind === 'fonts'), false, 'a recorded licence raises no decision');
   assert.equal(ledger.thirdPartySources.present, false);
   assert.ok(ledger.decisions.some(d => d.id === 'spine-animation-ai'));
 });
@@ -104,6 +106,24 @@ test('a tiny project: a generator record, an image-tool sheet with a prompt hash
   assert.deepEqual(l.summary.counts.generator + l.summary.counts['forge-sheet'] + l.summary.counts['not-recorded'], 3);
   assert.ok(l.components[0].flags.some(f => /evidence file is missing/.test(f)));
   assert.match(ledgerMarkdown(l), /\| c \| main \| prop \| not recorded \|/);
+});
+
+test('fonts: a font with a licence text and its SHA-256 in the folder README raises no decision; one without either still does', async t => {
+  const root = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'ledger-'));
+  t.after(() => fs.rm(root, {recursive: true, force: true}));
+  const write = (rel, data) => fs.mkdir(path.dirname(path.join(root, rel)), {recursive: true}).then(() => fs.writeFile(path.join(root, rel), data));
+  const bytes = Buffer.from('font-bytes-a');
+  await write('f/ok/a.woff2', bytes); await write('f/ok/OFL-a.txt', 'SIL OPEN FONT LICENSE'); await write('f/ok/README.md', `a.woff2 sha256 ${createHash('sha256').update(bytes).digest('hex')}`);
+  await write('f/nohash/b.woff2', 'b'); await write('f/nohash/OFL.txt', 'x'); await write('f/nohash/README.md', 'no hash here');
+  await write('f/nolicence/c.woff2', 'c'); await write('f/nolicence/README.md', createHash('sha256').update('c').digest('hex'));
+  await write('f/bare/d.woff2', 'd');
+  const pack = fonts => ({id: 'tiny', name: 'Tiny', ui: {tabs: {atlas: {ledger: {assetRecords: [], fontScan: {roots: fonts, extensions: ['.woff2']}}}}}});
+  const build = fonts => buildLedger({root, pack: pack(fonts), index: {assets: new Map(), info: {}}});
+  const ok = await build(['f/ok']);
+  assert.deepEqual([ok.fonts.files, ok.fonts.unrecorded, ok.decisions.some(d => d.kind === 'fonts')], [['f/ok/a.woff2'], [], false]);
+  const all = await build(['f']);
+  assert.deepEqual(all.fonts.unrecorded.sort(), ['f/bare/d.woff2', 'f/nohash/b.woff2', 'f/nolicence/c.woff2']);
+  assert.deepEqual(all.decisions.find(d => d.kind === 'fonts')?.count, 3, 'only the unrecorded ones are counted');
 });
 
 test('rightsDecisions: a decision fills rights for an asset with none, never replaces its own, and a missing or empty one changes nothing', async t => {
