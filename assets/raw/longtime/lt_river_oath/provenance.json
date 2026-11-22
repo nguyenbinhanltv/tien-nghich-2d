@@ -1,0 +1,1119 @@
+{
+  "id": "lt_river_oath",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Long split river sash",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "bd30e1f5-63d2-4935-ad9e-787f4694810b",
+  "character_job_id": "488bc5d3-8e57-4d2e-b80f-174d37b1fead",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A LONG SPLIT RIVER SASH of bright blue cloth is tied at his waist and hangs down in TWO long tails that split apart, reaching nearly to the ground, vivid blue against the grey robe, clearly visible from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+      "job_ids": {
+        "south": "486f5417-318e-48da-bc49-645ec56c1e13",
+        "west": "db027da4-820b-4298-94c2-f5b986c28350",
+        "north": "80f65ec6-bd23-4a11-9c50-efb792b9f537",
+        "east": "5fb115ad-e5d8-4de9-9946-cf5c00b94c7a"
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 4,
+          "keep_first_frame": false,
+          "animation_name": "idle_retry",
+          "animation_group_id": "a97945f8-d3ff-46c1-a009-168e62254209",
+          "job_ids": {
+            "north": "afbcf3fa-5b74-47b6-8f3e-3e2fe60407c6"
+          },
+          "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the long bright blue split sash at his waist stays vivid blue (never purple) in every frame",
+          "shipped": [
+            "north"
+          ]
+        }
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "486f5417-318e-48da-bc49-645ec56c1e13",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "db027da4-820b-4298-94c2-f5b986c28350",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "afbcf3fa-5b74-47b6-8f3e-3e2fe60407c6",
+          "animation_group_id": "a97945f8-d3ff-46c1-a009-168e62254209",
+          "source": "touch_up idle_retry"
+        },
+        "east": {
+          "job_id": "5fb115ad-e5d8-4de9-9946-cf5c00b94c7a",
+          "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+          "source": "original clip"
+        }
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+      "job_ids": {
+        "south": "95fbfb45-a764-4f8f-b081-8e58b85fbbc5",
+        "west": "50543a4e-b681-4769-a9fd-7d56b023cc90",
+        "north": "94429b4c-8c5f-47f4-8263-6b590d09dbf2",
+        "east": "e930fb4a-bef5-4bc9-b2e8-daa0b8954837"
+      },
+      "touch_up": [
+        {
+          "mode": "v3",
+          "frame_count": 6,
+          "keep_first_frame": false,
+          "animation_name": "walk_retry",
+          "animation_group_id": "932c46e8-db49-4d2c-9a87-b4ef7e9ea3a0",
+          "job_ids": {
+            "south": "f1388dc1-bd76-4791-99f1-e66ed7ee09f4"
+          },
+          "action_description": "walks toward the viewer in a light steady stride; the long bright blue split sash at his waist stays vivid blue (never purple) in every frame",
+          "shipped": [],
+          "rejected": [
+            "south: the sash was one clean blue, but the topknot's top row falls one pixel outside the 32x32 canvas in frames 2 and 3 (2 px each) and the build refuses to drop pixels; the original template walk south is kept"
+          ]
+        }
+      ],
+      "shipped_jobs": {
+        "south": {
+          "job_id": "95fbfb45-a764-4f8f-b081-8e58b85fbbc5",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "50543a4e-b681-4769-a9fd-7d56b023cc90",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "94429b4c-8c5f-47f4-8263-6b590d09dbf2",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "e930fb4a-bef5-4bc9-b2e8-daa0b8954837",
+          "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+          "source": "original clip"
+        }
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+      "job_ids": {
+        "south": "1abf85d8-cb72-42c4-ba22-1a6fed054ba8",
+        "west": "aaa2b205-f3b7-48e3-b29d-55dfeeb1fa63",
+        "north": "08ffe113-a394-429a-bd10-00c2ac9f5060",
+        "east": "d2668090-a717-4af4-a8d1-0abd1f7352ff"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "1abf85d8-cb72-42c4-ba22-1a6fed054ba8",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "aaa2b205-f3b7-48e3-b29d-55dfeeb1fa63",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "08ffe113-a394-429a-bd10-00c2ac9f5060",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "d2668090-a717-4af4-a8d1-0abd1f7352ff",
+          "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+          "source": "original clip"
+        }
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+      "job_ids": {
+        "south": "2f898b02-2e30-4c0a-b5bc-4797f4566e91",
+        "west": "6e91b4b8-3214-4ad5-a261-3fbcf647596b",
+        "north": "af237918-1a29-46c2-93a2-61ac6c9effee",
+        "east": "56b355ee-e2f6-46bd-93b0-ece913fb0718"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "2f898b02-2e30-4c0a-b5bc-4797f4566e91",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "6e91b4b8-3214-4ad5-a261-3fbcf647596b",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "af237918-1a29-46c2-93a2-61ac6c9effee",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "56b355ee-e2f6-46bd-93b0-ece913fb0718",
+          "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+          "source": "original clip"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
+      "credits": 22,
+      "result": "accepted for integration"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round: idle north and walk south regenerated once as palette-locked v3 (2 credits)",
+      "credits": 2,
+      "result": "idle north shipped. Walk south not shipped (2 px per frame of topknot outside the canvas); original kept. Cause of the purple: the template clips draw an off-palette blue that the 40-colour snap turned purple; palette-locked v3 draws a palette blue."
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 24,
+    "touch_up": 2
+  },
+  "known_flaws": [
+    "walk south frames 1, 4, 5 still carry dark navy/purple sash pixels (the retry that fixed it could not be shipped); needs a human decision",
+    "the sash is shorter in idle north (retry) than in the other facings"
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2070,
+      "outline_thinned": 396,
+      "quantized": 6926,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "08e9497bd84af5723775a9da98d481b4489264d058aee4f14baf0e10712c8f33",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_river_oath/contact_1x.png": "dbb275c49b29a98d029592ec59496247582cc2429fc6b940494bff755d9dc3ba",
+    "assets/raw/longtime/lt_river_oath/contact_4x.png": "8a6cbb6fda37cd3ab16eb434ddc62794926a0e0321eee207c922260fa620c11f"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_river_oath/cast_east_0",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_000.png",
+      "raw_sha256": "269b17a909069e281d8a0fe941145cf76605806deafa490886c622fb282caca4",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "034c5547c49989dbf9fbd06ea8d337f4faae34d9fdb91293694708a8d6843db1"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_east_1",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_001.png",
+      "raw_sha256": "24d43212a359aa2753c467e5a8569b611508df1c9c201b423b347410904fe27b",
+      "source_xy": [
+        40,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "73781a1951dcd3a330be8f0787ba5945613a4d02306c9bda531087eadf8f1789"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_east_2",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_002.png",
+      "raw_sha256": "bcb7704b18dc26b904abd618271dba43244b5bb768a63b7d0bade5eb8cb48f0c",
+      "source_xy": [
+        80,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "c0a5e9d34add7495fb97026d9234fd0f609b2c66f10b52b7ce93f8fe8d203763"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_east_3",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_003.png",
+      "raw_sha256": "332267e868c306b1e43e374951af6ecee067d1da965e5ea6f6c98845c90c40cc",
+      "source_xy": [
+        120,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "5ddb2fe5db7c3787f1dcee0ce76a7dc4b0a6735f4e5aa0b7cb5a0c9fe7cfc5b6"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_east_4",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_004.png",
+      "raw_sha256": "1038909ec85db843fe5885436d2c207c78bef986e8e0dc11b01617269d3c8093",
+      "source_xy": [
+        160,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "3282697b7daeec30b67c0b32446167e9066c49fc2d355538a06177bf5f46df0c"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_east_5",
+      "path": "assets/processed_longtime/lt_river_oath/cast_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/east/frame_005.png",
+      "raw_sha256": "a8e69a4a87e6a6a4bf82c82ca3efe26a149a7093c045f00d439b560d4eb73d51",
+      "source_xy": [
+        200,
+        440
+      ],
+      "duration_ms": 90,
+      "sha256": "6eec3c749c45c115cfa96c883868b44d2e42a8dd56cb4d3e638d6d582e76e62b"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_0",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_000.png",
+      "raw_sha256": "9655862ad8016f68a8e12ff399a3c164f75349d3997c9a987cd74bb2909caeca",
+      "source_xy": [
+        0,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "8f523fdf973ca931484f99da17001230b08fd2272276a5d656d80b9b5858b138"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_1",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_001.png",
+      "raw_sha256": "4b93fc74379c27ec7f2b200c5532e29a72a206a0393b10c02a6c0b6e3a7f47bc",
+      "source_xy": [
+        40,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "e81bcf2341886a8db4d7a67e29be289236e75349ea6d18c84bd52718820216d8"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_2",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_002.png",
+      "raw_sha256": "00c4bee1c9b98c499baf8c9c854c2f0bf94bbccda0cfad0367956090adce5e5b",
+      "source_xy": [
+        80,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "517104d5e23aaec60a94024668d5408e9e558ad3874568c9305a60f26aa4ee66"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_3",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_003.png",
+      "raw_sha256": "fc65dff1d38b4665cbcc2f07b782cdc37c18b342bf84249eacbf71f3ac6cb108",
+      "source_xy": [
+        120,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "9ddd8ff2f2fac46d149e3fe8d93c2b00432e687fce9b64a04dbcbf47e3c9a126"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_4",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_004.png",
+      "raw_sha256": "276630cb1ded8493e418a4a76f9ef6927454e191caaf3daf6a6841c6362b2d10",
+      "source_xy": [
+        160,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "20be8a090749de1e388071461d9e901d601b9c081a5f09937b73cd6bdf7d4253"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_north_5",
+      "path": "assets/processed_longtime/lt_river_oath/cast_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/north/frame_005.png",
+      "raw_sha256": "8913fd78d02c83d4bdc83ffc89ff29e3cd2f62ae91d55075b4d1f1a90eee38d2",
+      "source_xy": [
+        200,
+        400
+      ],
+      "duration_ms": 90,
+      "sha256": "ad8d6e11da227695a2afc805d54b3867007335485becb091e393f087180c70ef"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_0",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_000.png",
+      "raw_sha256": "3b042bb10c635678f16f2ba880e7bd7da816de40fe0f91d251638880b47d1640",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "a29a8050be28c930cf5a56249b45c87e4d13cdbb5efbc79082bb88bf776cb013"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_1",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_001.png",
+      "raw_sha256": "cbebd4165af31e90d75d464d12399877e0a38e147abb33d6069fe68de6f027f7",
+      "source_xy": [
+        40,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "07e18880bf9f340741131689a6a169cedf486f930a7d76df2c7950b8494846d5"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_2",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_002.png",
+      "raw_sha256": "ea54af716fec826390e0eb26e43da2a1d3d9f693c34a271012238ae9c7116564",
+      "source_xy": [
+        80,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "4d54d5edf58b9da965573f21d7876c6070ffdb58403ae4c09166a312d14e7786"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_3",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_003.png",
+      "raw_sha256": "fa465e3f6b11821a7fb9f29d7e725913654df0d0034e53400f3d0fdbc1a2c4dc",
+      "source_xy": [
+        120,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "028610f069b679689948ec40818d76bbfea0335df4b81b21d88b351096bbc905"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_4",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_004.png",
+      "raw_sha256": "627ba1b8645e220b1075e1a7983457ecd4a14d3f0a275801f271f8ddfb088ce1",
+      "source_xy": [
+        160,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "a358710da3e56c00b51b8ecac23c227fde3c928fd7382855fad66fd5c06020c1"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_south_5",
+      "path": "assets/processed_longtime/lt_river_oath/cast_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/south/frame_005.png",
+      "raw_sha256": "f0e94b8c4c6cd580388b8558e5066600fa842adc195d2adacf7ca8665e9e69f6",
+      "source_xy": [
+        200,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "07eea900b0c326a104765a5456b6a3cd269d5fc313ee00a9facb5b52359ac4ab"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_0",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_000.png",
+      "raw_sha256": "6b6f715abd021f857ce97c18f9ecd6f6d6ac369bebb16c8b37bbf8f93dc72851",
+      "source_xy": [
+        0,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "7ad79548a0fc0dd99327f58fdc715e9b50bf2f212b574f35c8210d3b24f195d3"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_1",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_001.png",
+      "raw_sha256": "7485681cf986e7da411cc7d2878bdafe347ac182391f083420f9747642641c04",
+      "source_xy": [
+        40,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "dba583c387ba9f99842c32ec873818af9a26c2e289aba5ecc2d50f33a62cb103"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_2",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_002.png",
+      "raw_sha256": "d1ad73b663a3ee1fdc22e8ed1955a3d6db1872c326985c802b68c1516c8924fb",
+      "source_xy": [
+        80,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "04a7f09070019b2671a3413919c8ecd2986228eda45bff3b5910683d9e9f2f6e"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_3",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_003.png",
+      "raw_sha256": "5189a2cbb1959492eb9ceafdfa1bab3e1bb03cb69022e807399da486b02ae986",
+      "source_xy": [
+        120,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "8936363d83bb7f5fce066b02945ab746d549f13e4eee4ba0ed24e8800f2af2e7"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_4",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_004.png",
+      "raw_sha256": "ffa2a295744fbf3d3e9326eb6d98026766bfa9d360a9744868548aec0d6aec05",
+      "source_xy": [
+        160,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "12e5460ead6b3c9bdeabd3f3534c0df6b630b7622638ca52bf31e7c8f3fa4f72"
+    },
+    {
+      "key": "longtime/lt_river_oath/cast_west_5",
+      "path": "assets/processed_longtime/lt_river_oath/cast_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/cast/west/frame_005.png",
+      "raw_sha256": "6d4356fd0deeb38c16b6f296404abfe351f34cf2d8e4ec9f44b59945fc1e5335",
+      "source_xy": [
+        200,
+        360
+      ],
+      "duration_ms": 90,
+      "sha256": "46ae33fed07197ccd15d294502a49f04e5bae2870ab5326365693e8f79e16b30"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_east_0",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/east/frame_000.png",
+      "raw_sha256": "ab89bf034d3a6cd883a2d2e2e296d491964136999d21ebd813ecb39e5a2f734f",
+      "source_xy": [
+        0,
+        600
+      ],
+      "duration_ms": 130,
+      "sha256": "d0600de82d12d585cde30c054ad5134839b4f050a1bf04546bec7cc2fdd0fa84"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_east_1",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/east/frame_001.png",
+      "raw_sha256": "f4c38ea72f7241ebd90fff190d4eb7c0f4a653322bb378602a3b8a27f5874870",
+      "source_xy": [
+        40,
+        600
+      ],
+      "duration_ms": 130,
+      "sha256": "ef52390e22612d914298bb56bccb0c8615895f4b21ad0987cc2c2b691e8ae9b6"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_north_0",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/north/frame_000.png",
+      "raw_sha256": "aae5651eeea6cc89aa28e7bb6e527c439ec9bc3ebd3d9f12545a8968d546534b",
+      "source_xy": [
+        0,
+        560
+      ],
+      "duration_ms": 130,
+      "sha256": "cdf48d39c231b895a80ad2ba4e65eb4e8f14d4460605d70ae9a9508e637151fe"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_north_1",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/north/frame_001.png",
+      "raw_sha256": "3ccc05cbcc8e01601e4856e61d68978fbafd941337bd04ace901f2db0fe5e7f2",
+      "source_xy": [
+        40,
+        560
+      ],
+      "duration_ms": 130,
+      "sha256": "e73d67ec68217e538ad3d9a1146b8b30a8ec5471347e27c9b3732e6d523ce07c"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_south_0",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/south/frame_000.png",
+      "raw_sha256": "c439fe4107fd3e4f4a30ee88599188dd6a264072c572bddbaacf1c08742e449c",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "65c2a2c51493a6464dc5f8b593d582f46cbb39667351ea3bf2f527d6bd3ee7e3"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_south_1",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/south/frame_001.png",
+      "raw_sha256": "b0541a67c86fb9d1090ebc00cfcffc6a200d5ddd1874a679d76eeac0d2f35df5",
+      "source_xy": [
+        40,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "97865437c23e7e149a0007e6c76257b88960982fdca17071cdb488d84cd04f55"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_west_0",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/west/frame_000.png",
+      "raw_sha256": "8114a48f7a1879510adffac53137db5d1007c1b8ae02cb6b05d44f0d9cc609f0",
+      "source_xy": [
+        0,
+        520
+      ],
+      "duration_ms": 130,
+      "sha256": "479998e7ca6534375c234f4a92dbeee556c5b7d476116dd0a9e99f8c55685ee8"
+    },
+    {
+      "key": "longtime/lt_river_oath/hurt_west_1",
+      "path": "assets/processed_longtime/lt_river_oath/hurt_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/hurt/west/frame_001.png",
+      "raw_sha256": "f7af1b05e02970ec30de62a20dace5817a5b6f4eb4f42e070bf59b41f7fbfa3b",
+      "source_xy": [
+        40,
+        520
+      ],
+      "duration_ms": 130,
+      "sha256": "72beeb113f62055e813c85f79b29456d7b1684736da76753d0d2110ce2222d4e"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_east_0",
+      "path": "assets/processed_longtime/lt_river_oath/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/east/frame_000.png",
+      "raw_sha256": "9411ab5de72a84ed99cfa2d82c205c866fe2d6fa2737b8898f6f10959d20b8d3",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "e3ec901137f210bb605db85f63634a0a9f2e8d2b361b1f4fb8e68ada681056c6"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_east_1",
+      "path": "assets/processed_longtime/lt_river_oath/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/east/frame_001.png",
+      "raw_sha256": "e4c61f65020998b6fe7f70dc5c9dfebfe2a3f66b2f18255b650b7324579ed7cc",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "eb2a56b853faa7959d1530af717ac2321dfe85c37104915b5d6220fdb5ef197a"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_east_2",
+      "path": "assets/processed_longtime/lt_river_oath/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/east/frame_002.png",
+      "raw_sha256": "a638230cb708c2c37243f583f09ba09bc4be188bde3a1a510b1c3bbda9368443",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "d52595d93ae2fa739997566c8a8ce06735520e0f55711bbda3c0ad1947a116e1"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_east_3",
+      "path": "assets/processed_longtime/lt_river_oath/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/east/frame_003.png",
+      "raw_sha256": "0d0e485943324f6671437f5f238309359f57cffe9e54a5353aba5df0a3ef3cd1",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "cd6358b7a022fff8284ebb53c2a3f14ae5ea99bd24ec58d5d7aa2d30b29b8825"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_north_0",
+      "path": "assets/processed_longtime/lt_river_oath/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/north/frame_000.png",
+      "raw_sha256": "a0d985857be26151fdb8647397983bb442c6f38c77b2260ec1154ac274656e02",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "6169f5a4a90aee27b68481dfdad94366b863f1a2356d5d7b8f21f5a85280c7c8"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_north_1",
+      "path": "assets/processed_longtime/lt_river_oath/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/north/frame_001.png",
+      "raw_sha256": "19da9e66c57d9ce3b9b1ac90c18aab787f2cdedce2af1c714826abdcfba611ac",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "299a62cead89ac3b610e976fdb366e4fb18d6967dc9567c121403fb488371420"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_north_2",
+      "path": "assets/processed_longtime/lt_river_oath/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/north/frame_002.png",
+      "raw_sha256": "25a563f16afe9ada5a77f8c0d725d4f7463b70df545c954ea7bb6edbb07583ff",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "bb5b4a287993a33efea88d63dc80ad0a72632cccd0a6b00b58f506ffcba750d8"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_north_3",
+      "path": "assets/processed_longtime/lt_river_oath/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/north/frame_003.png",
+      "raw_sha256": "b1a3ef9c5d8e924f8173923a7dce4d2e9c01d70e7bf814e6be5983a63b6b2d34",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "413f8ca9234223a0c860ad4b59ded0ba9423590eddf1bf03d005402464a0ab7d"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_south_0",
+      "path": "assets/processed_longtime/lt_river_oath/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/south/frame_000.png",
+      "raw_sha256": "8bf2bbbffdbd67557f23b1c1ebbc595281e9bab50fb600110306f9999702f4fc",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "d6eb2f80d844a955a74abfead172e681ce000a4fbbc3e1c452a1213eb392160c"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_south_1",
+      "path": "assets/processed_longtime/lt_river_oath/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/south/frame_001.png",
+      "raw_sha256": "51c9044b68a2ba6efb51f885ef97c92737aee45d63eb818a1860ac32fe19a5d5",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b6b5028d7a545b97c56a89ba391062283d26684631be67a52ad828584e6874ec"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_south_2",
+      "path": "assets/processed_longtime/lt_river_oath/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/south/frame_002.png",
+      "raw_sha256": "0e1e58d77b7529dcb11f07d64fb2256e582fcad502b548d3f18f7255bc7d6f5c",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "9235d2599e5da9729d3e8a0c36bd99b8568e292ccf4445ad05c16b69c86f9396"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_south_3",
+      "path": "assets/processed_longtime/lt_river_oath/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/south/frame_003.png",
+      "raw_sha256": "355f89c5e379b2233ca38da39e631bef3ed7cb65923789bc0503f852a161d263",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "009554238e51ed4ced1b6b931992a258080de1d39937d2f1fb35abbcbb4f8068"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_west_0",
+      "path": "assets/processed_longtime/lt_river_oath/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/west/frame_000.png",
+      "raw_sha256": "94323e4c5967eb404cc29d6f089a3b73c0b5c64b67fbaf22b9404be9cec55d03",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "52611b4f05ee19422eb5e797562a54b2bebe2dc3bca80e53fa65b385e1d417d0"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_west_1",
+      "path": "assets/processed_longtime/lt_river_oath/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/west/frame_001.png",
+      "raw_sha256": "fa2666144991c5979ad18a3ca2fcae1c5b553ecf87b5f47094c6dbc34da86c5f",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "9ecfb4c40209460dd6c61189c60ef4864ed94d24f5e2476f7ac09f5086fae6e3"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_west_2",
+      "path": "assets/processed_longtime/lt_river_oath/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/west/frame_002.png",
+      "raw_sha256": "2c2013dd4b894b5405effa0a114e249fee06f1f6528b33dd0abaa55681610911",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "c6a9848cb71681407a67951b89842d416ed4af4ae7afc81c59a6ce974472ab68"
+    },
+    {
+      "key": "longtime/lt_river_oath/idle_west_3",
+      "path": "assets/processed_longtime/lt_river_oath/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/idle/west/frame_003.png",
+      "raw_sha256": "d0230dae3b6f44c3e1eefc5d27e3f5754f60f4bf58890ca629cced5a6529beb9",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "7fb092764ca4ec0efdcf5cf893297b83915d712fc59d9e03f8329b69be019d09"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_0",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_000.png",
+      "raw_sha256": "4a0602881bfac82806212740788f0d140e74eddd8817d0d9afde194c44661d07",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "e3e44f47540c8e50bdf48e675f373a141c846f4e6e1ae9c1f0d239525eb31736"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_1",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_001.png",
+      "raw_sha256": "08a60a7fb864f912a8704f8afa988aa1a878fe23bc9173ae416c272b5b5632f4",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "ad7b6c8de97c16573e1c54dd089761f97a1df2f963720c09a19607c0c8d3825a"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_2",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_002.png",
+      "raw_sha256": "3a1db4484925b485995ae2b906af855ade79799d22362dbb6dd6b60a23ed5395",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "9a7e4f6272184dd76dcca1340d2b2cbaa3410c3a45cc872eede91b54820f90c3"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_3",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_003.png",
+      "raw_sha256": "0fc130290f7739fdf50364cfb158fe18cf2f92678a11c1aa16c775b70a884c86",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "a464ab1e0201836acdaf0bdcb833bfe36a0485e8b679817cf3a4c1975db9632e"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_4",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_004.png",
+      "raw_sha256": "044f6e7b89befa4423e16c63ffc56b6b65bd6969ac0b37f0545a8f9e8a935640",
+      "source_xy": [
+        160,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "bde026d9177af1b02a5ca6491ee9e8490f9157deff083393f57bcd961a49531e"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_east_5",
+      "path": "assets/processed_longtime/lt_river_oath/walk_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/east/frame_005.png",
+      "raw_sha256": "8d129d69a24b6ce07c9a137cc7503b1a77b5476a5ae6fa5192d2c7cef3dfdbf4",
+      "source_xy": [
+        200,
+        280
+      ],
+      "duration_ms": 100,
+      "sha256": "410a3118cf7c294cfef4b5207c00c4e7799f0282e8a82c61bded3d14f83ddb8a"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_0",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_000.png",
+      "raw_sha256": "178272cd0e4d69d81188a0a708974efa9a16308b7b6be79fb520347e5aad8148",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "3a86b30652e6d00b7d1044b34be71e021474cab030f15433275a06f71fa06ee8"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_1",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_001.png",
+      "raw_sha256": "ee94abc5e3c85b0c359a52b76d9b0db3c3cc1ef57c5738f5ee3a0969cb26d913",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "3890b7161a1e6159988fe5f7970e4e3bb1a109f1bee4a313b66dfa4965e8a5a2"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_2",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_002.png",
+      "raw_sha256": "b1166844851b056509d167541de2e6de5ff102c667ea0d1e406488a7c5ea106f",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "1928441e8e2566db1cf7e5db8f45a7f2defdf2b0c6f7c32c5b5da43fa3362040"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_3",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_003.png",
+      "raw_sha256": "6bfab531b9375688340cda0d311c21bf6f3769312bc8ab8e0d8d046cde4874d9",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "5f861d7034d3ce35d7f99fd5e523f702d94757d3dbd43c3b79e384b88c838ecc"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_4",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_004.png",
+      "raw_sha256": "f0fac3b0ec61bea899b53d7ec308a150ace61bdbcec3e33d7163ef35b3252ca4",
+      "source_xy": [
+        160,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "d4b410c85a0ccdabc6fbac9865364ec2a5620d505cfaf538758ce7688bd8f4ec"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_north_5",
+      "path": "assets/processed_longtime/lt_river_oath/walk_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/north/frame_005.png",
+      "raw_sha256": "d08c8db13a66464d5cb1a550a403eeb82190d5a7b16a32005f48fcba4cc0967e",
+      "source_xy": [
+        200,
+        240
+      ],
+      "duration_ms": 100,
+      "sha256": "e0a3d7e07f491ca361c526dc06031cb9369ae75f20448f0d688e2aba72a5298a"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_0",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_000.png",
+      "raw_sha256": "a291c6e6c16aa64ad9c3b310325dfbf3a4b2f6fd304fc154bd5edf132087fb8e",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "8817f203425a6353717da3e4fdbf6235df33ea3cbb0f2fdb3f9de167fbd6dc51"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_1",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_001.png",
+      "raw_sha256": "c1bb48b48da448662dc9b988f9c09d39a0892adf220a783e5c5820cdb167fb78",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "5c648bfeea59f3a78e197cb843df37473a215e106e24b1a8eb60bb584dbdb1d0"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_2",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_002.png",
+      "raw_sha256": "906e6b382199e5b3795a9c9fda55a0aee9ba5898fc2100bd6ff4f8c56119e902",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "c5d562a61f5f6b5e99cc3a8b3c4061015a35a3ab70776432e1e84be817eee1fe"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_3",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_003.png",
+      "raw_sha256": "a0e648b975402df6deb1027c0c5a7e854078f27eaf59b4de2b16ee959fd562a1",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "4188c4da11d1776f4a5f73e974dfbf8c066d71a64219108464eb15be6526e18e"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_4",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_004.png",
+      "raw_sha256": "82ccdc4faaecd91126b237b498a497779e5b3649367910b68f6a72d0e6d604b4",
+      "source_xy": [
+        160,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "c8d9464ccdc4ce6476479d5c70ca561285f9448f3117e31faf800821bda69675"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_south_5",
+      "path": "assets/processed_longtime/lt_river_oath/walk_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/south/frame_005.png",
+      "raw_sha256": "27e84dda3f300d710a3de1823560485a7a082bca3cba1954cf5e24be6cbaac55",
+      "source_xy": [
+        200,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "162f64f7b18f8ce6285adf1f8d6c105df527880c27dee3e5227ee6ab5e41bb2d"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_0",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_000.png",
+      "raw_sha256": "7632d8c41990c7e8fd8286f72c7ada7baa045e5c45bca22c4395157f07b7e5f9",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "96c33d89fa2287befb83e0f65e080cb26106b0a8f08fa7fa68e68a4982dcecb3"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_1",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_001.png",
+      "raw_sha256": "9e13175d0a19c0d4c15de87631d32a44713fc7c98b5768f13be2b721760a0bb7",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "10e4ba97bd676467ba814a858d7b132f09570aa441622c25cc70b16b1a2ad719"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_2",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_002.png",
+      "raw_sha256": "b8f28897406b8df9843278fa5f2011ba8340fc2c3a54589503ccc1e2a92d752e",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "f2be0c0e00fa84c7492e05254e17efa3c01858ae0f71bef2afb0ea69ff1339bf"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_3",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_003.png",
+      "raw_sha256": "5ffc63532ffa84919be715007ebc84a72ba8b4add3a69a58073989f3a055bc4e",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "a15bd04a3449a48e41e8c25dc74174ada989072634e58be039b58dab8ff002c5"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_4",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_004.png",
+      "raw_sha256": "a0f07d17216097a76cd9a84c3152a9276108e227e274559970c11695b24ab6a2",
+      "source_xy": [
+        160,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "e22f3d8ccc9f4daecdea43575f3bf96fd0aa21bdd768b795af72512fa25546b1"
+    },
+    {
+      "key": "longtime/lt_river_oath/walk_west_5",
+      "path": "assets/processed_longtime/lt_river_oath/walk_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_river_oath/walk/west/frame_005.png",
+      "raw_sha256": "f3a34266b98e8a039f353a2783ecec3d3cfa3524d354635eadab45e8f006ba19",
+      "source_xy": [
+        200,
+        200
+      ],
+      "duration_ms": 100,
+      "sha256": "a773ff1781d8c4d115bbc43e13881d3e0a60eacb70c09adb81a0c2b8181853b6"
+    }
+  ]
+}

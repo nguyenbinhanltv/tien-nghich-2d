@@ -17,15 +17,17 @@ import { ToolError, ToolRegistry, scopeAllows } from './registry.mjs';
 import { validate } from './schema.mjs';
 
 export const STUDIO_VERSION = '0.1.0';
-/** Server identity and instructions for one project: they name the project from its pack, never a built-in one. */
+/** Server identity and instructions for one project: the name and the pixel-art rules come from its pack, never from this code. */
 const identityOf = (project) => {
   let pack;
   try { pack = project.identity?.(); } catch { /* a broken pack is reported by the tools, not by the handshake */ }
   pack ??= { id: 'studio-project', name: 'this project' };
+  const text = `Asset studio for ${pack.name}. Call studio_project_info first for the palette, size classes, rules and frame-key templates, and studio_guide for the shortest correct tool sequence of a task. ` +
+    'Only a human approves art or signs audio listening; no tool here can do either.';
+  const rules = project?.agentGuidance?.()?.rules;
   return {
     serverInfo: Object.freeze({ name: `${pack.id}-studio`, title: `${pack.name} Studio`, version: STUDIO_VERSION }),
-    instructions: `Asset studio for ${pack.name}. Call studio_project_info first for the palette, size classes, rules and frame-key templates. ` +
-      'Only a human approves art or signs audio listening; no tool here can do either.',
+    instructions: rules?.length ? `${text}\n\nProject rules:\n${rules.map((r) => `- ${r}`).join('\n')}` : text,
   };
 };
 

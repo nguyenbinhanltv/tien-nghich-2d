@@ -18,6 +18,9 @@
     "alpha": "binary",
     "outline": {"mode": "silhouette", "color": "palette", "borderIsEdge": false}
   },
+  "forge": {
+    "pixelize": {"hold": {"margin": 32, "metric": "rgb", "search": 0, "laps": 2, "maxChromaGain": 8}}
+  },
   "frameKeys": {
     "ui": "ui/{id}/{clip}_none_{n}",
     "vfx": "vfx/{id}_{n}",
@@ -260,6 +263,39 @@
       {"id": "evening-bell", "href": "courtyard/", "tab": "sandbox",
        "label": {"en": "Evening Bell", "vi": "Chuông Chiều"}, "note": {"en": "Courtyard bell trial", "vi": "Thử chuông ở sân"}}
     ]
+  },
+  "agentGuidance": {
+    "rules": [
+      "Perspective: 3/4 top-down dungeon view (Soul Knight style). Characters face the viewer; walls are 2.5D (front face plus top cap); floors are flat top faces. No side view, no 2:1 isometric diamond.",
+      "Outline: 1 px solid ink_01 (#14101a) on the outer silhouette of every sprite; alpha is binary (0 or 255), and fully transparent pixels carry RGB 0,0,0.",
+      "Palette: exactly the 40 colours in studio_project_info, nothing else; take hex values from there, never invent one. Light comes from the top left and shade ramps run dark to light inside one colour group.",
+      "Grid: native pixel art at the size class of the asset (character 32x32, boss 64 to 96 square, tile 16x16, icon 16 or 24); enlarge only by whole-number nearest-neighbour scaling.",
+      "Characters are sturdy and large-headed, not realistic: studio_template_get returns this project's proportions; accent colours need bold patches.",
+      "Locomotion comes from drawn key poses on a pose sheet, idle and small motions from a rig, asymmetric marks from stored pixel patches (studio_frame_patch), never from redrawing.",
+      "Environment, items, projectiles and VFX are code-drawn (studio_generator_run, studio_vfx_build); an image tool draws characters, mobs and bosses only.",
+      "Nothing you call approves art or signs audio listening: a human does, in the review tabs. A different session than the author makes the independent check."
+    ],
+    "prompt": {
+      "style": "Chunky pixel-art-ready character art: flat colour clusters, clear contours, crisp cel shading, no realism, no texture, no thin lines, no busy highlights; every colour must be one of the project's 40 palette colours.",
+      "camera": "mild 3/4 top-down game camera",
+      "light": "light from the upper left"
+    }
+  },
+  "references": {
+    "kiln_keeper": {
+      "assets": ["lt_kiln_keeper"],
+      "image": "assets/raw/longtime/lt_kiln_keeper/contact_4x.png",
+      "sha256": "c4cda71604aaf0a4b5464606e1c86e1044b3db1550beb4f98ade649a5eef02d1",
+      "description": "Elderly xianxia kiln keeper, a small human in a plain grey-blue robe, one leather apron strapped over the character's RIGHT shoulder only (asymmetric), holding a very long iron tongs in the RIGHT hand extending down and forward, bald head with a small grey topknot, soot-smudged, calm face.",
+      "approved": {"by": "owner", "at": "2026-11-22", "note": "approved image: the shipped idle and interact frames (contact sheet); description from the generation record"}
+    },
+    "ink_marten": {
+      "assets": ["lt_ink_marten"],
+      "image": "assets/raw/longtime/lt_ink_marten/contact_4x.png",
+      "sha256": "a88b0c1bfe7a2d3cd830e997994620faa56a0792c718880aeeac0eb7da51e50d",
+      "description": "Small ink marten, a slender weasel-like animal standing on all four legs, glossy dark ink-black fur, a very long thick ink-black tail trailing behind it, cream-white muzzle and chest. Large upright rounded ears. The LEFT ear has a bright cream-white triangular notch cut out of its tip, clearly visible as a pale gap; the RIGHT ear is solid dark and whole.",
+      "approved": {"by": "owner", "at": "2026-11-22", "note": "approved image: the shipped idle and follow frames (contact sheet); description from the generation record"}
+    }
   },
   "figures": {
     "humanoid": {

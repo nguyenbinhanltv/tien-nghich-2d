@@ -214,5 +214,7 @@ export function openProject(rootArg, { libraryDir } = {}) {
   let workspace;
   /** Name and id of the project, from the pack alone (the MCP handshake announces them). */
   const identity = () => { const { id, name } = loadPack(); return { id, name }; };
-  return { root, source: 'project-pack', snapshot, identity, get workspace() { return workspace ??= openWorkspace(root, { libraryDir, indexer: loadAssetIndex }); }, close() { workspace?.close(); } };
+  // Only the pack is read (no manifests), so initialize can send the project's rules cheaply.
+  const agentGuidance = () => { try { return loadPack().agentGuidance ?? null; } catch { return null; } };
+  return { root, source: 'project-pack', snapshot, identity, agentGuidance, get workspace() { return workspace ??= openWorkspace(root, { libraryDir, indexer: loadAssetIndex }); }, close() { workspace?.close(); } };
 }

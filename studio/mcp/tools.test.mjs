@@ -31,7 +31,7 @@ test('catalog_search: filters, derived status, facets and paging agree', () => w
   const packed = await ok('studio_catalog_search', { source: 'longtime', status: 'packed' });
   assert.deepEqual(packed.results.map((r) => r.id), ['lt_kiln_keeper']);
   const planned = await ok('studio_catalog_search', { source: 'longtime', status: 'planned', limit: 100 });
-  assert.equal(planned.total, 124);
+  assert.equal(planned.total, 123);   // #96 recorded one more asset as approved
   assert.equal((await ok('studio_catalog_search', { chunk: 'mist_archive', profile: 'npc', source: 'longtime' })).results.every((r) => r.profile === 'npc' && r.chunk === 'mist_archive'), true);
   const q = await ok('studio_catalog_search', { query: 'KILN' });
   assert.ok(q.results.some((r) => r.id === 'lt_kiln_keeper') && q.results.every((r) => r.id.includes('kiln') || (r.brief ?? '').toLowerCase().includes('kiln')));

@@ -1,0 +1,26 @@
+{
+  "asset_ids": [
+    "lt_mirror_adjudicator"
+  ],
+  "chunk_group": "trial",
+  "frame_count": 72,
+  "mobile_page_budget": null,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 72,
+      "height": 512,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "e0fee3fd49e00ff7a9b0e0469120cf8ad9e0d1f0347b7a66267caf4c17023278",
+      "png_sha256": "b7adcb1583158af8c31994fad34bc6ec770ebee0e583e03d398f96c5b67841a8",
+      "rgba8_bytes": 4194304,
+      "width": 2048
+    }
+  ],
+  "platform": "web",
+  "readiness": "packed",
+  "rgba8_bytes": 4194304,
+  "rgba8_mib": 4.0,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}
