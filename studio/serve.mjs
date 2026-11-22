@@ -47,21 +47,20 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
     !['..', '.git', PACK.directories.revisions].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
   const hooks = new Map((SERVE.hooks ?? []).map(h => [h.path, h.module]));
   const underPrefix = (reqPath, prefix) => reqPath === prefix || reqPath.startsWith(prefix + '/');
-  /** Which directory answers a URL path: the studio under /studio/, the project everywhere else. */
+  const mounts = [...(SERVE.mounts ?? [])].sort((x, y) => y.url.length - x.url.length);
+  const exists = async (base, rel) => {
+    try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
+  };
+  /** Which directory answers a URL path: the studio first under /studio/, then the pack's mounts (any URL prefix), else the project. */
   const locate = async reqPath => {
-    if (!reqPath.startsWith(STUDIO_PREFIX)) return {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
-    const rel = reqPath.slice(STUDIO_PREFIX.length);
-    const isFile = async base => { try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && (await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false))); } catch { return false; } };
-    if (await isFile(STUDIO_DIR)) return {base: STUDIO_DIR, rel};
-    for (const mount of SERVE.mounts ?? []) {
-      if (!STUDIO_PREFIX.startsWith(mount.url) && !mount.url.startsWith(STUDIO_PREFIX)) continue;
-      const mounted = reqPath.startsWith(mount.url) ? reqPath.slice(mount.url.length) : null;
-      if (mounted === null) continue;
-      const base = path.join(REPO_ROOT, mount.dir);
-      const inner = mounted;
-      try { const st = await fs.stat(path.join(base, inner)); if (st.isFile() || st.isDirectory()) return {base, rel: inner}; } catch { /* next mount */ }
+    const underStudio = reqPath.startsWith(STUDIO_PREFIX);
+    if (underStudio && await exists(STUDIO_DIR, reqPath.slice(STUDIO_PREFIX.length))) return {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)};
+    for (const mount of mounts) {
+      if (!reqPath.startsWith(mount.url)) continue;
+      const base = path.join(REPO_ROOT, mount.dir), rel = reqPath.slice(mount.url.length);
+      if (await exists(base, rel)) return {base, rel};
     }
-    return {base: STUDIO_DIR, rel};
+    return underStudio ? {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)} : {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
   };
   let editor, studio, tabs, mcp;
   const server = http.createServer(async (req, res) => {
