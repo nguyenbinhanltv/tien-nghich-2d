@@ -157,6 +157,11 @@
     ]
   },
   "ui": {
+    "voice": {
+      "name": {"en": "The Abode", "vi": "Động phủ"},
+      "greeting": {"en": "The kiln is lit and the lanterns are trimmed. Here is what waits for you today.", "vi": "Lò đã nhóm, đèn lồng đã thắp. Đây là những việc đang chờ đạo hữu hôm nay."},
+      "pipeline": {"en": "Spirit veins", "vi": "Linh mạch"}
+    },
     "brand": {
       "mark": "仙",
       "seal": [

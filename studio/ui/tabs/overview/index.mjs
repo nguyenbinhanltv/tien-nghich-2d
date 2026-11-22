@@ -1,134 +1,116 @@
-// Overview: every asset by readiness, atlas budget per chunk and wave progress.
-// All numbers come from GET /api/studio/overview; nothing here is hard-coded.
+// Overview ("the abode"): a hero with the project's greeting, three "today" cards, the totals, the pipeline by readiness,
+// recent agent activity, the characters, atlas budget per chunk and wave progress.
+// Totals, pipeline, chunks and waves come from GET /api/studio/overview; nothing here is hard-coded. The cards, the activity
+// and the characters read other tabs' read-only routes (today.mjs), each on its own.
+//
+// The frame (hero, slots, importer) is built once per mount and each slot is redrawn on its own through fill(), which keeps
+// keyboard focus; a refresh therefore never closes or resets anything the person is using.
 
-import { h } from './dom.mjs';
+import { h, fill } from './dom.mjs';
 import { renderPlanImport } from './plan-import.mjs';
+import { createHero } from './scene.mjs';
+import { stat, section, readinessTable, chunkCards, waves, num } from './panels.mjs';
+import { SOURCES, todayCards, failedSources, activityList, castRow } from './today.mjs';
 
-const importers = new WeakMap();
+const apps = new WeakMap();
+const NAV = {review: 'nav.review', jobs: 'nav.jobs', roster: 'nav.characters'};
 
-const stages = ['packed', 'authored', 'planned'];
-const MiB = 1024 * 1024;
-const num = new Intl.NumberFormat('en');
-
-const CHIP = {ok: 'ok', full: 'warn', over: 'danger', none: ''};
-const humanize = id => id.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
-
-function bar(ctx, counts, total, name) {
-  const wrap = h('div', 'bar');
-  wrap.setAttribute('role', 'img');
-  wrap.setAttribute('aria-label', `${name}: ` + stages.map(s => `${ctx.t('stage.' + s)} ${counts[s] ?? 0}`).join(', '));
-  for (const stage of stages) {
-    const n = counts[stage] ?? 0;
-    if (!n) continue;
-    const seg = h('span', 'bar-seg stage-' + stage);
-    seg.style.flexGrow = n;
-    seg.title = `${ctx.t('stage.' + stage)}: ${n}`;
-    wrap.append(seg);
-  }
-  if (!total) wrap.append(h('span', 'bar-seg stage-empty'));
-  return wrap;
+function buildFrame(ctx, app) {
+  const hero = createHero(ctx, () => load(ctx, app, {manual: true}));
+  const slot = (cls, attrs) => h('div', {class: cls, ...attrs});
+  const slots = {
+    notice: slot('ov-notice'),
+    today: slot('today', {role: 'group'}),
+    stats: slot('stats'),
+    error: slot('ov-error'),
+    pipeline: slot('ov-body'), activity: slot('ov-body'), cast: slot('ov-body'), chunks: slot('ov-body'), waves: slot('ov-body'),
+    activityHead: slot('ov-aside')
+  };
+  const w = hero.words;
+  app.slots = slots;
+  app.hero = hero;
+  app.data = null;
+  app.extra = {review: {status: 'loading'}, jobs: {status: 'loading'}, roster: {status: 'loading'}};
+  app.importer = renderPlanImport(ctx, () => load(ctx, app));
+  const data = h('div', 'ov-data', slots.stats,
+    section('ov-pipeline', w.pipeline, ctx.t('readiness.intro'), null, slots.pipeline),
+    h('div', 'ov-pair',
+      section('ov-activity', ctx.t('activity.title'), ctx.t('activity.intro'), slots.activityHead, slots.activity),
+      section('ov-cast', ctx.t('cast.title'), ctx.t('cast.intro'), null, slots.cast)),
+    section('ov-chunks', ctx.t('chunks.title'), ctx.t('chunks.intro'), null, slots.chunks),
+    section('ov-waves', ctx.t('waves.title'), ctx.t('waves.intro'), null, slots.waves));
+  app.dataEl = data;
+  slots.today.setAttribute('aria-label', ctx.t('today.title'));
+  ctx.root.replaceChildren(hero.el, slots.notice, slots.today, slots.error, data, app.importer);
+  // before the first answer: skeletons where numbers will appear
+  fill(slots.stats, ...[0, 1, 2, 3].map(() => h('div', {class: 'stat', role: 'status'}, h('span', 'skeleton line'), h('span', 'skeleton line'))));
+  for (const key of ['pipeline', 'chunks', 'waves']) fill(slots[key], h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), h('span', 'skeleton block')));
+  paintExtras(ctx, app);
 }
 
-function counts(ctx, c, name) {
-  return h('span', 'counts', ...stages.map(s => h('span', 'count stage-' + s, h('b', '', String(c[s] ?? 0)), ' ' + ctx.t('stage.' + s))));
+function paintToday(ctx, app) {
+  fill(app.slots.today, ...todayCards(ctx, app));
+  const failed = failedSources(app)?.filter(key => key !== 'roster');
+  fill(app.slots.notice, failed && h('div', {class: 'toast warn', role: 'status'}, h('span', '', ctx.t('notice.failed', {what: failed.map(key => ctx.t(NAV[key])).join(', ')})),
+    h('button', {type: 'button', class: 'btn', 'data-fk': 'notice-retry', onclick: () => failed.forEach(key => loadExtra(ctx, app, key))}, ctx.t('common.retry'))));
 }
 
-function stat(ctx, key, value, note, tone, href) {
-  const el = h(href ? 'a' : 'div', {class: 'stat' + (tone ? ' ' + tone : ''), href, title: href ? ctx.t('stat.budgetOpen') : null},
-    h('span', 'stat-label', ctx.t(key)), h('span', 'stat-value', value), note ? h('span', 'stat-hint', note) : null);
-  return el;
+function paintActivity(ctx, app) {
+  const {open, body} = activityList(ctx, app.extra.jobs, () => loadExtra(ctx, app, 'jobs'));
+  fill(app.slots.activityHead, open);
+  fill(app.slots.activity, body);
 }
 
-function section(ctx, id, title, intro, ...body) {
-  const el = h('section', 'ov-section', h('h2', {}, title), intro ? h('p', 'muted', intro) : null, ...body);
-  el.setAttribute('aria-labelledby', id);
-  el.firstChild.id = id;
-  return el;
-}
+function paintCast(ctx, app) { fill(app.slots.cast, castRow(ctx, app.extra.roster, () => loadExtra(ctx, app, 'roster'))); }
 
-function readinessTable(ctx, data) {
-  const labels = new Map(ctx.project.sources.map(s => [s.id, ctx.label(s.label)]));
-  const rows = [];
-  for (const [id, c] of Object.entries(data.bySource)) {
-    const name = labels.get(id) ?? humanize(id);
-    rows.push(h('tr', 'row-source', h('th', {scope: 'row'}, name), h('td', 'num', num.format(c.total)), h('td', 'barcell', bar(ctx, c, c.total, name)), h('td', '', counts(ctx, c))));
-    for (const [group, g] of Object.entries(data.bySourceGroup[id] ?? {})) {
-      const gname = `${name} · ${humanize(group)}`;
-      rows.push(h('tr', 'row-group', h('th', {scope: 'row'}, humanize(group)), h('td', 'num', num.format(g.total)), h('td', 'barcell', bar(ctx, g, g.total, gname)), h('td', '', counts(ctx, g))));
-    }
-  }
-  const table = h('table', 'ov-table', h('caption', 'sr-only', ctx.t('readiness.title')),
-    h('thead', '', h('tr', '', h('th', {scope: 'col'}, ctx.t('col.source')), h('th', {scope: 'col', class: 'num'}, ctx.t('col.total')), h('th', {scope: 'col'}, ctx.t('col.pipeline')), h('th', {scope: 'col'}, ctx.t('col.stages')))),
-    h('tbody', '', ...rows));
-  return h('div', 'table-wrap', table);
-}
+function paintExtras(ctx, app) { paintToday(ctx, app); paintActivity(ctx, app); paintCast(ctx, app); }
 
-function chunkCards(ctx, chunks) {
-  return h('div', 'chunks', ...chunks.map(c => {
-    const pageText = ctx.t('chunk.pages', {used: c.pages, max: c.ceilingPages});
-    const mib = ctx.t('chunk.mib', {used: (c.bytes / MiB).toFixed(2), max: (c.ceilingBytes / MiB).toFixed(2)});
-    const fill = h('span', 'fill state-' + c.state);
-    fill.style.width = Math.min(100, c.ceilingPages ? c.pages / c.ceilingPages * 100 : 0) + '%';
-    const meter = h('div', 'meter', fill);
-    meter.setAttribute('role', 'meter');
-    meter.setAttribute('aria-valuemin', '0');
-    meter.setAttribute('aria-valuemax', String(c.ceilingPages));
-    meter.setAttribute('aria-valuenow', String(c.pages));
-    meter.setAttribute('aria-label', `${humanize(c.chunk)}: ${pageText}`);
-    const r = c.readiness;
-    return h('a', {class: 'slip chunk state-' + c.state, href: ctx.href({tab: 'atlas', params: {}}), title: ctx.t('stat.budgetOpen')},
-      h('header', '', h('h3', {title: humanize(c.chunk)}, humanize(c.chunk)), h('span', 'chip ' + CHIP[c.state], ctx.t('state.' + c.state))),
-      meter,
-      h('dl', 'kv', h('dt', '', ctx.t('chunk.pageLabel')), h('dd', '', pageText), h('dt', '', ctx.t('chunk.memLabel')), h('dd', '', mib),
-        h('dt', '', ctx.t('chunk.framesLabel')), h('dd', '', num.format(c.frames)),
-        h('dt', '', ctx.t('chunk.assetsLabel')), h('dd', '', ctx.t('chunk.assets', {packed: r.packed ?? 0, total: r.total}))));
-  }));
-}
-
-function waves(ctx, data) {
-  const entries = Object.entries(data.byWave);
-  if (!entries.length) return h('p', 'empty', ctx.t('waves.none'));
-  return h('div', 'waves', ...entries.map(([wave, c]) => {
-    const pct = c.total ? Math.round((c.packed ?? 0) / c.total * 100) : 0;
-    return h('div', 'wave', h('div', 'wave-head', h('h3', '', humanize(wave)), h('span', 'pct', pct + '%')),
-      bar(ctx, c, c.total, humanize(wave)), h('p', 'muted', ctx.t('waves.detail', {packed: c.packed ?? 0, total: c.total, planned: c.planned ?? 0})));
-  }));
-}
-
-function refreshButton(ctx) {
-  const b = h('button', {type: 'button', class: 'btn'}, ctx.t('refresh'));
-  b.addEventListener('click', () => load(ctx));
-  return b;
-}
-
-function render(ctx, data) {
-  const o = data.overall;
+function paintData(ctx, app) {
+  const data = app.data, o = data.overall;
   const packedPct = o.total ? Math.round(o.packed / o.total * 100) : 0;
-  const budgetRisk = data.chunks.filter(c => c.state === 'full' || c.state === 'over').length;
-  ctx.root.replaceChildren(
-    h('header', 'ov-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle', {project: ctx.project.name})), refreshButton(ctx)),
-    h('div', 'stats',
-      stat(ctx, 'stat.total', num.format(o.total), ctx.t('stat.totalNote', {sources: Object.keys(data.bySource).length})),
-      stat(ctx, 'stat.packed', num.format(o.packed), packedPct + '%', 'ok'),
-      stat(ctx, 'stat.authored', num.format(o.authored), ctx.t('stat.authoredNote')),
-      stat(ctx, 'stat.planned', num.format(o.planned), ctx.t('stat.plannedNote')),
-      stat(ctx, 'stat.budget', String(budgetRisk), ctx.t('stat.budgetNote', {chunks: data.chunks.length}), budgetRisk ? 'danger' : '', ctx.href({tab: 'atlas', params: {}}))),
-    section(ctx, 'ov-readiness', ctx.t('readiness.title'), ctx.t('readiness.intro'), readinessTable(ctx, data)),
-    section(ctx, 'ov-chunks', ctx.t('chunks.title'), ctx.t('chunks.intro'), chunkCards(ctx, data.chunks)),
-    section(ctx, 'ov-waves', ctx.t('waves.title'), ctx.t('waves.intro'), waves(ctx, data)),
-    importers.get(ctx));
+  app.dataEl.hidden = false;
+  fill(app.slots.error);
+  fill(app.slots.stats,
+    stat(ctx, 'stat.total', num.format(o.total), ctx.t('stat.totalNote', {sources: Object.keys(data.bySource).length})),
+    stat(ctx, 'stat.packed', num.format(o.packed), packedPct + '%', 'ok'),
+    stat(ctx, 'stat.authored', num.format(o.authored), ctx.t('stat.authoredNote')),
+    stat(ctx, 'stat.planned', num.format(o.planned), ctx.t('stat.plannedNote')));
+  fill(app.slots.pipeline, readinessTable(ctx, data));
+  fill(app.slots.chunks, data.chunks.length ? chunkCards(ctx, data.chunks) : h('p', 'empty', ctx.t('chunks.none')));
+  fill(app.slots.waves, waves(ctx, data));
+  paintToday(ctx, app);
 }
 
-async function load(ctx) {
-  ctx.root.setAttribute('aria-busy', 'true');
-  if (!ctx.root.querySelector('.ov-head')) ctx.root.replaceChildren(h('div', 'ov-skeleton', h('span', 'skeleton line'), h('span', 'skeleton block')));
-  try { render(ctx, await ctx.api('overview')); }
+function paintFailure(ctx, app, error) {
+  const retry = h('button', {type: 'button', class: 'btn primary', 'data-fk': 'retry', onclick: () => load(ctx, app, {manual: true})}, ctx.t('common.retry'));
+  if (!app.data) app.dataEl.hidden = true;
+  fill(app.slots.error, h('div', {class: 'empty', role: 'alert'}, h('p', 'empty-title', ctx.t('error.title')), h('p', 'empty-body', ctx.t('common.error', {message: error.message})), retry));
+}
+
+async function loadExtra(ctx, app, key) {
+  if (app.extra[key].status === 'error') { app.extra[key] = {status: 'loading'}; paintExtras(ctx, app); }
+  try { app.extra[key] = {status: 'ok', value: SOURCES[key].pick(await ctx.fetchJson(SOURCES[key].url))}; }
   catch (error) {
-    if (error.name === 'AbortError') return;
-    const retry = h('button', {type: 'button', class: 'btn primary'}, ctx.t('common.retry'));
-    retry.addEventListener('click', () => load(ctx));
-    ctx.root.replaceChildren(h('div', {class: 'empty', role: 'alert'}, h('p', 'empty-body', ctx.t('common.error', {message: error.message})), retry));
-  } finally { ctx.root.removeAttribute('aria-busy'); }
+    if (error.name === 'AbortError' || app.dead) return;
+    app.extra[key] = {status: 'error', error: error.message};
+  }
+  if (!app.dead) paintExtras(ctx, app);
+}
+
+async function load(ctx, app, {manual = false} = {}) {
+  const mine = ++app.token;
+  ctx.root.setAttribute('aria-busy', 'true');
+  const extras = Promise.all(Object.keys(SOURCES).map(key => loadExtra(ctx, app, key)));
+  try {
+    const data = await ctx.api('overview');
+    if (mine !== app.token || app.dead) return;
+    app.data = data;
+    paintData(ctx, app);
+    if (manual) { await extras; ctx.announce(ctx.t('refreshed')); }
+  } catch (error) {
+    if (error.name === 'AbortError' || mine !== app.token || app.dead) return;
+    paintFailure(ctx, app, error);
+  } finally { if (mine === app.token) ctx.root.removeAttribute('aria-busy'); }
 }
 
 /** Overview has no asset-level state: any URL parameters are ignored. */
@@ -138,7 +120,10 @@ export async function mount(ctx) {
   ctx.root.classList.add('ui-kit');
   ctx.loadCss(new URL('../../components.css', import.meta.url));
   ctx.loadCss(new URL('./overview.css', import.meta.url));
-  // one importer panel per mount: a refresh redraws the numbers but keeps the file and mapping the person chose
-  importers.set(ctx, renderPlanImport(ctx, () => load(ctx)));
-  await load(ctx);
+  const app = {token: 0, dead: false};
+  apps.set(ctx, app);
+  buildFrame(ctx, app);
+  await load(ctx, app);
 }
+
+export function unmount(ctx) { const app = apps.get(ctx); if (app) app.dead = true; }
