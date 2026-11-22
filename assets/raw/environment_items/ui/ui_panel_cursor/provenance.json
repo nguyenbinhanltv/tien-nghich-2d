@@ -1,0 +1,34 @@
+{
+ "reconstructed": true,
+ "reconstruction": {
+  "note": "RECONSTRUCTED on 2026-11-22 by Claude Code worker tien-nghich-2d-30 from git history and files already in the repository. It was not written at the time the art was made. It records facts only; nothing here is a legal conclusion.",
+  "made_in": "commit 6c9ae9e (PR #22, 'feat(assets): complete phase 2 UI and VFX integration', 2026-11-21), sub-commit 'feat(art): draw five native UI families for the asset library'; the commit author is the repository owner's account, with a Co-authored-by trailer",
+  "sources": [
+   "tools/generators/phase2_ui_provenance.md (added in the same commit; says Codex authored the original pixel drawings in gen_phase2_ui.py, with no random seed and no external image input)",
+   "tools/generators/gen_phase2_ui.py",
+   "assets/manifest.json (assigned_agent codex_antigravity)"
+  ],
+  "verified_today": "On 2026-11-22 gen_phase2_ui.py was run into a scratch directory with the repository's own Python environment; all 26 source PNGs of the five families came out byte-identical to the tracked ones (the sha256 values below).",
+  "not_established": [
+   "Which agent session ran the generator is not recorded anywhere; phase2_ui_provenance.md names 'Codex' and the manifest assigns 'codex_antigravity'.",
+   "Whether any external service, image model or third-party asset influenced the drawings is not recorded; the generator itself uses none."
+  ]
+ },
+ "producer": "Codex (per tools/generators/phase2_ui_provenance.md); session not recorded",
+ "method": "original pixel drawing by integer coordinates, ordered colour planes and a one-pixel ink outline, rendered deterministically with the project palette; no random seed; no external image input; no PixelLab",
+ "generator": "tools/generators/gen_phase2_ui.py",
+ "generator_sha256_lf": "6d13e13dc2dd49fb70f363fb5734becdc63f72b900e9b7d66f8feabc2f4e6f88",
+ "palette": "tools/generators/palette.json",
+ "palette_sha256": "ea565d907b217eb407f0a2b95362b7627706af2127433331b5f735e8197ff7dc",
+ "seed": "none: the drawing is deterministic and uses no random seed",
+ "rights": "original project artwork drawn by project code; no third-party assets and no external service are recorded (reconstructed, see above)",
+ "rebuild": "tools/.venvs/project/bin/python -I tools/generators/gen_phase2_ui.py && tools/.venvs/project/bin/python -I tools/scripts/build_processed.py --only ui_card_frame ui_form_portraits ui_hud_bars ui_minimap ui_panel_cursor",
+ "frames": {
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_button_0.png": "8d4eb78a4f48a38a9863a30b4bc97887903549ac2fc088901a83c258d8d4077c",
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_button_1.png": "67be931169e07930efd469f1321e55992b39508cff138fecf1878666053f6d0f",
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_button_2.png": "422073195ba35ee5c8159c92fd3c82ff54e14bf6e589790bbd6e9ac8dca26632",
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_cursor_0.png": "016074655495b968d6a09e1cc5cacf952a197f74839a8c2babc3cd874a30acec",
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_cursor_1.png": "31db52b6441601f2aa16023809d30c84da7252214130d60ee5d9b5e0c1477046",
+  "assets/raw/environment_items/ui/ui_panel_cursor/ui_panel_cursor_nine_slice_0.png": "492fe988b98aadbb05aa0f163e7193a5451455cf50cd4ecefe3d208fb5e77c89"
+ }
+}
