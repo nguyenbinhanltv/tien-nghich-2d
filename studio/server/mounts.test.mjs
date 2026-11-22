@@ -31,10 +31,10 @@ test('a mount answers under any URL prefix, including directories; the project i
   assert.deepEqual(await get('/plain.txt'), [200, 'project file']);
 }));
 
-test('a "/" mount maps /studio/x to <dir>/studio/x, but the studio's own files win', () => withServer([{url: '/', dir: 'games'}], async get => {
-  assert.deepEqual(await get('/a.txt'), [200, 'game a']);
-  assert.deepEqual(await get('/studio/x.txt'), [200, 'under studio']);
-  assert.equal((await get('/studio/y.txt'))[0], 404);
+test('a mount may not cover the whole URL space', () => assert.rejects(
+  () => withServer([{url: '/', dir: 'games'}], async () => {}), /serve\.mounts\[0\]\.url/));
+
+test('a mount below /studio/ is tried after the studio\'s own files', () => withServer([{url: '/studio/games/', dir: 'games'}], async get => {
+  assert.deepEqual(await get('/studio/games/a.txt'), [200, 'game a']);
   assert.match((await get('/studio/'))[1], /shell\.js/);
-  assert.deepEqual(await get('/plain.txt'), [200, 'project file']);
 }));
