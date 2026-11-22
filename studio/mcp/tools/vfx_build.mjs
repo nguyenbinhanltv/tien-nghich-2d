@@ -13,8 +13,11 @@ import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared
 const RUNNER = "import sys, runpy; sys.path.insert(0, sys.argv.pop(1)); runpy.run_module('fx', run_name='__main__', alter_sys=True)";
 const MAX_SPEC_BYTES = 64 * 1024;
 
-/** A spec names no files: every string must be free of path syntax, and the palette must be a registered one. */
-function checkSpec(spec, palettes) {
+// Anywhere in a spec, a value or a key: no path syntax at all (separators, "..", "~").
+const pathLike = (text, at) => { if (/[\\/~]/.test(text) || text.includes('..')) throw new ToolError(`${at} looks like a file path (${JSON.stringify(text.slice(0, 40))}); a spec names no files.`); };
+
+/** A spec names no files: every string and key must be free of path syntax, and the palette must be a registered one. */
+export function checkSpec(spec, palettes) {
   if (!spec || typeof spec !== 'object' || Array.isArray(spec)) throw new ToolError('spec must be a SpriteFX effect object.');
   const text = JSON.stringify(spec);
   if (text.length > MAX_SPEC_BYTES) throw new ToolError(`the spec is ${text.length} bytes; the limit is ${MAX_SPEC_BYTES}.`);
@@ -22,9 +25,9 @@ function checkSpec(spec, palettes) {
   if (typeof spec.palette !== 'string' || !Object.hasOwn(palettes, spec.palette)) throw new ToolError(`spec.palette must be a registered project palette: ${Object.keys(palettes).join(', ')}. Got ${JSON.stringify(spec.palette)}.`);
   const walk = (v, at, depth) => {
     if (depth > 14) throw new ToolError(`the spec nests too deeply at ${at}.`);
-    if (typeof v === 'string' && (/[\\/]/.test(v) || v.includes('..') || v.startsWith('~'))) throw new ToolError(`${at} looks like a file path (${JSON.stringify(v.slice(0, 40))}); a spec names no files.`);
+    if (typeof v === 'string') pathLike(v, at);
     if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${at}[${i}]`, depth + 1));
-    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, `${at}.${k}`, depth + 1);
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { pathLike(k, `${at}.<key>`); walk(x, `${at}.${k}`, depth + 1); }
   };
   walk(spec, 'spec', 0);
   return text;
