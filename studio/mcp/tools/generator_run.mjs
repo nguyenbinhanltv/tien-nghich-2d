@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { expandArgs, generatorOf, resolveParams, runProgram, tail, toolchainPath } from '../../core/adapters.mjs';
+import { expandArgs, generatorOf, interpreterFile, resolveParams, runProgram, tail, toolchainPath } from '../../core/adapters.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
 import { callDir, shown } from '../workflow/forge.mjs';
@@ -44,7 +44,7 @@ export default {
     const spec = generatorOf(snap.pack, args.generator);
     const { values, seed } = resolveParams(spec, args.params ?? {}, args.seed);
     const adapters = snap.pack.adapters;
-    const interpreter = toolchainPath(ws.root, adapters.interpreter.command, 'The Python interpreter');
+    const interpreter = interpreterFile(ws.root, adapters.interpreter, 'The Python interpreter');
     const script = toolchainPath(ws.root, spec.script, `The generator ${args.generator}`);
     const palette = path.join(ws.root, snap.pack.palette.file);
 

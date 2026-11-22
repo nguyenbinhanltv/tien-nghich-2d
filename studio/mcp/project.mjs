@@ -8,7 +8,7 @@
 // takes one snapshot per call, so all sections of a response come from the same moment and nothing
 // is cached across calls (a long-lived server never reports stale counts).
 
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { loadPackSync, packFileName } from '../core/pack.mjs';
 import { openWorkspace } from '../core/workspace.mjs';
@@ -29,8 +29,9 @@ const tally = (items, keyFn) => {
 };
 
 export function openProject(rootArg, { libraryDir } = {}) {
-  const root = resolve(rootArg);
+  let root = resolve(rootArg);
   if (!existsSync(root) || !statSync(root).isDirectory()) throw new ProjectError(`project path is not a directory: ${root}`);
+  root = realpathSync(root);   // a project reached through a symlink must not look like it escapes itself
 
   const readJson = (rel) => {
     const p = join(root, rel);

@@ -13,9 +13,10 @@ import { fileURLToPath } from 'node:url';
 import { loadPack } from './core/pack.mjs';
 import { buildBaselineRecord, baselineDirectories, createStanding } from './core/standing.mjs';
 
-const root = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
-const mode = process.argv[2];
-if (!['--write', '--check'].includes(mode)) { console.error('Usage: node studio/baseline.mjs --check | --write'); process.exit(2); }
+const at = process.argv.indexOf('--project');
+const root = at > 0 ? path.resolve(process.argv[at + 1]) : path.resolve(fileURLToPath(new URL('../', import.meta.url)));
+const mode = process.argv.slice(2).find(a => a === '--write' || a === '--check');
+if (!['--write', '--check'].includes(mode)) { console.error('Usage: node studio/baseline.mjs [--project <dir>] --check | --write'); process.exit(2); }
 const pack = await loadPack(root, undefined, {verifyFiles: false});
 const declared = pack.review?.baseline;
 if (!declared) { console.log('The pack declares no review.baseline: every frame without a human record reads as awaiting review.'); process.exit(0); }

@@ -1,0 +1,8 @@
+# Codex project config, loaded after you trust this project.
+# Read scope: an agent can look (project info, catalog, previews, QA) but not write. To let it create art, change "read" to "author" (and restart the agent).
+# The path to mcp.mjs is relative to this sample's place inside studio/examples/; if you copy the project elsewhere, point it at the studio's mcp.mjs.
+[mcp_servers.studio]
+command = "node"
+args = ["../../mcp.mjs", "--project", ".", "--scope", "read", "--agent", "codex"]
+startup_timeout_sec = 20
+default_tools_approval_mode = "writes"

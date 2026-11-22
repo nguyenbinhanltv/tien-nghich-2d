@@ -1,0 +1,100 @@
+{
+ "name": "moss-lantern-12",
+ "version": 1,
+ "outline": "#1b1727",
+ "outline_id": "night_1",
+ "groups": [
+  "night",
+  "moss",
+  "lantern",
+  "stone",
+  "cream",
+  "berry"
+ ],
+ "colors": [
+  {
+   "id": "night_1",
+   "index": 1,
+   "name": "night-1",
+   "group": "night",
+   "hex": "#1b1727"
+  },
+  {
+   "id": "night_2",
+   "index": 2,
+   "name": "night-2",
+   "group": "night",
+   "hex": "#2d2640"
+  },
+  {
+   "id": "moss_1",
+   "index": 3,
+   "name": "moss-1",
+   "group": "moss",
+   "hex": "#2f5d3a"
+  },
+  {
+   "id": "moss_2",
+   "index": 4,
+   "name": "moss-2",
+   "group": "moss",
+   "hex": "#4f8f4a"
+  },
+  {
+   "id": "moss_3",
+   "index": 5,
+   "name": "moss-3",
+   "group": "moss",
+   "hex": "#8cc063"
+  },
+  {
+   "id": "lantern_1",
+   "index": 6,
+   "name": "lantern-1",
+   "group": "lantern",
+   "hex": "#c2571a"
+  },
+  {
+   "id": "lantern_2",
+   "index": 7,
+   "name": "lantern-2",
+   "group": "lantern",
+   "hex": "#f0a030"
+  },
+  {
+   "id": "lantern_3",
+   "index": 8,
+   "name": "lantern-3",
+   "group": "lantern",
+   "hex": "#ffe08a"
+  },
+  {
+   "id": "stone_1",
+   "index": 9,
+   "name": "stone-1",
+   "group": "stone",
+   "hex": "#6d6a7c"
+  },
+  {
+   "id": "stone_2",
+   "index": 10,
+   "name": "stone-2",
+   "group": "stone",
+   "hex": "#a9a6b8"
+  },
+  {
+   "id": "cream_1",
+   "index": 11,
+   "name": "cream-1",
+   "group": "cream",
+   "hex": "#f4ecd8"
+  },
+  {
+   "id": "berry_1",
+   "index": 12,
+   "name": "berry-1",
+   "group": "berry",
+   "hex": "#b23a5e"
+  }
+ ]
+}

@@ -22,7 +22,8 @@ const BANNED = [
   /['"`/ ](lt|mob|wl|ts|ui|bgm|sfx|prop|wp|pj)_[a-z]{3,}/, /hit_spark/, /#14101a/i, /manifest_[a-z]+\.json/,
 ];
 const SCANNED = /\.(mjs|js|cjs|json|html|css|py|ts|toml|xml)$/;
-const SKIP_DIRS = new Set(['node_modules', '.git']);
+// examples/ holds sample PROJECTS (data a stranger copies), not studio code: they name their own files by design.
+const SKIP_DIRS = new Set(['node_modules', '.git', 'examples']);
 
 // Test files that use this repository's own project as their fixture.
 const FIXTURE_TESTS = new Set([

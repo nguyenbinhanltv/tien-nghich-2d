@@ -10,6 +10,7 @@
  */
 
 import http from 'node:http';
+import fsSync from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -40,7 +41,8 @@ const MIME_TYPES = {
 };
 
 export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
-  const REPO_ROOT = path.resolve(root);
+  // The real path: a project reached through a symlink (macOS /var, a linked checkout) must not look like it escapes itself.
+  const REPO_ROOT = fsSync.realpathSync(path.resolve(root));
   const PACK = loadPackSync(REPO_ROOT, undefined, { verifyFiles: false });
   const SERVE = PACK.serve ?? {};
   const publicPath = relative => !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>

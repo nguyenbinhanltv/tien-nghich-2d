@@ -500,8 +500,22 @@
           "description": "Stop policy: at most maxFixRounds fix rounds per asset per review request; noProgressRounds rounds in a row without measurable progress ends the work and asks the human.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["maxFixRounds", "noProgressRounds"],
-          "properties": {"maxFixRounds": {"type": "integer", "minimum": 1, "maximum": 20}, "noProgressRounds": {"type": "integer", "minimum": 1, "maximum": 20}}
+          "required": [
+            "maxFixRounds",
+            "noProgressRounds"
+          ],
+          "properties": {
+            "maxFixRounds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "noProgressRounds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
         }
       }
     },
@@ -509,16 +523,36 @@
       "description": "Text for agents, kept in the pack so the studio holds no project wording: pixel-art rules sent at MCP initialize, and the style words of image-sheet prompts.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["rules"],
+      "required": [
+        "rules"
+      ],
       "properties": {
-        "rules": {"type": "array", "minItems": 1, "maxItems": 24, "items": {"type": "string", "minLength": 1, "maxLength": 400}},
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 24,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          }
+        },
         "prompt": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "style": {"type": "string", "maxLength": 400},
-            "camera": {"type": "string", "maxLength": 200},
-            "light": {"type": "string", "maxLength": 200}
+            "style": {
+              "type": "string",
+              "maxLength": 400
+            },
+            "camera": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "light": {
+              "type": "string",
+              "maxLength": 200
+            }
           }
         }
       }
@@ -529,17 +563,54 @@
       "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["assets", "image", "sha256", "description", "approved"],
+        "required": [
+          "assets",
+          "image",
+          "sha256",
+          "description",
+          "approved"
+        ],
         "properties": {
-          "assets": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
-          "image": {"$ref": "#/$defs/path"},
-          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-          "description": {"type": "string", "minLength": 20, "maxLength": 2000},
+          "assets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "image": {
+            "$ref": "#/$defs/path"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 2000
+          },
           "approved": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["by", "at"],
-            "properties": {"by": {"type": "string", "minLength": 1}, "at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}, "note": {"type": "string"}}
+            "required": [
+              "by",
+              "at"
+            ],
+            "properties": {
+              "by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "at": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
           }
         }
       }
@@ -550,24 +621,95 @@
       "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["profiles", "headToBody", "minLimbWidthPx", "accentMinPixels"],
+        "required": [
+          "profiles",
+          "headToBody",
+          "minLimbWidthPx",
+          "accentMinPixels"
+        ],
         "properties": {
-          "description": {"type": "string"},
-          "measured": {"type": "string", "description": "Where the numbers come from (which shipped assets were measured)."},
-          "profiles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "description": {
+            "type": "string"
+          },
+          "measured": {
+            "type": "string",
+            "description": "Where the numbers come from (which shipped assets were measured)."
+          },
+          "profiles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
           "headToBody": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["min", "max", "target"],
-            "properties": {"min": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "max": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "target": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}}
+            "required": [
+              "min",
+              "max",
+              "target"
+            ],
+            "properties": {
+              "min": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "max": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "target": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              }
+            }
           },
-          "minLimbWidthPx": {"type": "integer", "minimum": 1, "maximum": 16},
-          "accentMinPixels": {"type": "integer", "minimum": 1, "maximum": 64},
+          "minLimbWidthPx": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          },
+          "accentMinPixels": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 64
+          },
           "guide": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["headWidth", "bodyWidth", "legWidth", "legGap"],
-            "properties": {"headWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "bodyWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "legWidth": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "legGap": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}}
+            "required": [
+              "headWidth",
+              "bodyWidth",
+              "legWidth",
+              "legGap"
+            ],
+            "properties": {
+              "headWidth": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "bodyWidth": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "legWidth": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "legGap": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              }
+            }
           }
         }
       }
@@ -580,10 +722,23 @@
         "baseline": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["file", "roots"],
+          "required": [
+            "file",
+            "roots"
+          ],
           "properties": {
-            "file": {"$ref": "#/$defs/path", "description": "Record of {directories: {<frame directory>: <digest of its PNG names and sha256s>}}, written by `node studio/baseline.mjs --write`. A frame is baseline only while its directory still digests to the recorded value."},
-            "roots": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/path"}, "description": "Directories whose PNG directories the record covers when it is (re)written."}
+            "file": {
+              "$ref": "#/$defs/path",
+              "description": "Record of {directories: {<frame directory>: <digest of its PNG names and sha256s>}}, written by `node studio/baseline.mjs --write`. A frame is baseline only while its directory still digests to the recorded value."
+            },
+            "roots": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/path"
+              },
+              "description": "Directories whose PNG directories the record covers when it is (re)written."
+            }
           }
         }
       }
@@ -599,9 +754,6 @@
         "interpreter": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "command"
-          ],
           "properties": {
             "command": {
               "$ref": "#/$defs/path"
@@ -611,8 +763,26 @@
               "items": {
                 "type": "string"
               }
+            },
+            "runtime": {
+              "enum": [
+                "node"
+              ]
             }
-          }
+          },
+          "description": "The program that runs registered scripts: `command` (a path inside the project, e.g. a Python in a virtual environment) or `runtime: \"node\"` (the Node that runs the studio; no toolchain to install). One of the two is required.",
+          "anyOf": [
+            {
+              "required": [
+                "command"
+              ]
+            },
+            {
+              "required": [
+                "runtime"
+              ]
+            }
+          ]
         },
         "commands": {
           "type": "object",
@@ -658,15 +828,40 @@
             "hold": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["margin"],
+              "required": [
+                "margin"
+              ],
               "description": "Sequence-aware palette snapping: a pixel keeps its previous palette entry when the new source colour is within margin of the best entry's distance.",
               "properties": {
-                "enabled": {"type": "boolean"},
-                "margin": {"type": "number", "minimum": 0, "maximum": 450},
-                "metric": {"enum": ["rgb", "redmean"]},
-                "search": {"type": "integer", "minimum": 0, "maximum": 4},
-                "laps": {"type": "integer", "minimum": 1, "maximum": 4},
-                "maxChromaGain": {"type": "number", "minimum": 0, "maximum": 255}
+                "enabled": {
+                  "type": "boolean"
+                },
+                "margin": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 450
+                },
+                "metric": {
+                  "enum": [
+                    "rgb",
+                    "redmean"
+                  ]
+                },
+                "search": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4
+                },
+                "laps": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4
+                },
+                "maxChromaGain": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 255
+                }
               }
             }
           }
