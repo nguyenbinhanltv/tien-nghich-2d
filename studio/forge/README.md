@@ -306,3 +306,8 @@ the CLI against the same pack.
   are `{width, height, pixels}` and stay in `artifacts`.
 - Not covered by this lane: the contact and body-offset data a drawn clip would need beyond declared `contacts`, a landmark-aware onion-skin or overlay view of the import crops and
   seams, and playing a pose clip on moving ground. The gates judge sprite space only.
+
+
+## Colour hold across frames
+
+`pixelizeImport` snaps the poses of one facing in layout order (or `order`) and keeps a pixel's previous palette entry when the new source colour is within `margin` of the best distance (`pixelize/hold.mjs`). Defaults come from the pack's `forge.pixelize.hold` ({margin, metric: rgb|redmean, search, laps, maxChromaGain}); with no block there is no hold. Off with `hold: false` (`runPipeline`, `pixelizeImport`), `--hold off` (CLI), `hold: false` (`studio_process`); `--hold-margin`, `--hold-metric`, `--hold-search` override. Only cells that have a pose and share a facing with another pose are a sequence. The result records `hold` and `cells[].held`. Alpha and the rebuilt outline are never changed, marks are applied after. Evidence and limits: `docs/FORGE_BAKEOFF.md` (addendum 2026-11-22). `pixelize/hold-eval.mjs` reproduces it.

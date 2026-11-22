@@ -488,6 +488,33 @@
         }
       }
     },
+    "forge": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Defaults the forge reads from the pack.",
+      "properties": {
+        "pixelize": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hold": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["margin"],
+              "description": "Sequence-aware palette snapping: a pixel keeps its previous palette entry when the new source colour is within margin of the best entry's distance.",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "margin": {"type": "number", "minimum": 0, "maximum": 450},
+                "metric": {"enum": ["rgb", "redmean"]},
+                "search": {"type": "integer", "minimum": 0, "maximum": 4},
+                "laps": {"type": "integer", "minimum": 1, "maximum": 4},
+                "maxChromaGain": {"type": "number", "minimum": 0, "maximum": 255}
+              }
+            }
+          }
+        }
+      }
+    },
     "ui": {
       "type": "object",
       "additionalProperties": false,

@@ -4,6 +4,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { blit, boundsOf, boxDownscale, createImage, decodePng, encodePng, rebuildOutline, resizeBox, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
+import { resolveHold, snapHeld } from './hold.mjs';
 import { assertCellId, assertNoOverwrite, defaultScaleOptions, normalizeEntries, normalizeScale } from '../sheet/import.mjs';
 
 export const pixelizeSchema = 'forge.pixelize';
@@ -16,7 +17,7 @@ const sameRgb = (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
  * from settingsFromPack; `marks` from resolveMarks. Returns {indexed, native, info}: `indexed` is the
  * snapped sprite before the outline (what the rig lane cuts parts from), `native` has the outline.
  */
-export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions} = {}) {
+export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions, hold = null, previous = null} = {}) {
   const {profile, palette, outline} = settings;
   const [width, height] = profile.nativePx, [pivotX] = profile.pivotPx;
   const fit = entry.scale && entry.targetY !== undefined ? {scale: entry.scale, targetY: entry.targetY, limit: entry.limit} : normalizeScale(entry, profile, scaleOptions);
@@ -28,7 +29,9 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
   const sampled = thresholdAlpha(canvas);
   const reserved = [...(outline.color ? [outline.color] : []), ...marks.map(m => m.rgb)];
   const ordinary = palette.colors.map(c => c.rgb).filter(rgb => !reserved.some(r => sameRgb(r, rgb)));
-  const indexed = snapPalette(sampled, ordinary);
+  // `hold` (a resolved spec) and `previous` (the earlier frame's indexed layer) make the snap sequence-aware; without them it is the plain nearest colour.
+  const held = hold && previous ? snapHeld(sampled, ordinary, previous, hold) : null;
+  const indexed = held ? held.image : snapPalette(sampled, ordinary);
   const markPixels = marks.map(() => 0);
   const d = sampled.pixels;
   // A mark's region, in native pixels: fractions of the reduced figure placed at its origin.
@@ -72,11 +75,11 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions}
   if (origin[0] < 0 || origin[1] < 0 || origin[0] + dims[0] > width || origin[1] + dims[1] > height) warnings.push('reduced figure was clipped by the canvas');
   const marksVisible = marks.map(m => { let n = 0; for (let i = 0; i < native.pixels.length; i += 4) if (native.pixels[i + 3] === 255 && sameRgb(native.pixels.subarray(i, i + 3), m.rgb)) n++; return {id: m.id, hex: m.hex, sourcePx: markPixels[marks.indexOf(m)], visiblePx: n}; });
   return {indexed, native, info: {id: entry.id, facing: entry.facing, pose: entry.pose, sourceGround: entry.ground, alignGround: [gx, gy], sourceBounds: entry.bounds,
-    nativeOrigin: origin, scale: fit.scale, scaleLimit: fit.limit, reducedSize: dims, bounds: box, marks: marksVisible, warnings}};
+    nativeOrigin: origin, ...(hold ? {held: held?.held ?? 0, ...(held ? {holdOffset: held.offset} : {})} : {}), scale: fit.scale, scaleLimit: fit.limit, reducedSize: dims, bounds: box, marks: marksVisible, warnings}};
 }
 
 /** Pixelise every cell of an import ({record, cells}); returns {record, cells: Map id -> {indexed, native}}. */
-export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = {}) {
+export function pixelizeImport(imported, settings, {marks = [], scaleOptions, hold, order} = {}) {
   const cells = new Map(), infos = [];
   // A recorded fit belongs to the profile and scale options the import ran with. It is reused only when both
   // match (options given here overlay the recorded ones key by key); otherwise every cell is fitted again for this profile.
@@ -85,8 +88,29 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = 
   const reusable = rp && recorded && rp.nativePx.join() === p.nativePx.join() && rp.pivotPx.join() === p.pivotPx.join()
     && stable(wanted) === stable(recorded);
   const fitted = reusable ? imported.record.cells : normalizeEntries(imported.record.cells.map(({scale, limit, targetY, alignGround, ...bare}) => bare), p, wanted);
+  const spec = resolveHold(hold, settings.hold);
+  const done = new Map();
+  const run = (entry, previous, sequence = true) => pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions: wanted, hold: sequence ? spec : null, previous});
+  if (!spec) for (const entry of fitted) done.set(entry.id, run(entry, null, false));
+  else {
+    // A sequence is the poses of one facing, in the layout's order (or `order`). Cells without a pose, and facings with one pose, are not sequences.
+    const groups = new Map();
+    for (const entry of fitted) if (entry.pose !== undefined && entry.pose !== null) groups.set(entry.facing ?? '', [...(groups.get(entry.facing ?? '') ?? []), entry]);
+    for (const entry of fitted) if (!groups.has(entry.facing ?? '') || entry.pose == null || groups.get(entry.facing ?? '').length < 2) done.set(entry.id, run(entry, null, false));
+    for (const list of groups.values()) {
+      if (list.length < 2) continue;
+      if (order) list.sort((a, b) => order.indexOf(a.pose) - order.indexOf(b.pose));
+      // Laps: the loop closes, so the first frame is snapped again with the last as its predecessor; only the final lap is kept.
+      let previous = null;
+      for (let lap = 0; lap < spec.laps; lap++) for (const entry of list) {
+        const r = run(entry, previous);
+        previous = r.indexed;
+        done.set(entry.id, r);
+      }
+    }
+  }
   for (const entry of fitted) {
-    const {indexed, native, info} = pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions: wanted});
+    const {indexed, native, info} = done.get(entry.id);
     cells.set(entry.id, {indexed, native});
     infos.push({...info, sha256: sha256(encodePng(native))});
   }
@@ -97,7 +121,7 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions} = 
     profile: {name: profile.name, nativePx: profile.nativePx, pivotPx: profile.pivotPx},
     palette: {name: palette.name, colors: palette.colors.length, sha256: sha256(Buffer.from(palette.colors.map(c => c.hex).join(',')))},
     outline: {mode: outline.mode, hex: outline.hex, borderIsEdge: outline.borderIsEdge},
-    scaleOptions: wanted, marks: marks.map(m => m.hex), cells: infos,
+    scaleOptions: wanted, marks: marks.map(m => m.hex), ...(spec ? {hold: spec} : {}), cells: infos,
   }};
 }
 

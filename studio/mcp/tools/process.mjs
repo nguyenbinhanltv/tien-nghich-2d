@@ -49,13 +49,14 @@ export default {
     'Raw is untouched. Returns a contact sheet of the sprites (look at it) with defects boxed, the fit per cell (scale and what limited it), and warnings. ' +
     'marks keep an ASYMMETRIC colour through pixelisation (a coloured ear, a tool in one hand): they are stored and reused by every later step. ' +
     'For a single-frame asset, submit=true commits the sprites as its raw frames (cell "<pose>_<facing>" becomes frame "<pose>_<facing>_0" of the one-frame clip named like the pose; a plain facing cell becomes the asset\'s only clip). ' +
-    'For a clip with several frames do not submit here: use studio_rig_bake.',
+    'For a clip with several frames do not submit here: use studio_rig_bake. Pose-sheet frames of one facing are colour-held (hold=false turns it off).',
   scope: 'author',
   inputSchema: {
     type: 'object',
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Design asset id with an imported sheet.' },
       marks: { type: 'array', maxItems: 4, items: markItem, description: 'Asymmetric marks to keep. Replaces the stored marks; [] clears them. Omit to reuse the stored ones.' },
+      hold: { type: 'boolean', description: 'Colour hold across the frames of a clip: a pixel keeps its previous palette entry when the new colour is close (stops shimmer). On by default for pose sheets with several poses per facing; false snaps every frame alone. Stored with the marks.' },
       submit: { type: 'boolean', description: 'Commit the sprites as the asset\'s raw frames (single-frame clips only). Refused if any sprite fails the pixel gates.' },
       clip: { type: 'string', maxLength: 40, description: 'With submit: the clip a plain facing cell belongs to.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
@@ -70,9 +71,11 @@ export default {
     requireFrames(asset);
     return inlineOrJob(ctx, 'process', args, (log) => forgeCall(async () => {
       const { settings } = await settingsFor(snap, ws, asset);
-      if (args.marks !== undefined) {
-        resolveMarks(args.marks, settings.palette); // refuse bad marks before storing them
-        await writeDoc(ws, asset, 'process', { marks: args.marks, by: ctx.caller.agent, at: new Date().toISOString() });
+      if (args.marks !== undefined || args.hold !== undefined) {
+        if (args.marks !== undefined) resolveMarks(args.marks, settings.palette); // refuse bad marks before storing them
+        const stored = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
+        await writeDoc(ws, asset, 'process', { ...stored, ...(args.marks !== undefined ? { marks: args.marks } : {}),
+          ...(args.hold !== undefined ? { hold: args.hold ? true : false } : {}), by: ctx.caller.agent, at: new Date().toISOString() });
       }
       const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
       log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);
@@ -83,6 +86,7 @@ export default {
         marks: (processDoc.marks ?? []).map((m) => m.color),
         cells: pixelized.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, scale: c.scale, limit: c.scaleLimit, bounds: c.bounds, marks: c.marks, warnings: c.warnings,
           defects: cells[pixelized.record.cells.indexOf(c)].errors })),
+        ...(pixelized.record.hold ? { hold: { ...pixelized.record.hold, heldPerFrame: Object.fromEntries(pixelized.record.cells.filter((c) => c.held !== undefined).map((c) => [c.id, c.held])) } } : { hold: false }),
         warnings: pixelized.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings })),
       };
       const shown = sheetContent({ title: `Pixelised ${asset.id}`, cells, scale: args.scale ?? 4, extra: summary });

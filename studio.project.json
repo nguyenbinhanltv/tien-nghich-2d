@@ -18,6 +18,9 @@
     "alpha": "binary",
     "outline": {"mode": "silhouette", "color": "palette", "borderIsEdge": false}
   },
+  "forge": {
+    "pixelize": {"hold": {"margin": 32, "metric": "rgb", "search": 0, "laps": 2, "maxChromaGain": 8}}
+  },
   "frameKeys": {
     "ui": "ui/{id}/{clip}_none_{n}",
     "vfx": "vfx/{id}_{n}",

@@ -122,3 +122,39 @@ tools/.venvs/project/bin/python -I tools/scripts/validate_palette.py --class cha
 ```
 
 Baseline validation on this checkout passed 123 Python tests, all 204 non-browser Studio tests, the Longtime, manifest and audio-plan checks, Studio smoke, and the MCP self-test. Studio loopback tests ran with loopback access. The trial is confined to the bake-off data, the comparison helper and this write-up.
+
+## Addendum, 2026-11-22 · Colour hold across frames (idea B8)
+
+**Result.** Snapping the 16 pose-sheet keys in order and letting a pixel keep its previous palette entry when the new colour is within a margin of the best distance (a hysteresis, the idea behind agent-sprite-forge's `quantize-seq`, our own code in `studio/forge/pixelize/hold.mjs`) **reduces the flicker a lot but does not remove it at the project default**: flagged keys go from **16/16 to 4/16** and flicker pixels from 502 to 146. A larger margin reaches 0/16, at a price in colour fidelity and real shading change (table). The ear marks are neither helped nor hurt. The other gate verdicts are unchanged.
+
+Same sheet, layout, marks and import as the trial (the plain output is byte-identical to the committed `lt_ink_marten_pose/frames`). The flicker gate is the production one, closed loop, flag above 10 pixels. Pack defaults used: `forge.pixelize.hold` = margin 32 (RGB distance), 2 laps, chroma guard 8.
+
+| `lt_ink_marten` pose-sheet walk | Plain snap (before) | Hold, margin 16 | **Hold, margin 32 (default)** | Hold, margin 48 |
+| --- | --- | --- | --- | --- |
+| Keys flagged for flicker (> 10 px) | **16/16** | 13/16 | **4/16** | 0/16 |
+| Flicker pixels, total of 16 keys | 502 | 277 | **146** | 62 |
+| Worst key | 47 | 32 | **19** | 9 |
+| Pixels held, total | 0 | 293 | **492** | 697 |
+| Opaque pixels that differ from the plain snap | 0 | 4.8% | **8.3%** (380/4554) | 11.9% |
+| Pixel changes between successive keys (real motion plus shimmer) | 1497 | 1182 | **963** | 798 |
+| Keys with the lilac ear mark (as before) | 5/16 | 5/16 | **5/16** | 5/16 |
+
+Flicker pixels per key at the default (south / west / north / east, contact A, passing A, contact B, passing B): 9,14,11,9 / 19,13,8,10 / 5,2,9,1 / 9,9,10,8, against 38,40,39,38 / 47,39,43,32 / 21,20,26,16 / 26,28,21,28 before. The four keys still flagged are west contact A (19), south passing A (14), west passing A (13) and south contact B (11); the reversals that remain follow real drawn shading as much as snapping noise.
+
+Pixels held per key at the default, in layout order (contact A south, west, north, east, then passing A, contact B, passing B): 26 41 32 19 / 32 33 36 20 / 27 40 47 22 / 32 26 33 26. They are also in `pixelize.json` (`cells[].held`) and in the `runPipeline` and `studio_process` results (`hold.heldPerFrame`).
+
+**Other gates.** Pixel gates (palette, binary alpha, size, outline) still pass 16/16 and `validate_palette.py` passes 16/16. Pivot, seam and silhouette contrast are unchanged (no new findings). Mark-side findings are identical key for key (west 2 and 3, north and east all four, south 0), which is expected because the hold only recolours ordinary palette pixels and the marks are applied afterwards. The turnaround stability check (colours the turnaround does not have) fails for all four facings, with the same counts as before.
+
+**Detail lost.** About 8% of opaque pixels end up one palette step away from where the plain snap put them (mean RGB distance about 53, which is the gap between neighbouring ramp entries). Silhouette, outline and marks are unchanged by construction (tested). Looking at the 4× sheets, shading blocks on the chest and tail read steadier; no feature the plain snap showed is gone. The cost is that shading changes that are real in the drawing but small now appear one key later or not at all (successive-key changes drop by a third at margin 32 and by almost half at 48), so margin 48 starts to freeze the shading; 32 is the default for that reason.
+
+**Two things that did not work or needed a guard.**
+- *Smarter pixel correspondence.* Shifting the previous key by up to 1 or 2 pixels before holding (`search`, picks the shift that agrees with most pixels) made things **worse**: at margin 32, 12/16 flagged against 4/16 with no shift, and more flicker pixels than plain at some margins. The drawn keys differ by redrawn shading, not by a translation, and a wrong shift holds the wrong pixels. The default is 0 (same position, after the pivot alignment the import already does); the option stays for experiments.
+- *Hue drift.* With only the distance margin, the two saturated accent entries (`blood_01`, `soul_01`) spread from 10 and 7 pixels to 20 and 22 (a few reddish dots on the dark coat), and on the Codex sheet the red scarf dulled to brown. A chroma guard (a held entry may not differ from the nearest entry's saturation by more than 8) fixes both: accents go to 3 and 2 pixels and the scarf stays red, with flicker almost unchanged.
+
+**Loops.** The last key is snapped against the one before it and the first key against the last: the sequence is run twice and only the second lap is kept (`laps`). One lap flags 8/16 at margin 32, two laps 4/16, three laps the same as two.
+
+**Codex sample run, `lt_ash_skater` walk sheet** (`/tmp/tn2d-codex-eval/scratch/lt_ash_skater/forge/sheets/5bacf6df….png`). The sheet's original import layout was not kept, so the layout was rebuilt from the same template command (4 facings × 4 poses, facing scale mode); the label band warns on the last row, as in the run. The comparison is plain against hold on that one import, so it is fair, but the absolute numbers are not those of the run's bake. Plain snap flagged 3/16 keys (90 flicker pixels, worst 12). At the default: **0/16 flagged, 47 flicker pixels, worst 8**, 208 pixels held (13 8 6 9 / 15 15 13 12 / 16 20 17 13 / 7 13 21 10), 6.0% of opaque pixels differ from the plain snap, successive-key changes 384 against 475. Pictures are in the session artifacts.
+
+**What this leaves.** The default does not by itself take the pose-sheet walk to 0 flagged keys; the gate also counts reversals that come from the drawing. If the project wants 0, margin 48 does it on this sheet and costs shading motion; the better lever is probably drawing steadier shading. The pose gate remains off by default for drawn clips (`flicker: false`) and was run here explicitly. Not verified: other characters, other palettes' ramps, and a human judgement of the animation at speed.
+
+Reproduce: `node studio/forge/pixelize/hold-eval.mjs --import <import dir> --project . --profile pet --marks <marks.json> --margins 16,32,48 --max-chroma-gain 8 --out <pictures dir>`. The rebuild recipe above now yields the held frames; add `--hold off` to the `pixelise` step to get the committed ones back. Pictures: `marten_contact_before_after.png`, `marten_flicker_pixels.png` (magenta marks the reversing pixels, plain and held), `marten_difference.png` (magenta marks what the hold changed), and the same three for `ash_skater`.

@@ -90,7 +90,7 @@ export async function pixelizedFor(ws, asset, settings) {
   const base = await importedFor(ws, asset, settings);
   if (!base) throw new ToolError(`${asset.id} has no imported sheet. Call studio_sheet_import first.`);
   const processDoc = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
-  const pixelized = pixelizeImport(base.imported, settings, { marks: resolveMarks(processDoc.marks ?? [], settings.palette) });
+  const pixelized = pixelizeImport(base.imported, settings, { marks: resolveMarks(processDoc.marks ?? [], settings.palette), hold: processDoc.hold });
   return { ...base, processDoc, pixelized };
 }
 
