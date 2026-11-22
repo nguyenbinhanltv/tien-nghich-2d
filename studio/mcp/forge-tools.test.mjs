@@ -170,8 +170,10 @@ test('frame_patch bake: stored operations survive every rebake', () => withProje
   const before = frame();
   const spot = [...Array(32 * 32).keys()].find((i) => before.pixels[i * 4 + 3] === 255 && i % 32 > 12 && i % 32 < 20 && Math.floor(i / 32) > 14);
   const [x, y] = [spot % 32, Math.floor(spot / 32)];
-  const stored = await a.call('studio_frame_patch', { assetId: ASSET, target: 'bake', edits: [{ frame: 'idle_south_0', ops: [{ op: 'set', pixels: [[x, y, 'bronze_04']] }] }] });
+  const stored = await a.call('studio_frame_patch', { assetId: ASSET, target: 'bake', edits: [{ frame: 'idle_south_0', note: 'scar over the left eye', ops: [{ op: 'set', pixels: [[x, y, 'bronze_04']] }] }] });
   assert.equal(stored.structuredContent.target, 'bake');
+  assert.match(text(stored), /Checked now: palette ids and canvas bounds; the pixel gates run at the next bake/);
+  assert.equal(json(join(p.root, 'assets/raw/longtime', ASSET, 'forge/patch.json')).frames.idle_south_0[0].note, 'scar over the left eye', 'the note is stored with the operation');
   assert.deepEqual(stored.structuredContent.patchedFrames, 1);
   for (let i = 0; i < 2; i++) { // twice: the patch is data, applied after each bake, not consumed
     assert.equal((await bake()).structuredContent.patched, 1);
@@ -238,6 +240,105 @@ test('pose sheet: drawn key poses become the follow clip; the keys are the cells
   const qa = await a.ok('studio_qa_run', { assetId: ASSET });
   assert.equal(qa.summary.frames, 16);
   assert.equal(qa.checks.frameCount.warnings, 16, 'the 16 idle frames are still missing (raw work is partial, so a warning)');
+}));
+
+test('one character, two sheets: a pose-sheet clip plus rig clips bake together and re-bake without losing a definition', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const m = marten(p);
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  const forge = (name) => join(p.root, 'assets/raw/longtime', ASSET, 'forge', name);
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
+
+  const turn = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: m.prompt, tool: 'turnaround tool' });
+  const pose = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: fs.readFileSync(join(POSE, 'prompt.txt'), 'utf8'),
+    tool: 'pose tool', scaleOptions: { mode: 'sheet' } });
+  assert.equal(pose.replaced, null, 'a pose sheet does not replace the turnaround: each kind of sheet has its own slot');
+  assert.notEqual(turn.sheet.sha256, pose.sheet.sha256);
+  const px = await a.call('studio_process', { assetId: ASSET, marks: MARKS });
+  assert.equal(px.structuredContent.cells.length, 20, 'both sheets are pixelised: 4 facings + 16 poses');
+
+  const both = { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa: { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } } };
+  const bake = await a.call('studio_rig_bake', both);
+  assert.equal(bake.isError, undefined, text(bake));
+  assert.deepEqual(Object.keys(bake.structuredContent.clips).sort(), ['follow', 'idle']);
+  assert.equal(bake.structuredContent.frames, 32);
+
+  const sub = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: both.qa });
+  assert.equal(sub.isError, undefined, text(sub));
+  assert.equal(sub.structuredContent.submit.written, 32);
+  assert.equal(json(forge('poseclips.json')).clips.follow.keys.length, 4, 'the pose definition survives the combined submit');
+  assert.ok(json(forge('rig.json')).facings, 'and so does the rig');
+
+  // Each frame is credited to the sheet it came from: two submissions, two source hashes.
+  const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
+  assert.deepEqual(log.map((l) => l.sourceHash).sort(), [pose.sheet.sha256, turn.sheet.sha256].sort());
+  assert.equal(log.find((l) => l.sourceHash === pose.sheet.sha256).prompt, fs.readFileSync(join(POSE, 'prompt.txt'), 'utf8'));
+  assert.equal(log.reduce((n, l) => n + l.frames.length, 0), 32);
+
+  // A re-bake with nothing passed uses both stored definitions and changes nothing.
+  const again = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: both.qa });
+  assert.equal(again.isError, undefined, text(again));
+  assert.equal(again.structuredContent.submit.unchanged, 32);
+  assert.equal(json(forge('poseclips.json')).clips.follow.keys.length, 4);
+}));
+
+test('rig_bake: two named verdicts, and a gate that did not run is said so', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const m = marten(p);
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: m.prompt, tool: 'test' });
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: 'p', tool: 'test', scaleOptions: { mode: 'sheet' } });
+  await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
+  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
+  const clean = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa });
+  const v = clean.structuredContent.verdicts;
+  assert.deepEqual([v.animationGates.pass, v.pixelGates.pass, clean.structuredContent.pass], [true, true, true]);
+  assert.match(text(clean), /Animation gates: PASS, not run: .*foot_slide.*\. Pixel gates: PASS\./);
+  const notRun = Object.fromEntries(v.animationGates.notRun.map((n) => [n.gate, n]));
+  assert.deepEqual(notRun.foot_slide.clips, ['follow'], 'the drawn walk had no planted contacts, so foot slide never ran for it');
+  assert.match(notRun.foot_slide.reason, /no planted contact/);
+  assert.match(notRun.foot_slide.turnOn, /contacts/);
+  assert.match(notRun.flicker.reason, /skipped by default for drawn pose clips/);
+  assert.match(notRun.flicker.turnOn, /qa:\{pose:\{flicker/);
+  assert.equal(notRun.pivot_drift.reason, 'turned off in qa');
+  assert.ok(v.animationGates.ran.some((g) => g.gate === 'loop_seam'));
+  assert.match(clean.structuredContent.next, /Both verdicts pass \(gates not run: .*foot_slide/);
+
+  // Error pixels: the animation gates still pass, but the overall verdict does not, and nothing suggests submitting.
+  await a.ok('studio_frame_patch', { assetId: ASSET, target: 'bake', edits: [{ frame: 'idle_south_0', ops: [{ op: 'set', pixels: [[0, 0, 'bronze_04'], [1, 0, 'jade_04']] }] }] });
+  const dirty = await a.call('studio_rig_bake', { assetId: ASSET, qa });
+  assert.deepEqual([dirty.structuredContent.verdicts.animationGates.pass, dirty.structuredContent.verdicts.pixelGates.pass, dirty.structuredContent.pass], [true, false, false]);
+  assert.equal(dirty.structuredContent.verdicts.pixelGates.errorPixels, 2);
+  assert.match(text(dirty), /Animation gates: PASS.*Pixel gates: FAIL \(2 error pixel/);
+  assert.match(dirty.structuredContent.next, /^Not ready to submit: fix the error pixels/);
+  assert.doesNotMatch(dirty.structuredContent.next, /submit=true/);
+  const refused = await a.call('studio_rig_bake', { assetId: ASSET, qa, submit: true });
+  assert.equal(refused.isError, true);
+  assert.match(refused.structuredContent.submit.message, /Nothing was committed: 2 error pixel/);
+  assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ASSET, 'frames')), false);
+}));
+
+test('template_get carries the document formats, and the forge descriptions say what an agent otherwise reads source for', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const t = (await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' })).structuredContent.formats;
+  assert.equal(t.rig.shape.schema, 'studio.rig');
+  assert.deepEqual(t.rig.shape.canvas, [32, 32]);
+  assert.match(t.rig.rules.join(' '), /contact pixel .* joint/);
+  assert.deepEqual(Object.keys(t.rig.bodyPlans).sort(), ['biped', 'quadruped']);
+  assert.match(t.rig.bodyPlans.quadruped.limb, /required, needs contact/);
+  assert.equal(t.poseClips.shape.schema, 'forge.poseclips');
+  assert.match(JSON.stringify(t.poseClips.shape), /planted contacts TURN ON the foot-slide gate/);
+  assert.match(t.twoSheets, /rig AND poseClips in one call/);
+  const tools = Object.fromEntries((await a.rpc('tools/list')).result.tools.map((x) => [x.name, x.description]));
+  assert.match(tools.studio_rig_bake, /verdicts\.animationGates .* verdicts\.pixelGates/);
+  assert.match(tools.studio_rig_bake, /notRun .* NOT a pass/);
+  assert.match(tools.studio_rig_bake, /import the turnaround AND the pose sheet/);
+  assert.match(tools.studio_sheet_import, /layout\.labelBand\.fraction of every cell \(0\.13 in the shipped templates\)/);
+  assert.match(tools.studio_sheet_import, /each kind of sheet keeps its own import/);
+  assert.match(tools.studio_frame_patch, /pixel gates .* NEXT studio_rig_bake/);
+  assert.match(tools.studio_scene_snapshot, /STORED frames only/);
+  assert.match(tools.studio_diff, /single_revision .* forge\/patch\.json/);
 }));
 
 test('rig_bake: what it refuses, and the submit rules', () => withProject(async (p) => {

@@ -140,6 +140,7 @@ test('audio_analyze: a document, a kept candidate, or a WAV file; read-only, wit
   const err = async (args, why) => assert.match(text(await read.call('studio_audio_analyze', args)), why);
   await err({}, /exactly one of file, cueId or document/);
   await err({ file: rel, cueId: CUE }, /exactly one of/);
+  await err({ cueId: CUE, document: zap() }, /you gave cueId and document: a document names its own cue, so drop cueId/);
   await err({ file: 'work/missing.wav' }, /not found or not a regular file/);
   await err({ file: '../../etc/passwd' }, /Not a project-relative path/);
   await err({ file: '/etc/passwd' }, /Not a project-relative path/);
@@ -215,3 +216,26 @@ test('the audio tools: nothing in them can sign a listening, approve or deliver'
     assert.doesNotMatch(code, /\b(signListening|sign_listening|listeningSigned|approve)\b/i, f);
   }
 });
+
+test('asset_get on an audio cue shows each candidate\'s document hash, wav hash and note', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const r = await a.call('studio_audio_render', { cueId: CUE, document: zap(), keep: true, note: 'first take' });
+  assert.equal(r.isError, undefined, text(r));
+  const got = (await a.ok('studio_asset_get', { assetId: CUE, sections: ['audio'] })).audio.candidates[0];
+  assert.equal(got.documentSha256, r.structuredContent.documentSha256);
+  assert.equal(got.wavSha256, r.structuredContent.wavSha256);
+  assert.equal(got.note, 'first take');
+  assert.equal(got.deterministic, true);
+}));
+
+test('audio tool descriptions: no agent hears, exactly one input, and audio reviews are the two pictures', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const tools = Object.fromEntries((await a.rpc('tools/list')).result.tools.map((t) => [t.name, t]));
+  assert.doesNotMatch(tools.studio_audio_render.description, /how you hear/);
+  assert.match(tools.studio_audio_render.description, /how you inspect it\. NO AGENT LISTENS/);
+  assert.match(tools.studio_audio_analyze.description, /EXACTLY ONE of file, cueId or document/);
+  for (const k of ['file', 'cueId', 'document']) assert.match(tools.studio_audio_analyze.inputSchema.properties[k].description, /exactly one/);
+  assert.equal(tools.studio_audio_analyze.inputSchema.oneOf, undefined, 'no top-level oneOf: some clients reject it');
+  assert.match(tools.studio_review_request.description, /AUDIO cue .* waveform and the spectrogram/);
+  assert.match(tools.studio_review_list.description, /AUDIO cue .* waveform and spectrogram/);
+}));

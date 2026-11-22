@@ -24,7 +24,7 @@ export default {
       stage: { type: 'string', enum: ['processed', 'raw'], description: 'Default: processed if any exist, else raw (frames submitted through studio_frames_submit).' },
       ...selectionProps,
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Pixel zoom (default 4).' },
-      overlay: { type: 'boolean', description: 'Box defective pixels and colour the status bars (default true).' },
+      overlay: { type: 'boolean', description: 'true (default): box defective pixels and colour each frame\'s status bar (green clean, yellow warnings, red errors). false: a plain sheet, no boxes and no bars.' },
       background: backgroundProp,
     },
     required: ['assetId'],
