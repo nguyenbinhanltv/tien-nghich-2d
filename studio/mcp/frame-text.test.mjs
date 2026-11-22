@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { join } from 'node:path';
 import { decodePng } from '../forge/index.mjs';
-import { connect, makeProject, makeFrame, writeFrame } from './testkit.mjs';
+import { bareFrame } from '../core/review.mjs';
+import { PROVENANCE, clipFrames, connect, makeProject, makeFrame, writeFrame } from './testkit.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
 const withProject = async (fn) => { const p = makeProject({ git: false }); try { return await fn(p); } finally { await p.cleanup(); } };
@@ -184,24 +185,66 @@ test('frame_patch rows: a revision saved between validation and save is never ov
   const read = await a.ok('studio_frame_read', { assetId: ICON, frame: FRAME });
   const legend = { ...Object.fromEntries(read.legend.map((l) => [l.char, l.id])), b: 'bronze_04' };
   const rows = read.rows.map((row, y) => (y === 7 ? row.slice(0, 7) + 'b' + row.slice(8) : row));
-  // Another session saves a revision after the hash was checked, before this call saves: intercept the store's save.
-  const store = await a.project.workspace.store();
-  const operate = store.operate.bind(store);
+  // Another session saves a revision after the hash was checked, before the save phase starts (the first store() taken by the save step).
+  const ws = a.project.workspace;
+  const realStore = ws.store.bind(ws);
   let injected = false;
-  store.operate = (frame, baseline, action, args) => {
-    if (action === 'save' && !injected) {
+  ws.store = async () => {
+    const store = await realStore();
+    if (!injected && new Error().stack.includes('saveRevisions')) {
       injected = true;
-      const head = operate(frame, baseline, 'frame', {});
-      operate(frame, baseline, 'save', { baseRevision: head.head, png: makeFrame(16, 16, { variant: 9 }).png }); // someone else's revision 1
+      const key = `longtime/${ICON}/glyph_none_0`;
+      const base = fs.readFileSync(rawIcon(p));
+      const head = store.operate(bareFrame(key), base, 'frame', {});
+      store.operate(bareFrame(key), base, 'save', { baseRevision: head.head, png: makeFrame(16, 16, { variant: 9 }).png });
     }
-    return operate(frame, baseline, action, args);
+    return store;
   };
   const r = await a.call('studio_frame_patch', { assetId: ICON, edits: [{ frame: FRAME, rows, legend, hash: read.hash }] });
-  store.operate = operate;
+  ws.store = realStore;
   assert.equal(injected, true);
   assert.equal(r.isError, true);
-  assert.match(text(r), /changed since you read it \(another save landed after revision 0\)/);
+  assert.match(text(r), /changed since you read it \(another save landed after revision 0\); NOTHING was saved/);
   const after = await a.ok('studio_frame_read', { assetId: ICON, frame: FRAME });
   assert.notEqual(after.hash, read.hash, 'the other revision is what is stored');
   assert.equal((await a.ok('studio_diff', { assetId: ICON })).frames[0].revision, 1, 'only the other session\'s revision exists');
+}));
+
+test('frame_patch rows: a conflict on the second of two frames saves neither, and says so', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const BROKER = 'lt_seed_broker';
+  await a.ok('studio_frames_submit', { assetId: BROKER, provenance: PROVENANCE, frames: clipFrames('idle', 'south', 2) });
+  const edit = async (n) => {
+    const read = await a.ok('studio_frame_read', { assetId: BROKER, frame: `idle_south_${n}` });
+    const legend = { ...Object.fromEntries(read.legend.map((l) => [l.char, l.id])), b: 'bronze_04' };
+    const rows = read.rows.map((row, i) => (i === 14 ? row.slice(0, 16) + 'b' + row.slice(17) : row)); // an interior pixel of the body
+    return { frame: `idle_south_${n}`, rows, legend, hash: read.hash };
+  };
+  const edits = [await edit(0), await edit(1)];
+  // Frame 1's head advances after its hash was validated, before the save phase begins (the first store() taken by the save step).
+  const ws = a.project.workspace;
+  const realStore = ws.store.bind(ws);
+  let injected = false;
+  ws.store = async () => {
+    const store = await realStore();
+    if (!injected && new Error().stack.includes('saveRevisions')) {
+      injected = true;
+      const key = `longtime/${BROKER}/idle_south_1`;
+      const base = makeFrame(32, 32, { variant: 1 }).png;
+      const head = store.operate(bareFrame(key), base, 'frame', {});
+      store.operate(bareFrame(key), base, 'save', { baseRevision: head.head, png: makeFrame(32, 32, { variant: 7 }).png });
+    }
+    return store;
+  };
+  const r = await a.call('studio_frame_patch', { assetId: BROKER, edits });
+  ws.store = realStore;
+  assert.equal(injected, true, text(r));
+  assert.equal(r.isError, true);
+  assert.match(text(r), /idle_south_1 changed since you read it .* NOTHING was saved, not even the other frames/);
+  const diff = await a.ok('studio_diff', { assetId: BROKER });
+  assert.equal(diff.frames.find((f) => f.frame === 'idle_south_0').status, 'single_revision', 'frame 0 was not saved');
+  assert.equal(diff.frames.find((f) => f.frame === 'idle_south_1').revision, 1, 'only the other session\'s revision on frame 1');
+  // Retrying with fresh reads works.
+  const again = await a.ok('studio_frame_patch', { assetId: BROKER, edits: [await edit(0), await edit(1)] });
+  assert.deepEqual(again.saved.map((x) => x.revision), [1, 2]);
 }));

@@ -344,3 +344,28 @@ test('audio_render dryRun with keep refuses a cue at its candidate limit, as the
   assert.match(text(d), /already has 50 candidates/);
   assert.equal(d.structuredContent?.wouldKeep, undefined);
 }));
+
+test('pack dryRun lists the staging files the real call would remove; sheet_import dryRun refuses a corrupted stored sheet', () => withProject(async (p) => {
+  const a = connect(p.root);
+  await a.ok('studio_pack', { chunk: 'abode' });
+  const both = await a.ok('studio_pack', { chunk: 'abode', dryRun: true });
+  assert.ok(both.wouldReplace.length > 0 && both.wouldRemove.length === 0, 'the same pack replaces its own files');
+  const web = await writesNothing(p, () => a.call('studio_pack', { chunk: 'abode', platform: 'web', dryRun: true }));
+  assert.ok(web.wouldRemove.some((f) => f.includes('/mobile/')), 'the mobile output the real call clears is listed');
+  assert.ok(web.wouldWrite.every((f) => f.includes('/web/')));
+  const real = await a.ok('studio_pack', { chunk: 'abode', platform: 'web' });
+  for (const f of web.wouldRemove) assert.equal(exists(p, f), false, `${f} was removed by the real call`);
+  assert.ok(real.mobile === undefined);
+
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(EXP, 'turnaround.png'), join(p.root, 'work/turnaround.png'));
+  const imp = { assetId: CRANE, sheet: { file: 'work/turnaround.png' }, layout: json(join(EXP, 'layout.forge.json')), prompt: fs.readFileSync(join(EXP, 'prompt.txt'), 'utf8'), tool: 'Codex' };
+  const first = await a.ok('studio_sheet_import', imp);
+  fs.writeFileSync(join(p.root, first.sheet.file), 'corrupted');
+  const before = fingerprint(p.root);
+  const d = await a.call('studio_sheet_import', { ...imp, dryRun: true });
+  const r = await a.call('studio_sheet_import', imp);
+  assert.equal(d.isError, true); assert.equal(r.isError, true);
+  assert.match(text(d), /exists with different bytes/);
+  assert.equal(fingerprint(p.root), before);
+}));

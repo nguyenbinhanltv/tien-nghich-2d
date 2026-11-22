@@ -5,15 +5,20 @@
 import { bareFrame } from './review.mjs';
 
 /**
- * `key`: the frame key; `baseline`: bytes of the frame as submitted (used only if the key has no history yet);
- * `png`: the new pixels as PNG bytes. Returns {revision, head, changed, status}. A save identical to the head is a no-op.
+ * Save several frames' new revisions all-or-nothing. items: [{key, baseline, png, baseRevision?}]. The checks and the saves run in one
+ * synchronous stretch (the store is synchronous), so no other save can land between them: if any frame's head is not the revision its
+ * pixels were computed from, NOTHING is saved and the first such item is named in the error.
  */
-export async function saveRevision(ws, {key, baseline, png, baseRevision}) {
+export async function saveRevisions(ws, items) {
   const store = await ws.store();
-  const head = store.operate(bareFrame(key), baseline, 'frame', {});
-  // baseRevision: the revision the caller's pixels were computed from; the store's optimistic check then refuses a save over a newer one.
-  const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? head.head, png});
-  return {revision: snap.revision, head: snap.head, changed: snap.head > head.head, status: snap.status, previous: head.head};
+  const heads = items.map(({key, baseline}) => store.operate(bareFrame(key), baseline, 'frame', {}).head);
+  items.forEach(({key, baseRevision}, i) => {
+    if (baseRevision !== undefined && baseRevision !== heads[i]) throw Object.assign(new Error('Reload the current revision'), {status: 409, code: 'revision_conflict', head: heads[i], key, index: i});
+  });
+  return items.map(({key, baseline, png, baseRevision}, i) => {
+    const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? heads[i], png});
+    return {revision: snap.revision, head: snap.head, changed: snap.head > heads[i], status: snap.status, previous: heads[i]};
+  });
 }
 
 /** The pixels of a frame's newest revision as PNG bytes, or null when it has no history. */

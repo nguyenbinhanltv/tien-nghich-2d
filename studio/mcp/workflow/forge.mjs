@@ -53,6 +53,16 @@ export async function writeDoc(ws, asset, name, doc) {
   return { rel, sha256: sha256(text) };
 }
 
+/** Where a sheet with these bytes is stored, whether it already is, and that what is there really is these bytes (throws if not). */
+export async function checkStoredSheet(ws, asset, bytes) {
+  const hash = sha256(bytes);
+  const rel = `${forgeDir(asset)}/sheets/${hash.slice(0, 16)}.png`;
+  let existing = null;
+  try { existing = await fs.readFile(containedPath(ws.root, rel)); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (existing && sha256(existing) !== hash) throw new ToolError(`${rel} exists with different bytes (a hash-prefix collision or tampering); nothing was written.`);
+  return { rel, exists: !!existing, sha256: hash };
+}
+
 /** Store a drawn sheet by content hash. Written once; identical content is a no-op. */
 export async function storeSheet(ws, asset, bytes) {
   const hash = sha256(bytes);

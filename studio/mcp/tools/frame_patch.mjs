@@ -3,7 +3,7 @@ import { sha256 } from '../../core/fsutil.mjs';
 import { findDefects } from '../../core/defects.mjs';
 import { readInside } from '../../core/files.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
-import { headPng, saveRevision } from '../../core/revisions.mjs';
+import { headPng, saveRevisions } from '../../core/revisions.mjs';
 import { encodePng, validatePatch } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { MAX_DOC_BYTES, forgeCall, parseFrameName, readDoc, settingsFor, writeDoc } from '../workflow/forge.mjs';
@@ -189,14 +189,16 @@ export default {
         return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target, wouldSave: frames.map((f) => ({ frame: f.frame, key: f.key, as: 'new revision, pending' })), frames,
           note: 'Saved for real, each frame becomes a new pending revision; the raw file stays as submitted. Only a human approves.' });
       }
-      const saved = [];
-      for (const { p, next, baseline, baseRevision } of results) {
-        const r = await saveRevision(ws, { key: p.key, baseline, png: Buffer.from(encodePng(next)), baseRevision }).catch((error) => {
-          if (baseRevision !== undefined && error?.code === 'revision_conflict') throw new ToolError(`${p.frame} changed since you read it (another save landed after revision ${baseRevision}); nothing newer was overwritten. Read it again with studio_frame_read and redo the edit.`);
-          throw error;
-        });
-        saved.push({ frame: p.frame, key: p.key, revision: r.revision, changed: r.changed, status: r.status });
+      // All frames save together or not at all: a conflict on any of them leaves every frame as it was.
+      let revisions;
+      try {
+        revisions = await saveRevisions(ws, results.map(({ p, next, baseline, baseRevision }) => ({ key: p.key, baseline, png: Buffer.from(encodePng(next)), baseRevision })));
+      } catch (error) {
+        const hit = error?.code === 'revision_conflict' && results[error.index];
+        if (hit && hit.baseRevision !== undefined) throw new ToolError(`${hit.p.frame} changed since you read it (another save landed after revision ${hit.baseRevision}); NOTHING was saved, not even the other frames of this call. Read the frames again with studio_frame_read and redo the edits.`);
+        throw error;
       }
+      const saved = results.map(({ p }, i) => ({ frame: p.frame, key: p.key, revision: revisions[i].revision, changed: revisions[i].changed, status: revisions[i].status }));
       const cells = [];
       plan.forEach((p, i) => {
         for (const [label, image] of [['before', before[p.frame]], ['after', after[p.frame]]]) {

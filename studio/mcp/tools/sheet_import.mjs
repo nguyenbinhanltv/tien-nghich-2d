@@ -6,9 +6,8 @@ import { readInside } from '../../core/files.mjs';
 import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
-import { MAX_SHEET_BYTES, forgeCall, forgeDir, importName, readDoc, readImports, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
+import { MAX_SHEET_BYTES, checkStoredSheet, forgeCall, forgeDir, importName, readDoc, readImports, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
 import { dryRunProp, loadAsset, jsonResult, proposal, requireFrames } from './_shared.mjs';
-import { sha256 } from '../../core/fsutil.mjs';
 
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
@@ -94,12 +93,11 @@ export default {
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
       if (args.dryRun) {
-        const sheetRel = `${forgeDir(asset)}/sheets/${sha256(bytes).slice(0, 16)}.png`;
+        const { rel: sheetRel, exists } = await checkStoredSheet(ws, asset, bytes);
         const slot = slotOfLayout(layout);
         const current = await readImports(ws, asset);
         const previous = current[slot];
         const legacyMove = slot === 'rig' && current.pose && !(await readDoc(ws, asset, 'import.pose'));
-        const exists = await fs.stat(containedPath(ws.root, sheetRel)).then(() => true, () => false);
         const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
         return proposal({ asset: asset.id, slot, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
           wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists,

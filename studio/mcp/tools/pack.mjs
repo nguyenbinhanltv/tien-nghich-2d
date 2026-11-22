@@ -23,6 +23,18 @@ async function realOf(p) {
   }
 }
 
+/** Project-relative paths of every file under a directory (empty when it does not exist), sorted. */
+async function listFiles(ws, dir) {
+  const out = [];
+  async function walk(abs) {
+    let entries;
+    try { entries = await fs.readdir(abs, { withFileTypes: true }); } catch (error) { if (error.code === 'ENOENT') return; throw error; }
+    for (const e of entries) { const p = path.join(abs, e.name); if (e.isDirectory()) await walk(p); else out.push(shown(ws, p)); }
+  }
+  await walk(dir);
+  return out.sort();
+}
+
 /** SHA-256 of every file under the directories, in a stable order: used to prove the shipped atlases did not change. */
 async function fingerprint(root, dirs) {
   const hash = crypto.createHash('sha256');
@@ -92,6 +104,8 @@ export default {
       if (!sprites.length) throw new ToolError(`Chunk ${args.chunk} has no frames yet (no processed frames and no submitted raw frames).`);
       log(`packing ${sprites.length} frame(s) of ${Object.keys(perAsset).length} asset(s) for ${platforms.join(' and ')}`);
 
+      // The real call clears the chunk's whole staging directory first; a dry run lists what is there so the removal is visible.
+      const existingStaged = args.dryRun ? await listFiles(ws, staging) : [];
       if (!args.dryRun) await fs.rm(staging, { recursive: true, force: true });
       const result = {};
       const wouldWrite = [];
@@ -127,7 +141,7 @@ export default {
       const after = await fingerprint(ws.root, shipped);
       if (after !== before) throw new Error('the shipped atlas directories changed during packing; this must never happen');
       const pass = Object.values(result).every((r) => r.budget.pass);
-      const out = { ok: true, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldWrite } : {}), pass, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
+      const out = { ok: true, ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldWrite, wouldRemove: existingStaged.filter((f) => !wouldWrite.includes(f)), wouldReplace: existingStaged.filter((f) => wouldWrite.includes(f)) } : {}), pass, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
         note: args.dryRun ? 'Dry run: nothing was written anywhere. Without dryRun the files above are written to staging only; delivering atlases is a human step.' : 'Staging only. Nothing was written to the shipped atlases; delivering atlases is a human step.' };
       return jsonResult(out);
     });
