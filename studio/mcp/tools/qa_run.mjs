@@ -4,6 +4,10 @@ import { auditCandidate } from '../workflow/audio.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
 import { ToolError } from '../registry.mjs';
 import { readVersion } from '../../core/audio-candidates.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { gather } from '../workflow/evidence.mjs';
+import { measure } from '../workflow/stop.mjs';
+import { scopeAllows } from '../registry.mjs';
 import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames, requireScope, selectionOf, selectionProps } from './_shared.mjs';
 
 export default {
@@ -13,6 +17,8 @@ export default {
     'Check an asset\'s frames against the project rules: palette (40 colours), alpha (binary), silhouette outline, canvas size, frame count against the spec, and file naming. ' +
     'Each frame\'s defects come back with x, y coordinates. By default it only reads. ' +
     'summary.rawStage is true when the frames checked are the raw (submitted) ones: expected frames that are not there yet are then warnings, not errors; it never means a check was skipped. ' +
+    'Every result carries qa, the one QA envelope all tools share: status (fail, partial when nothing failed but something was NOT proven, pass), method, each check with its measured value and threshold, notProven (what was not checked and why) and the hashes of the inputs; read notProven before trusting a pass. ' +
+    'When the pack has a stop policy, a whole-asset run also reports stopPolicy: the fix round, whether it made progress, and whether the work must stop and ask the human. ' +
     'record=true writes the result as a check (needs scope author); independent=true also claims it is an independent check, which the server accepts only from a session OTHER than the one that submitted the frames. ' +
     'For an AUDIO cue it checks the newest candidate: reproducible from its source, no clipping, not silent, endpoints at digital zero (patches), notes in the key (scores); never listening. ' +
     'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate).',
@@ -51,11 +57,17 @@ export default {
         for (let v = 1; v <= cand.version; v++) { const c = await readVersion(ws.root, asset.audio.dir, v); if (c) authors.add(c.provenance.session); }
         const authoredByThisSession = authors.has(ctx.caller.session);
         if (args.independent && authoredByThisSession) throw new ToolError(`An independent check must come from a different session than the one that authored the cue. This session (${ctx.caller.session.slice(0, 8)}) kept a candidate for ${asset.id}. Start another session and run studio_qa_run with independent=true there.`);
-        const out = { asset: asset.id, stage: 'audio', candidate: cand.version, pass: audit.pass, kind: audit.kind, summary: audit.summary, checks: audit.checks, measurements: audit.measurements, listening: audit.listening };
+        const qa = envelope({ method: `measurements of candidate v${cand.version} (${audit.kind}): reproducible render, clipping, silence, endpoints or scale`,
+          checks: Object.entries(audit.checks).map(([name, c]) => check(name, { ok: c.pass, measured: c.detail, threshold: 'must hold' })),
+          notProven: [{ what: 'how it sounds', why: 'no agent listens; a human signs listening in the Review tab' }],
+          inputs: { candidate: audit.content, wav: cand.provenance.wavSha256, document: cand.provenance.documentSha256 } });
+        const out = { asset: asset.id, stage: 'audio', candidate: cand.version, pass: audit.pass, kind: audit.kind, summary: audit.summary, checks: audit.checks, measurements: audit.measurements, listening: audit.listening, qa };
         if (record) {
-          (await ws.db()).recordCheck({ asset: asset.id, stage: 'audio', content: audit.content, session: ctx.caller.session, agent: ctx.caller.agent, independent: !authoredByThisSession, pass: audit.pass, errors: audit.summary.errors, warnings: 0 });
+          (await ws.db()).recordCheck({ asset: asset.id, stage: 'audio', content: audit.content, session: ctx.caller.session, agent: ctx.caller.agent, independent: !authoredByThisSession, pass: audit.pass, errors: audit.summary.errors, warnings: 0, evidence: await gather(ws, asset, { stage: 'audio', content: audit.content, session: ctx.caller.session }) });
           out.recorded = { independent: !authoredByThisSession, pass: audit.pass, session: ctx.caller.session.slice(0, 8), note: !authoredByThisSession ? 'counts as an independent check on exactly this candidate' : 'recorded, but not independent: this session authored the cue' };
         }
+        const sp = await measure(ws, asset, snap.pack, { stage: 'audio', content: audit.content, errors: audit.summary.errors, warnings: 0, caller: ctx.caller, record: scopeAllows(ctx.scope, 'author') });
+        if (sp) out.stopPolicy = sp;
         return jsonResult(out);
       });
     }
@@ -71,8 +83,19 @@ export default {
           `An independent check must come from a different session than the one that authored the asset. This session (${ctx.caller.session.slice(0, 8)}) submitted frames for ${asset.id}. ` +
           'Start another session (a new connection) and run studio_qa_run with independent=true there. A plain run without independent=true is fine for your own checking.');
       }
+      const narrowed = Object.keys(select).length > 0;
+      const animated = Object.values(asset.clips ?? {}).some((c) => c.frames > 1);
+      const envelopeOf = envelope({
+        method: `static pixel gates over ${qa.summary.frames} ${stage} frame(s)${narrowed ? ` (narrowed to ${JSON.stringify(select)})` : ''}`,
+        checks: Object.entries(qa.checks).map(([name, v]) => check(name, { ok: v.errors === 0, warn: v.warnings > 0, measured: { errors: v.errors, warnings: v.warnings }, threshold: { errors: 0 } })),
+        notProven: [
+          ...(qa.summary.rawStage && qa.missing.length ? [{ what: `${qa.missing.length} expected frame(s) are not there yet`, why: 'raw stage: only the frames submitted so far were judged (missing frames are warnings until processed frames exist)' }] : []),
+          ...(narrowed ? [{ what: 'the frames outside the selection', why: 'the run was narrowed with clip, direction or frame' }] : []),
+          ...(animated ? [{ what: 'motion: foot slide, pivot drift, flicker, loop seam', why: 'this tool judges single frames; the animation gates run in studio_rig_bake', turnOn: 'studio_rig_bake' }] : []),
+        ],
+        inputs: { frames: (await contentHash(ws.root, asset, stage)) ?? sha('no frames') } });
       const out = {
-        asset: asset.id, stage, pass: qa.pass, summary: qa.summary,
+        asset: asset.id, stage, pass: qa.pass, summary: qa.summary, qa: envelopeOf,
         checks: Object.fromEntries(Object.entries(qa.checks).map(([k, v]) => [k, { pass: v.pass, errors: v.errors, warnings: v.warnings, ...(v.details.length ? { details: v.details } : {}) }])),
         ...(qa.summary.rawStage ? { stageNote: 'raw stage: this checks the frames submitted so far, so frames the spec still expects are warnings (not errors). It does not mean the run skipped anything. Once processed frames exist the same gaps are errors.' } : {}),
         ...(qa.missing.length ? { missing: qa.missing.slice(0, 40), missingCount: qa.missing.length } : {}),
@@ -83,8 +106,12 @@ export default {
       if (record) {
         const content = await contentHash(ws.root, asset, stage);
         const independent = !authoredByThisSession;
-        (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings });
+        (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings, evidence: await gather(ws, asset, { stage, content: content ?? '', session: ctx.caller.session }) });
         out.recorded = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
+      }
+      if (!narrowed) {
+        const sp = await measure(ws, asset, snap.pack, { stage, content: envelopeOf.inputs.frames, errors: qa.summary.pixelErrors + qa.summary.assetErrors, warnings: qa.summary.pixelWarnings + qa.summary.assetWarnings, caller: ctx.caller, record: scopeAllows(ctx.scope, 'author') });
+        if (sp) out.stopPolicy = sp;
       }
       return jsonResult(out);
     });

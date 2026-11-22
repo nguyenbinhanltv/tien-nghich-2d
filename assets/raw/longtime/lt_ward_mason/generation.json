@@ -1,0 +1,93 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style anchor = the processed lt_kiln_keeper idle_south_0 frame passed as base64, colour palette NOT copied) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "f858bf36-23bf-4645-8698-0d8bc90ac777",
+  "character_job_id": "4e08b19d-796f-412d-8d1a-c2f040c5dcf0",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Stocky xianxia ward mason, chibi with a very large head and short body, small human in a light warm cream stone-dust tunic with sand-coloured rolled sleeves, a rust-brown leather apron over the front, a soft pale cloth cap, short tan beard, thick forearms. A bronze stone chisel with a warm-brown wooden handle is pushed through his belt at his RIGHT hip, the bright bronze blade angled outward and down, clearly visible against the pale tunic (asymmetric: nothing on the left hip). Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "e985737c-8b5e-4838-ae5e-d3452ba16a12",
+      "job_ids": {
+        "south": "c7bbe248-0270-42a0-8d98-c9d47b036ff8",
+        "west": "0064660e-2fc5-4be9-916e-7feef8e64f29",
+        "north": "83c608f9-7e78-4cba-8234-b6024471c88b",
+        "east": "e225e42b-c969-43fa-b88d-05edb5f3c5c0"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the bronze chisel stays pushed through the belt at the same right hip, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the bronze chisel stays pushed through his belt at his right hip on the viewer's left, bright blade always visible",
+        "west": "facing left, breathes gently; the bronze chisel stays in his belt at the hip, bright blade always visible",
+        "north": "back to the viewer, breathes gently; the bronze chisel stays in his belt at his right hip on the viewer's right, bright blade always visible",
+        "east": "facing right, breathes gently; the bronze chisel stays in his belt at the hip, bright blade always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "75b2ad63-cbbf-4a47-9904-b153f7f4fa9c",
+      "job_ids": {
+        "south": "e37a8e34-4549-46b0-89db-dc2188ca45a2",
+        "west": "75e57f68-de17-4a9a-bfca-18b3b465db83",
+        "north": "6bff4831-94d4-4266-aaa0-6e3099d89b45",
+        "east": "5ada61c5-5f6e-4b1d-b2aa-afa83df44168"
+      },
+      "action_description": "taps the bronze chisel at his hip with one hand as if checking it, then lets go; the chisel always stays in the belt at the same hip and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, his right hand (the viewer's left) goes to the bronze chisel in his belt at that hip, pats it, then lets go; the chisel never moves to the other hip",
+        "west": "facing left, his near hand goes to the bronze chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt",
+        "north": "seen from behind, his right hand (the viewer's right) goes to the bronze chisel in his belt at that hip, pats it, then lets go; the chisel stays in the belt on the viewer's right",
+        "east": "facing right, his near hand goes to the bronze chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character generation (character id 8aeda727-1b11-45d4-bb75-77a14ede9463, job fb29c265-49ca-4f18-8fcf-058d45bc655e, seed 7, short steel chisel in a leather loop, grey-blue tunic)",
+      "credits": 6,
+      "result": "rejected before animating: chisel invisible at 1x"
+    },
+    {
+      "n": 2,
+      "what": "second character generation (character id b31b3e6b-133b-42fd-94de-ba5304575caa, job 1630ebe1-53d8-49c7-88ed-7afa4a056f25, seed 11, long bright steel chisel) with idle and interact v3 (idle groups 6a699221-7043-48ca-80b0-bf00b3fc5af4, interact 3b42eaaa-6acf-48ac-9a78-7be7d8f8c817; jobs feee75b7, f8fa8662, 0ebb4616, 2efb1198 / 1add9b1e, 88c8e596, 6421bc76, 7cdd6715)",
+      "credits": 14,
+      "result": "shipped in PR #104 first, then replaced after owner review: all grey, thin, low contrast, would sink into the abode floor"
+    },
+    {
+      "n": 3,
+      "what": "third and final character generation (the one shipped now): lighter cream tunic, rust apron, bronze chisel, kiln-keeper style anchor, then idle and interact v3 for 4 directions each; every shipped clip-direction is the first take of this character",
+      "credits": 14,
+      "result": "accepted; contrast check against the abode floor colours (#49434f #2c2733 #6e6877 #9d98a4): share of body pixels within 1.5:1 contrast of a floor colour is 12-20%, kiln keeper is 11-28%"
+    }
+  ],
+  "credits_spent": {
+    "character_rejected_1": 6,
+    "character_replaced_2": 6,
+    "animations_replaced_2": 8,
+    "character_shipped": 6,
+    "animations_shipped": 8,
+    "total_generations": 34
+  },
+  "known_flaws": [
+    "west and east views are narrow, the chisel is a 2-3 px bronze glint there",
+    "interact: the patting hand is hard to tell from idle at 1x, interact south frame 3-4 raises a dark object near the head",
+    "the cap is pale grey and the tunic pink-cream after the palette snap, so the figure reads light and warm, not cream"
+  ],
+  "style_anchor": {
+    "image": "assets/processed_longtime/lt_kiln_keeper/idle_south_0.png (32x32)",
+    "usage_description": "Match this character's chibi proportions: very large head, small body, thick outline. Do not copy its colours or clothes.",
+    "style_options": {
+      "color_palette": false,
+      "detail": true,
+      "outline": true,
+      "shading": true
+    }
+  }
+}

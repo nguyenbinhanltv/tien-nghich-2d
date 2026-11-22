@@ -1,0 +1,537 @@
+{
+  "id": "lt_bell_founder",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Handbell and leather glove",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "3447682c-38b2-44e1-9df1-7642e15b6911",
+  "character_job_id": "0e87d7e4-43ee-439b-89c0-77e72ef74518",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Stocky xianxia bell founder, small human in a short dark-brown work tunic with rolled sleeves, thick grey-blue forearm wrapping, bald head with a headband. In the RIGHT hand a bronze handbell held up at his side with a clapper; the LEFT hand wears a thick brown leather glove that reaches the elbow (asymmetric), the other hand bare. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c904c0d6-e128-421d-a881-69907bb8491b",
+      "job_ids": {
+        "south": "ac622e78-e282-400f-aa43-990aba1ebece",
+        "west": "1c9b25a3-25b4-4c35-9611-8d5d6d5bb165",
+        "north": "9838a40b-9474-45a6-90c4-4945d806b749",
+        "east": "5d89287b-a079-4c47-8251-33ddfa61b420"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the small bronze handbell stays held in the same right hand and the big leather glove stays on the other arm, both clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the bronze handbell stays held in his right hand on the viewer's left, the big brown leather glove stays on his other arm on the viewer's right",
+        "west": "facing left, standing upright on both feet, breathes gently; both arms hang at his sides, a small golden bell stays held low in front of his chest in EVERY frame; both feet stay on the ground (second attempt, west only)",
+        "north": "back to the viewer, breathes gently; the bronze handbell stays visible in his right hand on the viewer's right side, the big brown glove stays on the other arm on the viewer's left",
+        "east": "facing right, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "c07abe25-e813-440c-a703-b613a33ce012",
+          "prompt": "facing left, breathes gently; the bronze handbell stays held in front of him, the big brown glove stays on the near arm",
+          "why": "bell lost, the glove swung up like a kicking leg"
+        },
+        "south_take2": {
+          "job_id": "5e6acc39-78a3-4bd2-997f-542f42b992ed",
+          "prompt": "facing the viewer, breathes gently; a large bright golden-bronze handbell, as big as his fist, is held up at shoulder height in his right hand on the viewer's left, its round dome and clapper clearly visible in EVERY frame; the big brown leather glove stays on his other arm on the viewer's right (second attempt, south only)",
+          "why": "bell no larger than take 1; take 1 kept"
+        }
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "36a9c1b5-8d2f-42d3-a39d-c827c3ff18ea",
+      "job_ids": {
+        "south": "5ffc4959-9b45-4cad-9c3b-918bf13390c2",
+        "west": "f548d35e-3a44-4fec-a942-131c8f391014",
+        "north": "bee2ab41-4ff2-46a2-bf4e-58126504766e",
+        "east": "9bccbce1-9e08-41d3-ace1-637305777dad"
+      },
+      "action_description": "raises the small bronze handbell a little forward and up as if ringing it once, then lowers it; the bell always stays in the same right hand and clearly visible; the leather glove stays on the other arm",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts a large bright golden-bronze handbell, as big as his fist, in his right hand (the viewer's left side) up to head height and shakes it as if ringing, then lowers it; the round dome and clapper are clearly visible in EVERY frame, the bell never crosses to the viewer's right (second attempt, south only)",
+        "west": "facing left, holds the bronze handbell out in front toward the left a little higher, then lowers it; bell stays on the left",
+        "north": "seen from behind, his right arm is on the viewer's RIGHT; the bronze handbell is held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly then lowered",
+        "east": "facing right, standing upright; he holds a small round golden handbell in front of his chest and lifts it a little then lowers it; the bell is a small round golden dome, never a long stick or handle (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "b10f21e7-7223-4207-9117-93dfde226324",
+          "prompt": "facing right, holds the bronze handbell out in front toward the right a little higher, then lowers it; bell stays on the right and does not rise above his head",
+          "why": "the bell became a long diagonal handle that reads as a crossbow"
+        },
+        "south_take1": {
+          "job_id": "caa2907f-e760-41a0-9009-4e7dfdb7a82b",
+          "prompt": "facing the viewer, lifts the bronze handbell in his right hand (the viewer's left side) slightly forward and up, then lowers; the bell never crosses to the viewer's right",
+          "why": "replaced by take 2 in touch-up round 2: bell a few pixels"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted except idle west and interact east"
+    },
+    {
+      "n": 2,
+      "what": "idle west and interact east regenerated once each",
+      "credits": 2,
+      "result": "both take-2 clips kept (clearly better); raw idle/west and interact/east frames replaced, take 1 is not shipped"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 2: idle south and interact south regenerated once each to enlarge the bell",
+      "credits": 2,
+      "result": "interact south take 2 shipped (large golden bell with a clear ringing motion); idle south take 2 rejected (no gain)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "regenerations": 2,
+    "total_generations": 18,
+    "round2_regenerations": 2
+  },
+  "known_flaws": [
+    "the bell is a 3-6 px golden dot at 1x and is partly hidden in west views",
+    "interact west and interact north change the bell pose from frame to frame without a clear ring motion",
+    "idle west take 2: the bell is a glint only in frames 2-4"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2434,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "3c7a940a17c6d0056238648550557fd1f53a764d5f8e882f71ffc59a059cf68b",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_bell_founder/contact_1x.png": "3475cb86e86b3e04364b94b2e1a1b0b863806b8e25ac4cd3610849f5c0006797",
+    "assets/raw/longtime/lt_bell_founder/contact_4x.png": "8c390eb1d98d4c362f53daeb39f8c16220783e790f29547294e227660ef5f8a1"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_bell_founder/idle_east_0",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/east/frame_000.png",
+      "raw_sha256": "c818ce0e11bd39bb480e8f8bd362c72e36e80133d1cc2775ca660e7a456d797d",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "89f0f4a517dbbf4507e7f7c3abf650113917cc4510a0ccd41859dbb924bcd7ca"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_east_1",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/east/frame_001.png",
+      "raw_sha256": "24278aa550818ee25a4db1fc412cc4388dd887627d8a53bee7285504e6c040d0",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "137ea447acf403e77c853bf0302c8d1ebae26ed5879f5b6968d7fcc9697f649a"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_east_2",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/east/frame_002.png",
+      "raw_sha256": "2ca047245bd7caa9e4f17f8d61de7ac4b84c0c32adca9707690b7bbef7d51f6a",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "cbc778da4d9627050835bd411c56300f9706ff160c4d9fb32cfe9de20c6d2227"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_east_3",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/east/frame_003.png",
+      "raw_sha256": "b0e5ab3c88681884bc14aae597dc2081e7536a79e31a43e67441c44393e80e4e",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "6291deb8e0b0dc3a9ee49512f568e1e04c46de741600cc76f7beb188247de6e8"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_north_0",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/north/frame_000.png",
+      "raw_sha256": "ccb7b0691e0fee9d363b5554826fc993dc695a817882ebf6f1943104d40ce04f",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "cdb4823b0a2735873eeb6b647df82c11055e204c5f619e94b8d6e51b3d319f54"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_north_1",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/north/frame_001.png",
+      "raw_sha256": "aa02d0c258e75f2e4e776df29d1704f74c056768687d0d91fe1a0fbd34438d12",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "cf3ec2cfe71460376fd152ec01eec7780e684d9c332741ee7a5730ea4fefd6bf"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_north_2",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/north/frame_002.png",
+      "raw_sha256": "ce0b85c040e747af950aa663172d1c33b6e6b47a7511fb7fe5287e3bbefa649e",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "dcbd27b14b1c47b701c441c40685da74c42c454797d6f2e6b15ae2b394c8a439"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_north_3",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/north/frame_003.png",
+      "raw_sha256": "777f6db20007096014f000cc5534531394e647d04f1c8d080fc709457d881f2f",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "d738f5927319eb3324251226867f76e1e80857955674dffeaa5a4fc0c05df059"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_south_0",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/south/frame_000.png",
+      "raw_sha256": "260ade90b84909e5542df478597afae86a3ea5a3882eb14c44c2b4a97b204aae",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "0ce69db2311c89d035f7b119d8967794e9b2d01b196033136c4dbdf93ddf9368"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_south_1",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/south/frame_001.png",
+      "raw_sha256": "d541da10bc495d67c6b2a121e6fdd1c0da0e1b74c3f44e435fdcc6d322f02ecb",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "812d3fd2e054b2f4929240be5f9ff4286b007ee0a24c5be002211cb11a9044dc"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_south_2",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/south/frame_002.png",
+      "raw_sha256": "103ac3c598e0b7926cf194f1efe1a437e8975d2cfa18afd52568d9f67608e53a",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "1e28a7816e3f764dd51cf59494de10f89b470c374cdc76d32d35537fb0445d36"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_south_3",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/south/frame_003.png",
+      "raw_sha256": "e5c00d3c66dd638ca5f07c0ce8570481e2058579eb30b0e8ad7a48a359ad2dfa",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "154896248728f5c72c73892848da5dad564006be332471460eb45c062195fb19"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_west_0",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/west/frame_000.png",
+      "raw_sha256": "c0cff50752316146f8c1f73b9af192e92fac016ed2b29d217c05d125b0c08db7",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "ba9d7b221bd81925c17f9fa05450f54de52db0d558e104f3858a85f64421866f"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_west_1",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/west/frame_001.png",
+      "raw_sha256": "aaf52d7976fc023b1ab1205b6816c1b47f6402b9986a264a08431127b4f42ef1",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "726f930b3da5d51fc60d9588f6bd658759cc4353ce5ae9e285b31321778f5880"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_west_2",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/west/frame_002.png",
+      "raw_sha256": "5de024e80316238a5137902fac819c922a1f8502d3c1cef7ad655adb2573e6d8",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "e12aebe9c73f26f62a1605b1e05acadf92996d01480b2799aa5ec2ee3190813f"
+    },
+    {
+      "key": "longtime/lt_bell_founder/idle_west_3",
+      "path": "assets/processed_longtime/lt_bell_founder/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/idle/west/frame_003.png",
+      "raw_sha256": "d9b2f94709edc542e7ff5b180ede18ad10068cbc3ccd436c510a2c625a0cf0ae",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "3286b9264b01ebbad54478fd70940e7c03cc27db64cce669e2ffd43b73a07a63"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_east_0",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/east/frame_000.png",
+      "raw_sha256": "1d359a52887f9b1245cda53418f6479b38c870d689b36cf59be11acfe3ce29b7",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "ca525f0e54f728f3241e28fc9008dc9d744b534d177ae92df531153cbbb763bc"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_east_1",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/east/frame_001.png",
+      "raw_sha256": "e53bfe781e7331da3dc4181edc14841421bea1f59fd7b8f9ff6b90ca757337ed",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "aadd4eb14eb81b87a65915af886a5c3a8da13f207ef1a789d170fcca096350ed"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_east_2",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/east/frame_002.png",
+      "raw_sha256": "bce3afdf116f9682b156ef611c1b1118dfd6818e34f00ee4309a35864cbb59b2",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "f068f1b80ee51dacf17a2f3ecc8662db0f2f11bff3aa4b8e28ba408e574fa26e"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_east_3",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/east/frame_003.png",
+      "raw_sha256": "fa15ecf7eb8a325d55effdbb7f652e667101ab3d25bb0302da9159b3de90513b",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "244d09d402a79edc3dec1ab4e2833e072f6de54b92bb26742254c1ee7e007266"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_north_0",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/north/frame_000.png",
+      "raw_sha256": "81d9c9bbdf834fe293af78748510b58f7a546c7e7e30c3e8fab4d1d67fa4b017",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "4a06da5f936de13bd29cc04520e91cf865e748b81882bcc7c443584c6e7cfbe5"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_north_1",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/north/frame_001.png",
+      "raw_sha256": "a300e7915d4a90e45bad3120c6751fe850540b704d7afa1306026ef733575eb6",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "70952c2141b8cbfb42e6f2057a229aab0929f8cea74e4ec6ad53bd02bb49b4c4"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_north_2",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/north/frame_002.png",
+      "raw_sha256": "38e11216437e99278cc70daf7c55a2eea4919ec85d1d88e630a7632b99228522",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "ee3bcee47036072034093f1f209fafc5232ef3f997e3b831d71dba1bba7f3f82"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_north_3",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/north/frame_003.png",
+      "raw_sha256": "b9704f529a0f86d567aebdc701b96ff4ff2185cbde3b78f2d937d15ae602d3b5",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "97b7d668aee0081a394004f608b2961faa2c7a698e7f96fd47b1de479c271421"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_south_0",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_000.png",
+      "raw_sha256": "b3fa40f870760b51dd4f75f529ba3cd5de680785da48c45d108066dafec34eae",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "6ab362cffae856fa160f7b495b541be9d2ed0e3c2c1fc964a14ff91b6128078e"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_south_1",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_001.png",
+      "raw_sha256": "19aa4f9358aa67d6205f5ae46297c4dd2d2790eb4c5a44b270ebeef724964590",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "58e568933822676a1c614dfc9c4540f333d8dbf35d8f24de171e9993795baaa2"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_south_2",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_002.png",
+      "raw_sha256": "7c08d4dddfce8f094295a85ba74ea6682492b6cc8bb35b56c8cf4abd176511c7",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "a5149e9bb566b0125a35af2fa5f07170374d090856d15882037f86d701e35779"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_south_3",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/south/frame_003.png",
+      "raw_sha256": "998b6ff162e12c739187d08dd3150c3d80f4289e78721f1922e12d44dffde2d1",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "9136894820b2687f9b363afad0d8f3d940e9e59dc32783ab35a681cb55c60a80"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_west_0",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/west/frame_000.png",
+      "raw_sha256": "11c1240c82f1ce4076e16146c582657863802246ab724ffe84963363f8d9a117",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "b4f2db9d7e0ec7a416663200d9bcefabd30c03ea1ae9198f50d68f740dc49453"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_west_1",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/west/frame_001.png",
+      "raw_sha256": "523923a4fe2565fc41d4ded69953b8218cf119c20dfce4eae5dad20d3c7de100",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "4b97c59cacb3cea9067344245b222a535d9b8b577eea0f0ef47896ba275b5b74"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_west_2",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/west/frame_002.png",
+      "raw_sha256": "7c6dc0bf16601f4a324d13391f69ace9b1caea755a2f93cbc1577abda236f4db",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "feeaea403c7a7182dfa1c0e029e21020273aefd78c97a7ab92c942afd3a09131"
+    },
+    {
+      "key": "longtime/lt_bell_founder/interact_west_3",
+      "path": "assets/processed_longtime/lt_bell_founder/interact_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_bell_founder/interact/west/frame_003.png",
+      "raw_sha256": "60452f3aaca15f1429dbdf7e726ff0b7d43ec88671a3bab6ef178618fa2d93d7",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "876b12483b56d5589cb2edc772f3fb1cd7a980fe3c8b62dc8a74ae68786ea295"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

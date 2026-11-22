@@ -1,0 +1,89 @@
+{
+  "group_id": "92a87688-a587-411b-aca6-661ef60c2fdb",
+  "states": [
+    {
+      "character": {
+        "id": "6a87b39c-19f8-4d7e-9eee-c9b39feb875e",
+        "name": "Idle",
+        "prompt": "Small chibi crane, a slender grey-white wading bird standing upright on two thin dark legs, large round head with a long straight beak, short neck, body wrapped in two folded wings made of woven pale golden reeds laid flat against its sides like a reed cloak, a red crest patch on the crown. Calm eyes. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T07:29:43.832751+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "follow": {
+            "north": [
+              "Idle/animations/follow/north/frame_000.png",
+              "Idle/animations/follow/north/frame_001.png",
+              "Idle/animations/follow/north/frame_002.png",
+              "Idle/animations/follow/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/follow/west/frame_000.png",
+              "Idle/animations/follow/west/frame_001.png",
+              "Idle/animations/follow/west/frame_002.png",
+              "Idle/animations/follow/west/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/follow/south/frame_000.png",
+              "Idle/animations/follow/south/frame_001.png",
+              "Idle/animations/follow/south/frame_002.png",
+              "Idle/animations/follow/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/follow/east/frame_000.png",
+              "Idle/animations/follow/east/frame_001.png",
+              "Idle/animations/follow/east/frame_002.png",
+              "Idle/animations/follow/east/frame_003.png"
+            ]
+          },
+          "idle": {
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T07:33:24.727341"
+}

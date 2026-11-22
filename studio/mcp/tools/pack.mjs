@@ -8,6 +8,7 @@ import { decodeRgba } from '../../core/png.mjs';
 import { ToolError } from '../registry.mjs';
 import { shown } from '../workflow/forge.mjs';
 import { backgroundProp, inlineOrJob, jsonResult, loadAsset } from './_shared.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
 
 /** Real path of `p` even when it does not exist yet: the deepest existing ancestor is resolved (macOS /var is a link), the rest appended. */
 async function realOf(p) {
@@ -122,7 +123,13 @@ export default {
       const after = await fingerprint(ws.root, shipped);
       if (after !== before) throw new Error('the shipped atlas directories changed during packing; this must never happen');
       const pass = Object.values(result).every((r) => r.budget.pass);
-      const out = { ok: true, pass, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
+      const qa = envelope({ method: `packed ${sprites.length} frame(s) into staging atlases and compared them with the chunk budget`,
+        checks: Object.entries(result).flatMap(([platform, r]) => [
+          check(`${platform}Pages`, { ok: !r.budget.problems?.some((x) => /page/i.test(x)), measured: r.budget.pages.used, threshold: r.budget.pages.ceiling ?? 'size only' }),
+          ...(r.budget.bytes ? [check(`${platform}Bytes`, { ok: !r.budget.problems?.some((x) => /byte|memory/i.test(x)), measured: r.budget.bytes.used, threshold: r.budget.bytes.ceiling })] : [])]),
+        notProven: [{ what: 'delivery of the atlases', why: 'staging only; a human delivers atlases' }],
+        inputs: { shippedAtlases: after, frames: sha(sprites.map((s) => s.key).join(',')) } });
+      const out = { ok: true, pass, qa, chunk: args.chunk, staging: shown(ws, staging), assets: perAsset, ...result, shippedAtlases: { unchanged: true, fingerprint: after.slice(0, 16), directories: shipped },
         note: 'Staging only. Nothing was written to the shipped atlases; delivering atlases is a human step.' };
       return jsonResult(out);
     });

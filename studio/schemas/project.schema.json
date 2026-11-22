@@ -491,6 +491,20 @@
         }
       }
     },
+    "policy": {
+      "description": "Rules the studio enforces on agents, with the numbers kept in the pack. Optional; absent means no limit.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stop": {
+          "description": "Stop policy: at most maxFixRounds fix rounds per asset per review request; noProgressRounds rounds in a row without measurable progress ends the work and asks the human.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxFixRounds", "noProgressRounds"],
+          "properties": {"maxFixRounds": {"type": "integer", "minimum": 1, "maximum": 20}, "noProgressRounds": {"type": "integer", "minimum": 1, "maximum": 20}}
+        }
+      }
+    },
     "agentGuidance": {
       "description": "Text for agents, kept in the pack so the studio holds no project wording: pixel-art rules sent at MCP initialize, and the style words of image-sheet prompts.",
       "type": "object",

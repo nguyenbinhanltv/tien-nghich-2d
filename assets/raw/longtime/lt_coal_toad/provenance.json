@@ -1,0 +1,519 @@
+{
+  "id": "lt_coal_toad",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Coal sac below the jaw",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued one to three at a time and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "f4c4ed48-83c7-4358-b4ea-8c6220c5a2f2",
+  "character_job_id": "1f72f3c1-7bcf-47c4-8dc0-277f6976c6ad",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi toad sitting on all fours, squat round body of dark warm grey-green skin with a lighter belly, big round eyes, wide mouth. Below its jaw hangs a large round glowing coal sac, a bright orange-red ember-coloured throat pouch clearly visible under the chin. Little warty bumps. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "244651f6-4bfe-4d1b-b6e5-c0a6733e551c",
+      "job_ids": {
+        "south": "c83aa61a-9ea2-4ccb-9cd0-e2f3695b87aa",
+        "west": "c6ccf452-cadc-4609-aee3-de60eb791fb3",
+        "north": "f330df48-89f6-49c6-a498-d6a65daf1a74",
+        "east": "6453755d-744c-4a36-983f-6ac8877dffa4"
+      },
+      "action_description": "sits still breathing, the throat sac under the jaw swells and shrinks and glows slightly brighter, the eyes blink slowly",
+      "direction_prompts": {
+        "south": "facing the viewer, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
+        "west": "facing left, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
+        "north": "seen from behind, sits and breathes, body rises and falls slightly",
+        "east": "facing right, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible"
+      },
+      "rejected": {
+        "north_take2": {
+          "job_id": "1b25c7ce-6153-4f02-bc24-f381f327b51c",
+          "prompt": "seen from behind, sits and breathes, the head turned slightly so the glowing orange-red coal sac swelling out beside its jaw is visible at the edge of the head in EVERY frame, a small bright ember patch (second attempt, north only)",
+          "why": "gold rim light and floating red specks, no sac; take 1 kept"
+        }
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ccfac555-c96f-465b-a963-8a7e75a4d32a",
+      "job_ids": {
+        "south": "755943d5-52e7-4985-9c5f-08f50a03bb5c",
+        "west": "288b8ba3-f65e-4df9-8c60-ef72ee3f47c9",
+        "north": "d14f321a-7012-470a-8731-f6dd88c1a465",
+        "east": "7f5980af-d063-4f16-8d9c-91a6c1691035"
+      },
+      "action_description": "hops forward in short heavy hops, landing with a squash; the red coal sac under the jaw stays visible and bounces",
+      "direction_prompts": {
+        "south": "hops toward the viewer in short compact hops, staying within a narrow column; the red coal sac under the jaw bounces and stays visible",
+        "west": "hops to the left in short hops; the red coal sac under the jaw stays visible",
+        "north": "hops away from the viewer, seen from behind, short compact hops; the glowing orange-red coal sac bulges out beside its jaw at the edge of the head and stays visible in EVERY frame (second attempt, north only)",
+        "east": "hops to the right in short hops; the red coal sac under the jaw stays visible"
+      },
+      "rejected": {
+        "north_take1": {
+          "job_id": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+          "prompt": "hops away from the viewer, seen from behind, short compact hops",
+          "why": "replaced by take 2 in touch-up round 2: no sac visible from behind"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    },
+    {
+      "n": 2,
+      "what": "touch-up round 2: idle north and follow north regenerated once each so the coal sac shows from behind",
+      "credits": 2,
+      "result": "follow north take 2 shipped (red ember at the head edge in 3 of 4 frames); idle north take 2 rejected"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 16,
+    "round2_regenerations": 2
+  },
+  "known_flaws": [
+    "idle south frame 1 draws the coal sac as a flat pale-pink block instead of a glowing round pouch",
+    "coal sac is visible in south and partly in west/east only; the north view has no sac (back view), so the identifying mark is absent there"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2138,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "f1b9337bb10b1d8455e95cb48bf2afe7fdd730472ce749e3c04df01992cee661",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_coal_toad/contact_1x.png": "79e5c8e97d874f16eb5150778eb0f77cc9dec6bac45e24745974d370c7b4991e",
+    "assets/raw/longtime/lt_coal_toad/contact_4x.png": "d8a3e9382d0a9fd16634ac0f1b23c0f232be67a273ce183e4224ac1c858a69ea"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_coal_toad/follow_east_0",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/east/frame_000.png",
+      "raw_sha256": "2de86509c751fe7d3a32de717cdd767047b0391c5edd034fe4916715f1b76585",
+      "source_xy": [
+        0,
+        252
+      ],
+      "duration_ms": 120,
+      "sha256": "65eb152b0dd3b0ef877b4146d7af5edf4c3693f0776fd1b8809d0277bfc10ca1"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_east_1",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/east/frame_001.png",
+      "raw_sha256": "d5297e3fe46f818f0edffc0e77dbc8b487f71f70045d1ebbdad1fa85a5de5317",
+      "source_xy": [
+        36,
+        252
+      ],
+      "duration_ms": 120,
+      "sha256": "5d3652ebf9747362c2ed64a37b649a710068720c457372769bdc96cc73a00800"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_east_2",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/east/frame_002.png",
+      "raw_sha256": "d5ac2b1a9e063d41be46746a20901d93887ccc9e7a046774f75d2eeadddc45cd",
+      "source_xy": [
+        72,
+        252
+      ],
+      "duration_ms": 120,
+      "sha256": "9a95104c8bd8b8b7406af40bd14f58056f1ab9a5bfd6b7d7af29531aefcba69a"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_east_3",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/east/frame_003.png",
+      "raw_sha256": "bf099f21b48eb6164dc69dab358998d93dbcf413a6faaca32833df57a59b3517",
+      "source_xy": [
+        108,
+        252
+      ],
+      "duration_ms": 120,
+      "sha256": "c82d5d04bccef38c89512e074939bcfca395ccfd6c4083d5a3610fbb11945cbb"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_north_0",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_000.png",
+      "raw_sha256": "814863a48d5019a70e6c4e0fc222a5d96d43b9d160632f6d673a9cd950b7946e",
+      "source_xy": [
+        0,
+        216
+      ],
+      "duration_ms": 120,
+      "sha256": "6879ab253b6f2ea4295a75a0aca7fac33b694ae90830d7935b57db9416248415"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_north_1",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_001.png",
+      "raw_sha256": "e552f9f7bd594761cb074a7d076290eff5ae34693928634dc116713fe0752e3d",
+      "source_xy": [
+        36,
+        216
+      ],
+      "duration_ms": 120,
+      "sha256": "56ce460a99987d1e6d57cbd211b1311b2f59382f282776cebf07feed636d5e4b"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_north_2",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_002.png",
+      "raw_sha256": "894c3f5f0b1b9df65c71564e88fbe5dc45e522cf60bad1b7e77c6b63548b409b",
+      "source_xy": [
+        72,
+        216
+      ],
+      "duration_ms": 120,
+      "sha256": "fcbfc04c7a0acd1d37f3d21676609d9c46f7d18e9829a0c7d6b86f787b967898"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_north_3",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/north/frame_003.png",
+      "raw_sha256": "3ea529a100f8a249d9911c2680ab7d85c36c12f042a565aae9e5ae4cc66e7f8a",
+      "source_xy": [
+        108,
+        216
+      ],
+      "duration_ms": 120,
+      "sha256": "86a814e97bd1bf75d07121fcb98519d47b55df6c3466c1fd3f47df21949be6d9"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_south_0",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/south/frame_000.png",
+      "raw_sha256": "7af9c114f9efb1241222c35a191950a01f40333ac33eb6a25934f7e16dc7a51a",
+      "source_xy": [
+        0,
+        144
+      ],
+      "duration_ms": 120,
+      "sha256": "78f778a45d2781601dd146491ac99e57e6a6d6f225f73c510d84622c197100df"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_south_1",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/south/frame_001.png",
+      "raw_sha256": "127570549d26bc29676e664ed99f2cd3e7c9fa91595a272737c25888c2f927ac",
+      "source_xy": [
+        36,
+        144
+      ],
+      "duration_ms": 120,
+      "sha256": "ec102670de01176164864b2da3677b551aebc799a11af2aee34651c23d3a4828"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_south_2",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/south/frame_002.png",
+      "raw_sha256": "1efe076fd281a270a4ca5e22798b920f18ea9dec663f83aa416f416fa081d015",
+      "source_xy": [
+        72,
+        144
+      ],
+      "duration_ms": 120,
+      "sha256": "62f771dfe767005e87e21c6d21d2a90424628de5b4e075595da31a4d5ba2981a"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_south_3",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/south/frame_003.png",
+      "raw_sha256": "d810f4d184ee342ba0c783fde1e1518e3d5d1322817d99576d841f9b523edaf6",
+      "source_xy": [
+        108,
+        144
+      ],
+      "duration_ms": 120,
+      "sha256": "733a28f68f8911cea015c3634626873beed25018b54b8b11fd0accbe448a626b"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_west_0",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/west/frame_000.png",
+      "raw_sha256": "659d967781e7ea5d7569a011c6377979864fc78cb4fcb2171f7f51af62c5f4d4",
+      "source_xy": [
+        0,
+        180
+      ],
+      "duration_ms": 120,
+      "sha256": "7c4f6efbe553bd67443702d3ea4fbd7153d5f9680994c363d375eb740bf37e57"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_west_1",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/west/frame_001.png",
+      "raw_sha256": "c6577a7ab209afaf13c33e330486525478777d28f737dfac99b429ee43636c97",
+      "source_xy": [
+        36,
+        180
+      ],
+      "duration_ms": 120,
+      "sha256": "7fcb71a9052532669c77cd91d8755d3ecaf922cc9da96d438fd065b6713d78ee"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_west_2",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/west/frame_002.png",
+      "raw_sha256": "593e5bac45be224546b180b3f42a3808c7b3d50f8f8f4c1e8050f86383212a50",
+      "source_xy": [
+        72,
+        180
+      ],
+      "duration_ms": 120,
+      "sha256": "3ee54d3f993caf0019fbfb201ef75b160c71bc1c79bc0e61bd03d287907ec61e"
+    },
+    {
+      "key": "longtime/lt_coal_toad/follow_west_3",
+      "path": "assets/processed_longtime/lt_coal_toad/follow_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/follow/west/frame_003.png",
+      "raw_sha256": "5bf8c4d30f7274ec601b2661f81848fe05ecca7db835a68a5ccbb420a90f2cae",
+      "source_xy": [
+        108,
+        180
+      ],
+      "duration_ms": 120,
+      "sha256": "d9a40ec473f15d6c9ef37cf515209bcda272953f3d8533063b3a11c4d3c9f0be"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_east_0",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/east/frame_000.png",
+      "raw_sha256": "88eaaf695cf724ee769c81dfad9f3523c1447776a50378ee26b6257e7730b1c9",
+      "source_xy": [
+        0,
+        108
+      ],
+      "duration_ms": 180,
+      "sha256": "a25f2410cdd5e3b53b63616893cbdca4d984e5d60562e798262777a4aa1407c9"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_east_1",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/east/frame_001.png",
+      "raw_sha256": "6c0c732d1103e345bb5bde3d1214532b499db0b71b2cf1a9fab38a888735fa35",
+      "source_xy": [
+        36,
+        108
+      ],
+      "duration_ms": 180,
+      "sha256": "5ce113d5d7a8065eee247132fa2d922463ea29c825a62c2a3f3ba5eede3361fc"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_east_2",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/east/frame_002.png",
+      "raw_sha256": "58d0a64be6be199a07518951164e7efcec2f15acd5a9e1c3d05a0c36bbce2a0c",
+      "source_xy": [
+        72,
+        108
+      ],
+      "duration_ms": 180,
+      "sha256": "2afad31196c83c39ef6c9e65ac90a117dd8e2084fd1cc564372ad266cf114c81"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_east_3",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/east/frame_003.png",
+      "raw_sha256": "48848e30efb4d551b290d33d73b9f63cc5c8acaa5d15ce73c72020b4bbf06508",
+      "source_xy": [
+        108,
+        108
+      ],
+      "duration_ms": 180,
+      "sha256": "5a0acbe0e90d08600c9468daafc5cb989bb77e92676c32b3de35a6a97f2172d9"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_north_0",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/north/frame_000.png",
+      "raw_sha256": "b7559b1a3f30012e02ce10b73b002ea9b0d164a3f868dc0d662a8e21ef080d7f",
+      "source_xy": [
+        0,
+        72
+      ],
+      "duration_ms": 180,
+      "sha256": "2e44386abc0e239e3cb43667f8cb575651767428167ba2fee7cdef3bd87f0b31"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_north_1",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/north/frame_001.png",
+      "raw_sha256": "d7a8046716de19313830abe8ec95a6007bcf3c232010b0d8925a6fc74f207124",
+      "source_xy": [
+        36,
+        72
+      ],
+      "duration_ms": 180,
+      "sha256": "35278ed469a7c1c70232f65bd2459c959005d261c35f064e9e29eb83405f3b43"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_north_2",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/north/frame_002.png",
+      "raw_sha256": "0d4f85516edf6c1faa86c8cebdff6dade4635d83c5e8d680fdf4935d3e2c07e0",
+      "source_xy": [
+        72,
+        72
+      ],
+      "duration_ms": 180,
+      "sha256": "6e838788163e261650876ee26517e20aa6d60db8f7a5b56b738ff9141d32cb3f"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_north_3",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/north/frame_003.png",
+      "raw_sha256": "0d4f85516edf6c1faa86c8cebdff6dade4635d83c5e8d680fdf4935d3e2c07e0",
+      "source_xy": [
+        108,
+        72
+      ],
+      "duration_ms": 180,
+      "sha256": "6e838788163e261650876ee26517e20aa6d60db8f7a5b56b738ff9141d32cb3f"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_south_0",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/south/frame_000.png",
+      "raw_sha256": "5af0fcd2da48c0337b16dfeb29deff7d5bbb99f1224c25dd17c65a9647f0c01b",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "c37d859b12bfb472c07ecc2d64fd15eae7a9d038bac166ad57bb98d4883c9d16"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_south_1",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/south/frame_001.png",
+      "raw_sha256": "feb8afe941e732fd07c79cb226e8a479d893648d8f592d02b4445b802d2cc1cd",
+      "source_xy": [
+        36,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "afb8b2550bd95874696e6ffafd3c996c1a62b13aa701e9f30b69d3060de7be32"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_south_2",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/south/frame_002.png",
+      "raw_sha256": "f668f155b6a6755a63e3398d2dc0af828e8dcf7d495a402b73fc7eada95bd07f",
+      "source_xy": [
+        72,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "1f6845f8fa8f4092f259bbd7e83ecdf57facf41e5b562dcab0c1c3658003c4d2"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_south_3",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/south/frame_003.png",
+      "raw_sha256": "b85c607e3f2c0fae8b34612aff44ff9e8b2668255a1413f7d3f3ebe381cf2b2a",
+      "source_xy": [
+        108,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "de8d0b75118f3174fffb2356e15a4643d11ec6b53acbe9a9391d90ea39f81d6e"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_west_0",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/west/frame_000.png",
+      "raw_sha256": "20f73c5910891a8be66565004f6ae021326107a94f47bacc7082deccc7a34b85",
+      "source_xy": [
+        0,
+        36
+      ],
+      "duration_ms": 180,
+      "sha256": "f0f0d08e298de2d5da6f0a79f8a6566f68653f9d1e9c80d94ca5f8245900a486"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_west_1",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/west/frame_001.png",
+      "raw_sha256": "c5d8e1f76169218d489d1517d2e877b4623886365e7a223ce5b8875f14e09166",
+      "source_xy": [
+        36,
+        36
+      ],
+      "duration_ms": 180,
+      "sha256": "3fcf4b174be34ce1db54db59ed5948925cb543ed24028fd9b067c45464f8ba5e"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_west_2",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/west/frame_002.png",
+      "raw_sha256": "0f0aa966f48eec035af992387c8086b9657e7b6ea753bad69212995ca7c861a3",
+      "source_xy": [
+        72,
+        36
+      ],
+      "duration_ms": 180,
+      "sha256": "a25bc1cd9f63b885b2768b245aed55c68e1643c98c4632f15e07f82fb36061d4"
+    },
+    {
+      "key": "longtime/lt_coal_toad/idle_west_3",
+      "path": "assets/processed_longtime/lt_coal_toad/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_coal_toad/idle/west/frame_003.png",
+      "raw_sha256": "0a556ad9118e79e60a41e53ed8965ba8652d3eb5eefd8761fb9524f3c5ddac3a",
+      "source_xy": [
+        108,
+        36
+      ],
+      "duration_ms": 180,
+      "sha256": "a8427a24c432ab64a0ede81a0611e7064a0d611689fee14b60392f2d0d35bce3"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

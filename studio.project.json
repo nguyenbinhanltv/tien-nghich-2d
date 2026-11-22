@@ -264,6 +264,9 @@
        "label": {"en": "Evening Bell", "vi": "Chuông Chiều"}, "note": {"en": "Courtyard bell trial", "vi": "Thử chuông ở sân"}}
     ]
   },
+  "policy": {
+    "stop": {"maxFixRounds": 3, "noProgressRounds": 2}
+  },
   "agentGuidance": {
     "rules": [
       "Perspective: 3/4 top-down dungeon view (Soul Knight style). Characters face the viewer; walls are 2.5D (front face plus top cap); floors are flat top faces. No side view, no 2:1 isometric diamond.",

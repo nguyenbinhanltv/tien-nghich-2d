@@ -1,0 +1,513 @@
+{
+  "id": "lt_seed_broker",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Seed pouches on a carrying pole",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6691eceb-19d5-4117-b152-4812e7ba5597",
+  "character_job_id": "eb9e15b4-f601-433d-9edf-348b451572f6",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Middle-aged xianxia seed broker, small human in a plain brown-green robe and a woven straw hat, a long wooden carrying pole resting across the RIGHT shoulder only (asymmetric), with two round cloth seed pouches hanging by cords from the two ends of the pole, one in front and one behind, tied with red string. Friendly face. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "34b69dbf-7e7b-428a-893c-56f6886ff100",
+      "job_ids": {
+        "south": "2572dcb7-c781-40ff-98ed-0b406cdb677f",
+        "west": "8c0ae5cc-c1e9-4796-a0d9-4c4a6f3c4ae6",
+        "north": "750b8ce1-aaad-407d-ac36-ae19dcbae852",
+        "east": "498162df-01c3-4672-8532-29e04bad2483"
+      },
+      "action_description": "stands still and breathes gently, shoulders rising slightly and falling, the two hanging seed pouches sway a little; the pole stays on the same shoulder and both pouches stay clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the carrying pole stays across his shoulder with a seed pouch hanging at each end, both always visible, the pouches sway slightly",
+        "west": "facing left, breathes gently; the carrying pole stays across his shoulder with a seed pouch hanging in front and one behind, both always visible",
+        "north": "back to the viewer, breathes gently; the carrying pole stays across his shoulders with a seed pouch hanging at each end, both always visible",
+        "east": "facing right, breathes gently; the carrying pole stays across his shoulder with a seed pouch hanging in front and one behind, both always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ac72e945-2b30-4cb1-9607-af039ecd53d4",
+      "job_ids": {
+        "south": "a38c1906-c9bc-4020-8b8b-4d4054a84267",
+        "west": "147f7b11-2a8f-4a62-873f-139d83aad280",
+        "north": "4b754e6e-b8ab-4198-b856-a81c2a5ffc7a",
+        "east": "ceb29d02-8c8d-401b-98e6-ec197ec38bb1"
+      },
+      "action_description": "lowers the front seed pouch a little as if offering it, then lifts it back; the carrying pole always stays on the same shoulder and both pouches stay clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, dips one end of the carrying pole slightly as if offering a seed pouch, then lifts it back; pole stays on his shoulder, both pouches visible",
+        "west": "facing left, dips the front end of the carrying pole slightly as if offering the front seed pouch, then lifts it back; pole stays on his shoulder",
+        "north": "seen from behind, the carrying pole stays across his shoulders with both pouches visible in every frame, one end dips slightly then lifts back",
+        "east": "facing right, standing upright; the carrying pole rests level on his shoulder pointing forward-right and back-left, a round seed pouch hangs clearly from each end in EVERY frame; the front pouch dips a little and lifts back; the pole never tilts steeply (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "6991163e-00f6-45bf-a709-3747a0e6ac0f",
+          "prompt": "facing right, dips the front end of the carrying pole slightly as if offering the front seed pouch, then lifts it back; pole stays on his shoulder",
+          "why": "pole tilted steeply and the pouches became unreadable red smears"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted except interact east"
+    },
+    {
+      "n": 2,
+      "what": "interact east regenerated once with a level-pole prompt",
+      "credits": 1,
+      "result": "take 2 kept (both pouches readable in all 4 frames); raw interact/east frames replaced, take 1 is not shipped"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "regenerations": 1,
+    "total_generations": 15
+  },
+  "known_flaws": [
+    "idle south frames 1-3: a loose cord pixel floats beside the right pouch",
+    "idle east is busy at 1x; the rear pouch overlaps the body",
+    "the hat covers the face in north view, as designed"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 3189,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "de1e2db8934a8bdd7e9661eaa4a9410286caeee4dd6f5727672774686b6542b2",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_seed_broker/contact_1x.png": "c45d527d3fa1a86238c3b4fdabdad7ec95f270d14326a30994b9f7762cce1458",
+    "assets/raw/longtime/lt_seed_broker/contact_4x.png": "62a61283424e8d9bed21f222407fc50f1f60081c3390752e745240e2f6594d95"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_seed_broker/idle_east_0",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/east/frame_000.png",
+      "raw_sha256": "c4e46f0681bb0629c6c0b54a601166671c4b79387cdab1e9d139b3cb09cd58cf",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "9b4532b01b4c8b335c7732e900992e76881e0e237384bca5037aaf830994eb7b"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_east_1",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/east/frame_001.png",
+      "raw_sha256": "fecf83e4184f33de2dc2fbf5a950fd449c3e40d463093bf567848af6977ab20c",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "82347997f8f183c6de4078d9843fdc5bc03bbb15096a9e71c2e2aa6107997ecc"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_east_2",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/east/frame_002.png",
+      "raw_sha256": "1eff8758a287e93228b005016a1be96c3630c80e46e7960d20b2215f9f8ce4d6",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "0366c6b22f292f4f43f402e78c24620424e21e84068946c2d792d65fb6b3a1ad"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_east_3",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/east/frame_003.png",
+      "raw_sha256": "def4200be3ff6c95080b5ce62d32225f6ce5581d88e0d5ec7086e512ca39c9bd",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "91a8aa40d75bc6b2de03f372501a132045be9fc34f5f3c125e377811d953d18d"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_north_0",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/north/frame_000.png",
+      "raw_sha256": "8fb4e4803e380eeb2d9da91e6319c346876088559c7dbb942b7cbf16bd1d7cfc",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "b6eae62e0ebb57867bd70088d495885b59627eba6e791ed1651b4800bd63909e"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_north_1",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/north/frame_001.png",
+      "raw_sha256": "05c592ed6a3e6319daa93f3ab487aaed0af711dafae89682ba2602aa9f599089",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "5bc800f82f14dc52368fb68a135c9b7dc5499930b972d73ef86b331ec1a3a2d6"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_north_2",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/north/frame_002.png",
+      "raw_sha256": "8e41e5c93d85c8ece0d7315334929731a75c603e1b07b642c9a447d77f718fd4",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "90c80227c87ec098bfbd10a06578dfc6a44c8abbd7c7c368a0f61b517c6d182e"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_north_3",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/north/frame_003.png",
+      "raw_sha256": "d6a474efa43f76607da45d46793ac12cfd06db447936b290b5e1e04aed945ec9",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "d47d6db4f2d71481dabe09a9e11af4f2ddba57fb62c9fb413aa3c8727f674b96"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_south_0",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/south/frame_000.png",
+      "raw_sha256": "3a0e289f8d58f5a4a4ab26306952be258a194e9be22e006bf5c28a07e72bef2a",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "6b7ea1e9271b3db2b97db973cbe080e8e5f5ad1b91a405f6fa3a0eb7a0ed44d6"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_south_1",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/south/frame_001.png",
+      "raw_sha256": "2b1740f45c242047ab0427d78b44967df25ba291cc059415de489e5759f974d7",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "d75da1d85c79686198e87fdd107768e881c02c9bcb7d68fa3ef1f04fdf52ae9a"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_south_2",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/south/frame_002.png",
+      "raw_sha256": "2ad4c56fd873793b7bb0e80a3911257d51adfd7dbcf14c5f6f068bd3762927c3",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "f537d24d96e9061f3184b3204bf21d96ad0ba26432a1015ad8b8d1495ccd99dc"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_south_3",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/south/frame_003.png",
+      "raw_sha256": "8a722728b4bf925a62e0c0dff8d041df14fef7dd6900ece78fa9eb287171ba47",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "ff44eb9e628e7220772069026f8e675e26452d9dfe166193a9fdc7f42a5a99f3"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_west_0",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/west/frame_000.png",
+      "raw_sha256": "ca0512c96c8947b9739c9079b032696afea71277e62c575dde8bb9c8b72be6c9",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "bb20a3ef0d20fdb7be57889ba78bfb0d28a57c79474bfd0f006e48f90d0a84bf"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_west_1",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/west/frame_001.png",
+      "raw_sha256": "f46ae6a36dea9ecf2e185ff0bc354d1c3595f12a68b88608ab9f30d74471e7f6",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "79acc64738a3734851b83598190f74298dd14c266aec8b7cc9825e2c5f314122"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_west_2",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/west/frame_002.png",
+      "raw_sha256": "26151cb218f7428b2092d9ffeecaf88dd77843271411a414214bcae90dfde19a",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "d61ec264286b61873ed789ebd3cc05bd2740b3531254d110979b778b67743c0a"
+    },
+    {
+      "key": "longtime/lt_seed_broker/idle_west_3",
+      "path": "assets/processed_longtime/lt_seed_broker/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/idle/west/frame_003.png",
+      "raw_sha256": "334e0a73ff9b26571cebcfe87374f71cd8fd533b212a251eead092922f35051d",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "410905d7eb2463d09f2f51771d980b51b6c204b802230650aa65798e589ea54b"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_east_0",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/east/frame_000.png",
+      "raw_sha256": "c2a0f949717f181556c79e9277d28b1075e5edd31b556c85e0cbf5dd3fece1d2",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "9bc95031b8e53b95feb748c5376cdf93c58c46f0749f34a0ae57eb7ff95fa85c"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_east_1",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/east/frame_001.png",
+      "raw_sha256": "763f3c1c7d6280dd3fcf3a9d372dfba58264ed954cabcbd5d23c0a29c9ec2fd5",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "10891ce20a3b1971d7d6eb218d26d9e3e59b297b454415c332b8fe1f39bac2f9"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_east_2",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/east/frame_002.png",
+      "raw_sha256": "402b628db6e7dcea30e0273ae532bf08ab5445c41deffcae4ffbf169305507ea",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "38d8cf576d24f0a4384c1579a761ea11aa2cf64cdbb1c32841b471045c051bc4"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_east_3",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/east/frame_003.png",
+      "raw_sha256": "95de35860d9b04084b141bc5277850ca3d8bbec6d81eee8bf391e04dbff91bfb",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "83e882eeb9c2f86688ef62b6c3a9b30b46787df66b6f9a561356df6c996fb779"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_north_0",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/north/frame_000.png",
+      "raw_sha256": "b81a7a907dee04583c4fc196d49bb3362e42713db0b08d8c74b81ee4a1cfd2bf",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "74217093dcc276aa31abc1753e65a3c4a190056f3350cfdceae37504302824f3"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_north_1",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/north/frame_001.png",
+      "raw_sha256": "ce052e9cdf5c7e9b68efe7473faa79b40fcc3cd717c2ab1804349ffeb2b89cff",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "aa46fa9cf04f82723469f06f0dc96edccb4e79b4f69319b0d782e90d423ac78f"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_north_2",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/north/frame_002.png",
+      "raw_sha256": "07cdf44b528ff66f195ca4464b43d802d6a43524e6d007fe14d44878da3ee97d",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "7e5b94842e4783aab38215065f03cd64044e508d9923e0120cea5d7e3c8ef282"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_north_3",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/north/frame_003.png",
+      "raw_sha256": "8f3dbcdd739674c826f2b8fa2b3c1e20cccc75b397751d655a7cc3e50d6750dd",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "fd9bbf536b33b7f7be0d4dca951dedf8589374a2a505b15ede6d147740672fe3"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_south_0",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/south/frame_000.png",
+      "raw_sha256": "d2f84a525e93079f1ffefcb9928e9da258a4ce5d36278b302ff16bc1579af16b",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "14f15aa7f9e571c6a35b3c42530da0501a3500450fdc231758eb71965ed824ee"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_south_1",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/south/frame_001.png",
+      "raw_sha256": "c8a59969d2d5b90d0454890da9269f4cfbf4612b5deefef6f245c0244ceae8b2",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "b98cfb57f6a51c1d3f71a053a9d789ab8258c93fc33f1fbc9ab04b279df6ee7d"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_south_2",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/south/frame_002.png",
+      "raw_sha256": "b115c87715a477719c231fad703a11414c273d62fe947574f83b2fcfb3749d7f",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "aac5c60808e8e597a13cdea0b86f5b718dd85333a91d02b2c08a8e6c722d6b92"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_south_3",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/south/frame_003.png",
+      "raw_sha256": "4335fb7989011e1352edde4fb24094eaa554b728000b80feb1cd4a520f32af48",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "137e10b8b9c83df9898759151f609cd00111be0484065e0f670d36521c8a33fb"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_west_0",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/west/frame_000.png",
+      "raw_sha256": "0a6cce36cb90f33bbf5afdb91c44405fc3fbc8a365596a01dac2ea043aefe193",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "66ab39a33046b5d17b7de96a51f6fa6d132d6beeca481c9ec2f1c65592964c49"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_west_1",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/west/frame_001.png",
+      "raw_sha256": "9767dabad99871b082fb84ee9d9b3a057d34ca291c30969b9f4ebfcec16b2a70",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "fd92d8fd9b9163b371c0f3a1807df44de6527d68586ac0c09ac49682d731209b"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_west_2",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/west/frame_002.png",
+      "raw_sha256": "0438e177a2b0a1102deff6d7355eba15c5e6f8ed306529c6e6de0d064d549c31",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "44bcbc97ffd71554d7366d57a14673ed64566585110733f13a18df2c4a6f0a4a"
+    },
+    {
+      "key": "longtime/lt_seed_broker/interact_west_3",
+      "path": "assets/processed_longtime/lt_seed_broker/interact_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_seed_broker/interact/west/frame_003.png",
+      "raw_sha256": "4a8afe9b2a6df6eeaa76a02b7af1679cc1c0cb73946f8b2edabd327175192c1f",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "752e914bd357c813a5dac57cdeea15345d4f7eb5a0d52060dfe17dfcc8fcec63"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

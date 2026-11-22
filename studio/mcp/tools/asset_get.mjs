@@ -6,6 +6,8 @@ import { planEtag, readPlans } from '../../core/plans.mjs';
 import { listReviews } from '../../core/review.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
 import { contentOf, latestVersion, versions, readVersion } from '../../core/audio-candidates.mjs';
+import { gather, staleReasons } from '../workflow/evidence.mjs';
+import { stopped } from '../workflow/stop.mjs';
 import { jsonResult, loadAsset, statusOf } from './_shared.mjs';
 
 const SECTIONS = ['spec', 'milestones', 'frames', 'provenance', 'metadata', 'reviews', 'checks', 'dependencies', 'audio'];
@@ -108,7 +110,15 @@ export default {
       const db = await ws.db();
       const stage = asset.audio ? 'audio' : (await listFrames(ws.root, asset, 'processed')).frames.length ? 'processed' : 'raw';
       const current = asset.audio ? (newest ? await contentOf(ws.root, newest) : null) : await contentHash(ws.root, asset, stage);
-      out.checks = db.checks(asset.id, 5).map((c) => ({ at: c.ts, agent: c.agent, session: c.session.slice(0, 8), stage: c.stage, independent: c.independent, pass: c.pass, errors: c.errors, warnings: c.warnings, current: c.stage === stage && c.content === current }));
+      const now = await gather(ws, asset, { stage, content: current ?? '' });
+      out.checks = db.checks(asset.id, 5).map((c) => {
+        const reasons = c.stage !== stage ? [{ what: 'stage', why: `recorded at the ${c.stage} stage; the asset is at ${stage} now` }] : c.content !== current ? [{ what: 'frames', why: 'the frames changed after the check' }] : staleReasons(c.evidence, now);
+        return { at: c.ts, agent: c.agent, session: c.session.slice(0, 8), stage: c.stage, independent: c.independent, pass: c.pass, errors: c.errors, warnings: c.warnings, current: reasons.length === 0, ...(reasons.length ? { stale: reasons } : {}), evidence: c.evidence ?? undefined };
+      });
+      const policy = await stopped(ws, asset, snap.pack);
+      const cycle = (await ws.db()).lastCycle(asset.id)?.seq ?? 0;
+      const rounds = (await ws.db()).rounds(asset.id, cycle);
+      if (snap.pack.policy?.stop) out.stopPolicy = { ...snap.pack.policy.stop, round: rounds.at(-1)?.round ?? null, stopped: policy ? policy.row.reason : false, history: rounds.map((r) => ({ round: r.round, errors: r.errors, warnings: r.warnings, progress: r.progress, decision: r.decision })) };
     }
     if (want.has('dependencies')) {
       const deps = [];

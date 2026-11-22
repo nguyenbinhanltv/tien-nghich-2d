@@ -1,0 +1,530 @@
+{
+  "id": "lt_mist_carp",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Forked ribbon tail",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "f42399e8-1aa4-4665-bdc7-97213198da3f",
+  "character_job_id": "814ae2b5-ef77-43e5-8aea-5c01c7bfa392",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi carp fish floating upright in the air, round plump body of soft blue-grey scales with a pale belly, big round eyes, a tail that splits into a forked ribbon of two long thin flowing pale-blue ribbons, small fins. Wisps of mist beneath it. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "9cf1d3fd-94c7-41ec-adfa-c6fb26ebe2c7",
+      "job_ids": {
+        "south": "6a6fcabc-1395-413d-a347-d4945eb71b15",
+        "west": "9c859d1b-a66d-4a1e-8d28-591e891c3c33",
+        "north": "9c8750ae-a2ab-4fa2-9abf-e80823d7e4e4",
+        "east": "51be157f-e9db-4199-864d-c90f2fc37abe"
+      },
+      "action_description": "floats in place gently bobbing up and down, the forked ribbon tail sways slowly and the fins flutter; the tail stays split into two ribbons",
+      "direction_prompts": {
+        "south": "facing the viewer, floats and bobs gently, the two ribbon tails sway; tail stays forked",
+        "west": "facing left, floats and bobs gently, the two ribbon tails sway behind it; tail stays forked",
+        "north": "seen from behind, floats and bobs gently, the two ribbon tails sway; tail stays forked",
+        "east": "facing right, floats and bobs gently, the two ribbon tails sway behind it; tail stays forked"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "a5ace0f5-5bf6-4bae-b03d-ef2a496b77f1",
+      "job_ids": {
+        "south": "0aa14531-6b4c-4a6c-97de-ddfb1408920e",
+        "west": "a60748c7-b9d0-454c-a272-16862c86af44",
+        "north": "cbceb355-5c26-4c6e-80d1-b6f4a6bcb4e3",
+        "east": "86c2e55d-63aa-4d9e-91d7-95cb1650fcf2"
+      },
+      "action_description": "glides forward through the air with a swimming wave motion of the body, the forked ribbon tail streams behind in two ribbons and the fins flap",
+      "direction_prompts": {
+        "south": "glides toward the viewer with a swimming wave, compact and narrow, the two ribbon tails stay behind and above it; tail stays forked",
+        "west": "glides to the left with a swimming wave, the two ribbon tails stream behind it to the right; tail stays forked",
+        "north": "glides away from the viewer, seen from behind, compact and narrow; tail stays forked",
+        "east": "glides to the right with a swimming wave, the two ribbon tails stream low and flat behind it to the left, level with its body, never rising above its head; tail stays forked; the whole fish stays small and low in the frame (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "c5d2b92a-9843-4291-999d-8014e2f0556c",
+          "prompt": "glides to the right with a swimming wave, the two ribbon tails stream behind it to the left; tail stays forked",
+          "why": "5 opaque pixels fell outside the 32x32 canvas (ribbon tip above frames 1-2, mist below frame 3)"
+        },
+        "east_take3": {
+          "job_id": "b984037e-0444-417b-821f-d1f49c33f5e8",
+          "prompt": "glides to the right with a swimming wave, the two ribbon tails stream low and flat behind it to the left, level with its body, never rising above its head; tail stays forked; the whole fish stays small, in the upper middle of the frame with plenty of empty space below it and no mist under it (third attempt, east only)",
+          "why": "worse: 20+ mist pixels fell below the canvas in frames 1-3"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "follow east take 1 did not fit the 32px canvas"
+    },
+    {
+      "n": 2,
+      "what": "follow east regenerated once (second take)",
+      "credits": 1,
+      "result": "2 mist pixels still outside the canvas in frame 3; kept as the better take"
+    },
+    {
+      "n": 3,
+      "what": "follow east generated a third time on the orchestrator's explicit permission (one extra generation)",
+      "credits": 1,
+      "result": "rejected, worse than take 2; take 2 kept and its 2 outside pixels cropped at build time (crop_allowance)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "follow_east_regenerations": 2,
+    "total_generations": 16
+  },
+  "known_flaws": [
+    "CROPPED AT BUILD TIME (not edited): follow east frame 3 (assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png, the untouched PixelLab output, sha256 aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6) has 2 opaque mist pixels one row below the 32x32 canvas (canvas x=12,13 y=32; raw x=18,19 y=38; colours #8ae8ff and #28a8dc). build_longtime_characters.py drops them under the explicit crop_allowance {\"follow/east/3\": 2} in this file and reports them in provenance processing.cropped_opaque_pixels",
+    "the mist beneath the fish is drawn as scattered 1-3 px specks that flicker between frames, not a coherent wisp",
+    "the forked ribbon tail points straight up in south and north views and reads like long ears"
+  ],
+  "crop_allowance": {
+    "follow/east/3": 2
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 900,
+      "outline_thinned": 41,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "cropped_opaque_pixels": {
+      "follow/east/3": 2
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "8c22a2320d120d2c4e16ea8582c45c5c7abbb1b22f0818ccd701de06e0d12e13",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_mist_carp/contact_1x.png": "f97d6c087ab1261090a0838c134c3240d111014f21f3f6a4bf8ce34f376e3c11",
+    "assets/raw/longtime/lt_mist_carp/contact_4x.png": "eb82f59d10eb44a370d54d2e966ee0eebee5db50d3cb9f761e34ec23038602ce"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_mist_carp/follow_east_0",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/east/frame_000.png",
+      "raw_sha256": "6aab0df853a7f96479c1e925e2ab7c6b75220b2cccdb7c680d353fbb8353e3fe",
+      "source_xy": [
+        0,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "aac8a608bba363c6154e4f42b1040d4d1cdd15db33d0f815db3187ed8afeeb91"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_east_1",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/east/frame_001.png",
+      "raw_sha256": "78cbf8050b6ab8c875d5cd28557b2812d4aceb8567c9d686fe12e94218af153f",
+      "source_xy": [
+        44,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "b087259e950085d4db00e17ef17c1f4996247016ce90b9c1cde411365afcbbd7"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_east_2",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/east/frame_002.png",
+      "raw_sha256": "5e85062d59153defa5fd25fd22fb112ab949621898a8e7483261756b957dc509",
+      "source_xy": [
+        88,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "96fc6aa5151a3563a8f956f3483812c510c4faa50666ee836c1551f5864b8eb5"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_east_3",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png",
+      "raw_sha256": "aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6",
+      "source_xy": [
+        132,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "5d26c2f7526b64a7b25df500ca89fbc1534aed1b824973c61c3ee8955de0048c"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_north_0",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/north/frame_000.png",
+      "raw_sha256": "3d133196d492b1899112fbbff05681d5b6c3d7e9039053b59f3204e7613a0b26",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "53867e27a47f82b533910b7eea35a204804fc49094606de068538b4f1f325c53"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_north_1",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/north/frame_001.png",
+      "raw_sha256": "1490cfe409acd541fb47bf1b493c826f78a70bac844ee6c18762d37e30e8e1c0",
+      "source_xy": [
+        44,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "5080a7febe90c4b40e93d9e4961463ee47ff68077e25cedba0797d9fb7883a58"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_north_2",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/north/frame_002.png",
+      "raw_sha256": "b6aec6f1b1d698e4e0a32f3e072b32b5e6c94ba3f24f210bdd6875ebef2aee0d",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "11a82b1f05f545779062665553883f9c76635553a02e7fd00fb6e203606292cb"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_north_3",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/north/frame_003.png",
+      "raw_sha256": "db0cb82b9078fbd99c74317807f75659ae1651ba94f1b02beb331eda6641d4ae",
+      "source_xy": [
+        132,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "c3e3c8bb279c3025f1fa0554a4a34ac4f385e4d3dd8cbe341651e94a71751b37"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_south_0",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/south/frame_000.png",
+      "raw_sha256": "f3a8156e70a07928c0447e272206bef019451dcd7503ee1539ca411c2860797d",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "01a420a8e00295fcde3d8fe04f3c5e05a5680c1a38d523543f34d2370cfdf0f5"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_south_1",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/south/frame_001.png",
+      "raw_sha256": "5185b1ffc8df1c59c2f2f6f00878ce2655278ab3132fff08fe8d8318b4ee145a",
+      "source_xy": [
+        44,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "cc9264008e8eea83fe5b53f48cb8071e39c5660f2e6e606caae8ca2545e85ddf"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_south_2",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/south/frame_002.png",
+      "raw_sha256": "6f82143a400bd0407bd97c3f7c6fe704f507244d6d366b3784d51c1067bcf8c8",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "1008c223cc21ce9992e03cb37ac3888afbd1136acee08a40307b3c6090e7f779"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_south_3",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/south/frame_003.png",
+      "raw_sha256": "160fcbc95ef8a5b0644a98aadb2a688e01cdce7c5bce43a9fccf66ee02e40bf4",
+      "source_xy": [
+        132,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "1d806ad0e2917fd881fd3560e61f05d8423644cf3990b32d12966518927829eb"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_west_0",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/west/frame_000.png",
+      "raw_sha256": "c3cbea704ededa497df61a87009b8d4379654099f2bb3d27e0bcf48d2224cede",
+      "source_xy": [
+        0,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "35b7a17d3e4c93bd4be1b11222eca11a913f72d5714cdc8eb039e933d9ee25e1"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_west_1",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/west/frame_001.png",
+      "raw_sha256": "4892521ceeef338e64bc99b101fb59b6956cfd89c5f968578f0e172c6e99d53a",
+      "source_xy": [
+        44,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "8f8bdeea9043ce35033cf57e5709ae0947dd7481f6ee299ed348ca21fc968306"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_west_2",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/west/frame_002.png",
+      "raw_sha256": "656c5c64b2aa401ddc4d1abc31586b8eacb2fb80edc98a38d0df8a9cba13f508",
+      "source_xy": [
+        88,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "886a1fa03ffdd262c5897a954d9d7d1a9bd298fcf84ade5f4d3fccf45ff1b651"
+    },
+    {
+      "key": "longtime/lt_mist_carp/follow_west_3",
+      "path": "assets/processed_longtime/lt_mist_carp/follow_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/follow/west/frame_003.png",
+      "raw_sha256": "66f1235b8c153ab28a858dd1456fa3f2d902f2cd2f4821e5cc73b44295109dc6",
+      "source_xy": [
+        132,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "34674f6fa472e688ea43468f7f9df72c92586c0d126c6a318bb3cadd00220bf9"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_east_0",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/east/frame_000.png",
+      "raw_sha256": "b283d90a7443607a5cbba3c3722aaa570b615d6cc02db08d6e478e390749f7ba",
+      "source_xy": [
+        0,
+        132
+      ],
+      "duration_ms": 180,
+      "sha256": "1c1482ff12d4e609f4adc920bd065e61788d7ba01e47399a1d8b969a46c66961"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_east_1",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/east/frame_001.png",
+      "raw_sha256": "acf24287bab89f54fd1ed68c5ffc5b7846f533405f454c3128df58065d8c37ce",
+      "source_xy": [
+        44,
+        132
+      ],
+      "duration_ms": 180,
+      "sha256": "9ce5ac83f4690a9f7de7bb7454db8dbcc8b21b13775bbf00bb848e2d78381119"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_east_2",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/east/frame_002.png",
+      "raw_sha256": "32fe163c3b8e43090198449fd288a4fe94fc72070ac82fca49710c6e3da533a1",
+      "source_xy": [
+        88,
+        132
+      ],
+      "duration_ms": 180,
+      "sha256": "17a77eb60ee0a4209f939bfa1702c56c2df56c75f067214691c6f96da76f05d3"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_east_3",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/east/frame_003.png",
+      "raw_sha256": "bb29abf05603fccfeba7686b247575fc9728d71d57fffc4cb48b81938bf3689e",
+      "source_xy": [
+        132,
+        132
+      ],
+      "duration_ms": 180,
+      "sha256": "ba90eb04c6753b35e127c64edd421a07a11a102bcef82452377d85a4d1f0cb6f"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_north_0",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/north/frame_000.png",
+      "raw_sha256": "8c870f08283f4974c8ce8eea68ceee2b5b211443d0fea39c278ca4533a7854ff",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "51312544e8f631f10c5abedb60090a0c7c81271641af7869df25cedf1845d4f9"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_north_1",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/north/frame_001.png",
+      "raw_sha256": "f6138727636c5c656df63b9f26c3d20ff894d6ce4adf20f89c831687c9739935",
+      "source_xy": [
+        44,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "ea0231e95c1be69b1f816033f3e225f564bd38a2a0c9362e29dfba791be5b53c"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_north_2",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/north/frame_002.png",
+      "raw_sha256": "55e2563cf94a2dffca738aaf8ccdb70ade27d5bbb7634f65bc91d783715c3423",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "9f1f42f75f4e81ff945a58bbe80f07f1dbde911141fd4394f9669158a7cf7d16"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_north_3",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/north/frame_003.png",
+      "raw_sha256": "0c04b2c546d6d2c355d744bc880e90ca122a966f410b8cec3addac946ea9b112",
+      "source_xy": [
+        132,
+        88
+      ],
+      "duration_ms": 180,
+      "sha256": "904a23043d93aa71c126d2b2cf09ea3715f87b614b03b3f7d5e53c6a52804846"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_south_0",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/south/frame_000.png",
+      "raw_sha256": "b17d7731af8881d1a641c465b7bfc3cd4af57bae4de2bd2f228bef9ef2cb8408",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "1352ad974e34c7df806e87beb9dfbe4f5fd2a131bd715d0bf0c5e4cf0e754289"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_south_1",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/south/frame_001.png",
+      "raw_sha256": "94a8c2405d84f9c7ad21096816d8deed6a0a77fa4917852e5e157e37bc7b19e1",
+      "source_xy": [
+        44,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "ca27c8658c4644e932a33855c02edbe5dce1afd329a8fcd915fba7ac76fec3bd"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_south_2",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/south/frame_002.png",
+      "raw_sha256": "9fb4501137063d2f0e8d36485c1d6031f0b61a9bcc2d5e3f2c559e37fe8bbbdc",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "1fffbb0d1308d795246c7a01d98f2257f972483929788f442d3684ef3828571a"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_south_3",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/south/frame_003.png",
+      "raw_sha256": "6dd9c76ebca93cc781f377f0f6e1a9bbcc612892490b68d1d78888d4719733ea",
+      "source_xy": [
+        132,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "cb02326782d73726d0feb17be551b22096ccf1d496c3d7059544bf861d59ca0a"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_west_0",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/west/frame_000.png",
+      "raw_sha256": "ebac31be9f04c793ab98e04da7cedfde0f272b40e917de00f40bba83b16a4bcb",
+      "source_xy": [
+        0,
+        44
+      ],
+      "duration_ms": 180,
+      "sha256": "ea8a982a69e0845d252fe303d395673665c6424fe50546ce137e38991a27f703"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_west_1",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/west/frame_001.png",
+      "raw_sha256": "a7820ee1f9e6220d61938cd55a33ed0d41a9d346bce558c1525d61cdd13e879f",
+      "source_xy": [
+        44,
+        44
+      ],
+      "duration_ms": 180,
+      "sha256": "68d6cb8bd11da8c9a037911e74eface1dbf55747f8fd86538f8df2c6d85cdbac"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_west_2",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/west/frame_002.png",
+      "raw_sha256": "345e782fc53882484cf2c4c12fe7046aa778e3b5f5a487e9707c3371456e8af3",
+      "source_xy": [
+        88,
+        44
+      ],
+      "duration_ms": 180,
+      "sha256": "085a764aa32b953df21c83f1aefbc2e94c1e07b5a4710620a332c435f9158984"
+    },
+    {
+      "key": "longtime/lt_mist_carp/idle_west_3",
+      "path": "assets/processed_longtime/lt_mist_carp/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_mist_carp/idle/west/frame_003.png",
+      "raw_sha256": "fd69113d0a0ab05e594710f7089b457067c9291cc911e3740157e9097608f84a",
+      "source_xy": [
+        132,
+        44
+      ],
+      "duration_ms": 180,
+      "sha256": "1edbe3b3e5e5be8af23fc491e38ce25617e0d9203522165dc305d742567bc111"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}
