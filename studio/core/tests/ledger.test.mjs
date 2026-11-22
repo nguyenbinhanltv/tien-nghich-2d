@@ -68,7 +68,7 @@ test('tools and inputs: licences as recorded, the noncommercial skill flagged, t
     assert.deepEqual([a.origin.kind, a.origin.script, a.recorded, a.missing], ['generator', 'tools/generators/gen_phase2_ui.py', true, []], id + ' has a reconstructed provenance record');
   }
   assert.ok(c.ffmpeg.evidence.every(e => e.exists), 'its evidence files exist');
-  assert.deepEqual(ledger.fonts.files, [], 'no font files in the project');
+  assert.deepEqual(ledger.fonts.files, ['studio/ui/fonts/display-serif.woff2', 'studio/ui/fonts/pixel-mono.woff2'], 'the two OFL studio fonts, recorded in studio/ui/fonts/README.md, and nothing else');
   assert.equal(ledger.thirdPartySources.present, false);
   assert.ok(ledger.decisions.some(d => d.id === 'spine-animation-ai'));
 });
