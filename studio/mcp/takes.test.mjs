@@ -75,6 +75,7 @@ test('REVIEW-008, REVIEW-007: candidates: broken ones are rejected, survivors be
   // nothing of this is reachable from MCP: no tool takes a pick, and every candidate is on one run
   const listed = await author.ok('studio_review_list', { assetId: 'lt_seed_broker', detail: 'full' });
   assert.equal(listed.items[0].takes.newest, 1);
+  assert.equal(listed.items[0].takes.inUse, null, 'raw r0 of a candidate is not in the game before anyone picks');
   // a run with every candidate broken writes nothing
   const none = await author.call('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, candidates: [{ frames: variant(1, 2, [{ kind: 'color', x: 16, y: 12 }]) }], dryRun: true });
   assert.match(text(none), /survivor|rejected/);

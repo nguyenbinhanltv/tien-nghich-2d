@@ -74,7 +74,9 @@ export async function snapshotOf(ws, f, revision) {
   const store = await ws.store();
   const baseline = await readInside(ws.root, f.rel);
   const {standing, png: standingPng} = f.stage === 'audio' ? {} : await (await ws.standing()).judged(f.rel);
-  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng, filePng: f.stage === 'audio' ? undefined : baseline}, baseline, 'frame', revision === undefined ? {} : {revision});
+  // Only a processed file is what the game uses; a raw frame is the studio's landing place, never "in the game".
+  const filePng = f.stage === 'processed' ? baseline : undefined;
+  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng, filePng}, baseline, 'frame', revision === undefined ? {} : {revision});
 }
 
 /**

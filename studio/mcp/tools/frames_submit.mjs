@@ -66,7 +66,8 @@ export default {
     required: ['assetId', 'provenance'],
     additionalProperties: false,
   },
-  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
+  // Not idempotent: with candidates a repeated call stores the survivors again as new takes and records another run.
+  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
   async handler({ assetId, frames, candidates, note, reference, provenance, dryRun }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
