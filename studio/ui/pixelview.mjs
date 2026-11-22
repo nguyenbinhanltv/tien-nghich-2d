@@ -57,14 +57,20 @@ export function isTyping(target) {
   if (!target || typeof target.closest !== 'function') return false;
   return Boolean(target.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]'));
 }
+const MODAL = 'dialog[open], [aria-modal="true"]';
+/** True when a modal is up: the key came from inside one, or a dialog is open anywhere (the page behind it must not react). */
+export function inModal(target) {
+  if (target && typeof target.closest === 'function' && target.closest(MODAL)) return true;
+  return typeof document !== 'undefined' && Boolean(document.querySelector?.('dialog[open]'));
+}
 const pressable = target => Boolean(target?.closest?.('button, a[href], summary, [role="button"], [role="tab"]'));
 
 /**
  * The viewer action for a key event, or null. Space is left to a focused button, link or summary (it activates it),
- * and everything is left alone while typing or with Ctrl, Meta or Alt held. Actions: play, prev, next, zoomIn, zoomOut, grid.
+ * and everything is left alone while typing, with Ctrl, Meta or Alt held, or while a modal dialog is open. Actions: play, prev, next, zoomIn, zoomOut, grid.
  */
 export function shortcutFor(event) {
-  if (!event || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || isTyping(event.target)) return null;
+  if (!event || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || isTyping(event.target) || inModal(event.target)) return null;
   switch (event.key) {
     case ' ': case 'Spacebar': return event.repeat || pressable(event.target) ? null : 'play';
     case 'ArrowLeft': return 'prev';

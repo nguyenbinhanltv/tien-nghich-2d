@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ZOOMS, GRID_MIN_ZOOM, snapZoom, fitZoom, stepZoom, isZoom, gridShown, pixelAt, pixelBox, wipeFraction, wipeColumn, isTyping, shortcutFor } from '../pixelview.mjs';
+import { ZOOMS, GRID_MIN_ZOOM, snapZoom, fitZoom, stepZoom, isZoom, gridShown, pixelAt, pixelBox, wipeFraction, wipeColumn, isTyping, inModal, shortcutFor } from '../pixelview.mjs';
 
 test('zoom levels are the eight integers and nothing fractional or odd comes out of any helper', () => {
   assert.deepEqual([...ZOOMS], [1, 2, 3, 4, 6, 8, 12, 16]);
@@ -99,4 +99,16 @@ test('shortcuts stay out of the way while typing, with modifiers, and where Spac
   assert.equal(shortcutFor(key('ArrowRight', {repeat: true})), 'next');
   assert.equal(shortcutFor(key(' ', {defaultPrevented: true})), null);
   assert.equal(isTyping(null), false);
+});
+
+test('shortcuts are ignored from inside a modal dialog and while one is open anywhere', () => {
+  const inside = {key: 'ArrowRight', target: target(['dialog[open]'])};
+  assert.equal(inModal(inside.target), true);
+  for (const k of ['ArrowLeft', 'ArrowRight', '+', '-', 'g', ' ']) assert.equal(shortcutFor({...inside, key: k}), null, k);
+  assert.equal(shortcutFor({key: 'g', target: target(['[aria-modal="true"]'])}), null);
+  assert.equal(inModal(target([])), false);
+  globalThis.document = {querySelector: selector => (selector === 'dialog[open]' ? {} : null)};
+  try { assert.equal(shortcutFor(key('ArrowRight')), null, 'a dialog is open elsewhere in the page'); }
+  finally { delete globalThis.document; }
+  assert.equal(shortcutFor(key('ArrowRight')), 'next');
 });
