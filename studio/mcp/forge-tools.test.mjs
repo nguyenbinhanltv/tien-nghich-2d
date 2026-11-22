@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { join } from 'node:path';
 import { convertPrototypeRig } from '../forge/rig/tests/fixtures/convert-prototype-rig.mjs';
-import { decodePng, framesEqual, readFrame } from '../forge/index.mjs';
+import { decodePng, framesEqual, importSheet, normalizeLayout, pixelizeImport, readFrame, resolveMarks, settingsFromPack } from '../forge/index.mjs';
+import { loadPackSync } from '../core/pack.mjs';
 import { REPO, connect, makeProject } from './testkit.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
@@ -179,4 +180,92 @@ test('frame_patch bake: stored operations survive every rebake', () => withProje
     assert.equal('#' + Buffer.from(f.pixels.subarray((y * 32 + x) * 4, (y * 32 + x) * 4 + 3)).toString('hex'), bronze, 'the patched pixel has the palette colour bronze_04');
     assert.notDeepEqual([...f.pixels.subarray((y * 32 + x) * 4, (y * 32 + x) * 4 + 4)], [...before.pixels.subarray((y * 32 + x) * 4, (y * 32 + x) * 4 + 4)], 'the patched pixel differs from the unpatched bake');
   }
+}));
+
+// ---- the pose-sheet route (the default for locomotion) -----------------------------------------
+const POSE = join(REPO, 'assets/experiments/forge_bakeoff/lt_ink_marten_pose');
+const KEYS = ['contact_a', 'passing_a', 'contact_b', 'passing_b'];
+const FACINGS = ['south', 'west', 'north', 'east'];
+
+test('pose sheet: drawn key poses become the follow clip; the keys are the cells, in order; committed with provenance', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+
+  // The template for the clip comes with the poseClips skeleton: one pose per frame of the clip.
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
+  assert.deepEqual(tpl.structuredContent.poseClips.clips.follow.keys, KEYS);
+  assert.equal(tpl.structuredContent.layout.cells.length, 16);
+  assert.equal(tpl.structuredContent.clips.find((c) => c.name === 'follow').route, 'pose-sheet');
+  assert.equal(tpl.structuredContent.clips.find((c) => c.name === 'idle').route, 'rig');
+  assert.match(text(await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet' })), /one clip. Give clip/);
+  assert.match(text(await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow', poses: ['a', 'b'] })), /needs 4 poses/);
+
+  const imp = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: fs.readFileSync(join(POSE, 'prompt.txt'), 'utf8'),
+    tool: 'Codex built-in image generation', scaleOptions: { mode: 'sheet' } });
+  assert.equal(imp.cells.length, 16);
+  assert.equal(new Set(imp.cells.map((c) => c.scale)).size, 1, 'sheet mode: every pose shares one scale');
+  const px = await a.call('studio_process', { assetId: ASSET, marks: json(join(POSE, 'marks.json')) });
+  assert.equal(px.structuredContent.cells.length, 16);
+
+  const bake = await a.call('studio_rig_bake', { assetId: ASSET, poseClips: tpl.structuredContent.poseClips, qa: { pivotDrift: false } });
+  assert.equal(bake.isError, undefined, text(bake));
+  assert.deepEqual(Object.keys(bake.structuredContent.clips), ['follow']);
+  assert.equal(bake.structuredContent.clips.follow.source, 'poses');
+  assert.deepEqual(bake.structuredContent.clips.follow.facings, { south: 4, west: 4, north: 4, east: 4 });
+  assert.equal(bake.structuredContent.frames, 16);
+  assert.deepEqual(bake.structuredContent.stored, ['poseclips']);
+  assert.equal(JSON.parse(fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'forge/poseclips.json'), 'utf8')).clips.follow.keys.length, 4, 'the pose clips are stored beside the asset');
+
+  // Frame i of the clip IS the pixelised cell of key i, from the same import: nothing is invented between the drawn poses.
+  // The reference is computed here with the forge library directly, not with the tools.
+  const settings = await settingsFromPack(loadPackSync(p.root, undefined, { verifyFiles: false }), p.root, 'pet');
+  const sheetBytes = fs.readFileSync(join(POSE, 'pose_sheet.png'));
+  const reference = pixelizeImport(importSheet({ layout: normalizeLayout(json(join(POSE, 'layout.json'))), sheet: decodePng(sheetBytes), sheetBytes, profile: settings.profile, scaleOptions: { mode: 'sheet' } }),
+    settings, { marks: resolveMarks(json(join(POSE, 'marks.json')), settings.palette) });
+  const dir = join(p.root, '.inspector-revisions/work', ASSET, 'bake');
+  for (const f of FACINGS) KEYS.forEach((k, i) => {
+    assert.ok(framesEqual(readFrame(join(dir, `follow_${f}_${i}.png`)), reference.cells.get(`${k}_${f}`).native), `follow_${f}_${i} is the cell ${k}_${f}`);
+  });
+
+  const sub = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: { pivotDrift: false } });
+  assert.equal(sub.isError, undefined, text(sub));
+  assert.equal(sub.structuredContent.submit.written, 16);
+  const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse)[0];
+  assert.equal(log.sourceHash, imp.sheet.sha256);
+  assert.match(log.notes, /poseclips [0-9a-f]{12}; patch -/);
+  // Only the follow clip exists so far: idle is still to come (from a rig).
+  const qa = await a.ok('studio_qa_run', { assetId: ASSET });
+  assert.equal(qa.summary.frames, 16);
+  assert.equal(qa.checks.frameCount.warnings, 16, 'the 16 idle frames are still missing (raw work is partial, so a warning)');
+}));
+
+test('rig_bake: what it refuses, and the submit rules', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const m = marten(p);
+  assert.match(text(await a.call('studio_rig_bake', { assetId: ASSET })), /no imported sheet|Give rig/);
+  assert.match(text(await a.call('studio_process', { assetId: ASSET })), /no imported sheet/);
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: m.prompt, tool: 'test' });
+  assert.match(text(await a.call('studio_rig_bake', { assetId: ASSET })), /Give rig .* and\/or poseClips/);
+  const broken = structuredClone(m.rig); broken.facings.south.parts[0].role = 'wing';
+  assert.match(text(await a.call('studio_rig_bake', { assetId: ASSET, rig: broken })), /the rig is invalid:/);
+  assert.match(text(await a.call('studio_rig_bake', { assetId: ASSET, poseClips: { schema: 'forge.poseclips', version: 1, clips: { follow: { keys: ['x'] } } } })), /poseClips are invalid/);
+  assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ASSET, 'forge/rig.json')), false, 'an invalid rig is not stored');
+
+  await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
+  const tried = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, qa: { weightTransfer: false }, save: false });
+  assert.equal(tried.structuredContent.pass, true);
+  assert.deepEqual(tried.structuredContent.stored, []);
+  assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ASSET, 'forge/rig.json')), false, 'save=false stores nothing');
+
+  // A gate error blocks submit and commits nothing.
+  const failing = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, qa: { weightTransfer: false, pivotDrift: { maxSpan: -1 } }, submit: true, save: false });
+  if (failing.structuredContent.pass === false) {
+    assert.equal(failing.isError, true);
+    assert.match(failing.structuredContent.submit.message, /nothing was committed/);
+    assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ASSET, 'frames')), false);
+  }
+  const read = connect(p.root, { scope: 'read' });
+  assert.match(text(await read.call('studio_rig_bake', { assetId: ASSET, rig: m.rig })), /needs scope "author"/);
+  assert.match(text(await a.call('studio_sheet_import', { assetId: 'lt_kiln_keeper', sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: 'x', tool: 'x' })), /already has processed or packed frames/);
 }));

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Run the studio MCP evaluation as a real agent (headless Claude Code) against the real server.
-//   node studio/mcp/eval/run.mjs [--only 1,3] [--model <id>] [--keep] [--out <file.json>] [--max-turns 40]
-// The agent gets ONLY the studio tools (no shell, no file access), a read-scope connection, and a
+//   node studio/mcp/eval/run.mjs [--set 1|2|all] [--only 1,3] [--model <id>] [--keep] [--out <file.json>] [--max-turns 40]
+// Set 1 (questions 1-5, read scope) is about the context, checking and review tools; set 2 (questions 6-10, author scope
+// so the agent can run trial calls that write only scratch) is about the forge, toolchain and audio tools.
+// The agent gets ONLY the studio tools (no shell, no file access), the scope of its set, and a
 // throwaway scene. Needs the `claude` CLI and its login; it is not part of `node --test`.
 import { spawn } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -10,6 +12,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { buildScene } from './scene.mjs';
+import { buildForgeScene } from './scene2.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ENTRY = resolve(HERE, '..', '..', 'mcp.mjs');
@@ -55,27 +58,39 @@ function runClaude(prompt, { mcpConfig, model, maxTurns }) {
   });
 }
 
+export const SETS = {
+  1: { questions: 'questions.xml', build: buildScene, scope: 'read', offset: 0 },
+  2: { questions: 'questions2.xml', build: buildForgeScene, scope: 'author', offset: 5 },
+};
+
 async function main() {
-  const { values } = parseArgs({ options: { only: { type: 'string' }, model: { type: 'string' }, keep: { type: 'boolean' }, out: { type: 'string' }, 'max-turns': { type: 'string', default: '40' } } });
-  const questions = parseQuestions(readFileSync(join(HERE, 'questions.xml'), 'utf8'));
+  const { values } = parseArgs({ options: { set: { type: 'string', default: 'all' }, only: { type: 'string' }, model: { type: 'string' }, keep: { type: 'boolean' }, out: { type: 'string' }, 'max-turns': { type: 'string', default: '40' } } });
   const only = values.only ? new Set(values.only.split(',').map(Number)) : null;
-  const scene = await buildScene();
-  const dir = join(tmpdir(), `studio-eval-${process.pid}`);
-  mkdirSync(dir, { recursive: true });
-  const mcpConfig = join(dir, 'mcp.json');
-  writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { studio: { command: process.execPath, args: [ENTRY, '--project', scene.root, '--scope', 'read', '--agent', 'eval'] } } }));
+  const sets = values.set === 'all' ? [1, 2] : [Number(values.set)];
   const rows = [];
-  try {
-    for (const q of questions) {
-      if (only && !only.has(q.n)) continue;
-      process.stderr.write(`Q${q.n}: running...\n`);
-      const run = await runClaude(PROMPT(q.question), { mcpConfig, model: values.model, maxTurns: values['max-turns'] });
-      const d = digest(run.lines);
-      const correct = d.answer !== null && normalize(d.answer) === normalize(q.answer);
-      rows.push({ n: q.n, expected: q.answer, got: d.answer, correct, toolCalls: d.calls.length, tools: [...new Set(d.calls.map((c) => c.name))], toolErrors: d.errors, turns: d.turns, ms: d.ms, costUsd: d.costUsd, exit: run.code, ...(d.answer === null ? { tail: d.text.slice(-300), stderr: run.err.slice(0, 300) } : {}) });
-      process.stderr.write(`Q${q.n}: ${correct ? 'correct' : 'WRONG'} (expected "${q.answer}", got "${d.answer}") in ${d.calls.length} tool calls, ${d.errors.length} tool errors\n`);
-    }
-  } finally { if (!values.keep) await scene.cleanup(); }
+  for (const setNo of sets) {
+    const set = SETS[setNo];
+    if (!set) throw new Error(`--set must be 1, 2 or all`);
+    const questions = parseQuestions(readFileSync(join(HERE, set.questions), 'utf8')).map((q) => ({ ...q, n: q.n + set.offset }));
+    if (only && !questions.some((q) => only.has(q.n))) continue;
+    const scene = await set.build();
+    const dir = join(tmpdir(), `studio-eval-${process.pid}-${setNo}`);
+    mkdirSync(dir, { recursive: true });
+    const mcpConfig = join(dir, 'mcp.json');
+    writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { studio: { command: process.execPath, args: [ENTRY, '--project', scene.root, '--scope', set.scope, '--agent', 'eval'] } } }));
+    try {
+      for (const q of questions) {
+        if (only && !only.has(q.n)) continue;
+        process.stderr.write(`Q${q.n}: running (scope ${set.scope})...\n`);
+        const run = await runClaude(PROMPT(q.question), { mcpConfig, model: values.model, maxTurns: values['max-turns'] });
+        const d = digest(run.lines);
+        const correct = d.answer !== null && normalize(d.answer) === normalize(q.answer);
+        rows.push({ n: q.n, set: setNo, scope: set.scope, expected: q.answer, got: d.answer, correct, toolCalls: d.calls.length, tools: [...new Set(d.calls.map((c) => c.name))], toolErrors: d.errors, turns: d.turns, ms: d.ms, costUsd: d.costUsd, exit: run.code,
+          ...(d.answer === null ? { tail: d.text.slice(-300), stderr: run.err.slice(0, 300) } : {}) });
+        process.stderr.write(`Q${q.n}: ${correct ? 'correct' : 'WRONG'} (expected "${q.answer}", got "${d.answer}") in ${d.calls.length} tool calls, ${d.errors.length} tool errors\n`);
+      }
+    } finally { if (!values.keep) await scene.cleanup(); }
+  }
   const summary = { ranAt: new Date().toISOString(), model: values.model ?? 'default', agent: 'Claude Code headless', correct: rows.filter((r) => r.correct).length, total: rows.length, rows };
   if (values.out) writeFileSync(values.out, JSON.stringify(summary, null, 2) + '\n');
   process.stdout.write(JSON.stringify(summary, null, 2) + '\n');

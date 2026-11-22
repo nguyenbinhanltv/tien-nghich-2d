@@ -22,7 +22,7 @@ export default {
   annotations: { readOnlyHint: true, idempotentHint: true },
   async handler(args, ctx) {
     const { ws, asset } = await loadAsset(ctx, args.assetId);
-    requireFrames(asset);
+    requireFrames(asset, { audio: true });
     return jsonResult(await listReviews({ ws, asset, select: selectionOf(args), detail: args.detail, limit: args.limit }));
   },
 };

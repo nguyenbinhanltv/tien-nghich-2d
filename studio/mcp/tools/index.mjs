@@ -19,17 +19,24 @@ import sheetImport from './sheet_import.mjs';
 import processTool from './process.mjs';
 import rigBake from './rig_bake.mjs';
 import framePatch from './frame_patch.mjs';
+import generatorRun from './generator_run.mjs';
+import vfxBuild from './vfx_build.mjs';
+import pack from './pack.mjs';
+import sceneSnapshot from './scene_snapshot.mjs';
+import audioRender from './audio_render.mjs';
+import audioAnalyze from './audio_analyze.mjs';
 
 export function buildRegistry() {
   const registry = new ToolRegistry();
   for (const tool of [
     projectInfo, catalogSearch, assetGet, assetPlan,                 // context
     framesSubmit, metadataSet, qaRun, diff,                          // authoring and checking
-    previewRender,                                                   // seeing
+    previewRender, sceneSnapshot,                                    // seeing
     reviewRequest, reviewList, reviewReply,                          // review loop: ask, read, answer. No approve, ever.
     jobStatus, jobWait,                                              // jobs
     templateGet, sheetImport, processTool, rigBake, framePatch,      // forge: template, import, pixelise, bake, pixel operations
+    generatorRun, vfxBuild, pack,                                    // toolchain: registered generators, SpriteFX, staging packs
+    audioRender, audioAnalyze,                                       // audio: render from data, measure and look. Nobody listens.
   ]) registry.register(tool);
-  // Later: generator_run, vfx_build, pack, scene_snapshot, audio_render, audio_analyze.
   return registry;
 }

@@ -1,7 +1,7 @@
 // Test and evaluation helpers: a throwaway project built from the real repo's files, and valid frames.
 // Nothing here ships to a harness; it exists so tests never write into the real repository.
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,11 +14,26 @@ const BASE_FILES = ['studio.project.json', 'assets/manifest.json', 'assets/manif
 // Directories copied whole so milestones, QA and previews have real frames to judge.
 const BASE_DIRS = ['assets/processed_longtime/lt_kiln_keeper', 'assets/atlases_longtime', 'assets/processed/ui/ui_card_frame'];
 
-/** Build a temp project. Returns {root, cleanup}. git: also `git init -b main` and commit everything. */
-export function makeProject({ git = false, extraDirs = [] } = {}) {
+/** Is the Python toolchain (project venv and SpriteFX venv + clone) present on this machine? Tests that need it skip otherwise. */
+export const HAVE_PYTHON = existsSync(join(REPO, 'tools/.venvs/project/bin/python'));
+export const HAVE_SPRITEFX = existsSync(join(REPO, 'tools/.venvs/spritefx/bin/python')) && existsSync(join(REPO, 'tools/skills/spritefx/fx'));
+
+/**
+ * Build a temp project. Returns {root, cleanup}. git: also `git init -b main` and commit everything.
+ * toolchain: link the Python environments and SpriteFX clone, and copy the registered generator and VFX palettes,
+ * so the programs the pack registers can really run there.
+ */
+export function makeProject({ git = false, extraDirs = [], toolchain = false } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'studio-proj-'));
   for (const f of BASE_FILES) { mkdirSync(dirname(join(root, f)), { recursive: true }); cpSync(join(REPO, f), join(root, f)); }
   for (const d of [...BASE_DIRS, ...extraDirs]) { mkdirSync(dirname(join(root, d)), { recursive: true }); cpSync(join(REPO, d), join(root, d), { recursive: true }); }
+  if (toolchain) {
+    mkdirSync(join(root, 'tools/skills'), { recursive: true });
+    for (const link of ['tools/.venvs', 'tools/skills/spritefx']) if (existsSync(join(REPO, link))) symlinkSync(join(REPO, link), join(root, link));
+    cpSync(join(REPO, 'tools/generators/studio_primitives.py'), join(root, 'tools/generators/studio_primitives.py'));
+    mkdirSync(join(root, 'tools/generators/vfx_specs'), { recursive: true });
+    cpSync(join(REPO, 'tools/generators/vfx_specs/palettes'), join(root, 'tools/generators/vfx_specs/palettes'), { recursive: true });
+  }
   if (git) {
     const run = (...a) => execFileSync('git', ['-C', root, '-c', 'user.name=t', '-c', 'user.email=t@example.com', ...a], { stdio: 'ignore' });
     run('init', '-b', 'main'); run('add', '-A'); run('commit', '-m', 'fixture');

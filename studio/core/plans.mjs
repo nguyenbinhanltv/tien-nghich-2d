@@ -24,7 +24,29 @@ const text = (v, max) => typeof v === 'string' && v.trim().length > 0 && v.lengt
 export const planEtag = entry => sha256(JSON.stringify(entry));
 const invalid = message => { throw problem(422, 'invalid_input', message); };
 
+const DIRECTIONS = ['none', 'south', 'west', 'north', 'east'];
+
+/** An inline profile for an asset that fits no manifest profile (a VFX, a one-off): size, pivot, directions, clips. */
+function validateCustom(custom, index) {
+  const ok = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
+  if (!custom || typeof custom !== 'object' || Array.isArray(custom) || Object.keys(custom).some(k => !['category', 'size', 'pivot', 'directions', 'clips'].includes(k))) invalid('custom may only contain category, size, pivot, directions and clips');
+  const categories = new Set([...index.assets.values()].map(a => a.category));
+  categories.add('vfx');
+  if (!categories.has(custom.category)) invalid(`custom.category "${custom.category}" is not known. Choose one of: ${[...categories].sort().join(', ')}`);
+  if (!Array.isArray(custom.size) || custom.size.length !== 2 || !custom.size.every(v => ok(v, 4, 256))) invalid('custom.size must be [width, height], integers 4 to 256');
+  if (!Array.isArray(custom.pivot) || custom.pivot.length !== 2 || !ok(custom.pivot[0], 0, custom.size[0] - 1) || !ok(custom.pivot[1], 0, custom.size[1] - 1)) invalid('custom.pivot must be [x, y] inside custom.size');
+  const dirs = custom.directions ?? ['none'];
+  if (!Array.isArray(dirs) || !dirs.length || dirs.length > 4 || new Set(dirs).size !== dirs.length || dirs.some(d => !DIRECTIONS.includes(d))) invalid(`custom.directions must be 1 to 4 distinct values of ${DIRECTIONS.join(', ')}`);
+  const clips = custom.clips;
+  if (!clips || typeof clips !== 'object' || Array.isArray(clips) || !Object.keys(clips).length || Object.keys(clips).length > 8) invalid('custom.clips must name 1 to 8 clips');
+  for (const [name, c] of Object.entries(clips)) {
+    if (!/^[a-z][a-z0-9_]{0,23}$/.test(name)) invalid(`custom clip name "${name}" must be lower_snake_case`);
+    if (!c || typeof c !== 'object' || Object.keys(c).some(k => !['frames', 'frameMs'].includes(k)) || !ok(c.frames, 1, 64) || !ok(c.frameMs, 1, 60000)) invalid(`custom.clips.${name} must be {frames: 1-64, frameMs: 1-60000}`);
+  }
+}
+
 function validateFields(fields, index, selfId) {
+  if ('custom' in fields) validateCustom(fields.custom, index);
   const {profiles, chunks} = index.info;
   const phases = new Set(), methods = new Set();
   for (const a of index.assets.values()) { if (a.profile !== undefined) { phases.add(a.phase); methods.add(a.method); } }
@@ -60,8 +82,9 @@ export async function planAsset({root, index, caller, op, id, etag, ...fields}) 
       const rule = index.info.planId;
       if (!new RegExp(rule.pattern).test(id) || id.length > 64) invalid(`id must look like ${rule.hint} (lowercase words joined by underscores, at most 64 characters)`);
       if (index.assets.has(id) || at >= 0) throw problem(409, 'id_taken', `An asset "${id}" already exists`);
-      for (const f of ['profile', 'chunk_group', 'brief']) if (!(f in fields)) invalid(`create needs ${f}`);
-      const merged = {profile: fields.profile, chunk_group: fields.chunk_group, phase: fields.phase ?? 'later',
+      for (const f of ['chunk_group', 'brief']) if (!(f in fields)) invalid(`create needs ${f}`);
+      if (('profile' in fields) === ('custom' in fields)) invalid('create needs exactly one of profile (a manifest profile: size, pivot and clips come from it) or custom (an inline size, pivot and clips)');
+      const merged = {...('profile' in fields ? {profile: fields.profile} : {custom: fields.custom}), chunk_group: fields.chunk_group, phase: fields.phase ?? 'later',
         method: fields.method ?? 'new_source', brief: fields.brief, dependencies: fields.dependencies ?? []};
       validateFields(merged, index, id);
       entry = {id, ...merged, studio: {createdBy: stamp}};
@@ -81,8 +104,11 @@ export async function planAsset({root, index, caller, op, id, etag, ...fields}) 
       const m = record && await milestones(root, record);
       if (isShipped(m)) throw problem(409, 'not_planned', `"${id}" already has processed or packed frames, so it is no longer a planned entry`);
       const next = {...old};
-      for (const f of ['profile', 'chunk_group', 'brief', 'phase', 'method', 'dependencies']) if (f in fields) next[f] = fields[f];
-      if (next.profile !== old.profile && m.source.files) invalid('The profile cannot change once frames have been submitted');
+      if (('profile' in fields || 'custom' in fields) && m.source.files) invalid('The profile or custom spec cannot change once frames have been submitted');
+      for (const f of ['profile', 'custom', 'chunk_group', 'brief', 'phase', 'method', 'dependencies']) if (f in fields) next[f] = fields[f];
+      if ('profile' in fields) delete next.custom;
+      if ('custom' in fields) delete next.profile;
+      if (('profile' in next) === ('custom' in next)) invalid('an entry has exactly one of profile or custom');
       validateFields(next, index, id);
       next.studio = {...old.studio, updatedBy: stamp};
       current.entries[at] = entry = next;

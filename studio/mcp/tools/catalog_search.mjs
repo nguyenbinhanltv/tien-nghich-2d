@@ -1,5 +1,6 @@
 import { jsonResult, statusOf } from './_shared.mjs';
 import { milestones } from '../../core/assets.mjs';
+import { latestVersion } from '../../core/audio-candidates.mjs';
 
 export default {
   name: 'studio_catalog_search',
@@ -38,7 +39,7 @@ export default {
       (!q || a.id.includes(q) || (a.brief ?? '').toLowerCase().includes(q) || String(a.name).toLowerCase().includes(q)));
     rows.sort((a, b) => (a.id < b.id ? -1 : 1));
     const withStatus = [];
-    for (const a of rows) withStatus.push({ a, status: statusOf(a, await milestones(ws.root, a)) });
+    for (const a of rows) withStatus.push({ a, status: a.audio && await latestVersion(ws.root, a.audio.dir) ? 'authored' : statusOf(a, await milestones(ws.root, a)) });
     const kept = args.status ? withStatus.filter((x) => x.status === args.status) : withStatus;
     const facets = { source: {}, status: {}, category: {} };
     for (const { a, status } of kept) {

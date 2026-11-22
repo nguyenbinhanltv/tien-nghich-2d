@@ -16,9 +16,9 @@ export class JobRunner {
 
   constructor({keep = 100, maxRunning = 4} = {}) { this.#keep = keep; this.#maxRunning = maxRunning; }
 
-  /** Start (or queue) a job. `run({log})` resolves to the result, which must be JSON-serialisable. */
-  submit({name, owner, run}) {
-    const job = {id: 'job-' + randomBytes(5).toString('hex'), name, owner, status: 'queued', createdAt: new Date().toISOString(),
+  /** Start (or queue) a job. `run({log})` resolves to the result, which must be JSON-serialisable. `meta` is shown with the job ({assetId}). */
+  submit({name, owner, meta = {}, run}) {
+    const job = {id: 'job-' + randomBytes(5).toString('hex'), name, owner, meta, status: 'queued', createdAt: new Date().toISOString(),
       startedAt: null, finishedAt: null, log: [], result: undefined, error: undefined, cost: {wallMs: 0, approxCpuMs: 0}};
     this.#jobs.set(job.id, {job, run});
     this.#queue.push(job.id);
@@ -95,4 +95,18 @@ export class JobRunner {
   }
 
   list() { return [...this.#jobs.values()].map(e => this.view(e.job.id)); }
+
+  /**
+   * What a Jobs tab shows: one summary per job, newest first, at most `limit`. Views only: no result, no payload,
+   * no log lines; `error` is the failure message alone.
+   */
+  summaries(limit = 50) {
+    const rows = [...this.#jobs.values()].map(e => e.job).reverse();
+    return rows.slice(0, limit).map(job => ({
+      id: job.id, tool: job.name, state: job.status, agent: job.owner?.agent ?? null, session: job.owner?.session ?? null,
+      ...(job.meta?.assetId ? {assetId: job.meta.assetId} : {}), createdAt: job.createdAt, startedAt: job.startedAt, endedAt: job.finishedAt,
+      durationMs: job.finishedAt ? job.cost.wallMs : job.startedAt ? Math.round(Date.now() - Date.parse(job.startedAt)) : null,
+      ...(job.error ? {error: job.error.message} : {}),
+    }));
+  }
 }

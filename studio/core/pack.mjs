@@ -38,6 +38,12 @@ function pathFields(pack) {
   (pack.catalog?.sources ?? []).forEach((s, i) => fields.push([`catalog.sources[${i}].file`, s.file]));
   fields.push(['adapters.interpreter.command', pack.adapters?.interpreter?.command]);
   for (const [name, command] of Object.entries(pack.adapters?.commands ?? {})) fields.push([`adapters.commands.${name}.script`, command.script]);
+  for (const [name, generator] of Object.entries(pack.adapters?.generators ?? {})) fields.push([`adapters.generators.${name}.script`, generator.script]);
+  const vfx = pack.adapters?.vfx;
+  if (vfx) {
+    fields.push(['adapters.vfx.interpreter.command', vfx.interpreter.command], ['adapters.vfx.clone', vfx.clone]);
+    for (const [name, file] of Object.entries(vfx.palettes)) fields.push([`adapters.vfx.palettes.${name}`, file]);
+  }
   return fields.filter(([, value]) => value !== undefined);
 }
 
@@ -89,8 +95,50 @@ export function validatePack(pack) {
   });
   for (const [category, tab] of Object.entries(pack.ui?.categoryTabs ?? {})) if (!category) issues.push(`ui.categoryTabs: empty category for ${tab}`);
   for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.theme.${role}: must be a palette colour id`);
+  issues.push(...validateGenerators(pack.adapters));
   if (pack.rules.outline.mode === 'none' && pack.rules.outline.color !== 'palette') issues.push('rules.outline: color is meaningless when mode is "none"');
   return issues;
+}
+
+// Placeholders an argument template may use besides the generator's own parameters.
+export const generatorBuiltins = ['out', 'palette', 'seed'];
+const registryId = /^[a-z][a-z0-9_]{0,40}$/;
+
+/** Checks of the generator registry and the VFX adapter. A registered generator is the ONLY thing the studio will run. */
+function validateGenerators(adapters = {}) {
+  const issues = [];
+  for (const [id, g] of Object.entries(adapters.generators ?? {})) {
+    const at = `adapters.generators.${id}`;
+    if (!registryId.test(id)) issues.push(`${at}: id must match ${registryId}`);
+    const params = g.params ?? {};
+    for (const [name, spec] of Object.entries(params)) {
+      if (!registryId.test(name) || generatorBuiltins.includes(name)) issues.push(`${at}.params.${name}: name must match ${registryId} and not be one of ${generatorBuiltins.join(', ')}`);
+      if (spec.type === 'string' && !spec.enum && !spec.pattern) issues.push(`${at}.params.${name}: a string parameter needs an "enum" or a "pattern" (free text is never passed to a program)`);
+      if (spec.minimum !== undefined && spec.maximum !== undefined && spec.minimum > spec.maximum) issues.push(`${at}.params.${name}: minimum exceeds maximum`);
+      if (spec.default !== undefined && !paramValueOk(spec, spec.default)) issues.push(`${at}.params.${name}: default ${JSON.stringify(spec.default)} does not satisfy its own rules`);
+    }
+    if (g.seed?.default !== undefined && g.seed.maximum !== undefined && g.seed.default > g.seed.maximum) issues.push(`${at}.seed: default exceeds maximum`);
+    const known = new Set([...generatorBuiltins, ...Object.keys(params)]);
+    for (const arg of g.args) for (const name of placeholders(arg)) {
+      if (!known.has(name)) issues.push(`${at}.args: unknown placeholder {${name}}`);
+      if (name === 'seed' && !g.seed) issues.push(`${at}.args: {seed} used but the generator declares no seed`);
+    }
+    if (!g.args.some(a => placeholders(a).includes('out'))) issues.push(`${at}.args: must pass {out}, the directory the generator writes its frames to`);
+  }
+  for (const name of Object.keys(adapters.vfx?.palettes ?? {})) if (!/^[a-z0-9_]+$/.test(name)) issues.push(`adapters.vfx.palettes.${name}: name must be lowercase letters, digits and underscores`);
+  return issues;
+}
+
+/** Does `value` satisfy a parameter spec (type, range, enum, pattern)? */
+export function paramValueOk(spec, value) {
+  if (spec.type === 'integer' && !Number.isInteger(value)) return false;
+  if (spec.type === 'number' && !(typeof value === 'number' && Number.isFinite(value))) return false;
+  if (spec.type === 'boolean' && typeof value !== 'boolean') return false;
+  if (spec.type === 'string' && typeof value !== 'string') return false;
+  if (typeof value === 'number' && ((spec.minimum !== undefined && value < spec.minimum) || (spec.maximum !== undefined && value > spec.maximum))) return false;
+  if (spec.enum && !spec.enum.includes(value)) return false;
+  if (spec.pattern && !new RegExp(spec.pattern).test(String(value))) return false;
+  return true;
 }
 
 function check(pack, root, verifyFiles) {

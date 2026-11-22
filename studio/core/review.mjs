@@ -10,6 +10,8 @@
 import { randomBytes } from 'node:crypto';
 import { problem } from './errors.mjs';
 import { listFrames } from './assets.mjs';
+import { reviewFrames } from './audio-candidates.mjs';
+import { bareFrame } from './bareframe.mjs';
 import { readInside } from './files.mjs';
 
 export const AGENT_MARK = /^\[agent /;
@@ -18,8 +20,7 @@ const invalid = message => { throw problem(422, 'invalid_input', message); };
 
 export const agentTag = ({agent, session}) => `[agent ${agent} · ${session.slice(0, 8)}]`;
 
-/** The store only reads `info` (spread into snapshots) and `metadata` (written when a lineage is created). */
-export const bareFrame = (key, extra = {}) => ({kind: 'studio', info: {key, ...extra}, metadata: {pivot: [0, 0]}});
+export { bareFrame };
 
 function clip(text, n) { return text.length > n ? text.slice(0, n - 1) + '…' : text; }
 
@@ -31,6 +32,11 @@ function describeComments(comments) {
 export async function lineageFrames(ws, asset, select = {}) {
   const store = await ws.store();
   const out = [];
+  // An audio cue's review frames are the pictures of its newest candidate (see audio-candidates.mjs).
+  if (asset.audio) {
+    for (const f of await reviewFrames(ws.root, asset.audio.dir, asset.id)) if (!store.needsBaseline(f.key)) out.push({...f, stage: 'audio'});
+    return out;
+  }
   for (const stage of ['raw', 'processed']) {
     for (const f of (await listFrames(ws.root, asset, stage)).frames) {
       if ((select.clip !== undefined && f.clip !== select.clip) || (select.direction !== undefined && f.direction !== select.direction)

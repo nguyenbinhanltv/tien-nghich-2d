@@ -95,3 +95,66 @@ test('the runner parses questions and agent transcripts', () => {
   assert.deepEqual([d.answer, d.calls.length, d.errors[0].tool, d.turns], ['72', 1, 'studio_asset_get', 3]);
   assert.equal(digest([JSON.stringify({ type: 'result', result: 'no final line' })]).answer, null);
 });
+
+// ---- the second half (forge, toolchain, audio) -------------------------------------------------------
+import { buildForgeScene } from './eval/scene2.mjs';
+import { HAVE_PYTHON } from './testkit.mjs';
+
+const questions2 = parseQuestions(readFileSync(join(HERE, 'eval/questions2.xml'), 'utf8'));
+
+test('second half: five questions, each with one short verifiable answer; the two halves make ten', () => {
+  assert.equal(questions2.length, 5);
+  assert.equal(questions.length + questions2.length, 10, 'the plan requires ten');
+  for (const q of questions2) {
+    assert.ok(q.question.length > 80 && q.question.length < 800, `Q${q.n + 5} length`);
+    assert.ok(q.answer.length > 0 && q.answer.length < 60, `Q${q.n + 5} answer is one short value`);
+    assert.match(q.question, /Answer (with|as)/, `Q${q.n + 5} says how to format the answer`);
+  }
+  assert.match(questions2.map((q) => q.question).join(' '), /do not commit anything/);
+});
+
+test('second half: the answers equal ground truth computed without the studio tools', { skip: HAVE_PYTHON ? false : 'Python toolchain not available' }, async () => {
+  const scene = await buildForgeScene();
+  try {
+    const t = scene.truth;
+    assert.deepEqual(questions2.map((q) => normalize(q.answer)), [t.q6, t.q7, t.q8, t.q9, t.q10].map(normalize));
+    assert.equal(t.q8Detail[0].peak > t.q8Detail[1].peak, true, 'candidate 1 is the louder one');
+  } finally { await scene.cleanup(); }
+});
+
+test('second half: every question is answerable with studio tool calls alone (an oracle at author scope, in-process)', { skip: HAVE_PYTHON ? false : 'Python toolchain not available' }, async () => {
+  const scene = await buildForgeScene();
+  try {
+    const c = connect(openProject(scene.root), { scope: 'author', agent: 'oracle' });
+    const used = new Set();
+    const ok = (name, args) => { used.add(name); return c.ok(name, args); };
+    const answers = [];
+
+    // Q6: ask what routes the forge recommends, then ask for the pose sheet of the locomotion clip.
+    const tpl = await ok('studio_template_get', { assetId: 'lt_reed_crane' });
+    const clip = tpl.clips.find((x) => x.route === 'pose-sheet').name;
+    const sheet = await ok('studio_template_get', { assetId: 'lt_reed_crane', kind: 'pose-sheet', clip });
+    answers.push(`${clip}: ${sheet.poseClips.clips[clip].keys.join(', ')}`);
+
+    // Q7: the provenance of the frames names the sheet hash.
+    answers.push((await ok('studio_asset_get', { assetId: 'lt_reed_crane', sections: ['provenance'] })).provenance.latest.sourceHash.slice(0, 12));
+
+    // Q8: the candidates list their peaks and durations.
+    const cands = (await ok('studio_asset_get', { assetId: 'sfx_step', sections: ['audio'] })).audio.candidates;
+    const loudest = cands.reduce((a, b) => (b.peakDbfs > a.peakDbfs ? b : a));
+    answers.push(`${loudest.version} ${loudest.durationMs}`);
+
+    // Q9: a trial run of the registered generator, nothing committed.
+    const run = await ok('studio_generator_run', { assetId: 'lt_icon_realm_step', generator: 'primitives', params: { shape: 'ring', size: 16, fill: 'jade_03', accent: 'bronze_04' }, seed: 7 });
+    answers.push(run.files[0].sha256.slice(0, 10));
+
+    // Q10: a staging pack of the chunk tells whether it fits and what it is allowed.
+    const pack = await ok('studio_pack', { chunk: 'abode', platform: 'mobile' });
+    answers.push(`${pack.mobile.budget.pass ? 'yes' : 'no'} ${pack.mobile.budget.pages.ceiling}`);
+
+    assert.deepEqual(answers.map(normalize), questions2.map((q) => normalize(q.answer)));
+    for (const tool of ['studio_template_get', 'studio_asset_get', 'studio_generator_run', 'studio_pack']) assert.ok(used.has(tool), `${tool} is exercised`);
+    const raw = (id) => join(scene.root, 'assets/raw/longtime', id);
+    assert.equal((await import('node:fs')).existsSync(join(raw('lt_icon_realm_step'), 'frames')), false, 'the trial run committed nothing');
+  } finally { await scene.cleanup(); }
+});

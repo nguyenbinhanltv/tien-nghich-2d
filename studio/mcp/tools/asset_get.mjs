@@ -4,9 +4,10 @@ import { readMetadata } from '../../core/metadata.mjs';
 import { planEtag, readPlans } from '../../core/plans.mjs';
 import { listReviews } from '../../core/review.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
+import { contentOf, latestVersion, versions, readVersion } from '../../core/audio-candidates.mjs';
 import { jsonResult, loadAsset, statusOf } from './_shared.mjs';
 
-const SECTIONS = ['spec', 'milestones', 'frames', 'provenance', 'metadata', 'reviews', 'checks', 'dependencies'];
+const SECTIONS = ['spec', 'milestones', 'frames', 'provenance', 'metadata', 'reviews', 'checks', 'dependencies', 'audio'];
 const clip = (s, n) => (typeof s === 'string' && s.length > n ? s.slice(0, n - 1) + '…' : s);
 
 export default {
@@ -22,7 +23,7 @@ export default {
     type: 'object',
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Asset id, e.g. lt_seed_broker. Find ids with studio_catalog_search.' },
-      sections: { type: 'array', maxItems: 8, items: { type: 'string', enum: SECTIONS }, description: `Limit to these sections (default: all of ${SECTIONS.join(', ')}).` },
+      sections: { type: 'array', maxItems: 9, items: { type: 'string', enum: SECTIONS }, description: `Limit to these sections (default: all of ${SECTIONS.join(', ')}).` },
     },
     required: ['assetId'],
     additionalProperties: false,
@@ -33,7 +34,8 @@ export default {
     const { index } = snap;
     const want = new Set(sections?.length ? sections : SECTIONS);
     const m = asset.layout ? await milestones(ws.root, asset) : null;
-    const out = { id: asset.id, source: asset.source, category: asset.category, status: statusOf(asset, m) };
+    const newest = asset.audio ? await latestVersion(ws.root, asset.audio.dir) : null;
+    const out = { id: asset.id, source: asset.source, category: asset.category, status: asset.audio && newest ? 'authored' : statusOf(asset, m) };
 
     if (want.has('spec')) {
       out.spec = {
@@ -80,14 +82,23 @@ export default {
       const md = await readMetadata(ws.root, asset);
       out.metadata = md ? { etag: md.etag, ...md.data } : { etag: null, note: 'none set yet; studio_metadata_set creates it' };
     }
-    if (want.has('reviews') && asset.layout) {
+    if (asset.audio && want.has('audio')) {
+      const list = [];
+      for (const v of await versions(ws.root, asset.audio.dir)) {
+        const c = await readVersion(ws.root, asset.audio.dir, v);
+        list.push({ version: v, at: c.provenance.at, agent: c.provenance.agent, session: c.provenance.session.slice(0, 8), kind: c.provenance.kind, wavSha256: c.provenance.wavSha256, durationMs: c.measurements.durationMs,
+          peakDbfs: c.measurements.peak?.sampleDbfs, lufs: c.measurements.loudness?.integratedLufs ?? c.measurements.loudness?.ungatedLufs ?? null, files: c.files['render.wav'] });
+      }
+      out.audio = { dir: asset.audio.dir, candidates: list, note: 'Candidates are staging; a human delivers them. Listening is signed by a human only.' };
+    }
+    if (want.has('reviews') && (asset.layout || asset.audio)) {
       const r = await listReviews({ ws, asset, detail: 'summary', limit: 10 });
       out.reviews = { frames: r.frames, byStatus: r.byStatus, openCommentCount: r.openCommentCount, openComments: r.openComments };
     }
-    if (want.has('checks') && asset.layout) {
+    if (want.has('checks') && (asset.layout || asset.audio)) {
       const db = await ws.db();
-      const stage = (await listFrames(ws.root, asset, 'processed')).frames.length ? 'processed' : 'raw';
-      const current = await contentHash(ws.root, asset, stage);
+      const stage = asset.audio ? 'audio' : (await listFrames(ws.root, asset, 'processed')).frames.length ? 'processed' : 'raw';
+      const current = asset.audio ? (newest ? await contentOf(ws.root, newest) : null) : await contentHash(ws.root, asset, stage);
       out.checks = db.checks(asset.id, 5).map((c) => ({ at: c.ts, agent: c.agent, session: c.session.slice(0, 8), stage: c.stage, independent: c.independent, pass: c.pass, errors: c.errors, warnings: c.warnings, current: c.stage === stage && c.content === current }));
     }
     if (want.has('dependencies')) {

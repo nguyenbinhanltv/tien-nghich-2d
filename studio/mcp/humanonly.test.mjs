@@ -4,13 +4,28 @@
 // that does exist, or be written by any code path an agent can reach.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { bareFrame } from '../core/review.mjs';
 import { PROVENANCE, REPO, clipFrames, connect, makeFrame, makeProject } from './testkit.mjs';
 import { openProject } from './project.mjs';
 import { buildRegistry } from './tools/index.mjs';
 import { SCOPES } from './registry.mjs';
+
+// A fingerprint of every file in a project (name, size, bytes), links not followed, for "nothing changed" assertions.
+function treeHash(root) {
+  const h = createHash('sha256');
+  const walk = (dir, rel) => {
+    for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
+      const abs = join(dir, e.name), r = `${rel}/${e.name}`;
+      if (lstatSync(abs).isSymbolicLink()) { h.update(`${r}:link\n`); continue; }
+      if (e.isDirectory()) walk(abs, r); else h.update(`${r}:${createHash('sha256').update(readFileSync(abs)).digest('hex')}\n`);
+    }
+  };
+  walk(root, '');
+  return h.digest('hex');
+}
 
 const text = (r) => r.content?.[0]?.text ?? r.rpcError?.message ?? '';
 const FORBIDDEN_NAME = /approve|reject|sign|publish|delete|remove|promote|shell|exec|decision|decide|merge|overwrite|rig_?palette|palette_?edit|project_?edit/i;
@@ -81,19 +96,24 @@ test('read scope cannot reach any tool that writes', async () => {
   try {
     const c = connect(p.root, { scope: 'read' });
     const writers = buildRegistry().list('pack').filter((t) => t.scope !== 'read').map((t) => t.name);
-    assert.deepEqual(writers.sort(), ['studio_asset_plan', 'studio_frames_submit', 'studio_metadata_set', 'studio_review_reply', 'studio_review_request']);
+    assert.deepEqual(writers.sort(), ['studio_asset_plan', 'studio_audio_render', 'studio_frame_patch', 'studio_frames_submit', 'studio_generator_run', 'studio_metadata_set', 'studio_pack',
+      'studio_process', 'studio_review_reply', 'studio_review_request', 'studio_rig_bake', 'studio_sheet_import', 'studio_vfx_build'], 'every tool that writes needs author scope, and this list is reviewed');
     const listed = (await c.rpc('tools/list')).result.tools.map((t) => t.name);
     for (const w of writers) {
       assert.equal(listed.includes(w), false, `${w} is hidden`);
       const r = await c.call(w, {});
       assert.match(text(r), /needs scope "author"/);
     }
-    // And a read connection leaves the project exactly as it found it.
-    await c.call('studio_qa_run', { assetId: 'lt_kiln_keeper' });
-    await c.call('studio_preview_render', { assetId: 'lt_kiln_keeper' });
-    await c.call('studio_diff', { assetId: 'lt_kiln_keeper' });
-    await c.call('studio_review_list', { assetId: 'lt_kiln_keeper' });
-    assert.equal(statSync(p.root).isDirectory() && readdirSync(join(p.root, 'assets')).includes('studio_plans.json'), false);
+    // And a read connection leaves the project exactly as it found it: every read tool, byte for byte.
+    const before = treeHash(p.root);
+    for (const [name, args] of [['studio_project_info', {}], ['studio_catalog_search', { limit: 5 }], ['studio_asset_get', { assetId: 'lt_kiln_keeper' }], ['studio_qa_run', { assetId: 'lt_kiln_keeper' }],
+      ['studio_preview_render', { assetId: 'lt_kiln_keeper' }], ['studio_diff', { assetId: 'lt_kiln_keeper' }], ['studio_review_list', { assetId: 'lt_kiln_keeper' }],
+      ['studio_template_get', { assetId: 'lt_seed_broker' }], ['studio_scene_snapshot', { assetId: 'lt_kiln_keeper' }], ['studio_audio_analyze', { document: JSON.parse(readFileSync(join(REPO, 'studio/audio/examples/zap.patch.json'), 'utf8')) }]]) {
+      const r = await c.call(name, args);
+      assert.notEqual(r.isError, true, `${name}: ${text(r)}`);
+    }
+    assert.equal(treeHash(p.root), before, 'no read tool changed any file');
+    assert.equal(existsSync(join(p.root, '.inspector-revisions/mcp-tokens.json')), false);
   } finally { await p.cleanup(); }
 });
 
@@ -153,6 +173,8 @@ test('static: the only code that writes to the revision store is reviewed and ca
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text\}\)/ },            // request: text only
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: rev, text: body\}\)/ },                 // reply: text only
     { file: 'studio/core/submissions.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },      // new lineage starts pending
+    { file: 'studio/core/audio-candidates.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },  // a new audio candidate's pictures start pending
+    { file: 'studio/core/revisions.mjs', action: 'save', must: /\{baseRevision: head\.head, png\}\)/ },            // a pixel patch is a new revision: pending, never a decision
   ];
   assert.equal(calls.length, expected.length, `unexpected store writes:\n${calls.map((c) => `${c.file}: ${c.code}`).join('\n')}`);
   for (const want of expected) {

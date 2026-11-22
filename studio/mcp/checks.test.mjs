@@ -76,7 +76,7 @@ test('qa_run: a selection narrows the frames judged', () => withProject(async (p
   assert.equal((await a.ok('studio_qa_run', { assetId: 'lt_seed_broker', frame: 1 })).pass, false);
   assert.equal((await a.ok('studio_qa_run', { assetId: 'lt_seed_broker', clip: 'idle', direction: 'south' })).summary.frames, 4);
   assert.equal((await a.ok('studio_qa_run', { assetId: 'lt_seed_broker', clip: 'interact' })).summary.frames, 0);
-  assert.match(text(await a.call('studio_qa_run', { assetId: 'bgm_hengyue' })), /audio asset/);
+  assert.match(text(await a.call('studio_qa_run', { assetId: 'bgm_hengyue' })), /has no candidate yet/, 'an audio cue is judged on its candidates');
 }));
 
 test('qa_run: an independent check must come from a different session than the author', () => withProject(async (p) => {
@@ -280,7 +280,7 @@ test('preview_render: processed frames, narrowing, size limit and plain errors',
   assert.deepEqual(one.structuredContent.layout.rows.map((r) => `${r.clip}/${r.direction}`), ['idle/east']);
   assert.match(text(await call('studio_preview_render', { assetId: 'lt_kiln_keeper', clip: 'dance' })), /no processed frames matching/);
   assert.match(text(await call('studio_preview_render', { assetId: 'lt_seed_broker' })), /no processed frames/);
-  assert.match(text(await call('studio_preview_render', { assetId: 'bgm_hengyue' })), /audio asset/);
+  assert.match(text(await call('studio_preview_render', { assetId: 'bgm_hengyue' })), /has no candidate yet/);
   assert.match(text(await call('studio_preview_render', { assetId: 'lt_kiln_keeper', scale: 9 })), /above maximum 8/);
 }));
 

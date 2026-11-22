@@ -1,16 +1,14 @@
 // In-memory frames (forge images) to what a tool returns: a contact sheet an agent can look at, and a
 // submission through the same gated, immutable path as studio_frames_submit.
 import { renderContactSheet } from '../../core/contact-sheet.mjs';
-import { findDefects } from '../../core/defects.mjs';
-import { gateOptions } from '../../core/gates.mjs';
+import { assetGateOptions, findDefects } from '../../core/defects.mjs';
 import { submitFrames } from '../../core/submissions.mjs';
 import { encodePng } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { parseFrameName } from './forge.mjs';
 
 /** Gate options for judging an asset's pixels (outline only where the asset's category carries one). */
-export const pixelOptions = (snap, asset, dirtyTransparent = 'warn') =>
-  ({ ...gateOptions(snap.pack, snap.palette, { outlineOptional: !asset.outline }), dirtyTransparent });
+export const pixelOptions = (snap, asset, dirtyTransparent = 'warn') => assetGateOptions(snap.pack, snap.palette, asset, dirtyTransparent);
 
 /** Baked frames {name: image} (names `<clip>_<direction>_<n>`) -> render cells with their defects. */
 export function cellsOf(frames, options) {
@@ -32,6 +30,7 @@ export function cellsOfPixelized(pixelized, options) {
 
 /** A tool result with a contact sheet image plus a short text that names rows and columns. */
 export function sheetContent({ title, cells, scale = 4, overlay = true, extra = {} }) {
+  if (!cells.length) return { content: [{ type: 'text', text: `${title}: no frames to show.` }], structured: { layout: null, defects: { errors: 0, warnings: 0 }, ...extra } };
   let sheet;
   try { sheet = renderContactSheet(cells, { scale, overlay }); }
   catch (error) { if (error.code === 'too_large') throw new ToolError(error.message); throw error; }
