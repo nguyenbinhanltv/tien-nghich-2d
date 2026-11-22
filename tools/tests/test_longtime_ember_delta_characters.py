@@ -70,10 +70,40 @@ class EmberDeltaCharacters(unittest.TestCase):
                 for f in prov["frames"]:
                     self.assertEqual(f["sha256"], sha(ROOT / f["path"]), f["path"])
                     self.assertEqual(f["raw_sha256"], sha(ROOT / f["raw_path"]), f["raw_path"])
+                proc = prov["processing"]
+                self.assertEqual(proc["entry_point"], "tools/scripts/build_longtime_ember_delta.py")
+                self.assertEqual(proc["entry_point_sha256"], sha(ROOT / proc["entry_point"]))
+                self.assertIn("crop_limit", proc)
+                self.assertEqual(proc["crop_limit"], proc["cropped_opaque_pixels"])
+                self.assertEqual(prov["review"]["status"], "awaiting_owner_review")
                 self.assertEqual(prov["tool"], "PixelLab")
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
                 self.assertIn("tien-nghich-2d-27", prov["operator"])
+
+    def test_not_in_owner_approval_record(self):
+        record = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))
+        approved = {aid for a in record["approvals"] for aid in a["assets"]}
+        self.assertEqual(approved & set(IDS), set())
+
+    def test_rejected_build_writes_nothing(self):
+        def snapshot(base):
+            return {str(f.relative_to(base)): sha(f) for f in sorted(base.rglob("*")) if f.is_file()}
+        aid = "lt_kiln_crab"  # records a 6 px crop
+        crop = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))["processing"]["cropped_opaque_pixels"]
+        self.assertGreater(crop, 0)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            shutil.copytree(RAW / aid, tmp / "raw" / aid)
+            blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out", allow_crop=crop)
+            before = (snapshot(tmp / "raw"), snapshot(tmp / "out"))
+            with self.assertRaises(SystemExit):
+                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out", allow_crop=crop - 1)
+            self.assertEqual((snapshot(tmp / "raw"), snapshot(tmp / "out")), before)
+            # and with no limit given the shared default of zero refuses too, leaving the files alone
+            with self.assertRaises(SystemExit):
+                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out")
+            self.assertEqual((snapshot(tmp / "raw"), snapshot(tmp / "out")), before)
 
     def test_profile_counts_and_qa(self):
         palette, outline = ql.load_palette(ql.DEFAULT_PALETTE)

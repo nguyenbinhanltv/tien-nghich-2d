@@ -145,7 +145,11 @@
       "speckle_removed": 0,
       "transparent_cleaned": 0
     },
-    "cropped_opaque_pixels": 0
+    "cropped_opaque_pixels": 0,
+    "crop_limit": 0,
+    "entry_point": "tools/scripts/build_longtime_ember_delta.py",
+    "entry_point_sha256": "d313607f5e8a024b78a57d059638dc75e68b1294db1fc21f231a37e0c88663d5",
+    "builder_dependency": "tools/scripts/build_longtime_characters.py (script / script_sha256 above); it refuses any crop when run on its own, so this entry point is the one that reproduces these files"
   },
   "source": "source.png",
   "source_sha256": "0b4821d866fba4f4c64df62b712659762d6823e0337a51ad4a4a78d1259a2f6c",
@@ -826,5 +830,9 @@
       "duration_ms": 120,
       "sha256": "5e30fc798caba6c7bdad0479a85d95927a55ef8fdfaec4d16d2ad1dc9dcaad8e"
     }
-  ]
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
 }
