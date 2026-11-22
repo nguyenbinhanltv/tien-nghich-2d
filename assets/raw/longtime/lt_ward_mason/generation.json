@@ -1,0 +1,75 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "b31b3e6b-133b-42fd-94de-ba5304575caa",
+  "character_job_id": "1630ebe1-53d8-49c7-88ed-7afa4a056f25",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Broad-shouldered xianxia ward mason, small human in a grey-blue stonecutter tunic with a leather belt, dusty grey cloth cap, short beard, thick forearms. A LARGE stone chisel hangs at his RIGHT hip pushed through the belt, the long bright steel blade angled outward and down and sticking out well past his hip, with a big warm-brown wooden handle sticking up above the belt, clearly visible as a bright steel and brown shape against the dark tunic (asymmetric: nothing on the left hip). Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "6a699221-7043-48ca-80b0-bf00b3fc5af4",
+      "job_ids": {
+        "south": "feee75b7-e669-4637-ac15-5b1045f08955",
+        "west": "f8fa8662-a189-47d8-bc5f-f123f0c10417",
+        "north": "0ebb4616-9119-462d-b6c3-500dfc6d22bb",
+        "east": "2efb1198-c288-4f70-9cdf-077f1850f47a"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the steel chisel stays at the same right hip in the belt, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the steel chisel stays pushed through his belt at his right hip on the viewer's left, bright blade always visible",
+        "west": "facing left, breathes gently; the steel chisel stays in his belt at the hip, bright blade always visible",
+        "north": "back to the viewer, breathes gently; the steel chisel stays in his belt at his right hip on the viewer's right, bright blade always visible",
+        "east": "facing right, breathes gently; the steel chisel stays in his belt at the hip, bright blade always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "3b42eaaa-6acf-48ac-9a78-7be7d8f8c817",
+      "job_ids": {
+        "south": "1add9b1e-5007-42c4-a3d6-ca6c8a0f8e69",
+        "west": "88c8e596-c432-40bc-800c-09e4b2a0f570",
+        "north": "6421bc76-a7d2-4065-ba1f-2140555ef1f5",
+        "east": "7cdd6715-55a1-4c11-96c4-050ad06d974b"
+      },
+      "action_description": "taps the steel chisel at his hip with one hand as if checking it, then lets go; the chisel always stays in the belt at the same hip and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, his right hand (the viewer's left) goes to the steel chisel in his belt at that hip, pats it, then lets go; the chisel never moves to the other hip",
+        "west": "facing left, his near hand goes to the steel chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt",
+        "north": "seen from behind, his right hand (the viewer's right) goes to the steel chisel in his belt at that hip, pats it, then lets go; the chisel stays in the belt on the viewer's right",
+        "east": "facing right, his near hand goes to the steel chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character generation (character id 8aeda727-1b11-45d4-bb75-77a14ede9463, job fb29c265-49ca-4f18-8fcf-058d45bc655e, seed 7, prompt: 'Broad-shouldered xianxia ward mason, small human in a grey-blue stonecutter tunic with a leather belt, dusty grey cloth cap, short beard, thick forearms. A short steel stone chisel with a wooden handle hangs at his RIGHT hip in a leather loop on the belt, pointed tip down, clearly visible (asymmetric: nothing on the left hip); a small stone mallet is NOT shown. Stone dust on the sleeves. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.')",
+      "credits": 6,
+      "result": "rejected before animating: the hip chisel was a faint grey sliver in south and absent in west, north and east, so the identifying mark would not read at 1x. Character left in the PixelLab account, not shipped."
+    },
+    {
+      "n": 2,
+      "what": "second character generation (the one shipped, bolder chisel prompt, seed 11), then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no clip regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character_rejected": 6,
+    "character_shipped": 6,
+    "animations": 8,
+    "total_generations": 20
+  },
+  "known_flaws": [
+    "chisel blade is a 2-3 px steel glint in west views and faint in idle west",
+    "the grey-blue tunic and cap sit close to the outline colour, low internal contrast at 1x",
+    "interact: the patting hand is hard to tell from the idle pose at 1x"
+  ]
+}

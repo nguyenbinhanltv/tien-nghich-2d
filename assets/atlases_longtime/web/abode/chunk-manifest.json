@@ -14,20 +14,21 @@
     "lt_reed_crane",
     "lt_seal_scribe",
     "lt_seed_broker",
-    "lt_star_hare"
+    "lt_star_hare",
+    "lt_ward_mason"
   ],
   "chunk_group": "abode",
-  "frame_count": 366,
+  "frame_count": 398,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 366,
+      "frames": 398,
       "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "b8389bae3886574e46f8bf375ec952799518c318bd48c9713eb253ebf28ecec1",
-      "png_sha256": "858786a21a5744df92e81fa099fcb9135a02f224f324b048d27baf026f7482f5",
+      "json_sha256": "9b2949e14e63aa9411d77974e11cee1fa1305532e0478d18cd912e0933f4a6a3",
+      "png_sha256": "ccbc73b2fbee702a654d1ddd1d814fe6ba85bcbc563884000b798781658eec77",
       "rgba8_bytes": 2097152,
       "width": 2048
     }

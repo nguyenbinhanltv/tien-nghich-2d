@@ -1,0 +1,500 @@
+{
+  "id": "lt_ward_mason",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Stone chisel at the hip",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "b31b3e6b-133b-42fd-94de-ba5304575caa",
+  "character_job_id": "1630ebe1-53d8-49c7-88ed-7afa4a056f25",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Broad-shouldered xianxia ward mason, small human in a grey-blue stonecutter tunic with a leather belt, dusty grey cloth cap, short beard, thick forearms. A LARGE stone chisel hangs at his RIGHT hip pushed through the belt, the long bright steel blade angled outward and down and sticking out well past his hip, with a big warm-brown wooden handle sticking up above the belt, clearly visible as a bright steel and brown shape against the dark tunic (asymmetric: nothing on the left hip). Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "6a699221-7043-48ca-80b0-bf00b3fc5af4",
+      "job_ids": {
+        "south": "feee75b7-e669-4637-ac15-5b1045f08955",
+        "west": "f8fa8662-a189-47d8-bc5f-f123f0c10417",
+        "north": "0ebb4616-9119-462d-b6c3-500dfc6d22bb",
+        "east": "2efb1198-c288-4f70-9cdf-077f1850f47a"
+      },
+      "action_description": "stands still and breathes gently, chest and shoulders rising slightly and falling; the steel chisel stays at the same right hip in the belt, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the steel chisel stays pushed through his belt at his right hip on the viewer's left, bright blade always visible",
+        "west": "facing left, breathes gently; the steel chisel stays in his belt at the hip, bright blade always visible",
+        "north": "back to the viewer, breathes gently; the steel chisel stays in his belt at his right hip on the viewer's right, bright blade always visible",
+        "east": "facing right, breathes gently; the steel chisel stays in his belt at the hip, bright blade always visible"
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "3b42eaaa-6acf-48ac-9a78-7be7d8f8c817",
+      "job_ids": {
+        "south": "1add9b1e-5007-42c4-a3d6-ca6c8a0f8e69",
+        "west": "88c8e596-c432-40bc-800c-09e4b2a0f570",
+        "north": "6421bc76-a7d2-4065-ba1f-2140555ef1f5",
+        "east": "7cdd6715-55a1-4c11-96c4-050ad06d974b"
+      },
+      "action_description": "taps the steel chisel at his hip with one hand as if checking it, then lets go; the chisel always stays in the belt at the same hip and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, his right hand (the viewer's left) goes to the steel chisel in his belt at that hip, pats it, then lets go; the chisel never moves to the other hip",
+        "west": "facing left, his near hand goes to the steel chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt",
+        "north": "seen from behind, his right hand (the viewer's right) goes to the steel chisel in his belt at that hip, pats it, then lets go; the chisel stays in the belt on the viewer's right",
+        "east": "facing right, his near hand goes to the steel chisel in his belt at the hip, pats it, then lets go; the chisel stays in the belt"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character generation (character id 8aeda727-1b11-45d4-bb75-77a14ede9463, job fb29c265-49ca-4f18-8fcf-058d45bc655e, seed 7, prompt: 'Broad-shouldered xianxia ward mason, small human in a grey-blue stonecutter tunic with a leather belt, dusty grey cloth cap, short beard, thick forearms. A short steel stone chisel with a wooden handle hangs at his RIGHT hip in a leather loop on the belt, pointed tip down, clearly visible (asymmetric: nothing on the left hip); a small stone mallet is NOT shown. Stone dust on the sleeves. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.')",
+      "credits": 6,
+      "result": "rejected before animating: the hip chisel was a faint grey sliver in south and absent in west, north and east, so the identifying mark would not read at 1x. Character left in the PixelLab account, not shipped."
+    },
+    {
+      "n": 2,
+      "what": "second character generation (the one shipped, bolder chisel prompt, seed 11), then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no clip regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character_rejected": 6,
+    "character_shipped": 6,
+    "animations": 8,
+    "total_generations": 20
+  },
+  "known_flaws": [
+    "chisel blade is a 2-3 px steel glint in west views and faint in idle west",
+    "the grey-blue tunic and cap sit close to the outline colour, low internal contrast at 1x",
+    "interact: the patting hand is hard to tell from the idle pose at 1x"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2109,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "fa9b224a2389a3dcfb1fdb114a6ffc32a25b0a94773d8f486f3528efb5f6cca7",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ward_mason/contact_1x.png": "8c0ba3a6a93cafb4d4a971282552836c699549afab90dd3f2a3e9d2c2967bd09",
+    "assets/raw/longtime/lt_ward_mason/contact_4x.png": "6c7195557a0bdd0ae8142abef2a57e306036a94dd93352c0813677e491b9a09f"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ward_mason/idle_east_0",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/east/frame_000.png",
+      "raw_sha256": "ccf097108ffa39525505bf5e882fb2ccbdefafcdd90fcceb2091657dcd7cdd66",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "4593620058a57c63ff3f7a6a998ddaadc0af27566ff336f9b53c553bb8344d7d"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_east_1",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/east/frame_001.png",
+      "raw_sha256": "079e4acb593ef9774f7fcba7d537c2bd80e8316d7e610539dc131f6599efce2c",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "0f7f042d24730017b004fc1433c5164faaae78f1e4ec4f24563e98d64836de59"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_east_2",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/east/frame_002.png",
+      "raw_sha256": "2bced85775a83e7d009964ac0160931229aadf897ac9e4ce9daf9cedf7dece44",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "af11906f56bb1ca448f298e794169968f2d05f3d37143964b342e99f080709eb"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_east_3",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/east/frame_003.png",
+      "raw_sha256": "8ce1904848f8be3bc0ee15a075098e5a5a3226a5344b68ed55871d437078e0cf",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 200,
+      "sha256": "7c42ffbe71bd4155ade1bc92635c13668e131e45cdab48ccbb1f3c1a24bebfa1"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_north_0",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/north/frame_000.png",
+      "raw_sha256": "32660869488941ab719989c46888ddd0318fb34728dbe4265d4b5032a6eeaba3",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "63d1ec8de92c2ad54c19ddf4ce5e02c00f5b08b8b193e20aed18e2c07db53a2c"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_north_1",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/north/frame_001.png",
+      "raw_sha256": "2ba055daddcff3bf26577455816e8f41e71344cf203b526fce31b74ace0307d6",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "77ee2e28fd48677963d4a363ee89e373e230a5a20d509ddc1b39c05b5be4e197"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_north_2",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/north/frame_002.png",
+      "raw_sha256": "177dc6668d8f06eb4a7879907a6aa6cb1ee37b67d235f23d6b1ded4e6a6cd329",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "54a870253498ca47d2b97fcea0f7952664d9c3e5a00e80e3540393bed39aa8b5"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_north_3",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/north/frame_003.png",
+      "raw_sha256": "177dc6668d8f06eb4a7879907a6aa6cb1ee37b67d235f23d6b1ded4e6a6cd329",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 200,
+      "sha256": "54a870253498ca47d2b97fcea0f7952664d9c3e5a00e80e3540393bed39aa8b5"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_south_0",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/south/frame_000.png",
+      "raw_sha256": "9758cef3eb8f39547d949d0eb65f3aec009c2b7cb9a219f6897b17096476a7f1",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "7f453fe7c1014b45524e74ee558faf6b13ba180656024b86ef64bb36843b0dd2"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_south_1",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/south/frame_001.png",
+      "raw_sha256": "b2eeaf276fb7eb8cdc6c794b08668c7e778589e63c852330522ec28231deed63",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "3e0ac9b41fa7179b15bdce090a65daa01c99d90ba73aa6d24e83ffe7d3794f54"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_south_2",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/south/frame_002.png",
+      "raw_sha256": "1c4349b44a6cd19b9f8b4ea4aa677ea86a1dfda738fc20e2e19f26637d2ebd50",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "eef0874f7f8f22259181b4b5abedfb66a6398cd1db483575c45bfdb2c48b6018"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_south_3",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/south/frame_003.png",
+      "raw_sha256": "c0fe19fa6484a92b925219ea7128308940630ad863600fe28a5049544da096a5",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "a7713ab02cbc75d21125c7576aaa908d6268fa0c3727510b5a2458de86bfda7b"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_west_0",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/west/frame_000.png",
+      "raw_sha256": "1c6839c81c5c95da1ca4995d08890b9e7bd97b85bf62c02863f3c9eb5beb05df",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "7be18a2dbf9e2d1c42e9743775d271669c47199ba06850d162992df4255e4685"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_west_1",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/west/frame_001.png",
+      "raw_sha256": "2d8fd3b8f066f8f78447b84ff56fbc256e21df77cafc741005569e06bb75ff2e",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "67ae6c62665c936a115dc0e61b2972f6cbc9152be6782c3a0bc7214c360b1252"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_west_2",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/west/frame_002.png",
+      "raw_sha256": "b30df94bde4b6d4edb9674551c492f5ff1daa51bd5eda3b08fca110bcab606c3",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "b52a2443a57b5fa28fe485460996d8579be833d18eb662a2e9a6d6dcb72c3e55"
+    },
+    {
+      "key": "longtime/lt_ward_mason/idle_west_3",
+      "path": "assets/processed_longtime/lt_ward_mason/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/idle/west/frame_003.png",
+      "raw_sha256": "33c48e57ce9f0f4287be73486cbe0922c39792638889d4592d9b24e75babaa10",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 200,
+      "sha256": "800954e08206a2b78b72a173b9381e1ba42adf543c53586d64d871459131dd8b"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_east_0",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/east/frame_000.png",
+      "raw_sha256": "44024bd9fc3e84400b14aa2c79759882e764ab42f899bd8167562eeebaa2901e",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "e396ec3f609c95c0db2bc6406a228e02f9b6e9870908e5d22c7e2a0890bbe376"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_east_1",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/east/frame_001.png",
+      "raw_sha256": "ffe86010b103f3af45f181c2d9e368b943f693df2860c834526d516bc17dcd41",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "e608b98aa8331e001267a2e1f34347bd15b895282d9143db87b4df1bbc5f0d95"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_east_2",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/east/frame_002.png",
+      "raw_sha256": "874a639ea5cab706a38cf3010837b33142489e9c94863e9dc051d58cea4d1f63",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "3a7ef2f1063b7b7c62e4703b4a27c90e760bf0972d8f23f1baa23987f49ae141"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_east_3",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/east/frame_003.png",
+      "raw_sha256": "e21bb54a96a1fe431df84a710444d677f6b1882361feced1ea98a2131644d546",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 140,
+      "sha256": "7973393ed185b285cdd5c8f06d9951cdbbf61e06bf39e7ef8b3c8c7180cd8bef"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_north_0",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/north/frame_000.png",
+      "raw_sha256": "77a7b5afb6aa5222ffa777bd0aa482056a45887097df3147572a64ce61f6a965",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "d328226ac8a2bc5a593ff2245713c61efde7f0afbab2aa4158bc84fad5c70497"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_north_1",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/north/frame_001.png",
+      "raw_sha256": "f47cb010085c56924289c65756927c6a780979991cb8b129cd99554f7894895a",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "8c7d175c8c10b103f4dbf586cb85a499eeaf50ae0ef3c374f6ea1c787f9db2a3"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_north_2",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/north/frame_002.png",
+      "raw_sha256": "3136539a98c3135cd26920237190b43a38f5dabc8de7bd2630477d2dbfbc392b",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "50abf8097d1192c3b9c6dca372a21a933953dd510d7803764b299799fa2aa30c"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_north_3",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/north/frame_003.png",
+      "raw_sha256": "8e325a82116ebf1c46aaa7bbe7a5ed44ff73c8b01813c33b00d4420361cd47bc",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 140,
+      "sha256": "86cfea607e343240ed678a676e55ae21e28d88bbdc8c4f432d3c31b882a6491c"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_south_0",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/south/frame_000.png",
+      "raw_sha256": "8be43fb9e0a032047b025fcf51f0efb21ece932b7284f6870d567a2c91353838",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "3f31d2bd01af6a73f56249e1044b4cf540bac8c581a923df5b99d99a57ab4822"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_south_1",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/south/frame_001.png",
+      "raw_sha256": "3aaa259dfb9400361649ffc0536e0105208f160f9b5053abcc4b6e80855e3666",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "6a4f17173a8f648eb90b585f9065c83e5a6b9e8cded0d2bcc8a4d469131d124b"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_south_2",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/south/frame_002.png",
+      "raw_sha256": "07004b84a0550588fcd2f8a2d283f4b914d3dd4944d98471b25db275c5f229ed",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "5ae7d0492209a9014fdaf9ec64a4245626415bd77d6382480defa80328a77a7b"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_south_3",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/south/frame_003.png",
+      "raw_sha256": "ea8c34ca2be6906c528974b3bd0e109e68f0b965e0f2270862579a7213c7c6b0",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 140,
+      "sha256": "11c28b7a09f28691b3b74bf9c67e9becca62cb503e9432103e6ec84c46688338"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_west_0",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/west/frame_000.png",
+      "raw_sha256": "96a2c9daf5b7883dd760b9ab9721edff22656bbe14f3936e886cf28ab439c70d",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "f2536068052f8e9d1112a624e9bfbbd590ccbd5554ea55829e1612bae811ff8a"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_west_1",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/west/frame_001.png",
+      "raw_sha256": "d34f7f556c42f88e5869cf06b93197d19104a7e72ed3d78fc3fd9172cba797b0",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "657e6e28db2654f25d8a2c232586fe4b7061edfcd444058b7fe88ad548283adc"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_west_2",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/west/frame_002.png",
+      "raw_sha256": "02d5074cfdee4503137c2d5af5deeb8c53d23af13b943a60815aafb0f13013fb",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "3b7a228b081b3c499edb855c6ef90b0fc15cfb97726f52dab51c9bd3a16bfe99"
+    },
+    {
+      "key": "longtime/lt_ward_mason/interact_west_3",
+      "path": "assets/processed_longtime/lt_ward_mason/interact_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ward_mason/interact/west/frame_003.png",
+      "raw_sha256": "15d4d43c569cfcfd93a2cb188abfde1f39a2b0e68d42674d8ef9696f8fe4f8bb",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 140,
+      "sha256": "270ac7e792467a623b16f61881d950cf4e08d9d5c3f6badb8a1137b6589290bb"
+    }
+  ]
+}
