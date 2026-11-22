@@ -1,0 +1,126 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template mannequin, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "df171166-4fd1-4c5f-b638-3a8f66b109ed",
+  "character_job_id": "c60b1e4f-1749-440a-b6c9-7f26f72577f2",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Slate carrier, a small chibi stone-quarry porter: a stocky hunched worker with a big head in a rough grey cloth wrap, carrying a huge flat slab of dark slate stone strapped on its back with bronze straps, the slab taller than its head with a glowing cyan crack across it, thick short legs, bronze-banded wrists, small dark eyes under a stone brow. Clear silhouette dominated by the slate slab. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f7f9290a-1963-420f-98b3-90d2d371b368",
+      "job_ids": {
+        "south": "278f1322-b13a-419a-af4a-4042fe6f92f5",
+        "west": "4e9fbedf-5d20-4521-abb1-0b2d32fd76a8",
+        "north": "5409f77d-6f36-4887-a767-38f7f6997733",
+        "east": "e85ee268-b4c4-4468-8678-432bb7e406af"
+      },
+      "action_description": "stands hunched under the heavy slate slab on its back, breathing slowly, shifting its weight a little, slab staying strapped in place",
+      "direction_prompts": {
+        "south": "seen from the front, stands hunched breathing slowly, shifting weight, the slab rises behind its head",
+        "west": "seen from the left side, stands hunched breathing slowly, the slab on its back stays in place",
+        "north": "seen from behind, the big slate slab fills its back, it breathes slowly and shifts its weight",
+        "east": "seen from the right side, stands hunched breathing slowly, the slab on its back stays in place"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "e2737f19-bcf4-4351-b916-746e5e3d066b",
+      "job_ids": {
+        "south": "2d20b890-c4b6-410d-b25c-43482afbcd31",
+        "west": "eb8bd76b-3eb1-473b-a4a5-004b2404b7ae",
+        "north": "1bff9c94-1d37-4fa3-822c-34a4ac6f30e5",
+        "east": "488e521d-f61f-4e58-bd60-1c9ede1881bd"
+      },
+      "action_description": "trudges forward bent under the heavy slate slab on its back, short heavy steps, slab swaying slightly but strapped in place",
+      "direction_prompts": {
+        "south": "seen from the front, trudges toward the viewer in heavy short steps, the slab rises behind its head",
+        "west": "seen from the left side, trudges to the left in heavy short steps, the slab on its back",
+        "north": "seen from behind, trudges away from the viewer, the big slab fills its back",
+        "east": "seen from the right side, trudges to the right in heavy short steps, the slab on its back"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "88e547d0-f4a5-4b78-bc46-2b70d5d73bad",
+      "job_ids": {
+        "south": "a52a5f68-2361-4b59-b83a-846400202aec",
+        "west": "96c9cc0c-5cd9-4dfd-a8e9-5df4af653e59",
+        "north": "f8d00c5b-7243-4fac-8362-962b77d428ae",
+        "east": "c4e3ee18-b0f0-46e2-bd72-95c05c85baac"
+      },
+      "action_description": "braces its legs wide and heaves the heavy slate slab up off its back over its head with both arms, the cyan crack on the slab glowing brighter, winding up to throw it down",
+      "direction_prompts": {
+        "south": "seen from the front, braces legs wide and heaves the slab up over its head with both arms, the cyan crack glowing brighter",
+        "west": "seen from the left side, braces and heaves the slab up over its head, the cyan crack glowing brighter",
+        "north": "seen from behind, heaves the big slab up over its head with both arms, the cyan crack glowing brighter",
+        "east": "seen from the right side, braces and heaves the slab up over its head, the cyan crack glowing brighter"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "eb16c3b3-8eeb-4342-b338-0e3d71bbd465",
+      "job_ids": {
+        "south": "10df6c41-9f0f-43a8-ab6d-3b91807312ef",
+        "west": "313d047e-607e-4861-bcf6-e0356ce0bc70",
+        "north": "6b2f8ed9-ec91-4f0d-bb42-4a87827f5193",
+        "east": "e34c311c-3040-4ba4-b43f-0418f403f57b"
+      },
+      "action_description": "slams the heavy slate slab down in front of it with both arms in a crushing overhead smash, the cyan crack flashing, then lifts it back",
+      "direction_prompts": {
+        "south": "seen from the front, slams the slab down toward the viewer in an overhead smash, then lifts it back",
+        "west": "seen from the left side, slams the slab down to the left in an overhead smash, then lifts it back",
+        "north": "seen from behind, slams the slab down away from the viewer in an overhead smash, then lifts it back",
+        "east": "seen from the right side, slams the slab down to the right in an overhead smash, then lifts it back"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character (mannequin body) + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected); clips queued in partial batches into the same groups because job slots are shared",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "telegraph and strike barely change the silhouette: the slab never visibly leaves the back or comes down in front, so the wind-up and the smash are weak at 1x",
+    "the south and north views are narrow and the slab hides the body in north",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 6,
+    "clip_max": 3,
+    "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+  }
+}

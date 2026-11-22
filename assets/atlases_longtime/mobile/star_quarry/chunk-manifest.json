@@ -4,10 +4,11 @@
     "lt_orbit_wasp",
     "lt_seam_stalker",
     "lt_shard_mole",
+    "lt_slate_carrier",
     "lt_star_quarry"
   ],
   "chunk_group": "star_quarry",
-  "frame_count": 264,
+  "frame_count": 320,
   "mobile_page_budget": 3,
   "page_count": 2,
   "pages": [
@@ -22,19 +23,19 @@
       "width": 1024
     },
     {
-      "frames": 35,
-      "height": 64,
+      "frames": 91,
+      "height": 256,
       "image": "atlas-1.png",
       "json": "atlas-1.json",
-      "json_sha256": "d258ce7a279ed0e27f8f8629a105af8ee97303d9afac3a9e0a8dacee177fff64",
-      "png_sha256": "0d4ca19373b8e06167c210a9f09ad3a8ac3a877d1a2c70b5c341f32579bea102",
-      "rgba8_bytes": 262144,
+      "json_sha256": "83cd51e110c09483bb50223ff4a21be1a07b856a86ec6df41225a16f31eaa027",
+      "png_sha256": "5404d1680bed76b7cb57742b0c4c2409c680792fb32b2c1d612513880baee965",
+      "rgba8_bytes": 1048576,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 4456448,
-  "rgba8_mib": 4.25,
+  "rgba8_bytes": 5242880,
+  "rgba8_mib": 5.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
