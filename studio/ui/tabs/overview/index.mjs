@@ -10,6 +10,7 @@ const stages = ['packed', 'authored', 'planned'];
 const MiB = 1024 * 1024;
 const num = new Intl.NumberFormat('en');
 
+const CHIP = {ok: 'ok', full: 'warn', over: 'danger', none: ''};
 const humanize = id => id.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 
 function bar(ctx, counts, total, name) {
@@ -19,12 +20,12 @@ function bar(ctx, counts, total, name) {
   for (const stage of stages) {
     const n = counts[stage] ?? 0;
     if (!n) continue;
-    const seg = h('span', 'seg stage-' + stage);
+    const seg = h('span', 'bar-seg stage-' + stage);
     seg.style.flexGrow = n;
     seg.title = `${ctx.t('stage.' + stage)}: ${n}`;
     wrap.append(seg);
   }
-  if (!total) wrap.append(h('span', 'seg stage-empty'));
+  if (!total) wrap.append(h('span', 'bar-seg stage-empty'));
   return wrap;
 }
 
@@ -32,8 +33,10 @@ function counts(ctx, c, name) {
   return h('span', 'counts', ...stages.map(s => h('span', 'count stage-' + s, h('b', '', String(c[s] ?? 0)), ' ' + ctx.t('stage.' + s))));
 }
 
-function stat(ctx, key, value, note, tone) {
-  return h('div', 'stat' + (tone ? ' stat-' + tone : ''), h('dt', '', ctx.t(key)), h('dd', '', value, note ? h('small', '', note) : null));
+function stat(ctx, key, value, note, tone, href) {
+  const el = h(href ? 'a' : 'div', {class: 'stat' + (tone ? ' ' + tone : ''), href, title: href ? ctx.t('stat.budgetOpen') : null},
+    h('span', 'stat-label', ctx.t(key)), h('span', 'stat-value', value), note ? h('span', 'stat-hint', note) : null);
+  return el;
 }
 
 function section(ctx, id, title, intro, ...body) {
@@ -73,8 +76,8 @@ function chunkCards(ctx, chunks) {
     meter.setAttribute('aria-valuenow', String(c.pages));
     meter.setAttribute('aria-label', `${humanize(c.chunk)}: ${pageText}`);
     const r = c.readiness;
-    return h('article', 'chunk state-' + c.state,
-      h('header', '', h('h3', '', humanize(c.chunk)), h('span', 'badge state-' + c.state, ctx.t('state.' + c.state))),
+    return h('a', {class: 'slip chunk state-' + c.state, href: ctx.href({tab: 'atlas', params: {}}), title: ctx.t('stat.budgetOpen')},
+      h('header', '', h('h3', {title: humanize(c.chunk)}, humanize(c.chunk)), h('span', 'chip ' + CHIP[c.state], ctx.t('state.' + c.state))),
       meter,
       h('dl', 'kv', h('dt', '', ctx.t('chunk.pageLabel')), h('dd', '', pageText), h('dt', '', ctx.t('chunk.memLabel')), h('dd', '', mib),
         h('dt', '', ctx.t('chunk.framesLabel')), h('dd', '', num.format(c.frames)),
@@ -84,7 +87,7 @@ function chunkCards(ctx, chunks) {
 
 function waves(ctx, data) {
   const entries = Object.entries(data.byWave);
-  if (!entries.length) return h('p', 'muted', ctx.t('waves.none'));
+  if (!entries.length) return h('p', 'empty', ctx.t('waves.none'));
   return h('div', 'waves', ...entries.map(([wave, c]) => {
     const pct = c.total ? Math.round((c.packed ?? 0) / c.total * 100) : 0;
     return h('div', 'wave', h('div', 'wave-head', h('h3', '', humanize(wave)), h('span', 'pct', pct + '%')),
@@ -92,19 +95,24 @@ function waves(ctx, data) {
   }));
 }
 
+function refreshButton(ctx) {
+  const b = h('button', {type: 'button', class: 'btn'}, ctx.t('refresh'));
+  b.addEventListener('click', () => load(ctx));
+  return b;
+}
+
 function render(ctx, data) {
   const o = data.overall;
   const packedPct = o.total ? Math.round(o.packed / o.total * 100) : 0;
   const budgetRisk = data.chunks.filter(c => c.state === 'full' || c.state === 'over').length;
   ctx.root.replaceChildren(
-    h('header', 'ov-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle', {project: ctx.project.name}))),
-      (() => { const b = h('button', 'plain', ctx.t('refresh')); b.type = 'button'; b.addEventListener('click', () => load(ctx)); return b; })()),
-    h('dl', 'stats',
+    h('header', 'ov-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle', {project: ctx.project.name})), refreshButton(ctx)),
+    h('div', 'stats',
       stat(ctx, 'stat.total', num.format(o.total), ctx.t('stat.totalNote', {sources: Object.keys(data.bySource).length})),
-      stat(ctx, 'stat.packed', num.format(o.packed), packedPct + '%', 'packed'),
-      stat(ctx, 'stat.authored', num.format(o.authored), ctx.t('stat.authoredNote'), 'authored'),
-      stat(ctx, 'stat.planned', num.format(o.planned), ctx.t('stat.plannedNote'), 'planned'),
-      stat(ctx, 'stat.budget', String(budgetRisk), ctx.t('stat.budgetNote', {chunks: data.chunks.length}), budgetRisk ? 'warn' : '')),
+      stat(ctx, 'stat.packed', num.format(o.packed), packedPct + '%', 'ok'),
+      stat(ctx, 'stat.authored', num.format(o.authored), ctx.t('stat.authoredNote')),
+      stat(ctx, 'stat.planned', num.format(o.planned), ctx.t('stat.plannedNote')),
+      stat(ctx, 'stat.budget', String(budgetRisk), ctx.t('stat.budgetNote', {chunks: data.chunks.length}), budgetRisk ? 'danger' : '', ctx.href({tab: 'atlas', params: {}}))),
     section(ctx, 'ov-readiness', ctx.t('readiness.title'), ctx.t('readiness.intro'), readinessTable(ctx, data)),
     section(ctx, 'ov-chunks', ctx.t('chunks.title'), ctx.t('chunks.intro'), chunkCards(ctx, data.chunks)),
     section(ctx, 'ov-waves', ctx.t('waves.title'), ctx.t('waves.intro'), waves(ctx, data)),
@@ -113,13 +121,13 @@ function render(ctx, data) {
 
 async function load(ctx) {
   ctx.root.setAttribute('aria-busy', 'true');
+  if (!ctx.root.querySelector('.ov-head')) ctx.root.replaceChildren(h('div', 'ov-skeleton', h('span', 'skeleton line'), h('span', 'skeleton block')));
   try { render(ctx, await ctx.api('overview')); }
   catch (error) {
     if (error.name === 'AbortError') return;
-    const retry = h('button', 'plain', ctx.t('common.retry'));
-    retry.type = 'button';
+    const retry = h('button', {type: 'button', class: 'btn primary'}, ctx.t('common.retry'));
     retry.addEventListener('click', () => load(ctx));
-    ctx.root.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), retry);
+    ctx.root.replaceChildren(h('div', {class: 'empty', role: 'alert'}, h('p', 'empty-body', ctx.t('common.error', {message: error.message})), retry));
   } finally { ctx.root.removeAttribute('aria-busy'); }
 }
 
@@ -127,6 +135,8 @@ async function load(ctx) {
 export function parseRoute() { return {}; }
 
 export async function mount(ctx) {
+  ctx.root.classList.add('ui-kit');
+  ctx.loadCss(new URL('../../components.css', import.meta.url));
   ctx.loadCss(new URL('./overview.css', import.meta.url));
   // one importer panel per mount: a refresh redraws the numbers but keeps the file and mapping the person chose
   importers.set(ctx, renderPlanImport(ctx, () => load(ctx)));

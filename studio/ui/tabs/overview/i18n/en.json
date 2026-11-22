@@ -68,5 +68,6 @@
   "plan.import": "Import {n} assets",
   "plan.importNote": "Written to {file}. Nothing is deleted or overwritten.",
   "plan.done": "Imported: {create} created, {skip} skipped.",
-  "plan.imported": "{n} planned assets imported"
+  "plan.imported": "{n} planned assets imported",
+  "stat.budgetOpen": "Open Atlas to see the budget per chunk"
 }

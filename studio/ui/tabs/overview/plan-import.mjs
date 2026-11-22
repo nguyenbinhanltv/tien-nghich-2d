@@ -7,7 +7,7 @@ import { h } from './dom.mjs';
 const FIELDS = ['id', 'brief', 'chunk', 'size', 'category', 'clips'];
 const REQUIRED = new Set(['id', 'brief']);
 
-const button = (label, onClick, attrs = {}) => { const b = h('button', {type: 'button', class: 'plain', ...attrs}, label); b.addEventListener('click', onClick); return b; };
+const button = (label, onClick, attrs = {}) => { const b = h('button', {type: 'button', class: 'btn', ...attrs}, label); b.addEventListener('click', onClick); return b; };
 
 export function renderPlanImport(ctx, onChanged) {
   const state = {csv: '', info: null, mapping: {}, defaults: {}, dry: null, busy: false, error: null, done: null};
@@ -49,7 +49,7 @@ export function renderPlanImport(ctx, onChanged) {
   });
 
   function select(id, label, options, value, onInput, {blank} = {}) {
-    const sel = h('select', {id});
+    const sel = h('select', {id, class: 'field'});
     if (blank !== undefined) sel.append(h('option', {value: ''}, blank));
     for (const o of options) sel.append(h('option', {value: o, ...(o === value ? {selected: true} : {})}, o));
     sel.value = value ?? '';
@@ -73,7 +73,7 @@ export function renderPlanImport(ctx, onChanged) {
   function table() {
     const {dry} = state;
     const rows = dry.rows.map(r => h('tr', {class: 'pi-' + r.action}, h('td', 'num', String(r.line)), h('td', 'mono', r.id || '—'),
-      h('td', '', h('span', {class: 'badge pi-badge-' + r.action}, ctx.t('plan.action.' + r.action))),
+      h('td', '', h('span', {class: 'chip' + (r.action === 'create' ? ' ok' : '')}, ctx.t('plan.action.' + r.action))),
       h('td', '', r.action === 'create' ? (r.entry.profile ?? ctx.t('plan.custom', {size: r.entry.custom.size.join('×'), category: r.entry.custom.category})) + ' · ' + r.entry.chunk_group : r.message)));
     return h('div', 'table-wrap', h('table', 'ov-table',
       h('caption', 'sr-only', ctx.t('plan.dryTitle')),
@@ -83,7 +83,7 @@ export function renderPlanImport(ctx, onChanged) {
 
   function draw() {
     const kids = [];
-    const input = h('input', {type: 'file', id: 'pi-file', accept: '.csv,.tsv,.txt,text/csv', class: 'pi-file'});
+    const input = h('input', {type: 'file', id: 'pi-file', accept: '.csv,.tsv,.txt,text/csv', class: 'field pi-file'});
     input.addEventListener('change', () => chooseFile(input.files[0]));
     kids.push(h('div', 'pi-pick', h('label', {for: 'pi-file'}, ctx.t('plan.choose')), input));
     if (state.error) kids.push(h('p', {role: 'alert', class: 'pi-error'}, state.error));
@@ -95,7 +95,7 @@ export function renderPlanImport(ctx, onChanged) {
     if (state.dry) {
       const {create, skip} = state.dry.summary;
       kids.push(h('p', {class: 'pi-summary', role: 'status'}, ctx.t('plan.summary', {create, skip})), table(),
-        h('div', 'pi-actions', button(ctx.t('plan.import', {n: create}), apply, {disabled: !create || state.busy}), h('span', 'muted', ctx.t('plan.importNote', {file: state.dry.file}))));
+        h('div', 'pi-actions', button(ctx.t('plan.import', {n: create}), apply, {disabled: !create || state.busy, class: 'btn primary'}), h('span', 'muted', ctx.t('plan.importNote', {file: state.dry.file}))));
     }
     if (state.done) kids.push(h('p', {role: 'status', class: 'pi-done'}, ctx.t('plan.done', {create: state.done.create, skip: state.done.skip})));
     body.replaceChildren(...kids);
