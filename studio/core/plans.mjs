@@ -49,7 +49,8 @@ function validateCustom(custom, index) {
 function validateFields(fields, index, selfId) {
   if ('custom' in fields) validateCustom(fields.custom, index);
   const {profiles, chunks} = index.info;
-  const phases = new Set(), methods = new Set();
+  // 'later' and 'new_source' are what a plan gets when it names none, so they are always valid (a project with no assets yet has no other).
+  const phases = new Set(['later']), methods = new Set(['new_source']);
   for (const a of index.assets.values()) { if (a.profile !== undefined) { phases.add(a.phase); methods.add(a.method); } }
   if ('profile' in fields && !Object.hasOwn(profiles, fields.profile)) invalid(`Unknown profile "${fields.profile}". Choose one of: ${Object.keys(profiles).join(', ')}`);
   if ('chunk_group' in fields && !Object.hasOwn(chunks, fields.chunk_group)) invalid(`Unknown chunk "${fields.chunk_group}". Choose one of: ${Object.keys(chunks).join(', ')}`);

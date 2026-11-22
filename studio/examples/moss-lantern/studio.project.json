@@ -1,0 +1,112 @@
+{
+  "$schema": "../../schemas/project.schema.json",
+  "schema": "studio.project",
+  "version": 1,
+  "id": "moss-lantern",
+  "name": "Moss & Lantern",
+  "palette": {"file": "art/palette.json"},
+  "sizeClasses": {
+    "floor": {"sizes": [[8, 8]]},
+    "critter": {"sizes": [[24, 24]]},
+    "badge": {"sizes": [[12, 12]]}
+  },
+  "rules": {
+    "alpha": "binary",
+    "outline": {"mode": "silhouette", "color": "#1b1727", "borderIsEdge": true}
+  },
+  "frameKeys": {
+    "sprite": "sprite/{id}/{clip}_{direction}_{n}"
+  },
+  "directories": {
+    "raw": {"sprites": "src/sprites"},
+    "processed": {"sprites": "build/frames"},
+    "atlases": {"sprites": "build/atlases"},
+    "revisions": ".review-db"
+  },
+  "atlasProfiles": {
+    "web": {"limit": 512, "padding": 0, "extrude": 0, "fixedSize": true},
+    "mobile": {"limit": 256, "padding": 1, "extrude": 1, "fixedSize": false}
+  },
+  "catalog": {
+    "categories": {
+      "critter": {"outline": true},
+      "badge": {"outline": true},
+      "tile": {}
+    },
+    "sources": [
+      {
+        "id": "sprites", "kind": "design-manifest", "file": "design/sprites.json",
+        "label": {"en": "Sprites", "vi": "Sprite"},
+        "processed": "sprites", "raw": "sprites",
+        "idPattern": "^ml_[a-z0-9]+(?:_[a-z0-9]+)*$", "idHint": "ml_some_name",
+        "frameKeys": {"sprites": "sprite"}
+      },
+      {
+        "id": "sound", "kind": "audio-plan", "file": "design/audio.json",
+        "label": {"en": "Sound", "vi": "Âm thanh"},
+        "evidence": {"packs": "audio/packs", "masters": "audio/masters", "sources": "audio/sources"}
+      }
+    ]
+  },
+  "editable": {
+    "overlay": "records/approved-frames.json",
+    "groups": [
+      {
+        "kind": "processed-frames", "source": "sprites", "keyPrefix": "sprite/",
+        "pivot": {"from": "profile", "field": "pivot_px"},
+        "publish": {"mode": "none", "reason": "This sample project packs its atlases with the studio's own staging packer; nothing is promoted into shipped atlases."}
+      }
+    ]
+  },
+  "policy": {"stop": {"maxFixRounds": 3, "noProgressRounds": 2}},
+  "agentGuidance": {
+    "rules": [
+      "Every sprite sits on the 12-colour palette; outline pixels use night_1 and sit on the silhouette edge and on the canvas border.",
+      "Critters are 24x24 and face south or east; badges are 12x12; tiles are 8x8."
+    ]
+  },
+  "adapters": {
+    "interpreter": {"runtime": "node"},
+    "commands": {},
+    "generators": {
+      "blob": {
+        "script": "tools/blob.mjs",
+        "description": "A blob, leaf or spark on the project palette, outlined, with one or more pulsing frames. Writes <clip>_<direction>_<n>.png.",
+        "args": ["--out", "{out}", "--palette", "{palette}", "--shape", "{shape}", "--size", "{size}", "--fill", "{fill}", "--accent", "{accent}",
+          "--clip", "{clip}", "--direction", "{direction}", "--frames", "{frames}", "--seed", "{seed}"],
+        "params": {
+          "shape": {"type": "string", "enum": ["blob", "leaf", "spark"], "description": "The silhouette."},
+          "size": {"type": "integer", "minimum": 8, "maximum": 24, "default": 12, "description": "Canvas side in pixels; must equal the asset's native size."},
+          "fill": {"type": "string", "pattern": "^[a-z]+_[0-9]$", "default": "moss_2", "description": "Palette id of the body colour."},
+          "accent": {"type": "string", "pattern": "^[a-z]+_[0-9]$", "default": "cream_1", "description": "Palette id of the speckle colour."},
+          "clip": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,23}$", "default": "glyph", "description": "Clip name in the file names."},
+          "direction": {"type": "string", "enum": ["none", "south", "east"], "default": "none", "description": "Direction in the file names."},
+          "frames": {"type": "integer", "minimum": 1, "maximum": 6, "default": 1, "description": "Frame count; more than one pulses the shape."}
+        },
+        "seed": {"default": 1, "maximum": 65535},
+        "timeoutSec": 20
+      }
+    }
+  },
+  "ui": {
+    "brand": {"mark": "ML", "subtitle": {"en": "Moss & Lantern sprites", "vi": "Sprite Moss & Lantern"}},
+    "languages": ["en", "vi"],
+    "theme": {"ink": "night_1", "surface": "night_2", "line": "stone_1", "muted": "stone_2", "text": "cream_1", "accent": "moss_3", "accentSoft": "moss_2", "gold": "lantern_2", "goldSoft": "lantern_3", "danger": "berry_1"},
+    "categoryTabs": {"critter": "characters", "badge": "objects", "tile": "objects"},
+    "tabs": {
+      "characters": {"categories": ["critter"], "facings": ["south", "east"], "defaultFrameMs": 120, "rawRoots": ["src/sprites"]},
+      "sandbox": {"scenesDir": "scenes"},
+      "atlas": {
+        "sets": [
+          {
+            "id": "sprites", "label": {"en": "Sprite chunks", "vi": "Chunk sprite"},
+            "atlases": "sprites", "layout": "{profile}/{chunk}", "profiles": ["web", "mobile"], "format": "chunk-hash",
+            "design": {"profile": "mobile", "from": "mobile", "chunks": "chunks"},
+            "chunks": {"crlf": [], "app": "moss-lantern.pack", "manifestSchema": "moss-lantern.chunk-atlas", "summaryFile": "chunk-manifest.json"}
+          }
+        ]
+      }
+    },
+    "tools": []
+  }
+}

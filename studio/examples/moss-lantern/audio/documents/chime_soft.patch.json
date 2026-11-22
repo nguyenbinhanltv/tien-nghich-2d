@@ -1,0 +1,38 @@
+{
+ "schema": "studio.audio.patch",
+ "version": 1,
+ "id": "chime_soft",
+ "title": "Soft lantern chime",
+ "design": "Two soft sine partials with a slow decay, like a small bell.",
+ "sampleRate": 32000,
+ "channels": 1,
+ "seed": 7,
+ "durationMs": 600,
+ "trim": 0.6,
+ "layers": [
+  {
+   "type": "osc",
+   "startMs": 0,
+   "ms": 560,
+   "gain": 0.5,
+   "hz": 880,
+   "env": {
+    "attackMs": 4,
+    "decayMs": 220,
+    "releaseMs": 240
+   }
+  },
+  {
+   "type": "osc",
+   "startMs": 0,
+   "ms": 400,
+   "gain": 0.25,
+   "hz": 1320,
+   "env": {
+    "attackMs": 2,
+    "decayMs": 160,
+    "releaseMs": 180
+   }
+  }
+ ]
+}

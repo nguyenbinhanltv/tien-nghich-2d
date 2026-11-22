@@ -16,7 +16,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { problem } from './errors.mjs';
 import { decodeRgba } from './png.mjs';
-import { expandArgs, runProgram, tail, toolchainPath } from './adapters.mjs';
+import { expandArgs, interpreterFile, runProgram, tail, toolchainPath } from './adapters.mjs';
 
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 
@@ -178,7 +178,7 @@ export async function runAuthority(root, pack, spec, values, {timeoutMs = 120_00
   const command = commandOf(pack, spec);
   const interpreter = pack.adapters.interpreter;
   if (!interpreter) throw problem(409, 'no_authority', 'The pack registers no interpreter.');
-  const python = toolchainPath(root, interpreter.command, 'The registered interpreter');
+  const python = interpreterFile(root, interpreter, 'The registered interpreter');
   const script = toolchainPath(root, command.script, `The registered ${spec.command} program`);
   const scratch = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'atlas-authority-'));
   try {

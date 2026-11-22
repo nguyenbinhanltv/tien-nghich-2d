@@ -121,7 +121,7 @@ test('MCP-008: after every new tool has been used, and abused, at the highest sc
   } finally { await p.cleanup(); }
 });
 
-test('static: only three reviewed files can start a program, and none takes a program name from a caller', () => {
+test('static: only four reviewed files can start a program, and none takes a program name from a caller', () => {
   const walk = (dir, out = []) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
       const abs = join(dir, e.name);
@@ -137,6 +137,7 @@ test('static: only three reviewed files can start a program, and none takes a pr
   }
   assert.deepEqual(users.sort(), [
     'studio/core/adapters.mjs',         // runs the programs the pack registers: argv from a registered template, scrubbed environment
+    'studio/core/doctor.mjs',           // `studio doctor`: fixed probes (git, ffmpeg, python3 with --version), nothing from a caller, never from an agent tool
     'studio/mcp/stdio_client.mjs',      // the --self-test client: starts THIS server
     'studio/mcp/tools/diff.mjs',        // git, with fixed arguments, to read frames on main
   ]);
