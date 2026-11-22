@@ -24,8 +24,8 @@ async function lineupAdvice(ws, snap, asset, layout, result) {
   const refs = await loadReferences(ws, snap, group, inkOf(snap));
   if (!refs.reference) return { applies: false, group: group.name, why: refs.missing.join('; ') };
   const pose = group.spec.pose;
-  const mine = result.record.cells.filter((c) => c.facing === pose.direction && c.scale);
-  if (!mine.length) return { applies: false, group: group.name, why: `the sheet has no ${pose.direction} cell, which is the facing the lineup measures` };
+  const mine = result.record.cells.filter((c) => c.facing === pose.direction && c.scale && (!c.pose || c.pose === pose.clip));
+  if (!mine.length) return { applies: false, group: group.name, why: `the sheet has no standing ${pose.direction} cell (a pose sheet holds key poses of a moving clip, which the lineup does not judge)` };
   const each = mine.map((c) => { const m = measureFigure(result.cells.get(c.id)); return { height: m.height * c.scale, headShare: m.headShare, limbWidth: m.limbWidth === null ? null : m.limbWidth * c.scale, outlineWeight: null }; });
   const figure = referenceMeasure(each);
   const verdict = judgeLineup({ figure, reference: refs.reference, spec: group.spec });

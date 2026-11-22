@@ -115,7 +115,7 @@ export default {
       }
       // The lineup gate: the standing pose of the pixelised figure against the approved references. Outside the pack's tolerance it is BLOCKED (no submit), with numbers.
       const lineupGroupOf = lineupGroup(snap.pack, asset);
-      const lineup = lineupGroupOf ? await lineupFor(ws, snap, asset, pixelized.record.cells.filter((c) => c.facing === lineupGroupOf.spec.pose.direction).map((c) => pixelized.cells.get(c.id).native)) : null;
+      const lineup = lineupGroupOf ? await lineupFor(ws, snap, asset, pixelized.record.cells.filter((c) => c.facing === lineupGroupOf.spec.pose.direction && (!c.pose || c.pose === lineupGroupOf.spec.pose.clip)).map((c) => pixelized.cells.get(c.id).native)) : null;
       if (lineup?.applies) summary.lineup = { group: lineup.group.name, references: lineup.references.map((r) => r.name), pose: lineup.group.spec.pose, figure: lineup.figure, reference: lineup.reference, status: lineup.verdict.status, rows: lineup.verdict.rows, messages: lineup.messages, blocked: lineup.verdict.status === 'fail',
         means: `the figure's standing pose measured against ${lineup.references.map((r) => r.name).join(' and ')} (pack lineup.${lineup.group.name}): outside the tolerance it is blocked, outside the typical band it is a warning` };
       const pixelErrors = cells.reduce((n, c) => n + c.errors, 0);

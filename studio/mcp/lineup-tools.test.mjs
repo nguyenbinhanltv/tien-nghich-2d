@@ -122,6 +122,23 @@ test('CHARACTERS-029: studio_process blocks a build outside the tolerance, with 
   assert.notEqual(ok.structuredContent.qa.checks.find((c) => c.name === 'lineup').status, 'fail');
 }));
 
+test('CHARACTERS-029: a pose sheet holds key poses of a moving clip, not the standing pose: it is never judged, imported or processed', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const tpl = await a.ok('studio_template_get', { assetId: MOB, kind: 'pose-sheet', clip: 'walk' });
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  // the same wide blob that a standing turnaround would have blocked
+  fs.writeFileSync(join(p.root, 'work/poses.png'), drawSheet(tpl.layout, { w: 64, h: 32, head: 5, headW: 30, neck: 1, body: 5, bodyW: 52, leg: 2, legW: 20, gap: 4 }, 6));
+  const imp = await a.ok('studio_sheet_import', { assetId: MOB, sheet: { file: 'work/poses.png' }, layout: tpl.layout, prompt: 'x', tool: 'test' });
+  assert.equal(imp.slot, 'pose');
+  assert.equal(imp.lineup.applies, false);
+  assert.match(imp.lineup.why, /no standing south cell/);
+  const px = await a.call('studio_process', { assetId: MOB, slot: 'pose' });
+  assert.notEqual(px.isError, true, text(px));
+  assert.equal(px.structuredContent.lineup, undefined, 'no lineup verdict on key poses');
+  assert.equal(px.structuredContent.qa.checks.some((c) => c.name === 'lineup'), false);
+  assert.ok(px.structuredContent.qa.notProven.some((n) => /lineup against the approved references/.test(n.what)));
+}));
+
 test('CHARACTERS-029 CHARACTERS-031: studio_qa_run fails a build outside the tolerance so no independent check passes on it and no human is asked; a good build carries its lineup picture to the request', () => withProject(async (p) => {
   const project = openProject(p.root), jobs = new JobRunner();
   const author = connect(project, { agent: 'codex', jobs }), checker = connect(project, { agent: 'claude-code', jobs });
