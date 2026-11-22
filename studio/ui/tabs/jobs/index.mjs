@@ -39,9 +39,11 @@ async function poll() {
     mine.events = mergeEvents(mine.events, mine.since, data.activity);
     mine.since = restarted ? 0 : data.activity.next;
     mine.jobs = data.jobs.items; mine.jobsAvailable = data.jobs.available; mine.jobsStatus = data.jobs.status; mine.links = data.links; mine.jobAssets = data.jobAssets ?? {};
-    mine.skew = data.now - Date.now(); mine.failed = null;
+    mine.skew = data.now - Date.now();
+    const wasFailed = mine.failed;
+    mine.failed = null;
     const signature = JSON.stringify([mine.quota?.all, mine.quota?.recent?.length, mine.jobs.map(j => [j.id, j.status, j.finishedAt, j.logLines]), mine.events.at(-1)?.seq, mine.jobsAvailable, Object.keys(mine.links).length]);
-    if (signature !== mine.signature || restarted) { mine.signature = signature; render(mine); }
+    if (signature !== mine.signature || restarted || wasFailed) { mine.signature = signature; render(mine); }
     if (restarted) return poll();
   } catch (error) {
     if (error.name === 'AbortError' || app !== mine) return;
