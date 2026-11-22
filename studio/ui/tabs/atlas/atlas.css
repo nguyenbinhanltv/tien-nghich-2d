@@ -2,11 +2,11 @@
 .at { display: grid; gap: 1rem; }
 .at-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
 .at-head h1 { font-size: 1.8rem; color: var(--gold-soft); } .at-head p { margin: .25rem 0 0; max-width: 46rem; }
-.at-grid { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: 1.2rem; align-items: start; } @media (max-width: 900px) { .at-grid { grid-template-columns: 1fr; } }
-.sets { display: grid; gap: .8rem; position: sticky; top: 4.5rem; }
-.set { background: var(--surface-2); border: 2px solid var(--line); padding: .5rem .6rem; } .set.on { border-color: var(--gold); }
+.at-grid { display: grid; grid-template-columns: minmax(14rem, 17rem) minmax(0, 1fr); gap: 1.2rem; align-items: start; } @media (max-width: 900px) { .at-grid { grid-template-columns: 1fr; } }
+.sets { display: grid; gap: .8rem; position: sticky; top: 4.5rem; min-width: 0; }
+.set { background: var(--surface-2); border: 2px solid var(--line); padding: .5rem .6rem; min-width: 0; } .set.on { border-color: var(--gold); }
 .set h2 { font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 .3rem; } .set h2 a { color: var(--gold); text-decoration: none; }
-.chunks { list-style: none; margin: 0; padding: 0; display: grid; gap: .15rem; } .chunks a { display: flex; justify-content: space-between; gap: .4rem; align-items: center; padding: .15rem .35rem; text-decoration: none; color: var(--text); border: 1px solid transparent; }
+.chunks code { overflow-wrap: anywhere; } .chunks { list-style: none; margin: 0; padding: 0; display: grid; gap: .15rem; } .chunks a { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem; align-items: center; padding: .15rem .35rem; text-decoration: none; color: var(--text); border: 1px solid transparent; }
 .chunks a:hover { border-color: var(--line); } .chunks a[aria-current="true"] { background: var(--ink); border-color: var(--gold); color: var(--gold-soft); }
 .target { margin: 0; } .views { margin: .4rem 0 .8rem; } .at-main { min-width: 0; }
 .chips { display: flex; gap: .3rem; flex-wrap: wrap; align-items: center; }
