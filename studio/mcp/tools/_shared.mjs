@@ -85,6 +85,8 @@ export const jsonResult = (structured, isError = false) => textResult(JSON.strin
  * result `fn` returns; studio_job_wait hands it back with its images intact.
  */
 export async function inlineOrJob(ctx, name, args, fn) {
+  // Every refusal that needs no reservation comes first, so a rejected call never leaves an unfinished spend row behind.
+  if (args.background && !ctx.jobs) throw new ToolError('Background jobs are not available on this connection.');
   const spend = await reserveQuota(ctx, name, args);   // refuses BEFORE the run when the pack's ceiling would be passed
   const run = spend ? async (log) => {
     const t0 = performance.now();
@@ -93,7 +95,6 @@ export async function inlineOrJob(ctx, name, args, fn) {
     finally { spend.finish({ wallMs: performance.now() - t0, ok }); }
   } : fn;
   if (!args.background) return run(() => {});
-  if (!ctx.jobs) throw new ToolError('Background jobs are not available on this connection.');
   const job = ctx.jobs.submit({ name, owner: { agent: ctx.caller.agent, session: ctx.caller.session.slice(0, 8) }, meta: { assetId: args.assetId }, run: ({ log }) => run(log) });
   return jsonResult({ jobId: job.id, status: job.status, ...(spend ? { quota: { estimate: spend.estimate } } : {}), next: `studio_job_wait with jobId "${job.id}" returns the finished result; studio_job_status shows progress.` });
 }

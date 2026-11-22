@@ -135,6 +135,15 @@ test('JOBS-003: with a ceiling, a toolchain run is refused before it starts and 
   assert.equal((await a.ok('studio_job_status', {})).totals.all.generations, 0);
 }, setTab('jobs', 'quota', { ceilings: { generations: 0 } }), { toolchain: true }));
 
+test('JOBS-003: a background call on a connection without jobs is refused before anything is reserved', () => withProject(async (p) => {
+  const a = connect(openProject(p.root), { agent: 'codex', jobs: null });
+  const r = await a.call('studio_generator_run', { assetId: 'ui_card_frame', generator: 'primitives', params: { shape: 'diamond', size: 16, fill: 'jade_03', accent: 'bronze_04' }, seed: 7, background: true });
+  assert.equal(r.isError, true);
+  assert.match(text(r), /Background jobs are not available/);
+  const rows = (await openProject(p.root).workspace.db()).spend();
+  assert.equal(rows.length, 0, 'no spend row is left behind');
+}, undefined, { toolchain: true }));
+
 test('JOBS-003: the arithmetic: estimates use the median of earlier runs; a bad pack value is ignored', () => {
   const rows = [{ tool: 't', wallMs: 3000, generations: 1 }, { tool: 't', wallMs: 5000, generations: 1 }, { tool: 't', wallMs: 9000, generations: 1 }];
   assert.equal(estimate({ kind: 'toolchain', tool: 't', generations: 2, rows, config: {} }).wallMs, 10000);
