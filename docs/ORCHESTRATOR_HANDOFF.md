@@ -1,28 +1,33 @@
 # Orchestrator handoff
 
-State as of `main` at `e5fb170` (PR #88), with the changes of the PR that carries this sync. Every number below was re-counted from the repository at that commit; the command that reproduces it is named next to it. A fresh clone recovers the committed assets, manifests and tools from GitHub. Keep separate records for private Inspector revisions and local session state.
+State as of `main` at `6a47370` (PR #115), with the changes of the PR that carries this sync. Every number below was re-counted from the repository at that commit; the command that reproduces it is named next to it. A fresh clone recovers the committed assets, manifests and tools from GitHub. Keep separate records for private Inspector revisions and local session state.
 
 Work arrives as pull requests against `main`: workers open them, the orchestrator reviews and merges. Check `gh pr list --state open` first.
 
 ## Resume point
 
-### Merged since the last sync (#63 to #88)
+### Merged since the last sync (#89 to #115)
 
 | PR | What |
 |---|---|
-| [#67](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/67) | `lt_fx_craft` redesigned as a rising spark, with a ward-mirror contrast report. |
-| [#69](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/69), [#72](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/72), [#77](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/77) | The forge in pure Node (`studio/forge/`): sheet import, pixelisation, part rig, motion templates, baker, pixel patches, animation gates, one pipeline from sheet to gates, pose-sheet clips. |
-| [#70](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/70) | Audio packs `wave2_batch2_v1`, `_batch3_v1`, `_batch4_v1` on the Mac toolchain, plus a cross-toolchain equivalence check. |
-| [#71](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/71) and the tab PRs [#73](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/73), [#76](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/76), [#81](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/81), [#82](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/82), [#83](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/83), [#84](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/84), [#85](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/85), [#86](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/86) | The studio shell and the seven built tabs (see the Studio section). |
-| [#74](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/74), [#87](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/87), [#88](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/88) | The MCP server grows from 1 to 25 tools; #88 hardens the generator registry and program runner. |
-| [#75](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/75), [#79](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/79), [#80](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/80) | Drawn follow-pose trial of the Ink Marten, the audio engine, and the animation-default amendment. |
+| [#89](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/89), [#90](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/90), [#92](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/92) | The last three tabs: Sandbox (scene documents, the three playables as scenes) and Atlas and Provenance (engine exports for Phaser, Pixi, Godot, Unity, Aseprite and Tiled, the licence ledger), plus the tab follow-ups of P4. |
+| [#91](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/91), [#93](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/93) | Four sample runs with Codex through the MCP, and what they found (forge two-sheet bake, verdicts, tool text). |
+| [#94](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/94) | **P6, 1/3.** `studio/` no longer names the first project: conventions moved into the pack (`catalog.categories`, `info`, `serve`, source options); the previewer, Drowned Court and Evening Bell moved to `playables/` with their URLs kept; a whole-tree literals test guards it. |
+| [#95](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/95), [#98](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/98), [#99](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/99) | Palette snapping that does not flicker (B8); pack-driven figure guides; `studio_frame_read`, text patches, inspectable previews, `dryRun` on every write tool (A1, A8, A2, A5). |
+| [#105](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/105), [#106](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/106), [#107](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/107), [#108](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/108) | Spritesheet importer, asset plan from a CSV, behaviour specs with stable ids (E5, D6, E6); `studio_guide`, project rules at initialize, style-locked entities, prompt conventions (A3, C2, C3); the QA envelope, stop policy and evidence that expires (B1, B3, B4); the three review standings **approved / baseline / awaiting review**. |
+| [#111](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/111), [#112](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/112), [#114](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/114) | Wave 2 of the ideas plan: motion measures, clip contracts and lint, the fixed rubric (A4, B7, B2); takes, candidate runs and region change requests (D2, D1, B5); the character lineup ruler (C1). |
+| [#115](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/115) | **P6, 2/3.** `node studio/cli.mjs` (`init`, `serve`, `mcp`, `check`, `doctor`, `baseline`), `studio/package.json` with no dependencies, `runtime: "node"` interpreters, the second sample project `studio/examples/moss-lantern/`, the acceptance test (CLI-005). |
+| [#96](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/96), [#103](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/103), [#109](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/109), [#110](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/110) | The owner's 2026-11-22 approvals recorded by hash; atlas tests that follow the shipped atlas; Characters tests on a fixture; the approval of 30 new characters and the awaiting Longtime assets. |
+| [#97](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/97), [#100](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/100), [#101](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/101), [#102](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/102), [#104](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/104) | Art: the 30 remaining Longtime characters (PixelLab, on the one-day exception): star_quarry, mist_archive, ember_delta, abode and the forms and trial boss, repacked per chunk. |
+| This PR | **P6, 3/3.** `studio/README.md` rewritten for a stranger with a pack reference generated from the schema (`studio/schemas/reference.mjs`, test CLI-008); `playables/README.md` takes over the old README; the plan's status section; this sync. |
 
 Work arrives as pull requests; check `gh pr list --state open`.
 
 ### In progress, not merged
 
-- **Studio `sandbox` and `atlas` tabs**: the two ids still on the placeholder. Workers were building them when this sync was written; check the open PR list.
-- Plan items beyond the plan's P5 (Provenance, packaging for another project) have not started. The plan of ideas taken from open-source tools was **approved by the owner on 2026-11-22** with its five decisions ([STUDIO_OSS_IDEAS](STUDIO_OSS_IDEAS.md)); none of it is built yet, and wave 3 waits for real need.
+- **[#113](https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/113)** (open when this sync was written): the art-bible version stamp, quota estimate before a run, and the handoff package with the AI disclosure (C4, D7, D3 of wave 2). Check whether it has merged before relying on those three.
+- **Wave 2 of the [open-source ideas plan](STUDIO_OSS_IDEAS.md): 7 of 18 are on `main`** (A4, B2, B7, B5, D1, D2, C1). Not yet: A6, C4, D3, D7, E1, E3, E7, F5, F6, F8, F9 (C4, D7, D3 are in #113). **Wave 1: all 14 are on `main`.** Wave 3 (12 ideas) is not started and waits for real need.
+- Nothing else is open in the studio itself: the nine tabs, the forge, the audio engine and the 27-tool MCP are done, and P6 (reuse by another project) is complete after this PR.
 
 ### What needs the human
 
@@ -30,22 +35,22 @@ Work arrives as pull requests; check `gh pr list --state open`.
    **Later the same day (18:20 to 18:27)** the owner said "Duyệt hết assets trên studio cho tôi", then "Duyệt 30 hình nhân vật mới", and when asked chose "30 nhân vật + asset Longtime đang chờ"; the last answer narrowed the first. Recorded as two entries in the same file: `owner_new_characters_2026-11-22` (the 30 new PixelLab characters: 1,568 frames and 1,930 tracked raw PNGs) and `owner_longtime_awaiting_assets_2026-11-22` (93 other Longtime assets, 306 frames), each tied to sha256. The Review tab now reads 2,126 approved, 2,854 baseline, 0 awaiting. The legacy core art stays "baseline, no review record" and `assets/review/baseline_frames.json` is untouched. The 20 characters that carried `review.status = awaiting_owner_review` now say `approved_by_owner` with a pointer to the first entry (written by their build scripts). Not covered: `assets/candidates/`, `assets/experiments/`, planned assets, any frame whose bytes change later.
 2. **Art review of the two forge trials**: the ImageGen + rig marten against the shipped one ([bake-off](FORGE_BAKEOFF.md)) and the drawn follow-pose marten (#75). Human art approval is pending for both.
 3. **For the owner to confirm (ledger):** (PixelLab tier recorded: Tier 1: Pixel Apprentice on 2026-11-22; older characters' tier not recorded.) whether shipping audio encoded by the LGPL FFmpeg build needs anything more. Facts are in [LEDGER_FACTS](LEDGER_FACTS.md).
-4. Owner approved the [open-source ideas plan](STUDIO_OSS_IDEAS.md) and its five decisions (wave 1 now, wave 2 next, wave 3 only on real need). **Nothing from it is built yet.**
+4. The [open-source ideas plan](STUDIO_OSS_IDEAS.md) is approved (wave 1 now, wave 2 next, wave 3 only on real need). **Wave 1 is built (14 of 14); wave 2 is 7 of 18** (see *In progress*). Nothing for the owner to decide there unless wave 3 is wanted.
 5. Decisions that block later work: the reviewer decisions in section 7 of the [VFX design](LONGTIME_VFX.md). The audio toolchain choice in [the toolchain note](AUDIO_TOOLCHAIN_MAC.md) was taken in practice: approved packs stay Windows-pinned, new packs are built on the Mac and record their own toolchain.
 
 ## Art state
 
-Counts are IDs / frames in the seven web chunk manifests under `assets/atlases_longtime/web/*/chunk-manifest.json` (the mobile manifests are identical). `python -I tools/scripts/check_longtime.py` and `check_longtime_vfx.py` pass: 102 inherited core IDs, 125 planned Longtime IDs, wave 1 9 IDs / 101 frames, VFX 6 new IDs / 188 frames all `packed`, 12 inherited effects reused.
+Counts are IDs / frames in the nine web chunk manifests under `assets/atlases_longtime/web/*/chunk-manifest.json` (the mobile manifests are identical). `python -I tools/scripts/check_longtime.py` and `check_longtime_vfx.py` pass: 102 inherited core IDs, 125 planned Longtime IDs, wave 1 9 IDs / 101 frames, VFX 6 new IDs / 188 frames all `packed`, 12 inherited effects reused.
 
-**101 Longtime IDs and 558 frames are packed** (previously 93 / 306: +2 characters / 64 frames, +6 VFX / 188 frames). The 102 inherited core entries are accounted for separately.
+**All 125 planned Longtime IDs and the 6 new VFX IDs are packed: 131 IDs and 2,126 frames** (previously 101 / 558: +30 characters and their frames). All 32 character-profile IDs (6 NPC, 6 pet, 4 player, 12 mob, 4 boss) have art. The 102 inherited core entries are accounted for separately. The planned manifest still reads `planned` for every ID because the delivered state is derived from the packs, not stored in it.
 
-| Abode | Armory | Ember Delta | Interface | Mist Archive | Star Quarry | Wards |
-|---|---|---|---|---|---|---|
-| **7 / 110** | **49 / 136** | 1 / 24 | **34 / 98** | 1 / 24 | 1 / 24 | **8 / 142** |
+| Abode | Armory | Ember Delta | Forms | Interface | Mist Archive | Star Quarry | Trial | Wards |
+|---|---|---|---|---|---|---|---|---|
+| **17 / 430** | **49 / 136** | 6 / 320 | 4 / 288 | **34 / 98** | 6 / 320 | 6 / 320 | 1 / 72 | **8 / 142** |
 
 The VFX landed in four chunks: Abode `lt_fx_gate_unseal` (12 frames), Armory `lt_fx_impact` (16), Interface `lt_fx_craft` and `lt_fx_stamp` (66), Wards `lt_fx_ward_pulse` and `lt_fx_core_breach` (94). Some effects carry one frame set per palette variant, which is why frame counts exceed clip lengths. Specs are deterministic SpriteFX JSON under `tools/generators/vfx_specs/`; the ledger entry is the `vfx` block of the [Longtime manifest](../assets/manifest_longtime.json).
 
-`lt_kiln_keeper` (NPC) and `lt_ink_marten` (pet) were made with PixelLab before it was retired; their art was approved by the owner on 2026-11-22. **PixelLab:** retired, except that on 2026-11-22 the owner asked to use up the remaining credits that day (five workers made the 30 remaining Longtime characters with it; the owner approved the 30 characters the same day, see the "Done 2026-11-22" item in the first section); after today it is retired again and no one calls it. Provenance, prompts, PixelLab ids and credits are in `assets/raw/longtime/<id>/provenance.json`; the pipeline is `tools/scripts/build_longtime_characters.py`.
+`lt_kiln_keeper` (NPC) and `lt_ink_marten` (pet) were made with PixelLab before it was retired; the other 30 characters were made with it on 2026-11-22 under the owner's one-day exception (five workers, the last PRs #97, #100, #101, #102 and #104). The owner approved all 32 the same day (see the first section). **PixelLab is retired again and no one calls it.** Provenance, prompts, PixelLab ids and credits are in `assets/raw/longtime/<id>/provenance.json`; the pipeline is `tools/scripts/build_longtime_characters.py`. New characters now come from the studio's forge (an image sheet from Codex or Antigravity, then pixelisation) and are measured against the approved ones by the lineup ruler.
 
 ## Audio state
 
@@ -93,28 +98,36 @@ The packs were approved on a Windows build: FFmpeg 6.1.1 (gyan.dev essentials, S
 
 ## Studio
 
-The studio is the app in `studio/` ([guide](../studio/README.md)), driven by the project pack (`studio.project.json` and `studio/schemas/`). One connected agent (Claude Code, Codex or Antigravity) is enough. [Plan](STUDIO_PLAN.md) · [tab contract](../studio/ui/README.md) · [MCP guide](../studio/mcp/README.md)
+The studio is the app in `studio/` ([guide](../studio/README.md)), driven by the project pack (`studio.project.json` and `studio/schemas/`) and reusable by another project: `node studio/cli.mjs init <dir>` makes one, and a second sample project, `studio/examples/moss-lantern/`, runs the whole loop in a test with the studio code untouched. One connected agent (Claude Code, Codex or Antigravity) is enough. [Plan](STUDIO_PLAN.md) (status at its end) · [tab contract](../studio/ui/README.md) · [MCP guide](../studio/mcp/README.md) · [behaviour specs](../studio/specs/README.md)
 
-**Seven tabs are built; `sandbox` and `atlas` are still on the placeholder.** Run `node studio/serve.mjs --port 4173` and open `/studio/`.
+**All nine tabs are built.** Run `node studio/serve.mjs --port 4173` (or `node studio/cli.mjs serve`) and open `/studio/`.
 
 | Tab | What it does |
 |---|---|
-| Overview | Catalog counts by source and readiness (planned, authored, packed) across core, Longtime, VFX and audio. |
+| Overview | Catalog counts by source and readiness (planned, authored, packed) across core, Longtime, VFX and audio; chunk budgets; importing a planned list from a CSV. |
 | Characters | Roster by state, facing and clip viewer with per-frame timing, pivot, rigs and forge experiments, sheet and rig tools. |
 | Objects | Tilesets, props, weapons, projectiles, icons and UI: frame editor, registered generators with parameters and a seed, new planned IDs. |
-| VFX | The 18 effects frame by frame on floors and over a character, spec, recorded and recomputed audits, provenance, spec rounds, a human 1× readability note, and **Build + audit** (rebuilds the committed spec with the registered SpriteFX adapter into scratch and compares it with the delivered frames; it never writes into `assets/` or changes a status). |
+| VFX | The 18 effects frame by frame on floors and over a character, spec, recorded and recomputed audits, provenance, spec rounds, a human 1× readability note, and **Build + audit** (rebuilds the committed spec with the registered SpriteFX adapter into scratch and compares it; never writes into `assets/` or changes a status). |
 | Audio | Beds and effects: audition master, Ogg and AAC with loop seams, pictures, sprite map, blind A/B, listening checklist with the human's signature, patch preview. |
-| Review | The human inbox for art and audio: before/after pixel diff, agent requests and replies, human-only approve and request-changes, listening sign-offs and the pre-studio approvals; shows VFX 1× reads as reads. |
+| Review | The human inbox for art and audio: before/after pixel diff, agent requests and replies, takes and candidates, region change requests, human-only approve and request-changes, listening sign-offs and the pre-studio approvals. It does **not** yet show the rubric and lineup pictures. |
 | Jobs | What agents are doing: their tool calls and the background jobs they started (status, log tail, cost). Read-only. |
+| Sandbox | Characters, effects and sound placed in a room; saved scene documents; the three playables hosted as scripted scenes (their pages are in `playables/`). |
+| Atlas | Packed pages, a "what if" against the budget, staging, exports for six engines, and the licence and AI-disclosure ledger. |
 
-**MCP: 25 tools** (12 `read`, 13 `author`; no tool needs `pack`, and none approves art, signs a listening, publishes into a shipped atlas or deletes). Counted from the registry in `studio/mcp/tools/index.mjs`.
+**Review standings** (`studio/core/standing.mjs`): every frame is **approved** (a human record tied to its hash), **baseline** (legacy shipped art named by the pack's `review.baseline`, recorded in `assets/review/baseline_frames.json` for 91 frame directories: not an approval) or **awaiting review**. `node studio/cli.mjs baseline --check` reports how many baseline directories still match; `--write` freezes a baseline and must never be re-run to make awaiting art look settled.
 
-- `read`: `studio_project_info`, `studio_catalog_search`, `studio_asset_get`, `studio_template_get`, `studio_preview_render`, `studio_scene_snapshot`, `studio_qa_run`, `studio_diff`, `studio_audio_analyze`, `studio_review_list`, `studio_job_status`, `studio_job_wait`.
+**MCP: 27 tools** (14 `read`, 13 `author`; no tool needs `pack`, and none approves art, signs a listening, publishes into a shipped atlas or deletes). Counted from the registry in `studio/mcp/tools/index.mjs`.
+
+- `read`: `studio_guide`, `studio_project_info`, `studio_catalog_search`, `studio_asset_get`, `studio_template_get`, `studio_frame_read`, `studio_preview_render`, `studio_scene_snapshot`, `studio_qa_run`, `studio_diff`, `studio_audio_analyze`, `studio_review_list`, `studio_job_status`, `studio_job_wait`.
 - `author`: `studio_asset_plan`, `studio_frames_submit`, `studio_metadata_set`, `studio_sheet_import`, `studio_process`, `studio_rig_bake`, `studio_frame_patch`, `studio_generator_run`, `studio_vfx_build`, `studio_pack` (staging area only), `studio_audio_render`, `studio_review_request`, `studio_review_reply`.
 
-Transports are stdio and loopback HTTP. `GET /mcp/jobs[?limit=n]` lists background jobs as views only (default 50, cap 200). [`studio/mcp/SAMPLE_RUNS.md`](../studio/mcp/SAMPLE_RUNS.md) holds four paste-able runs (static asset, animated character, VFX, audio cue) for a fresh agent session, plus pass criteria; they are for finding what an agent gets wrong with the tool list, not for shipping art.
+Transports are stdio and loopback HTTP. `GET /mcp/jobs[?limit=n]` lists background jobs as views only (default 50, cap 200). The server sends the project's pixel-art rules (`agentGuidance.rules` in the pack) at initialize, and the stop policy (`policy.stop`: 3 fix rounds, 2 rounds without progress) ends a fix loop and asks the human. [`studio/mcp/SAMPLE_RUNS.md`](../studio/mcp/SAMPLE_RUNS.md) holds four paste-able runs (static asset, animated character, VFX, audio cue) for a fresh agent session, plus pass criteria.
+
+**Command line** (`studio/cli.mjs`): `init <dir>` (never overwrites, never writes outside the directory; writes the three agent configs at read scope), `serve`, `mcp`, `check` (validates the pack, exit 1 on errors), `doctor` (only Node is required), `baseline`. Every command takes `--project <dir>` or `--project=<dir>`; the studio may live outside the project. The README's pack reference is generated from the schema: `node studio/schemas/reference.mjs --check`.
 
 **Animation default** (decision 3 and its amendment in the plan, settled by the bake-off): locomotion from drawn key poses on a **pose sheet**; idle and other small motions from the **rig**; one-sided marks (a scar, a charm) as **pixel patches**, which survive every re-bake. Environment, items and projectiles come from registered generators, VFX from `studio_vfx_build`. PixelLab is retired.
+
+**Known gaps** (also in the studio README): exports are not opened in their engines; atlas PNGs are pixel-equal, not byte-equal, to the Python packer; the playables are hosted as scripted scenes; nothing was run on Windows; the Review tab lacks the rubric and lineup pictures; a few MCP tool descriptions still use the first project's example ids; `mcp --self-test` is written for the main project.
 
 ## Bring up on this Mac
 
@@ -136,22 +149,24 @@ The earlier version of these steps was written for PowerShell on Windows. These 
 3. Checks that exist, all run from the repository root (counts at the time of this sync):
 
    ```sh
-   tools/.venvs/project/bin/python -I -m unittest discover -s tools/tests -p 'test_*.py'   # 127 tests
+   tools/.venvs/project/bin/python -I -m unittest discover -s tools/tests -p 'test_*.py'   # 148 tests
    tools/.venvs/project/bin/python -I tools/scripts/check_manifest.py
    tools/.venvs/project/bin/python -I tools/scripts/check_longtime.py
    tools/.venvs/project/bin/python -I tools/scripts/check_longtime_vfx.py
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_plan.py
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_core_masters.py
-   node --test $(git ls-files 'studio/**/*.test.mjs' | grep -v browser)   # 556 tests on main at b61a183 (563 with this PR's additions)
-   node studio/smoke-test.mjs               # `node preview-app/smoke-test.mjs` still works through a shim
-   node studio/mcp.mjs --self-test          # must end with `self-test PASSED`
+   node --test $(git ls-files 'studio/**/*.test.mjs' 'playables/**/*.test.mjs' | grep -v browser)   # 858 tests
+   node studio/smoke-test.mjs               # the studio for this project; takes --project <dir>
+   node playables/smoke-test.mjs            # the first project's pages (`node preview-app/smoke-test.mjs` still works through a shim)
+   node studio/mcp.mjs --self-test          # must end with `self-test PASSED` (written for the main project)
+   node studio/cli.mjs check                # the pack is complete (the sample: --project studio/examples/moss-lantern)
    ```
 
    The browser tests (`*-browser.test.mjs`) need Playwright, which is not installed here and was not run.
 
 4. Browse: `node studio/serve.mjs --port 4173`, then open `http://127.0.0.1:4173/studio/`. The old [Asset Inspector](http://127.0.0.1:4173/studio/?tab=inspector) and **Audio pilot** pages still work. Old `/preview-app/...` URLs still resolve (shim). [Studio app guide](../studio/README.md) · [`preview-app/` shim note](../preview-app/README.md)
 
-5. MCP: `.mcp.json`, `.codex/config.toml` and `.agents/mcp_config.json` start `node studio/mcp.mjs` for Claude Code, Codex and Antigravity with no user-level edits. It serves the 25 tools of the Studio section. One connected agent is enough.
+5. MCP: `.mcp.json`, `.codex/config.toml` and `.agents/mcp_config.json` start `node studio/mcp.mjs` for Claude Code, Codex and Antigravity with no user-level edits. It serves the 27 tools of the Studio section (the configs committed here use author scope; the ones `studio init` writes use read scope). One connected agent is enough.
 
 6. Checking the approved packs (`pilot_v1`, `wave2_batch1_v1`) needs the exact Windows FFmpeg build (see the toolchain section); batches 2 to 4 check on the Mac build. Build the 6.1.1 toolchain once (`bash tools/scripts/build_ffmpeg_611_mac.sh native`; it writes `tools/.toolchains/ffmpeg-6.1.1/prefix/bin/ffmpeg`, with `prefix-nofma` and `prefix-x86` for the other variants), then run the check with the project Python, because the packer imports NumPy:
 
@@ -162,8 +177,8 @@ The earlier version of these steps was written for PowerShell on Windows. These 
 
 ## Backlog for a later user-directed restart
 
-- **Characters:** **30 IDs** remain (the manifest has 32 character-profile IDs: 6 NPC, 6 pet, 12 mob, 4 boss, 4 player; 2 are produced, matching the bake-off's "30 remaining"). PixelLab is retired (2026-11-22), except that the owner had the remaining credits used up on 2026-11-22 (five workers; see the art-state note), so some of the 30 may arrive from PixelLab today; after today they wait for the studio forge and are made with Codex or Antigravity, either one is enough. The routes and their evidence: [Studio plan](STUDIO_PLAN.md) · [Forge bake-off](FORGE_BAKEOFF.md) · [Asset routing](ASSET_ROUTING.md). Re-derive the count from [`assets/manifest_longtime.json`](../assets/manifest_longtime.json) before dispatching. [Longtime GDD](LONGTIME_GDD.md)
+- **Characters:** none of the 32 character-profile IDs (6 NPC, 6 pet, 4 player, 12 mob, 4 boss) is missing: all have art, packed in the chunks above and approved by the owner on 2026-11-22. New characters, if the game design adds any, come from the studio forge with Codex or Antigravity (either one is enough) and are measured against the approved ones by the lineup ruler. The routes and their evidence: [Studio plan](STUDIO_PLAN.md) · [Forge bake-off](FORGE_BAKEOFF.md) · [Asset routing](ASSET_ROUTING.md). Re-derive the count from [`assets/manifest_longtime.json`](../assets/manifest_longtime.json) and the chunk manifests.
 - **Longtime VFX:** produced (6 IDs, 188 frames); `lt_fx_craft` was redesigned in #67. The 1× human read (section 8.5) was done by the owner on 2026-11-22: approved (`assets/review/art_approvals.json`). Open: the section 7 design decisions. [VFX design](LONGTIME_VFX.md) · [Art Bible](ART_BIBLE.md) · [Core manifest](../assets/manifest.json)
 - **Audio:** core masters are complete and all packed. Human listening for batches 2 to 4 was approved by the owner on 2026-11-22 (`assets/audio/listening_approvals.json`). Extensions (5 BGM, 10 SFX) stay behind their design gates. [Audio design](AUDIO_DESIGN.md)
-- **Studio:** shell, seven tabs, forge and the 25-tool MCP are on `main`. Left: the `sandbox` and `atlas` tabs, and the plan's later phases. [Studio plan](STUDIO_PLAN.md) · [MCP capabilities](MCP_CAPABILITIES.md)
+- **Studio:** shell, all nine tabs, the forge, the audio engine, the 27-tool MCP, the CLI and the sample project are on `main`; P0 to P6 are done. Left: wave 2 of the ideas plan (11 of 18; #113 is open for three of them), wave 3 only on real need, and the known gaps listed in the Studio section. [Studio plan](STUDIO_PLAN.md) · [MCP capabilities](MCP_CAPABILITIES.md)
 - **Asset work:** use the versioned [routing](../.agents/skills/tien-nghich-asset-routing/SKILL.md), [art QA](../.agents/skills/tien-nghich-art-qa/SKILL.md) and [AssetCat](../.agents/skills/tien-nghich-assetcat/SKILL.md) skills for source routing, palette/outline checks and rights records.

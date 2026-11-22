@@ -9,3 +9,4 @@ The studio's entry point (`studio/cli.mjs`), its packaging, and the sample proje
 - **CLI-005** The sample project runs the whole loop through the MCP (plan, generate, QA, an independent check from a second session, a review request, the human step, pack, export, a forge animation, an audio render, the nine tabs) against an untouched copy of `studio/`, and not one file under `studio/` differs afterwards.
 - **CLI-006** (human-only) The agent configs `init` writes are at read scope: an agent connected with them cannot write, and no scope has a tool that approves.
 - **CLI-007** A project with no review baseline declared shows every frame as awaiting review, never as baseline or approved.
+- **CLI-008** The pack reference in `studio/README.md` is generated from the schema (`node studio/schemas/reference.mjs --write`); a schema change without a README update, an undocumented block, or a README link to a missing file fails the tests.
