@@ -79,7 +79,7 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions,
 }
 
 /** Pixelise every cell of an import ({record, cells}); returns {record, cells: Map id -> {indexed, native}}. */
-export function pixelizeImport(imported, settings, {marks = [], scaleOptions, hold, order, sequences, poseClips} = {}) {
+export function pixelizeImport(imported, settings, {marks = [], scaleOptions, hold, order, sequences, poseClips, loops} = {}) {
   const cells = new Map(), infos = [];
   // A recorded fit belongs to the profile and scale options the import ran with. It is reused only when both
   // match (options given here overlay the recorded ones key by key); otherwise every cell is fitted again for this profile.
@@ -91,56 +91,42 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions, ho
   const spec = resolveHold(hold, settings.hold);
   const done = new Map();
   const run = (entry, previous, sequence = true) => pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions: wanted, hold: sequence ? spec : null, previous});
+  // Plain cells are always the independent nearest-colour snap: static frames and one-frame clips never inherit colours.
+  for (const entry of fitted) done.set(entry.id, run(entry, null, false));
+  // Held frames exist per clip, facing and key index (`<clip>/<facing>/<i>`): every playing position is snapped on its own after
+  // the position before it, so a repeated key, or a pose shared by two clips, can take a different colour at each place it plays.
+  const held = new Map(), heldInfo = [];
   if (spec) {
-    // Units to hold across: [{ids: cell ids in playing order, loop}]. Explicit `sequences` (or `poseClips`, which carry each clip's
-    // keys and loop flag) win; else `order` names one looping sequence; else the poses of each facing in layout order, looping.
     const byId = new Map(fitted.map(e => [e.id, e]));
-    const units = [];
-    const given = sequences ?? (poseClips ? sequencesOf(poseClips) : null);
-    if (given) {
-      const facingsOf = new Set(fitted.map(e => e.facing).filter(f => f != null));
-      for (const q of given) for (const f of q.facings ?? [...facingsOf]) {
-        const ids = q.keys.map(k => `${k}_${f}`);
-        if (ids.length > 1 && ids.every(id => byId.has(id))) units.push({ids, loop: q.loop !== false});
-      }
-    } else {
-      const groups = new Map();
-      for (const e of fitted) if (e.pose != null) groups.set(e.facing ?? '', [...(groups.get(e.facing ?? '') ?? []), e]);
-      for (const list of groups.values()) {
-        if (order) list.sort((a, b) => order.indexOf(a.pose) - order.indexOf(b.pose));
-        if (list.length > 1) units.push({ids: list.map(e => e.id), loop: true});
-      }
-    }
-    // A cell belongs to the first unit that names it. A unit's later cells that an earlier unit already fixed are skipped.
-    const taken = new Set();
-    for (const {ids, loop} of units) {
-      const mine = ids.filter(id => !taken.has(id));
-      if (mine.length < 2) continue;
-      // Laps: a loop closes, so the first frame is snapped again with the last as its predecessor; only the final lap is kept.
+    const given = sequences ?? (poseClips ? sequencesOf(poseClips, loops) : order ? [{clip: 'sheet', keys: order, facings: null, loop: true}] : []);
+    const facingsOf = [...new Set(fitted.map(e => e.facing).filter(f => f != null))];
+    for (const q of given) for (const f of q.facings ?? facingsOf) {
+      const ids = q.keys.map(k => `${k}_${f}`);
+      if (ids.length < 2 || !ids.every(id => byId.has(id))) continue;
+      // A loop closes: the sequence is snapped `laps` times, the first key following the last, and only the final lap is kept.
+      // A one-shot is snapped once and its first key has no predecessor.
       let previous = null;
-      for (let lap = 0; lap < (loop ? spec.laps : 1); lap++) for (const id of ids) {
-        if (taken.has(id)) { previous = done.get(id).indexed; continue; }
+      const laps = q.loop === false ? 1 : spec.laps;
+      for (let lap = 0; lap < laps; lap++) ids.forEach((id, i) => {
         const r = run(byId.get(id), previous);
         previous = r.indexed;
-        done.set(id, r);
-      }
-      mine.forEach(id => taken.add(id));
+        if (lap === laps - 1) { held.set(`${q.clip}/${f}/${i}`, {indexed: r.indexed, native: r.native}); heldInfo.push({clip: q.clip, facing: f, key: i, pose: q.keys[i], held: r.info.held ?? 0, sha256: sha256(encodePng(r.native))}); }
+      });
     }
   }
-  for (const entry of fitted) if (!done.has(entry.id)) done.set(entry.id, run(entry, null, false));
   for (const entry of fitted) {
     const {indexed, native, info} = done.get(entry.id);
     cells.set(entry.id, {indexed, native});
     infos.push({...info, sha256: sha256(encodePng(native))});
   }
   const {profile, palette, outline} = settings;
-  return {cells, record: {
+  return {cells, held, record: {
     schema: pixelizeSchema, version: 1, sheetSha256: imported.record.sheet.sha256, promptSha256: imported.record.prompt.sha256,
     layoutId: imported.record.layoutId, landmarkBasis: imported.record.landmarkBasis,
     profile: {name: profile.name, nativePx: profile.nativePx, pivotPx: profile.pivotPx},
     palette: {name: palette.name, colors: palette.colors.length, sha256: sha256(Buffer.from(palette.colors.map(c => c.hex).join(',')))},
     outline: {mode: outline.mode, hex: outline.hex, borderIsEdge: outline.borderIsEdge},
-    scaleOptions: wanted, marks: marks.map(m => m.hex), ...(spec ? {hold: spec} : {}), cells: infos,
+    scaleOptions: wanted, marks: marks.map(m => m.hex), ...(spec ? {hold: spec, held: heldInfo} : {}), cells: infos,
   }};
 }
 
@@ -158,9 +144,21 @@ export async function writePixelized(dir, result, {protect = []} = {}) {
   await Promise.all(ids.flatMap((id, i) => [
     fs.writeFile(files[i], encodePng(result.cells.get(id).native)),
     fs.writeFile(layers[i], encodePng(result.cells.get(id).indexed))]));
+  // Held frames, one per clip, facing and key index: held/<clip>_<facing>_<i>.png and held/indexed/...
+  await fs.rm(path.join(root, 'held'), {recursive: true, force: true});
+  const keys = [...(result.held?.keys() ?? [])];
+  if (keys.length) {
+    await fs.mkdir(path.join(root, 'held', 'indexed'), {recursive: true});
+    await Promise.all(keys.flatMap(k => {
+      const name = heldName(k), frame = result.held.get(k);
+      return [fs.writeFile(path.join(root, 'held', `${name}.png`), encodePng(frame.native)), fs.writeFile(path.join(root, 'held', 'indexed', `${name}.png`), encodePng(frame.indexed))];
+    }));
+  }
   await fs.writeFile(meta, JSON.stringify(result.record, null, 2) + '\n');
   return root;
 }
+
+const heldName = key => assertCellId(key.replaceAll('/', '_'));
 
 /** Read a pixelise directory back: {record, cells: Map id -> {indexed, native}}. */
 export async function readPixelized(dir) {
@@ -171,5 +169,10 @@ export async function readPixelized(dir) {
     assertCellId(info.id);
     cells.set(info.id, {native: decodePng(await fs.readFile(path.join(dir, `${info.id}.png`))), indexed: decodePng(await fs.readFile(path.join(dir, 'indexed', `${info.id}.png`)))});
   }
-  return {record, cells};
+  const held = new Map();
+  for (const h of record.held ?? []) {
+    const name = heldName(`${h.clip}/${h.facing}/${h.key}`);
+    held.set(`${h.clip}/${h.facing}/${h.key}`, {native: decodePng(await fs.readFile(path.join(dir, 'held', `${name}.png`))), indexed: decodePng(await fs.readFile(path.join(dir, 'held', 'indexed', `${name}.png`)))});
+  }
+  return {record, cells, held};
 }

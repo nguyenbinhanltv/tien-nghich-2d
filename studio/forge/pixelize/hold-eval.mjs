@@ -3,7 +3,7 @@
 // before/after contact sheet, a map of the flickering pixels and a picture of which pixels the hold changed.
 // usage: node studio/forge/pixelize/hold-eval.mjs --import dir --project root --profile name [--marks marks.json]
 //          [--margins 16,32,48] [--max-chroma-gain n] [--out pictures-dir] [--background r,g,b] [--scale 4]
-// Poses and facings come from the import's own cell records, in layout order. The gate is the production flicker gate
+// Poses and facings come from the import's own cell records, in layout order, played as one looping clip named "sheet". The gate is the production flicker gate
 // (more than 10 interior pixels that change for one key and revert, over the closed loop).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,6 +27,9 @@ const key = (f, p) => `${p}_${f}`;
 const palette = {outline: ink};
 
 const plain = pixelizeImport(imported, settings, {marks, hold: false});
+const clips = {schema: 'forge.poseclips', version: 1, clips: {sheet: {keys: poses, loop: true}}};
+// The held frames as a cell map, so the measures below read plain and held sets the same way.
+const viewOf = r => ({...r, cells: new Map([...r.held].map(([k, v]) => { const [, f, i] = k.split('/'); return [key(f, poses[Number(i)]), v]; }))});
 const maxGain = opts['max-chroma-gain'] !== undefined ? {maxChromaGain: Number(opts['max-chroma-gain'])} : {};
 const same = (a, b, i) => a.pixels[i] === b.pixels[i] && a.pixels[i + 1] === b.pixels[i + 1] && a.pixels[i + 2] === b.pixels[i + 2];
 
@@ -50,7 +53,7 @@ function measure(result) {
       for (let i = 0; i < a.pixels.length; i += 4) if (a.pixels[i + 3] === 255) { opaque++; if (!same(a, b, i)) differ++; }
     }
   }
-  const held = result.record.cells.map(c => c.held ?? 0);
+  const held = (result.record.held ?? []).map(h => h.held);
   const markKeys = marks.length ? [...result.cells.values()].filter(c => marks.some(m => { for (let i = 0; i < c.native.pixels.length; i += 4) if (c.native.pixels[i + 3] === 255 && c.native.pixels[i] === m.rgb[0] && c.native.pixels[i + 1] === m.rgb[1] && c.native.pixels[i + 2] === m.rgb[2]) return true; return false; })).length : null;
   return {flagged: `${flagged}/${total}`, flickerPixels: sum, maxPerFrame: Math.max(...Object.values(per).flat()), perFrame: per, held, heldTotal: held.reduce((a, b) => a + b, 0),
     differFromPlain: `${differ}/${opaque}`, interframeChanges: `${motion}/${motionPlain}`, keysWithMark: markKeys};
@@ -60,7 +63,7 @@ const report = {off: measure(plain)};
 const margins = (opts.margins ?? settings.hold?.margin ?? '').toString().split(',').filter(Boolean).map(Number);
 const sets = {plain};
 for (const margin of margins) {
-  const result = pixelizeImport(imported, settings, {marks, hold: {margin, ...maxGain}});
+  const result = viewOf(pixelizeImport(imported, settings, {marks, hold: {margin, ...maxGain}, poseClips: clips}));
   sets[`hold${margin}`] = result;
   report[`hold ${margin}`] = measure(result);
 }

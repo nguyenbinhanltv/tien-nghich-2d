@@ -53,10 +53,11 @@ function snapNearest(img, colors, dist) {
 
 /**
  * The hold sequences of a forge.poseclips document: [{clip, keys, facings|null, loop}]. `facings` null means every facing that
- * has a cell for every key. `loop` follows the clip's own setting (default true).
+ * has a cell for every key. `loop` is the effective loop setting: `loops[clip]` (see effectiveLoops in pipeline/poses.mjs, which
+ * resolves a secondary template's loop) else the clip's own `loop`, default true.
  */
-export function sequencesOf(poseClips) {
-  return Object.entries(poseClips?.clips ?? {}).map(([clip, spec]) => ({clip, keys: Array.isArray(spec.keys) ? spec.keys : [], facings: spec.facings ?? null, loop: spec.loop ?? true}));
+export function sequencesOf(poseClips, loops = {}) {
+  return Object.entries(poseClips?.clips ?? {}).map(([clip, spec]) => ({clip, keys: Array.isArray(spec.keys) ? spec.keys : [], facings: spec.facings ?? null, loop: loops[clip] ?? spec.loop ?? true}));
 }
 
 const keyOf = (r, g, b) => (r << 16) | (g << 8) | b;

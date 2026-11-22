@@ -14,11 +14,11 @@ import { validateRig } from '../rig/validate.mjs';
 import { validatePatch } from '../rig/patch.mjs';
 import { loadLibrary, clipTable } from '../motion/library.mjs';
 import { runGates, stability, defaultOptions } from '../gates/index.mjs';
-import { bakePoseClip, validatePoseClips, poseClipsSchema } from './poses.mjs';
+import { bakePoseClip, effectiveLoops, validatePoseClips, poseClipsSchema } from './poses.mjs';
 import { identityDrift } from './drift.mjs';
 
 export { identityDrift, defaultDrift } from './drift.mjs';
-export { poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip } from './poses.mjs';
+export { poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops } from './poses.mjs';
 export const bakeSchema = 'forge.bake';
 
 /** Load the pack and resolve forge settings (palette, outline, profile) from it, plus the rig-lane palette. */
@@ -50,7 +50,7 @@ function stage(name, fn) {
  * the patch. `cells` is the Map from pixelise (id -> {indexed, native}); the rig is fed the outline-free
  * `indexed` layer. `rig` may be omitted when only pose clips are baked. Returns {rig, profile, clips, frames}.
  */
-export function bakeStage({settings, palette, cells, rig, poseRig, poseClips, library, patch, clips, edgeSafe}) {
+export function bakeStage({settings, palette, cells, held, rig, poseRig, poseClips, library, patch, clips, edgeSafe}) {
   const profile = manifestProfile(settings), name = settings.profile.name, table = clipTable(profile);
   const [width, height] = settings.profile.nativePx;
   const result = {rig: rig?.id ?? null, profile: name, clips: {}, frames: {}};
@@ -75,7 +75,7 @@ export function bakeStage({settings, palette, cells, rig, poseRig, poseClips, li
   }
   for (const [clipName, spec] of Object.entries(poseSpecs)) {
     if (clips && !clips.includes(clipName)) continue;
-    const baked = bakePoseClip({name: clipName, spec, clip: table[clipName], cells, palette, rig: poseRig ?? rig, library, profileName: name, patch, canvasWidth: width, edgeSafe});
+    const baked = bakePoseClip({name: clipName, spec, clip: table[clipName], cells, held, palette, rig: poseRig ?? rig, library, profileName: name, patch, canvasWidth: width, edgeSafe});
     result.clips[clipName] = baked;
     for (const [facing, out] of Object.entries(baked.facings)) out.frames.forEach((f, i) => { result.frames[`${clipName}_${facing}_${i}`] = f; });
   }
@@ -218,12 +218,13 @@ async function execute(input, summary, artifacts, fail) {
   const importWarnings = imported.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
   summary.stages.import = {ok: true, record: imported.value.record, warnings: importWarnings};
 
-  const pixelized = run('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette), hold: input.hold, order: input.poseOrder, poseClips: input.poseClips}));
+  const pixelized = run('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette), hold: input.hold, order: input.poseOrder, poseClips: input.poseClips,
+    loops: input.poseClips ? effectiveLoops(input.poseClips, {library: input.library ?? ((input.rig ?? input.poseRig)?.bodyPlan ? loadLibrary((input.rig ?? input.poseRig).bodyPlan) : undefined), profileName: settings.profile.name}) : undefined}));
   if (!pixelized.ok) return;
   artifacts.pixelized = pixelized.value;
   const warnings = pixelized.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
   summary.stages.pixelize = {ok: true, record: pixelized.value.record, warnings,
-    ...(pixelized.value.record.hold ? {hold: {...pixelized.value.record.hold, heldPerFrame: Object.fromEntries(pixelized.value.record.cells.filter(c => c.held !== undefined).map(c => [c.id, c.held]))}} : {})};
+    ...(pixelized.value.record.hold ? {hold: {...pixelized.value.record.hold, heldPerFrame: Object.fromEntries(pixelized.value.record.held.map(h => [`${h.clip}/${h.facing}/${h.key}`, h.held]))}} : {})};
 
   if (!input.rig && !input.poseClips) { summary.ok = true; return; }
   const baked = run('bake', () => {
@@ -231,7 +232,7 @@ async function execute(input, summary, artifacts, fail) {
       const issues = validateRig(input.rig, {palette});
       if (issues.length) throw new Error(`rig is invalid:\n  ${issues.join('\n  ')}`);
     }
-    return bakeStage({settings, palette, cells: pixelized.value.cells, rig: input.rig, poseRig: input.poseRig, poseClips: input.poseClips,
+    return bakeStage({settings, palette, cells: pixelized.value.cells, held: pixelized.value.held, rig: input.rig, poseRig: input.poseRig, poseClips: input.poseClips,
       library: input.library, patch: input.patch, clips: input.clips, edgeSafe: input.edgeSafe});
   });
   if (!baked.ok) return;

@@ -17,7 +17,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { ToolError } from '../registry.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from '../../core/fsutil.mjs';
-import { decodePng, importSheet, normalizeLayout, pixelizeImport, resolveMarks, rigPalette, settingsFromPack } from '../../forge/index.mjs';
+import { decodePng, importSheet, normalizeLayout, pixelizeImport, resolveMarks, rigPalette, settingsFromPack, effectiveLoops, loadLibrary } from '../../forge/index.mjs';
 
 export const MAX_SHEET_BYTES = 16 * 1024 * 1024;
 export const MAX_DOC_BYTES = 256 * 1024;
@@ -127,7 +127,7 @@ async function runImport(ws, asset, settings, doc) {
  * document and result so a step can credit frames to the sheet they came from. `doc` is the primary document (the
  * turnaround if there is one) for steps that need only one.
  */
-export async function pixelizedFor(ws, asset, settings, { only, poseClips } = {}) {
+export async function pixelizedFor(ws, asset, settings, { only, poseClips, rig, poseRig, library } = {}) {
   const docs = await readImports(ws, asset);
   const slots = [];
   for (const slot of SLOTS) {
@@ -138,17 +138,23 @@ export async function pixelizedFor(ws, asset, settings, { only, poseClips } = {}
   const processDoc = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
   const marks = resolveMarks(processDoc.marks ?? [], settings.palette);
   const clips = poseClips ?? (await readDoc(ws, asset, 'poseclips')) ?? undefined; // the hold follows each clip's own keys and loop flag
-  const cells = new Map(), records = [];
+  let loops;
+  if (clips) {
+    const body = (rig ?? poseRig ?? (await readDoc(ws, asset, 'rig')))?.bodyPlan;
+    loops = effectiveLoops(clips, { library: library ?? (body ? loadLibrary(body) : undefined), profileName: settings.profile.name });
+  }
+  const cells = new Map(), records = [], held = new Map();
   for (const s of slots) {
-    s.pixelized = pixelizeImport(s.imported, settings, { marks, hold: processDoc.hold, poseClips: clips });
+    s.pixelized = pixelizeImport(s.imported, settings, { marks, hold: processDoc.hold, poseClips: clips, loops });
     for (const [id, c] of s.pixelized.cells) {
       if (cells.has(id)) throw new ToolError(`the turnaround and the pose sheet both have a cell "${id}"; rename cells in one layout.`);
       cells.set(id, c);
     }
     records.push(s.pixelized.record);
+    for (const [k, v] of s.pixelized.held) held.set(k, v);
   }
   const primary = slots[0];
-  const pixelized = { cells, record: { ...primary.pixelized.record, cells: records.flatMap((r) => r.cells) } };
+  const pixelized = { cells, held, record: { ...primary.pixelized.record, cells: records.flatMap((r) => r.cells), held: records.flatMap((r) => r.held ?? []) } };
   return { doc: primary.doc, imported: primary.imported, slots, processDoc, pixelized };
 }
 

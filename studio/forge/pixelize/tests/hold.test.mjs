@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { loadPack } from '../../../core/pack.mjs';
-import { createImage, decodePng, encodePng, importSheet, pixelizeImport, renderTemplate, runPipeline, settingsFromPack, snapPalette, turnaroundLayout } from '../../index.mjs';
+import { createImage, decodePng, effectiveLoops, encodePng, importSheet, pixelizeImport, renderTemplate, runPipeline, settingsFromPack, snapPalette, turnaroundLayout } from '../../index.mjs';
 import { resolveHold, snapHeld } from '../hold.mjs';
 import { drawFigure, makeProject, palette } from '../../tests/fixture.mjs';
 
@@ -89,65 +89,94 @@ async function build(ts = [0.42, 0.58, 0.46]) {
     drawFigure(sheet, layout, cell.id, {width: 120, height: 160, body: from.map((v, k) => Math.round(v + (to[k] - v) * t)), head: hexRgb('rose')});
   });
   const bytes = Buffer.from(encodePng(sheet));
-  return {dir, settings, imported: importSheet({layout, sheet: decodePng(bytes), sheetBytes: bytes, profile: settings.profile, scaleOptions: {mode: 'facing'}})};
+  return {dir, settings, layout, bytes, imported: importSheet({layout, sheet: decodePng(bytes), sheetBytes: bytes, profile: settings.profile, scaleOptions: {mode: 'facing'}})};
 }
-const bytesOf = r => [...r.cells.entries()].map(([id, c]) => [id, Buffer.from(encodePng(c.native)).toString('base64'), Buffer.from(encodePng(c.indexed)).toString('base64')]);
 
-test('off reproduces the plain snap byte for byte; on is deterministic and keeps alpha and outline', async t => {
-  const {dir, settings, imported} = await build();
-  t.after(() => fs.rm(dir, {recursive: true, force: true}));
-  assert.ok(settings.hold, 'the fixture project carries the real pack, so its forge.pixelize.hold default applies');
-  const bare = {...settings, hold: null}, plain = pixelizeImport(imported, bare);
+const bytesOf = (map) => [...map.entries()].map(([id, c]) => [id, Buffer.from(encodePng(c.native)).toString('base64'), Buffer.from(encodePng(c.indexed)).toString('base64')]);
+const sig = (frame) => Buffer.from(encodePng(frame.native)).toString('base64');
+const clips = (spec) => ({schema: 'forge.poseclips', version: 1, clips: Object.fromEntries(Object.entries(spec).map(([name, [keys, loop]]) => [name, {keys, facings, ...(loop === undefined ? {} : {loop})}]))});
+// Body colour between clay and moss: a just on the clay side, the others clearly moss. The margin is wide enough to hold a
+// against moss, too narrow to hold moss against clay.
+async function boundary(t, ts = [0.45, 0.7, 0.7]) {
+  const made = await build(ts);
+  t.after(() => fs.rm(made.dir, {recursive: true, force: true}));
+  const D = Math.hypot(...hexRgb('clay').map((v, k) => v - hexRgb('moss')[k]));
+  return {...made, withHold: {...made.settings, hold: {margin: 0.15 * D, laps: 2}}};
+}
+
+test('cells are always the independent plain snap; off and a pack without a hold block give identical frames; on is deterministic, binary and keeps the outline', async t => {
+  const {settings, imported, withHold} = await boundary(t);
+  const plain = pixelizeImport(imported, {...settings, hold: null}, {poseClips: clips({walk: [['a', 'b', 'c']]})});
   assert.equal(plain.record.hold, undefined, 'a pack with no hold block records none');
-  assert.deepEqual(bytesOf(pixelizeImport(imported, settings, {hold: false})), bytesOf(plain), 'the option off is today\'s output');
-  const withDefaults = {...settings, hold: {margin: 60, metric: 'rgb', laps: 2}};
-  assert.deepEqual(bytesOf(pixelizeImport(imported, withDefaults, {hold: false})), bytesOf(plain), 'hold: false beats the pack default');
-  const a = pixelizeImport(imported, withDefaults), b = pixelizeImport(imported, withDefaults);
-  assert.deepEqual(bytesOf(a), bytesOf(b), 'deterministic');
-  assert.deepEqual(a.record.hold, {margin: 60, metric: 'rgb', search: 0, laps: 2});
-  assert.ok(a.record.cells.every(c => Number.isInteger(c.held)), 'every cell of a sequence reports its held pixels');
+  assert.equal(plain.held.size, 0);
+  const on = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c']]})});
+  assert.deepEqual(bytesOf(on.cells), bytesOf(plain.cells), 'static cells and one-frame clips never inherit colours');
+  assert.deepEqual(bytesOf(pixelizeImport(imported, withHold, {hold: false, poseClips: clips({walk: [['a', 'b', 'c']]})}).cells), bytesOf(plain.cells));
+  assert.equal(pixelizeImport(imported, withHold, {hold: false, poseClips: clips({walk: [['a', 'b', 'c']]})}).held.size, 0);
+  assert.deepEqual(bytesOf(pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c']]})}).held), bytesOf(on.held), 'deterministic');
+  assert.equal(on.held.size, 6, 'three keys of two facings');
+  assert.deepEqual(on.record.hold, {margin: withHold.hold.margin, metric: 'rgb', search: 0, laps: 2});
   const ink = settings.outline.color;
-  for (const [id, cell] of a.cells) {
-    const p = plain.cells.get(id).native, n = cell.native;
-    for (let i = 0; i < n.pixels.length; i += 4) {
-      assert.equal(n.pixels[i + 3], p.pixels[i + 3], `${id}: alpha is identical to the plain snap`);
-      assert.ok(n.pixels[i + 3] === 0 || n.pixels[i + 3] === 255, `${id}: binary alpha`);
-      const wasInk = p.pixels[i + 3] === 255 && ink.every((v, k) => p.pixels[i + k] === v);
-      const isInk = n.pixels[i + 3] === 255 && ink.every((v, k) => n.pixels[i + k] === v);
-      assert.equal(isInk, wasInk, `${id}: the outline is exactly the same pixels`);
+  for (const [key, frame] of on.held) {
+    const [, f, i] = key.split('/'), p = plain.cells.get(`${'abc'[i]}_${f}`).native, n = frame.native;
+    for (let k = 0; k < n.pixels.length; k += 4) {
+      assert.equal(n.pixels[k + 3], p.pixels[k + 3], `${key}: alpha identical`);
+      const wasInk = p.pixels[k + 3] === 255 && ink.every((v, c) => p.pixels[k + c] === v), isInk = n.pixels[k + 3] === 255 && ink.every((v, c) => n.pixels[k + c] === v);
+      assert.equal(isInk, wasInk, `${key}: outline is exactly the same pixels`);
     }
   }
 });
 
-test('a sequence is the poses of one facing; cells without a pose and a facing with one pose are left alone', async t => {
-  const {dir, settings, imported} = await build();
-  t.after(() => fs.rm(dir, {recursive: true, force: true}));
-  const withDefaults = {...settings, hold: {margin: 60, laps: 1}};
-  const r = pixelizeImport(imported, withDefaults);
-  const first = id => r.record.cells.find(c => c.id === id).held;
-  assert.equal(first('a_front'), 0, 'with one lap the first frame has nothing to hold against');
-  assert.ok(r.record.cells.some(c => c.held > 0), 'later frames hold');
-  const lone = {...imported, record: {...imported.record, cells: imported.record.cells.map(c => ({...c, pose: undefined}))}};
-  assert.ok(pixelizeImport(lone, withDefaults).record.cells.every(c => c.held === undefined), 'a turnaround is not a sequence');
-  const order = pixelizeImport(imported, withDefaults, {order: ['c', 'b', 'a']});
-  assert.equal(order.record.cells.find(c => c.id === 'c_front').held, 0, 'order changes which frame starts the sequence');
+test('no clips, no hold: a sheet with no sequence information is never held', async t => {
+  const {imported, withHold} = await boundary(t);
+  const r = pixelizeImport(imported, withHold);
+  assert.equal(r.held.size, 0);
+  assert.equal(r.record.held.length, 0);
 });
 
-test('runPipeline reports the hold per frame, and hold: false switches it off', async t => {
-  const {dir, settings} = await build();
-  t.after(() => fs.rm(dir, {recursive: true, force: true}));
-  const tpl = turnaroundLayout({id: 'hold', facings, poses, size: [900, 1200], heightPx: 26});
-  const sheet = renderTemplate(tpl);
-  tpl.cells.forEach(cell => {
-    const t = [0.42, 0.58, 0.46][poses.indexOf(cell.pose)], from = hexRgb('clay'), to = hexRgb('moss');
-    drawFigure(sheet, tpl, cell.id, {width: 120, height: 160, body: from.map((v, k) => Math.round(v + (to[k] - v) * t)), head: hexRgb('rose')});
-  });
-  const bytes = Buffer.from(encodePng(sheet));
-  const run = hold => runPipeline({project: {settings, palette: null}, layout: tpl, sheet: {bytes}, hold});
-  const on = (await run({margin: 60, maxChromaGain: 255})).summary.stages.pixelize, off = (await run(false)).summary.stages.pixelize;
-  assert.deepEqual(Object.keys(on.hold.heldPerFrame).sort(), tpl.cells.map(c => c.id).sort());
-  assert.ok(Object.values(on.hold.heldPerFrame).some(n => n > 0));
-  assert.equal(off.hold, undefined);
+test('held frames are per clip, facing and key index: a repeated key in a one-shot, and a pose shared by two clips', async t => {
+  const {imported, withHold} = await boundary(t);
+  // One-shot a,b,a: the opening a has no predecessor; the closing a follows b and may differ. Neither depends on the other.
+  const aba = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'a'], false]})});
+  const ab = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b'], false]})});
+  assert.equal(sig(aba.held.get('walk/front/0')), sig(ab.held.get('walk/front/0')), 'the opening frame ignores later keys');
+  assert.notEqual(sig(aba.held.get('walk/front/0')), sig(aba.held.get('walk/front/2')), 'the same pose plays twice and is snapped twice');
+  // Two clips share pose a: each keeps its own frame, whatever order they are listed in.
+  const xy = pixelizeImport(imported, withHold, {poseClips: clips({x: [['a', 'b'], false], y: [['c', 'a'], false]})});
+  const yx = pixelizeImport(imported, withHold, {poseClips: clips({y: [['c', 'a'], false], x: [['a', 'b'], false]})});
+  assert.notEqual(sig(xy.held.get('x/front/0')), sig(xy.held.get('y/front/1')), 'a after nothing and a after c differ');
+  for (const k of ['x/front/0', 'x/front/1', 'y/front/0', 'y/front/1']) assert.equal(sig(xy.held.get(k)), sig(yx.held.get(k)), `${k} does not depend on the listing order`);
+  // A pose in no clip is not in the held map at all.
+  assert.ok(![...ab.held.keys()].some(k => k.includes('/2')));
+});
+
+test('a loop closes onto its first key and a one-shot does not; the loop resolved from a secondary template is honoured', async t => {
+  const {imported, withHold} = await boundary(t);
+  const loop = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c'], true]})});
+  const once = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c'], false]})});
+  assert.notEqual(sig(loop.held.get('walk/front/0')), sig(once.held.get('walk/front/0')));
+  assert.equal(once.record.held.find(h => h.key === 0 && h.facing === 'front').held, 0);
+  // Omitted loop with a one-shot secondary template: effectiveLoops says false, and that is what the quantiser gets.
+  const library = {bodyPlan: 'x', archetypes: {shot: {loop: false, tracks: []}, cycle: {tracks: []}}, templates: {'critter/walk': {use: 'shot'}, 'critter/idle': {use: 'cycle'}}};
+  const spec = {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['a', 'b', 'c'], facings, secondary: {}}, idle: {keys: ['a', 'b', 'c'], facings, secondary: {}}, own: {keys: ['a', 'b'], facings, loop: true, secondary: {template: 'walk'}}}};
+  assert.deepEqual(effectiveLoops(spec, {library, profileName: 'critter'}), {walk: false, idle: true, own: true});
+  const omitted = pixelizeImport(imported, withHold, {poseClips: clips({walk: [['a', 'b', 'c']]}), loops: {walk: false}});
+  assert.equal(sig(omitted.held.get('walk/front/0')), sig(once.held.get('walk/front/0')), 'an omitted loop that resolves to a one-shot behaves as one');
+});
+
+test('the bake consumes the held frames of its own clip, and the pipeline reports them per frame', async t => {
+  const {dir, settings, layout, bytes, withHold} = await boundary(t);
+  const poseClips = clips({walk: [['a', 'b', 'c'], false]});
+  const run = hold => runPipeline({project: {settings: {...settings, hold: withHold.hold}, palette: null}, layout, sheet: {bytes}, poseClips, hold});
+  const on = await run(undefined), off = await run(false);
+  const heldInfo = on.artifacts.pixelized.record.held, bakeOn = on.summary.stages.bake.frames, bakeOff = off.summary.stages.bake.frames;
+  assert.equal(Object.keys(on.summary.stages.pixelize.hold.heldPerFrame).length, 6);
+  assert.deepEqual(Object.keys(on.summary.stages.pixelize.hold.heldPerFrame).sort(), ['walk/front/0', 'walk/front/1', 'walk/front/2', 'walk/side/0', 'walk/side/1', 'walk/side/2']);
+  for (const h of heldInfo) assert.equal(bakeOn[`walk_${h.facing}_${h.key}`], h.sha256, 'the baked frame is the held frame');
+  assert.equal(off.summary.stages.pixelize.hold, undefined);
+  for (const f of facings) assert.equal(bakeOff[`walk_${f}_1`], on.artifacts.pixelized.record.cells.find(c => c.id === `b_${f}`).sha256, 'off bakes the plain cells');
+  assert.notDeepEqual(bakeOn, bakeOff, 'the hold changed at least one baked frame');
+  assert.equal(heldInfo.find(h => h.key === 0 && h.facing === 'front').held, 0, 'a one-shot opens without a predecessor');
 });
 
 test('redmean picks the nearest entry by redmean, on the first frame too, and rgb output is unchanged', () => {
@@ -159,30 +188,9 @@ test('redmean picks the nearest entry by redmean, on the first frame too, and rg
   assert.deepEqual(px(snapHeld(src, [G, R], null, {margin: 0}).image), px(snapPalette(src, [G, R])), 'rgb is the plain snap');
 });
 
-test('the hold follows each clip: unrelated poses are untouched and a one-shot does not wrap', async t => {
-  // Body colour between clay and moss: a is just on the clay side, b just on the moss side, c clearly moss.
-  const {dir, settings, imported} = await build([0.45, 0.55, 0.7]);
-  t.after(() => fs.rm(dir, {recursive: true, force: true}));
-  const D = Math.hypot(...hexRgb('clay').map((v, k) => v - hexRgb('moss')[k]));
-  const withHold = {...settings, hold: {margin: 0.15 * D, laps: 2}};
-  const clip = (keys, loop) => ({schema: 'forge.poseclips', version: 1, clips: {walk: {keys, facings, loop}}});
-  const sig = (r, id) => Buffer.from(encodePng(r.cells.get(id).native)).toString('base64');
-  const ab = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b'], true)});
-  assert.equal(ab.record.cells.find(c => c.id === 'c_front').held, undefined, 'a pose outside every clip is not held');
-  const plain = pixelizeImport(imported, withHold, {hold: false});
-  assert.equal(sig(ab, 'c_front'), sig(plain, 'c_front'), 'and is snapped exactly as before');
-  // a and b do not depend on c unless the clip plays it.
-  const abc = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b', 'c'], true)});
-  const abcOnce = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b', 'c'], false)});
-  assert.notEqual(sig(abc, 'a_front'), sig(abcOnce, 'a_front'), 'a loop closes onto its first key; a one-shot does not');
-  assert.equal(sig(abcOnce, 'a_front'), sig(pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b'], false)}), 'a_front'), 'the first key of a one-shot ignores later keys');
-  assert.equal(abcOnce.record.cells.find(c => c.id === 'a_front').held, 0);
-  // Playing order: c first.
-  assert.equal(pixelizeImport(imported, withHold, {poseClips: clip(['c', 'b', 'a'], false)}).record.cells.find(c => c.id === 'c_front').held, 0);
-});
-
-test('run forwards --pose-order and pixelise forwards --poses', async () => {
+test('run forwards --pose-order, pixelise reads --poses (with the rig and library for loop resolution), and the held frames are written to disk', async () => {
   const src = await fs.readFile(new URL('../../cli.mjs', import.meta.url), 'utf8');
   assert.match(src, /poseOrder: opts\['pose-order'\]/);
-  assert.match(src, /order: opts\['pose-order'\]\?\.split\(','\), poseClips: await optionalJson\(opts\.poses\)/);
+  assert.match(src, /order: opts\['pose-order'\]\?\.split\(','\), poseClips,/);
+  assert.match(src, /held: pixelized\.held, rig, poseRig/);
 });
