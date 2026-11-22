@@ -104,6 +104,13 @@ test('SHELL-008: the cheat-sheet opens, lists general and tab keys, closes on Es
   opener.isConnected = false;
   doc.body.children.at(-1).listeners.keydown(keyEvent('Escape'));
   assert.equal(fallback.focused, true, 'focus falls back when the opener is gone');
+  doc.activeElement = opener; opener.isConnected = true; opener.focused = false;
+  sheet.open();
+  const q = keyEvent('?');
+  doc.body.children.at(-1).listeners.keydown(q);
+  assert.equal(sheet.isOpen(), false, '? closes the sheet it opened');
+  assert.equal(q.prevented, true);
+  assert.equal(opener.focused, true, 'and focus goes back');
   delete globalThis.document;
 });
 

@@ -230,6 +230,7 @@ export function createCheatSheet({t, getSections, fallbackFocus}) {
         make('div', {class: 'palette-foot cheat-foot'}, make('span', {}, t('keys.typing')), closeButton)));
     overlay.addEventListener('keydown', event => {
       if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(true); }
+      else if (event.key === '?' && !event.metaKey && !event.ctrlKey && !event.altKey) { event.preventDefault(); close(true); }   // `?` toggles, as the list says
       else if (event.key === 'Tab') { event.preventDefault(); closeButton.focus(); }   // the only control: focus stays inside the modal
       else if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') close(false);   // the palette takes over
     });
