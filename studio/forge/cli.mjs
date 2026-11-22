@@ -7,7 +7,8 @@ import fs from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadPack } from '../core/pack.mjs';
-import { bakeStage, compareSets, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
+import { loadLibrary } from './motion/library.mjs';
+import { bakeStage, effectiveLoops, compareSets, encodePng, importSheet, normalizeLayout, pixelizeImport, qaStage, readBakeDir, readImport, readPixelized, readSheetFile, renderTemplate,
   resolveMarks, rigPalette, runPipeline, settingsFromPack, summarizeBake, turnaroundLayout, writeBakeDir, writeImport, writePixelized } from './index.mjs';
 
 // One entry per command, in the order of the pipeline. `commands` below must have exactly these names (the CLI test checks).
@@ -17,7 +18,7 @@ const help = {
   import: ['cut a drawn sheet into cleaned cells with landmarks, prompt and SHA-256',
     '--layout layout.json --sheet sheet.png --out dir [--prompt file | --prompt-text s] [--project root --profile name] [--scale-mode cell|facing|sheet] [--ground-lift n] [--margin n] [--fixed-scale scales.json]'],
   pixelise: ['reduce cells to native size on the project palette (alias: pixelize); writes <cell>.png, indexed/<cell>.png, pixelize.json',
-    '--import dir --out dir --project root --profile name [--marks marks.json]'],
+    '--import dir --out dir --project root --profile name [--marks marks.json] [--hold on|off] [--hold-margin n] [--hold-metric rgb|redmean] [--hold-search n] [--poses poseclips.json [--pose-rig rig.json] [--library lib.json] | --pose-order a,b,c]'],
   bake: ['rig bake and pose-sheet clips, patches, then the gates; exit 2 on a gate error',
     '--pixelize dir --out dir --project root --profile name [--rig rig.json] [--poses poseclips.json] [--pose-rig rig.json] [--patch patch.json] [--library lib.json] [--clips a,b] [--qa gates.json]'],
   gates: ['run the animation gates again on a bake directory (alias: qa)',
@@ -25,7 +26,7 @@ const help = {
   compare: ['side-by-side contact sheet of bake or frame directories, with a per-gate summary when a profile is given',
     '--sets name=dir,name=dir --out sheet.png [--json report.json] [--scale 4] [--project root --profile name --rig rig.json --qa gates.json]'],
   run: ['the whole chain: import, pixelise, bake, gates; writes import/ pixelize/ bake/ pipeline.json',
-    '--layout layout.json --sheet sheet.png --out dir --project root --profile name [--prompt file] [--marks marks.json] [bake options] [import options]'],
+    '--layout layout.json --sheet sheet.png --out dir --project root --profile name [--prompt file] [--marks marks.json] [--hold on|off ...] [bake options] [import options]'],
 };
 const usage = [
   'usage: node studio/forge/cli.mjs <command> [options]',
@@ -47,6 +48,18 @@ function parseArgs(argv) {
     opts[arg.slice(2)] = value;
   }
   return opts;
+}
+
+// --hold off turns the sequence-aware snap off; any other --hold-* flag overlays the pack's defaults. Absent: the pack decides.
+function holdOf(opts) {
+  if (opts.hold === 'off') return false;
+  if (opts.hold !== undefined && opts.hold !== 'on') throw new Error('--hold takes on or off');
+  const spec = {};
+  if (opts['hold-margin'] !== undefined) spec.margin = Number(opts['hold-margin']);
+  if (opts['hold-metric'] !== undefined) spec.metric = opts['hold-metric'];
+  if (opts['hold-search'] !== undefined) spec.search = Number(opts['hold-search']);
+  if (opts['hold-laps'] !== undefined) spec.laps = Number(opts['hold-laps']);
+  return Object.keys(spec).length ? spec : opts.hold === 'on' ? true : undefined;
 }
 
 const need = (opts, name) => opts[name] ?? (() => { throw new Error(`missing --${name}`); })();
@@ -106,10 +119,14 @@ const commands = {
     if (!settings) throw new Error('missing --profile');
     const imported = await readImport(need(opts, 'import'));
     const marks = resolveMarks(opts.marks ? await readJson(opts.marks) : [], settings.palette);
-    const result = pixelizeImport(imported, settings, {marks});
+    const poseClips = await optionalJson(opts.poses), rigDoc = await optionalJson(opts['pose-rig']) ?? await optionalJson(opts.rig);
+    const library = await optionalJson(opts.library) ?? (rigDoc?.bodyPlan ? loadLibrary(rigDoc.bodyPlan) : undefined);
+    const result = pixelizeImport(imported, settings, {marks, hold: holdOf(opts), order: opts['pose-order']?.split(','), poseClips,
+      loops: poseClips ? effectiveLoops(poseClips, {library, profileName: settings.profile.name}) : undefined});
     await writePixelized(need(opts, 'out'), result, {protect: [path.join(opts.import, 'import.json')]});
     const warned = result.record.cells.filter(c => c.warnings.length);
     console.log(`pixelise ${result.record.profile.name}: ${result.cells.size} sprites at ${result.record.profile.nativePx.join('x')} -> ${opts.out}`);
+    if (result.record.hold) console.log(`hold margin ${result.record.hold.margin} (${result.record.hold.metric}): ${(result.record.held ?? []).map(h => `${h.clip}/${h.facing}/${h.key} ${h.held}`).join(', ')} pixel(s) held`);
     for (const c of warned) console.warn(`warning ${c.id}: ${c.warnings.join('; ')}`);
   },
 
@@ -120,7 +137,7 @@ const commands = {
     const rig = await optionalJson(opts.rig), poseRig = await optionalJson(opts['pose-rig']), poseClips = await optionalJson(opts.poses);
     if (!rig && !poseClips) throw new Error('give --rig and/or --poses');
     const palette = rigPalette(settings);
-    const result = bakeStage({settings, palette, cells: pixelized.cells, rig, poseRig, poseClips, patch: await optionalJson(opts.patch),
+    const result = bakeStage({settings, palette, cells: pixelized.cells, held: pixelized.held, rig, poseRig, poseClips, patch: await optionalJson(opts.patch),
       library: await optionalJson(opts.library), clips: opts.clips?.split(',')});
     const gates = qaStage(result, {settings, palette, rig, poseRig, options: await optionalJson(opts.qa)});
     const out = need(opts, 'out');
@@ -157,7 +174,7 @@ const commands = {
       project: {root: path.resolve(opts.project ?? '.'), profile: opts.profile},
       layout: await readJson(need(opts, 'layout')), sheet: {bytes, source: sheetFile},
       prompt: opts.prompt ? await fs.readFile(opts.prompt, 'utf8') : opts['prompt-text'] ?? '',
-      marks: await optionalJson(opts.marks), scaleOptions: scaleOptionsOf(opts),
+      marks: await optionalJson(opts.marks), scaleOptions: scaleOptionsOf(opts), hold: holdOf(opts), poseOrder: opts['pose-order']?.split(','),
       rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']), poseClips: await optionalJson(opts.poses),
       patch: await optionalJson(opts.patch), library: await optionalJson(opts.library), clips: opts.clips?.split(','),
       qa: await optionalJson(opts.qa), out: need(opts, 'out'),

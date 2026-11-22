@@ -1,0 +1,127 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (96x96 native, low top-down, template custom (no skeleton), 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 108-120 px canvas, centred on the 96 px manifest canvas without scaling). All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "c1c34fe2-1529-4be7-a14e-783d00956bc0",
+  "character_job_id": "e3052780-def9-426b-a94c-dd901e91ee7a",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Hollow Astrolabe, a xianxia stone-quarry guardian boss: three broken bronze orbital rings of different sizes floating tilted around a hollow centre, a bright cyan star-crystal core glowing in the middle, ring segments cracked with gaps, a dark grey-violet carved stone base hovering under it, tiny jade-cyan rune marks on the rings. Chunky chibi proportions, big central core. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "374693a0-f64d-4462-b514-132fb96e0869",
+      "job_ids": {
+        "south": "915ea257-b534-4bc5-9660-56df1013959b",
+        "west": "a9fd61b8-ba1c-4ce0-a569-2689177b8a4d",
+        "north": "e6cdfedc-f4dd-4933-a688-b2c5fc31a1bb",
+        "east": "2c533f90-ed47-4608-9fd2-c8988b51d620"
+      },
+      "action_description": "hovers and drifts in place, the broken bronze rings turn slowly around the glowing cyan core, the stone base bobs gently up and down; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "west": "seen from the left side, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "north": "seen from behind, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact",
+        "east": "seen from the right side, the bronze rings rotate slowly around the cyan core and the whole body bobs up and down; stays compact"
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "4c3b7bdc-08cb-41a5-8c83-20b49953c44e",
+      "job_ids": {
+        "south": "f5655831-fe97-4f66-be5e-57aa1caf8d7e",
+        "west": "27a573bf-8d75-410b-be1c-4e9857e817f3",
+        "north": "e75d237e-217a-499a-b327-20c7a59b4e04",
+        "east": "a68b3288-fe11-4bcc-9634-5d357c728f5c"
+      },
+      "action_description": "glides slowly forward, the bronze rings wobble and turn around the glowing cyan core, the stone base tilts forward slightly; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, glides toward the viewer, rings wobble and turn around the cyan core; stays compact",
+        "west": "seen from the left side, glides to the left, rings wobble and turn around the cyan core; stays compact",
+        "north": "seen from behind, glides away from the viewer, rings wobble and turn around the core; stays compact",
+        "east": "seen from the right side, glides to the right, rings wobble and turn around the cyan core; stays compact"
+      },
+      "note": "west and east were queued later into the same group (shared job slots) and reuse the group's direction prompts"
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "578f0741-80e1-41a1-9f08-c25d3961ea35",
+      "job_ids": {
+        "south": "8cc3b342-4410-4d84-a4c1-c8f60ac477d3",
+        "west": "99781de8-88ff-40ca-80c7-a17a88890e03",
+        "north": "3575b97f-7143-43b1-bbea-b3bb21a704e0",
+        "east": "ed7783cf-566e-4743-bdb0-855ef07ff8f8"
+      },
+      "action_description": "the broken bronze rings swing and slowly align into one straight row of rings around the core, the cyan core grows brighter and glows as if charging a radial strike; stays compact, same size",
+      "direction_prompts": {
+        "south": "seen from the front, the rings swing into alignment around the core and the core glows brighter, charging; stays compact",
+        "west": "seen from the left side, the rings swing into alignment and the core glows brighter, charging; stays compact",
+        "north": "seen from behind, the rings swing into alignment and the core glows brighter, charging; stays compact",
+        "east": "seen from the right side, the rings swing into alignment and the core glows brighter, charging; stays compact"
+      },
+      "note": "west, north and east queued later into the same group"
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "animation_group_id": "6b8ba706-1a83-47f8-a765-918077ed2757",
+      "job_ids": {
+        "south": "4787b934-68a7-4048-80f8-eb63202da2dc",
+        "west": "f54cc062-3d3a-4591-a256-d8f0196db157",
+        "north": "cff5fb7c-6f1c-4e54-a72a-ae053beb2b51",
+        "east": "f72f3d91-e509-4ef1-8ffb-64d529ca31b2"
+      },
+      "action_description": "the aligned bronze rings pulse slightly outward in a quick radial burst around the cyan core, the core flashes bright, then the rings settle back; the rings and sparks never move more than a few pixels beyond the original sprite outline, no long spark rays, no flying debris, sprite stays the same size (south, west, east: second prompt; north kept from the first attempt: 'the aligned bronze rings snap outward in a quick radial burst around the cyan core, the core flashes bright, then the rings settle back; stays compact, same size, never bigger than the original sprite')",
+      "direction_prompts": {
+        "south": "seen from the front, the rings pulse slightly outward around the flashing cyan core then settle back; short sparks only, stays inside the original sprite outline, no long rays",
+        "west": "seen from the left side, the rings pulse slightly outward around the flashing core then settle back; short sparks only, stays inside the original sprite outline, no long rays",
+        "north": "seen from behind, the rings snap outward in a radial burst around the flashing core then settle back; stays compact (first attempt, kept)",
+        "east": "seen from the right side, the rings pulse slightly outward around the flashing core then settle back; short sparks only, stays inside the original sprite outline, no long rays"
+      },
+      "note": "north and east queued later into the same group"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character (96x96, custom template) + idle, advance, telegraph, strike for 4 directions",
+      "credits": 27,
+      "result": "accepted except strike south/west/east: sparks and rings crossed the 96 px canvas (frames 2-5)"
+    },
+    {
+      "n": 2,
+      "what": "strike regenerated for south, west and east only (north kept) with a tighter prompt: rings pulse a few px beyond the outline, short sparks only, no long rays. Group 6b8ba706-1a83-47f8-a765-918077ed2757; new job ids south 4787b934-68a7-4048-80f8-eb63202da2dc, west f54cc062-3d3a-4591-a256-d8f0196db157, east f72f3d91-e509-4ef1-8ffb-64d529ca31b2; the first strike jobs (south 5933dbe5-a8c9-4e26-b5ab-88dca2843366, west 16d2b2a0-035f-4b84-b6b4-c092b8be556f, east efc42b5b-a760-422a-a686-584e2d133629) were deleted in PixelLab",
+      "credits": 6,
+      "result": "accepted: a few stray spark specks still cross the canvas in 5 frames, handled by edge_trim"
+    }
+  ],
+  "credits_spent": {
+    "character": 7,
+    "idle": 4,
+    "advance": 4,
+    "telegraph": 4,
+    "strike": 8,
+    "strike_regeneration_3_directions": 6,
+    "total_generations": 33,
+    "balance_before": 804.26,
+    "note": "v3 at 96 px bills 1/dir for 4 frames and 2/dir for 6 frames (canvas 108-120 px); cheaper than the 35 modelled"
+  },
+  "known_flaws": [
+    "strike: thin dark spark specks and short rays around the burst; detached specks that crossed the 96 px canvas were trimmed (processing.edge_trim)",
+    "strike east: the burst shows the core as a hollow dark eye in frames 3-5",
+    "qa_longtime outline_thick: 67 single 2x2 outline blocks across frames (same warning class as the approved characters)",
+    "north views read as a tilted ring stack, less clear than south"
+  ],
+  "edge_trim": {
+    "speck_max": 40,
+    "clip_max": 3,
+    "why": "strike spark rays cross the 96 px canvas in 5 frames after the one allowed regeneration; detached specks of <=40 px are dropped and at most 3 body px per frame clipped (see processing.edge_trim in provenance.json)"
+  }
+}

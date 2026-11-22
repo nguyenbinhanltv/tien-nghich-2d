@@ -1,0 +1,204 @@
+{
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (64x64 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames come back on an 84x84 canvas, centred on 64x64 without scaling). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "e2ff6ae3-8d9f-42bb-9f43-1bad8829d2fb",
+  "character_job_id": "0e6da84a-c362-4ffa-8374-3238018364ad",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Furnace Ferryman, a stout chibi boss ferryman with a very large head, wearing a wide conical straw hat with a dark soot-blackened brim, a charcoal-grey robe with glowing orange-red ember cracks along the hem, broad shoulders. He grips ONE very long wooden paddle with a flat broad iron-banded blade in his RIGHT hand, the paddle held upright beside his body, blade end glowing orange like a hot furnace plate. His left hand is empty at his side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "3017f2be-8344-4ed7-be07-ebc464c53156",
+        "west": "babf8810-775f-4a71-b812-ebcce2bc509a",
+        "north": "c8e93137-fe89-4aa9-bd3a-21f0bf61cbda",
+        "east": "b2c619fd-3b1e-4c44-82b0-148b1ec0bde9"
+      },
+      "action_description": "stands still and breathes slowly, shoulders rising and falling slightly, the long paddle stays upright in the same right hand and clearly visible, ember glow flickers faintly",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes slowly; the long paddle stays upright in his right hand on the viewer's left, glowing blade end low, always visible",
+        "west": "facing left, breathes slowly; the long paddle stays upright in front of him on the left side, always visible",
+        "north": "seen from behind, breathes slowly; the long paddle stays upright in his right hand on the viewer's RIGHT, always visible",
+        "east": "facing right, breathes slowly; the long paddle stays upright in front of him on the right side, always visible"
+      },
+      "group_ids": {
+        "south": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "west": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "north": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d",
+        "east": "e0b7340a-9294-4bfc-b0d4-85c6fa67865d"
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "job_ids": {
+        "south": "e06a286a-15b2-474b-b882-0909b032c715",
+        "west": "22be4ab7-32c5-4600-abed-ac15ad0e94fd",
+        "north": "7cc16ad3-2b24-478c-900b-c3ead20a0700",
+        "east": "880f1fcb-9199-4561-9581-ac1b81bc782a"
+      },
+      "action_description": "strides heavily forward in a slow powerful walking cycle, legs alternate, the long paddle stays upright in the same right hand and clearly visible",
+      "direction_prompts": {
+        "south": "walks toward the viewer with heavy steps, only the legs and body bob; the long paddle stays upright in his right hand on the viewer's left, always visible",
+        "west": "walks to the left with heavy steps; the long paddle stays upright in front of him on the left side, always visible",
+        "north": "walks away from the viewer seen from behind with heavy steps; the long paddle stays upright in his right hand on the viewer's RIGHT, always visible",
+        "east": "walks to the right with heavy steps; the long paddle stays upright in front of him on the right side, always visible"
+      },
+      "group_ids": {
+        "south": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "west": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "north": "8c2b884a-753f-4760-8849-9b877e37250a",
+        "east": "8c2b884a-753f-4760-8849-9b877e37250a"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "shipped": {
+        "north": "attempt 1 (animation_group_id 0d15c976-7d2b-4245-b37b-de117581f00a)",
+        "south": "attempt 4 (second touch-up, group 6303d210-52c0-4581-867a-daceebc31fa6)",
+        "west": "attempt 2",
+        "east": "attempt 2"
+      },
+      "job_ids": {
+        "north": "fb95de3b-9ff5-4dd0-91db-a8abe37ec785",
+        "south": "ba666e31-aaeb-49e5-8111-fed58acf1132",
+        "west": "8dcf77ca-1ed9-48f2-9d61-9c6e345da125",
+        "east": "40d647db-ff1c-4222-ae23-be1757477383"
+      },
+      "rejected_job_ids": {
+        "south": "85350606-d44e-419a-9006-d8537317701b",
+        "west": "c1082490-faf6-41c1-a012-36ebe1b1dabb",
+        "north_attempt_2": "f11f4ff0-2e87-472e-a0f4-0a67a2bbaa1b",
+        "east": "4add9af8-962f-48e0-ab5e-feaf16f3931c",
+        "south_attempt_2": "43b2dfe8-f1aa-4cea-a308-a1f1e6768a45",
+        "south_attempt_3": "c22f4bcc-79f5-4944-84ad-8ee9ceaa19c4"
+      },
+      "action_description_attempt_1": "winds up for a broadside: plants his feet wide, raises the long furnace paddle high above his shoulder with the glowing blade end up, holds it there glowing brighter, body leaning back slightly",
+      "action_description_attempt_2": "raises the long furnace paddle straight up beside his head and holds it upright, glowing blade end high above the hat, legs planted wide, leaning back slightly, the paddle stays close to his body and does not stick out sideways",
+      "direction_prompts_attempt_1": {
+        "south": "facing the viewer, lifts the long paddle in his right hand (viewer's left) high up beside his head, glowing blade end up above the hat brim, then holds it raised",
+        "west": "facing left, lifts the long paddle high up in front of him on the left, glowing blade end raised above the hat brim, then holds it raised",
+        "north": "seen from behind, lifts the long paddle in his right hand (viewer's RIGHT) high up beside his head, glowing blade end up, then holds it raised",
+        "east": "facing right, lifts the long paddle high up in front of him on the right, glowing blade end raised above the hat brim, then holds it raised"
+      },
+      "direction_prompts_attempt_2": {
+        "south": "facing the viewer, lifts the long paddle in his right hand (viewer's left) straight up beside his head, blade end glowing above the hat brim on the viewer's left, held vertical and close to the body",
+        "west": "facing left, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways",
+        "north": "seen from behind, lifts the long paddle in his right hand (viewer's RIGHT) straight up beside his head, the glowing blade end clearly visible above the hat on the viewer's right, held vertical and close to the body",
+        "east": "facing right, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways"
+      },
+      "action_description_attempt_3": "raises the long furnace paddle straight up beside his head with the right hand and keeps it raised and clearly visible in every frame, glowing blade end above the hat, legs planted wide, paddle close to the body",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, the long paddle in his right hand (viewer's left) is lifted straight up beside his head and stays raised and fully visible in all frames, blade end glowing above the hat brim, paddle held vertical and close to the body"
+      },
+      "action_description_attempt_4": "raises the long furnace paddle straight up beside his head with the right hand and holds it raised and clearly visible in every frame; the paddle blade stays the same dark orange-red glowing color in every frame, never white or yellow, with nothing else attached to it",
+      "direction_prompts_attempt_4": {
+        "south": "facing the viewer, the long paddle in his right hand (viewer's left) is lifted straight up beside his head and stays raised and fully visible in all frames; the glowing blade keeps the same dark orange-red color in every frame, never turning white or yellow, no round objects or extra shapes on the blade"
+      },
+      "group_ids": {
+        "north": "0d15c976-7d2b-4245-b37b-de117581f00a",
+        "west": "cc56cee7-c992-4fe1-bdab-d84eda62a87b",
+        "east": "cc56cee7-c992-4fe1-bdab-d84eda62a87b",
+        "south": "6303d210-52c0-4581-867a-daceebc31fa6"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "shipped": {
+        "west": "attempt 1 (animation_group_id 767ce2c8-ea41-4b15-a033-e49d238d06ea)",
+        "east": "attempt 1",
+        "south": "attempt 3 (touch-up, animation_group_id c43c1c21-d1d8-489a-bdb9-c4140c930c6b)",
+        "north": "attempt 2"
+      },
+      "job_ids": {
+        "west": "cf424c6b-6fc7-4184-bde9-2b4394fa8c01",
+        "east": "1a66e636-dbcd-4df3-8f2b-bf6df43f93d9",
+        "south": "4e387e4b-67f9-496a-a94f-057d13eb4e9e",
+        "north": "e9ee2c86-c174-4a56-b022-b5eb47c75470"
+      },
+      "rejected_job_ids": {
+        "south": "b47ef7ed-a0eb-42c5-8c2e-49b565e745e7",
+        "north": "ec8b9dd2-8fae-41e1-a9ba-1c44c99fb525",
+        "south_attempt_2": "4f8b15c8-33f1-4692-bb5e-5e098b74c03d"
+      },
+      "action_description_attempt_1": "swings the long furnace paddle down and across in a heavy broad sweep, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "action_description_attempt_2": "swings the long furnace paddle down and across in a compact heavy sweep that stays close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "direction_prompts_attempt_1": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward across in front of him in a wide sweep, then brings it back upright beside him",
+        "west": "facing left, swings the long paddle down and forward to the left in a wide sweep, then brings it back upright in front of him",
+        "north": "seen from behind, swings the long paddle in his right hand (viewer's RIGHT) down and away from the viewer in a wide sweep, then brings it back upright beside him",
+        "east": "facing right, swings the long paddle down and forward to the right in a wide sweep, then brings it back upright in front of him"
+      },
+      "direction_prompts_attempt_2": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward across in front of him in a compact sweep close to his body, then brings it back upright beside him",
+        "north": "seen from behind, swings the long paddle in his right hand (viewer's RIGHT) down and away from the viewer in a compact sweep close to his body, then brings it back upright beside him"
+      },
+      "action_description_attempt_3": "swings the long furnace paddle down and across in a compact heavy sweep that stays inside a narrow arc close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward in a short compact sweep that keeps the blade close to his body and never extends far to the side, then brings it back upright beside him"
+      },
+      "group_ids": {
+        "west": "767ce2c8-ea41-4b15-a033-e49d238d06ea",
+        "east": "767ce2c8-ea41-4b15-a033-e49d238d06ea",
+        "north": "8eca5859-7376-4e97-a30d-ecfa7137f61c",
+        "south": "c43c1c21-d1d8-489a-bdb9-c4140c930c6b"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 64x64 (seed 11), 8 views",
+      "credits": 6,
+      "result": "accepted; design reads (straw hat, hot paddle in the right hand, ember-cracked hem)"
+    },
+    {
+      "n": 2,
+      "what": "idle, advance, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "idle, advance and strike west/east accepted; telegraph south/west/east and strike south/north rejected: the raised or swung paddle left the 64 px box (telegraph east frame 3: 45 px outside, a stray grey blade in frame 2; strike north 7 px, strike south 7 px, telegraph south 4 px), telegraph west showed the paddle behind the body. Their raw frames are not shipped."
+    },
+    {
+      "n": 3,
+      "what": "regeneration of telegraph (south, west, north, east) with the paddle held upright and close to the body, and of strike south and north with a compact sweep: 4 + 2 single-direction regenerations",
+      "credits": 6,
+      "result": "telegraph west, east and south and strike north taken from this attempt (fit the box). telegraph north kept from attempt 1 (attempt 2 north never raises the paddle). strike south: attempt 2 still has 3 opaque paddle-tip pixels outside the 64 px box in frame 5 and no regeneration is left, so the build records a 3 px crop; NEEDS A HUMAN DECISION. telegraph south (attempt 2) loses the paddle in frame 4, also NEEDS A HUMAN DECISION."
+    },
+    {
+      "n": 4,
+      "what": "touch-up: one regeneration each of telegraph south and strike south (the two cropped/lost-paddle clip-directions)",
+      "credits": 2,
+      "result": "both shipped. strike south: 0 px outside the box (was 3), matches west/east. telegraph south: the paddle is now in hand in every frame (was lost in frame 4), but the blade flashes pale yellow-white in frames 1-2 and a grey blob sits on the blade tip in frame 3, and 2 px are cropped; kept as the better of the two, NEEDS A HUMAN DECISION; telegraph south was replaced again by attempt 5 (see below)"
+    },
+    {
+      "n": 5,
+      "what": "second touch-up: one regeneration of telegraph south asking for a constant dark orange-red blade (job ba666e31, group 6303d210)",
+      "credits": 1,
+      "result": "shipped: blade stays orange-red in all four frames, no grey blob, 0 px outside the box. The pose is close to idle (paddle held upright, little lifting)."
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_attempt_2": 16,
+    "regenerations_attempt_3": 6,
+    "touch_up_1_attempt_4": 2,
+    "touch_up_2_attempt_5": 1,
+    "total": 31,
+    "model_estimate": 28
+  },
+  "known_flaws": [
+    "idle west and east: a small pale breath puff beside the face, readable as breath at 1x, most visible in west frame 4",
+    "telegraph east holds a static diagonal paddle pose across the four frames (little motion); telegraph west/north motion is small",
+    "telegraph south: the paddle is held upright and glows, but the raise is subtle (close to the idle pose)"
+  ]
+}
