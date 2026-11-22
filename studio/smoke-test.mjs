@@ -11,8 +11,8 @@ import path from 'node:path';
 import { createPreviewServer } from './serve.mjs';
 import { loadPackSync } from './core/pack.mjs';
 
-const at = process.argv.indexOf('--project');
-const root = path.resolve(at > 0 ? process.argv[at + 1] : new URL('..', import.meta.url).pathname);
+const at = process.argv.indexOf('--project'), joined = process.argv.find(a => a.startsWith('--project='));
+const root = path.resolve(joined ? joined.slice('--project='.length) : at > 0 ? process.argv[at + 1] : new URL('..', import.meta.url).pathname);
 const pack = loadPackSync(root, undefined, { verifyFiles: false });
 const server = createPreviewServer({ root });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));

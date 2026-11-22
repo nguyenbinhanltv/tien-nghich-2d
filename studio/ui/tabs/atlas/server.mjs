@@ -12,6 +12,7 @@
 //   GET  ledger?lang=&format=json|md&download=1   licence and provenance ledger, AI disclosure
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
+import { interpreterAvailable } from '../../../core/adapters.mjs';
 import path from 'node:path';
 import { loadPackSync } from '../../../core/pack.mjs';
 import { problem } from '../../../core/errors.mjs';
@@ -62,8 +63,7 @@ const profileParam = (set, value) => {
 
 /** Can the registered interpreter and a command run on this machine? (A file check; nothing is started.) */
 function authorityState(root, pack, set) {
-  const interpreter = pack.adapters?.interpreter?.command;
-  const toolchain = Boolean(interpreter) && fsSync.existsSync(path.join(root, interpreter));
+  const toolchain = interpreterAvailable(root, pack.adapters?.interpreter);
   const exists = spec => Boolean(spec) && Boolean(pack.adapters?.commands?.[spec.command]) && fsSync.existsSync(path.join(root, pack.adapters.commands[spec.command].script));
   return {build: toolchain && exists(set.authority?.build), check: toolchain && exists(set.authority?.check), registered: Boolean(set.authority?.build), toolchain};
 }

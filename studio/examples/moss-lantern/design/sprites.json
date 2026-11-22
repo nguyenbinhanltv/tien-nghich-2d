@@ -1,0 +1,115 @@
+{
+ "schema": "moss-lantern.design",
+ "version": 1,
+ "defaults": {
+  "readiness": "planned",
+  "source": "src/sprites/{id}/",
+  "processed": "build/frames/{id}/{clip}_{direction}_{n}.png",
+  "export": "build/atlases/{platform}/{chunk_group}/",
+  "key": "sprite/{id}/{clip}_{direction}_{n}"
+ },
+ "mobile": {
+  "page": [
+   256,
+   256
+  ],
+  "padding": 1,
+  "extrude": 1,
+  "bytes_per_pixel": 4
+ },
+ "chunks": {
+  "meadow": 1,
+  "cave": 1
+ },
+ "profiles": {
+  "critter": {
+   "category": "critter",
+   "native_px": [
+    24,
+    24
+   ],
+   "pivot_px": [
+    12,
+    21
+   ],
+   "directions": [
+    "south",
+    "east"
+   ],
+   "clips": {
+    "idle": [
+     3,
+     200
+    ],
+    "walk": [
+     4,
+     120
+    ]
+   }
+  },
+  "gem": {
+   "category": "badge",
+   "native_px": [
+    12,
+    12
+   ],
+   "pivot_px": [
+    6,
+    6
+   ],
+   "directions": [
+    "none"
+   ],
+   "clips": {
+    "glyph": [
+     1,
+     100
+    ],
+    "sparkle": [
+     3,
+     100
+    ]
+   }
+  },
+  "tile": {
+   "category": "tile",
+   "native_px": [
+    8,
+    8
+   ],
+   "pivot_px": [
+    4,
+    4
+   ],
+   "directions": [
+    "none"
+   ],
+   "clips": {
+    "base": [
+     1,
+     100
+    ]
+   }
+  }
+ },
+ "assets": [
+  {
+   "id": "ml_fern_fox",
+   "profile": "critter",
+   "chunk_group": "meadow",
+   "phase": "wave_1",
+   "method": "new_source",
+   "brief": "A small fox with a fern tail, facing south and east.",
+   "dependencies": []
+  },
+  {
+   "id": "ml_moss_tile",
+   "profile": "tile",
+   "chunk_group": "meadow",
+   "phase": "wave_1",
+   "method": "generator",
+   "brief": "A mossy floor tile.",
+   "dependencies": []
+  }
+ ]
+}

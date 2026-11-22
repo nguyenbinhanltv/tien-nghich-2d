@@ -53,6 +53,18 @@ export function expandArgs(args, values) {
   }));
 }
 
+/** The program that runs registered scripts: the pack's interpreter `command` (a file in the project) or `runtime: "node"` (this Node). */
+export function interpreterFile(root, interpreter, what = 'The registered interpreter') {
+  if (interpreter?.runtime === 'node') return process.execPath;
+  return toolchainPath(root, interpreter?.command, what);
+}
+
+/** Can the interpreter run on this machine? A file check; nothing is started. */
+export function interpreterAvailable(root, interpreter) {
+  if (interpreter?.runtime === 'node') return true;
+  return Boolean(interpreter?.command) && fs.existsSync(path.join(root, interpreter.command));
+}
+
 /** Absolute path of a registered program, refusing a missing one with a message about the toolchain. */
 export function toolchainPath(root, relative, what) {
   const file = path.join(root, relative);
