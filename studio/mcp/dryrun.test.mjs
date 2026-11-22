@@ -311,3 +311,36 @@ test('vfx_build dryRun: SpriteFX runs outside the project; the frames submit wou
   const real = await a.ok('studio_vfx_build', { assetId: FX, spec, submit: true });
   assert.deepEqual(real.submit.written.slice().sort(), d.submit.wouldWrite.slice().sort());
 }));
+
+test('dryRun fails exactly where the real call fails: a bake patch past the size limit, a cue at its candidate limit', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  // Bake patch: an existing patch.json that is invalid, then one that the append would push past the size limit.
+  const docRel = 'assets/raw/longtime/lt_reed_crane/forge/patch.json';
+  const op = { frame: 'idle_south_0', ops: [{ op: 'set', pixels: [[1, 1, 'jade_03']] }] };
+  fs.mkdirSync(join(p.root, 'assets/raw/longtime/lt_reed_crane/forge'), { recursive: true });
+  fs.writeFileSync(join(p.root, docRel), JSON.stringify({ schema: 'studio.patch', version: 1, frames: { idle_south_1: [{ op: 'nope' }] } }));
+  const bad = await a.call('studio_frame_patch', { assetId: 'lt_reed_crane', target: 'bake', edits: [op], dryRun: true });
+  const badReal = await a.call('studio_frame_patch', { assetId: 'lt_reed_crane', target: 'bake', edits: [op] });
+  assert.equal(bad.isError, true); assert.equal(badReal.isError, true);
+  assert.match(text(bad), /stored patch would be invalid/);
+  const big = { schema: 'studio.patch', version: 1, frames: { idle_south_1: Array.from({ length: 300 }, () => ({ op: 'set', pixels: Array.from({ length: 40 }, (_, i) => [i % 32, i % 32, 'jade_03']) })) } };
+  fs.writeFileSync(join(p.root, docRel), JSON.stringify(big));
+  const before = fingerprint(p.root);
+  const huge = await a.call('studio_frame_patch', { assetId: 'lt_reed_crane', target: 'bake', edits: [op], dryRun: true });
+  assert.equal(huge.isError, true);
+  assert.match(text(huge), /patch document is \d+ bytes; the limit is/);
+  assert.equal((await a.call('studio_frame_patch', { assetId: 'lt_reed_crane', target: 'bake', edits: [op] })).isError, true);
+  assert.equal(fingerprint(p.root), before);
+}));
+
+test('audio_render dryRun with keep refuses a cue at its candidate limit, as the real call does', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const doc = json(join(REPO, 'studio/audio/examples/zap.patch.json'));
+  const dir = join(p.root, 'assets/studio_audio/sfx_step');
+  for (let v = 1; v <= 50; v++) fs.mkdirSync(join(dir, `v${v}`), { recursive: true });
+  const d = await a.call('studio_audio_render', { cueId: 'sfx_step', document: doc, keep: true, dryRun: true });
+  const real = await a.call('studio_audio_render', { cueId: 'sfx_step', document: doc, keep: true });
+  assert.equal(d.isError, true); assert.equal(real.isError, true);
+  assert.match(text(d), /already has 50 candidates/);
+  assert.equal(d.structuredContent?.wouldKeep, undefined);
+}));

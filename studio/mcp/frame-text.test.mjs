@@ -8,6 +8,7 @@ import { connect, makeProject, makeFrame, writeFrame } from './testkit.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
 const withProject = async (fn) => { const p = makeProject({ git: false }); try { return await fn(p); } finally { await p.cleanup(); } };
+const withProject2 = async (fn) => { const p = makeProject({ git: false, extraDirs: ['assets/processed_longtime/lt_fx_core_breach'] }); try { return await fn(p); } finally { await p.cleanup(); } };
 const ICON = 'lt_icon_realm_step'; // planned 16x16 icon: clip glyph, one frame
 const FRAME = 'glyph_none_0';
 const square = [{ op: 'fill', box: [4, 4, 12, 12], color: 'jade_03' }, { op: 'outline' }];
@@ -60,8 +61,8 @@ test('frame_read: pages, regions and the absolute coordinates they keep', () => 
   // What it refuses.
   assert.match(text(await a.call('studio_frame_read', { assetId: ICON, frame: FRAME, region: { x: 14, y: 0, w: 4, h: 1 } })), /inside the 16x16 frame/);
   assert.match(text(await a.call('studio_frame_read', { assetId: ICON, frame: FRAME, cursor: 16 })), /past the last row/);
-  assert.match(text(await a.call('studio_frame_read', { assetId: ICON, frame: 'glyph_none_9' })), /not a frame of/);
-  assert.match(text(await a.call('studio_frame_read', { assetId: 'lt_reed_crane', frame: 'idle_south_0' })), /no (processed|raw) pixels yet/);
+  assert.match(text(await a.call('studio_frame_read', { assetId: ICON, frame: 'glyph_none_9' })), /is not a raw frame of/);
+  assert.match(text(await a.call('studio_frame_read', { assetId: 'lt_reed_crane', frame: 'idle_south_0' })), /no (processed|raw) frames/);
 }));
 
 test('frame_read: a 96x96 boss frame is paged, not dumped', () => withProject(async (p) => {
@@ -165,4 +166,42 @@ test('frame_patch rows target create: the whole frame from characters, no hash; 
   assert.match(JSON.stringify(bad.structuredContent.frames[0].defects), /outline_gap/);
   assert.equal(fs.existsSync(rawIcon(p)), false);
   assert.match(text(await a.call('studio_frame_patch', { assetId: ICON, target: 'bake', edits: [{ frame: FRAME, rows, legend: { j: 'jade_03' } }] })), /no pixels to read/);
+}));
+
+test('frame_read: a delivered palette-variant VFX (clips null, breach_base_0) reads; unknown names do not crash', () => withProject2(async (p) => {
+  const a = connect(p.root, { scope: 'read' });
+  const r = await a.ok('studio_frame_read', { assetId: 'lt_fx_core_breach', frame: 'breach_base_0' });
+  assert.equal(r.page.totalRows, r.size[1]);
+  assert.equal(r.stage, 'processed');
+  const bad = await a.call('studio_frame_read', { assetId: 'lt_fx_core_breach', frame: 'breach_none_0' });
+  assert.equal(bad.isError, true);
+  assert.match(text(bad), /is not a processed frame of lt_fx_core_breach\. It has \d+: breach_base_0/);
+}));
+
+test('frame_patch rows: a revision saved between validation and save is never overwritten', () => withProject(async (p) => {
+  const a = connect(p.root);
+  await draw(a);
+  const read = await a.ok('studio_frame_read', { assetId: ICON, frame: FRAME });
+  const legend = { ...Object.fromEntries(read.legend.map((l) => [l.char, l.id])), b: 'bronze_04' };
+  const rows = read.rows.map((row, y) => (y === 7 ? row.slice(0, 7) + 'b' + row.slice(8) : row));
+  // Another session saves a revision after the hash was checked, before this call saves: intercept the store's save.
+  const store = await a.project.workspace.store();
+  const operate = store.operate.bind(store);
+  let injected = false;
+  store.operate = (frame, baseline, action, args) => {
+    if (action === 'save' && !injected) {
+      injected = true;
+      const head = operate(frame, baseline, 'frame', {});
+      operate(frame, baseline, 'save', { baseRevision: head.head, png: makeFrame(16, 16, { variant: 9 }).png }); // someone else's revision 1
+    }
+    return operate(frame, baseline, action, args);
+  };
+  const r = await a.call('studio_frame_patch', { assetId: ICON, edits: [{ frame: FRAME, rows, legend, hash: read.hash }] });
+  store.operate = operate;
+  assert.equal(injected, true);
+  assert.equal(r.isError, true);
+  assert.match(text(r), /changed since you read it \(another save landed after revision 0\)/);
+  const after = await a.ok('studio_frame_read', { assetId: ICON, frame: FRAME });
+  assert.notEqual(after.hash, read.hash, 'the other revision is what is stored');
+  assert.equal((await a.ok('studio_diff', { assetId: ICON })).frames[0].revision, 1, 'only the other session\'s revision exists');
 }));

@@ -7,7 +7,7 @@
 import { framePath } from '../../core/assets.mjs';
 import { readInside } from '../../core/files.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
-import { headPng } from '../../core/revisions.mjs';
+import { bareFrame } from '../../core/review.mjs';
 import { ToolError } from '../registry.mjs';
 import { decode } from './patch.mjs';
 
@@ -67,16 +67,20 @@ export function legendOf(present, table) {
 
 /**
  * The current pixels of a frame as the tools see them: the newest revision when the frame has a history, else the
- * file. Returns null when the frame has no file at the stage. hash identifies exactly these pixels.
+ * file. `rec` is a frame record from listFrames (so palette-layout names resolve) or {clip, direction, n}.
+ * Returns null when the frame has no file at the stage. hash identifies exactly these pixels; revision is the
+ * revision they are (0 when the frame has no history yet), for the store's optimistic save check.
  */
-export async function currentFrame(ws, asset, addr, stage) {
-  const rel = framePath(asset, stage, addr.clip, addr.direction, addr.n);
+export async function currentFrame(ws, asset, rec, stage) {
+  const rel = rec.rel ?? framePath(asset, stage, rec.clip, rec.direction, rec.n);
   const bytes = rel ? await readInside(ws.root, rel).catch(() => null) : null;
   if (!bytes) return null;
-  const key = asset.layout.keyOf(addr.clip, addr.direction, addr.n);
-  const head = await headPng(ws, key, bytes);
-  const png = head ?? bytes;
-  return { image: decode(png), hash: sha256(png), revisioned: head !== null, rel };
+  const key = rec.key ?? asset.layout.keyOf(rec.clip, rec.direction, rec.n);
+  const store = await ws.store();
+  const revisioned = !store.needsBaseline(key);
+  const snap = revisioned ? store.operate(bareFrame(key), bytes, 'frame', {}) : null;
+  const png = snap ? Buffer.from(snap.pngBase64, 'base64') : bytes;
+  return { image: decode(png), hash: sha256(png), revisioned, revision: snap ? snap.head : 0, key, rel };
 }
 
 /** Does `region` {x, y, w, h} fit a width x height frame? Returns the region or throws. */

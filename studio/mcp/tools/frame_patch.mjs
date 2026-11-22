@@ -4,9 +4,9 @@ import { findDefects } from '../../core/defects.mjs';
 import { readInside } from '../../core/files.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { headPng, saveRevision } from '../../core/revisions.mjs';
-import { encodePng } from '../../forge/index.mjs';
+import { encodePng, validatePatch } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { forgeCall, parseFrameName, readDoc, settingsFor, writeDoc } from '../workflow/forge.mjs';
+import { MAX_DOC_BYTES, forgeCall, parseFrameName, readDoc, settingsFor, writeDoc } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { appendOps, applyPatch, blank, checkOps, decode, emptyPatch, expandOps } from '../workflow/patch.mjs';
 import { currentFrame, diffImages, glyphTable, rowsToChanges } from '../workflow/glyphs.mjs';
@@ -72,7 +72,7 @@ export default {
         if (seen.has(edit.frame)) throw new ToolError(`${edit.frame} appears twice; put all its operations in one edit.`);
         seen.add(edit.frame);
         const addr = parseFrameName(edit.frame);
-        const spec = addr && Object.hasOwn(asset.clips, addr.clip) ? asset.clips[addr.clip] : null;
+        const spec = addr && asset.clips && Object.hasOwn(asset.clips, addr.clip) ? asset.clips[addr.clip] : null;
         if (!spec || !asset.directions.includes(addr.direction) || addr.n >= spec.frames) throw new ToolError(`${edit.frame} is not a frame of ${asset.id} (clips: ${Object.entries(asset.clips).map(([c, v]) => `${c}x${v.frames}`).join(', ')}; directions: ${asset.directions.join(', ')}).`);
         const key = asset.layout.keyOf(addr.clip, addr.direction, addr.n);
         const rawRel = `${asset.layout.studioRawDir}/${edit.frame}.png`;
@@ -82,7 +82,7 @@ export default {
         if (target === 'auto') target = raw || hasHistory ? 'revision' : 'bake';
         if (target === 'revision' && !raw && !hasHistory) throw new ToolError(`${edit.frame} has not been submitted, so there is no revision to change. Use target "bake" (applied at the next bake) or "create" (draw it from blank).`);
         if (target === 'create' && (raw || hasHistory)) throw new ToolError(`${edit.frame} already exists (raw frames are immutable). Use target "revision" to change its pixels.`);
-        let ops, changes = null;
+        let ops, changes = null, snapshot = null;
         if (edit.rows !== undefined) {
           if (edit.ops !== undefined) throw new ToolError(`${edit.frame}: give rows (text form) or ops, not both.`);
           let base;
@@ -95,6 +95,7 @@ export default {
             if (!edit.hash) throw new ToolError(`${edit.frame}: rows need the hash from studio_frame_read, so a frame that changed since you read it is never overwritten. Read it again.`);
             if (edit.hash !== now.hash) throw new ToolError(`${edit.frame} changed since you read it (you have ${edit.hash.slice(0, 12)}, it is now ${now.hash.slice(0, 12)}). Read it again with studio_frame_read and redo the edit.`);
             base = now.image;
+            snapshot = now; // the exact pixels and revision the rows were checked against; the save is bound to them
           }
           const converted = rowsToChanges({ rows: edit.rows, legend: edit.legend, at: edit.at, image: base, table, label: edit.frame });
           if (!converted.ops.length) throw new ToolError(`${edit.frame}: the rows are identical to the frame, so there is nothing to change.`);
@@ -106,7 +107,7 @@ export default {
           ops = expandOps(edit.ops);
         }
         checkOps(edit.frame, ops, { palette, width, height });
-        plan.push({ ...edit, addr, key, rawRel, raw, target, ops, changes });
+        plan.push({ ...edit, addr, key, rawRel, raw, target, ops, changes, snapshot });
       }
       const targets = new Set(plan.map((p) => p.target));
       if (targets.size > 1) throw new ToolError(`one call, one target: these edits need ${[...targets].join(' and ')}. Split them.`);
@@ -116,13 +117,17 @@ export default {
       const listChanges = (list) => ({ changedPixels: list.length, changes: list.slice(0, MAX_SHOWN), ...(list.length > MAX_SHOWN ? { truncated: true } : {}) });
 
       if (target === 'bake') {
+        let patch = (await readDoc(ws, asset, 'patch')) ?? emptyPatch();
+        for (const p of plan) patch = appendOps(patch, p.frame, p.ops);
+        const size = JSON.stringify(patch, null, 2).length + 1;
+        if (size > MAX_DOC_BYTES) throw new ToolError(`patch document is ${size} bytes; the limit is ${MAX_DOC_BYTES}`);
+        const issues = validatePatch(patch, { palette, width, height });
+        if (issues.length) throw new ToolError(`the stored patch would be invalid:\n  ${issues.join('\n  ')}`);
         if (args.dryRun) {
           const patchRel = `${asset.layout.rawDir}/forge/patch.json`;
           return jsonResult({ ok: true, dryRun: true, wrote: 'nothing', target, wouldWrite: [patchRel], frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length, ...(p.changes ? listChanges(p.changes) : {}) })),
             note: 'These operations would be appended to the asset\'s stored patch and applied after every studio_rig_bake; the baked pixels they land on are not known until then.' });
         }
-        let patch = (await readDoc(ws, asset, 'patch')) ?? emptyPatch();
-        for (const p of plan) patch = appendOps(patch, p.frame, p.ops);
         await writeDoc(ws, asset, 'patch', patch);
         return { content: [{ type: 'text', text: `Stored operations for ${plan.length} frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: ${Object.keys(patch.frames).length}.` }],
           structuredContent: { ok: true, target, frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length })), patchedFrames: Object.keys(patch.frames).length, next: 'studio_rig_bake to apply and look.' } };
@@ -165,14 +170,15 @@ export default {
       for (const p of plan) {
         const key = p.key;
         const baseline = p.raw ?? (await readInside(ws.root, p.rawRel));
-        const current = decode((await headPng(ws, key, baseline)) ?? baseline);
+        // A text edit is computed from, and saved against, the snapshot its hash was checked on.
+        const current = p.snapshot ? p.snapshot.image : decode((await headPng(ws, key, baseline)) ?? baseline);
         const next = applyPatch(current, p.ops, palette, { lookup: lookupFor(p.addr.clip) });
         const r = findDefects(next, options);
         if (r.totals.error) {
           const sample = r.defects.filter((d) => d.severity === 'error').slice(0, 12).map((d) => `${d.code} (${d.x}, ${d.y})`).join(', ');
           throw new ToolError(`${p.frame}: the result breaks the pixel gates, so nothing was saved: ${sample}. Add {"op":"outline"} to rebuild the outline, or fix the colours.`);
         }
-        results.push({ p, next, baseline });
+        results.push({ p, next, baseline, baseRevision: p.snapshot?.revision });
         before[`${p.frame}`] = current; after[p.frame] = next;
       }
       if (args.dryRun) {
@@ -181,8 +187,11 @@ export default {
           note: 'Saved for real, each frame becomes a new pending revision; the raw file stays as submitted. Only a human approves.' });
       }
       const saved = [];
-      for (const { p, next, baseline } of results) {
-        const r = await saveRevision(ws, { key: p.key, baseline, png: Buffer.from(encodePng(next)) });
+      for (const { p, next, baseline, baseRevision } of results) {
+        const r = await saveRevision(ws, { key: p.key, baseline, png: Buffer.from(encodePng(next)), baseRevision }).catch((error) => {
+          if (baseRevision !== undefined && error?.code === 'revision_conflict') throw new ToolError(`${p.frame} changed since you read it (another save landed after revision ${baseRevision}); nothing newer was overwritten. Read it again with studio_frame_read and redo the edit.`);
+          throw error;
+        });
         saved.push({ frame: p.frame, key: p.key, revision: r.revision, changed: r.changed, status: r.status });
       }
       const cells = [];

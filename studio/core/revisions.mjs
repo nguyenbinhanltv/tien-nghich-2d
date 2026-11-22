@@ -8,10 +8,11 @@ import { bareFrame } from './review.mjs';
  * `key`: the frame key; `baseline`: bytes of the frame as submitted (used only if the key has no history yet);
  * `png`: the new pixels as PNG bytes. Returns {revision, head, changed, status}. A save identical to the head is a no-op.
  */
-export async function saveRevision(ws, {key, baseline, png}) {
+export async function saveRevision(ws, {key, baseline, png, baseRevision}) {
   const store = await ws.store();
   const head = store.operate(bareFrame(key), baseline, 'frame', {});
-  const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: head.head, png});
+  // baseRevision: the revision the caller's pixels were computed from; the store's optimistic check then refuses a save over a newer one.
+  const snap = store.operate(bareFrame(key), baseline, 'save', {baseRevision: baseRevision ?? head.head, png});
   return {revision: snap.revision, head: snap.head, changed: snap.head > head.head, status: snap.status, previous: head.head};
 }
 

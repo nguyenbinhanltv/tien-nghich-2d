@@ -1,7 +1,7 @@
 import { readMetadata } from '../../core/metadata.mjs';
+import { listFrames } from '../../core/assets.mjs';
 import { pickStage } from '../../core/qa.mjs';
 import { ToolError } from '../registry.mjs';
-import { parseFrameName } from '../workflow/forge.mjs';
 import { checkRegion, currentFrame, glyphTable, imageToRows, legendOf } from '../workflow/glyphs.mjs';
 import { loadAsset, requireFrames } from './_shared.mjs';
 
@@ -19,7 +19,7 @@ export default {
     type: 'object',
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Asset id.' },
-      frame: { type: 'string', pattern: '^[a-z0-9]+(?:_[a-z0-9]+)*_(south|east|north|west|none)_[0-9]+$', maxLength: 80, description: 'Frame name <clip>_<direction>_<n>, e.g. idle_south_2.' },
+      frame: { type: 'string', pattern: '^[a-z0-9]+(?:_[a-z0-9]+)*$', maxLength: 80, description: 'Frame file name without .png: <clip>_<direction>_<n> (idle_south_2), or what studio_asset_get lists for palette variants (breach_base_0).' },
       stage: { type: 'string', enum: ['processed', 'raw'], description: 'Default: processed if the asset has any, else raw. The newest revision is what you read.' },
       region: {
         type: 'object',
@@ -37,14 +37,15 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
-    const addr = parseFrameName(args.frame);
-    const spec = addr && Object.hasOwn(asset.clips, addr.clip) ? asset.clips[addr.clip] : null;
-    if (!spec || !asset.directions.includes(addr.direction) || addr.n >= spec.frames) {
-      throw new ToolError(`${args.frame} is not a frame of ${asset.id} (clips: ${Object.entries(asset.clips).map(([c, v]) => `${c}x${v.frames}`).join(', ')}; directions: ${asset.directions.join(', ')}).`);
-    }
     const stage = await pickStage(ws.root, asset, args.stage);
-    const frame = await currentFrame(ws, asset, addr, stage);
-    if (!frame) throw new ToolError(`${args.frame} has no ${stage} pixels yet. ${stage === 'processed' ? 'Try stage "raw". ' : ''}A frame that does not exist can be drawn with studio_frame_patch target "create".`);
+    const found = (await listFrames(ws.root, asset, stage)).frames;
+    const rec = found.find((f) => f.name === args.frame);
+    if (!rec) {
+      const names = found.map((f) => f.name);
+      throw new ToolError(`${args.frame} is not a ${stage} frame of ${asset.id}. ${names.length ? `It has ${names.length}: ${names.slice(0, 8).join(', ')}${names.length > 8 ? ', ...' : ''}.` : `It has no ${stage} frames${stage === 'processed' ? '; try stage "raw"' : ''}.`}`);
+    }
+    const frame = await currentFrame(ws, asset, rec, stage);
+    if (!frame) throw new ToolError(`${args.frame} has no ${stage} pixels.`);
     const { image } = frame;
     const region = checkRegion(args.region ?? { x: 0, y: 0, w: image.width, h: image.height }, image.width, image.height);
     const table = glyphTable(snap.paletteFile);

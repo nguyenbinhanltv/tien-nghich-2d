@@ -63,9 +63,15 @@ export async function reviewFrames(root, dir, cueId) {
  * provenance: object}. Creates the next version directory (a fresh one: an existing version is never touched), writes every file once,
  * and starts a review history for each picture as 'pending'. Returns the candidate record.
  */
-export async function keepCandidate(ws, {dir, cueId, parts}) {
-  const all = await versions(ws.root, dir);
+/** The versions a cue has, and the next number a keep would use; throws when the cue is at its candidate limit (keep and dryRun share this). */
+export async function planKeep(root, dir, cueId) {
+  const all = await versions(root, dir);
   if (all.length >= MAX_VERSIONS) throw Object.assign(new Error(`${cueId} already has ${MAX_VERSIONS} candidates; ask a human to clear old ones`), {status: 409, code: 'too_many_versions'});
+  return {all, next: (all.at(-1) ?? 0) + 1};
+}
+
+export async function keepCandidate(ws, {dir, cueId, parts}) {
+  const {all} = await planKeep(ws.root, dir, cueId);
   await ensureDirInside(ws.root, dir);
   let version = (all.at(-1) ?? 0) + 1, made = null;
   for (let attempt = 0; attempt < 5 && !made; attempt++, version++) {

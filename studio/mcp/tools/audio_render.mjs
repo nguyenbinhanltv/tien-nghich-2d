@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { FILES, keepCandidate, versions } from '../../core/audio-candidates.mjs';
+import { FILES, keepCandidate, planKeep } from '../../core/audio-candidates.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
 import { LISTENING, analyzeRender, glance, insideProtected, renderChecked } from '../workflow/audio.mjs';
@@ -60,7 +60,7 @@ export default {
     if (!deterministic) out.warning = 'Two renders of the same document gave different bytes: it cannot be kept.';
     if (args.keep && args.dryRun) {
       if (!deterministic) throw new ToolError('Two renders of the same document gave different bytes, so it cannot be kept as a candidate.');
-      const version = ((await versions(ws.root, asset.audio.dir)).at(-1) ?? 0) + 1;
+      const { next: version } = await planKeep(ws.root, asset.audio.dir, asset.id);
       out.wouldKeep = { version, dir: `${asset.audio.dir}/v${version}`, files: FILES, review: 'pending: a human signs listening and approves in the Review tab' };
     } else if (args.keep) {
       if (!deterministic) throw new ToolError('Two renders of the same document gave different bytes, so it cannot be kept as a candidate.');
