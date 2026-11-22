@@ -1,0 +1,116 @@
+{
+  "tool": "PixelLab",
+  "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
+  "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom body template because a bird fits no skeleton, 8 views, 40-colour palette, seed 31) then animate_character v3 per direction (frames come back on 40-44 px canvases, centred on 32x32 without scaling). v3 only makes even frame counts, so idle keeps frames 0-2 of 4 and telegraph keeps frames 1-3 of 4; dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "88172888-4773-4708-b1c6-5ef44e3f1394",
+  "character_job_id": "0c010bc8-3a39-450d-8782-0f223438d6bf",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Cinder heron, a small chibi wading bird with a large round head, charcoal-grey feathers with glowing orange ember tips on the wings and crest, a long sharp pale yellow beak, two long thin dark stilt legs, a long S-curved neck folded down, a tall spiky ember-orange head crest. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "0-2",
+      "keep_first_frame": false,
+      "animation_group_id": "51dad761-c593-45d2-9d3f-7cc590b136ad",
+      "job_ids": {
+        "south": "a9e70848-b1ee-4241-b351-767165b3d449",
+        "west": "65f5647c-5923-46ec-b6a9-96d3a775e95f",
+        "north": "23c57695-f3ac-4e92-8962-406e7baa6016",
+        "east": "ec3bed9d-1092-42f8-8e25-4b813f9b627c"
+      },
+      "action_description": "stands on its long legs and bobs its head slowly, ember crest flickering, wing feathers glowing faintly",
+      "direction_prompts": {
+        "south": "facing the viewer, stands still and bobs its head slightly, crest flickering",
+        "west": "facing left, stands on its long legs and bobs its head slowly, crest flickering",
+        "north": "seen from behind, stands still and bobs its head slightly, crest flickering",
+        "east": "facing right, stands on its long legs and bobs its head slowly, crest flickering"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "4dab69de-79dc-4cd2-8fe4-32e862c72a8f",
+      "job_ids": {
+        "south": "e9027cd9-2ae3-4b77-b50d-7e32081500f8",
+        "west": "395104b0-475e-41b2-be05-2227d7036815",
+        "north": "90a79c56-ee4e-41f8-8fef-ab0116d23971",
+        "east": "099209c7-f7c2-4a7c-8213-d123bc949f6d"
+      },
+      "action_description": "strides forward on its long thin legs in a high-stepping wading walk, head bobbing, crest flickering",
+      "direction_prompts": {
+        "south": "walks toward the viewer lifting its long legs high, head bobbing",
+        "west": "walks to the left lifting its long legs high, head bobbing forward",
+        "north": "walks away from the viewer seen from behind, lifting its long legs",
+        "east": "walks to the right lifting its long legs high, head bobbing forward"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "shipped_frames": "1-3",
+      "keep_first_frame": false,
+      "animation_group_id": "51ec59eb-1cd1-46cb-913f-52653e7d67aa",
+      "job_ids": {
+        "south": "9b90b431-6870-4865-bbfa-e0e64ce1b014",
+        "west": "a7b359d6-0e72-4a85-baf6-2a88d611cd9b",
+        "north": "68a7e548-a821-4eee-8559-4486d79d306d",
+        "east": "81ae34cc-842e-4f3a-9a00-88ddc465f02b"
+      },
+      "action_description": "draws its neck back into a tight S-curve and spreads both wings wide open, crest flaring tall and glowing bright, beak aimed forward, before a stab",
+      "direction_prompts": {
+        "south": "facing the viewer, draws its neck back and spreads both wings wide, crest flaring tall",
+        "west": "facing left, draws its neck back into an S-curve and spreads its wings, beak pointing left",
+        "north": "seen from behind, spreads both wings wide and flares the crest",
+        "east": "facing right, draws its neck back into an S-curve and spreads its wings, beak pointing right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "93766676-6143-4259-889e-d6ab3a6fdcba",
+      "job_ids": {
+        "south": "23db9718-0ba1-4501-adce-9a533b0e9d69",
+        "west": "54cd979f-f8ec-4ff8-9911-b564a5a38c26",
+        "north": "3ea52f0d-bc61-4803-bff9-e81359566572",
+        "east": "3ec40dca-2b9c-49ff-a255-650a721d2c45"
+      },
+      "action_description": "stabs its long beak forward fast with its neck snapping out straight, wings flaring, then pulls back to standing",
+      "direction_prompts": {
+        "south": "facing the viewer, snaps its neck and beak forward toward the viewer, then pulls back",
+        "west": "facing left, snaps its neck and beak out straight to the left, then pulls back",
+        "north": "seen from behind, snaps its neck forward away from the viewer, wings flaring, then pulls back",
+        "east": "facing right, snaps its neck and beak out straight to the right, then pulls back"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32 (seed 31, custom body), 8 views",
+      "credits": 6,
+      "result": "accepted"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "credits": 16,
+      "result": "accepted with flags; no regeneration spent (left for the human review)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 16,
+    "total": 22,
+    "model_estimate": 22
+  },
+  "known_flaws": [
+    "south and north read as a thin humanoid column with wing-arms rather than a bird; the beak and legs carry the heron in west and east only",
+    "south crest is hard to see at 1x in several frames",
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+  ]
+}
