@@ -169,5 +169,13 @@
   "region.open": "chưa có trả lời",
   "region.before": "Vùng trước (r{revision})",
   "region.after": "Vùng sau (r{revision})",
-  "region.answeredBy": "{agent} · {session} trả lời ở r{revision}:"
+  "region.answeredBy": "{agent} · {session} trả lời ở r{revision}:",
+  "inbox.filters": "Bộ lọc",
+  "inbox.nothingTitle": "Không có gì ở đây",
+  "inbox.showAll": "Hiện tất cả",
+  "inbox.emptyTitle": "Hộp duyệt đang trống",
+  "inbox.emptyNext": "Tiếp theo: nhờ agent nộp frame hoặc cue để duyệt, hoặc mở tab Nhân vật để vẽ một mẫu.",
+  "detail.back": "Về danh sách",
+  "detail.noneTitle": "Chọn một mục",
+  "detail.unknownTitle": "Không thấy mục này"
 }

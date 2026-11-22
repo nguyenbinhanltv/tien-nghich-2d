@@ -1,6 +1,6 @@
 // The audio detail: listen, see the waveform and recorded measurements, and record the human's listening
 // sign-off for this exact master. The sign-off is written only by this page.
-import { h, button, humanize, pixelCanvas, fill } from './dom.mjs';
+import { h, button, badgeClass, humanize, pixelCanvas, fill } from './dom.mjs';
 import { imgUrl } from './urls.mjs';
 import { draftKey } from './model.mjs';
 
@@ -46,7 +46,7 @@ export async function renderAudio(app, host, item, token) {
   const rows = [...flatten(d.measurements.qa, ''), ...flatten(d.measurements.master, '')];
   const state = d.status.label;
   const approval = d.approval;
-  const note = h('textarea', {id: 'rv-note', rows: 2, maxlength: 1000, placeholder: ctx.t('audio.notePlaceholder'), 'aria-label': ctx.t('audio.note')});
+  const note = h('textarea', {class: 'field', id: 'rv-note', rows: 2, maxlength: 1000, placeholder: ctx.t('audio.notePlaceholder'), 'aria-label': ctx.t('audio.note')});
   const draft = draftKey('audio', d.id);
   note.value = app.drafts.get(draft) ?? '';
   note.addEventListener('input', () => app.drafts.set(draft, note.value));
@@ -61,7 +61,7 @@ export async function renderAudio(app, host, item, token) {
     } catch (error) { msg.textContent = error.status === 409 ? ctx.t('audio.changed') : ctx.t('audio.failed', {message: error.message}); }
   };
   fill(host, 
-    h('header', 'dhead', h('div', '', h('h2', '', d.id), h('code', '', d.master ?? '')), h('span', 'badge s-' + state, ctx.t('signoff.' + state))),
+    h('header', 'dhead', h('div', '', h('h2', {title: d.id}, d.id), h('code', {title: d.master ?? ''}, d.master ?? '')), h('span', badgeClass(state), ctx.t('signoff.' + state))),
     d.brief ? h('p', 'pad muted', d.brief) : null,
     h('section', 'dsec', h('h3', '', ctx.t('audio.listen')),
       d.master ? h('audio', {controls: true, preload: 'none', src: imgUrl(d.master), 'aria-label': ctx.t('audio.player', {id: d.id})}) : h('p', 'muted', ctx.t('audio.noMaster')),
@@ -78,7 +78,7 @@ export async function renderAudio(app, host, item, token) {
       state === 'stale' ? h('p', {class: 'warnline', role: 'status'}, ctx.t('audio.stale')) : null,
       d.contentHash ? h('p', 'muted mono', ctx.t('audio.hash', {hash: d.contentHash.slice(0, 16)})) : null,
       h('label', {class: 'sr-only', for: 'rv-note'}, ctx.t('audio.note')), note,
-      h('div', 'buttons', button(ctx.t('audio.sign'), post('signed'), {class: 'plain approve', disabled: !d.contentHash}), button(ctx.t('audio.needsWork'), post('needs_work'), {class: 'plain changes', disabled: !d.contentHash})), msg,
-      d.signoffs.length ? h('ul', 'history', ...d.signoffs.map(s => h('li', '', h('span', 'badge s-' + s.verdict, ctx.t('signoff.' + s.verdict)), ' ', h('span', 'muted', s.ts.replace('T', ' ').slice(0, 16)),
-        s.content !== d.contentHash ? h('span', 'tag warn', ctx.t('audio.otherMaster')) : null, s.note ? h('span', '', ' ' + s.note) : null))) : null));
+      h('div', 'buttons', button(ctx.t('audio.sign'), post('signed'), {class: 'btn primary approve', disabled: !d.contentHash}), button(ctx.t('audio.needsWork'), post('needs_work'), {class: 'btn danger changes', disabled: !d.contentHash})), msg,
+      d.signoffs.length ? h('ul', 'history', ...d.signoffs.map(s => h('li', '', h('span', badgeClass(s.verdict), ctx.t('signoff.' + s.verdict)), ' ', h('span', 'muted', s.ts.replace('T', ' ').slice(0, 16)),
+        s.content !== d.contentHash ? h('span', 'chip warn', ctx.t('audio.otherMaster')) : null, s.note ? h('span', '', ' ' + s.note) : null))) : null));
 }

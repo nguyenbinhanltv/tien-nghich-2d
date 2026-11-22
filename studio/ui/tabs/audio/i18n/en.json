@@ -219,5 +219,11 @@
  "patch.outOfScale": "{n} note(s) fall outside the declared scale.",
  "patch.previewWaveAlt": "Waveform of the preview",
  "patch.previewSpecAlt": "Spectrogram of the preview",
- "patch.json": "Show the document"
+ "patch.json": "Show the document",
+  "loading": "Loading the cue library…",
+  "library.back": "Back to the cue list",
+  "library.filters": "Filters",
+  "library.noneTitle": "No cue matches",
+  "library.noneBody": "The search and filters hide every cue.",
+  "library.clear": "Clear filters"
 }

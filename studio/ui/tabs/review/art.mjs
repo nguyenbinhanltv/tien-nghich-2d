@@ -1,13 +1,13 @@
 // The art detail: before / after / changed pixels, the request and its questions, the thread, who made
 // each revision, and the human-only decisions (sent to the existing editor review route).
-import { h, button, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas, fill } from './dom.mjs';
+import { h, button, badgeClass, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas, fill } from './dom.mjs';
 import { thread, diffPixels, beforeOf, draftKey } from './model.mjs';
 import { takeBadges, takeLegend, selectTakeButton, regionSection } from './takes.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 
 const api = new EditorApiClient();
 
-function badge(ctx, status) { return h('span', 'badge s-' + status, ctx.t('status.' + status)); }
+function badge(ctx, status) { return h('span', badgeClass(status), ctx.t('status.' + status)); }
 
 function who(ctx, c) {
   return c.by === 'agent' ? h('span', 'who agent', ctx.t('thread.agent', {agent: c.agent, session: c.session})) : h('span', 'who human', ctx.t('thread.human'));
@@ -16,11 +16,11 @@ function who(ctx, c) {
 function threadView(ctx, comments) {
   if (!comments.length) return h('p', 'muted', ctx.t('thread.none'));
   return h('ol', 'thread', ...thread(comments).map(c => h('li', 'msg by-' + c.by + ' k-' + c.kind,
-    h('div', 'msg-head', who(ctx, c), h('span', 'muted', '#' + c.index), c.kind === 'request' ? h('span', 'tag', ctx.t('thread.request')) : null,
-      c.kind === 'read' ? h('span', 'tag ok', ctx.t('read.tag')) : null,
-      c.kind === 'reply' ? h('span', 'tag', ctx.t(c.handled ? 'thread.handledReply' : 'thread.reply', {n: c.replyTo})) : null,
-      c.answerable && c.handled ? h('span', 'tag ok', ctx.t('thread.handled')) : null,
-      c.answerable && !c.handled && !c.replied ? h('span', 'tag warn', ctx.t('thread.unanswered')) : null),
+    h('div', 'msg-head', who(ctx, c), h('span', 'muted', '#' + c.index), c.kind === 'request' ? h('span', 'chip', ctx.t('thread.request')) : null,
+      c.kind === 'read' ? h('span', 'chip ok', ctx.t('read.tag')) : null,
+      c.kind === 'reply' ? h('span', 'chip', ctx.t(c.handled ? 'thread.handledReply' : 'thread.reply', {n: c.replyTo})) : null,
+      c.answerable && c.handled ? h('span', 'chip ok', ctx.t('thread.handled')) : null,
+      c.answerable && !c.handled && !c.replied ? h('span', 'chip warn', ctx.t('thread.unanswered')) : null),
     c.kind === 'read' ? readLine(ctx, c) : null,
     c.body ? h('p', 'msg-body', c.body) : null,
     c.questions.length ? h('ol', 'questions', ...c.questions.map(q => h('li', '', q))) : null)));
@@ -93,7 +93,7 @@ export async function renderArt(app, host, item, token) {
   const regions = await regionSection(app, item, snap, api, token).catch(() => null);
   if (token !== app.token) return;
   const isHead = snap.revision === snap.head;
-  const text = h('textarea', {id: 'rv-text', rows: 3, maxlength: 2000, placeholder: ctx.t('decide.placeholder'), 'aria-label': ctx.t('decide.comment')});
+  const text = h('textarea', {class: 'field', id: 'rv-text', rows: 3, maxlength: 2000, placeholder: ctx.t('decide.placeholder'), 'aria-label': ctx.t('decide.comment')});
   const draft = draftKey('art', item.key, snap.revision);
   text.value = app.drafts.get(draft) ?? '';
   text.addEventListener('input', () => app.drafts.set(draft, text.value));
@@ -111,7 +111,7 @@ export async function renderArt(app, host, item, token) {
   };
   const requests = thread(snap.comments).filter(c => c.kind === 'request');
   fill(host, 
-    h('header', 'dhead', h('div', '', h('h2', '', item.key.split('/').at(-1)), h('code', '', item.key)), badge(ctx, snap.status)),
+    h('header', 'dhead', h('div', '', h('h2', {title: item.key}, item.key.split('/').at(-1)), h('code', {title: item.key}, item.key)), badge(ctx, snap.status)),
     requests.length ? h('section', 'dsec ask', h('h3', '', ctx.t('ask.title')),
       ...requests.map(r => h('div', 'ask-item', h('p', 'who agent', ctx.t('thread.agent', {agent: r.agent, session: r.session})), h('p', '', r.body),
         r.questions.length ? h('ol', 'questions', ...r.questions.map(q => h('li', '', q))) : null))) : null,
@@ -131,6 +131,6 @@ export async function renderArt(app, host, item, token) {
     h('section', 'dsec decide', h('h3', '', ctx.t('decide.title')),
       isHead ? h('p', 'muted', ctx.t('decide.humanOnly')) : h('p', {class: 'muted', role: 'status'}, ctx.t('decide.notHead', {head: snap.head})),
       h('label', {class: 'sr-only', for: 'rv-text'}, ctx.t('decide.comment')), text,
-      h('div', 'buttons', button(ctx.t('decide.approve'), send('approved'), {class: 'plain approve', disabled: !isHead}), button(ctx.t('decide.changes'), send('changes_requested'), {class: 'plain changes', disabled: !isHead}),
+      h('div', 'buttons', button(ctx.t('decide.approve'), send('approved'), {class: 'btn primary approve', disabled: !isHead}), button(ctx.t('decide.changes'), send('changes_requested'), {class: 'btn danger changes', disabled: !isHead}),
         button(ctx.t('decide.commentOnly'), send(undefined))), msg));
 }

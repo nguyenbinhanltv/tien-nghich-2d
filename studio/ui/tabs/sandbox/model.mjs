@@ -185,3 +185,11 @@ export function sceneSpan(scene, sprites) {
   for (const a of scene.actors) { const s = sprites.get(a.asset); const c = s && pickClip(s, a.clip); if (c) { const d = c[pickDirection(c, a.direction ?? 'south')]; spans.push(totalMs(d.ms)); } }
   return Math.max(0, ...spans);
 }
+
+/** A fresh test room (no scene, nothing added) opens with one character and one effect so the stage is not an empty box. */
+export function starterPatch(state, catalog) {
+  const pristine = !state.scene && !state.actors.length && !state.fx.length && !state.cues.length && !state.bed;
+  const character = catalog.characters[0];
+  if (!pristine || !character) return null;
+  return {actors: [character.id], fx: catalog.effects[0] ? [catalog.effects[0].id] : []};
+}

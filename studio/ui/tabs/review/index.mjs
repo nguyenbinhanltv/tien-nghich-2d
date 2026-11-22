@@ -3,7 +3,7 @@
 // The inbox polls every POLL_MS while the page is visible (and refreshes after every decision). A new request cancels the one still
 // running, so slow answers never pile up; while one runs the page says so, with the seconds it has waited, and a failure keeps the
 // last list on screen with a retry button.
-import { h, button, humanize, fill } from './dom.mjs';
+import { h, button, humanize, fill, badgeClass } from './dom.mjs';
 import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint, clock, elapsedSeconds } from './model.mjs';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
@@ -97,12 +97,13 @@ function makeApp(ctx, state) {
 
 function layout(ctx) {
   const list = h('div', 'inbox'), detail = h('section', {class: 'detail', 'aria-label': ctx.t('detail.label')});
+  const back = button('← ' + ctx.t('detail.back'), () => app.go({}, {item: null}), {class: 'btn quiet rv-back'});
   fill(ctx.root, h('header', 'rv-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
     h('div', 'live', h('span', {class: 'pulse', 'aria-hidden': 'true'}), h('span', 'muted', ctx.t('live', {seconds: POLL_MS / 1000})),
       h('span', {class: 'muted rv-stamp', 'data-role': 'stamp'}), h('span', {class: 'rv-wait', 'data-role': 'wait', 'aria-hidden': 'true'}),
       h('span', {class: 'rv-fail', 'data-role': 'fail'}))),
-    h('div', 'rv', h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), detail));
-  return {list, detail};
+    h('div', {class: 'rv', 'data-view': 'list'}, h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), h('div', 'rv-pane', back, detail)));
+  return {list, detail, rv: ctx.root.querySelector('.rv')};
 }
 
 
@@ -125,12 +126,12 @@ function renderStatus(app) {
 function paintFirstLoad(app) {
   const {ctx, load, ui} = app;
   if (load.phase === 'error') {
-    fill(ui.list, h('div', 'rv-error', h('p', {role: 'alert'}, ctx.t('load.error', {message: load.error})), button(ctx.t('common.retry'), () => app.refresh().catch(() => {}))));
+    fill(ui.list, h('div', 'empty rv-error', h('p', {class: 'empty-body', role: 'alert'}, ctx.t('load.error', {message: load.error})), button(ctx.t('common.retry'), () => app.refresh().catch(() => {}), {class: 'btn primary'})));
     return;
   }
   const seconds = elapsedSeconds(load.since, Date.now());
   fill(ui.list, h('p', {class: 'muted', role: 'status'}, ctx.t('load.loading', {seconds})), seconds >= 3 ? h('p', 'muted', ctx.t('load.slow')) : null,
-    h('ul', {class: 'rows skeleton', 'aria-hidden': 'true'}, ...Array.from({length: 5}, () => h('li', '', h('div', 'row', h('span', 'thumb sk'), h('span', 'rtext', h('b', 'sk bar'), h('small', 'sk bar short')))))));
+    h('div', {class: 'rv-skeletons', 'aria-hidden': 'true'}, ...Array.from({length: 5}, () => h('span', 'skeleton block'))));
 }
 
 function renderList(app, host) {
@@ -140,25 +141,31 @@ function renderList(app, host) {
   const all = [...art.map(i => ({...i, _t: 'art'})), ...audio.map(a => ({...a, _t: 'audio'}))];
   const counts = {};
   for (const i of all) counts[i.state] = (counts[i.state] ?? 0) + 1;
-  const chip = (group, value, label, count, on) => h('a', {class: 'chip' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null,
+  const chip = (group, value, label, count, on) => h('a', {class: 'chip' + (on ? ' is-pressed' : ''), 'aria-current': on ? 'true' : null,
     href: ctx.href(app.route({[group]: value}))}, label, count != null ? h('span', 'n', String(count)) : null);
   const shownArt = showArt ? visibleItems(art, state) : [];
   const shownAudio = showAudio ? audio.filter(a => state.state === 'all' || a.state === state.state) : [];
   const sel = app.selection();
   const agents = [...new Set(art.flatMap(i => i.requests.map(r => r.agent)))];
-  fill(host, candidatesSection(app), artCountsView(ctx, app.artCounts),
+  const active = (state.state !== 'all' ? 1 : 0) + (state.kind ? 1 : 0) + (state.agent ? 1 : 0);
+  const toggle = h('button', {type: 'button', class: 'btn rv-filter-toggle', 'aria-expanded': app.filtersOpen ? 'true' : 'false', 'aria-controls': 'rv-filters'}, ctx.t('inbox.filters'), active ? h('span', 'chip', String(active)) : null);
+  toggle.addEventListener('click', () => { app.filtersOpen = !app.filtersOpen; renderList(app, host); toggle.isConnected || host.querySelector('.rv-filter-toggle')?.focus(); });
+  const filters = h('div', {class: 'rv-filters' + (app.filtersOpen ? ' open' : ''), id: 'rv-filters'},
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.state')}, ...states.map(s => chip('state', s, ctx.t('state.' + s), s === 'all' ? all.length : counts[s] ?? 0, state.state === s))),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.kind')}, chip('kind', null, ctx.t('kind.both'), null, !state.kind), chip('kind', 'art', ctx.t('kind.art'), art.length, state.kind === 'art'), chip('kind', 'audio', ctx.t('kind.audio'), audio.length, state.kind === 'audio')),
-    agents.length ? h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.agent')}, chip('agent', null, ctx.t('agent.any'), null, !state.agent), ...agents.map(a => chip('agent', a, a, null, state.agent === a))) : null,
-    shownArt.length || shownAudio.length ? h('ul', 'rows', ...shownArt.map(i => artRow(ctx, app, i, sel)), ...shownAudio.map(a => audioRow(ctx, app, a, sel)))
-      : h('p', 'muted empty', ctx.t(all.length ? 'inbox.nothingHere' : 'inbox.empty')),
+    agents.length ? h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.agent')}, chip('agent', null, ctx.t('agent.any'), null, !state.agent), ...agents.map(a => chip('agent', a, a, null, state.agent === a))) : null);
+  const empty = all.length ? h('div', 'empty', h('p', 'empty-title', ctx.t('inbox.nothingTitle')), h('p', 'empty-body', ctx.t('inbox.nothingHere')),
+      h('a', {class: 'btn', href: ctx.href(app.route({state: 'all', kind: null, agent: null}))}, ctx.t('inbox.showAll')))
+    : h('div', 'empty', h('p', 'empty-title', ctx.t('inbox.emptyTitle')), h('p', 'empty-body', ctx.t('inbox.empty')), h('p', 'empty-body', ctx.t('inbox.emptyNext')));
+  fill(host, candidatesSection(app), artCountsView(ctx, app.artCounts), toggle, filters,
+    shownArt.length || shownAudio.length ? h('ul', 'rows', ...shownArt.map(i => artRow(ctx, app, i, sel)), ...shownAudio.map(a => audioRow(ctx, app, a, sel))) : empty,
     showArt && ['decided', 'all'].includes(state.state) ? artRecordsView(ctx, app.artRecords) : null);
 }
 
 /** Every editable art frame counted once: approved (a human record for these bytes), baseline (no review record), awaiting review. */
 function artCountsView(ctx, counts) {
   if (!counts) return null;
-  const one = key => h('span', '', h('span', 'badge s-' + (key === 'awaiting' ? 'pending' : key), String(counts[key] ?? 0)), ctx.t('artcount.' + key));
+  const one = key => h('span', '', h('span', badgeClass(key === 'awaiting' ? 'pending' : key), String(counts[key] ?? 0)), ctx.t('artcount.' + key));
   return h('section', {class: 'artcounts', 'aria-label': ctx.t('artcount.title'), title: ctx.t('artcount.intro')},
     ...['approved', 'baseline', 'awaiting', 'changes_requested'].filter(k => k !== 'changes_requested' || counts[k]).map(one), h('span', 'muted', ctx.t('artcount.total', {total: counts.total})));
 }
@@ -168,9 +175,9 @@ function artRecordsView(ctx, records) {
   if (!records.length) return null;
   return h('section', {class: 'artrec', 'aria-label': ctx.t('artrec.title')}, h('h3', '', ctx.t('artrec.title')), h('p', 'muted', ctx.t('artrec.intro')),
     h('ul', 'rows', ...records.map(r => h('li', '', h('div', 'row artrow',
-      h('span', 'rtext', h('b', '', r.assetId), h('small', 'muted', ctx.t('artrec.line', {by: r.approvedBy, date: r.recorded ? r.recorded.slice(0, 10) : ctx.t('approval.noDate'), id: r.approvalId})),
+      h('span', 'rtext', h('b', {title: r.assetId}, r.assetId), h('small', 'muted', ctx.t('artrec.line', {by: r.approvedBy, date: r.recorded ? r.recorded.slice(0, 10) : ctx.t('approval.noDate'), id: r.approvalId})),
         h('small', r.current ? 'muted' : 'note', r.current ? ctx.t('artrec.current', {n: r.frames + r.rawFiles}) : ctx.t('artrec.changed', {changed: r.changed + r.missing + r.rawChanged, n: r.frames + r.rawFiles, added: r.added ?? 0}) + (r.unverified ? ' ' + ctx.t('artrec.unverified') : ''))),
-      h('span', 'badge s-' + (r.current ? 'approved' : 'pending'), ctx.t(r.current ? 'artrec.badge' : 'artrec.badgeStale')))))));
+      h('span', badgeClass(r.current ? 'approved' : 'pending'), ctx.t(r.current ? 'artrec.badge' : 'artrec.badgeStale')))))));
 }
 
 function artRow(ctx, app, i, sel) {
@@ -178,10 +185,10 @@ function artRow(ctx, app, i, sel) {
   const req = i.requests.at(-1);
   return h('li', '', h('a', {class: 'row' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route({}, {item: i}))},
     h('span', 'thumb checker', h('img', {src: `/api/editor/image?key=${encodeURIComponent(i.key)}&revision=${i.head}`, alt: '', loading: 'lazy', draggable: 'false'})),
-    h('span', 'rtext', h('b', '', i.key.split('/').at(-1)), h('small', 'muted', `${i.assetId} · r${i.head}`),
+    h('span', 'rtext', h('b', {title: i.key}, i.key.split('/').at(-1)), h('small', 'muted', `${i.assetId} · r${i.head}`),
       req ? h('small', 'agentline', ctx.t('row.requestedBy', {agent: req.agent, session: req.session})) : null,
       req ? h('small', 'note', req.note) : null),
-    h('span', 'badge s-' + i.status, ctx.t('status.' + i.status))));
+    h('span', badgeClass(i.status), ctx.t('status.' + i.status))));
 }
 
 function audioRow(ctx, app, a, sel) {
@@ -189,8 +196,8 @@ function audioRow(ctx, app, a, sel) {
   const status = a.label;
   return h('li', '', h('a', {class: 'row' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route({}, {item: a}))},
     h('span', 'thumb audio-glyph', '♪'),
-    h('span', 'rtext', h('b', '', a.id), h('small', 'muted', `${humanize(a.category)} · ${ctx.t('ready.' + a.readiness)}`)),
-    h('span', 'badge s-' + status, ctx.t('signoff.' + status))));
+    h('span', 'rtext', h('b', {title: a.id}, a.id), h('small', 'muted', `${humanize(a.category)} · ${ctx.t('ready.' + a.readiness)}`)),
+    h('span', badgeClass(status), ctx.t('signoff.' + status))));
 }
 
 const idOf = sel => (sel ? (sel.type === 'art' ? sel.item.key : 'audio:' + sel.item.id) : null);
@@ -199,6 +206,7 @@ const activeDraft = ui => { const ta = ui.detail.querySelector('#rv-text, #rv-no
 async function paint(ui, {force = false, poll = false} = {}) {
   renderList(app, ui.list);
   const sel = app.selection();
+  ui.rv.dataset.view = sel || app.state.asset ? 'detail' : 'list';
   const key = sel ? selKey(sel) : null;
   if (!force && app.painted && key === app.shownKey) return;
   if (!force && app.painted && shouldDeferRepaint({poll, sameItem: idOf(sel) === app.shownId, hasDraft: activeDraft(ui)})) {
@@ -210,7 +218,7 @@ async function paint(ui, {force = false, poll = false} = {}) {
   app.shownKey = key;
   app.shownId = idOf(sel);
   app.painted = true;
-  if (!sel) { fill(ui.detail, h('p', 'muted pad', app.state.asset ? app.ctx.t('detail.unknown') : app.ctx.t('detail.none'))); return; }
+  if (!sel) { fill(ui.detail, h('div', 'empty', h('p', 'empty-title', app.ctx.t(app.state.asset ? 'detail.unknownTitle' : 'detail.noneTitle')), h('p', 'empty-body', app.ctx.t(app.state.asset ? 'detail.unknown' : 'detail.none')))); return; }
   await (sel.type === 'art' ? renderArt(app, ui.detail, sel.item, token) : renderAudio(app, ui.detail, sel.item, token));
 }
 
@@ -218,6 +226,7 @@ const selKey = sel => (sel.type === 'art' ? `${sel.item.key}@${sel.item.head}:${
 
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./review.css', import.meta.url));
+  ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
   ctx.onUnmount(() => { mine.runCleanups(); clearInterval(mine.timer); clearInterval(mine.ticker); mine.flight?.controller.abort(); });
   mine.ui = layout(ctx);

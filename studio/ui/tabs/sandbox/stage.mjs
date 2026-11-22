@@ -110,7 +110,7 @@ export function mountStage(app, host, {scene, loaded, colors, mixer, state, onTi
     }
   }
 
-  const playBtn = button('', () => (live.playing ? pause(true) : play()), {class: 'plain sb-play'});
+  const playBtn = button('', () => (live.playing ? pause(true) : play()), {class: 'btn primary sb-play'});
   function syncPlay() { playBtn.textContent = live.playing ? ctx.t('stage.pause') : ctx.t('stage.play'); playBtn.setAttribute('aria-pressed', String(live.playing)); }
   function play() { if (live.playing) return; live.playing = true; live.last = performance.now(); live.prevT = live.t; syncPlay(); live.raf = requestAnimationFrame(tick); }
   function pause(report) { if (!live.playing) return; live.playing = false; cancelAnimationFrame(live.raf); syncPlay(); if (report) onTime(Math.round(live.t)); }
@@ -142,12 +142,12 @@ export function mountStage(app, host, {scene, loaded, colors, mixer, state, onTi
   document.addEventListener('keydown', keydown);
   document.addEventListener('keyup', keyup);
 
-  const bar = (label, items) => h('div', {class: 'sb-seg', role: 'group', 'aria-label': label}, ...items);
+  const bar = (label, items) => h('div', {class: 'seg', role: 'group', 'aria-label': label}, ...items);
   // The links carry the current URL state (selection, overlays, scale), so they are rebuilt whenever the view changes.
   const toolbar = h('div', 'sb-toolbar');
   function renderToolbar() {
-    const scaleBar = bar(ctx.t('stage.scale'), scales.map(s => h('a', {class: 'sb-segbtn' + (s === scale ? ' on' : ''), href: ctx.href(hrefFor({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
-    const ovLinks = overlays.map(name => h('a', {class: 'sb-segbtn' + (live.ov.has(name) ? ' on' : ''), href: ctx.href(hrefFor({ov: toggleOverlay(live.ov, name)})), 'aria-pressed': String(live.ov.has(name))}, ctx.t('overlay.' + name)));
+    const scaleBar = bar(ctx.t('stage.scale'), scales.map(s => h('a', {class: 'seg-item' + (s === scale ? ' is-pressed' : ''), href: ctx.href(hrefFor({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
+    const ovLinks = overlays.map(name => h('a', {class: 'seg-item' + (live.ov.has(name) ? ' is-pressed' : ''), href: ctx.href(hrefFor({ov: toggleOverlay(live.ov, name)})), 'aria-pressed': String(live.ov.has(name))}, ctx.t('overlay.' + name)));
     toolbar.replaceChildren(scaleBar, bar(ctx.t('overlay.label'), ovLinks));
   }
   const scrub = h('input', {type: 'range', min: 0, max: Math.max(span, 1), step: 1, value: Math.min(live.t, Math.max(span, 1)), 'aria-label': ctx.t('stage.scrub')});

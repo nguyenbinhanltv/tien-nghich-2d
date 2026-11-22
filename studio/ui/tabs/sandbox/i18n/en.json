@@ -7,7 +7,7 @@
  "scenes.title": "Scenes",
  "scenes.label": "Saved scenes",
  "scenes.testRoom": "Test room",
- "scenes.testRoomNote": "An empty room: add anything from the catalog",
+ "scenes.testRoomNote": "A test room: add anything from the catalog",
  "scenes.invalid": "invalid file",
  "scenes.noDir": "This project's pack names no scenes directory, so scenes cannot be listed or saved.",
  "kind.data": "data scene",
@@ -88,5 +88,10 @@
  "save.confirmReplace": "{file} is tracked by git. Replace it?",
  "save.kept": "Kept the existing file.",
  "common.error": "Could not load the Sandbox: {message}",
- "common.retry": "Retry"
+ "common.retry": "Retry",
+  "view.toList": "Scenes and items",
+  "view.toStage": "Show the stage",
+  "stage.starter": "A sample room to start from: one character and one effect. Click the stage to fire the effect, or change the list.",
+  "stage.starterNoFx": "A sample room to start from: one character. Add an effect or a cue from the list.",
+  "loading": "Loading the Sandbox…"
 }
