@@ -31,6 +31,10 @@ async function call(root, libraryDir, method, route, {query = {}, body} = {}) {
   return {status: out.status, headers: out.headers, raw, text: raw.toString('utf8'), json: type.includes('json') ? JSON.parse(raw.toString('utf8')) : undefined};
 }
 
+// The abode chunk grows as characters are added, so its counts come from the shipped summary, never from literals.
+const ABODE = JSON.parse(await fs.readFile(path.join(REPO, 'assets/atlases_longtime/mobile/abode/chunk-manifest.json'), 'utf8'));
+const ABODE_FRAMES = ABODE.frame_count, ABODE_PAGES = ABODE.page_count, ABODE_BYTES = ABODE.rgba8_bytes, ABODE_CEILING = ABODE.mobile_page_budget;
+const ABODE_STATE = ABODE_PAGES > ABODE_CEILING ? 'over' : ABODE_PAGES === ABODE_CEILING ? 'full' : 'ok';
 const shipped = async () => { const pack = loadPackSync(REPO); return fingerprint(REPO, [...new Set(Object.values(pack.directories.atlases))]); };
 
 test('sets: the core atlas and every Longtime chunk, with shipped pages, budget state and which packing methods exist', async t => {
@@ -46,7 +50,7 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   assert.equal(typeof core.authority.build, 'boolean');
   assert.deepEqual(chunks.chunks.map(c => c.id), ['abode', 'armory', 'ember_delta', 'forms', 'interface', 'mist_archive', 'star_quarry', 'trial', 'wards']);
   const abode = chunks.chunks.find(c => c.id === 'abode');
-  assert.deepEqual([abode.shipped.mobile.pages, abode.shipped.mobile.frames, abode.shipped.mobile.bytes, abode.shipped.mobile.budget.state, abode.ceilingPages], [1, 110, 1048576, 'full', 1]);
+  assert.deepEqual([abode.shipped.mobile.pages, abode.shipped.mobile.frames, abode.shipped.mobile.bytes, abode.shipped.mobile.budget.state, abode.ceilingPages], [ABODE_PAGES, ABODE_FRAMES, ABODE_BYTES, ABODE_STATE, ABODE_CEILING]);
   assert.equal(abode.shipped.mobile.budget.ceilingBytes, 4194304);
   assert.equal(chunks.chunks.find(c => c.id === 'forms').shipped.mobile.budget.state, 'empty', 'a chunk with no shipped atlas yet is empty, not over budget');
   assert.deepEqual(json.formats.map(f => f.id), ['phaser', 'pixi', 'godot', 'unity', 'aseprite', 'tiled']);
@@ -57,7 +61,7 @@ test('pages: every frame carries its rectangle and where it came from; the image
   const {json} = await call(REPO, lib, 'GET', 'pages', {query: {set: 'longtime', chunk: 'abode', profile: 'mobile'}});
   assert.deepEqual(json.spec, {padding: 2, extrude: 1, limit: 1024, fixedSize: false});
   const [page] = json.pages;
-  assert.equal(page.frameCount, 110);
+  assert.equal(page.frameCount, ABODE_FRAMES);
   assert.ok(page.usage.unusedRatio > 0.2 && page.usage.unusedRatio < 1, 'unused area is reported');
   assert.ok(page.frames.every(f => f.asset && f.clip && f.file && f.w > 0));
   for (const f of page.frames.slice(0, 5)) await fs.access(path.join(REPO, f.file));
@@ -102,7 +106,7 @@ test('pack with the studio packer stages beside, compares with the shipped chunk
   assert.equal(r.json.engine, 'studio');
   assert.match(r.json.dir, /^atlas-staging[\\/]longtime[\\/]abode[\\/]studio$/);
   for (const p of ['web', 'mobile']) assert.ok(['identical', 'equivalent'].includes(r.json.profiles[p].comparison.verdict), p);
-  assert.equal(r.json.profiles.mobile.budget.state, 'full');
+  assert.equal(r.json.profiles.mobile.budget.state, ABODE_STATE);
   assert.equal(r.json.shipped.unchanged, true);
   assert.equal(await shipped(), before);
   const png = r.json.profiles.mobile.comparison.files.find(f => f.name === 'atlas-0.png');
@@ -127,7 +131,7 @@ test('pack with the project packer (authority) stages byte-identical files', {sk
 test('what-if for a chunk with nothing staged is empty; exports land in the export staging directory and download', async t => {
   const lib = await realTemp(t);
   const w = await call(REPO, lib, 'GET', 'whatif', {query: {set: 'longtime', chunk: 'abode'}});
-  assert.deepEqual([w.json.staged, w.json.frames.before, w.json.profiles.mobile.before.pages], [[], 110, 1]);
+  assert.deepEqual([w.json.staged, w.json.frames.before, w.json.profiles.mobile.before.pages], [[], ABODE_FRAMES, ABODE_PAGES]);
   const e = await call(REPO, lib, 'POST', 'export', {body: {set: 'longtime', chunk: 'abode', profile: 'mobile', formats: ['phaser', 'unity']}});
   assert.equal(e.status, 200, e.message);
   assert.deepEqual(e.json.formats.map(f => f.id), ['phaser', 'unity']);

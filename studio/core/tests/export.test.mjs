@@ -28,10 +28,11 @@ const run = async (id, bundle) => {
 const temp = async t => { const dir = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'export-')); t.after(() => fs.rm(dir, {recursive: true, force: true})); return dir; };
 const shippedFrames = bundle => new Map(bundle.pages.flatMap(p => p.frames.map(f => [f.key, f])));
 
-test('the neutral description carries the shipped rectangles, pivots, durations and clip names', () => {
+test('the neutral description carries the shipped rectangles, pivots, durations and clip names', async () => {
   const {desc, pages} = abode;
   const shipped = shippedFrames(abode);
-  assert.equal(desc.frames.length, 110);
+  const shippedCount = JSON.parse(await fs.readFile(path.join(REPO, 'assets/atlases_longtime/mobile/abode/chunk-manifest.json'), 'utf8')).frame_count;
+  assert.equal(desc.frames.length, shippedCount);
   for (const f of desc.frames) {
     const s = shipped.get(f.key);
     assert.deepEqual([f.x, f.y, f.w, f.h], [s.x, s.y, s.w, s.h]);
