@@ -59,6 +59,7 @@ export default {
       hold: { type: 'boolean', description: 'Colour hold across the frames of a clip: a pixel keeps its previous palette entry when the new colour is close (stops shimmer). On by default for pose sheets with several poses per facing; false snaps every frame alone. Stored with the marks.' },
       submit: { type: 'boolean', description: 'Commit the sprites as the asset\'s raw frames (single-frame clips only). Refused if any sprite fails the pixel gates.' },
       clip: { type: 'string', maxLength: 40, description: 'With submit: the clip a plain facing cell belongs to.' },
+      slot: { type: 'string', enum: ['rig', 'pose'], description: 'Only this imported sheet: rig (turnaround) or pose (pose sheet). Default: every imported sheet; submit needs this when both exist.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
       background: backgroundProp,
     },
@@ -76,12 +77,13 @@ export default {
         await updateDoc(ws, asset, 'process', (stored) => ({ ...(stored ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}),
           ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
-      const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
-      log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);
+      const { doc, pixelized, processDoc, slots } = await pixelizedFor(ws, asset, settings, { only: args.slot });
+      if (args.submit && slots.length > 1) throw new ToolError('Both a turnaround and a pose sheet are imported: say which one to submit with slot ("rig" or "pose"). Frames of moving clips come from studio_rig_bake, which credits each frame to its own sheet.');
+      log(`pixelised ${pixelized.cells.size} cell(s) of ${slots.map((s) => s.doc.layout.id).join(' + ')}`);
       const options = pixelOptions(snap, asset);
       const cells = cellsOfPixelized(pixelized, options);
       const summary = {
-        asset: asset.id, layoutId: doc.layout.id, sheet: doc.sheet.sha256.slice(0, 16), profile: asset.profile, nativePx: settings.profile.nativePx,
+        asset: asset.id, layoutId: doc.layout.id, sheet: doc.sheet.sha256.slice(0, 16), sheets: slots.map((s) => ({ slot: s.slot, layoutId: s.doc.layout.id, sha256: s.doc.sheet.sha256.slice(0, 16), cells: s.pixelized.cells.size })), profile: asset.profile, nativePx: settings.profile.nativePx,
         marks: (processDoc.marks ?? []).map((m) => m.color),
         cells: pixelized.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, scale: c.scale, limit: c.scaleLimit, bounds: c.bounds, marks: c.marks, warnings: c.warnings,
           defects: cells[pixelized.record.cells.indexOf(c)].errors })),

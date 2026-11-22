@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { join } from 'node:path';
 import { checkSpec } from './tools/vfx_build.mjs';
+import { nearNames } from './tools/scene_snapshot.mjs';
 import { HAVE_PYTHON, HAVE_SPRITEFX, REPO, connect, makeProject } from './testkit.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
@@ -77,6 +78,19 @@ test('generator_run: overlapping runs on one asset keep their own directory, out
     assert.equal(r.isError, undefined, text(r));
     assert.deepEqual(committed(p.root), committed(solo.root), 'the committed PNG is exactly what a lone seed-7 run commits');
   } finally { await solo.cleanup(); }
+}));
+
+test('asset_get provenance: every submission, a generator\'s params and seed, and the whole prompt on request', { skip: skipPy }, () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  const params = { shape: 'ring', size: 16, fill: 'jade_03', accent: 'bronze_04' };
+  await a.call('studio_generator_run', { assetId: ICON, generator: 'primitives', params, seed: 7, submit: true });
+  const got = (await a.ok('studio_asset_get', { assetId: ICON, sections: ['provenance'] })).provenance;
+  assert.equal(got.submissions, 1);
+  assert.equal(got.list.length, 1);
+  assert.equal(got.list[0].generator, 'tools/generators/studio_primitives.py');
+  assert.match(got.list[0].notes, /params \{"shape":"ring","size":16.*seed 7; deterministic/);
+  assert.equal(got.list[0].frames, 1);
+  assert.equal(got.latest.sourceHash, got.list[0].sourceHash, 'latest is still there');
 }));
 
 test('generator_run: only registered generators; parameters are validated; text never reaches a program', { skip: skipPy }, () => withProject(async (p) => {
@@ -228,6 +242,21 @@ test('vfx_build: overlapping builds on one asset each keep their own directory, 
   assert.equal(JSON.parse(log.prompt).seed, 11, 'the committed frames carry the spec that built them');
   assert.match(log.notes, new RegExp(`sheet ${want1}`));
   assert.equal(log.sourceHash, crypto.createHash('sha256').update(JSON.stringify(s1)).digest('hex'));
+}));
+
+test('asset_get provenance: a long prompt (a SpriteFX spec) is cut by default and whole with promptDetail full', { skip: skipFx }, () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  await planFx(a);
+  const sp = spec();
+  const r = await a.call('studio_vfx_build', { assetId: FX, spec: sp, submit: true });
+  assert.equal(r.isError, undefined, text(r));
+  const short = (await a.ok('studio_asset_get', { assetId: FX, sections: ['provenance'] })).provenance.list[0];
+  assert.equal(short.promptTruncated, true);
+  assert.equal(short.prompt.length, 300);
+  assert.equal(short.promptChars, JSON.stringify(sp).length);
+  assert.equal(short.promptSha256, short.sourceHash, 'for a spec the prompt hash is the source hash');
+  const full = (await a.ok('studio_asset_get', { assetId: FX, sections: ['provenance'], promptDetail: 'full' })).provenance.list[0];
+  assert.deepEqual(JSON.parse(full.prompt), sp);
 }));
 
 test('vfx_build: what it refuses before and after running', { skip: skipFx }, () => withProject(async (p) => {
@@ -404,7 +433,8 @@ test('scene_snapshot: plain errors, and it writes nothing', () => sceneProject(a
   await err({ background: { kind: 'flat', color: 'nope_99' } }, /not a palette colour id/);
   await err({ background: { kind: 'tile' } }, /tile needs tileAsset/);
   await err({ background: { kind: 'tile', tileAsset: 'lt_nothing' } }, /No tile asset/);
-  await err({ background: { kind: 'tile', tileAsset: 'ts_hengyue', tileFrame: 'nope' } }, /no frame "nope"/);
+  await err({ background: { kind: 'tile', tileAsset: 'ts_hengyue', tileFrame: 'nope' } }, /no frame "nope"\. It has \d+ frames in \d+ name group\(s\): /);
+  await err({ background: { kind: 'tile', tileAsset: 'ts_hengyue', tileFrame: 'floor_none_0' } }, /Closest to your request: /);
   await err({ vfx: { assetId: 'lt_nothing' } }, /No effect asset/);
   await err({ vfx: { assetId: 'hit_spark', frame: 99 } }, /has 12 frames; there is no frame 99/);
   await err({ mode: 'strip', vfx: { assetId: 'hit_spark' } }, /vfx works with mode "still"/);
@@ -433,4 +463,13 @@ test('checkSpec refuses "..", "/", "\\" and "~" anywhere in a nested spec: value
     assert.throws(() => checkSpec(spec, palettes), /looks like a file path/, label);
   }
   assert.throws(() => checkSpec({ ...base(), palette: 'tien_nghich_40/../x' }, palettes), /registered project palette/);
+});
+
+test('nearNames: the closest frame names to a request, and the name groups with counts', () => {
+  const names = [...Array.from({ length: 6 }, (_, i) => `deco_f0_${i}`), ...Array.from({ length: 3 }, (_, i) => `floor_variants_f0_${i}`), 'wall_n_0'];
+  const near = nearNames(names, 'floor_none_0');
+  assert.deepEqual(near.closest.slice(0, 3), ['floor_variants_f0_0', 'floor_variants_f0_1', 'floor_variants_f0_2'], 'floor* first, not the first names of the sheet');
+  assert.deepEqual(near.groups, ['deco_f0 (6)', 'floor_variants_f0 (3)', 'wall_n (1)']);
+  assert.equal(near.groupCount, 3);
+  assert.deepEqual(nearNames(['a_0', 'b_0'], 'zzz_9').closest, [], 'nothing close: no false suggestions');
 });
