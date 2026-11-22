@@ -1,6 +1,6 @@
 # Studio MCP server
 
-A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **25 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
+A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **26 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
 
 ```
 node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name>] [--audit-log <file>]
@@ -33,7 +33,8 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 
 | Group | Tool | Scope | What it does |
 |---|---|---|---|
-| Context | `studio_project_info` | read | Palette (40 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
+| Context | `studio_guide` | read | The shortest correct tool sequence for a task (static asset, animated character, VFX, audio cue, check someone else's work, answer a review comment), the gotchas earlier runs hit, and the project's rules from the pack. A test fails if a guide names a tool or parameter that does not exist |
+| | `studio_project_info` | read | Palette (40 ids and hex), size classes, outline and alpha rules, frame-key templates, counts by category |
 | | `studio_catalog_search` | read | Find assets (art and audio cues) by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging (default 25, max 100 per page) |
 | | `studio_asset_get` | read | One asset: spec, four milestones, frames, provenance, metadata, review state, checks, dependencies, audio candidates, and the etags editing needs |
 | | `studio_asset_plan` | author | Create, or edit one you created, a planned entry. `custom: {category, size, pivot, directions, clips}` describes what fits no profile (a VFX, a one-off icon) |
@@ -86,6 +87,12 @@ A character with both kinds of clip keeps **two imported sheets**: the turnaroun
 **Bake results report two verdicts**, `verdicts.animationGates` (foot slide, pivot drift, flicker, loop seam, mark side, weight transfer, identity drift, stability across clips) and `verdicts.pixelGates` (the check `submit` applies); `pass` is true only when both are, and `next` never suggests submitting otherwise. A gate that judged nothing is listed in `animationGates.notRun` with its reason and what turns it on (planted contacts for foot slide, `qa.pose.flicker` for drawn clips, landmarks for mark side): not run is never folded into a pass. `studio_template_get` returns `formats`, the compact shape of the rig and poseClips documents and their rules, so a forge run needs no source reading.
 
 Tool schemas never use a top-level `oneOf`/`anyOf` (some clients' tool APIs reject them), so "give exactly one of" rules (`studio_audio_analyze`, `studio_asset_plan`) are stated in the descriptions and enforced in the handlers.
+
+### Guides, rules at initialize, locked entities and prompt conventions
+
+- **Project rules at initialize.** The server sends its own text plus the pack's `agentGuidance.rules` (the project's pixel-art rules) in the MCP `instructions` field, for both protocol eras; a pack without the block sends only the server text. The same rules come back from `studio_guide`.
+- **Style-locked entities (`references` in the pack).** An entry has the assets it covers (a family is several), an approved image with its sha256, a description paragraph and who approved it and when. `studio_template_get` returns the image as picture 2 (refusing a file whose hash no longer matches the pack) and pastes the description verbatim into `prompt.text`. `studio_sheet_import` checks that the prompt you send carries it (whitespace-insensitive), reports `reference.verbatim`, and records the reference name, hashes and the flag in the import document and in the notes of every submission made from that sheet. A missing paragraph is a recorded warning, not a refusal. First references, approved by the owner on 2026-11-22: `lt_kiln_keeper`, `lt_ink_marten` (approved image: each one's shipped contact sheet).
+- **Prompt conventions (`prompt` in `studio_template_get`).** A skeleton for the image prompt with fixed sections: the role of each reference image by position, framing as percentages of a cell (label band, ground line, width), each facing said three ways (where it looks, which edge it points to, which view it is), near and far limbs and where the character's left and right appear, the reference description, the pack proportions, and the pack's style words (`agentGuidance.prompt`). The conventions are in `studio/mcp/workflow/prompt.mjs`; every word that is about this project is in the pack.
 
 ### The forge's tracked documents
 
