@@ -1,27 +1,28 @@
 {
   "asset_ids": [
     "lt_ashen_crown",
-    "lt_ink_veil"
+    "lt_ink_veil",
+    "lt_river_oath"
   ],
   "chunk_group": "forms",
-  "frame_count": 144,
+  "frame_count": 216,
   "mobile_page_budget": 2,
   "page_count": 1,
   "pages": [
     {
-      "frames": 144,
-      "height": 256,
+      "frames": 216,
+      "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "01aeae3133aefc55fd1262c796bfc3cd65fa4dd84445541419829778d93b5de1",
-      "png_sha256": "8bb9b3cb051103104578b5746f3e15667045da9b59ad86786593ee22fbee6fea",
-      "rgba8_bytes": 1048576,
+      "json_sha256": "63bbc0cc22959aaeb715d68ffc1a1a389c14684400205899da919e22036682fa",
+      "png_sha256": "6d60c474c2d575aa32050ca0ff341188badc7a2092ff59b036cbe951c4dd3fed",
+      "rgba8_bytes": 2097152,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 1048576,
-  "rgba8_mib": 1.0,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

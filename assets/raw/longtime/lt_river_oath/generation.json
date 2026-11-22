@@ -1,0 +1,81 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "bd30e1f5-63d2-4935-ad9e-787f4694810b",
+  "character_job_id": "488bc5d3-8e57-4d2e-b80f-174d37b1fead",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A LONG SPLIT RIVER SASH of bright blue cloth is tied at his waist and hangs down in TWO long tails that split apart, reaching nearly to the ground, vivid blue against the grey robe, clearly visible from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "3b980f30-65ad-40e8-b0f6-9bbd9c9fb5c3",
+      "job_ids": {
+        "south": "486f5417-318e-48da-bc49-645ec56c1e13",
+        "west": "db027da4-820b-4298-94c2-f5b986c28350",
+        "north": "80f65ec6-bd23-4a11-9c50-efb792b9f537",
+        "east": "5fb115ad-e5d8-4de9-9946-cf5c00b94c7a"
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "023ca655-ccd1-4645-a50d-48c1235677b8",
+      "job_ids": {
+        "south": "95fbfb45-a764-4f8f-b081-8e58b85fbbc5",
+        "west": "50543a4e-b681-4769-a9fd-7d56b023cc90",
+        "north": "94429b4c-8c5f-47f4-8263-6b590d09dbf2",
+        "east": "e930fb4a-bef5-4bc9-b2e8-daa0b8954837"
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "607c793f-79f9-4926-a4fd-e9e71695a016",
+      "job_ids": {
+        "south": "1abf85d8-cb72-42c4-ba22-1a6fed054ba8",
+        "west": "aaa2b205-f3b7-48e3-b29d-55dfeeb1fa63",
+        "north": "08ffe113-a394-429a-bd10-00c2ac9f5060",
+        "east": "d2668090-a717-4af4-a8d1-0abd1f7352ff"
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "480c8682-0be1-4fea-a727-e97f1fae7264",
+      "job_ids": {
+        "south": "2f898b02-2e30-4c0a-b5bc-4797f4566e91",
+        "west": "6e91b4b8-3214-4ad5-a261-3fbcf647596b",
+        "north": "af237918-1a29-46c2-93a2-61ac6c9effee",
+        "east": "56b355ee-e2f6-46bd-93b0-ece913fb0718"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
+      "credits": 22,
+      "result": "accepted for integration"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "sash reads purple instead of blue in idle north (all 4 frames) and walk south frames 1,4,5; blue elsewhere. Needs a human decision (no retry spent)."
+  ]
+}

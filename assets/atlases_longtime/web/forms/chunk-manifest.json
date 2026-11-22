@@ -1,20 +1,21 @@
 {
   "asset_ids": [
     "lt_ashen_crown",
-    "lt_ink_veil"
+    "lt_ink_veil",
+    "lt_river_oath"
   ],
   "chunk_group": "forms",
-  "frame_count": 144,
+  "frame_count": 216,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 144,
+      "frames": 216,
       "height": 128,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "9ba835bbc7fc92dc99fc7aa38657de02f6176dab9ac1158c20b390e95713fab6",
-      "png_sha256": "a9aef8075a141af6ded7ce806d45c2e9b6af57464c14405812c9ea54cbcd00b7",
+      "json_sha256": "e0d524ed1fe916358f450bbda1703acf348bfea9416ecb1fc637b6bfff682bad",
+      "png_sha256": "d8d32e981d73fe2e5300faf9d33b7d143db21a411b3590aa029c794239c6aa60",
       "rgba8_bytes": 1048576,
       "width": 2048
     }
