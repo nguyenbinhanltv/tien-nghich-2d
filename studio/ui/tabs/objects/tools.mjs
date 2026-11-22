@@ -121,14 +121,14 @@ async function hudTool(app, entry, detail, frames) {
   const w = img.naturalWidth, hgt = img.naturalHeight;
   const out = h('div', 'hudout checker');
   const label = h('span', {class: 'tick', role: 'status'});
-  const draw = fill => {
-    const cw = hudClipWidth(w, fill);
+  const draw = pct => {
+    const cw = hudClipWidth(w, pct);
     const [c, g] = pixelCanvas(w * state.zoom, hgt * state.zoom);
     if (cw > 0) g.drawImage(img, 0, 0, cw, hgt, 0, 0, cw * state.zoom, hgt * state.zoom);
     c.setAttribute('role', 'img');
-    c.setAttribute('aria-label', ctx.t('hud.canvas', {fill}));
+    c.setAttribute('aria-label', ctx.t('hud.canvas', {fill: pct}));
     fill(out, c);
-    label.textContent = ctx.t('hud.clip', {fill, cw, w});
+    label.textContent = ctx.t('hud.clip', {fill: pct, cw, w});
   };
   const range = h('input', {type: 'range', min: 0, max: 100, step: 1, value: state.fill, id: 'ob-fill', 'aria-label': ctx.t('hud.fill')});
   range.addEventListener('input', () => draw(Number(range.value)));
