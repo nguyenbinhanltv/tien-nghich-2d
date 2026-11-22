@@ -128,6 +128,16 @@
     "clip_max": 3,
     "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
   },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "detached 1-3 px specks beside the walk west and strike north frames read as stray pixels (touch-up round); counts per frame in provenance.processing.speck_clean"
+  },
+  "touch_up": {
+    "round": "touch-up 2026-11-22",
+    "goal": "stray pixels around the walk and strike frames",
+    "result": "fixed in processing with speck_clean (max 3 px detached components removed); no regeneration, 0 credits",
+    "frames_cleaned": "walk west 0-2, strike north 1-3 (counts in provenance.processing.speck_clean)"
+  },
   "native_px": [
     32,
     32
@@ -138,7 +148,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "46984eaf579b341af483035ba8e8261bd1ad5c92736819d33016e5d692c76a64",
+    "script_sha256": "e996ba0d3aa89020a21d3f318302feea9d555de4121f055fbf16e2960006ec9d",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
@@ -168,13 +178,27 @@
           "clipped_px": 0
         }
       }
+    },
+    "speck_clean": {
+      "rule": {
+        "max_px": 3,
+        "why": "detached 1-3 px specks beside the walk west and strike north frames read as stray pixels (touch-up round); counts per frame in provenance.processing.speck_clean"
+      },
+      "frames": {
+        "walk/west/0": 2,
+        "walk/west/1": 2,
+        "walk/west/2": 1,
+        "strike/north/1": 7,
+        "strike/north/2": 5,
+        "strike/north/3": 1
+      }
     }
   },
   "source": "source.png",
   "source_sha256": "7917dc36411b29468168d3d9e7f1fe20c6e9eefa0fcdd9dadc99cfef273667b8",
   "contact_sheets": {
-    "assets/raw/longtime/lt_seam_stalker/contact_1x.png": "2588b837ecff9ffb65504176d537fd28de87f371695dbcc8adbeab9948589992",
-    "assets/raw/longtime/lt_seam_stalker/contact_4x.png": "f730585ebd8dfec5a69e861efb33a81458f6f921bc7be1396a702f53cb8ec91d"
+    "assets/raw/longtime/lt_seam_stalker/contact_1x.png": "f7149ed3dc26a7d6a88677c08fc4c0b5b6e8623569c0b2ad1f27abb2d1ccf115",
+    "assets/raw/longtime/lt_seam_stalker/contact_4x.png": "cec5df2d89dd5abfc059b1925d0645ae67e79c06f378cdbe79e52a5cd2c3573a"
   },
   "frames": [
     {
@@ -391,7 +415,7 @@
         560
       ],
       "duration_ms": 90,
-      "sha256": "c7f48db418a6a00b2a0b87b14dea38cbee89bac4a1c8eed8221f56df2c8a767b"
+      "sha256": "dd0f971accf2b39bc1f8daabfb21a0999fa09adb9ba1f3d21aae51db545950b1"
     },
     {
       "key": "longtime/lt_seam_stalker/strike_north_2",
@@ -403,7 +427,7 @@
         560
       ],
       "duration_ms": 90,
-      "sha256": "aee9a4082aeb1f9e1e63b155db393d0906899f89486f7dbfd3526316e179a8df"
+      "sha256": "0f3ef9057ceab6a384714c0ad08bceebb88569ac8fef578a2e12737b13dc5817"
     },
     {
       "key": "longtime/lt_seam_stalker/strike_north_3",
@@ -415,7 +439,7 @@
         560
       ],
       "duration_ms": 90,
-      "sha256": "6b769c8664adbb744010c915d02d2d63835a236a7b39e648bf03c1ee9020540d"
+      "sha256": "f99ed91a45575c6e29c8bdbbde982e1c6a53a1f3576997484eec9934e9d5fc0d"
     },
     {
       "key": "longtime/lt_seam_stalker/strike_south_0",
@@ -811,7 +835,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "e70ccacfcf8058db67021a59934fa345dceb2978c9e17e9a47069bb647d8dd62"
+      "sha256": "fda4ef54b268a75cb0592aa84bc02ba28a599d1a264ccb86ef5958a236055eae"
     },
     {
       "key": "longtime/lt_seam_stalker/walk_west_1",
@@ -823,7 +847,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "55fd25df1003bb2392cf9547c63c0d3e3893e06b36fa23cc9b87bfd4fc9d6534"
+      "sha256": "cfc33ae2797656b6940777bfb0eae78e596fb353f5afdd96629c0bb33886b7bf"
     },
     {
       "key": "longtime/lt_seam_stalker/walk_west_2",
@@ -835,7 +859,7 @@
         200
       ],
       "duration_ms": 120,
-      "sha256": "e73a78446132828a57bbf942a90dee486d1f9658281cde6ed95bb3aeedce2115"
+      "sha256": "3c44418217604dbbddb75034867915eee4f094b52a1f0749e58ddedc3f62c2b9"
     },
     {
       "key": "longtime/lt_seam_stalker/walk_west_3",

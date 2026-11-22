@@ -175,6 +175,35 @@ def edge_trim(arr, size, speck_max, clip_max):
     return arr, specks, clipped
 
 
+def speck_clean(arr, max_px):
+    """Opt-in (generation.json "speck_clean": {"max_px": N}): remove detached opaque components of <= max_px px,
+    keeping every component larger than that. Runs on the finished frame. Returns (arr, removed_px)."""
+    m = arr[..., 3] >= 128
+    h, w = m.shape
+    seen = np.zeros(m.shape, bool)
+    arr = arr.copy()
+    removed = 0
+    for y, x in zip(*np.where(m)):
+        if seen[y, x]:
+            continue
+        comp, stack = [], [(y, x)]
+        seen[y, x] = True
+        while stack:
+            cy, cx = stack.pop()
+            comp.append((cy, cx))
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and m[ny, nx] and not seen[ny, nx]:
+                        seen[ny, nx] = True
+                        stack.append((ny, nx))
+        if len(comp) <= max_px:
+            for cy, cx in comp:
+                arr[cy, cx] = 0
+            removed += len(comp)
+    return arr, removed
+
+
 def mark(img, xy, rgb=(255, 0, 255)):
     img.putpixel(xy, rgb + (255,))
 
@@ -205,7 +234,8 @@ def build(aid, raw_root=RAW, out_root=OUT):
     rd0 = raw_root / aid
     gen0 = json.loads((rd0 / "generation.json").read_text(encoding="utf8")) if (rd0 / "generation.json").is_file() else {}
     et = gen0.get("edge_trim")
-    trimmed = {}
+    sc = gen0.get("speck_clean")
+    trimmed, cleaned = {}, {}
     for k, arr in raw.items():
         arr = arr.copy()
         if et:
@@ -217,6 +247,10 @@ def build(aid, raw_root=RAW, out_root=OUT):
         placed, lost = centre(arr, size)
         lost_total += lost
         processed[k] = bp.snap_character(placed, palette, outline, stats, speckle=False)
+        if sc:
+            processed[k], rm = speck_clean(processed[k], sc["max_px"])
+            if rm:
+                cleaned["/".join(map(str, k))] = rm
     if lost_total:
         raise SystemExit(f"{aid}: {lost_total} opaque pixels fall outside {size}; adjust before building")
     folder = out_root / aid
@@ -270,6 +304,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
                       "silhouette edge repaint with #14101a", "outline thinning of 2x2 blocks"],
             "pixels_changed": {k: int(v) for k, v in sorted(stats.items())},
             **({"edge_trim": {"rule": et, "frames": trimmed}} if et else {}),
+            **({"speck_clean": {"rule": sc, "frames": cleaned}} if sc else {}),
         },
         "source": "source.png",
         "source_sha256": sha(rd / "source.png"),

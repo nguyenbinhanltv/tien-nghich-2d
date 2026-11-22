@@ -91,6 +91,12 @@
       "what": "create character (mannequin body) + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected); clips queued in partial batches into the same groups because job slots are shared",
       "credits": 22,
       "result": "accepted for integration, art awaits owner review"
+    },
+    {
+      "n": 2,
+      "what": "touch-up: telegraph and strike re-generated for all four directions with stronger prompts (one new attempt per clip-direction)",
+      "credits": 8,
+      "result": "strike: retry shipped in all 4 directions; telegraph: retry shipped for south only, first attempt kept for west, north, east"
     }
   ],
   "credits_spent": {
@@ -99,10 +105,11 @@
     "walk": 4,
     "telegraph": 4,
     "strike": 4,
-    "total_generations": 22
+    "total_generations": 30,
+    "touch_up": 8
   },
   "known_flaws": [
-    "telegraph and strike barely change the silhouette: the slab never visibly leaves the back or comes down in front, so the wind-up and the smash are weak at 1x",
+    "telegraph still reads weakly (the slab never fully leaves the back); strike now shows the slab pitching forward but the impact has no ground effect",
     "the south and north views are narrow and the slab hides the body in north",
     "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
   ],

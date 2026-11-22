@@ -123,5 +123,15 @@
     "speck_max": 6,
     "clip_max": 3,
     "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+  },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "detached 1-3 px specks beside the walk west and strike north frames read as stray pixels (touch-up round); counts per frame in provenance.processing.speck_clean"
+  },
+  "touch_up": {
+    "round": "touch-up 2026-11-22",
+    "goal": "stray pixels around the walk and strike frames",
+    "result": "fixed in processing with speck_clean (max 3 px detached components removed); no regeneration, 0 credits",
+    "frames_cleaned": "walk west 0-2, strike north 1-3 (counts in provenance.processing.speck_clean)"
   }
 }
