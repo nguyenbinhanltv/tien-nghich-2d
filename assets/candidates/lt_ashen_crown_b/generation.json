@@ -1,0 +1,170 @@
+{
+  "status": "UNSHIPPED OWNER CANDIDATE for lt_ashen_crown. Not in the manifest, not in processed_longtime, not in any atlas.",
+  "operator": "tien-nghich-2d-25",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "pixellab_character_id": "437f5423-fa41-4939-b14b-bb74ea9c91fc",
+  "character_job_id": "6f8451e4-ec43-416c-9f0c-1ac1dd580c15",
+  "seed": 23,
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain light grey robe, neat black topknot hair, pale skin, calm face with clearly visible eyes, same hero as the reference. A clean, simple BROKEN CROWN sits on top of his head above the hairline: a dark ash-black circlet with three tall jagged points, the right point snapped short, a thin pale grey rim, and one small bright orange ember crack. The crown is clearly taller than the hairline and sits above the forehead, not over the eyes. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "method": "create_character_pro_flash 32x32, low top-down, 40-colour palette, style_image = lt_river_oath south rotation; then template clips (1 credit per direction), no retries",
+  "processing": "built with tools/scripts/build_longtime_characters.py build() using injected raw/out roots; processed frames use the same canvas, pivot and palette rules as shipped ones",
+  "credits": {
+    "character": 6,
+    "clips": 16,
+    "total": 22,
+    "note": "the 6 for the character were counted in round 3; the 16 for the clips are the final owner-candidate round"
+  },
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+      "job_ids": {
+        "south": "0256c324-a611-400a-b11f-910d8c385803",
+        "west": "1621e968-0abf-43db-a7e8-44dc5d47c8af",
+        "north": "70d925ed-afeb-41d0-b3a4-501d4eea8028",
+        "east": "8620af43-8267-4987-aac0-cdc411b2ce20"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "0256c324-a611-400a-b11f-910d8c385803",
+          "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "1621e968-0abf-43db-a7e8-44dc5d47c8af",
+          "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "70d925ed-afeb-41d0-b3a4-501d4eea8028",
+          "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "8620af43-8267-4987-aac0-cdc411b2ce20",
+          "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+          "source": "original clip"
+        }
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+      "job_ids": {
+        "south": "b60738b4-b870-48cf-bc44-9889f6d5a8bb",
+        "west": "a8bfe244-b9b0-4c0b-b967-e9ac21f31013",
+        "north": "0bf722e0-6de8-4c9a-be9f-dcd08ebf0d06",
+        "east": "5d39cd9a-f025-481b-9b47-200fe3d8e751"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "b60738b4-b870-48cf-bc44-9889f6d5a8bb",
+          "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "a8bfe244-b9b0-4c0b-b967-e9ac21f31013",
+          "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "0bf722e0-6de8-4c9a-be9f-dcd08ebf0d06",
+          "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "5d39cd9a-f025-481b-9b47-200fe3d8e751",
+          "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+          "source": "original clip"
+        }
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+      "job_ids": {
+        "south": "f16824df-a4a3-43ce-938c-e0e55df1339b",
+        "west": "3cee1c55-efa9-438a-99d9-e2874e9c9a37",
+        "north": "4047f06f-b556-4b40-ba8c-1a6259514195",
+        "east": "00630bec-4dd3-4df5-975f-cb0f11c4d6e4"
+      },
+      "shipped_jobs": {
+        "south": {
+          "job_id": "f16824df-a4a3-43ce-938c-e0e55df1339b",
+          "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "3cee1c55-efa9-438a-99d9-e2874e9c9a37",
+          "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "4047f06f-b556-4b40-ba8c-1a6259514195",
+          "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "00630bec-4dd3-4df5-975f-cb0f11c4d6e4",
+          "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+          "source": "original clip"
+        }
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+      "job_ids": {
+        "south": "de24135b-c05b-4cf8-b31d-cfa56bf6b449",
+        "west": "97708c99-73e9-46b8-8a55-f714be994db5",
+        "north": "4dce505f-5b34-4e1f-8bae-15dd359fff3d",
+        "east": "790eedbd-69c1-47c6-b6ee-ec8c3ef724e0"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1, like the shipped crown",
+      "shipped_jobs": {
+        "south": {
+          "job_id": "de24135b-c05b-4cf8-b31d-cfa56bf6b449",
+          "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+          "source": "original clip"
+        },
+        "west": {
+          "job_id": "97708c99-73e9-46b8-8a55-f714be994db5",
+          "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+          "source": "original clip"
+        },
+        "north": {
+          "job_id": "4dce505f-5b34-4e1f-8bae-15dd359fff3d",
+          "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+          "source": "original clip"
+        },
+        "east": {
+          "job_id": "790eedbd-69c1-47c6-b6ee-ec8c3ef724e0",
+          "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+          "source": "original clip"
+        }
+      }
+    }
+  },
+  "layout": {
+    "raw": "raw/ (rotations and clip frames as PixelLab returned them, hurt trimmed to frames 2-3)",
+    "processed": "processed/<clip>_<dir>_<n>.png",
+    "contact_1x": "contact_1x.png",
+    "contact_4x": "contact_4x.png",
+    "comparison": "compare_vs_shipped_4x.png (shipped on top, candidate B below, per direction; idle 0/2, walk 0/3, cast 2/4, hurt 0/1)"
+  },
+  "known_flaws": [
+    "the crown is dark on black hair and reads as a few small spikes, weaker than the shipped crown; in profile views it nearly merges with the hair",
+    "a thin blue sash/collar stripe leaks in from the style anchor (lt_river_oath) in several frames",
+    "the robe is a long flared gown in west/east/north views, unlike the straight cut of the other forms"
+  ],
+  "advantage": "face, hair and light robe match lt_ink_veil / lt_river_oath / lt_star_vessel much better than the shipped crown, whose body is dark grey"
+}

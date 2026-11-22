@@ -200,6 +200,12 @@
       "what": "third touch-up round, character attempt B (6 credits, rotations only, never animated): character id 437f5423-fa41-4939-b14b-bb74ea9c91fc, job 6f8451e4-ec43-416c-9f0c-1ac1dd580c15, seed 23, 32x32, view low top-down, 40-colour palette, style_image = lt_river_oath south rotation (usage: copy face, black topknot hair, chibi proportions, line weight, shading and light grey robe; ignore the sash). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, neat black topknot hair, pale skin, calm face with clearly visible eyes, same hero as the reference. A clean, simple BROKEN CROWN sits on top of his head above the hairline: a dark ash-black circlet with three tall jagged points, the right point snapped short, a thin pale grey rim, and one small bright orange ember crack. The crown is clearly taller than the hairline and sits above the forehead, not over the eyes. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.'",
       "credits": 6,
       "result": "not shipped: clean, face and light robe match lt_ink_veil / lt_river_oath / lt_star_vessel, but the crown is dark on dark hair and reads as a faint mark at 1x, weaker than the shipped crown. Neither attempt was clearly better, so the shipped art (attempt 2) stays and the 16 credits for clips were not spent. Character B is kept in the PixelLab account in case the owner wants it animated."
+    },
+    {
+      "n": 7,
+      "what": "owner candidate: attempt B (437f5423, n=6) animated with the full player clip set, 16 credits, no retries (idle, walk, cast, hurt x 4 directions, template clips)",
+      "credits": 16,
+      "result": "NOT shipped, by instruction: kept as an unshipped owner candidate under assets/candidates/lt_ashen_crown_b/ (same clips, own contact sheets and a side-by-side with the shipped art). The shipped art, manifest, processed frames and atlases are unchanged."
     }
   ],
   "credits_spent": {
@@ -209,9 +215,9 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 63,
+    "total_generations": 79,
     "balance_before": 804.26,
-    "touch_up": 19
+    "touch_up": 35
   },
   "known_flaws": [
     "darker and greyer than the other three forms (dark robe, long black hair): needs a human decision; prompt-only retries do not change it"
@@ -233,5 +239,50 @@
       "shipped": false,
       "note": "candidate for the owner, rotations only"
     }
-  ]
+  ],
+  "unshipped_owner_candidate": {
+    "pixellab_character_id": "437f5423-fa41-4939-b14b-bb74ea9c91fc",
+    "stored_at": "assets/candidates/lt_ashen_crown_b/",
+    "record": "assets/candidates/lt_ashen_crown_b/generation.json",
+    "animations": {
+      "idle": {
+        "animation_group_id": "d27f2fa1-ba00-4996-b8f2-bb8b343c95a8",
+        "job_ids": {
+          "south": "0256c324-a611-400a-b11f-910d8c385803",
+          "west": "1621e968-0abf-43db-a7e8-44dc5d47c8af",
+          "north": "70d925ed-afeb-41d0-b3a4-501d4eea8028",
+          "east": "8620af43-8267-4987-aac0-cdc411b2ce20"
+        }
+      },
+      "walk": {
+        "animation_group_id": "cff1cba5-b735-4826-b3df-24b9db8b74c9",
+        "job_ids": {
+          "south": "b60738b4-b870-48cf-bc44-9889f6d5a8bb",
+          "west": "a8bfe244-b9b0-4c0b-b967-e9ac21f31013",
+          "north": "0bf722e0-6de8-4c9a-be9f-dcd08ebf0d06",
+          "east": "5d39cd9a-f025-481b-9b47-200fe3d8e751"
+        }
+      },
+      "cast": {
+        "animation_group_id": "6b1810d2-8c50-4a00-b1d1-675098f38024",
+        "job_ids": {
+          "south": "f16824df-a4a3-43ce-938c-e0e55df1339b",
+          "west": "3cee1c55-efa9-438a-99d9-e2874e9c9a37",
+          "north": "4047f06f-b556-4b40-ba8c-1a6259514195",
+          "east": "00630bec-4dd3-4df5-975f-cb0f11c4d6e4"
+        }
+      },
+      "hurt": {
+        "animation_group_id": "43a6ade4-b0bc-4f24-b179-edb0819a3e43",
+        "job_ids": {
+          "south": "de24135b-c05b-4cf8-b31d-cfa56bf6b449",
+          "west": "97708c99-73e9-46b8-8a55-f714be994db5",
+          "north": "4dce505f-5b34-4e1f-8bae-15dd359fff3d",
+          "east": "790eedbd-69c1-47c6-b6ee-ec8c3ef724e0"
+        }
+      }
+    },
+    "credits_for_clips": 16,
+    "shipped": false
+  }
 }
