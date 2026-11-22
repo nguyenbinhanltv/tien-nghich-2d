@@ -1,4 +1,4 @@
-import { h, humanize } from './dom.mjs';
+import { h, humanize, badge, notice, skeleton } from './dom.mjs';
 import { panels, clipFrames } from './state.mjs';
 import { compare, mirrorX, markPixels, markSide } from './facing.mjs';
 import { largestScale, maxSheetPixels } from './layout.mjs';
@@ -17,32 +17,32 @@ function frameInfo(app) {
 function framePanel(app) {
   const {ctx, editor} = app;
   const {frame, info} = frameInfo(app);
-  if (!frame) return h('p', 'muted', ctx.t('frame.none'));
+  if (!frame) return notice(ctx, {body: ctx.t('frame.none')});
   const out = [h('dl', 'kv', h('dt', {}, ctx.t('frame.file')), h('dd', {}, h('code', {}, frame.path)),
     h('dt', {}, ctx.t('frame.key')), h('dd', {}, info ? h('code', {}, info.key) : ctx.t('frame.noKey')))];
-  if (!info) { out.push(h('p', 'muted', ctx.t('frame.notEditable'))); return h('div', {}, out); }
-  if (info.publish) out.push(h('p', {class: 'note publish-note'}, h('strong', {}, ctx.t('frame.cannotPublish')), ' ', info.publish.reason));
+  if (!info) { out.push(notice(ctx, {body: ctx.t('frame.notEditable')})); return h('div', {}, out); }
+  if (info.publish) out.push(h('p', {class: 'toast warn publish-note', role: 'status'}, h('span', {}, h('strong', {}, ctx.t('frame.cannotPublish')), ' ', info.publish.reason)));
   const snap = editor.snapshot;
-  if (editor.error) out.push(h('p', {class: 'error', role: 'alert'}, editor.error));
-  if (!snap) { out.push(h('p', 'muted', ctx.t('common.loading'))); return h('div', {}, out); }
+  if (editor.error) out.push(h('p', {class: 'toast danger', role: 'alert'}, editor.error));
+  if (!snap) { out.push(h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), skeleton(3))); return h('div', {}, out); }
   const pivot = app.draft ?? snap.metadata.pivot;
   const changed = app.draft && (app.draft[0] !== snap.metadata.pivot[0] || app.draft[1] !== snap.metadata.pivot[1]);
-  const num = (index, label) => h('label', 'num', label, h('input', {type: 'number', min: 0, max: (index ? snap.height : snap.width) - 1, step: 1, value: pivot[index],
+  const num = (index, label) => h('label', 'num', label, h('input', {type: 'number', class: 'field', min: 0, max: (index ? snap.height : snap.width) - 1, step: 1, value: pivot[index],
     onchange: event => { const next = [...pivot]; next[index] = Math.max(0, Math.min((index ? snap.height : snap.width) - 1, Math.trunc(Number(event.target.value) || 0))); app.setDraft(next); }}));
   out.push(h('section', 'block', h('h3', {}, ctx.t('frame.pivot')), h('div', 'row', num(0, 'x'), num(1, 'y'),
-    h('button', {type: 'button', class: 'primary', disabled: !changed || editor.busy, onclick: () => app.savePivot()}, ctx.t('frame.savePivot')),
-    h('button', {type: 'button', disabled: !app.draft, onclick: () => app.setDraft(null)}, ctx.t('frame.resetPivot'))),
+    h('button', {type: 'button', class: 'btn primary', disabled: !changed || editor.busy, onclick: () => app.savePivot()}, ctx.t('frame.savePivot')),
+    h('button', {type: 'button', class: 'btn', disabled: !app.draft, onclick: () => app.setDraft(null)}, ctx.t('frame.resetPivot'))),
   h('p', 'muted small', ctx.t('frame.pivotHelp', {foot: detail_foot(app)}))));
   out.push(h('section', 'block', h('h3', {}, ctx.t('frame.status')),
-    h('p', {}, h('span', {class: 'badge status-' + snap.status}, ctx.t('status.' + snap.status)), ' ', ctx.t('frame.head', {head: snap.head, shown: snap.revision})),
-    h('ol', 'history', ...snap.history.map(item => h('li', {}, 'r' + item.revision, ' ', h('span', {class: 'badge status-' + item.status}, ctx.t('status.' + item.status)))))));
-  const note = h('textarea', {rows: 3, maxlength: 2000, 'aria-label': ctx.t('review.note'), placeholder: ctx.t('review.note')});
+    h('p', {}, badge('status', snap.status, ctx.t('status.' + snap.status)), ' ', ctx.t('frame.head', {head: snap.head, shown: snap.revision})),
+    h('ol', 'history', ...snap.history.map(item => h('li', {}, 'r' + item.revision, ' ', badge('status', item.status, ctx.t('status.' + item.status)))))));
+  const note = h('textarea', {class: 'field', rows: 3, maxlength: 2000, 'aria-label': ctx.t('review.note'), placeholder: ctx.t('review.note')});
   const send = status => app.review(status, note.value.trim());
-  out.push(h('section', 'block human', h('h3', {}, ctx.t('review.title')), h('p', 'muted small', ctx.t('review.humanOnly')),
-    snap.comments.length ? h('ul', 'comments', ...snap.comments.map(c => h('li', {}, c.text, ' ', h('span', {class: 'badge status-' + c.status}, ctx.t('status.' + c.status))))) : null, note,
-    h('div', 'row', h('button', {type: 'button', class: 'danger', disabled: editor.busy, onclick: () => send('changes_requested')}, ctx.t('review.requestChanges')),
-      h('button', {type: 'button', disabled: editor.busy, onclick: () => app.review(null, note.value.trim())}, ctx.t('review.comment')),
-      h('button', {type: 'button', class: 'primary', disabled: editor.busy, onclick: () => send('approved')}, ctx.t('review.approve')))));
+  out.push(h('section', {class: 'block human decision', 'data-slot': 'decision'}, h('h3', {}, ctx.t('review.title')), h('p', 'muted small', ctx.t('review.humanOnly')),
+    snap.comments.length ? h('ul', 'comments', ...snap.comments.map(c => h('li', {}, c.text, ' ', badge('status', c.status, ctx.t('status.' + c.status))))) : null, note,
+    h('div', 'row', h('button', {type: 'button', class: 'btn danger', disabled: editor.busy, onclick: () => send('changes_requested')}, ctx.t('review.requestChanges')),
+      h('button', {type: 'button', class: 'btn', disabled: editor.busy, onclick: () => app.review(null, note.value.trim())}, ctx.t('review.comment')),
+      h('button', {type: 'button', class: 'btn primary', disabled: editor.busy, onclick: () => send('approved')}, ctx.t('review.approve')))));
   return h('div', {}, out);
 }
 const detail_foot = app => app.detail.foot ? app.detail.foot.join(', ') : '–';
@@ -70,7 +70,7 @@ async function facingPanel(app, root) {
       h('ul', 'legend', ...[['line', 'same', r.counts.same], ['gold', 'colour', r.counts.colour], ['accent', 'onlyA', r.counts.onlyA], ['danger', 'onlyB', r.counts.onlyB]].map(([c, k, n]) =>
         h('li', {}, h('i', {class: 'swatch ' + c, 'aria-hidden': 'true'}), ctx.t('facing.' + k), ' ', h('b', {}, String(n))))),
       h('p', {class: 'verdict verdict-' + r.verdict}, ctx.t('facing.verdict.' + r.verdict, {n: r.differing, of: r.opaque}))));
-  } else parts.push(h('p', 'muted', ctx.t('facing.noPair')));
+  } else parts.push(notice(ctx, {body: ctx.t('facing.noPair')}));
   const rig = detail.rig;
   if (rig) {
     const rows = [];
@@ -81,7 +81,7 @@ async function facingPanel(app, root) {
         if (!hex || !l.box) continue;
         const result = markSide(markPixels(pixels.get(p.dir), hexRgb(hex)), [l.box], l.expect === 'absent');
         rows.push(h('tr', {}, h('td', {}, ctx.t('dir.' + p.dir)), h('td', {}, l.id), h('td', {}, h('code', {}, '[' + l.box.join(', ') + ']')),
-          h('td', {}, h('span', {class: 'badge ' + (result.ok ? 'status-approved' : 'status-changes_requested')}, result.ok ? ctx.t('facing.markOk') : result.missing ? ctx.t('facing.markMissing') : ctx.t('facing.markStray', {n: result.stray.length})))));
+          h('td', {}, badge('status', result.ok ? 'approved' : 'changes_requested', result.ok ? ctx.t('facing.markOk') : result.missing ? ctx.t('facing.markMissing') : ctx.t('facing.markStray', {n: result.stray.length})))));
       }
     }
     if (rows.length) parts.push(h('section', 'block', h('h3', {}, ctx.t('facing.marksTitle')), h('p', 'muted small', ctx.t('facing.marksHelp', {color: rig.marker ?? ''})),
@@ -115,7 +115,7 @@ function cardPanel(app) {
 }
 function rigView(app) {
   const {ctx, detail} = app, rig = detail.rig;
-  return h('div', {}, h('p', {}, h('span', {class: 'badge'}, ctx.t('card.rigFormat.' + rig.format)), ' ', h('code', {}, rig.path), rig.bodyPlan ? ' · ' + rig.bodyPlan : '', rig.markerHex ? [' · ', ctx.t('card.marker'), ' ', h('i', {class: 'swatch', style: 'background:' + rig.markerHex, 'aria-hidden': 'true'}), h('code', {}, rig.marker)] : null),
+  return h('div', {}, h('p', {}, h('span', 'chip', ctx.t('card.rigFormat.' + rig.format)), ' ', h('code', {}, rig.path), rig.bodyPlan ? ' · ' + rig.bodyPlan : '', rig.markerHex ? [' · ', ctx.t('card.marker'), ' ', h('i', {class: 'swatch', style: 'background:' + rig.markerHex, 'aria-hidden': 'true'}), h('code', {}, rig.marker)] : null),
     h('table', 'mini-table', h('thead', {}, h('tr', {}, ...['facing', 'parts', 'marks'].map(k => h('th', {scope: 'col'}, ctx.t('card.col.' + k))))),
       h('tbody', {}, ...Object.entries(rig.facings).map(([dir, f]) => h('tr', {}, h('th', {scope: 'row'}, ctx.t('dir.' + dir) + (f.mirrorOf ? ' ↔ ' + f.mirrorOf : '')),
         h('td', {}, f.parts.map(p => p.id + ' (' + p.role + (p.contact ? ' @' + p.contact.join(',') : '') + ')').join(', ') || '–'),
@@ -145,19 +145,22 @@ function exportPanel(app) {
   const url = '/api/tabs/characters/sheet.png?' + new URLSearchParams({id: detail.id, source: detail.source, scale, ...(clip ? {clip} : {})});
   const options = [1, 2, 3, 4, 6, 8].filter(v => v <= max);
   return h('div', {}, h('p', 'muted small', ctx.t('export.help')),
-    max < 8 ? h('p', {class: 'note'}, max ? ctx.t('export.limit', {max, mp: maxSheetPixels / 1e6}) : ctx.t('export.tooLarge', {mp: maxSheetPixels / 1e6})) : null,
-    max ? h('div', 'row', h('label', {}, ctx.t('export.scale'), h('select', {onchange: event => { app.exportScale = event.target.value; app.renderPanel(); }}, ...options.map(v => h('option', {value: v, selected: v === scale}, v + '×')))),
-      h('label', {}, ctx.t('export.clip'), h('select', {onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
+    max < 8 ? h('p', {class: 'toast warn', role: 'status'}, max ? ctx.t('export.limit', {max, mp: maxSheetPixels / 1e6}) : ctx.t('export.tooLarge', {mp: maxSheetPixels / 1e6})) : null,
+    max ? h('div', 'row', h('label', {}, ctx.t('export.scale'), h('select', {class: 'field', onchange: event => { app.exportScale = event.target.value; app.renderPanel(); }}, ...options.map(v => h('option', {value: v, selected: v === scale}, v + '×')))),
+      h('label', {}, ctx.t('export.clip'), h('select', {class: 'field', onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
         ...sel.clips.map(c => h('option', {value: c, selected: c === clip}, c)))),
-      h('a', {class: 'button primary', href: url, download: `${detail.id}_sheet_${scale}x.png`}, ctx.t('export.download'))) : h('div', 'row', h('label', {}, ctx.t('export.clip'), h('select', {onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
+      h('a', {class: 'btn primary', href: url, download: `${detail.id}_sheet_${scale}x.png`}, ctx.t('export.download'))) : h('div', 'row', h('label', {}, ctx.t('export.clip'), h('select', {class: 'field', onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
         ...sel.clips.map(c => h('option', {value: c, selected: c === clip}, c))))),
     max ? h('figure', 'sheet', h('img', {src: url, alt: ctx.t('export.alt', {id: detail.id}), loading: 'lazy'})) : null);
 }
 
 export function renderPanel(app) {
   const {ctx, detail, state} = app, root = app.els.panel;
-  if (!detail) { root.replaceChildren(h('p', 'muted', ctx.t('panel.pick'))); return; }
-  const tabs = h('div', {class: 'panel-tabs', role: 'tablist', 'aria-label': ctx.t('panel.label')}, ...panels.map(name => h('button', {type: 'button', role: 'tab', id: 'tab-' + name,
+  if (!detail) {
+    root.replaceChildren(state.id && !app.stageError ? h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), skeleton(4)) : notice(ctx, {body: ctx.t('panel.pick')}));
+    return;
+  }
+  const tabs = h('div', {class: 'panel-tabs seg', role: 'tablist', 'aria-label': ctx.t('panel.label')}, ...panels.map(name => h('button', {type: 'button', role: 'tab', id: 'tab-' + name,
     'aria-selected': String(state.panel === name), 'aria-controls': 'panel-body', tabindex: state.panel === name ? '0' : '-1',
     onclick: () => app.navigate({panel: name}, {replace: true}), onkeydown: event => {
       const i = panels.indexOf(name), to = {ArrowRight: i + 1, ArrowLeft: i - 1}[event.key];
@@ -167,10 +170,12 @@ export function renderPanel(app) {
       requestAnimationFrame(() => app.els.panel.querySelector('[aria-selected=true]')?.focus());
     }}, ctx.t('panel.' + name))));
   const body = h('div', {id: 'panel-body', role: 'tabpanel', 'aria-labelledby': 'tab-' + state.panel, tabindex: '0'});
-  root.replaceChildren(h('div', 'panel-import', importButton(ctx, {assetId: detail.id, label: ctx.t('import.open'), onDone: () => app.reload()}), ' ', timelineButton(ctx, {assetId: detail.id, label: ctx.t('timeline.open'), onDone: () => app.reload()})), tabs, body);
-  if (!app.sel.clip && state.panel !== 'card') { body.append(h('p', 'muted', ctx.t('stage.noFrames', {state: ctx.t('stage.' + detail.readiness)}))); return; }
+  const tools = [importButton(ctx, {assetId: detail.id, label: ctx.t('import.open'), onDone: () => app.reload()}), timelineButton(ctx, {assetId: detail.id, label: ctx.t('timeline.open'), onDone: () => app.reload()})];
+  for (const tool of tools) tool.querySelector('button').className = 'btn'; // the timeline dialog is another lane's: only its entry button joins the shared look
+  root.replaceChildren(h('div', 'panel-import', ...tools), tabs, body);
+  if (!app.sel.clip && state.panel !== 'card') { body.append(notice(ctx, {body: ctx.t('stage.noFrames', {state: ctx.t('stage.' + detail.readiness)})})); return; }
   if (state.panel === 'frame') body.append(framePanel(app));
-  else if (state.panel === 'facing') { body.append(h('p', 'muted', ctx.t('common.loading'))); facingPanel(app, body).catch(error => body.replaceChildren(h('p', {class: 'error', role: 'alert'}, error.message))); }
+  else if (state.panel === 'facing') { body.append(h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), skeleton(3))); facingPanel(app, body).catch(error => body.replaceChildren(notice(ctx, {title: ctx.t('panel.errorTitle'), body: error.message, retry: () => app.renderPanel(), alert: true}))); }
   else if (state.panel === 'card') body.append(cardPanel(app));
   else body.append(exportPanel(app));
 }

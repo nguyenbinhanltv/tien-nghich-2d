@@ -1,4 +1,4 @@
-import { h, humanize } from './dom.mjs';
+import { h, humanize, badge, notice, skeleton } from './dom.mjs';
 import { clipFrames, durations, frameAt, rawFor, autoZoom, compares, overlayNames } from './state.mjs';
 import { compare, opaqueBounds } from './facing.mjs';
 
@@ -121,10 +121,15 @@ function startPlay(app) {
 export function renderStage(app) {
   const {ctx, detail, sel, state} = app;
   const root = app.els.stage;
-  if (!detail) { root.replaceChildren(h('p', 'muted', state.id ? ctx.t('common.loading') : ctx.t('stage.pick'))); return; }
+  if (!detail) {
+    if (app.stageError) return;
+    root.replaceChildren(state.id ? h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), h('span', 'skeleton line'), skeleton(2), h('span', 'skeleton block'))
+      : notice(ctx, {title: ctx.t('stage.pickTitle'), body: ctx.t('stage.pick')}));
+    return;
+  }
   if (!sel.clip) {
-    root.replaceChildren(h('header', 'stage-head', h('h2', {}, detail.name ?? humanize(detail.id)), h('code', {}, detail.id)),
-      h('div', 'empty', h('p', {}, ctx.t('stage.noFrames', {state: ctx.t('stage.' + detail.readiness)})), detail.brief ? h('p', 'brief', detail.brief) : null));
+    root.replaceChildren(h('header', 'stage-head', h('div', 'titles', h('h2', {title: detail.name ?? humanize(detail.id)}, detail.name ?? humanize(detail.id)), h('code', {title: detail.id}, detail.id))),
+      notice(ctx, {body: ctx.t('stage.noFrames', {state: ctx.t('stage.' + detail.readiness)})}), detail.brief ? h('p', 'brief', detail.brief) : null);
     return;
   }
   const size = detail.size?.[0] ?? 32;
@@ -135,11 +140,11 @@ export function renderStage(app) {
   const set = patch => { stopPlay(app, false); app.navigate(patch, {replace: true}); };
   const toggle = (name, label) => h('label', 'toggle', h('input', {type: 'checkbox', checked: state.overlay.has(name),
     onchange: event => { const next = new Set(state.overlay); event.target.checked ? next.add(name) : next.delete(name); set({overlay: next}); }}), label);
-  const seg = h('div', {class: 'seg-control', role: 'group', 'aria-label': ctx.t('stage.compare')}, ...compares.map(mode =>
+  const seg = h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('stage.compare')}, ...compares.map(mode =>
     h('button', {type: 'button', 'aria-pressed': String(state.compare === mode), onclick: () => set({compare: mode})}, ctx.t('compare.' + mode))));
   const cells = sel.directions.map(dir => {
     const cell = h('div', {class: 'cell', 'data-dir': dir, 'aria-current': dir === sel.direction ? 'true' : 'false'},
-      h('button', {type: 'button', class: 'cell-name', onclick: () => set({direction: dir, frame: Math.min(sel.frame, clipFrames(detail, sel.clip, dir).length - 1)})},
+      h('button', {type: 'button', class: 'chip cell-name', onclick: () => set({direction: dir, frame: Math.min(sel.frame, clipFrames(detail, sel.clip, dir).length - 1)})},
         ctx.t('dir.' + dir), dir === sel.direction ? h('span', 'sr-only', ' ' + ctx.t('stage.selected')) : null),
       h('canvas', {width: (detail.size?.[0] ?? 32) * app.zoom, height: (detail.size?.[1] ?? 32) * app.zoom, role: 'img',
         'aria-label': ctx.t('stage.canvasLabel', {id: detail.id, dir: ctx.t('dir.' + dir), clip: sel.clip})}),
@@ -156,24 +161,24 @@ export function renderStage(app) {
   const strip = h('ol', {class: 'strip', 'aria-label': ctx.t('stage.timeline')}, ...list.map((f, i) => {
     const thumb = h('canvas', {width: size * 3, height: (detail.size?.[1] ?? 32) * 3, 'aria-hidden': 'true'});
     app.store.load(f.path).then(img => { const g = thumb.getContext('2d'); g.imageSmoothingEnabled = false; g.drawImage(img, 0, 0, thumb.width, thumb.height); });
-    return h('li', {}, h('button', {type: 'button', 'data-n': i, 'aria-current': i === live ? 'true' : 'false', title: f.path,
+    return h('li', {}, h('button', {type: 'button', class: 'btn quiet', 'data-n': i, 'aria-current': i === live ? 'true' : 'false', title: f.path,
       'aria-label': ctx.t('stage.frameButton', {n: i + 1, ms: ms[i]}), onclick: () => set({frame: i})}, thumb,
     h('span', 'ms', ms[i] + (assumed ? '*' : '') + ' ms')));
   }));
-  const speed = h('select', {'aria-label': ctx.t('stage.speed'), onchange: event => { app.play.speed = Number(event.target.value); if (app.play.on) { stopPlay(app, false); startPlay(app); } }},
+  const speed = h('select', {class: 'field', 'aria-label': ctx.t('stage.speed'), onchange: event => { app.play.speed = Number(event.target.value); if (app.play.on) { stopPlay(app, false); startPlay(app); } }},
     ...[0.25, 0.5, 1, 2].map(v => h('option', {value: v, selected: app.play.speed === v}, v + '×')));
   const clipTabs = h('div', {class: 'clip-tabs', role: 'group', 'aria-label': ctx.t('stage.clips')}, ...sel.clips.map(c =>
-    h('button', {type: 'button', 'aria-pressed': String(c === sel.clip), onclick: () => set({clip: c, frame: 0})}, humanize(c),
-      h('span', 'count', String(detail.clips[c]?.frames ?? '')))));
+    h('button', {type: 'button', class: 'chip', 'aria-pressed': String(c === sel.clip), onclick: () => set({clip: c, frame: 0})}, humanize(c),
+      h('b', 'count', String(detail.clips[c]?.frames ?? '')))));
   root.replaceChildren(
-    h('header', 'stage-head', h('div', {}, h('h2', {}, detail.name ?? humanize(detail.id)), h('code', {}, detail.id)),
-      h('span', {class: 'badge readiness-' + detail.readiness}, ctx.t('stage.' + detail.readiness)),
+    h('header', 'stage-head', h('div', 'titles', h('h2', {title: detail.name ?? humanize(detail.id)}, detail.name ?? humanize(detail.id)), h('code', {title: detail.id}, detail.id)),
+      badge('readiness', detail.readiness, ctx.t('stage.' + detail.readiness)),
       h('span', 'meta', [humanize(detail.category), detail.size?.join('×'), detail.chunk && humanize(detail.chunk), detail.agent].filter(Boolean).join(' · '))),
     detail.brief ? h('p', 'brief', detail.brief) : null,
-    h('div', 'toolbar', app.raw.bakeFrames.length ? h('div', {class: 'seg-control', role: 'group', 'aria-label': ctx.t('stage.frameSource')}, ...['library', 'bake'].map(name =>
+    h('div', 'toolbar', app.raw.bakeFrames.length ? h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('stage.frameSource')}, ...['library', 'bake'].map(name =>
       h('button', {type: 'button', 'aria-pressed': String(state.frames === name), onclick: () => set({frames: name})}, ctx.t('source.' + name)))) : null, seg, h('label', 'toggle', h('input', {type: 'checkbox', checked: state.onion, onchange: event => set({onion: event.target.checked})}), ctx.t('stage.onion')),
       toggle('pivot', ctx.t('stage.pivot')), toggle('foot', ctx.t('stage.foot')), toggle('hitbox', ctx.t('stage.hitbox')),
-      h('label', 'zoom', ctx.t('stage.zoom'), h('select', {onchange: event => set({zoom: event.target.value ? Number(event.target.value) : null})},
+      h('label', 'zoom', ctx.t('stage.zoom'), h('select', {class: 'field', onchange: event => set({zoom: event.target.value ? Number(event.target.value) : null})},
         h('option', {value: '', selected: !state.zoom}, ctx.t('stage.auto')), ...[1, 2, 3, 4, 6, 8, 12, 16].map(z => h('option', {value: z, selected: state.zoom === z}, z + '×'))))),
     h('div', {class: 'turnaround', tabindex: '0', 'aria-label': ctx.t('stage.turnaround'), onkeydown: event => {
       if (event.target.closest('select,input')) return;
@@ -187,7 +192,7 @@ export function renderStage(app) {
     h('p', 'muted small', state.frames === 'bake' ? ctx.t('stage.bakeNote') + ' ' : '', state.compare !== 'processed' ? ctx.t('stage.compareHelp.' + state.compare) : '', ' ',
       !detail.hitbox && state.overlay.has('hitbox') ? ctx.t('stage.hitboxFallback') : '', ' ', app.editor.editable && state.overlay.has('pivot') ? ctx.t('stage.pivotHelp') : ''),
     h('div', 'timeline', clipTabs,
-      h('div', 'transport', h('button', {type: 'button', class: 'play', 'aria-pressed': String(app.play.on), onclick: () => app.play.on ? stopPlay(app, true) : startPlay(app)},
+      h('div', 'transport', h('button', {type: 'button', class: 'btn primary play', 'aria-pressed': String(app.play.on), onclick: () => app.play.on ? stopPlay(app, true) : startPlay(app)},
         app.play.on ? ctx.t('stage.pause') : ctx.t('stage.play')), speed, h('span', {class: 'frame-label muted', role: 'status'}, ctx.t('stage.frameOf', {n: live + 1, total: list.length})),
       h('span', 'muted small', assumed ? ctx.t('stage.assumedMs', {ms: detail.defaultFrameMs}) : ctx.t('stage.projectMs')), h('span', 'muted small', detail.clips[sel.clip]?.loop === false ? ctx.t('stage.oneShot') : ctx.t('stage.loops'))),
       strip));

@@ -37,7 +37,7 @@ try {
   assert.match(page.url(), /frame=\d/);
 
   for (const compare of ['raw', 'split', 'diff']) {
-    await page.locator(`.seg-control button:has-text("${compare === 'raw' ? 'Raw' : compare === 'split' ? 'Split' : 'Diff'}")`).click();
+    await page.locator(`.seg button:has-text("${compare === 'raw' ? 'Raw' : compare === 'split' ? 'Split' : 'Diff'}")`).click();
     await page.waitForFunction(c => location.hash.includes('compare=' + c), compare);
   }
   await page.locator('.panel-tabs [role=tab]:has-text("Cross-facing")').click();
@@ -45,16 +45,16 @@ try {
   await page.locator('.panel-tabs [role=tab]:has-text("Card")').click();
   assert.match(await page.locator('#panel-body').innerText(), /prototype rig/);
   await page.locator('.panel-tabs [role=tab]:has-text("Export")').click();
-  assert.match(await page.locator('#panel-body a.button').getAttribute('href'), /sheet\.png\?id=lt_ink_marten/);
+  assert.match(await page.locator('#panel-body a.btn').getAttribute('href'), /sheet\.png\?id=lt_ink_marten/);
 
   // Pivot edit and review through the existing editor API.
   await page.goto(base.href + '#/characters/wl_outer_disciple?clip=idle&dir=south&frame=0', { waitUntil: 'networkidle' });
   await page.locator('#panel-body input[type=number]').first().fill('15');
   await page.locator('#panel-body button:has-text("Save pivot")').click();
-  await page.locator('.badge.status-pending').first().waitFor();
+  await page.locator('.chip.status-pending').first().waitFor();
   await page.locator('#panel-body textarea').fill('Browser test');
   await page.locator('#panel-body button:has-text("Request changes")').click();
-  await page.locator('.badge.status-changes_requested').first().waitFor();
+  await page.locator('.chip.status-changes_requested').first().waitFor();
 
   // Language switch keeps the selection.
   await page.locator('.lang button[lang=vi]').click();
