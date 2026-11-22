@@ -8,7 +8,7 @@
 // `linkTo` is the index of an earlier frame whose cel this frame shares (a linked cel).
 import { deflateSync, inflateSync } from 'node:zlib';
 
-export const ASE_LIMITS = Object.freeze({frames: 512, width: 1024, height: 1024, layers: 64});
+export const ASE_LIMITS = Object.freeze({frames: 512, width: 1024, height: 1024, layers: 64, celBytes: 4 * 1024 * 1024, totalBytes: 64 * 1024 * 1024});
 const PLAY = ['forward', 'reverse', 'pingpong'];
 const bad = message => { throw Object.assign(new Error(message), {status: 422, code: 'invalid_input'}); };
 
@@ -92,7 +92,8 @@ export function decodeAse(buf) {
   const layers = [], tags = [];
   let palette = [];
   const raw = [];
-  let pos = 128;
+  let pos = 128, inflated = 0; // running total of unpacked cel bytes, so many small uploads cannot add up to exhaust memory
+
   for (let f = 0; f < frameCount; f++) {
     if (pos + 16 > buf.length || buf.readUInt16LE(pos + 4) !== 0xf1fa) bad(`frame ${f} header is damaged`);
     const size = buf.readUInt32LE(pos), durationMs = buf.readUInt16LE(pos + 8);
@@ -114,8 +115,11 @@ export function decodeAse(buf) {
         if (ct === 1) cel.linkTo = body.readUInt16LE(16);
         else if (ct === 0 || ct === 2) {
           cel.w = body.readUInt16LE(16); cel.h = body.readUInt16LE(18);
+          if (cel.w > ASE_LIMITS.width || cel.h > ASE_LIMITS.height) bad(`frame ${f} has a ${cel.w}x${cel.h} cel; the limit is ${ASE_LIMITS.width}x${ASE_LIMITS.height}`);
           const need = cel.w * cel.h * bpp;
-          if (need > 64 * 1024 * 1024) bad('a cel is too large');
+          if (need > ASE_LIMITS.celBytes) bad('a cel is too large');
+          inflated += need;
+          if (inflated > ASE_LIMITS.totalBytes) bad(`the cels unpack to more than ${ASE_LIMITS.totalBytes} bytes in all`);
           if (ct === 0) cel.data = Buffer.from(body.subarray(20, 20 + need));
           else { try { cel.data = inflateSync(body.subarray(20), {maxOutputLength: need}); } catch { bad(`frame ${f} has a cel that does not unpack`); } }
           if (cel.data.length !== need) bad(`frame ${f} has a cel of the wrong length`);

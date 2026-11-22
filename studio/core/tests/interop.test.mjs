@@ -131,6 +131,18 @@ test('MCP-045: .ase import refuses what a clip cannot hold, with the reason', ()
   assert.throws(() => decodeAse(pong), /ping-pong reverse/);
 });
 
+test('MCP-045: .ase import bounds cels: one cel larger than the limit, or many that add up, are refused before they unpack', () => {
+  const d = doc(), good = encodeAse(d);
+  // Rewrite the first cel to declare 4096x4096 (its compressed data stays tiny): refused by size, not unpacked.
+  const huge = Buffer.from(good);
+  let p = 128 + 16, done = false;
+  while (!done) { const size = huge.readUInt32LE(p); if (huge.readUInt16LE(p + 4) === 0x2005) { huge.writeUInt16LE(4096, p + 6 + 16); huge.writeUInt16LE(4096, p + 6 + 18); done = true; } p += size; }
+  assert.throws(() => decodeAse(huge), /cel; the limit is/);
+  // Many cels each within the per-cel limit, but a total over the cap.
+  const big = {width: 1024, height: 1024, mode: 'rgba', palette: [], tags: [], frames: Array.from({length: 40}, () => ({pixels: Buffer.alloc(1024 * 1024 * 4), durationMs: 100, linkTo: null}))};
+  assert.throws(() => decodeAse(encodeAse(big)), /(too large|in all)/);
+});
+
 test('MCP-045: a .pxo round trip returns the same frames byte for byte, with tags, durations and links', () => {
   const d = doc();
   const bytes = encodePxo(d);
