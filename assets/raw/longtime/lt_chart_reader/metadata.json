@@ -1,11 +1,11 @@
 {
-  "group_id": "7e723349-e59d-4457-abf0-e88ba05a1cd7",
+  "group_id": "5623d604-48f1-430b-8752-67fefb9caf5d",
   "states": [
     {
       "character": {
-        "id": "5de2dc63-eaa6-4b36-8555-84958b700368",
+        "id": "6e053eac-d1bd-4fb5-bcd1-4dfdb1915223",
         "name": "Idle",
-        "prompt": "Scholarly xianxia chart reader, small human in a long deep-indigo robe with a pale sash, black hair in a topknot with a pin, thin beard, calm eyes. Held in both hands in front of the chest a flat SQUARE bronze astrolabe, a square frame with a round dial and a small pointer in the middle, glinting gold and pale blue. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+        "prompt": "Scholarly xianxia chart reader, chibi with a very large round head and a short wide body, small human in a LIGHT pale-cream knee-length robe with a wide indigo sash and wide sleeves, short black hair tied in a small topknot (hair does NOT hang down the back), thin beard, calm eyes. Held out in front of his chest in both hands is a big flat SQUARE bronze astrolabe, a bright gold square frame with a round dial, wide and clearly visible from the front and from both sides. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
         "size": {
           "width": 32,
           "height": 32
@@ -13,7 +13,7 @@
         "template_id": "mannequin",
         "directions": 8,
         "view": "low top-down",
-        "created_at": "2026-11-22T08:55:21.073638+00:00"
+        "created_at": "2026-11-22T09:52:57.309250+00:00"
       },
       "folder": "Idle",
       "frames": {
@@ -28,18 +28,38 @@
           "south-west": "Idle/rotations/south-west.png"
         },
         "animations": {
+          "interact": {
+            "west": [
+              "Idle/animations/interact/west/frame_000.png",
+              "Idle/animations/interact/west/frame_001.png",
+              "Idle/animations/interact/west/frame_002.png",
+              "Idle/animations/interact/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/interact/north/frame_000.png",
+              "Idle/animations/interact/north/frame_001.png",
+              "Idle/animations/interact/north/frame_002.png",
+              "Idle/animations/interact/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/interact/east/frame_000.png",
+              "Idle/animations/interact/east/frame_001.png",
+              "Idle/animations/interact/east/frame_002.png",
+              "Idle/animations/interact/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/interact/south/frame_000.png",
+              "Idle/animations/interact/south/frame_001.png",
+              "Idle/animations/interact/south/frame_002.png",
+              "Idle/animations/interact/south/frame_003.png"
+            ]
+          },
           "idle": {
             "west": [
               "Idle/animations/idle/west/frame_000.png",
               "Idle/animations/idle/west/frame_001.png",
               "Idle/animations/idle/west/frame_002.png",
               "Idle/animations/idle/west/frame_003.png"
-            ],
-            "east": [
-              "Idle/animations/idle/east/frame_000.png",
-              "Idle/animations/idle/east/frame_001.png",
-              "Idle/animations/idle/east/frame_002.png",
-              "Idle/animations/idle/east/frame_003.png"
             ],
             "south": [
               "Idle/animations/idle/south/frame_000.png",
@@ -52,32 +72,12 @@
               "Idle/animations/idle/north/frame_001.png",
               "Idle/animations/idle/north/frame_002.png",
               "Idle/animations/idle/north/frame_003.png"
-            ]
-          },
-          "interact": {
-            "north": [
-              "Idle/animations/interact/north/frame_000.png",
-              "Idle/animations/interact/north/frame_001.png",
-              "Idle/animations/interact/north/frame_002.png",
-              "Idle/animations/interact/north/frame_003.png"
-            ],
-            "south": [
-              "Idle/animations/interact/south/frame_000.png",
-              "Idle/animations/interact/south/frame_001.png",
-              "Idle/animations/interact/south/frame_002.png",
-              "Idle/animations/interact/south/frame_003.png"
-            ],
-            "west": [
-              "Idle/animations/interact/west/frame_000.png",
-              "Idle/animations/interact/west/frame_001.png",
-              "Idle/animations/interact/west/frame_002.png",
-              "Idle/animations/interact/west/frame_003.png"
             ],
             "east": [
-              "Idle/animations/interact/east/frame_000.png",
-              "Idle/animations/interact/east/frame_001.png",
-              "Idle/animations/interact/east/frame_002.png",
-              "Idle/animations/interact/east/frame_003.png"
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
             ]
           }
         }
@@ -85,5 +85,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-11-22T09:00:31.752867"
+  "export_date": "2026-11-22T09:56:42.022695"
 }

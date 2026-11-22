@@ -2,99 +2,86 @@
   "tool": "PixelLab MCP (character tools only)",
   "operator": "tien-nghich-2d-29",
   "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
-  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
-  "pixellab_character_id": "5de2dc63-eaa6-4b36-8555-84958b700368",
-  "character_job_id": "bb1fad10-d56c-4f06-8957-b0e90b7a5eb2",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style anchor = the processed lt_kiln_keeper idle_south_0 frame passed as base64, colour palette NOT copied) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6e053eac-d1bd-4fb5-bcd1-4dfdb1915223",
+  "character_job_id": "88ddbf21-de8a-4611-87d6-a0ae404c1eab",
   "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
-  "prompt": "Scholarly xianxia chart reader, small human in a long deep-indigo robe with a pale sash, black hair in a topknot with a pin, thin beard, calm eyes. Held in both hands in front of the chest a flat SQUARE bronze astrolabe, a square frame with a round dial and a small pointer in the middle, glinting gold and pale blue. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "prompt": "Scholarly xianxia chart reader, chibi with a very large round head and a short wide body, small human in a LIGHT pale-cream knee-length robe with a wide indigo sash and wide sleeves, short black hair tied in a small topknot (hair does NOT hang down the back), thin beard, calm eyes. Held out in front of his chest in both hands is a big flat SQUARE bronze astrolabe, a bright gold square frame with a round dial, wide and clearly visible from the front and from both sides. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
   "animations": {
     "idle": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "05fb4e11-1377-4f20-98cb-ff376e1dc743",
+      "animation_group_id": "bd50a00a-b036-4492-856a-3c04bff99968",
       "job_ids": {
-        "south": "03d9ecfb-eab7-4734-9d76-b72a84fa73d0",
-        "west": "7a403f70-4013-4e8b-a614-620c2ea1175a",
-        "north": "a2a24671-791a-415a-b232-649657e14e0d",
-        "east": "0e825f20-02ad-41f6-8370-585db89adfdc"
+        "south": "45f8d833-0744-4c1f-9308-9d061809ea73",
+        "west": "3b6e5ee2-663c-416d-b090-659994064a10",
+        "north": "70108b20-e4f8-4d81-a104-a1b8ca61f1e1",
+        "east": "d74c4fde-d737-495d-8635-f64cb18d7b0b"
       },
-      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square bronze astrolabe stays held in both hands in front of his chest, clearly visible",
+      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square gold astrolabe stays held in both hands in front of his chest, clearly visible",
       "direction_prompts": {
-        "south": "facing the viewer, breathes gently; the square astrolabe stays held in both hands in front of his chest, always visible",
-        "west": "facing left, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible",
+        "south": "facing the viewer, breathes gently; the square gold astrolabe stays held in both hands in front of his chest, always visible",
+        "west": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide",
         "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
-        "east": "facing right, breathes gently; the square astrolabe stays held out in front of him at chest height, always visible"
-      },
-      "rejected": {
-        "west_take2": {
-          "job_id": "0e15a282-d1f0-4d1a-b435-58add42b0447",
-          "prompt": "facing left, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, west only)",
-          "why": "adds a white orb blob in frame 2; silhouette unchanged; take 1 kept"
-        },
-        "east_take2": {
-          "job_id": "954ad966-e174-4742-afc1-510f5c8b42b0",
-          "prompt": "facing right, standing upright with a broad chest and two arms visible, a small round head with the hair in a short topknot; the square gold astrolabe is held out clearly in front of his chest in EVERY frame, wide and bright; the robe is a normal width, not a thin pillar (second attempt, east only)",
-          "why": "adds a bright orb in frames 2-3; silhouette unchanged; take 1 kept"
-        }
+        "east": "facing right, breathes gently; the big square gold astrolabe stays held out in front of his chest on the right, always visible and wide"
       }
     },
     "interact": {
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "c3b8d8b4-7fc3-45b8-a1bf-c2483d73ed49",
+      "animation_group_id": "01c664d5-df39-4796-9037-1d5ba8494edc",
       "job_ids": {
-        "south": "4ef42182-8c15-4b0f-a1d4-4f21ddbccb5e",
-        "west": "6584ec76-9be7-473b-9d5d-d16c62da8deb",
-        "north": "9bdacb88-b302-45d3-aff5-8734aed47592",
-        "east": "abdb1911-6a0b-404a-80e9-4074794d9610"
+        "south": "ea7c7f2e-4b50-445d-8d9a-c7f0e3bb4b11",
+        "west": "e90e3e71-dd3e-4314-bb4c-9df268d414b0",
+        "north": "c0793cec-ed8a-4835-82ff-2221969a55cd",
+        "east": "e0e6bb78-295b-44b7-99f0-050c9ee1bbda"
       },
-      "action_description": "tilts the square astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
+      "action_description": "tilts the square gold astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
       "direction_prompts": {
-        "south": "facing the viewer, lifts the square astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
-        "west": "facing left, holds the square astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him",
+        "south": "facing the viewer, lifts the square gold astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
+        "west": "facing left, holds the big square gold astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him and stays wide and bright",
         "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
-        "east": "facing right, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, east only)"
-      },
-      "rejected": {
-        "west_take2": {
-          "job_id": "179f00f7-fbae-4569-9e28-f901ccb4b78a",
-          "prompt": "facing left, standing upright with a broad chest and two arms visible, the hair in a short topknot; he holds the square gold astrolabe out in front of his chest with both hands and lifts it a little then lowers it; the astrolabe is wide and bright in EVERY frame; the robe is a normal width, not a thin pillar (second attempt, west only)",
-          "why": "adds a white orb in frames 2-3; silhouette unchanged; take 1 kept"
-        },
-        "east_take1": {
-          "job_id": "81294c98-2b40-42ef-bd0d-bc82b38fa0b7",
-          "prompt": "facing right, holds the square astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and below his head",
-          "why": "replaced by take 2 in touch-up round 2: the astrolabe is a small dim block"
-        }
+        "east": "facing right, holds the big square gold astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and stays wide and bright"
       }
     }
   },
   "attempts": [
     {
       "n": 1,
-      "what": "character, then idle and interact v3, four directions each",
-      "credits": 14,
-      "result": "accepted with flags; no regeneration used"
+      "what": "first character generation (character id 5de2dc63-eaa6-4b36-8555-84958b700368, job bb1fad10-d56c-4f06-8957-b0e90b7a5eb2, seed 7, long indigo robe) with idle and interact v3 (idle group 05fb4e11-1377-4f20-98cb-ff376e1dc743, interact group c3b8d8b4-7fc3-45b8-a1bf-c2483d73ed49; shipped jobs idle 03d9ecfb, 7a403f70, a2a24671, 0e825f20; interact 4ef42182, 6584ec76, 9bdacb88, abdb1911), plus one round-2 regeneration of idle west/east and interact west/east (jobs 0e15a282, 954ad966, 179f00f7, abdb1911)",
+      "credits": 18,
+      "result": "replaced after owner review: west and east views were a tall dark pillar and the astrolabe a small dim block; round-2 clip regenerations could not fix it because the silhouette comes from the rotations"
     },
     {
       "n": 2,
-      "what": "touch-up round 2: idle west, idle east, interact west, interact east regenerated once each (appended to the same animation groups) to improve the dark pillar-like side silhouette",
-      "credits": 4,
-      "result": "interact east take 2 shipped (larger bright gold astrolabe in 3 of 4 frames, frame 3 has a spark particle); the other three take-2 clips rejected (white orb blobs); the pillar silhouette did NOT improve in any take because it comes from the west/east rotations, only a character regeneration could change it"
+      "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each; every shipped clip-direction is the first take of this character",
+      "credits": 14,
+      "result": "accepted; no clip regeneration used"
     }
   ],
   "credits_spent": {
-    "character": 6,
-    "animations": 8,
-    "total_generations": 18,
-    "round2_regenerations": 4
+    "character_replaced_1": 6,
+    "animations_replaced_1": 8,
+    "round2_regenerations_replaced": 4,
+    "character_shipped": 6,
+    "animations_shipped": 8,
+    "total_generations": 32
   },
   "known_flaws": [
-    "west and east views are very tall and narrow: the long robe and hair read as one dark pillar",
-    "idle east frames 2-3 carry a few stray dash-like specks beside the astrolabe",
-    "the astrolabe is a 3-5 px gold-and-blue block at 1x in the side views and is not visible in the north view (it is held in front)",
-    "the robe is near-black rather than indigo after the 40-colour snap"
-  ]
+    "idle west frame 4 has a stray white speck beside the head",
+    "interact west frames 1-2: the astrolabe turns into an X-shaped sparkle; interact east frames 2-3: it becomes a white-gold glow, so the square shape is lost for two frames",
+    "the north view has no astrolabe (held in front), only the robe and topknot identify the character"
+  ],
+  "style_anchor": {
+    "image": "assets/processed_longtime/lt_kiln_keeper/idle_south_0.png (32x32)",
+    "usage_description": "Match this character's chibi proportions: very large head, small body, thick outline. Do not copy its colours or clothes.",
+    "style_options": {
+      "color_palette": false,
+      "detail": true,
+      "outline": true,
+      "shading": true
+    }
+  }
 }
