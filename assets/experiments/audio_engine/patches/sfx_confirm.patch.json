@@ -1,0 +1,58 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_confirm",
+  "title": "sfx_confirm",
+  "design": "Single quiet D5 pluck with a short bamboo-like upper resonance.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7523,
+  "durationMs": 184,
+  "trim": 0.54,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 160,
+      "gain": 0.47,
+      "hz": 589,
+      "endHz": 587.33,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 47,
+        "releaseMs": 35
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 90,
+      "gain": 0.22,
+      "hz": 1190,
+      "endHz": 1174.66,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 22,
+        "releaseMs": 17
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 19,
+      "gain": 0.16,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 930,
+          "highHz": 3950
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 6,
+        "releaseMs": 4
+      }
+    }
+  ]
+}

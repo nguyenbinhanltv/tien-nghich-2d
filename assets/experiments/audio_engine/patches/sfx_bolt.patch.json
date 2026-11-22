@@ -1,0 +1,62 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_bolt",
+  "title": "sfx_bolt",
+  "design": "One hard spark snaps into a short falling, buzzing projectile tail.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8233,
+  "durationMs": 144,
+  "trim": 0.77,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 17,
+      "gain": 1.05,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2000,
+          "highHz": 7000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 8,
+        "releaseMs": 6
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 137,
+      "gain": 0.62,
+      "hz": 1430,
+      "endHz": 218,
+      "fm": {
+        "ratio": 1.71,
+        "index": 1.12
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 49,
+        "releaseMs": 34
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 3,
+      "ms": 74,
+      "gain": 0.19,
+      "hz": 715,
+      "endHz": 326,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 23,
+        "releaseMs": 18
+      }
+    }
+  ]
+}

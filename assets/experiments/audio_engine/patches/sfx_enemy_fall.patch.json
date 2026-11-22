@@ -1,0 +1,94 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_enemy_fall",
+  "title": "sfx_enemy_fall",
+  "design": "A heavy body drop slumps downward, a scuff of dragging debris follows, and a small second settle closes it.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9257,
+  "durationMs": 640,
+  "trim": 0.44,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 300,
+      "gain": 0.75,
+      "hz": 168,
+      "endHz": 54,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 105,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 120,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 120,
+          "highHz": 1100
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 36,
+        "releaseMs": 50
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 150,
+      "ms": 230,
+      "gain": 1.3,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 400,
+          "highHz": 3200
+        }
+      ],
+      "env": {
+        "attackMs": 70,
+        "decayMs": 140,
+        "releaseMs": 110
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 395,
+      "ms": 200,
+      "gain": 0.4,
+      "hz": 96,
+      "endHz": 50,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 50,
+        "releaseMs": 70
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 395,
+      "ms": 90,
+      "gain": 0.9,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 140,
+          "highHz": 1000
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 25,
+        "releaseMs": 40
+      }
+    }
+  ]
+}

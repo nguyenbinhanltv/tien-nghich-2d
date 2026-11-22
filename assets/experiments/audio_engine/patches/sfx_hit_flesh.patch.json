@@ -1,0 +1,76 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_hit_flesh",
+  "title": "sfx_hit_flesh",
+  "design": "Muted skin slap and short flexing membrane. The pitched body collapses immediately.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7103,
+  "durationMs": 156,
+  "trim": 0.55,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 45,
+      "gain": 1.4,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 380,
+          "highHz": 4800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 12,
+        "releaseMs": 12
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 122,
+      "gain": 0.78,
+      "hz": 172,
+      "endHz": 46,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 32,
+        "releaseMs": 28
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 2,
+      "ms": 63,
+      "gain": 0.22,
+      "hz": 327,
+      "endHz": 130,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 17,
+        "releaseMs": 17
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 14,
+      "ms": 120,
+      "gain": 0.52,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 65,
+          "highHz": 740
+        }
+      ],
+      "env": {
+        "attackMs": 4,
+        "decayMs": 37,
+        "releaseMs": 34
+      }
+    }
+  ]
+}

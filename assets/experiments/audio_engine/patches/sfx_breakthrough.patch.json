@@ -1,0 +1,119 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_breakthrough",
+  "title": "sfx_breakthrough",
+  "design": "A low breath draws inward. The D and A open fifth rises into a bright sustained D.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7639,
+  "durationMs": 1580,
+  "trim": 0.62,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 482,
+      "gain": 0.85,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 110,
+          "highHz": 1850
+        }
+      ],
+      "env": {
+        "attackMs": 216,
+        "decayMs": 1200,
+        "releaseMs": 110
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 15,
+      "ms": 480,
+      "gain": 0.29,
+      "hz": 87,
+      "endHz": 146.83,
+      "fm": {
+        "ratio": 1.5,
+        "index": 1
+      },
+      "env": {
+        "attackMs": 167,
+        "decayMs": 1300,
+        "releaseMs": 116
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 365,
+      "ms": 1134,
+      "gain": 0.48,
+      "hz": 286,
+      "endHz": 293.66,
+      "env": {
+        "attackMs": 89,
+        "decayMs": 1500,
+        "releaseMs": 455
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 399,
+      "ms": 1090,
+      "gain": 0.32,
+      "hz": 432,
+      "endHz": 440,
+      "env": {
+        "attackMs": 127,
+        "decayMs": 1360,
+        "releaseMs": 393
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 478,
+      "ms": 1070,
+      "gain": 0.28,
+      "hz": 582,
+      "endHz": 587.33,
+      "env": {
+        "attackMs": 166,
+        "decayMs": 1560,
+        "releaseMs": 395
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 529,
+      "ms": 843,
+      "gain": 0.13,
+      "hz": 1172,
+      "endHz": 1174.66,
+      "env": {
+        "attackMs": 192,
+        "decayMs": 950,
+        "releaseMs": 329
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 406,
+      "ms": 492,
+      "gain": 0.16,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2500,
+          "highHz": 6500
+        }
+      ],
+      "env": {
+        "attackMs": 135,
+        "decayMs": 680,
+        "releaseMs": 180
+      }
+    }
+  ]
+}

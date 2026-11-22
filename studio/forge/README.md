@@ -42,6 +42,26 @@ runs the gates on each bake directory and prints findings per gate. `bake` write
 JSON, default the body plan's), `--clips a,b`, `--qa gates.json` (per-gate options), `--pose-rig`, `--marks`, and for import and run
 `--scale-mode cell|facing|sheet`, `--ground-lift`, `--margin`, `--fixed-scale scales.json`. Warnings (cut drawings, sprite on the canvas edge, clipped figure) print to stderr and sit in the records.
 
+## Which route for which clip
+
+Working default (amended 2026-11-22; the orchestrator set it under delegated authority and the user can reverse it:
+[STUDIO_PLAN](../../docs/STUDIO_PLAN.md#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3)). The evidence is two trials on the Ink Marten in
+[FORGE_BAKEOFF](../../docs/FORGE_BAKEOFF.md): the rig alone gave a stable idle and kept the ear mark in every key, but its follow read as a rigid body
+sliding over small paws; drawn key poses gave a readable gait in three of four facings, but lost the mark in 11 of 16 keys and changed interior colours between keys
+([drawn poses](../../docs/FORGE_BAKEOFF.md#p2-production-forge-trial--ink-marten-follow-from-drawn-poses)).
+
+| Clip | Route | How |
+| --- | --- | --- |
+| Locomotion (walk, follow, anything whose legs must read) | **Drawn key poses on one sheet** | `turnaroundLayout({facings, poses})`, import with `scaleOptions.mode` `facing` (or `sheet`, or `fixedScale` from the turnaround), a `forge.poseclips` document with declared `contacts` |
+| Idle | **Rig + motion template** | `bakeStage` with `rig`; the template sways tail, ears and head on the turnaround cells |
+| Secondary motion on a drawn gait (tail, ears, head) | Rig on top of the pose clip | `secondary` in the pose clip, with a rig whose polygons fit the pose silhouettes (or a separate `poseRig`) |
+| Asymmetric marks (ear notch, badge side) | **Stored pixel patch** | `studio.patch` ops, applied after every bake and mirror; declare the mark's `landmarks` box so the `markSide` gate checks it on every key |
+| Cast, hurt, telegraph, strike and other short clips | Either; start with the rig when the pose must stay on model, with drawn keys when the silhouette must change | pick per clip, compare with `compare` |
+
+Gates differ by route. Rig clips get the full set. Drawn-key clips skip the A-B-A flicker gate (drawn poses churn more than rig keys, and it flagged 16 of 16 in the trial) and get the
+identity-drift measure instead, as warnings; its default threshold is uncalibrated, so treat it as a guard against gross change and tune it per clip. Check a drawn clip's contacts, ear mark and
+size against the turnaround with `compare`, then send it to Review: a human approves the art.
+
 ## One pipeline (`pipeline/index.mjs`, exported from `index.mjs`)
 
 | Call | What it does |
