@@ -2,7 +2,70 @@
 import { destinations } from './destinations.mjs';
 import { localize } from './i18n.mjs';
 
-export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool, afterChoose}) {
+// ---- Pure helpers (no DOM), exported so Node tests can drive them ----
+
+/** True when a key press belongs to a text field: shortcuts must never fire while someone types. */
+export function isTyping(el) {
+  if (!el) return false;
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName ?? '')) return true;
+  if (el.isContentEditable) return true;
+  const ce = el.getAttribute?.('contenteditable');
+  return ce === '' || ce === 'true' || ce === 'plaintext-only';
+}
+
+export const recentMax = 10;
+
+/** Only a route that an asset id alone can reopen is worth remembering. Review needs a `key` (or clip, direction and frame) and the hub has no asset, so they are skipped. */
+export const recentWorthy = route => Boolean(route?.asset) && route.tab !== 'review' && route.tab !== 'projects';
+const idPattern = /^[A-Za-z0-9_.-]{1,120}$/;
+const tabPattern = /^[a-z]{2,20}$/;
+
+/** Keep only well-formed stored entries {tab, asset, source?}, newest first, at most `recentMax`, no duplicates. */
+export function cleanRecents(list) {
+  const out = [], seen = new Set();
+  for (const e of Array.isArray(list) ? list : []) {
+    if (!e || typeof e.asset !== 'string' || !idPattern.test(e.asset) || typeof e.tab !== 'string' || !tabPattern.test(e.tab) || !recentWorthy(e)) continue;
+    const source = typeof e.source === 'string' && idPattern.test(e.source) ? e.source : undefined;
+    const key = `${e.tab}/${e.asset}/${source ?? ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(source ? {tab: e.tab, asset: e.asset, source} : {tab: e.tab, asset: e.asset});
+    if (out.length >= recentMax) break;
+  }
+  return out;
+}
+
+/** Put the opened asset at the front of the recent list. */
+export function pushRecent(list, entry) { return cleanRecents([entry, ...cleanRecents(list)]); }
+
+export const recentKey = projectId => 'studio.recent.' + (projectId ?? 'none');
+export function loadRecents(projectId, storage = globalThis.localStorage) {
+  try { return cleanRecents(JSON.parse(storage.getItem(recentKey(projectId)) ?? '[]')); } catch { return []; }
+}
+export function saveRecents(projectId, list, storage = globalThis.localStorage) {
+  try { storage.setItem(recentKey(projectId), JSON.stringify(cleanRecents(list))); } catch { /* private mode: not remembered */ }
+}
+
+export const zoomChoices = [1, 2, 3, 4, 6, 8];
+export const zoomKey = 'studio.zoom';
+export const nextZoom = current => zoomChoices[(Math.max(zoomChoices.indexOf(current), -1) + 1) % zoomChoices.length];
+export function loadZoom(storage = globalThis.localStorage) {
+  try { const n = Number(storage.getItem(zoomKey)); return zoomChoices.includes(n) ? n : null; } catch { return null; }
+}
+
+/** The next inbox item awaiting a human, after the one open now (wrapping). Navigation only: this never decides anything. */
+export function nextPending(items, currentKey) {
+  const waiting = (items ?? []).filter(i => i && i.state === 'waiting' && typeof i.key === 'string');
+  if (!waiting.length) return null;
+  const at = waiting.findIndex(i => i.key === currentKey);
+  return waiting[(at + 1) % waiting.length];
+}
+
+/**
+ * `actions()` (optional, from the shell) returns [{id, title, hint?, run}]: commands that only navigate or change a preference.
+ * `getRecents()` returns the remembered assets. There is no approval or any other decision in this palette.
+ */
+export function createPalette({ctx, project, getLang, t, fetchJson, navigate, goTool, afterChoose, actions, getRecents}) {
   let overlay, input, list, items = [], active = 0, opener, controller, timer, query = '';
 
   function h(tag, attrs = {}, ...children) {
@@ -21,7 +84,12 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
       kind: 'tab', key: 'tab-' + d.id, title: t('nav.' + d.id), hint: '#/' + d.id, run: () => navigate({tab: d.id})}));
     const tools = project.tools.filter(x => match(localize(x.label, lang)) || match(x.id)).map(x => ({
       kind: 'tool', key: 'tool-' + x.id, title: localize(x.label, lang), hint: localize(x.note, lang), run: () => goTool(x)}));
-    return {tabs, tools};
+    const acts = (actions?.() ?? []).filter(a => match(a.title) || match(a.id)).map(a => ({
+      kind: 'action', key: 'action-' + a.id, title: a.title, hint: a.hint, run: a.run}));
+    const recent = (getRecents?.() ?? []).filter(r => match(r.asset)).map(r => ({
+      kind: 'asset', key: `recent-${r.tab}-${r.asset}`, title: r.asset, hint: t('nav.' + r.tab),
+      run: () => navigate({tab: r.tab, asset: r.asset, params: r.source ? {source: r.source} : {}})}));
+    return {tabs, tools, acts, recent};
   }
 
   function assetItems(assets) {
@@ -73,8 +141,8 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
   }
 
   function draw() {
-    const {tabs, tools} = staticItems();
-    render([[t('palette.tabs'), tabs], [t('palette.assets'), assets], [t('palette.tools'), tools]], error ? t('palette.error') : undefined);
+    const {tabs, tools, acts, recent} = staticItems();
+    render([[t('palette.actions'), acts], [t('palette.recent'), recent], [t('palette.tabs'), tabs], [t('palette.assets'), assets], [t('palette.tools'), tools]], error ? t('palette.error') : undefined);
   }
 
   function choose(index) {
@@ -128,4 +196,54 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
     }
   });
   return {open, close, isOpen: () => Boolean(overlay)};
+}
+
+/**
+ * The keyboard cheat-sheet: a modal list of shortcuts. `getSections()` returns [{title, rows: [{keys: ['g', '1'], label}]}, ...] and is
+ * read on every open, so it always lists the tab that is open now. Esc closes it and focus goes back to where it was; if that
+ * element is gone, `fallbackFocus()` decides.
+ */
+export function createCheatSheet({t, getSections, fallbackFocus}) {
+  let overlay, opener, closeButton;
+  const make = (tag, attrs = {}, ...children) => {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) k.startsWith('on') ? node.addEventListener(k.slice(2), v) : node.setAttribute(k, v);
+    node.append(...children);
+    return node;
+  };
+
+  function open() {
+    if (overlay) return;
+    opener = document.activeElement;
+    closeButton = make('button', {type: 'button', class: 'btn quiet cheat-close', onclick: () => close(true)}, t('keys.close'));
+    const body = getSections().map(section => make('section', {class: 'cheat-section'},
+      make('h3', {}, section.title),
+      section.rows.length
+        ? make('dl', {class: 'cheat-list'}, ...section.rows.flatMap(row => [
+          make('dt', {}, ...row.keys.flatMap((k, i) => [i ? ' ' : '', make('kbd', {}, k)])),
+          make('dd', {}, row.label)]))
+        : make('p', {class: 'muted'}, section.empty ?? '')));
+    overlay = make('div', {class: 'palette-overlay cheat-overlay', onmousedown: e => { if (e.target === overlay) close(true); }},
+      make('div', {class: 'palette cheat', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'cheat-title'},
+        make('h2', {id: 'cheat-title', class: 'cheat-title'}, t('keys.title')),
+        make('div', {class: 'cheat-body'}, ...body),
+        make('div', {class: 'palette-foot cheat-foot'}, make('span', {}, t('keys.typing')), closeButton)));
+    overlay.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(true); }
+      else if (event.key === '?' && !event.metaKey && !event.ctrlKey && !event.altKey) { event.preventDefault(); close(true); }   // `?` toggles, as the list says
+      else if (event.key === 'Tab') { event.preventDefault(); closeButton.focus(); }   // the only control: focus stays inside the modal
+      else if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') close(false);   // the palette takes over
+    });
+    document.body.append(overlay);
+    closeButton.focus();
+  }
+
+  function close(restore) {
+    if (!overlay) return;
+    overlay.remove();
+    overlay = undefined;
+    if (restore) (opener?.isConnected ? opener : fallbackFocus?.())?.focus?.();
+  }
+
+  return {open, close, toggle: () => overlay ? close(true) : open(), isOpen: () => Boolean(overlay)};
 }
