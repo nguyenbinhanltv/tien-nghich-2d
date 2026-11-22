@@ -126,6 +126,50 @@ def centre(arr, size):
     return out, lost
 
 
+def edge_trim(arr, size, speck_max, clip_max):
+    """Opt-in (generation.json "edge_trim"): opaque pixels outside the target canvas are dropped when they belong to a
+    detached component of <= speck_max px (a stray spark); otherwise they are clipped, at most clip_max per frame.
+    Returns (arr, specks_removed_px, clipped_px). Frames that need more are left alone so build() still fails."""
+    tw, th = size
+    h, w = arr.shape[:2]
+    ox, oy = (tw - w) // 2, (th - h) // 2
+    m = arr[..., 3] >= 128
+    yy, xx = np.indices(m.shape)
+    out = m & ((xx + ox < 0) | (xx + ox >= tw) | (yy + oy < 0) | (yy + oy >= th))
+    if not out.any():
+        return arr, 0, 0
+    lab = np.zeros(m.shape, int)
+    k = 0
+    for y, x in zip(*np.where(m)):
+        if lab[y, x]:
+            continue
+        k += 1
+        stack = [(y, x)]
+        lab[y, x] = k
+        while stack:
+            cy, cx = stack.pop()
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and m[ny, nx] and not lab[ny, nx]:
+                        lab[ny, nx] = k
+                        stack.append((ny, nx))
+    arr = arr.copy()
+    specks = clipped = 0
+    for c in sorted(set(lab[out])):
+        comp = lab == c
+        if comp.sum() <= speck_max:
+            arr[comp] = 0
+            specks += int(comp.sum())
+        else:
+            n = int((comp & out).sum())
+            clipped += n
+    if clipped > clip_max:
+        return arr, specks, 0  # too much body would be cut: leave it so build() reports the loss
+    arr[out & (arr[..., 3] >= 128)] = 0
+    return arr, specks, clipped
+
+
 def mark(img, xy, rgb=(255, 0, 255)):
     img.putpixel(xy, rgb + (255,))
 
@@ -153,8 +197,16 @@ def build(aid, raw_root=RAW, out_root=OUT):
     raw, raw_paths = read_raw(aid, prof, raw_root)
     stats = Counter()
     processed, lost_total = {}, 0
+    rd0 = raw_root / aid
+    gen0 = json.loads((rd0 / "generation.json").read_text(encoding="utf8")) if (rd0 / "generation.json").is_file() else {}
+    et = gen0.get("edge_trim")
+    trimmed = {}
     for k, arr in raw.items():
         arr = arr.copy()
+        if et:
+            arr, sp, cl = edge_trim(arr, size, et["speck_max"], et["clip_max"])
+            if sp or cl:
+                trimmed["/".join(map(str, k))] = {"speck_px": sp, "clipped_px": cl}
         o = (arr[..., 3] >= 128) & (arr[..., :3] == np.array(bp.PIXELLAB_OUTLINE, np.uint8)).all(-1)
         arr[o, :3] = INK
         placed, lost = centre(arr, size)
@@ -212,6 +264,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
                       "#020105 -> #14101a", "binary alpha", "snap to 40 colours with ink_01 reserved for outline",
                       "silhouette edge repaint with #14101a", "outline thinning of 2x2 blocks"],
             "pixels_changed": {k: int(v) for k, v in sorted(stats.items())},
+            **({"edge_trim": {"rule": et, "frames": trimmed}} if et else {}),
         },
         "source": "source.png",
         "source_sha256": sha(rd / "source.png"),

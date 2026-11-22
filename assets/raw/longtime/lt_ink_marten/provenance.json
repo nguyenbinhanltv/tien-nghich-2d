@@ -94,7 +94,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "script_sha256": "06e9791850b77723ce8496a8101af91355d9d9b3b675022b71e067fd446d00e1",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
