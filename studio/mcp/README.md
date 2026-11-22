@@ -337,7 +337,7 @@ curl http://127.0.0.1:4173/mcp/activity                              # who calle
 
 ```json
 { "jobs": [
-  { "id": "job_…", "tool": "studio_rig_bake", "state": "queued|running|done|failed|cancelled",
+  { "id": "job_…", "tool": "studio_rig_bake", "state": "queued|running|succeeded|failed",
     "agent": "codex", "session": "…", "assetId": "lt_reed_crane",
     "createdAt": "<ISO>", "startedAt": "<ISO>|null", "endedAt": "<ISO>|null", "durationMs": 1234,
     "error": "message only, present when failed" } ] }
