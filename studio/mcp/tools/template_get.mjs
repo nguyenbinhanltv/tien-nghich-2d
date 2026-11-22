@@ -3,7 +3,7 @@ import { writeFileAtomic } from '../../core/fsutil.mjs';
 import { bodyPlans } from '../../forge/motion/library.mjs';
 import { encodePng, figureFor, guidanceText, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { defaultPoseNames, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
+import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { loadAsset, requireFrames, requireScope } from './_shared.mjs';
 import path from 'node:path';
 
@@ -19,6 +19,7 @@ export default {
     'IDLE and small motions are baked from a RIG with a motion template; asymmetric marks (a coloured ear, a held tool in one hand) are kept with studio_process marks and fixed with studio_frame_patch. ' +
     'kind="turnaround" gives one drawing per facing; kind="pose-sheet" gives one per pose and facing. Draw with your own image tool on a pure green key, using the template file as the reference. ' +
     'If the project pack defines a figure guide for this profile (pack figures), the result carries its proportions as text for your image prompt (head share, minimum limb width, pixels an accent colour needs) and the template cells show a guide silhouette in dimmed green (it keys out as background): fit your figure to it. ' +
+    'The result also carries formats: the compact shape of the rig and poseClips documents that studio_rig_bake takes, with the rules (coordinates, roles, which annotations turn which gate on), so you need not read source. ' +
     'write=true (needs scope author) saves the template PNG where your image tool can read it. Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
   inputSchema: {
@@ -92,6 +93,7 @@ export default {
         layout,
         ...(named ? { figure: { name: named.name, description: named.description, headToBody: named.headToBody, minLimbWidthPx: named.minLimbWidthPx, accentMinPixels: named.accentMinPixels, guideDrawn: Boolean(named.guide), measured: named.measured, guidance: guidanceText(named, profile) } } : {}),
         ...(poseClips ? { poseClips } : {}),
+        formats: formatsGuide(bodyPlans(), profile),
         motion: { bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
         next: ['Draw the sheet with your own image tool.', 'studio_sheet_import with the sheet, this layout, and the verbatim prompt.', 'studio_process to pixelise and look at the native sprites.',
           kind === 'pose-sheet' ? 'studio_rig_bake with poseClips (above) to build the clip from your key poses.' : 'For a clip that moves: studio_rig_bake with a rig; for a single frame: studio_process with submit=true.'],

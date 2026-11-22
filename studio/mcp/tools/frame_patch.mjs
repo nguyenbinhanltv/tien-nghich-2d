@@ -20,9 +20,10 @@ export default {
     'Change pixels by COMMAND, not by redrawing: set pixels, draw a line, fill a box, flood a region, shift or copy a region (also from another frame of the clip), rebuild the outline, or write a GRID of palette ids. ' +
     'Colours are palette ids (see studio_project_info). Coordinates are x, y from the top left of the native frame; boxes are [x0, y0, x1, y1) half-open. ' +
     'target "revision" (default for a frame you already submitted) applies the operations to the frame\'s newest revision and saves the result as a NEW revision, pending, leaving the raw file as submitted; ' +
-    'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame); ' +
+    'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame). ' +
+    'Saving checks only that colours are palette ids and points are inside the canvas; the pixel gates (palette, outline, size) judge the patched frame at the NEXT studio_rig_bake, in verdicts.pixelGates, so look there. ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
-    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. Cannot approve or change a review status.',
+    'For "revision" and "create" the result must pass the pixel gates (palette, outline, size) or nothing is saved. Give an edit a short note to say what it is for (e.g. "scar over the left eye"); it is stored with the operations in forge/patch.json. Cannot approve or change a review status.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -34,6 +35,7 @@ export default {
           type: 'object',
           properties: {
             frame: { type: 'string', pattern: '^[a-z0-9]+(?:_[a-z0-9]+)*_(south|east|north|west|none)_[0-9]+$', maxLength: 80, description: 'Frame name <clip>_<direction>_<n>, e.g. idle_south_2.' },
+            note: { type: 'string', maxLength: 200, description: 'What this edit is for (stored on its first operation, so a later reader knows a patch is the scar and not a highlight).' },
             ops: {
               type: 'array', minItems: 1, maxItems: 500,
               items: { type: 'object', properties: { op: { type: 'string', enum: OPS } }, required: ['op'], description: 'One operation: {op:"set",pixels:[[x,y,"ink_01"]]}, {op:"line",from:[x,y],to:[x,y],color}, {op:"fill",box:[x0,y0,x1,y1],color}, {op:"flood",at:[x,y],color}, {op:"shift",box,dx,dy}, {op:"copy",box,dx,dy,from?:{facing,frame}}, {op:"outline"}, {op:"grid",at:[x,y],rows:["..ab.."],legend:{a:"ink_01"}}.' },
@@ -75,6 +77,7 @@ export default {
         if (target === 'revision' && !raw && !hasHistory) throw new ToolError(`${edit.frame} has not been submitted, so there is no revision to change. Use target "bake" (applied at the next bake) or "create" (draw it from blank).`);
         if (target === 'create' && (raw || hasHistory)) throw new ToolError(`${edit.frame} already exists (raw frames are immutable). Use target "revision" to change its pixels.`);
         const ops = expandOps(edit.ops);
+        if (edit.note) ops[0] = { ...ops[0], note: edit.note };
         checkOps(edit.frame, ops, { palette, width, height });
         plan.push({ ...edit, addr, key, rawRel, raw, target, ops });
       }
@@ -86,8 +89,8 @@ export default {
         let patch = (await readDoc(ws, asset, 'patch')) ?? emptyPatch();
         for (const p of plan) patch = appendOps(patch, p.frame, p.ops);
         await writeDoc(ws, asset, 'patch', patch);
-        return { content: [{ type: 'text', text: `Stored operations for ${plan.length} frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: ${Object.keys(patch.frames).length}.` }],
-          structuredContent: { ok: true, target, frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length })), patchedFrames: Object.keys(patch.frames).length, next: 'studio_rig_bake to apply and look.' } };
+        return { content: [{ type: 'text', text: `Stored operations for ${plan.length} frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: ${Object.keys(patch.frames).length}. Checked now: palette ids and canvas bounds; the pixel gates run at the next bake (verdicts.pixelGates).` }],
+          structuredContent: { ok: true, target, frames: plan.map((p) => ({ frame: p.frame, ops: p.ops.length })), patchedFrames: Object.keys(patch.frames).length, next: 'studio_rig_bake to apply the operations; its verdicts.pixelGates says whether the patched pixels pass.', checked: 'palette ids and canvas bounds only' } };
       }
 
       if (target === 'create') {

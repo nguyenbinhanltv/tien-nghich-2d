@@ -146,7 +146,7 @@ function validateGenerators(adapters = {}) {
       if (!known.has(name)) issues.push(`${at}.args: unknown placeholder {${name}}`);
       if (name === 'seed' && !g.seed) issues.push(`${at}.args: {seed} used but the generator declares no seed`);
     }
-    issues.push(...optionInjection(at, g.args, Object.keys(params)));
+    issues.push(...optionInjection(at, g.args, Object.keys(params), params));
     if (!g.args.some(a => placeholders(a).includes('out'))) issues.push(`${at}.args: must pass {out}, the directory the generator writes its frames to`);
   }
   for (const name of Object.keys(adapters.vfx?.palettes ?? {})) if (!/^[a-z0-9_]+$/.test(name)) issues.push(`adapters.vfx.palettes.${name}: name must be lowercase letters, digits and underscores`);
@@ -160,13 +160,15 @@ const flagToken = /^--?[A-Za-z][A-Za-z0-9_-]*$/;
  * A parameter placeholder may only sit where a script cannot take its value for an option: as its own token right
  * after a flag token (`--shape {shape}`), or embedded as `--flag={name}`. Never first, never glued to other text.
  */
-function optionInjection(at, args, paramNames) {
+function optionInjection(at, args, paramNames, params) {
   const issues = [];
   args.forEach((arg, i) => {
     const used = placeholders(arg).filter(n => paramNames.includes(n));
     if (!used.length) return;
     const whole = /^\{([A-Za-z_]+)\}$/.exec(arg);
     if (whole) {
+      const rule = params?.[whole[1]];
+      if ((rule?.type === 'integer' || rule?.type === 'number') && (rule.minimum === undefined || rule.minimum < 0)) issues.push(`${at}.args[${i}]: parameter {${whole[1]}} can be negative (no minimum of 0 or more), and "-5" as a separate token can be read as an option: give it a minimum >= 0, or write --name={${whole[1]}}`);
       if (i === 0 || !flagToken.test(args[i - 1])) issues.push(`${at}.args[${i}]: parameter {${whole[1]}} must come right after its own flag token (for example "--name", "{${whole[1]}}"), or be written --name={${whole[1]}}`);
     } else if (!/^--[A-Za-z][A-Za-z0-9_-]*=\{[A-Za-z_]+\}$/.test(arg)) issues.push(`${at}.args[${i}]: parameter placeholder in "${arg}" must be a whole token after a flag, or exactly --flag={name}`);
   });

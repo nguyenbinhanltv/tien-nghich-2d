@@ -66,11 +66,13 @@ export function toolchainPath(root, relative, what) {
  */
 export function runProgram({file, argv, cwd, timeoutMs = 30_000, maxOutput = 256 * 1024}) {
   return new Promise(resolve => {
+    reapOnExit();
     const started = performance.now();
     const env = {PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin', LANG: 'C.UTF-8', PYTHONDONTWRITEBYTECODE: '1', PYTHONIOENCODING: 'utf-8', TMPDIR: cwd};
     let stdout = '', stderr = '', timedOut = false, truncated = false, spawnError, finished = false;
     // detached: the program leads its own process group (POSIX), so one kill reaches everything it started.
     const child = spawn(file, argv, {cwd, env, windowsHide: true, detached: true, stdio: ['ignore', 'pipe', 'pipe']});
+    if (child.pid) live.add(child);
     const timer = setTimeout(() => { timedOut = true; killTree(child); }, timeoutMs);
     const take = which => chunk => {
       if (truncated) return;
@@ -80,14 +82,33 @@ export function runProgram({file, argv, cwd, timeoutMs = 30_000, maxOutput = 256
     child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8');
     child.stdout.on('data', take('out')); child.stderr.on('data', take('err'));
     child.on('error', error => { spawnError = error.code === 'ENOENT' ? error.message : String(error.message); done(null, null); });
+    // The leader has exited: whatever it started and left running is still in its group. End it now (it may also be holding
+    // our output pipes open, which would keep 'close' from ever firing).
+    child.on('exit', () => killTree(child));
     child.on('close', (code, signal) => done(code, signal));
     function done(code, signal) {
       if (finished) return;
       finished = true;
       clearTimeout(timer);
+      live.delete(child);
       resolve({code: spawnError ? null : code, signal, stdout: stdout.slice(0, maxOutput), stderr: stderr.slice(0, maxOutput), ms: Math.round(performance.now() - started), timedOut, truncated, spawnError});
     }
   });
+}
+
+// Programs that are running right now. When this server process ends (normally, or on SIGINT/SIGTERM/SIGHUP) their groups are
+// killed too, so a stopped server never leaves a generator or a SpriteFX build running behind it.
+const live = new Set();
+let reaping = false;
+function reapOnExit() {
+  if (reaping) return;
+  reaping = true;
+  const reap = () => { for (const child of live) killTree(child); live.clear(); };
+  process.on('exit', reap);
+  for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+    const handler = () => { reap(); process.off(sig, handler); process.kill(process.pid, sig); };   // then die the way the signal says
+    process.on(sig, handler);
+  }
 }
 
 /**
