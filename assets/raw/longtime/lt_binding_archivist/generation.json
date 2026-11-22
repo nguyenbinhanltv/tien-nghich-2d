@@ -1,0 +1,168 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (64x64 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed, canvases come back 84-88 px and are centred on 64 by the build script). All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "72761586-f65c-4f99-ba91-2f174c42513a",
+  "character_job_id": "c035dc05-861a-4003-aeb5-106d45137bb1",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Chibi xianxia boss, the Binding Archivist: a short stout robed archivist with an oversized round head, pale parchment-white face with calm half-closed eyes, a tall black ink-wash cap, long layered robe in soul-violet and ink-grey with bronze trim, hands holding a bronze-tipped binding cord in front. Rising behind both shoulders is a wide fan of rolled scroll spines, bronze-capped parchment scrolls radiating outward like a peacock tail, clearly visible around the head. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "9818fe27-31a0-44f4-8e74-a7cd8ba0346d",
+      "job_ids": {
+        "south": "45765b9e-250d-4265-8624-c6dc98f3f74b",
+        "west": "979be314-1bf5-47c7-86c9-596ed86001c6",
+        "north": "b0a70313-6c0d-4252-8f7b-01e26a84c3bd",
+        "east": "3c73392a-8bb0-417f-9a88-8aaacf7c4020"
+      },
+      "rejected_first_take_job_ids": {
+        "south": "e030f8e8-66b5-4351-975f-b13cd0500d1f",
+        "west": "6f523263-0a88-46d0-a300-532953806483"
+      },
+      "action_description": "stands still and breathes slowly, shoulders and robe rising and falling slightly, the fan of rolled scroll spines behind the shoulders trembles slightly but always stays fully open and clearly visible, hands stay together holding the binding cord at the chest",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind both shoulders and fully visible",
+        "west": "facing left, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind his back on the right and fully visible",
+        "north": "seen from behind, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open across his back and fully visible",
+        "east": "facing right, breathes slowly, robe and shoulders rise and fall slightly; the fan of bronze-capped scroll spines stays open behind his back on the left and fully visible"
+      },
+      "regeneration_action_description": "stands still and breathes very slowly, only a small rise and fall of the shoulders and robe hem, the head and cap never rise above their starting height, the fan of rolled scroll spines behind the shoulders stays open and almost still, no marks or sparkles anywhere, hands stay together at the chest",
+      "regeneration_direction_prompts": {
+        "south": "facing the viewer, breathes very slowly, shoulders and robe hem move only slightly; the head and tall cap stay at the same height in every frame; the fan of bronze-capped scroll spines stays open behind both shoulders and almost still",
+        "west": "facing left, breathes very slowly, shoulders and robe hem move only slightly; the fan of bronze-capped scroll spines stays open behind his back on the right and almost still; no marks, no sparkles, no symbols near the head"
+      },
+      "touchup_attempt_not_shipped": {
+        "west": {
+          "job_id": "85b520aa-13fd-4a96-9442-3ce036881d6e",
+          "action_description": "stands still and breathes very slowly, only the robe hem and shoulders move slightly, the face stays clean with nothing in front of the mouth, the fan of rolled scroll spines stays open and almost still",
+          "direction_prompt": "facing left, breathes very slowly, the robe hem and shoulders move slightly; the face is clean: no mist, no breath, no smoke, no marks anywhere near the mouth or head; the fan of bronze-capped scroll spines stays open behind his back on the right",
+          "result": "rejected at 1x/4x: the new take swaps the 2-3 px wisp for a larger grey breath puff in frames 1-2; the shipped take was kept"
+        }
+      }
+    },
+    "advance": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "2416a868-a643-48ff-838a-1a7043cb6f46",
+      "job_ids": {
+        "south": "68ab9449-1eab-4644-ad67-f8aa8fe13baf",
+        "west": "62a20a09-d0f0-491b-be3a-dbd5906dbf62",
+        "north": "e3a00427-0bcc-4dfc-a6e5-b8293f1c440a",
+        "east": "ba577cf8-f144-42e4-a89c-618f681384c3"
+      },
+      "rejected_regeneration_job_ids": {
+        "south": "3aeffe25-7aa2-454e-a7be-49171162c5a8"
+      },
+      "action_description": "walks forward with short heavy steps, robe hem swaying, the fan of rolled scroll spines behind the shoulders stays open and bobs slightly with each step, hands keep the binding cord low at the front",
+      "direction_prompts": {
+        "south": "walks toward the viewer with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind both shoulders and bobs slightly",
+        "west": "walks to the left with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind his back on the right",
+        "north": "walks away from the viewer, seen from behind, short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible across his back",
+        "east": "walks to the right with short heavy steps, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind his back on the left"
+      },
+      "regeneration_action_description": "walks forward with short heavy steps, robe hem swaying, both feet always stay on the ground line and never drop lower than the standing pose, the fan of rolled scroll spines behind the shoulders stays open and bobs slightly, hands keep the binding cord low at the front",
+      "regeneration_direction_prompts": {
+        "south": "walks toward the viewer with short heavy steps, feet stay on the same ground line in every frame and never move lower, robe hem swaying, the open fan of bronze-capped scroll spines stays visible behind both shoulders and bobs slightly"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "0ac0ded9-0f01-40f8-b8fa-ab9f5ff4d7b1",
+      "job_ids": {
+        "south": "a476d34d-3038-4e3b-9f2c-88607ea0c40d",
+        "west": "7118bfb4-2bfa-42fa-9eca-2fa3ce7839fc",
+        "north": "be7e7566-b050-4b40-9f54-04881e440015",
+        "east": "dd2022bd-82cc-4cea-a736-1460856ae2a7"
+      },
+      "action_description": "winds up for a sweeping attack: arms draw the binding cord back to one side, the fan of rolled scroll spines behind the shoulders spreads wider and rises higher with each frame until it is fully open, body leans back slightly",
+      "direction_prompts": {
+        "south": "facing the viewer, draws the binding cord back, the fan of bronze-capped scroll spines behind both shoulders spreads wider and rises until fully open like a peacock tail, staying inside the frame",
+        "west": "facing left, draws the binding cord back to the right, the fan of bronze-capped scroll spines behind his back spreads wider and rises until fully open",
+        "north": "seen from behind, the fan of bronze-capped scroll spines across his back spreads wider and rises until fully open, arms draw back",
+        "east": "facing right, draws the binding cord back to the left, the fan of bronze-capped scroll spines behind his back spreads wider and rises until fully open"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 6,
+      "keep_first_frame": false,
+      "animation_group_id": "4e74089d-7c48-440b-b19d-dddcab1fa946",
+      "job_ids": {
+        "south": "b5f06f2e-8afe-4a99-8346-9b051e3b9aba",
+        "west": "73f37aea-7b2d-4fa0-8743-18198edd9e7e",
+        "north": "3a4fd8b2-aa48-441a-9752-0803ce18334f",
+        "east": "c4c083e1-e2fe-4698-a84a-d16e4e707adc"
+      },
+      "rejected_first_take_job_ids": {
+        "west": "285c49c0-b47a-4e43-9bbf-28ebb8c58b1e",
+        "north": "8480a947-2262-4ba3-a2e6-be8711fa9d86",
+        "east": "97784d26-59e1-481c-9616-6402323584f9"
+      },
+      "action_description": "performs a fast binding sweep: both arms whip the binding cord across in a wide forward arc, the fan of rolled scroll spines behind the shoulders snaps shut toward the front and then settles, robe flares with the motion",
+      "direction_prompts": {
+        "south": "facing the viewer, whips the binding cord across in a wide arc toward the viewer, the fan of bronze-capped scroll spines snaps forward and then settles; stays inside the frame",
+        "west": "facing left, whips the binding cord across in a wide arc toward the left, the fan of bronze-capped scroll spines snaps forward to the left and then settles",
+        "north": "seen from behind, whips the binding cord away from the viewer in a wide arc, the fan of bronze-capped scroll spines snaps forward and then settles",
+        "east": "facing right, whips the binding cord across in a wide arc toward the right, the fan of bronze-capped scroll spines snaps forward to the right and then settles"
+      },
+      "regeneration_action_description": "swings a short bronze-capped rod held in both hands forward in a wide fast arc, the robe flares, the fan of rolled scroll spines stays attached behind the shoulders in every frame, no sword, no sparks, no light effects",
+      "regeneration_direction_prompts": {
+        "west": "facing left, swings a short bronze-capped rod in both hands forward to the left in a wide arc; the fan of bronze-capped scroll spines stays attached behind his back on the right in EVERY frame; no sword, no sparks, no symbols; compact body, nothing extends far from the body",
+        "north": "seen from behind, swings a short bronze-capped rod forward away from the viewer with both arms close to the body; the fan of bronze-capped scroll spines stays open across his back in EVERY frame and does not grow wider; no sparks, no light effects, nothing extends beyond the fan",
+        "east": "facing right, swings a short bronze-capped rod in both hands forward to the right in a wide arc; the fan of bronze-capped scroll spines stays attached behind his back on the left in EVERY frame; no sword, no sparks, no symbols; compact body, nothing extends far from the body"
+      }
+    }
+  },
+  "unused_diagonal_prompts_note": "PixelLab requires all eight direction_prompts keys; the four diagonal keys (south-west, north-west, north-east, south-east) were filled with one-line placeholders ('unused diagonal: ...') and no diagonal was generated.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 64x64, mannequin, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: fan of scroll spines, violet robe, tall ink cap read clearly on all four facings"
+    },
+    {
+      "n": 2,
+      "what": "idle, advance, telegraph, strike, 4 directions each, first take",
+      "credits": 16,
+      "result": "accepted: telegraph (4 dir), idle north/east, advance west/north/east, strike south. Rejected and regenerated once: strike west/east (fan vanished, a sword appeared), strike north (cyan light bars, 78 px wide, overflowed 64 px), idle south (cap rose above the 64 px frame by 1 row), idle west (stray pale marks beside the head in frames 2-3), advance south frame 3 (feet 1 row below the frame, 5 px)."
+    },
+    {
+      "n": 3,
+      "what": "one regeneration each of strike west/north/east, idle south/west, advance south, with tightened prompts (see regeneration_*)",
+      "credits": 6,
+      "result": "kept: strike west/north/east (fan stays attached; a few sparks at the rod tip), idle south (fits). idle west: new take has stray marks in frames 0-1 instead of 2-3, kept as flawed. advance south: new take was worse (11 px outside the frame vs 5), first take kept. No further retries are allowed."
+    },
+    {
+      "n": 4,
+      "what": "touch-up round (orchestrator): idle west regenerated once more",
+      "credits": 1,
+      "result": "not shipped (see animations.idle.touchup_attempt_not_shipped); still needs a human decision"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 6,
+    "total_generations": 29,
+    "balance_before": 786.26,
+    "touchup": 1
+  },
+  "crop_allowance": {
+    "advance/south/3": 5,
+    "strike/west/4": 5
+  },
+  "known_flaws": [
+    "needs a human decision: idle west frames 0-1 carry a small pale wisp beside the mouth (reads like breath or smoke); it is inside the character's colours, not removed",
+    "needs a human decision: advance south frame 3 loses the bottom outline row of the feet (5 px) and strike west frame 4 loses 5 px of a spark at the left edge, because PixelLab's frame is wider than the 64 px manifest canvas; both are accepted in crop_allowance and reported in provenance processing.cropped_opaque_pixels",
+    "strike north is mostly the fan snapping open and the robe flaring; the rod is hidden behind the body from behind",
+    "strike west/east show yellow/cyan sparks at the rod tip, which are palette colours but were not requested in the retry prompt",
+    "strike west frames 4-5: after snapping to the 40 colours a few pale spark pixels became isolated dark specks next to the rod tip"
+  ]
+}

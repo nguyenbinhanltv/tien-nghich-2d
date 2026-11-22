@@ -1,0 +1,152 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed; canvases come back 36-44 px and are centred on 32 by the build script). All four facings are separate PixelLab generations; nothing is mirrored. Diagonal direction_prompts keys are required by the tool and were filled with 'unused diagonal: ...' placeholders; no diagonal was generated.",
+  "pixellab_character_id": "3b0aeeef-1930-4fa5-baf0-caefc080e389",
+  "character_job_id": "293a11b7-2c3b-473f-9fef-c0f1aacdb56f",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small scroll moth, a fat furry moth hovering low, its two broad wings are unrolled parchment scrolls with faint ink lines and bronze scroll-roller caps at the wing tips, cream-white fuzzy body, two long feathery pale antennae, big round dark eyes, a tiny bright vermilion seal mark on the thorax. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2
+      ],
+      "animation_group_id": "91a68462-24c4-49d2-8a2e-c4d4cbdb7ab2",
+      "job_ids": {
+        "south": "c18d7f1b-5136-418c-b549-2cb73762cd90",
+        "west": "a083e788-7c17-4f6f-85bc-625606b675c7",
+        "north": "f197d1fa-7b91-49a9-a2e9-daf911bc5147",
+        "east": "9f916dfb-a61f-40be-be05-2ad363e0b406"
+      },
+      "action_description": "hovers in place, the scroll wings flap slowly up and down, the body bobs gently, antennae sway, the red seal mark stays visible, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, hovers, wings flap slowly, body bobs",
+        "west": "facing left, hovers, wings flap slowly, body bobs",
+        "north": "seen from behind, hovers, wings flap slowly, body bobs",
+        "east": "facing right, hovers, wings flap slowly, body bobs"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "af0661ae-9192-4ff1-906c-051cdf4f9b24",
+      "job_ids": {
+        "south": "dfbe61bc-901b-4af2-806a-f3ab4d3334da",
+        "west": "dfb9c460-3d3e-4af2-bb50-407bc0b602ef",
+        "north": "f5e8b48f-9b96-4427-ad92-df8b486b6487",
+        "east": "3efa4962-671d-43f5-bc82-7fa8f53d875b"
+      },
+      "action_description": "flutters forward, the scroll wings beat in a steady cycle, the body bobs up and down, antennae trail, no effects",
+      "direction_prompts": {
+        "south": "flies toward the viewer, wings beat, body bobs",
+        "west": "flies to the left, wings beat, body bobs",
+        "north": "flies away from the viewer, seen from behind, wings beat, body bobs",
+        "east": "flies to the right, wings beat, body bobs"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        2,
+        3
+      ],
+      "animation_group_id": "d7f650fb-a075-41f6-856d-e4d02211e87c",
+      "job_ids": {
+        "south": "b094dce5-fc1d-43ec-801a-52c14aca37a9",
+        "west": "b564e44a-09bf-4bc3-9576-712b9d70a6d9",
+        "north": "9297139d-ed3e-4c6e-96d8-880424617d4a",
+        "east": "92b0bdb5-040f-4903-93bb-66ab5a9923ef"
+      },
+      "action_description": "rises slightly and spreads both scroll wings wide open and flat, the body tilts back and the antennae stand straight up, preparing to dive, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, rises and spreads both wings wide, antennae stand up",
+        "west": "facing left, rises and spreads both wings wide, body tilts back, antennae stand up",
+        "north": "seen from behind, rises and spreads both wings wide, antennae stand up",
+        "east": "facing right, rises and spreads both wings wide, body tilts back, antennae stand up"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "fec645a4-a411-4a61-ada9-2e1b0adb5792",
+      "job_ids": {
+        "south": "af5b1ce2-0ca8-43a8-ae8a-20616d2d1815",
+        "west": "88e77244-5cb1-42ba-b0c1-153fe6b2f59c",
+        "north": "dbc0b72a-4973-47e3-afe4-3ba0451788fb",
+        "east": "0da9455d-3631-43d1-acf3-99c8c36233e8"
+      },
+      "action_description": "dives forward fast with the scroll wings swept back, the body stretches long, then snaps back up and the wings spread again, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, dives toward the viewer with wings swept back, then pulls up",
+        "west": "facing left, dives to the left with wings swept back, then pulls up",
+        "north": "seen from behind, dives away from the viewer with wings swept back, then pulls up",
+        "east": "facing right, dives to the right with wings swept back, then pulls up"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+      },
+      "touchup_action_description": "lunges forward in a short fast dart with both scroll wings kept open and clearly visible, the body stays upright and compact, then pulls back, never folds up, no effects",
+      "touchup_direction_prompts": {
+        "west": "facing left, darts forward to the left in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright",
+        "east": "facing right, darts forward to the right in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright"
+      }
+    }
+  },
+  "frame_count_note": "The mob profile wants 3 frames for idle and telegraph but PixelLab v3 only returns even counts (min 4). Idle: 4 generated, last dropped. Telegraph: 4 generated, frame 1 dropped (kept 0, 2, 3, renumbered 0-2). The raw folder holds the kept frames only.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32, custom template, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: parchment-winged moth with bronze roller tips and red seal reads from the front and back"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike x 4 directions, first take",
+      "credits": 16,
+      "result": "all accepted; no regeneration. The retry allowance was left unused (see known_flaws, needs a human decision)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): strike west and east regenerated once each, judged old vs new at 1x and 4x",
+      "credits": 2,
+      "result": "both new takes shipped: the old frames crumpled into a diagonal dive shape; the new ones keep a compact whole-body silhouette with wing masses visible (west reads as a folded wing pair, east as a crescent). Modest improvement; the edge-on view still shows little of the scroll wings. Previous takes superseded."
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 0,
+    "total_generations": 24,
+    "touchup": 2
+  },
+  "known_flaws": [
+    "needs a human decision: west and east are narrow edge-on slivers (the wings are seen from the side), so the scroll-wing identity reads only in south and north",
+    "the spec's pale antenna feathers merge with the cream body at 1x",
+    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)",
+    "strike west and east (touch-up takes) are compact folded-wing silhouettes, not the open scroll wings of south and north; they read as a moth but less specifically"
+  ]
+}
