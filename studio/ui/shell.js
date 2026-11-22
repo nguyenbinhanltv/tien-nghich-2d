@@ -1,7 +1,7 @@
 // Studio shell: rail, top bar, routing, language, command palette and the tab lifecycle.
 // Tabs are modules under ./tabs/<id>/; see ./README.md for the contract.
 import { destinations } from './destinations.mjs';
-import { parseHash, formatHash } from './router.mjs';
+import { parseHash, formatHash, hubTab } from './router.mjs';
 import { translator, localize, pickLanguage, storageKey, loadTable } from './i18n.mjs';
 import { createPalette } from './palette.mjs';
 import * as placeholder from './tabs/_placeholder/index.mjs';
@@ -43,8 +43,11 @@ function glyphSvg(rows) {
   return svg;
 }
 
-const state = {project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null};
+// With no project open (the server was started without one) the shell has only the Projects screen: this stands in for the project info.
+const noProject = () => ({id: null, name: '', brand: {mark: 'PK'}, languages: ['en', 'vi'], theme: {}, categoryTabs: {}, tools: [], tabConfig: {}, sources: [], tabs: [], palette: {name: '', colors: 0}});
+const state = {hubOnly: false, project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null};
 const loadedCss = new Set();
+const projectsGlyph = ['########', '#......#', '#.####.#', '#.#..#.#', '#.####.#', '#.#..#.#', '#......#', '########'];
 
 const t = (key, vars) => translator(state.lang, [state.shell])(key, vars);
 const label = value => localize(value, state.lang);
@@ -71,17 +74,18 @@ function renderChrome() {
   document.documentElement.lang = state.lang;
   $('brand').replaceChildren(
     h('span', {class: 'brand-mark', 'aria-hidden': 'true'}, project.brand.mark),
-    h('span', {class: 'brand-text'}, h('strong', {}, t('app.title')), h('small', {title: label(project.brand.subtitle) || project.name}, project.name)));
+    h('span', {class: 'brand-text'}, h('strong', {}, t('app.title')), h('small', {title: label(project.brand.subtitle) || project.name}, state.hubOnly ? t('top.noProject') : project.name)));
   const nav = $('nav');
   nav.setAttribute('aria-label', t('nav.label'));
-  nav.replaceChildren(...destinations.map((d, i) => {
+  nav.replaceChildren(...(state.hubOnly ? [] : destinations).map((d, i) => {
     const built = project.tabs.find(x => x.id === d.id)?.built;
     return h('a', {href: formatHash({tab: d.id}), class: 'rail-link', 'data-tab': d.id, 'data-built': String(Boolean(built)), title: t('nav.' + d.id) + ' (' + (i + 1) + ')'},
       h('span', {class: 'rail-glyph'}, glyphSvg(d.glyph)), h('span', {class: 'rail-label'}, t('nav.' + d.id)),
       built ? '' : h('span', {class: 'rail-soon', 'aria-hidden': 'true'}));
   }));
-  $('rail-tools').replaceChildren(h('h2', {}, t('nav.tools')), h('ul', {},
-    ...project.tools.map(tool => h('li', {}, h('a', {href: tool.href, title: label(tool.note)}, label(tool.label))))));
+  if (state.hubOnly) nav.append(h('a', {href: formatHash({tab: hubTab}), class: 'rail-link', 'data-tab': hubTab, 'data-built': 'true'}, h('span', {class: 'rail-glyph'}, glyphSvg(projectsGlyph)), h('span', {class: 'rail-label'}, t('nav.projects'))));
+  $('rail-tools').replaceChildren(...(state.hubOnly ? [] : [h('h2', {}, t('nav.tools')), h('ul', {},
+    ...project.tools.map(tool => h('li', {}, h('a', {href: tool.href, title: label(tool.note)}, label(tool.label)))))]));
   document.querySelector('.skip-link').textContent = t('app.skip');
   renderTopbar();
   markActive();
@@ -92,9 +96,9 @@ function renderTopbar() {
   const langs = project.languages;
   $('topbar').replaceChildren(
     h('div', {class: 'crumbs', id: 'crumbs'}),
-    h('button', {type: 'button', class: 'switcher', 'aria-disabled': 'true', title: t('top.switcherSoon'), 'aria-label': t('top.switcher') + ': ' + project.name,
-      onclick: () => announce(t('top.switcherSoon'))}, h('span', {class: 'muted'}, t('top.project')), h('strong', {}, project.name), h('span', {'aria-hidden': 'true'}, '▾')),
-    h('button', {type: 'button', class: 'search-button', onclick: () => state.palette.open(), 'aria-label': t('top.search'), 'aria-keyshortcuts': 'Control+K Meta+K'},
+    state.hubOnly ? '' : h('button', {type: 'button', class: 'switcher', 'data-testid': 'project-switcher', title: t('top.switcher'), 'aria-label': t('top.switcher') + ': ' + project.name,
+      onclick: () => navigate({tab: hubTab})}, h('span', {class: 'muted'}, t('top.project')), h('strong', {}, project.name), h('span', {'aria-hidden': 'true'}, '▾')),
+    state.hubOnly ? '' : h('button', {type: 'button', class: 'search-button', onclick: () => state.palette.open(), 'aria-label': t('top.search'), 'aria-keyshortcuts': 'Control+K Meta+K'},
       h('span', {}, t('top.search')), h('kbd', {}, /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K')),
     h('div', {class: 'lang', role: 'group', 'aria-label': t('top.language')}, ...langs.map(l =>
       h('button', {type: 'button', 'aria-pressed': String(l === state.lang), lang: l, onclick: () => setLanguage(l)}, l.toUpperCase()))));
@@ -152,8 +156,15 @@ function makeContext(id, root, tabTable, controller, cleanups) {
     tabApi: (path, options) => fetchJson(`/api/tabs/${id}/` + path, {signal: controller.signal, ...options}),
     href: partial => formatHash(partial), navigate, loadCss, announce,
     categoryTab: category => state.project.categoryTabs[category] ?? 'overview',
+    hasProject: !state.hubOnly, reloadProject,
     onUnmount: fn => cleanups.push(fn)
   };
+}
+
+/** A different project is open on the server: start the studio over on its Overview, so no tab keeps what it read from the old one. */
+function reloadProject() {
+  history.replaceState(null, '', location.pathname + location.search + formatHash({tab: 'overview'}));
+  location.reload();
 }
 
 async function mountRoute(force = false) {
@@ -172,10 +183,11 @@ async function mountRoute(force = false) {
   main.replaceChildren(root);
   root.append(h('p', {class: 'muted', role: 'status'}, t('common.loading')));
   const controller = new AbortController(), cleanups = [];
-  const built = state.project.tabs.find(x => x.id === id)?.built;
+  const hub = id === hubTab;
+  const built = hub || state.project.tabs.find(x => x.id === id)?.built;
   try {
-    const mod = built ? await import(`./tabs/${id}/index.mjs`) : placeholder;
-    const table = built ? await loadTable(fetchJson, `./ui/tabs/${id}/i18n`, state.project.languages) : {};
+    const mod = hub ? await import('./hub/index.mjs') : built ? await import(`./tabs/${id}/index.mjs`) : placeholder;
+    const table = hub ? await loadTable(fetchJson, './ui/hub/i18n', state.project.languages) : built ? await loadTable(fetchJson, `./ui/tabs/${id}/i18n`, state.project.languages) : {};
     if (mine !== state.seq) { controller.abort(); return; }
     const ctx = makeContext(id, root, table, controller, cleanups);
     state.active = {id, mod, ctx, controller, cleanups, route: r};
@@ -187,13 +199,14 @@ async function mountRoute(force = false) {
     root.replaceChildren(h('section', {class: 'tab-error', role: 'alert'}, h('p', {}, t('common.error', {message: error.message})),
       h('button', {type: 'button', onclick: () => mountRoute(true)}, t('common.retry'))));
   }
-  document.title = `${t('nav.' + id)} · ${state.project.name} — ${t('app.title')}`;
+  document.title = state.hubOnly ? `${t('nav.' + id)} — ${t('app.title')}` : `${t('nav.' + id)} · ${state.project.name} — ${t('app.title')}`;
 }
 
 async function route() {
   const hash = location.hash;
   const parsed = parseHash(hash);
-  const clean = !hash || hash === '#' || hash === '#/' || hash === formatHash(parsed);
+  if (state.hubOnly) parsed.tab = hubTab;   // with no project open there is nothing else to show
+  const clean = !hash || hash === '#' || hash === '#/' || hash === formatHash(parsed) || state.hubOnly;
   state.route = parsed;
   markActive();
   renderCrumbs();
@@ -214,8 +227,11 @@ function railKeys(event) {
 async function boot() {
   try { state.project = await fetchJson('/api/studio/project'); }
   catch (error) {
+    if (error.body?.error?.code === 'no_project') { state.hubOnly = true; state.project = noProject(); }
+    else {
     $('main').replaceChildren(h('section', {class: 'tab-error', role: 'alert'}, h('p', {}, 'Could not load the project: ' + error.message)));
     return;
+    }
   }
   const {project} = state;
   applyTheme(project.theme);
@@ -223,11 +239,11 @@ async function boot() {
   try { stored = localStorage.getItem(storageKey); } catch { stored = null; }
   state.lang = pickLanguage(project.languages, stored, navigator.languages ?? []);
   state.shell = await loadTable(fetchJson, './ui/i18n', project.languages);
-  state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }});
+  if (!state.hubOnly) state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }});
   renderChrome();
   $('nav').addEventListener('keydown', railKeys);
   window.addEventListener('hashchange', route);
-  document.addEventListener('keydown', event => {
+  if (!state.hubOnly) document.addEventListener('keydown', event => {
     if (event.key === 'g' && !event.metaKey && !event.ctrlKey && !event.altKey && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName ?? '')) {
       const once = e => { const n = Number(e.key); if (n >= 1 && n <= destinations.length) { e.preventDefault(); navigate({tab: destinations[n - 1].id}); } document.removeEventListener('keydown', once, true); };
       document.addEventListener('keydown', once, true);

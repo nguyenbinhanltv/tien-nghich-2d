@@ -105,7 +105,7 @@ test('CLI-003 CLI-004: a copy of studio/ alone, outside the project, serves it, 
   assert.equal(planned.isError, undefined, JSON.stringify(planned));
   assert.ok(JSON.parse(fs.readFileSync(path.join(project, 'design/studio_plans.json'), 'utf8')).entries.some(e => e.id === 'first_sprite'));
   // serve: the shell and the project API answer.
-  const server = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', '--project', link, '--port', '0'], {stdio: ['ignore', 'pipe', 'pipe']});
+  const server = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', '--project', link, '--port', '0'], {env: {...process.env, PIXEL_KILN_HOME: path.join(dir, 'pk-home')}, stdio: ['ignore', 'pipe', 'pipe']});
   t.after(() => server.kill('SIGTERM'));
   const base = await new Promise((resolve, reject) => {
     let out = '';
@@ -189,7 +189,7 @@ test('CLI-003: --project=<dir> and --project <dir> select the same project for s
     fs.writeFileSync(path.join(project, 'studio.project.json'), JSON.stringify(pack));
     assert.match((await inCwd(['baseline', ...form, '--check'])).stdout, /declares no review\.baseline/, form.join(' '));
     // serve announces the project it serves.
-    const server = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', ...form, '--port', '0'], {cwd: other, stdio: ['ignore', 'pipe', 'pipe']});
+    const server = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', ...form, '--port', '0'], {cwd: other, env: {...process.env, PIXEL_KILN_HOME: path.join(other, 'pk-home')}, stdio: ['ignore', 'pipe', 'pipe']});
     const said = await new Promise((resolve, reject) => {
       let out = '';
       server.stdout.on('data', c => { out += c; if (/http:\/\/127\.0\.0\.1:\d+\/studio\//.test(out)) resolve(out); });
@@ -228,4 +228,45 @@ test('CLI-009: the tool is named Pixel Kiln for people; pixel-kiln is the comman
   await client.close();
   assert.match(init.result.serverInfo.title, /^Pixel Kiln · /);
   assert.match(init.result.instructions, /^Pixel Kiln, the pixel-art asset studio, serving the project "/);
+});
+
+test('PROJECTS-013, CLI-010: `projects list|add|remove` keep the user-level list; `serve` with no project starts on the Projects screen', async t => {
+  const dir = tmpdir(t), home = path.join(dir, 'home'), pond = path.join(dir, 'pond');
+  const env = {...process.env, PIXEL_KILN_HOME: home};
+  const kiln = (...args) => run(process.execPath, [path.join(STUDIO, 'cli.mjs'), ...args], {env}).then(r => ({code: 0, ...r}), e => ({code: e.code, stdout: e.stdout, stderr: e.stderr}));
+  assert.match((await kiln('projects', 'list')).stdout, /No projects yet/);
+  assert.equal((await kiln('init', pond, '--name', 'Pond')).code, 0);
+  const added = await kiln('projects', 'add', pond);
+  assert.equal(added.code, 0, added.stderr);
+  const id = /\((p_[0-9a-f]+)\)/.exec(added.stdout)[1];
+  const listed = JSON.parse((await kiln('projects', 'list', '--json')).stdout);
+  assert.equal(listed.home, home, 'the list is in PIXEL_KILN_HOME');
+  assert.deepEqual(listed.projects.map(p => [p.id, p.name, p.status]), [[id, 'Pond', 'ok']]);
+  const bad = await kiln('projects', 'add', dir);
+  assert.equal(bad.code, 1);
+  assert.match(bad.stderr, /no studio\.project\.json/);
+  assert.equal((await kiln('projects', 'remove', 'p_nope')).code, 1);
+  assert.equal((await kiln('projects', 'frobnicate')).code, 2);
+  assert.equal((await kiln('projects', 'remove', id)).code, 0);
+  assert.ok(fs.existsSync(path.join(pond, 'studio.project.json')), 'remove never deletes the project');
+  assert.deepEqual(JSON.parse((await kiln('projects', 'list', '--json')).stdout).projects, []);
+  // serve with no --project: the Projects screen, and a project's files are not served.
+  const server = spawn(process.execPath, [path.join(STUDIO, 'cli.mjs'), 'serve', '--port', '0'], {cwd: pond, env, stdio: ['ignore', 'pipe', 'pipe']});
+  t.after(() => server.kill('SIGTERM'));
+  const base = await new Promise((resolve, reject) => {
+    let out = '';
+    server.stdout.on('data', c => { out += c; const m = /Projects screen at (http:\/\/127\.0\.0\.1:\d+)\/studio\//.exec(out); if (m) resolve(m[1]); });
+    server.on('exit', code => reject(new Error(`server exited ${code}`)));
+    setTimeout(() => reject(new Error('no server')), 20_000).unref();
+  });
+  assert.equal((await fetch(base + '/api/studio/project')).status, 409, 'the current directory is not served: no project was named');
+  assert.equal((await fetch(base + '/studio.project.json')).status, 404);
+  assert.equal((await fetch(base + '/api/projects')).status, 200);
+  server.kill('SIGTERM');
+  // serve --project records the project in the list as opened.
+  const named = spawn(process.execPath, [path.join(STUDIO, 'cli.mjs'), 'serve', '--project', pond, '--port', '0'], {env, stdio: ['ignore', 'pipe', 'pipe']});
+  t.after(() => named.kill('SIGTERM'));
+  await new Promise((resolve, reject) => { let out = ''; named.stdout.on('data', c => { out += c; if (/serving Pond at/.test(out)) resolve(); }); setTimeout(() => reject(new Error('no server')), 20_000).unref(); });
+  for (let i = 0; i < 50 && !(JSON.parse((await kiln('projects', 'list', '--json')).stdout).projects[0]?.lastOpened); i++) await new Promise(r => setTimeout(r, 100));
+  assert.ok(JSON.parse((await kiln('projects', 'list', '--json')).stdout).projects[0]?.lastOpened, 'a project named at start counts as opened');
 });

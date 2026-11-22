@@ -2,13 +2,15 @@
 // Pixel Kiln's single entry point (command `pixel-kiln`, alias `studio`; or `node studio/cli.mjs`). Works from a copy of the studio/ directory alone: no install, no npm.
 //
 //   node studio/cli.mjs init <dir> [--name <text>] [--id <slug>]    create a new, empty project
-//   node studio/cli.mjs serve  [--project <dir>] [--port <n>] [--host <addr>] [--revision-dir <abs>]
+//   node studio/cli.mjs serve  [--project <dir>] [--port <n>] [--host <addr>] [--revision-dir <abs>]   (no --project: opens on the Projects screen)
+//   node studio/cli.mjs projects list [--json] | add <dir> | remove <id>   the user-level list of projects (never deletes files)
 //   node studio/cli.mjs mcp    [--project <dir>] [--scope read|author|pack] [--agent <name>] ...   (the options of mcp.mjs)
 //   node studio/cli.mjs check  [--project <dir>] [--json]           validate the pack and say what is missing
 //   node studio/cli.mjs doctor [--project <dir>] [--json]           Node version and optional tools
 //   node studio/cli.mjs baseline [--project <dir>] --check|--write  the review baseline record (see studio/baseline.mjs)
 //
-// --project defaults to the current directory. The studio may live anywhere, inside the project or outside it.
+// check, doctor, baseline and mcp take --project (default: the current directory). `serve` without --project starts on the Projects screen.
+// The studio may live anywhere, inside the project or outside it.
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -19,14 +21,15 @@ Usage: pixel-kiln <command> [options]   (alias: studio; or: node ${path.relative
 
 Commands:
   init <dir>   create a project (pack, starter palette, folders, empty manifests, agent configs at read scope, README); never overwrites
-  serve        run Pixel Kiln for a project in the browser (loopback only)
+  serve        run Pixel Kiln in the browser (loopback only); with --project it opens that project, without it the Projects screen
+  projects     list | add <dir> | remove <id>: the list of projects on this machine (remove never deletes files)
   mcp          run the MCP server for a project over stdio (one agent is enough)
   check        validate the pack and report what is missing (exit 1 on errors)
   doctor       Node version and the optional tools on this machine
   baseline     write or check the review baseline record (--check | --write)
 
 Options:
-  --project <dir>   the project directory (default: the current directory)
+  --project <dir>   the project directory (default: the current directory; for serve: none, start on the Projects screen)
   --json            check and doctor: print JSON
   --help
 Run a command with --help for its own options (serve, mcp).`;
@@ -63,7 +66,37 @@ switch (command) {
     } catch (error) { console.error(`pixel-kiln init: ${error.message}`); process.exit(1); }
     break;
   }
-  case 'serve': await run('serve.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
+  case 'serve': await run('serve.mjs', rest); break;
+  case 'projects': {
+    const {values, positionals} = flags({json: {type: 'boolean'}});
+    const [action, arg, ...more] = positionals;
+    const reg = await import('./core/project-registry.mjs');
+    const registry = reg.createRegistry();
+    const fail = (message, code = 1) => { console.error(`pixel-kiln projects: ${message}`); process.exit(code); };
+    if (more.length || !['list', 'add', 'remove'].includes(action) || (action === 'list') !== (arg === undefined)) fail('use `projects list`, `projects add <dir>` or `projects remove <id>`', 2);
+    if (action === 'list') {
+      const entries = await registry.list();
+      const rows = await Promise.all(entries.map(async e => {
+        try { await reg.inspectProject(e.path, {strict: false}); return {...e, status: 'ok'}; }
+        catch (error) { return {...e, status: error.code === 'not_found' ? 'missing' : 'invalid'}; }
+      }));
+      if (values.json) console.log(JSON.stringify({home: registry.home, projects: rows}, null, 2));
+      else if (!rows.length) console.log(`No projects yet. Add one with \`pixel-kiln projects add <dir>\`. (list: ${registry.file})`);
+      else for (const r of rows) console.log(`${r.id}  ${r.status.padEnd(7)} ${r.name}  ${r.path}${r.lastOpened ? `  (opened ${r.lastOpened})` : ''}`);
+    } else if (action === 'add') {
+      try {
+        const found = await reg.inspectProject(arg, {strict: false});
+        const entry = await registry.add({root: found.root, name: found.pack.name});
+        console.log(`Added "${entry.name}" (${entry.id}) at ${entry.path}`);
+      } catch (error) {
+        console.error(`pixel-kiln projects add: ${error.message}`);
+        for (const issue of error.issues ?? []) console.error(`  ${issue}`);
+        process.exit(1);
+      }
+    } else if (!(await registry.remove(arg))) fail(`no project with id ${arg} in the list`);
+    else console.log(`Removed ${arg} from the list. No file was deleted.`);
+    break;
+  }
   case 'mcp': await run('mcp.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
   case 'baseline': await run('baseline.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
   case 'check': {

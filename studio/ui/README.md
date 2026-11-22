@@ -14,7 +14,7 @@ studio/ui/tabs/_placeholder/ shown for a destination whose module does not exist
 studio/ui/tests/             shell tests (router, i18n, the contract test)
 ```
 
-The nine ids are `overview characters objects vfx audio review jobs sandbox atlas`.
+The nine ids are `overview characters objects vfx audio review jobs sandbox atlas`. The shell also owns one screen that is not a destination: **Projects** (`#/projects`, `studio/ui/hub/`), opened from the project button in the top bar and shown by default when the server runs with no project. Tabs need nothing for it: after a project switch the shell reloads, so every tab mounts again against the new project.
 
 ## Adding a tab without editing any shared file
 

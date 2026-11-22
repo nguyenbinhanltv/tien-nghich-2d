@@ -15,6 +15,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { loadPackSync } from './core/pack.mjs';
+import { createRegistry } from './core/project-registry.mjs';
 import { studioApi } from './server/catalog-api.mjs';
 import { tabApi } from './server/tab-api.mjs';
 
@@ -40,19 +41,19 @@ const MIME_TYPES = {
   '.md': 'text/markdown; charset=utf-8',
 };
 
-export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
+/**
+ * One open project: its pack, how URLs map onto its files, and the lazily started APIs that read it.
+ * The server holds exactly one at a time and can swap it while running (see `switchProject`).
+ */
+function openWorkspace(rootArg, revisionDir) {
   // The real path: a project reached through a symlink (macOS /var, a linked checkout) must not look like it escapes itself.
-  const REPO_ROOT = fsSync.realpathSync(path.resolve(root));
+  const REPO_ROOT = fsSync.realpathSync(path.resolve(rootArg));
   const PACK = loadPackSync(REPO_ROOT, undefined, { verifyFiles: false });
   const SERVE = PACK.serve ?? {};
   const publicPath = relative => !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>
     !['..', '.git', PACK.directories.revisions].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
   const hooks = new Map((SERVE.hooks ?? []).map(h => [h.path, h.module]));
-  const underPrefix = (reqPath, prefix) => reqPath === prefix || reqPath.startsWith(prefix + '/');
   const mounts = [...(SERVE.mounts ?? [])].sort((x, y) => y.url.length - x.url.length);
-  const exists = async (base, rel) => {
-    try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
-  };
   // A mount must be a real directory inside the project, not under a blocked directory, whatever symlinks it passes through.
   // Not cached: a mount may be a directory that a build creates after the server started.
   const mountOk = async mount => {
@@ -71,32 +72,93 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
     }
     return underStudio ? {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)} : {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
   };
-  let editor, studio, tabs, mcp;
+  const ws = {root: REPO_ROOT, pack: PACK, serve: SERVE, hooks, publicPath, locate, editor: undefined, studio: undefined, tabs: undefined, mcp: undefined,
+    close() { ws.editor?.then(api => api.close(), () => {}); ws.mcp?.then(api => api.close(), () => {}); }};
+  ws.editorApi = () => (ws.editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT)));
+  ws.mcpApi = () => (ws.mcp ??= import('./mcp/http.mjs').then(m => m.createMcpHttp({ root: REPO_ROOT, libraryDir: revisionDir })));
+  ws.studioApi = () => (ws.studio ??= studioApi(REPO_ROOT));
+  ws.tabApi = () => (ws.tabs ??= tabApi(REPO_ROOT));
+  return ws;
+}
+
+const underPrefix = (reqPath, prefix) => reqPath === prefix || reqPath.startsWith(prefix + '/');
+const exists = async (base, rel) => {
+  try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
+};
+const noProject = res => {
+  res.writeHead(409, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  res.end(JSON.stringify({ error: { code: 'no_project', message: 'No project is open. Choose one on the Projects screen.' } }));
+};
+
+/**
+ * `root` opens that project at start; with `root: null` (what `runCli` passes when no project is named) the server starts on the
+ * Projects screen with none open, and answers only the studio's own files and /api/projects until one is chosen.
+ * `registry` is the user-level project list; created on first use from PIXEL_KILN_HOME or the user's config directory.
+ */
+export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir, registry } = {}) {
+  let ws = root == null ? null : openWorkspace(root, revisionDir);
+  let projectsApi, ownRegistry;
+  const getRegistry = () => registry ?? (ownRegistry ??= createRegistry());
+  const host = {
+    current: () => (ws ? { root: ws.root, id: ws.pack.id, name: ws.pack.name } : null),
+    registry: getRegistry, studioDir: STUDIO_DIR,
+    /** Open another project in place: the old one is closed after the new one loaded, so a failure leaves the server as it was. */
+    async switchProject(rootArg) {
+      const next = openWorkspace(rootArg); // --revision-dir belongs to the project the server started with
+      const old = ws; ws = next; old?.close();
+      return host.current();
+    },
+    address: () => server.address(),
+  };
   const server = http.createServer(async (req, res) => {
     try {
+      const w = ws;
       const urlObj = new URL(req.url || '/', 'http://127.0.0.1');
+      if (urlObj.pathname.startsWith('/api/projects')) {
+        projectsApi ??= import('./server/projects-api.mjs').then(m => m.projectsApi(host));
+        await (await projectsApi).handle(req, res, urlObj, server.address());
+        return;
+      }
       if (urlObj.pathname === '/mcp' || urlObj.pathname.startsWith('/mcp/')) {
         // MCP over loopback HTTP: same tools as `node studio/mcp.mjs`, see studio/mcp/README.md.
-        mcp ??= import('./mcp/http.mjs').then(m => m.createMcpHttp({ root: REPO_ROOT, libraryDir: revisionDir }));
-        await (await mcp).handle(req, res, urlObj, server.address());
+        if (!w) return noProject(res);
+        await (await w.mcpApi()).handle(req, res, urlObj, server.address());
         return;
       }
       if (urlObj.pathname.startsWith('/api/editor/')) {
-        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT));
-        await (await editor).handle(req, res, urlObj, server.address());
+        if (!w) return noProject(res);
+        await (await w.editorApi()).handle(req, res, urlObj, server.address());
         return;
       }
       if (urlObj.pathname.startsWith('/api/studio/')) {
-        studio ??= studioApi(REPO_ROOT);
-        await studio.handle(req, res, urlObj, server.address());
+        if (!w) return noProject(res);
+        await w.studioApi().handle(req, res, urlObj, server.address());
         return;
       }
       if (urlObj.pathname.startsWith('/api/tabs/')) {
-        tabs ??= tabApi(REPO_ROOT);
-        await tabs.handle(req, res, urlObj, server.address());
+        if (!w) return noProject(res);
+        await w.tabApi().handle(req, res, urlObj, server.address());
         return;
       }
       let reqPath = decodeURIComponent(urlObj.pathname);
+      if (reqPath === '/') {
+        res.writeHead(302, { Location: STUDIO_PREFIX });
+        res.end();
+        return;
+      }
+      if (reqPath === '/favicon.ico') {
+        res.writeHead(204);
+        res.end();
+        return;
+      }
+      // No project open: the studio's own files and nothing else. A project's files are never served without one.
+      const SERVE = w?.serve ?? {};
+      const publicPath = w?.publicPath ?? (relative => !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part => part.toLowerCase() !== '..' && !/[:. ]$|:/.test(part)));
+      if (!w && !reqPath.startsWith(STUDIO_PREFIX)) {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end(`Not found: ${reqPath}`);
+        return;
+      }
       // Aliases from the pack: a project's old URL prefix keeps answering as its new one.
       for (const alias of SERVE.aliases ?? [])
         if (underPrefix(reqPath, alias.from)) { reqPath = alias.to + reqPath.slice(alias.from.length); break; }
@@ -106,26 +168,14 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
         if (here && Object.entries(page.query).every(([k, values]) => values.includes(urlObj.searchParams.get(k)))) { reqPath = page.serve; break; }
       }
 
-      if (reqPath === '/') {
-        res.writeHead(302, { Location: STUDIO_PREFIX });
-        res.end();
-        return;
-      }
-
-      if (hooks.has(reqPath)) {
-        const mod = await import(pathToFileURL(path.join(REPO_ROOT, hooks.get(reqPath))).href);
-        await mod.handle(req, res, { root: REPO_ROOT, pack: PACK });
-        return;
-      }
-
-      if (reqPath === '/favicon.ico') {
-        res.writeHead(204);
-        res.end();
+      if (w?.hooks.has(reqPath)) {
+        const mod = await import(pathToFileURL(path.join(w.root, w.hooks.get(reqPath))).href);
+        await mod.handle(req, res, { root: w.root, pack: w.pack });
         return;
       }
 
       // Resolve safely inside the directory that owns the URL
-      const {base, rel: cleaned, mount} = await locate(reqPath);
+      const {base, rel: cleaned, mount} = w ? await w.locate(reqPath) : {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)};
       let absPath = path.resolve(base, cleaned);
       if (!publicPath(cleaned) || !publicPath(path.relative(base, absPath))) {
         res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
@@ -147,7 +197,7 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
       }
 
       absPath = await fs.realpath(absPath);
-      const realRoot = await fs.realpath(mount ? REPO_ROOT : base);
+      const realRoot = await fs.realpath(mount ? w.root : base);
       const inside = path.relative(realRoot, absPath);
       if (inside.startsWith('..') || path.isAbsolute(inside) || !publicPath(inside)) {
         res.writeHead(403);
@@ -167,14 +217,16 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
       res.end('Server error');
     }
   });
-  server.on('close', () => { editor?.then(api => api.close(), () => {}); mcp?.then(api => api.close(), () => {}); });
+  server.on('close', () => { ws?.close(); });
+  server.switchProject = host.switchProject;
+  server.currentProject = host.current;
   return server;
 }
 
 function parseArgs(argv) {
   let port = Number(process.env.PORT || 4173);
   let host = process.env.HOST || '127.0.0.1';
-  let revisionDir, root = DEFAULT_ROOT;
+  let revisionDir, root = null;   // no --project: start on the Projects screen
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--port' && argv[i + 1]) port = Number(argv[++i]);
     else if (argv[i] === '--host' && argv[i + 1]) host = argv[++i];
@@ -191,9 +243,17 @@ const PACKNAME = root => { try { return loadPackSync(root, undefined, { verifyFi
 export function runCli(argv = process.argv.slice(2)) {
   const { port, host, revisionDir, root } = parseArgs(argv);
   const server = createPreviewServer({ root, revisionDir });
-  server.listen(port, host, () => {
+  server.listen(port, host, async () => {
     const addr = server.address();
-    console.log(`Pixel Kiln serving ${PACKNAME(root)} at http://${host}:${addr.port}/studio/`);
+    const url = `http://${host}:${addr.port}/studio/`;
+    if (root == null) { console.log(`Pixel Kiln serving the Projects screen at ${url}`); return; }
+    console.log(`Pixel Kiln serving ${PACKNAME(root)} at ${url}`);
+    // The project that was named counts as opened: it goes to the top of the user's recent list. A list that cannot be written is not fatal.
+    try {
+      const { inspectProject, createRegistry: make } = await import('./core/project-registry.mjs');
+      const found = await inspectProject(root, { strict: false });
+      await make().add({ root: found.root, name: found.pack.name }, { opened: true });
+    } catch (error) { console.error(`Pixel Kiln: could not record the project in the recent list: ${error.message}`); }
   });
   return server;
 }

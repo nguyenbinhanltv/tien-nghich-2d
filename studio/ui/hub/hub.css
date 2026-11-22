@@ -1,0 +1,48 @@
+/* The Projects screen. Uses the shell's variables only, so every project keeps its own colours. */
+.hub { max-width: 72rem; padding: 1.5rem; display: grid; gap: 1.5rem; }
+.hub h1 { margin: 0 0 .25rem; font-size: 1.6rem; }
+.hub h2 { margin: 0 0 .75rem; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); }
+.hub-head p { margin: 0; max-width: 60ch; }
+.hub-status:empty { display: none; }
+.hub-section { background: var(--surface); border: 2px solid var(--line); padding: 1rem; }
+.hub-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.5rem; align-items: start; }
+.hub-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; }
+.hub-card { display: flex; flex-direction: column; gap: .6rem; background: var(--ink); border: 2px solid var(--line); padding: .8rem; box-shadow: 3px 3px 0 var(--accent-soft); min-width: 0; }
+.hub-card[data-current="true"] { border-color: var(--accent); }
+.hub-card[data-status="missing"], .hub-card[data-status="invalid"] { border-style: dashed; box-shadow: none; }
+.hub-card-head { display: flex; gap: .6rem; align-items: flex-start; }
+.hub-mark { display: grid; place-items: center; flex: none; width: 2.4rem; height: 2.4rem; font-size: 1.3rem; color: var(--gold-soft); border: 2px solid var(--gold); background: var(--surface-2); }
+.hub-card-title { min-width: 0; flex: 1; }
+.hub-card-title h3 { margin: 0; font-size: 1rem; overflow-wrap: anywhere; }
+.hub-card-title p { margin: 0; font-size: .8rem; }
+.hub-badge { font-size: .7rem; padding: .1rem .4rem; border: 2px solid var(--accent); color: var(--accent); white-space: nowrap; }
+.hub-badge-bad { border-color: var(--danger); color: var(--danger); }
+.hub-swatches { display: flex; height: .6rem; border: 2px solid var(--line); }
+.hub-swatches i { flex: 1; }
+.hub-path { margin: 0; font-size: .75rem; color: var(--muted); overflow-wrap: anywhere; }
+.hub-facts { display: grid; grid-template-columns: auto 1fr; gap: .1rem .75rem; margin: 0; font-size: .85rem; }
+.hub-facts dt { color: var(--muted); } .hub-facts dd { margin: 0; }
+.hub-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: auto; }
+.hub button, .hub select, .hub input[type="text"], .hub textarea { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); padding: .35rem .6rem; }
+.hub button { cursor: pointer; }
+.hub button:hover { border-color: var(--accent); }
+.hub button.primary { background: var(--accent-soft); border-color: var(--accent); }
+.hub button.quiet { background: transparent; }
+.hub-form { display: grid; gap: .5rem; }
+.hub-form label { font-size: .85rem; }
+.hub-form p { margin: 0; font-size: .8rem; }
+.hub-form button[type="submit"] { justify-self: start; }
+.hub-field { display: grid; gap: .25rem; }
+.hub input[type="text"], .hub select, .hub textarea { width: 100%; }
+.hub-json { font-family: var(--font-mono); font-size: .8rem; resize: vertical; }
+.hub fieldset { border: 2px solid var(--line); margin: 0; padding: .6rem .8rem; display: grid; gap: .5rem; min-width: 0; }
+.hub legend { padding: 0 .4rem; font-size: .8rem; color: var(--gold-soft); }
+.hub-template { display: flex; gap: .5rem; align-items: baseline; }
+.hub-owner { border-color: var(--gold); }
+.hub-owner-note { padding: .5rem .7rem; border-left: 4px solid var(--gold); background: var(--ink); }
+.hub-check { display: flex; gap: .5rem; align-items: flex-start; }
+.hub-problem { border: 2px solid var(--danger); padding: .5rem .7rem; font-size: .85rem; }
+.hub-problem ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+.hub-empty { margin: 0; }
+.hub-theme { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.hub-theme legend { grid-column: 1 / -1; }
