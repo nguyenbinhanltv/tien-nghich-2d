@@ -1,0 +1,67 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued one to three at a time and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "f4c4ed48-83c7-4358-b4ea-8c6220c5a2f2",
+  "character_job_id": "1f72f3c1-7bcf-47c4-8dc0-277f6976c6ad",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi toad sitting on all fours, squat round body of dark warm grey-green skin with a lighter belly, big round eyes, wide mouth. Below its jaw hangs a large round glowing coal sac, a bright orange-red ember-coloured throat pouch clearly visible under the chin. Little warty bumps. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "244651f6-4bfe-4d1b-b6e5-c0a6733e551c",
+      "job_ids": {
+        "south": "c83aa61a-9ea2-4ccb-9cd0-e2f3695b87aa",
+        "west": "c6ccf452-cadc-4609-aee3-de60eb791fb3",
+        "north": "f330df48-89f6-49c6-a498-d6a65daf1a74",
+        "east": "6453755d-744c-4a36-983f-6ac8877dffa4"
+      },
+      "action_description": "sits still breathing, the throat sac under the jaw swells and shrinks and glows slightly brighter, the eyes blink slowly",
+      "direction_prompts": {
+        "south": "facing the viewer, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
+        "west": "facing left, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible",
+        "north": "seen from behind, sits and breathes, body rises and falls slightly",
+        "east": "facing right, sits and breathes, the red coal sac under the jaw swells and shrinks, stays visible"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ccfac555-c96f-465b-a963-8a7e75a4d32a",
+      "job_ids": {
+        "south": "755943d5-52e7-4985-9c5f-08f50a03bb5c",
+        "west": "288b8ba3-f65e-4df9-8c60-ef72ee3f47c9",
+        "north": "a51f0e71-28cf-43f2-9c70-80819da7d698",
+        "east": "7f5980af-d063-4f16-8d9c-91a6c1691035"
+      },
+      "action_description": "hops forward in short heavy hops, landing with a squash; the red coal sac under the jaw stays visible and bounces",
+      "direction_prompts": {
+        "south": "hops toward the viewer in short compact hops, staying within a narrow column; the red coal sac under the jaw bounces and stays visible",
+        "west": "hops to the left in short hops; the red coal sac under the jaw stays visible",
+        "north": "hops away from the viewer, seen from behind, short compact hops",
+        "east": "hops to the right in short hops; the red coal sac under the jaw stays visible"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "idle south frame 1 draws the coal sac as a flat pale-pink block instead of a glowing round pouch",
+    "coal sac is visible in south and partly in west/east only; the north view has no sac (back view), so the identifying mark is absent there"
+  ]
+}
