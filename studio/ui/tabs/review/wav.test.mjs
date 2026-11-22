@@ -35,3 +35,9 @@ test('measurement rows: scalars and short lists, no long prose', () => {
   assert.deepEqual(rows.map(r => r[0]), ['Integrated lufs', 'Meter', 'Sample peak', 'Nested · Ok', 'Nested · Deep · A']);
   assert.equal(rows[2][1], '-7.4, -9.7');
 });
+
+test('measurements that are not an object (a string or a list) give no rows instead of one row per character', () => {
+  assert.deepEqual(flatten('master.wav'), []);
+  assert.deepEqual(flatten(['a', 'b']), []);
+  assert.deepEqual(flatten(null), []);
+});

@@ -57,3 +57,8 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 audio { width: 100%; max-width: 640px; display: block; }
 .warnline { color: var(--gold-soft); border: 1px solid var(--gold); padding: .3rem .5rem; }
 .history { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .3rem; font-size: .85rem; }
+.s-approved_before { color: var(--accent); border-color: var(--accent); border-style: dashed; }
+.updatenote { margin: 0; padding: .5rem .9rem; background: color-mix(in srgb, var(--gold) 14%, transparent); border-bottom: 2px solid var(--gold); color: var(--gold-soft); }
+.quote { margin: .4rem 0; padding: .3rem .7rem; border-left: 4px solid var(--accent); background: var(--ink); font-style: italic; }
+.earlier { border-top-style: solid; }
+.rtext b { overflow-wrap: anywhere; word-break: normal; } .row { grid-template-columns: 3.6rem minmax(0, 1fr) auto; }

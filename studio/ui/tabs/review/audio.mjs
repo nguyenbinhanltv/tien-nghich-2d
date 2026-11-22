@@ -2,11 +2,13 @@
 // sign-off for this exact master. The sign-off is written only by this page.
 import { h, button, humanize, pixelCanvas, fill } from './dom.mjs';
 import { imgUrl } from './urls.mjs';
+import { draftKey } from './model.mjs';
 
 const MAX_SHOWN = 120;
 
 /** Flat label/value rows from a measurements object: scalars and short lists, skipping long prose and hashes. */
 export function flatten(obj, prefix = '', out = [], depth = 0) {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return out; // a recorded string or list is not a table of measurements
   for (const [k, v] of Object.entries(obj ?? {})) {
     const label = (prefix ? prefix + ' · ' : '') + humanize(k);
     if (v == null) continue;
@@ -42,13 +44,18 @@ export async function renderAudio(app, host, item, token) {
   const wave = d.wave && !d.wave.error ? h('canvas', {class: 'wave', width: 640, height: 120, role: 'img', 'aria-label': ctx.t('audio.waveLabel', {seconds: d.wave.durationSeconds.toFixed(1)})}) : null;
   if (wave) drawWave(wave, d.wave, cs.getPropertyValue('--accent').trim() || '#2fa27a', cs.getPropertyValue('--line').trim() || '#49434f');
   const rows = [...flatten(d.measurements.qa, ''), ...flatten(d.measurements.master, '')];
-  const state = d.signoffState;
+  const state = d.status.label;
+  const approval = d.approval;
   const note = h('textarea', {id: 'rv-note', rows: 2, maxlength: 1000, placeholder: ctx.t('audio.notePlaceholder'), 'aria-label': ctx.t('audio.note')});
+  const draft = draftKey('audio', d.id);
+  note.value = app.drafts.get(draft) ?? '';
+  note.addEventListener('input', () => app.drafts.set(draft, note.value));
   const msg = h('p', {class: 'muted', role: 'status'});
   const post = verdict => async () => {
     try {
       await ctx.tabApi('audio-signoff', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
         body: JSON.stringify({id: d.id, content: d.contentHash, verdict, note: note.value.trim() || undefined})});
+      app.drafts.delete(draft);
       ctx.announce(ctx.t('audio.recorded'));
       await app.refresh({keepSelection: true});
     } catch (error) { msg.textContent = error.status === 409 ? ctx.t('audio.changed') : ctx.t('audio.failed', {message: error.message}); }
@@ -62,6 +69,10 @@ export async function renderAudio(app, host, item, token) {
     h('section', 'dsec', h('h3', '', ctx.t('audio.measurements')),
       rows.length ? h('dl', 'kv', ...rows.flatMap(([k, v]) => [h('dt', '', k), h('dd', '', v)])) : h('p', 'muted', ctx.t('audio.noMeasurements')),
       d.provenance ? h('p', 'muted', h('code', '', d.provenance)) : null),
+    approval ? h('section', {class: 'dsec ask earlier'}, h('h3', '', ctx.t('approval.title')),
+      h('p', '', ctx.t(approval.current ? 'approval.text' : 'approval.stale', {by: approval.approvedBy, pack: approval.approvalId, date: approval.recorded ? approval.recorded.slice(0, 10) : ctx.t('approval.noDate')})),
+      approval.evidence?.quote ? h('blockquote', 'quote', approval.evidence.quote) : null,
+      h('p', 'muted note', ctx.t('approval.evidence'), ' ', approval.evidence?.source ?? '', approval.evidence?.pr ? ' · ' + approval.evidence.pr : '')) : null,
     h('section', 'dsec decide', h('h3', '', ctx.t('audio.signoffTitle')),
       h('p', 'muted', ctx.t('audio.humanOnly')),
       state === 'stale' ? h('p', {class: 'warnline', role: 'status'}, ctx.t('audio.stale')) : null,

@@ -91,5 +91,13 @@
   "audio.recorded": "Đã ghi chữ ký",
   "audio.changed": "Master đã đổi từ lúc bạn mở; đã tải lại. Hãy nghe lại.",
   "audio.failed": "Không ghi được: {message}",
-  "audio.otherMaster": "master cũ"
+  "audio.otherMaster": "master cũ",
+  "signoff.approved_before": "đã duyệt trước khi có studio",
+  "approval.title": "Đã duyệt từ trước khi có studio",
+  "approval.text": "{by} đã nghe và duyệt bản này ({pack}, {date}). Đây là ghi chép của dự án, không phải chữ ký ký tại đây.",
+  "approval.stale": "{by} đã duyệt bản master cũ hơn ({pack}, {date}). Master đã đổi từ đó nên cần nghe lại.",
+  "approval.noDate": "chưa ghi ngày",
+  "approval.evidence": "Bằng chứng:",
+  "detail.updated": "Mục này đã đổi trong lúc bạn đang viết. Bản nháp của bạn vẫn còn.",
+  "detail.showUpdate": "Xem bản cập nhật"
 }

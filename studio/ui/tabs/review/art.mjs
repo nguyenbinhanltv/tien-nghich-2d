@@ -1,7 +1,7 @@
 // The art detail: before / after / changed pixels, the request and its questions, the thread, who made
 // each revision, and the human-only decisions (sent to the existing editor review route).
 import { h, button, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas, fill } from './dom.mjs';
-import { thread, diffPixels, beforeOf } from './model.mjs';
+import { thread, diffPixels, beforeOf, draftKey } from './model.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 
 const api = new EditorApiClient();
@@ -76,6 +76,9 @@ export async function renderArt(app, host, item, token) {
 
   const isHead = snap.revision === snap.head;
   const text = h('textarea', {id: 'rv-text', rows: 3, maxlength: 2000, placeholder: ctx.t('decide.placeholder'), 'aria-label': ctx.t('decide.comment')});
+  const draft = draftKey('art', item.key, snap.revision);
+  text.value = app.drafts.get(draft) ?? '';
+  text.addEventListener('input', () => app.drafts.set(draft, text.value));
   const msg = h('p', {class: 'muted', role: 'status'});
   const send = (status) => async () => {
     const body = text.value.trim();
@@ -83,6 +86,7 @@ export async function renderArt(app, host, item, token) {
     if (status === undefined && !body) { msg.textContent = ctx.t('decide.needText'); text.focus(); return; }
     try {
       await api.reviewFrame({key: item.key, revision: snap.revision, ...(status ? {status} : {}), ...(body ? {text: body} : {})});
+      app.drafts.delete(draft);
       ctx.announce(ctx.t('decide.done'));
       await app.refresh({keepSelection: true});
     } catch (error) { msg.textContent = error.status === 409 ? ctx.t('decide.conflict') : ctx.t('decide.failed', {message: error.message}); }

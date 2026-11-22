@@ -2,7 +2,7 @@
 // existing /api/editor/review route; the listening sign-off goes to this tab's one human-only route.
 // The inbox polls every POLL_MS while the page is visible (and refreshes after every decision).
 import { h, button, humanize, fill } from './dom.mjs';
-import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states } from './model.mjs';
+import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint } from './model.mjs';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
 
@@ -11,11 +11,9 @@ export function parseRoute(route) { return parse(route); }
 
 let app;
 
-const audioState = s => (!s || s.verdict === undefined ? 'waiting' : s.verdict === 'signed' ? 'decided' : 'agent');
-
 function makeApp(ctx, state) {
   const self = {
-    ctx, state, items: [], audio: [], token: 0, signature: '', timer: null, cleanups: [],
+    ctx, state, items: [], audio: [], drafts: new Map(), token: 0, signature: '', timer: null, cleanups: [],
     onCleanup(fn) { self.cleanups.push(fn); },
     runCleanups() { for (const fn of self.cleanups.splice(0)) fn(); },
     selection() {
@@ -48,12 +46,12 @@ function makeApp(ctx, state) {
     go(patch, opts = {}) { self.ctx.navigate(self.route(patch, opts), {replace: opts.replace}); },
     async refresh({keepSelection = false} = {}) {
       const data = await self.ctx.tabApi('inbox');
-      const audio = data.audio.map(a => ({...a, state: audioState(a.signoff)}));
-      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.signoff?.verdict, a.signoff?.content])]);
+      const audio = data.audio;
+      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label])]);
       const changed = signature !== self.signature;
           self.items = data.items; self.audio = audio; self.signature = signature;
       if (changed || keepSelection) {
-        await paint(self.ui, {force: keepSelection});
+        await paint(self.ui, {force: keepSelection, poll: !keepSelection});
         const waiting = (countsByState(self.items).waiting ?? 0) + audio.filter(a => a.state === 'waiting').length;
         if (!keepSelection && changed) self.ctx.announce(self.ctx.t('inbox.changed', {count: waiting}));
       }
@@ -105,27 +103,35 @@ function artRow(ctx, app, i, sel) {
 
 function audioRow(ctx, app, a, sel) {
   const on = sel?.type === 'audio' && sel.item.id === a.id;
-  const status = a.signoff ? a.signoff.verdict : 'none';
+  const status = a.label;
   return h('li', '', h('a', {class: 'row' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route({}, {item: a}))},
     h('span', 'thumb audio-glyph', '♪'),
     h('span', 'rtext', h('b', '', a.id), h('small', 'muted', `${humanize(a.category)} · ${ctx.t('ready.' + a.readiness)}`)),
     h('span', 'badge s-' + status, ctx.t('signoff.' + status))));
 }
 
-async function paint(ui, {force = false} = {}) {
+const idOf = sel => (sel ? (sel.type === 'art' ? sel.item.key : 'audio:' + sel.item.id) : null);
+const activeDraft = ui => { const ta = ui.detail.querySelector('#rv-text, #rv-note'); return !!ta && (ta.value.trim() !== '' || document.activeElement === ta); };
+
+async function paint(ui, {force = false, poll = false} = {}) {
   renderList(app, ui.list);
   const sel = app.selection();
   const key = sel ? selKey(sel) : null;
   if (!force && app.painted && key === app.shownKey) return;
+  if (!force && app.painted && shouldDeferRepaint({poll, sameItem: idOf(sel) === app.shownId, hasDraft: activeDraft(ui)})) {
+    if (!ui.detail.querySelector('.updatenote')) ui.detail.prepend(h('p', {class: 'updatenote', role: 'status'}, app.ctx.t('detail.updated'), ' ', button(app.ctx.t('detail.showUpdate'), () => paint(ui, {force: true}))));
+    return;
+  }
   const token = ++app.token;
   app.runCleanups();
   app.shownKey = key;
+  app.shownId = idOf(sel);
   app.painted = true;
   if (!sel) { fill(ui.detail, h('p', 'muted pad', app.state.asset ? app.ctx.t('detail.unknown') : app.ctx.t('detail.none'))); return; }
   await (sel.type === 'art' ? renderArt(app, ui.detail, sel.item, token) : renderAudio(app, ui.detail, sel.item, token));
 }
 
-const selKey = sel => (sel.type === 'art' ? `${sel.item.key}@${sel.item.head}:${sel.item.status}:${sel.item.comments}:${app?.state.rev ?? ''}:${app?.state.zoom}` : `${sel.item.id}:${sel.item.signoff?.content ?? ''}:${sel.item.signoff?.verdict ?? ''}`);
+const selKey = sel => (sel.type === 'art' ? `${sel.item.key}@${sel.item.head}:${sel.item.status}:${sel.item.comments}:${app?.state.rev ?? ''}:${app?.state.zoom}` : `${sel.item.id}:${sel.item.state}:${sel.item.label}`);
 
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./review.css', import.meta.url));

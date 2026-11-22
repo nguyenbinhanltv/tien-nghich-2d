@@ -95,3 +95,12 @@ export function visibleItems(items, state) {
 }
 
 export const countsByState = items => items.reduce((all, i) => (all[i.state] = (all[i.state] ?? 0) + 1, all), {});
+
+/**
+ * Should a poll-driven repaint of the open item wait? Yes when the human has typed, or is typing, in it:
+ * the thread changed under them, so tell them and let them choose, instead of rebuilding the form.
+ * A navigation (another item, revision or zoom) always repaints.
+ */
+export const shouldDeferRepaint = ({poll, sameItem, hasDraft}) => !!(poll && sameItem && hasDraft);
+
+export const draftKey = (kind, id, revision = '') => `${kind}:${id}@${revision}`;

@@ -91,5 +91,13 @@
   "audio.recorded": "Sign-off recorded",
   "audio.changed": "The master changed since you loaded it; reloaded. Listen again.",
   "audio.failed": "Could not record: {message}",
-  "audio.otherMaster": "older master"
+  "audio.otherMaster": "older master",
+  "signoff.approved_before": "approved before the studio",
+  "approval.title": "Approved before the studio existed",
+  "approval.text": "{by} listened to this and approved it ({pack}, {date}). This is the project's record, not a sign-off made here.",
+  "approval.stale": "{by} approved an earlier version of this master ({pack}, {date}). The master has changed since, so it needs a fresh listening.",
+  "approval.noDate": "date not recorded",
+  "approval.evidence": "Evidence:",
+  "detail.updated": "This item changed while you were writing. Your draft is kept.",
+  "detail.showUpdate": "Show the update"
 }

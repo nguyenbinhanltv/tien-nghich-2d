@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseRoute, stateParams, parseKey, parseComment, thread, diffPixels, beforeOf, visibleItems, countsByState } from './model.mjs';
+import { shouldDeferRepaint, draftKey, parseRoute, stateParams, parseKey, parseComment, thread, diffPixels, beforeOf, visibleItems, countsByState } from './model.mjs';
 import { parseHash } from '../../router.mjs';
 
 test('parseRoute is total and round-trips its state', () => {
@@ -55,4 +55,13 @@ test('revisions and inbox filters', () => {
   assert.equal(visibleItems(items, {state: 'all', agent: null}).length, 3);
   assert.equal(visibleItems(items, {state: 'all', agent: 'x'}).length, 1);
   assert.deepEqual(countsByState(items), {waiting: 1, agent: 1, decided: 1});
+});
+
+test('a poll does not repaint an open item while the human is writing in it; navigation always does', () => {
+  assert.equal(shouldDeferRepaint({poll: true, sameItem: true, hasDraft: true}), true);
+  assert.equal(shouldDeferRepaint({poll: true, sameItem: true, hasDraft: false}), false);
+  assert.equal(shouldDeferRepaint({poll: true, sameItem: false, hasDraft: true}), false);
+  assert.equal(shouldDeferRepaint({poll: false, sameItem: true, hasDraft: true}), false);
+  assert.notEqual(draftKey('art', 'a/b/c_none_0', 1), draftKey('art', 'a/b/c_none_0', 2));
+  assert.notEqual(draftKey('art', 'x'), draftKey('audio', 'x'));
 });
