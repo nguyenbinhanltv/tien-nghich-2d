@@ -107,29 +107,18 @@ export default {
         }
         // Frames are credited to the sheet they were built from: pose clips to the pose sheet, rig clips to the turnaround.
         const bySlot = (slot) => slots.find((x) => x.slot === slot)?.doc ?? doc;
-        const groups = new Map();
+        const groups = new Map();   // by import slot (not by PNG hash: one PNG may be imported into both slots with different records)
         for (const [name, c] of Object.entries(baked.clips)) {
-          const sourceDoc = c.source === 'poses' ? bySlot('pose') : bySlot('rig');
-          const g = groups.get(sourceDoc.sheet.sha256) ?? { doc: sourceDoc, frames: {} };
+          const slot = c.source === 'poses' ? 'pose' : 'rig';
+          const g = groups.get(slot) ?? { doc: bySlot(slot), frames: {} };
           for (const [facing, o] of Object.entries(c.facings)) o.frames.forEach((_, i) => { g.frames[`${name}_${facing}_${i}`] = baked.frames[`${name}_${facing}_${i}`]; });
-          groups.set(sourceDoc.sheet.sha256, g);
+          groups.set(slot, g);
         }
         const hashes = `rig ${rig ? sha256(JSON.stringify(rig)).slice(0, 12) : '-'}; poseclips ${poseClips ? sha256(JSON.stringify(poseClips)).slice(0, 12) : '-'}; patch ${patch ? sha256(JSON.stringify(patch)).slice(0, 12) : '-'}`;
-        const provenanceOf = (g) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `layout ${g.doc.layout.id}; ${hashes}` });
-        // Look at every group first, so a refusal in one commits nothing from any.
-        for (const g of groups.values()) {
-          const dry = await submitBaked({ ws, snap, asset, frames: g.frames, provenance: provenanceOf(g), caller: ctx.caller, dryRun: true });
-          if (!dry.accepted) {
-            out.submit = { accepted: false, message: dry.report.message, frames: dry.report.frames?.filter((f) => f.errors).map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
-            return { content: view.content, structuredContent: out, isError: true };
-          }
-        }
-        let accepted = true, written = 0, unchanged = 0, report = { message: '' };
-        for (const g of groups.values()) {
-          const r = await submitBaked({ ws, snap, asset, frames: g.frames, provenance: provenanceOf(g), caller: ctx.caller });
-          accepted &&= r.accepted; written += r.report.written?.length ?? 0; unchanged += r.report.unchanged?.length ?? 0; report = r.report;
-          if (!r.accepted) break;
-        }
+        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}`, frames: Object.keys(g.frames) }));
+        // ONE submission: all frames are gated together, written under one lock and rolled back together, each credited to its own sheet.
+        const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller });
+        const written = report.written?.length ?? 0, unchanged = report.unchanged?.length ?? 0;
         out.submit = { accepted, written, unchanged, message: report.message, sheets: groups.size,
           frames: accepted ? undefined : report.frames?.filter((f) => f.errors).map((f) => ({ name: f.name, errors: f.errors, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };

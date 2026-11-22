@@ -84,12 +84,10 @@ export const SLOTS = ['rig', 'pose'];
 /** The import documents of an asset by slot. A legacy import.json that holds a pose sheet is read as the pose slot. */
 export async function readImports(ws, asset) {
   const out = { rig: null, pose: null };
-  for (const name of ['import', 'import.pose']) {
-    const doc = await readDoc(ws, asset, name);
-    if (!doc) continue;
-    const slot = name === 'import.pose' ? 'pose' : slotOfLayout(doc.layout);
-    if (!out[slot]) out[slot] = doc;
-  }
+  // The dedicated pose file always wins; import.json is the turnaround, or a legacy pose sheet only when import.pose.json is absent.
+  out.pose = await readDoc(ws, asset, 'import.pose');
+  const main = await readDoc(ws, asset, 'import');
+  if (main) { const slot = slotOfLayout(main.layout); if (slot === 'rig') out.rig = main; else if (!out.pose) out.pose = main; }
   return out;
 }
 

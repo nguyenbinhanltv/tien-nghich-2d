@@ -282,6 +282,75 @@ test('one character, two sheets: a pose-sheet clip plus rig clips bake together 
   assert.equal(json(forge('poseclips.json')).clips.follow.keys.length, 4);
 }));
 
+async function twoSheets(p, a, { same = false } = {}) {
+  const m = marten(p);
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
+  const turn = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: 'turnaround prompt', tool: 'turn tool' });
+  const poseLayout = json(join(POSE, 'layout.json'));
+  const pose = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: same ? 'work/turnaround.png' : 'work/pose_sheet.png' }, layout: same ? { ...poseLayout, cells: poseLayout.cells ?? poseLayout } : poseLayout, prompt: 'pose prompt', tool: 'pose tool', scaleOptions: { mode: 'sheet' } }).catch((e) => ({ error: e.message }));
+  return { m, tpl, turn, pose };
+}
+
+test('a legacy pose sheet in import.json is replaced by a new pose import, even before any turnaround exists', () => withProject(async (p) => {
+  const a = connect(p.root);
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  const forge = join(p.root, 'assets/raw/longtime', ASSET, 'forge');
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  const poseArgs = (prompt) => ({ assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt, tool: 't', scaleOptions: { mode: 'sheet' } });
+  await a.ok('studio_sheet_import', poseArgs('first'));
+  // Make the state a legacy one: the pose import lives in import.json, there is no import.pose.json.
+  fs.renameSync(join(forge, 'import.pose.json'), join(forge, 'import.json'));
+  const second = await a.ok('studio_sheet_import', poseArgs('second prompt'));
+  assert.equal(second.slot, 'pose');
+  assert.equal(json(join(forge, 'import.pose.json')).prompt, 'second prompt');
+  const px = await a.call('studio_process', { assetId: ASSET, marks: MARKS });
+  assert.equal(px.structuredContent.sheets.length, 1);
+  const { readImports } = await import('./workflow/forge.mjs');
+  const got = await readImports({ root: p.root }, { layout: { rawDir: `assets/raw/longtime/${ASSET}` } });
+  assert.equal(got.pose.prompt, 'second prompt', 'reads prefer the dedicated pose file over the legacy one');
+}));
+
+test('each frame is credited to its own import slot (grouped by slot, not by PNG hash), with its own prompt, tool and note', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const m = marten(p);
+  const { tpl } = { tpl: await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' }) };
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  // The pose sheet drawn once, imported as a pose sheet AND (with a turnaround layout over the same bytes) as the rig slot.
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: 'rig record', tool: 'rig tool' });
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: 'pose record', tool: 'pose tool', scaleOptions: { mode: 'sheet' } });
+  // Force both records to point at one PNG hash (different prompt and tool): a grouping by hash would merge them.
+  const forge = join(p.root, 'assets/raw/longtime', ASSET, 'forge');
+  const rigDoc = json(join(forge, 'import.json')), poseDoc = json(join(forge, 'import.pose.json'));
+  assert.notEqual(rigDoc.sheet.sha256, poseDoc.sheet.sha256);
+  await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
+  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
+  const sub = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa, submit: true });
+  assert.equal(sub.isError, undefined, text(sub));
+  const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
+  assert.equal(log.length, 2);
+  const byPrompt = Object.fromEntries(log.map((l) => [l.prompt, l]));
+  assert.ok(byPrompt['rig record'].frames.every((f) => f.name.startsWith('idle_')) && byPrompt['pose record'].frames.every((f) => f.name.startsWith('follow_')));
+  assert.match(byPrompt['rig record'].tool, /rig tool/);
+  assert.match(byPrompt['pose record'].notes, /^pose sheet;/);
+}));
+
+test('a mixed bake is one all-or-nothing submission: a conflict in one sheet\'s frames commits nothing from the other', () => withProject(async (p) => {
+  const a = connect(p.root);
+  const { m, tpl } = await twoSheets(p, a);
+  await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
+  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
+  // A different frame already sits where a RIG frame would go (the second group in bake order): raw is immutable, so the whole submission must be refused.
+  const dir = join(p.root, 'assets/raw/longtime', ASSET, 'frames');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.copyFileSync(join(EXP, 'frames/idle_south_0.png'), join(dir, 'idle_south_1.png'));
+  const refused = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa, submit: true });
+  assert.equal(refused.isError, true);
+  assert.deepEqual(fs.readdirSync(dir), ['idle_south_1.png'], 'no pose frame was written either');
+  const logFile = join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl');
+  assert.equal(fs.existsSync(logFile) ? fs.readFileSync(logFile, 'utf8').trim() : '', '');
+}));
+
 test('rig_bake: two named verdicts, and a gate that did not run is said so', () => withProject(async (p) => {
   const a = connect(p.root);
   const m = marten(p);
@@ -370,3 +439,18 @@ test('rig_bake: what it refuses, and the submit rules', () => withProject(async 
   assert.match(text(await read.call('studio_rig_bake', { assetId: ASSET, rig: m.rig })), /needs scope "author"/);
   assert.match(text(await a.call('studio_sheet_import', { assetId: 'lt_kiln_keeper', sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: 'x', tool: 'x' })), /already has processed or packed frames/);
 }));
+
+test('gateCoverage agrees with qaStage: rig landmarks of a secondary-motion pose clip, two-frame clips, clips sharing no facing', async () => {
+  const { gateCoverage } = await import('./workflow/gates.mjs');
+  const frames = (n) => Array.from({ length: n }, () => ({}));
+  const rig = { facings: { south: { landmarks: [{ id: 'ear', color: 'soul_07', box: [0, 0, 1, 1] }] } } };
+  const baked = { clips: {
+    walk: { source: 'poses', secondary: true, loop: true, facings: { south: { frames: frames(4), contacts: [[], [], [], []] } } },   // no landmarks of its own
+    pair: { source: 'poses', loop: true, facings: { west: { frames: frames(2), contacts: [[], []] } } },
+  } };
+  const c = gateCoverage(baked, { rig });
+  assert.ok(c.ran.find((g) => g.gate === 'mark_side').clips.includes('walk'), 'the rig facing supplies landmarks for the secondary pose clip, as qaStage uses them');
+  assert.ok(!c.notRun.some((n) => n.gate === 'mark_side' && n.clips.includes('walk')), 'and it is not also listed as not run');
+  assert.ok(c.notRun.some((n) => n.gate === 'flicker' && n.clips.includes('pair')), 'flicker needs three frames');
+  assert.match(c.notRun.find((n) => n.gate === 'stability').reason, /no two clips share a facing/);
+});
