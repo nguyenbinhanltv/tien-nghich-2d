@@ -1,0 +1,865 @@
+{
+  "id": "lt_scroll_moth",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Show the scroll moth silhouette before its strike.",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed; canvases come back 36-44 px and are centred on 32 by the build script). All four facings are separate PixelLab generations; nothing is mirrored. Diagonal direction_prompts keys are required by the tool and were filled with 'unused diagonal: ...' placeholders; no diagonal was generated.",
+  "pixellab_character_id": "3b0aeeef-1930-4fa5-baf0-caefc080e389",
+  "character_job_id": "293a11b7-2c3b-473f-9fef-c0f1aacdb56f",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small scroll moth, a fat furry moth hovering low, its two broad wings are unrolled parchment scrolls with faint ink lines and bronze scroll-roller caps at the wing tips, cream-white fuzzy body, two long feathery pale antennae, big round dark eyes, a tiny bright vermilion seal mark on the thorax. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2
+      ],
+      "animation_group_id": "91a68462-24c4-49d2-8a2e-c4d4cbdb7ab2",
+      "job_ids": {
+        "south": "c18d7f1b-5136-418c-b549-2cb73762cd90",
+        "west": "a083e788-7c17-4f6f-85bc-625606b675c7",
+        "north": "f197d1fa-7b91-49a9-a2e9-daf911bc5147",
+        "east": "9f916dfb-a61f-40be-be05-2ad363e0b406"
+      },
+      "action_description": "hovers in place, the scroll wings flap slowly up and down, the body bobs gently, antennae sway, the red seal mark stays visible, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, hovers, wings flap slowly, body bobs",
+        "west": "facing left, hovers, wings flap slowly, body bobs",
+        "north": "seen from behind, hovers, wings flap slowly, body bobs",
+        "east": "facing right, hovers, wings flap slowly, body bobs"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "af0661ae-9192-4ff1-906c-051cdf4f9b24",
+      "job_ids": {
+        "south": "dfbe61bc-901b-4af2-806a-f3ab4d3334da",
+        "west": "dfb9c460-3d3e-4af2-bb50-407bc0b602ef",
+        "north": "f5e8b48f-9b96-4427-ad92-df8b486b6487",
+        "east": "3efa4962-671d-43f5-bc82-7fa8f53d875b"
+      },
+      "action_description": "flutters forward, the scroll wings beat in a steady cycle, the body bobs up and down, antennae trail, no effects",
+      "direction_prompts": {
+        "south": "flies toward the viewer, wings beat, body bobs",
+        "west": "flies to the left, wings beat, body bobs",
+        "north": "flies away from the viewer, seen from behind, wings beat, body bobs",
+        "east": "flies to the right, wings beat, body bobs"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        2,
+        3
+      ],
+      "animation_group_id": "d7f650fb-a075-41f6-856d-e4d02211e87c",
+      "job_ids": {
+        "south": "b094dce5-fc1d-43ec-801a-52c14aca37a9",
+        "west": "b564e44a-09bf-4bc3-9576-712b9d70a6d9",
+        "north": "9297139d-ed3e-4c6e-96d8-880424617d4a",
+        "east": "92b0bdb5-040f-4903-93bb-66ab5a9923ef"
+      },
+      "action_description": "rises slightly and spreads both scroll wings wide open and flat, the body tilts back and the antennae stand straight up, preparing to dive, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, rises and spreads both wings wide, antennae stand up",
+        "west": "facing left, rises and spreads both wings wide, body tilts back, antennae stand up",
+        "north": "seen from behind, rises and spreads both wings wide, antennae stand up",
+        "east": "facing right, rises and spreads both wings wide, body tilts back, antennae stand up"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "fec645a4-a411-4a61-ada9-2e1b0adb5792",
+      "job_ids": {
+        "south": "af5b1ce2-0ca8-43a8-ae8a-20616d2d1815",
+        "west": "88e77244-5cb1-42ba-b0c1-153fe6b2f59c",
+        "north": "dbc0b72a-4973-47e3-afe4-3ba0451788fb",
+        "east": "0da9455d-3631-43d1-acf3-99c8c36233e8"
+      },
+      "action_description": "dives forward fast with the scroll wings swept back, the body stretches long, then snaps back up and the wings spread again, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, dives toward the viewer with wings swept back, then pulls up",
+        "west": "facing left, dives to the left with wings swept back, then pulls up",
+        "north": "seen from behind, dives away from the viewer with wings swept back, then pulls up",
+        "east": "facing right, dives to the right with wings swept back, then pulls up"
+      },
+      "rejected_touchup_superseded_job_ids": {
+        "west": "c8376680-e134-4efd-b9f4-5cf5a3236347",
+        "east": "57d6c2c0-73dd-4c10-884a-64fe6d153b7a"
+      },
+      "touchup_action_description": "lunges forward in a short fast dart with both scroll wings kept open and clearly visible, the body stays upright and compact, then pulls back, never folds up, no effects",
+      "touchup_direction_prompts": {
+        "west": "facing left, darts forward to the left in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright",
+        "east": "facing right, darts forward to the right in a short lunge, both wings stay open and visible above and behind the body, the moth never folds into a thin line, stays upright"
+      }
+    }
+  },
+  "frame_count_note": "The mob profile wants 3 frames for idle and telegraph but PixelLab v3 only returns even counts (min 4). Idle: 4 generated, last dropped. Telegraph: 4 generated, frame 1 dropped (kept 0, 2, 3, renumbered 0-2). The raw folder holds the kept frames only.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32, custom template, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: parchment-winged moth with bronze roller tips and red seal reads from the front and back"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike x 4 directions, first take",
+      "credits": 16,
+      "result": "all accepted; no regeneration. The retry allowance was left unused (see known_flaws, needs a human decision)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round (orchestrator): strike west and east regenerated once each, judged old vs new at 1x and 4x",
+      "credits": 2,
+      "result": "both new takes shipped: the old frames crumpled into a diagonal dive shape; the new ones keep a compact whole-body silhouette with wing masses visible (west reads as a folded wing pair, east as a crescent). Modest improvement; the edge-on view still shows little of the scroll wings. Previous takes superseded."
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 0,
+    "total_generations": 24,
+    "touchup": 2
+  },
+  "known_flaws": [
+    "needs a human decision: west and east are narrow edge-on slivers (the wings are seen from the side), so the scroll-wing identity reads only in south and north",
+    "the spec's pale antenna feathers merge with the cream body at 1x",
+    "cream and parchment colours dominate, so contrast against light floor tiles is low (the outline carries the silhouette)",
+    "strike west and east (touch-up takes) are compact folded-wing silhouettes, not the open scroll wings of south and north; they read as a moth but less specifically"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "077206137de9935e469d47e2c6bbfdd95e61cd7bbec1b9965773fbfb63a010dc",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 424,
+      "outline_thinned": 163,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "8277706b567084a4e84fbec91a5e392795bbec5920e87d3da1eadc575736c00f",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_scroll_moth/contact_1x.png": "bfb4577cae78205ba93ba3063cf379569245b6dfddb825fda79d96eaae678528",
+    "assets/raw/longtime/lt_scroll_moth/contact_4x.png": "db8abceb3003af0be3021dc3dee66c93e3ce14d38038f3df6f56c3bd4f356f99"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_scroll_moth/idle_east_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/east/frame_000.png",
+      "raw_sha256": "8a1d6112457cd572453abaf40c290e58cf818c5c96ed48ad4b58b40cd2cb1bef",
+      "source_xy": [
+        0,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "ce5683f069be7e75951cfe4933c4e29b99a58d23b9ee87122fe79d96bc0dc5cd"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_east_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/east/frame_001.png",
+      "raw_sha256": "7413f81ec1de805eda4abe5b374be97ee2cb1deeab9e7234b969cf84b1528099",
+      "source_xy": [
+        44,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "247555578af4d2abc110185c744b5a68456ef27c742060da4119a47dd8224089"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_east_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/east/frame_002.png",
+      "raw_sha256": "a35363b6b6c89859b0019139d6680ac081e9856eb8b4fe540a4583a20954b739",
+      "source_xy": [
+        88,
+        132
+      ],
+      "duration_ms": 160,
+      "sha256": "9f83dd68abd187fa1042c9d11290a27cc2da84cff68dce7fabdd3185dd4bd84d"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_north_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/north/frame_000.png",
+      "raw_sha256": "2e38373b0e68210a5f9000060be29f525044b197b0275b904e0e210b7357cf05",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "008c558e6d89d43c642ecc7a3d6a79085dc6d1bea9918db6ccaa6e522d9ea7a9"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_north_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/north/frame_001.png",
+      "raw_sha256": "407c7c6f013a2d3445259b01598de60d9b1cc674ff8548020ac325543ec07c4f",
+      "source_xy": [
+        44,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "e2f343f996e5e6f63ee28148e8d468d89d1da09e7f98bbf1fd381aebc547c9f3"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_north_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/north/frame_002.png",
+      "raw_sha256": "ddec0c02ee7f3e5e913389a89b4381f6250db87295f86676324b1b8597a23baf",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 160,
+      "sha256": "0ff307852782a4d059ad3092f04eb303e3b0a420a4a3a71ea1ff8ce66164782f"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_south_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/south/frame_000.png",
+      "raw_sha256": "1a4f40fbd131741c0f8f694b0b888209bb892ba8e6fbd6a38ce1c76a3ee8fd69",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "e7ecbbe61cf63c0539acefe2377ba960887e81671109d294329bb34aa02ae637"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_south_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/south/frame_001.png",
+      "raw_sha256": "790c9a4ba04036a0e011ad1d2b31e6deda7fe586d2312ff23ad4dd73545ca9bb",
+      "source_xy": [
+        44,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "ce63886341952defb4e75e19a4ca1495fc38bec63e92b241bc0529dee32d4fbc"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_south_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/south/frame_002.png",
+      "raw_sha256": "b08f7c39943e3e60fb229db63ec94376bd0aa9e462858b051f0a657c1af2fe81",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "f977ad071db88ac2a0fab50eb0038d774cb11a41abbdfe038047f2d16efb26be"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_west_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/west/frame_000.png",
+      "raw_sha256": "d4c904c8272c6005ffa04f0b647d51ba3485b3af3a6d26b5a17d766b16e7ac7d",
+      "source_xy": [
+        0,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "b0cac5e27462ead6688ac6d188dd4c992a73d1e427055cc04de6ee0517e22516"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_west_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/west/frame_001.png",
+      "raw_sha256": "3ecdb44d3e331f3d589f3912ffc8422903434f6b081f57cfe549e705f3c7c6e7",
+      "source_xy": [
+        44,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "87688dadf8305e0c03bbbeba52f359ca259b2e0a0733ac21c98029b7dca7c06d"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/idle_west_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/idle/west/frame_002.png",
+      "raw_sha256": "f012770fa844f20852331bd5642149762db5c604f7b27535793035c845a3e5e1",
+      "source_xy": [
+        88,
+        44
+      ],
+      "duration_ms": 160,
+      "sha256": "a614f15b90a8828833da7f5320aed0a870507560e8da5b6aaef0ad6a945d6dae"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_east_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_000.png",
+      "raw_sha256": "0f7c4be15c37ab14d2f41f92ae4f0afda4f0556ff37377e2bf76e91f1711e8a4",
+      "source_xy": [
+        0,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "bd1cab81bfd167e6c6f88b74880fd62a7c4e00fbc3e8f37ed9bcff1fad482072"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_east_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_001.png",
+      "raw_sha256": "e023ffd24a1e62b2488279e3d5f1b5b4ef1b4d1849dd6efa1ac7fb5ef1b08e6b",
+      "source_xy": [
+        44,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "4a3e5d8a3557266a5c21775922c492ecb5b893d78e7a229589625b0c0c2b77ae"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_east_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_002.png",
+      "raw_sha256": "273ee7883e31c4dde8e8f01e3b00bbf52023d9de86ef0fd5f645823b436ddc1d",
+      "source_xy": [
+        88,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "2b8ce59b35c0643ed953de4e67ccd106d87095f210bbb7b0c0974a0e67070063"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_east_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/east/frame_003.png",
+      "raw_sha256": "fbdf2974db448acd5aeb04ab169aac5e6c35ab0aec9405b8b64d12472f878c85",
+      "source_xy": [
+        132,
+        660
+      ],
+      "duration_ms": 90,
+      "sha256": "8085d609d2725acae92e57e71b46dad11dac5eccc4aa780050791a64992be450"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_north_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/north/frame_000.png",
+      "raw_sha256": "129585c8215589c4212562169196eae93620780b2552d131a7fc36b5042aa7d3",
+      "source_xy": [
+        0,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "f0d41bec8040821fcfc5cca0724b988374b0c372740914d6ff23c61b07bbc31f"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_north_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/north/frame_001.png",
+      "raw_sha256": "e6b778e25aee1aa81cfe4e26fd18ad636caff4e97478865697005a5c74364810",
+      "source_xy": [
+        44,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "c34dac6b76601ef7216a29781ce208f82fcbd76093c4417cb676e29431e2e58d"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_north_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/north/frame_002.png",
+      "raw_sha256": "f16c74669615e0363692609efcfb13d941b2333874f908a9e2c55ca4a0077f79",
+      "source_xy": [
+        88,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "32d7464cbe7fdd018cae558b54e15ca03d03f5047cfc6cfcce26afa7560e7dbf"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_north_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/north/frame_003.png",
+      "raw_sha256": "83ee11b0d786a52b38b5e84a667590e3c3fa3a916f1e5deb84911a89cb196db1",
+      "source_xy": [
+        132,
+        616
+      ],
+      "duration_ms": 90,
+      "sha256": "384bc534912fa09424ed16a6c941310a61d201e2223b012e296871e41e69504d"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_south_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/south/frame_000.png",
+      "raw_sha256": "6801f895ec43c0bef5c3df214306fdb62c1c4d9fb5a588b87942f22d588f87fc",
+      "source_xy": [
+        0,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "9c5e2da0e8f597f2ce0a6adea1aeff47d1f5463df2d9bc3d9c1c5a3758a6b977"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_south_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/south/frame_001.png",
+      "raw_sha256": "0f383acda9ff91132819bba50520a514d794eaa9d7f1a6df6fffdb2f0640adba",
+      "source_xy": [
+        44,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "a34c60542f13e8f877dc5604b0e88a4c41a7113fbd97bf2f4a93c85a197f65dc"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_south_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/south/frame_002.png",
+      "raw_sha256": "8eddca8a68a909e73978d98b3e255fd901e2101d1e6428408d232256c904be20",
+      "source_xy": [
+        88,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "2c3c34a86a0da5ab067cf5faa55cf0ebed4abb086451679443e7f2a9e23ae054"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_south_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/south/frame_003.png",
+      "raw_sha256": "4ad4467833509f0f688c644444fc2fd23f7dad12386508611573508e62e05ea3",
+      "source_xy": [
+        132,
+        528
+      ],
+      "duration_ms": 90,
+      "sha256": "f981b04ad61b7e428eb712f5616d17619987de12733a25bdf335a85122336558"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_west_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_000.png",
+      "raw_sha256": "10e471bc68f27a10b71ad832f609737dc25141f2f17e1386eba667de38e66817",
+      "source_xy": [
+        0,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "e94fb7ee3477780ea880f1d308091d0899c8b3558e159e45ee985873c4b6b6f1"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_west_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_001.png",
+      "raw_sha256": "2db5347dde463889946ed378dae4bd516c814855360e5f09298514ada558ca3f",
+      "source_xy": [
+        44,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "f24168b62e0be38d50daefda8cc9032382c0fb117abcf0ebd7816acc3d51bbbb"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_west_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_002.png",
+      "raw_sha256": "769adf6bb27e235a3dbe401d9e9b79919f664ae3b4ffda4cd5147e1d16c90c39",
+      "source_xy": [
+        88,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "5c869511d3c8d81d7d7337329a600b6bd969a80bf1d2221875d9c5c12859cafb"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/strike_west_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/strike/west/frame_003.png",
+      "raw_sha256": "af36e9565c03362b77aaafd6634baf73e93a44410224579cb909414493fc99b5",
+      "source_xy": [
+        132,
+        572
+      ],
+      "duration_ms": 90,
+      "sha256": "ea4ec981733902308aa63e4cf4f0dd1017387b044e587b823929e0c95dc9081c"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/east/frame_000.png",
+      "raw_sha256": "6a49f4040122b4ed603f90a7a21c5e8efb86636f4f30a392157090d1d33429c8",
+      "source_xy": [
+        0,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "d0639b0892f7c9c207f3d6f25a1eef9f78342d872dea5d844ffdb48f072e2234"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/east/frame_001.png",
+      "raw_sha256": "20c5283b068dcae58269af1e79f21ff47744815b0607711da54fb8b116c0a48a",
+      "source_xy": [
+        44,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "a5f69e32a16c5c8d0e37bb134508bf90198294b59e4d189854b6c3b14dcc0c7c"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/east/frame_002.png",
+      "raw_sha256": "09cb931618a197e4e14a7322e606ee3e8a20f7f53ca60353414f8bb28dfda55d",
+      "source_xy": [
+        88,
+        484
+      ],
+      "duration_ms": 160,
+      "sha256": "5ed33e39df43d6a140eb5990f43993c78186e216d96c0829bc5697c143e4a18e"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/north/frame_000.png",
+      "raw_sha256": "51e623f8be863e12820a48afa9ce465838ad3a28998f3ef9029da0789b032299",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "bbe2b0b8872ebc6ac77dd7986e633fef8fc131a41672c8f8a04c7e996e6fb964"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/north/frame_001.png",
+      "raw_sha256": "ae5a8260fb2e98cd97a6a62feab5f5a0ba0ad0460f6d2766831bc2ac19ec8a15",
+      "source_xy": [
+        44,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "54a5680b2bd1f8c1a0c5d8697d0d461f277387bac97c880438c1413fa3b712cf"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/north/frame_002.png",
+      "raw_sha256": "de9f97c9967375fbd3ed32f15fb0283143e329db4bd62bd20833d458834ee686",
+      "source_xy": [
+        88,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "49e4c17e076d58d173f8136b64b2fc61414565e95a700009f388900aa455b776"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/south/frame_000.png",
+      "raw_sha256": "849748ca2e7c7bc847a3002dba8bcfcf8a19c9e9250d3d2b384fac123d928e4a",
+      "source_xy": [
+        0,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "757cac527859feb165a0c7c50b3cadf61c7c021ae0de3dba8d7870515f38c99a"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/south/frame_001.png",
+      "raw_sha256": "2f86d2da623e3aa0a40197cf8bf897b5ce14d851a9d9b7aacd33e5436ab6dfbf",
+      "source_xy": [
+        44,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "fe83c815ac20b54f85b56bc87092ad5ca0767a9dcde5067f6c30259b79935efe"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/south/frame_002.png",
+      "raw_sha256": "5c887d93abe2e7cd5dfb4329b76dc3075cf98fa6606a22eba53a1787e8a537c0",
+      "source_xy": [
+        88,
+        352
+      ],
+      "duration_ms": 160,
+      "sha256": "fde9545bc6b268505fe62c9fe98bb286409a5376ecdca94a2167db3e3da7a0b3"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/west/frame_000.png",
+      "raw_sha256": "eddde0ff05688eabd96740166c4f8519e196e64a3b6e25b15665d4fef9aaf955",
+      "source_xy": [
+        0,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "e411e406ed0b01260e8330c25286a3e487cdfcfa4c2c08a01823d055b2cdbd56"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/west/frame_001.png",
+      "raw_sha256": "bab4511950df42d647bf2e7a81ebfa21bfc130405bc2b87b6a1fe6b844bad74b",
+      "source_xy": [
+        44,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "8b7546ba9207b83eed1e183d8cf25c812373b9c79a98f5fada75761ded3997ca"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/telegraph/west/frame_002.png",
+      "raw_sha256": "dc3ac9edeb716a101b7b3bb0a3234ee3e1482422bb298c4d7a647c9b5739b0b3",
+      "source_xy": [
+        88,
+        396
+      ],
+      "duration_ms": 160,
+      "sha256": "ada5f2dd12fecc621fafd57e4561b7e54b7613738a84fc9eeaddd2becbaee35b"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_east_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/east/frame_000.png",
+      "raw_sha256": "f6cb6016f0e1b6ec2e4fd495659a24b00a308e03cd1b8a3d5a54af925860f5b5",
+      "source_xy": [
+        0,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "0e671d8a2648e544ff862763c4826add2c01346847c261b763ab8ee085733b51"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_east_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/east/frame_001.png",
+      "raw_sha256": "dab0b8f3fc06366c43d1b6e5718f09f09ffa54fe6e4deca225db45c9a92c81f2",
+      "source_xy": [
+        44,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "d707c8c9911e0da71aa546ae9057c1b5a2feb16714bf05bc80d97da295ec678c"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_east_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/east/frame_002.png",
+      "raw_sha256": "0baac4a0bd6ccefd2b57bfed4fc51ad8f1e23c6514e9b85ab37212c998c5fbf0",
+      "source_xy": [
+        88,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "133b104500f3fed4c48aa634c68f4e5f1dc9b200cf99091dbaa1930f91ea6d49"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_east_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/east/frame_003.png",
+      "raw_sha256": "607fd58ba7c2effaac828c3f1540aed51e1f6bc09642842c5559f5ba890d4cfa",
+      "source_xy": [
+        132,
+        308
+      ],
+      "duration_ms": 120,
+      "sha256": "11c11ce0eee820133f7368d81c021ed292d5e7dda3ed0b555d1281421a6bbddd"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_north_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/north/frame_000.png",
+      "raw_sha256": "886373a27e80bc149f55cdc7d35d75e87ef931f74bdd89ff3efb7843dc390385",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "734e4c55459fdd07a383275cab3a38647c7728cb240501e981c8ed7ff8ab1bd4"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_north_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/north/frame_001.png",
+      "raw_sha256": "e9c5a486146c1054c2935fda6d98d835e104996a9237aa1f5ddb6ea58a562c5f",
+      "source_xy": [
+        44,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "5c23ef99e7856d04fb7f0665b45b3968a849d65cfe5626426f7de4eb263c5ffe"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_north_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/north/frame_002.png",
+      "raw_sha256": "874db6547b29626e1f8ce350d27a93ffeadb0593049314bf04825bd5d7f8f846",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "87714bc78713befce4a234e1a662c7f10a4abf0d1156d7fb855e053baaeaba2f"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_north_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/north/frame_003.png",
+      "raw_sha256": "c2a662b3cb93313f15da3a059bfa8da45c94e75b8e1a5272bc61c93ace52007f",
+      "source_xy": [
+        132,
+        264
+      ],
+      "duration_ms": 120,
+      "sha256": "bff3d062ac1782f6dd1bc38f5a78a352d85a018e6f7b8cda4507761acf50b423"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_south_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/south/frame_000.png",
+      "raw_sha256": "b450cd958d4d71f895d56cba34caa3e93692dc58ab057b12705351a249f1931d",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "ce36f16a46a1d52da46d94426910e5967cb16f19f4ba1cac1a23c5eb52c38cee"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_south_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/south/frame_001.png",
+      "raw_sha256": "05eb3da86e0c357a5117fb27187e305ec1e7f06e1aa81e878294729a26fccbf4",
+      "source_xy": [
+        44,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "2ff348b5342acd023016e20a5560270c78ac1f97b49fc88fbf6dd3853fc4dcc5"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_south_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/south/frame_002.png",
+      "raw_sha256": "9419eb3da9d71679c09891e62aef5853f99ce9476df0b2b413afe57155b8b16d",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "a18ef7c308ea0b332e615f2c5d37c6c2080045d0587f3e23139da62f07b9ac3f"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_south_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/south/frame_003.png",
+      "raw_sha256": "b00f81981831c753c3c68f6d2656b3311cae77e607892d31d248dce1e1dd8d44",
+      "source_xy": [
+        132,
+        176
+      ],
+      "duration_ms": 120,
+      "sha256": "cdc691a0fc7507ef3ff3f387c3ab68306c1a49efc7ff7dfc7ec22b01cc99cc92"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_west_0",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/west/frame_000.png",
+      "raw_sha256": "5cf298803217ff73b708386882425eddcf8318899116cd29f2157eb3304ea53f",
+      "source_xy": [
+        0,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "ec0621a8cbaf436a032becc575757442194c7abe14f0be0006f01d13df3af342"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_west_1",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/west/frame_001.png",
+      "raw_sha256": "0a97c23377343ed19ce0f53f8580fbf186289c2b085b60462c4a3fc91b339825",
+      "source_xy": [
+        44,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "f884b89c669127f0513af80c75eeb5039639ce317454984e353d2196b130d932"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_west_2",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/west/frame_002.png",
+      "raw_sha256": "b5efd399ae027875ded617ab4addefd582f818feba29a7cf080e350efa210ab9",
+      "source_xy": [
+        88,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "8015be2ad2185d5b4cf785628d853c90d433f78804aac189847f6dbb32822752"
+    },
+    {
+      "key": "longtime/lt_scroll_moth/walk_west_3",
+      "path": "assets/processed_longtime/lt_scroll_moth/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_scroll_moth/walk/west/frame_003.png",
+      "raw_sha256": "0b814cbcb1a236d5fd7a7a210a097f75cafbe9d92fca539bdf45575382065b80",
+      "source_xy": [
+        132,
+        220
+      ],
+      "duration_ms": 120,
+      "sha256": "97d8b5bdf5869dfb20a96c38421e14b37ea8734b705252871e3b3104135e919b"
+    }
+  ]
+}
