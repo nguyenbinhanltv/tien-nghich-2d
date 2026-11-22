@@ -19,6 +19,7 @@ async function withServer(mounts, body, setup = () => {}) {
   fs.writeFileSync(path.join(root, 'games/studio/x.txt'), 'under studio');
   fs.writeFileSync(path.join(root, 'plain.txt'), 'project file');
   setup(root);
+  globalThis.__root = root;
   const server = createPreviewServer({root});
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const get = async u => { const r = await fetch(`http://127.0.0.1:${server.address().port}${u}`); return [r.status, await r.text()]; };
@@ -58,3 +59,10 @@ test('a mount cannot reach outside the project through a symlink, nor serve a bl
     fs.writeFileSync(path.join(root, 'okdir/f.txt'), 'fine');
     fs.symlinkSync(path.join(outside, 'secret.txt'), path.join(root, 'okdir/leak.txt'));
   }));
+
+test('a mount whose directory is created after the first request becomes available', () => withServer([{url: '/late/', dir: 'late'}], async get => {
+  assert.equal((await get('/late/f.txt'))[0], 404);
+  fs.mkdirSync(path.join(globalThis.__root, 'late'));
+  fs.writeFileSync(path.join(globalThis.__root, 'late/f.txt'), 'now here');
+  assert.deepEqual(await get('/late/f.txt'), [200, 'now here']);
+}));

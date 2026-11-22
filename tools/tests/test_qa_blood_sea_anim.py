@@ -188,15 +188,19 @@ class TestBloodSeaAnimQA(unittest.TestCase):
             self.assertIn("web_dirty_transparent", codes)
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class DefaultRuntimeLookupTest(unittest.TestCase):
-    def test_auto_discovery_finds_the_moved_runtime(self):
-        text = (REPO / "tools/scripts/qa_blood_sea_anim.py").read_text(encoding="utf-8")
-        self.assertIn('"playables/blood-sea"', text)
-        self.assertNotIn('"studio/blood-sea"', text)
-        self.assertTrue((REPO / "playables/blood-sea/game.mjs").is_file())
-        # the lookup is enc_dir.parents[2] / <that path>, with enc_dir = assets/encounter/blood-sea
-        self.assertTrue((REPO / "assets/encounter/blood-sea").resolve().parents[2].joinpath("playables/blood-sea").is_dir())
+    def test_cli_auto_discovers_the_moved_runtime(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as out:
+            result = subprocess.run([sys.executable, str(REPO / "tools/scripts/qa_blood_sea_anim.py"),
+                                     "--encounter-dir", str(REPO / "assets/encounter/blood-sea"), "--out-dir", out],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads((Path(out) / "blood-sea-qa-report.json").read_text(encoding="utf-8"))
+            self.assertTrue(report["runtime"]["checked"], "no --runtime-dir: the audit must find playables/blood-sea itself")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { loadCatalog } from './editor-catalog.mjs';
-import { revisionStore } from './editor-store.mjs';
+import { createPreviewServer } from '../serve.mjs';
 import { encodePixels } from '../core/png.mjs';
 import { realPack } from '../core/tests/helpers.mjs';
 
@@ -26,7 +26,14 @@ test('loadCatalog and revisionStore take the pack of the project they are given'
   await write('src/btn_idle_0.png', png); await write('out/hud/btn/idle_0.png', png);
   const catalog = await loadCatalog(dir, dir);
   assert.deepEqual([...catalog.frames.keys()], ['hud/btn/idle_0']);
-  const store = revisionStore(dir, undefined, dir);
-  assert.ok(store, 'a store for the project');
-  assert.ok((await fs.stat(path.join(dir, '.other-revisions')).catch(() => null)) || true);
+  // A write through the server of the selected project creates its database under the project pack's revisions directory.
+  const server = createPreviewServer({root: dir});
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  t.after(() => server.close());
+  const res = await fetch(`http://127.0.0.1:${server.address().port}/api/editor/save`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({key: 'hud/btn/idle_0', baseRevision: 0, pngBase64: encodePixels(2, 2, Buffer.concat([Buffer.from([0, 0, 1, 255]), Buffer.alloc(12, 255)])).toString('base64')})});
+  assert.equal(res.status, 200, JSON.stringify(await res.clone().json()));
+  assert.equal((await res.json()).head, 1, 'a new revision was stored');
+  assert.ok((await fs.readdir(path.join(dir, '.other-revisions'))).length > 0, 'database under the pack\'s revisions directory');
+  await assert.rejects(fs.stat(path.join(dir, realPack().directories.revisions)), {code: 'ENOENT'});
 });

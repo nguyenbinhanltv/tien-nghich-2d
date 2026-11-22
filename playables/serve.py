@@ -50,6 +50,15 @@ class PreviewHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(REPO_ROOT), **kwargs)
 
+    def translate_path(self, path):
+        # The playables live in /playables but keep their /studio/ URLs; shared by GET and HEAD.
+        route = path.split("?", 1)[0].split("#", 1)[0]
+        if route.startswith("/studio/") and not (REPO_ROOT / route.lstrip("/")).is_file():
+            mounted = REPO_ROOT / "playables" / route[len("/studio/"):].lstrip("/")
+            if mounted.is_file() or (mounted / "index.html").is_file():
+                path = "/playables/" + path[len("/studio/"):]
+        return super().translate_path(path)
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
@@ -59,11 +68,6 @@ class PreviewHandler(http.server.SimpleHTTPRequestHandler):
         if self.path == "/preview-app" or self.path.startswith(("/preview-app/", "/preview-app?")):
             self.path = "/studio" + self.path[len("/preview-app"):]
         # The playables live in /playables but keep their /studio/ URLs (same overlay the Node server does).
-        route = self.path.split("?", 1)[0]
-        if route.startswith("/studio/") and not (REPO_ROOT / route.lstrip("/")).is_file():
-            mounted = REPO_ROOT / "playables" / route[len("/studio/"):]
-            if mounted.is_file() or (mounted / "index.html").is_file():
-                self.path = "/playables/" + self.path[len("/studio/"):]
         if self.path == "/":
             self.send_response(302)
             self.send_header("Location", "/studio/")

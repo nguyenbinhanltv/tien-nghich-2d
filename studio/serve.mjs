@@ -52,13 +52,10 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
     try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
   };
   // A mount must be a real directory inside the project, not under a blocked directory, whatever symlinks it passes through.
-  const mountChecks = new Map();
-  const mountOk = mount => {
-    if (!mountChecks.has(mount.dir)) mountChecks.set(mount.dir, (async () => {
-      if (!publicPath(mount.dir)) return false;
-      try { return publicPath(path.relative(await fs.realpath(REPO_ROOT), await fs.realpath(path.join(REPO_ROOT, mount.dir)))); } catch { return false; }
-    })());
-    return mountChecks.get(mount.dir);
+  // Not cached: a mount may be a directory that a build creates after the server started.
+  const mountOk = async mount => {
+    if (!publicPath(mount.dir)) return false;
+    try { return publicPath(path.relative(await fs.realpath(REPO_ROOT), await fs.realpath(path.join(REPO_ROOT, mount.dir)))); } catch { return false; }
   };
   /** Which directory answers a URL path: the studio first under /studio/, then the pack's mounts (any URL prefix), else the project. */
   const locate = async reqPath => {

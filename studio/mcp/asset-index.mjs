@@ -38,7 +38,7 @@ export async function loadAssetIndex(pack, root) {
   };
   const info = {profiles: {}, chunks: {}, defaults: {}, sources: {}};
   // A source names the directory keys it uses: `processed` (and `raw`); atlases default to the processed key.
-  const dirsOf = source => ({processed: pack.directories.processed[source.processed], raw: source.raw ? pack.directories.raw[source.raw] : null,
+  const dirsOf = source => ({processed: source.processed ? pack.directories.processed[source.processed] : undefined, raw: source.raw ? pack.directories.raw[source.raw] : null,
     atlas: atlasDirs(pack.directories.atlases[source.atlases ?? source.processed] ?? source.atlas?.dir ?? '')});
   // Category conventions from the pack: processed group, atlas key prefix, outline, empty frames allowed.
   const categories = pack.catalog.categories ?? {};
@@ -122,7 +122,7 @@ export async function loadAssetIndex(pack, root) {
         id: e.id, source: vfx.id, sourceId: vfx.id, manifest: vfx.file, category: 'vfx', name: e.id, readiness: 'packed',
         brief: '', size: e.frame_size, pivot: e.anchor, directions: ['none'], clips: {play: {frames: e.frame_count, loop: e.loop}},
         outline: false, emptyOk: true, spec: {fps: e.fps, total_ms: e.total_ms, descriptor: e.descriptor},
-        layout: {nameStyle: 'vfx-flat', processedDir: path.posix.join(dirsOf(vfx).processed, vfx.processedSubdir ?? ''), flatPrefix: e.id, atlas: vfxAtlas,
+        layout: {nameStyle: 'vfx-flat', processedDir: vfx.processed ? path.posix.join(dirsOf(vfx).processed, vfx.processedSubdir ?? '') : path.posix.dirname(vfx.file), flatPrefix: e.id, atlas: vfxAtlas,
           keyOf: (clip, direction, n) => fillTemplate(pack.frameKeys[vfx.atlas?.frameKey ?? 'vfx'], {id: e.id, n})},
       });
     }

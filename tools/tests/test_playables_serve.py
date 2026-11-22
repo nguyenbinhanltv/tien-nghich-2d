@@ -18,11 +18,12 @@ class PlayablesServeTest(unittest.TestCase):
         threading.Thread(target=httpd.serve_forever, daemon=True).start()
         try:
             for path in ["/studio/previewer.html", "/studio/courtyard/", "/studio/blood-sea/", "/studio/courtyard/index.html"]:
-                conn = http.client.HTTPConnection("127.0.0.1", httpd.server_address[1])
-                conn.request("GET", path)
-                status = conn.getresponse().status
-                conn.close()
-                self.assertEqual(status, 200, path)
+                for method in ("GET", "HEAD"):
+                    conn = http.client.HTTPConnection("127.0.0.1", httpd.server_address[1])
+                    conn.request(method, path)
+                    status = conn.getresponse().status
+                    conn.close()
+                    self.assertEqual(status, 200, f"{method} {path}")
         finally:
             httpd.shutdown()
             httpd.server_close()
