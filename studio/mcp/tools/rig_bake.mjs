@@ -120,7 +120,7 @@ export default {
           groups.set(slot, g);
         }
         const hashes = `rig ${rig ? sha256(JSON.stringify(rig)).slice(0, 12) : '-'}; poseclips ${poseClips ? sha256(JSON.stringify(poseClips)).slice(0, 12) : '-'}; patch ${patch ? sha256(JSON.stringify(patch)).slice(0, 12) : '-'}`;
-        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}`, frames: Object.keys(g.frames) }));
+        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}${g.doc.reference ? `; reference ${g.doc.reference.name} ${g.doc.reference.sha256.slice(0, 12)} verbatim ${g.doc.reference.verbatim ? 'yes' : 'no'}` : ''}`, frames: Object.keys(g.frames) }));
         // ONE submission: all frames are gated together, written under one lock and rolled back together, each credited to its own sheet.
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller, dryRun: args.dryRun });
         const written = report.written?.length ?? 0, unchanged = report.unchanged?.length ?? 0;

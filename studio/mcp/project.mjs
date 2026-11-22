@@ -244,5 +244,7 @@ export function openProject(rootArg, { libraryDir } = {}) {
   // The workspace is the studio core's view of the same directory (pack, palette, asset index, revision
   // store, studio database). It is built lazily, so a read-only project_info never opens SQLite.
   let workspace;
-  return { root, source: 'project-pack', snapshot, get workspace() { return workspace ??= openWorkspace(root, { libraryDir, indexer: loadAssetIndex }); }, close() { workspace?.close(); } };
+  // Only the pack is read (no manifests), so initialize can send the project's rules cheaply.
+  const agentGuidance = () => { try { return loadPack().agentGuidance ?? null; } catch { return null; } };
+  return { root, source: 'project-pack', snapshot, agentGuidance, get workspace() { return workspace ??= openWorkspace(root, { libraryDir, indexer: loadAssetIndex }); }, close() { workspace?.close(); } };
 }

@@ -10,7 +10,8 @@ import { encodePixels } from '../core/png.mjs';
 export const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 const BASE_FILES = ['studio.project.json', 'assets/manifest.json', 'assets/manifest_longtime.json', 'assets/audio_manifest.json',
-  'assets/processed/vfx/vfx_index.json', 'tools/generators/palette.json'];
+  'assets/processed/vfx/vfx_index.json', 'tools/generators/palette.json',
+  'assets/raw/longtime/lt_kiln_keeper/contact_4x.png', 'assets/raw/longtime/lt_ink_marten/contact_4x.png'];   // the pack's locked reference images
 // Directories copied whole so milestones, QA and previews have real frames to judge.
 const BASE_DIRS = ['assets/processed_longtime/lt_kiln_keeper', 'assets/atlases_longtime', 'assets/processed/ui/ui_card_frame'];
 

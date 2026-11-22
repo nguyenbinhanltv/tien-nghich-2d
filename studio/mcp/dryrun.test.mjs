@@ -55,12 +55,12 @@ const exists = (p, rel) => fs.existsSync(join(p.root, rel));
 const WRITERS = ['studio_asset_plan', 'studio_audio_render', 'studio_frame_patch', 'studio_frames_submit', 'studio_generator_run', 'studio_metadata_set',
   'studio_pack', 'studio_process', 'studio_qa_run', 'studio_review_reply', 'studio_review_request', 'studio_rig_bake', 'studio_sheet_import',
   'studio_template_get', 'studio_vfx_build'];
-const READERS = ['studio_asset_get', 'studio_audio_analyze', 'studio_catalog_search', 'studio_diff', 'studio_frame_read', 'studio_job_status', 'studio_job_wait',
+const READERS = ['studio_asset_get', 'studio_audio_analyze', 'studio_catalog_search', 'studio_diff', 'studio_frame_read', 'studio_guide', 'studio_job_status', 'studio_job_wait',
   'studio_preview_render', 'studio_project_info', 'studio_review_list', 'studio_scene_snapshot'];
 
-test('every tool that can write takes dryRun, and none of the others does; 26 tools in all', () => {
+test('every tool that can write takes dryRun, and none of the others does; 27 tools in all', () => {
   const tools = buildRegistry().list('pack');
-  assert.equal(tools.length, 26, 'the studio MCP has 26 tools after studio_frame_read');
+  assert.equal(tools.length, 27, 'the studio MCP has 27 tools: studio_frame_read and studio_guide are the last two');
   assert.deepEqual(tools.map((t) => t.name).sort(), [...WRITERS, ...READERS].sort(), 'a new tool must be listed here as a writer (with a dryRun test below) or a reader');
   for (const t of tools) {
     const has = Object.hasOwn(t.inputSchema.properties, 'dryRun');
