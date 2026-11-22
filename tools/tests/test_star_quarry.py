@@ -75,18 +75,25 @@ class QuarryTests(unittest.TestCase):
         for platform in ("web","mobile"):
             directory=ROOT/"assets/atlases_longtime"/platform/"star_quarry"
             manifest=json.loads((directory/"chunk-manifest.json").read_bytes())
-            self.assertEqual((manifest["asset_ids"],manifest["frame_count"],manifest["page_count"]),([ASSET],24,1))
-            page,=manifest["pages"]
-            self.assertEqual(page["png_sha256"],sha(directory/page["image"]))
-            self.assertEqual(page["json_sha256"],sha(directory/page["json"]))
-            sheet=pixels(directory/page["image"])
-            atlas=json.loads((directory/page["json"]).read_bytes())
-            self.assertEqual(set(atlas["frames"]),{f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")})
+            self.assertIn(ASSET,manifest["asset_ids"])  # characters join this chunk later; lt_star_quarry keeps its 24 frames
+            self.assertGreaterEqual(manifest["frame_count"],24)
+            self.assertGreaterEqual(manifest["page_count"],1)
+            own={}
+            for page in manifest["pages"]:
+                self.assertEqual(page["png_sha256"],sha(directory/page["image"]))
+                self.assertEqual(page["json_sha256"],sha(directory/page["json"]))
+                sheet=pixels(directory/page["image"])
+                atlas=json.loads((directory/page["json"]).read_bytes())
+                if platform=="mobile":
+                    self.assertEqual((atlas["meta"]["padding"],atlas["meta"]["extrude"]),(2,1))
+                    self.assertTrue(all(s<=1024 and s & (s-1)==0 for s in sheet.shape[:2]))
+                for key,frame in atlas["frames"].items():
+                    if key.startswith(f"longtime/{ASSET}/"):
+                        own[key]=(frame,sheet)
             if platform=="mobile":
-                self.assertEqual((atlas["meta"]["padding"],atlas["meta"]["extrude"]),(2,1))
-                self.assertTrue(all(s<=1024 and s & (s-1)==0 for s in sheet.shape[:2]))
                 self.assertLessEqual(manifest["page_count"],manifest["mobile_page_budget"])
-            for key,frame in atlas["frames"].items():
+            self.assertEqual(set(own),{f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")})
+            for key,(frame,sheet) in own.items():
                 rect=frame["frame"]
                 x,y=rect["x"],rect["y"]
                 self.assertEqual((rect["w"],rect["h"],frame["pivotPx"],frame["durationMs"]),(16,16,[0,0],0))

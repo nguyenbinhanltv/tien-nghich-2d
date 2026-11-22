@@ -1,0 +1,848 @@
+{
+  "id": "lt_shard_mole",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Show the shard mole silhouette before its strike.",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template custom, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "6eea055e-2e26-411a-9892-a6127443988f",
+  "character_job_id": "7a9f385f-5ad7-4706-939c-ed9ffbbeb259",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Shard mole, a small chibi stone-quarry burrowing mole: round plump body of rough grey-brown rock with a large head, a long pink-white snout, tiny dark eyes, big bronze digging claws on both front paws, a crown of jagged glowing cyan crystal shards growing on its back and head. Stocky, low, readable silhouette. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c4cc61da-6b55-492e-8bee-5702ba439c2e",
+      "job_ids": {
+        "south": "0bd78e02-1aa9-4963-b0b7-88b45d4915be",
+        "west": "aee2f650-1093-4906-8d5c-bb0b291eeafd",
+        "north": "2df6bf55-98e8-434c-a5f0-3ae093eec665",
+        "east": "40389023-0b3d-4ff2-992f-e9df8e40b430"
+      },
+      "action_description": "sits low and sniffs, snout twitching, the cyan crystal shards on its back glinting slightly, claws resting in front",
+      "direction_prompts": {
+        "south": "seen from the front, sits low and sniffs, snout twitching, crystals glint",
+        "west": "seen from the left side, sits low and sniffs toward the left, snout twitching, crystals glint",
+        "north": "seen from behind, sits low, the crystal shards on its back glint",
+        "east": "seen from the right side, sits low and sniffs toward the right, snout twitching, crystals glint"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "19e0f869-5bb6-42fe-8999-e9c30cb7da67",
+      "job_ids": {
+        "south": "5dca6393-72bd-4996-a55a-f17bf062db06",
+        "west": "d8b1509d-dcd3-480d-99c2-17fc8d6139d7",
+        "north": "e79ae912-b03a-4133-9f5e-5688ae39734e",
+        "east": "ff4f3b2f-224e-48cf-bc4e-f6e59d369182"
+      },
+      "action_description": "waddles forward on short legs in a quick shuffling trot, snout low, the cyan crystal shards on its back bouncing",
+      "direction_prompts": {
+        "south": "seen from the front, waddles toward the viewer, snout low, crystals bouncing",
+        "west": "seen from the left side, waddles to the left, snout low, crystals bouncing",
+        "north": "seen from behind, waddles away from the viewer, crystals bouncing",
+        "east": "seen from the right side, waddles to the right, snout low, crystals bouncing"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "533159b7-a775-45bc-85c6-b079b2ef902e",
+      "job_ids": {
+        "south": "550a8b85-3112-43de-97a4-9b78acec48f1",
+        "west": "76f55224-4e98-4a2e-9400-d70c38b563b9",
+        "north": "c446eee2-a1ff-4ead-8c60-aa56a12b633f",
+        "east": "9ad8932a-1fc6-4aa1-8a0c-fc6e40d8db67"
+      },
+      "action_description": "rears up and raises both bronze digging claws high, the cyan crystal shards on its back flaring bright, winding up for a heavy swing",
+      "direction_prompts": {
+        "south": "seen from the front, rears up and raises both claws high, crystals flaring bright, winding up for a swing",
+        "west": "seen from the left side, rears up and raises the claws high behind it, crystals flaring, winding up to swing left",
+        "north": "seen from behind, rears up, the crystal shards on its back flare bright",
+        "east": "seen from the right side, rears up and raises the claws high behind it, crystals flaring, winding up to swing right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f1e6d9b0-e744-4f34-bd86-08df6133b04d",
+      "job_ids": {
+        "south": "be16eaf4-5341-4064-89c4-5b0e4b2cca14",
+        "west": "5df260d6-75cf-4fbe-ade7-3039c56e133e",
+        "north": "ddea4a5a-161d-4cfd-9f51-a0c70e14ddea",
+        "east": "f03ecdde-a652-4afc-824b-bc1350e628e8"
+      },
+      "action_description": "slams both bronze digging claws down hard in front of it in a heavy swipe, crystals flashing, then recovers",
+      "direction_prompts": {
+        "south": "seen from the front, slams both claws down toward the viewer in a heavy swipe, then recovers",
+        "west": "seen from the left side, slams the claws down to the left in a heavy swipe, then recovers",
+        "north": "seen from behind, slams the claws down away from the viewer, then recovers",
+        "east": "seen from the right side, slams the claws down to the right in a heavy swipe, then recovers"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected); clips queued in partial batches into the same groups because job slots are shared",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "north views show the back only; the pink snout is not visible, so the identity there rests on the crystal crown and claws",
+    "telegraph north/east: the raised claws are partly lost, and the crystal flare reads as loose cyan specks",
+    "one strike frame in each side view shows a pale white claw or snout highlight that looks like a stray blob",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 6,
+    "clip_max": 3,
+    "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 3932,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "edge_trim": {
+      "rule": {
+        "speck_max": 6,
+        "clip_max": 3,
+        "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+      },
+      "frames": {}
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "1a086ec08d16d259c960528bf826cb39d3fb237d0b8789fb426bc7831be2e790",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_shard_mole/contact_1x.png": "e8b5102b79da8567b6cfb261dc103bfbb30a0a1871c3e5bb3de4c52cf63ec478",
+    "assets/raw/longtime/lt_shard_mole/contact_4x.png": "4f94ec545cf07525a3a39f9be4dd17b458c3fc2495df4b1740e236b3a41980a2"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_shard_mole/idle_east_0",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/east/frame_000.png",
+      "raw_sha256": "fc42668f3bdf1319d06d060abc7ad6a020b4226fa5846fbeeea028ae79dbfc2b",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "8f8d568bb0d6ede5fdaf6a675c86d95f8edd8f230b23bc1808d5aa1aeefb8ecb"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_east_1",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/east/frame_001.png",
+      "raw_sha256": "a98799d134391d356d5a01f6c8878d2165b6c6aa30949e1a14f6f5588f02103c",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "46c53ae8bf647b8e3f9f2b291ad2a7e95e13b4a4f11d64647f1f7885f6ffa84c"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_east_2",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/east/frame_002.png",
+      "raw_sha256": "18ece3aa654f0e07b7ed4440813bffcf569c41ebae239998be98a834c960db83",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "467204eacf799bf838ffa22c427e8fb7124303e305083f3ac4f8149d6ce59b0f"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_north_0",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/north/frame_000.png",
+      "raw_sha256": "5b45e95e5a65e2c27c6365bfd62565e2bd8a5b6540e558cc8205b21093ae11cf",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "c8392321b3ceeeefc02964428808d789901f328bb4461c48a5e75e6a96f64970"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_north_1",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/north/frame_001.png",
+      "raw_sha256": "57371258ef3856b8990175fa56e4dcadea935afc9333d24d98bee8dfc086bbc3",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "658328df3ce8d018ba87cce15b7b72a7258b330646594860b80ac73aa603b9f8"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_north_2",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/north/frame_002.png",
+      "raw_sha256": "ebc6c031897fc809858282f9e142c1e97936b191299e0f2154a28addf0100d4c",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "4c6217c18e0b95302aa245bd05b402018408ffc0ca4c3bc780425a01784945b0"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_south_0",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/south/frame_000.png",
+      "raw_sha256": "acf16343808e4a3f8e85f13643e0615efc695c9d9862bdb9c39b7b870d0cd8d7",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "fcb34be444f5aa6ded0bf729d62fc5a18b318feed00611a5fddb2b499058e334"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_south_1",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/south/frame_001.png",
+      "raw_sha256": "e01170051a59edb414c442b70587c7b1fe5473e6dc58fdc46d3aafa7de93a9f1",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "b9b05e63887affe51f25784b3b63284fbdb6c359fa6499739c1e811dcff5e165"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_south_2",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/south/frame_002.png",
+      "raw_sha256": "6f82c6c5a7d3a83ce3098f07cbd63f63251a1c60435d220316685c9779314924",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "6f757c8dab1f54eeb68cd0f11570409690a6b5110ba0c5a040d1c703b7d1c37a"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_west_0",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/west/frame_000.png",
+      "raw_sha256": "bee8c92ceab8c9cbedce40307336c3f8b546126f9e94e243d2e21f1aec083063",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "35b4b556f7325ba3c967918833b4c4197c851f72be7a60860aab41a20cb3da80"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_west_1",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/west/frame_001.png",
+      "raw_sha256": "f23dbb7aa8313e1ddd4285ee63568eb37791854a5ae836f3d5a49e6e140aa18a",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "1c147aeded91405f942a1800ed7d1e6dcb571c687ed070f22b4a0d839254bd0b"
+    },
+    {
+      "key": "longtime/lt_shard_mole/idle_west_2",
+      "path": "assets/processed_longtime/lt_shard_mole/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/idle/west/frame_002.png",
+      "raw_sha256": "ebc146b89ccb1916eb6391bfd604c188acfad1f534e32b8e589742610754f65e",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "585d95de45723ffc4239102e0935f6bbc24e84cea579cb4a313b8922f00e57d8"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_east_0",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/east/frame_000.png",
+      "raw_sha256": "16d1d93689f5b23e5fba8f92a6cb97fdd539a7e7a1a55e496d1a94b9b8397b8b",
+      "source_xy": [
+        0,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "8ac780a7ee11e77d0024a97fef565e5c8b617a2886246447bdb28f26c97478ba"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_east_1",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/east/frame_001.png",
+      "raw_sha256": "61ad480d774bcaeaca11a00ad6c610aa2679c664b1c2f51452775fcf3499ab4a",
+      "source_xy": [
+        40,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "23d0fa2aaf418ac280f1b9a2126f773da007a142771b1d6e6b52409a3493de01"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_east_2",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/east/frame_002.png",
+      "raw_sha256": "46487d8090040ea00cc5a006ee8c4df172a04afad928a11388bc3f16741b91fa",
+      "source_xy": [
+        80,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "136da0f0f8a97a2f07458e49d1f535c73ef76b54c0b4f5dc5ef07b78ecbf9c76"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_east_3",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/east/frame_003.png",
+      "raw_sha256": "26d34349a172666f25c6ff854f71409225dd281d1f15a18105c0bcccd998e007",
+      "source_xy": [
+        120,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "9bb877b2d01b3b5c1d3a9195c6e3cf2d9eb57fd147d7189fbe9d111ed5ddf45f"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_north_0",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/north/frame_000.png",
+      "raw_sha256": "00f06d9592529768c8b445bf1a8c5d20140c1aa320f188aa08689a43a2b103ff",
+      "source_xy": [
+        0,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "fcd6e680a4b6bc28bb698d7adfbe3b8e16e6cbc00cd89fe54110854ea0488fd7"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_north_1",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/north/frame_001.png",
+      "raw_sha256": "6fe998f8cd798b66ac2d485e98f9b1ae75c5ad7263104d8c576b1c953718773e",
+      "source_xy": [
+        40,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "71f9fbfd392a7d6c75923ebfa7023f73477517b143ad9040bea120f14a00b916"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_north_2",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/north/frame_002.png",
+      "raw_sha256": "3445aa175dc18abf8890ed68a9d2c465b2148495d0065a2bc3899a203d1cc209",
+      "source_xy": [
+        80,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "6bc883da9ef3b3585d0831e626de3646c4b25eb787a860381297d6aca5d6c365"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_north_3",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/north/frame_003.png",
+      "raw_sha256": "7eaa5e9f08f664f1129beb20d5447982c3c3bab4d073942c8aa53ccebee5cf41",
+      "source_xy": [
+        120,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "b75ea279fd67bdcb632fc50caf006674a6c6de6f79686a7f7ab1a3470c889bda"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_south_0",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/south/frame_000.png",
+      "raw_sha256": "82638162ec2bd89cd7587f7d91be8badbe84abb25d2524f3cb59be1800980c8c",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "b593b1eb664ba9de0c34e7d38362062b851bba5567af5fbeb474f66d16ab8c7f"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_south_1",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/south/frame_001.png",
+      "raw_sha256": "29c9d754e05e0f9626949e3689383087b129545a0e34de42944324203acec6e2",
+      "source_xy": [
+        40,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "0f07f783ee24fcf622964796c48b8852c7491285069a118d4f8af1e55c1854e5"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_south_2",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/south/frame_002.png",
+      "raw_sha256": "5f1685bd6be3ceaa62b5861b6896eb526105602eb5c31c6adeff7033d5332c62",
+      "source_xy": [
+        80,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "b7b532b5bfc1f4ca41b972e3a37cc510d85987a2a7e95fa4e71b7d99210b7d24"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_south_3",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/south/frame_003.png",
+      "raw_sha256": "e1b8b767d4cb7a9772c30163d2ed5d28c4fccbaa292e01a58f44eefd383cb914",
+      "source_xy": [
+        120,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "17c4300e7e6b20fa8772338467c11db6aa00909dd47b4044d05915d23db71194"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_west_0",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/west/frame_000.png",
+      "raw_sha256": "230dfa75e167986917717b2d6c9b88e4609eef1d19d403aea80433f00c0fca5d",
+      "source_xy": [
+        0,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "e7b16391b6462d3a5aa3fbf60a33ea089924a39314a264585d8b9f35e46d5015"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_west_1",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/west/frame_001.png",
+      "raw_sha256": "7aff9b835ccbc22ec4236fe02c30a4b54b4312f8965195406381bde5e08661b2",
+      "source_xy": [
+        40,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "c0ea1ad3b7970a5c0a4aff376aa5bb1110f166c30385931ab606123a3304402b"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_west_2",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/west/frame_002.png",
+      "raw_sha256": "22b1ae40bef0fa20dc33a65f74cba8b765e8c357d2400cc32df1c8cb28b9fd6a",
+      "source_xy": [
+        80,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "28d96e66b44165d4abf5ccda44978b03adc82f6dbf92356e1d09e88ac4565707"
+    },
+    {
+      "key": "longtime/lt_shard_mole/strike_west_3",
+      "path": "assets/processed_longtime/lt_shard_mole/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/strike/west/frame_003.png",
+      "raw_sha256": "dd8bccadf855739d61840b7bf4b2698a0907fb20ba38d8586b0e562d1659a36c",
+      "source_xy": [
+        120,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "e16081614f014ba0c3051b5c552df57f77de1ca723bc9a7db9966b8201dfd491"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_000.png",
+      "raw_sha256": "6adb9b36df7e3e9a64a4078a0dc96bb02c2e8f6dfb36f49fd14636113580f9c8",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "c596515a2849856d241a0c7796b97b5f5560188aa7bdec876be4d969e0a64d0e"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_002.png",
+      "raw_sha256": "7cc1e15c837b525acffa3247b8ed0973081578c6f23ee2f5b33bd25ffd540bbe",
+      "source_xy": [
+        40,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "14ccf6724b0fdf9a2d4d87d083ae4b4fa59b52f76b04cffdaa7cfdecb23d4a1a"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_003.png",
+      "raw_sha256": "7ba6037a6a55ed3c78042a5341d08c1d86a1e1de43a4c36a0a5cb48a35cd81a9",
+      "source_xy": [
+        80,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "b0f2a9bbd978f030324febdaa9fe2e59f428b83efa3a8f78f940cc98a6671507"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_000.png",
+      "raw_sha256": "6c2ce9d68203bceb8c4d7b13d16836981c3d00dc378c01f8dcd2413acc4dd9b4",
+      "source_xy": [
+        0,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "28ac1ee0b9bbb0ebb872b9cf6f64470c6db7e78a4ad4d69cda1d3e18868a45ff"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_002.png",
+      "raw_sha256": "53592f6b411045f684e77ddc7e9e9f2d1b2b825d8ca53585fc66be1da7ec8b09",
+      "source_xy": [
+        40,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "44fb005cac885a49343f00b125e86cde887ed24230453e790dae4060e0f31935"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_003.png",
+      "raw_sha256": "5f68b18a26219a59c9d2862bcb3d2cfb61ad7aea1a55756f1a845ffc8105fdfd",
+      "source_xy": [
+        80,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "f700ad50cc1847d97329a35c7e020deeee77f96e7904c7b403254d7ddf4f4de3"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_000.png",
+      "raw_sha256": "f92b38ef4df77f05d532718d51d11b5b089462c4578047b14e6e0dfc9cedd6fa",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "a0e3029ccbe094b0bcfbe33cc4b05ad5cd0d01c82d4d4bc2c3efd23e9c1c5adb"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_002.png",
+      "raw_sha256": "bdef6558ddeee43edf2183bb0a7c16869901bb0dd8c61473af17226266310ebb",
+      "source_xy": [
+        40,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "e216e69ec34eb51d5beefe81bbea5dee7784c5d6bd65bb4819f03d76da832921"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_003.png",
+      "raw_sha256": "89ba3a53153d436c58ed169a000f9f7e0acf354506bf8a73b8dafc66769ef058",
+      "source_xy": [
+        80,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "3c2b5a1d295fc854dbb1e4f2ef51c5acff9b473336f2797b088a7a0af03d0403"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_000.png",
+      "raw_sha256": "a8312d6d375082c351250e857542eac0109d4de678424ecc3f5f445910fd8219",
+      "source_xy": [
+        0,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "450c028ab17a42ba202d724019593f696d527c1269d31df05792ae39eac6a3c6"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_002.png",
+      "raw_sha256": "9c5b3c1091849705279dcf2f799d07861f9761390c89b25342342cdbedbdd52f",
+      "source_xy": [
+        40,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "768997cc2b7a2de123a1c7cef0d5a087be89ac3c4b1b344104dc2da77bb69c74"
+    },
+    {
+      "key": "longtime/lt_shard_mole/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_shard_mole/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_003.png",
+      "raw_sha256": "5dd5555d0562b62826560ef84e9ea3a11d2a7cf8ad979db32e546451c37ec86f",
+      "source_xy": [
+        80,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "d17705047af40507e3dbd990313e4239f6ad4c4cacb3988b37679d360d5f8b1a"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_east_0",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/east/frame_000.png",
+      "raw_sha256": "456c56e29a37e32b26a4847333b04274771020ec205aee1dd9b4f24e3cda2b6c",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "b73ce3720f0e05a05fb88e1ee89a1bc3b2e80f0ad865be6f9a702b39f10c0edd"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_east_1",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/east/frame_001.png",
+      "raw_sha256": "24860bfe7ed01dc34e966e7d19de35c776de0393638c4c6a297b3dd2428e747b",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "8fa48dce6ca0d90bbaa17cadf9c68f0150276b658ed10e548290502c66e2ec55"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_east_2",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/east/frame_002.png",
+      "raw_sha256": "f37b12b1b40cedab1f0d3ec3d6a28fe93b268b2bf4680046674441aae7ee8f52",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "a4a4145061cb86178aa2c1a38159b2022745c76e7794ea9bf13e2bbf3b3935e9"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_east_3",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/east/frame_003.png",
+      "raw_sha256": "825baa494fa803cacbb3ee3ffc3da2dad58c05166ca5b0c41178158f7b3db16e",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "5aa6ccb7242b6f5d0b62ea172c45105c3b0935d3cbd5e6a198998fdb0ad822f6"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_north_0",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/north/frame_000.png",
+      "raw_sha256": "6413a3acf50dc02b34292127cac733b16ac91e6e419c4d23e207cd9d79678e08",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "354813e746c364347fff010bdb9c5582b0c28bec1d0e843a927539723fa53654"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_north_1",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/north/frame_001.png",
+      "raw_sha256": "2b9215485fe8a30962908587a0233ee399ec760873e63e13296a763a78eef9d5",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "d68f8aafeb57a146b150d155b52c981154c21b719ada8ecfec1ea9a5c0b21b73"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_north_2",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/north/frame_002.png",
+      "raw_sha256": "3c80cb34dc534df50069d079e36fcb98a99485d472d50911c1ca5123cfd7ae24",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "a04b74f8d4974a14833831d02cc2280789e2f1f7a8bf0fcbf48ac732c43dfc5e"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_north_3",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/north/frame_003.png",
+      "raw_sha256": "ed6ece252175bb8e113fdd2f5c49fd96bf870cdf7c88cca4397de7256b3f2e37",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "6579450c499e68b63d3148cf1b25618135d2d7272c1e0ef4ebf74fd9050b3a6e"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_south_0",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/south/frame_000.png",
+      "raw_sha256": "cbff1f5b2c5a6adabe54045675b35f4a700f497e680578ef879552a465eb9227",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "c4f8fbac367c9c9f752e13908e4ad2b6ddc4ed8a247cd2cf18628133ce008a78"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_south_1",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/south/frame_001.png",
+      "raw_sha256": "c88fa68cc99d51c7d95f79a0abeb80196eab1ee46d9c4656b4452215cda6dd08",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "f8cf5d97b844d698cf605a74c3abe87a0b77d61ff6d1bc4561ffd89e0bd78144"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_south_2",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/south/frame_002.png",
+      "raw_sha256": "28fd16b8b87ed0f3ae84f693ef7de1f7c3a253a20f1a33a2fe3f19237837c12a",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "2a8a27e2d7b20dcb38f43edd2ce690b04afe26974fbcead054526ca88e5085fb"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_south_3",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/south/frame_003.png",
+      "raw_sha256": "c55ebc011ea70b883fdf65cb643ecfcd219f2d622ae982c71da695aa5de8a8bf",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "7646c4ad415ca235174b8ad8f0ae22acf63746cf2c451715bddc425342e6a9c1"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_west_0",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/west/frame_000.png",
+      "raw_sha256": "a2e3006031858d3f869541fa1a2a6ec472bc54a90239fbb6c7ebd651b913a0be",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "755bbec82991a1fe4de9d0b7359c98f2b43365d509d3b800aa9467f54d4e3bcd"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_west_1",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/west/frame_001.png",
+      "raw_sha256": "3ce307aaf743659886ea8dd90976e03b6110eb5f8955af4aa9fd85a911c70947",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "c262d49891c781c1f5964f05fca4b2f30e2e3b4a476b9a3ec02eba195d7d31a3"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_west_2",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/west/frame_002.png",
+      "raw_sha256": "35325ea6d02be40dde2315577c86e3cb803631dd6b4bea46895df6556087a8a3",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "f7ce6c66a5b68febfddaa310a96009fc821afdc532f2ac87936b8904402a5215"
+    },
+    {
+      "key": "longtime/lt_shard_mole/walk_west_3",
+      "path": "assets/processed_longtime/lt_shard_mole/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/walk/west/frame_003.png",
+      "raw_sha256": "9ad38503c606fade4bbc7dc423427576b4ca523cc018acadfe8a9591832fd784",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "97e51ddf482a4b8c891d897599d29c3a31343d9a72f80300737a4e644e2eab92"
+    }
+  ]
+}

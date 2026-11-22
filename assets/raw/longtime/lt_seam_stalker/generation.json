@@ -1,0 +1,137 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template custom, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "c82ca7a5-487b-4cf6-9104-3f18ee20ecdf",
+  "character_job_id": "390e7c37-21d0-4873-844a-dd74375b0d3e",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Seam stalker, a small chibi stone-quarry predator that lurks in rock cracks: a flat low slate-grey body with a big head, two glowing pale cyan slit eyes, a jagged glowing cyan crack line running down its back like a seam, four short stubby clawed legs, small stone-plate armour on the shoulders, one bronze claw tip. Crouched stalking pose. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "3490905d-89e4-4333-b0a9-0910ab5b3a79",
+      "job_ids": {
+        "south": "c48c9f12-1abf-465a-956d-eb4c74c52078",
+        "west": "7b5effbd-a21c-46c8-8fdd-7b8d5bc8a3fc",
+        "north": "7732f3f4-edb1-4291-9194-9598726d3281",
+        "east": "987756e8-b51b-4eab-8019-ed8b8ffb89a8"
+      },
+      "action_description": "crouches low and breathes slowly, the glowing cyan seam on its back pulsing softly, head swaying slightly as it watches",
+      "direction_prompts": {
+        "south": "seen from the front, crouched and breathing slowly, the cyan seam pulses, head sways slightly",
+        "west": "seen from the left side, crouched and breathing slowly, the cyan seam pulses, head sways slightly",
+        "north": "seen from behind, crouched and breathing slowly, the cyan seam on its back pulses",
+        "east": "seen from the right side, crouched and breathing slowly, the cyan seam pulses, head sways slightly"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "6645ac56-7790-4747-8ba4-39fbf830afcc",
+      "job_ids": {
+        "south": "54c29f88-b49a-43ab-a763-48347ca03d05",
+        "west": "d42652db-f0ca-4431-a04f-93c72ea3a6f3",
+        "north": "6d525177-b741-49c2-bc79-3a14767e08c3",
+        "east": "539f7874-8bae-448a-8157-3c546d3d56fd"
+      },
+      "action_description": "creeps forward low to the ground on four short clawed legs in a quick scuttling stalk, cyan seam glowing on its back",
+      "direction_prompts": {
+        "south": "seen from the front, creeps toward the viewer low to the ground, scuttling on four short legs",
+        "west": "seen from the left side, creeps to the left low to the ground, scuttling on four short legs",
+        "north": "seen from behind, creeps away from the viewer low to the ground, scuttling",
+        "east": "seen from the right side, creeps to the right low to the ground, scuttling on four short legs"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "e0a6d09c-f082-44ca-b0b6-2476d723e1f6",
+      "job_ids": {
+        "south": "9f326a70-0568-4447-92b0-272d17502d7b",
+        "west": "dd608962-245f-4741-b6db-dcaec6599d03",
+        "north": "6b887eee-5cc2-48fd-8c4f-86fbb9e28110",
+        "east": "f8d652df-842e-4aee-8dcf-76afa742b54e"
+      },
+      "action_description": "flattens down and coils back on its short legs, claws spread, the glowing cyan seam on its back flaring brighter, winding up to pounce",
+      "direction_prompts": {
+        "south": "seen from the front, flattens and coils back, claws spread, the cyan seam flares, winding up to pounce",
+        "west": "seen from the left side, flattens and coils back to the right, claws spread, the seam flares, winding up to pounce left",
+        "north": "seen from behind, flattens and coils, the cyan seam on its back flares brighter",
+        "east": "seen from the right side, flattens and coils back to the left, claws spread, the seam flares, winding up to pounce right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "db4794de-1ada-4635-8e71-7911aacd7794",
+      "job_ids": {
+        "south": "203a958d-20fb-42a5-8262-619f3f7baadb",
+        "west": "13c75669-98b8-48f6-9fb5-5535790a5658",
+        "north": "1b782767-cd66-4307-938a-730019b2f0df",
+        "east": "48638e96-d13f-456e-a680-494d5a1ba162"
+      },
+      "action_description": "pounces forward in a fast lunge, claws thrust out toward the target with the cyan seam flashing, then drops back low",
+      "direction_prompts": {
+        "south": "seen from the front, pounces toward the viewer, claws thrust out, then drops back low",
+        "west": "seen from the left side, pounces to the left, claws thrust out to the left, then drops back low",
+        "north": "seen from behind, pounces away from the viewer, then drops back low",
+        "east": "seen from the right side, pounces to the right, claws thrust out to the right, then drops back low"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected); telegraph and strike were queued in several partial batches into the same groups because job slots are shared",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "north views read as a dark hooded blob; the cyan seam is the only mark",
+    "bronze claw tips visible in some frames only",
+    "a few detached cyan specks beside the walk east/west frames",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 6,
+    "clip_max": 3,
+    "why": "enabled in case wing/spark pixels cross the 32 px canvas (see processing.edge_trim)"
+  },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "detached 1-3 px specks beside the walk west and strike north frames read as stray pixels (touch-up round); counts per frame in provenance.processing.speck_clean"
+  },
+  "touch_up": {
+    "round": "touch-up 2026-11-22",
+    "goal": "stray pixels around the walk and strike frames",
+    "result": "fixed in processing with speck_clean (max 3 px detached components removed); no regeneration, 0 credits",
+    "frames_cleaned": "walk west 0-2, strike north 1-3 (counts in provenance.processing.speck_clean)"
+  }
+}
