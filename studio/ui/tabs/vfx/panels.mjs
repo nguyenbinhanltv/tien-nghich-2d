@@ -135,7 +135,7 @@ function diff(a, b) {
  * on the effect's first frame through the review API. It never sets a status. A separate block shows the
  * disabled build control.
  */
-export async function readPanel(ctx, effect, clip, frames, floors, variant, live) {
+export async function readPanel(ctx, effect, clip, frames, floors, variant, live, setTimer) {
   const root = h('div', 'vx-sec');
   const [w, hh] = effect.size;
   const strip = h('div', 'vx-floors');
@@ -153,8 +153,8 @@ export async function readPanel(ctx, effect, clip, frames, floors, variant, live
     }
   };
   paint(live.frame());
-  const timer = setInterval(() => paint(live.frame()), 60);
-  ctx.onUnmount(() => clearInterval(timer));
+  // The caller owns the timer: it is cleared before this panel is replaced and on unmount.
+  setTimer(setInterval(() => paint(live.frame()), 60));
 
   let key = null, notes = [];
   async function load() {

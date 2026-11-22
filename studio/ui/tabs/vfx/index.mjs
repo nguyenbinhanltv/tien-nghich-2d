@@ -120,9 +120,11 @@ async function paintStage(app, token) {
 
 async function paintAside(app, ctx_, token) {
   const {ctx, state, ui} = app;
+  clearInterval(app.readTimer);
   if (!ctx_) { ui.aside.replaceChildren(h('p', 'vx-pad muted', ctx.t('panel.none'))); return; }
   const {effect, clip, variant} = ctx_;
   const tabs = h('nav', {class: 'vx-tabs', 'aria-label': ctx.t('panel.label')}, ...views.map(v => h('a', {class: 'vx-tab' + (state.view === v ? ' on' : ''), href: ctx.href(app.route({view: v})), 'aria-current': state.view === v ? 'true' : null}, ctx.t('view.' + v))));
+  clearInterval(app.readTimer);
   const body = h('div', 'vx-panel', h('p', 'vx-pad muted', ctx.t('common.loading')));
   ui.aside.replaceChildren(tabs, body);
   try {
@@ -133,7 +135,7 @@ async function paintAside(app, ctx_, token) {
     else if (state.view === 'audit') node = auditPanel(ctx, ev, clip, variant);
     else if (state.view === 'provenance') node = provenancePanel(ctx, ev);
     else if (state.view === 'rounds') node = roundsPanel(ctx, ev, state, patch => app.go(patch, {replace: true}));
-    else node = await readPanel(ctx, {...effect, acceptance: ev.recorded?.acceptance}, clip, app.live.frames, app.live.floors, variant, {frame: () => app.stage?.getFrame() ?? 0});
+    else node = await readPanel(ctx, {...effect, acceptance: ev.recorded?.acceptance}, clip, app.live.frames, app.live.floors, variant, {frame: () => app.stage?.getFrame() ?? 0}, t => { clearInterval(app.readTimer); app.readTimer = t; });
     if (token !== app.token) return;
     body.replaceChildren(node);
   } catch (error) {
@@ -161,7 +163,7 @@ async function paint() {
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./vfx.css', import.meta.url));
   const mine = app = makeApp(ctx, state);
-  ctx.onUnmount(() => { mine.stage?.destroy(); });
+  ctx.onUnmount(() => { mine.stage?.destroy(); clearInterval(mine.readTimer); });
   const ui = layout(ctx);
   app.ui = ui;
   ctx.root.setAttribute('aria-busy', 'true');
@@ -188,4 +190,4 @@ export async function update(ctx, state) {
   await paint();
 }
 
-export async function unmount() { app?.stage?.destroy(); }
+export async function unmount() { app?.stage?.destroy(); clearInterval(app?.readTimer); }
