@@ -10,6 +10,7 @@ import { bareFrame } from './review.mjs';
  * pixels were computed from, NOTHING is saved and the first such item is named in the error.
  */
 export async function saveRevisions(ws, items) {
+  if (!items.length) return [];
   const store = await ws.store();
   // One SQLite write transaction holds across every head check and every insert: a failure on any frame (a conflict, a database error) rolls back all of them.
   return store.transaction(() => {
@@ -22,6 +23,14 @@ export async function saveRevisions(ws, items) {
       return {revision: snap.revision, head: snap.head, changed: snap.head > heads[i], status: snap.status, previous: heads[i]};
     });
   });
+}
+
+/**
+ * Save one frame's new revision (the original contract: `{key, baseline, png}`, optional `baseRevision`). Returns
+ * {revision, head, changed, status, previous}. A save identical to the head is a no-op. It is saveRevisions with one item.
+ */
+export async function saveRevision(ws, item) {
+  return (await saveRevisions(ws, [item]))[0];
 }
 
 /** The pixels of a frame's newest revision as PNG bytes, or null when it has no history. */
