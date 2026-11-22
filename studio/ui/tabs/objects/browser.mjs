@@ -29,10 +29,12 @@ export function renderFilters(app, host) {
   const sourceLabel = id => { const s = ctx.project.sources.find(x => x.id === id); return s ? ctx.label(s.label) : humanize(id); };
   const box = h('details', 'filterbox', h('summary', 'btn', ctx.t('filter.label'), h('span', 'chip', String([state.kind, state.ready, state.chunk, state.src].filter(Boolean).length))));
   const wide = matchMedia('(min-width: 901px)');
-  box.open = wide.matches;
-  const onWide = () => { box.open = wide.matches; };
-  wide.addEventListener('change', onWide);
-  app.onCleanup(() => wide.removeEventListener('change', onWide));
+  // wide: always open; narrow: keep the user's choice across repaints (a filter tap repaints the page)
+  const sync = () => { box.open = wide.matches || app.filtersOpen === true; };
+  sync();
+  box.addEventListener('toggle', () => { if (!wide.matches) app.filtersOpen = box.open; });
+  wide.addEventListener('change', sync);
+  app.onCleanup(() => wide.removeEventListener('change', sync));
   box.append(
     h('section', 'fgroup', h('h2', '', ctx.t('filter.kind')),
       h('nav', {'aria-label': ctx.t('filter.kind')},

@@ -44,9 +44,11 @@ export function renderBrowser(app, el) {
     h('div', 'vx-fgroup', h('h2', '', ctx.t('filter.readiness')), h('nav', {class: 'chiprow', 'aria-label': ctx.t('filter.readiness')}, chip({ready: null}, ctx.t('filter.any'), !state.ready), ...ready.map(r => chip({ready: r}, `${ctx.t('ready.' + r)} (${cards.filter(c => c.readiness === r).length})`, state.ready === r)))),
     h('div', 'vx-fgroup', h('h2', '', ctx.t('filter.group')), h('nav', {class: 'chiprow', 'aria-label': ctx.t('filter.group')}, chip({grp: null}, ctx.t('filter.any'), !state.grp), ...groups.map(g => chip({grp: g}, `${ctx.t('group.' + g)} (${cards.filter(c => c.group === g).length})`, state.grp === g)))));
   const wide = matchMedia('(min-width: 901px)');
-  box.open = wide.matches;
-  const onWide = () => { box.open = wide.matches; };
-  wide.addEventListener('change', onWide);
-  app.onFilterCleanup?.(); app.onFilterCleanup = () => wide.removeEventListener('change', onWide);
+  // wide: always open; narrow: keep the user's choice across repaints (a filter tap repaints the page)
+  const sync = () => { box.open = wide.matches || app.filtersOpen === true; };
+  sync();
+  box.addEventListener('toggle', () => { if (!wide.matches) app.filtersOpen = box.open; });
+  wide.addEventListener('change', sync);
+  app.onFilterCleanup?.(); app.onFilterCleanup = () => wide.removeEventListener('change', sync);
   el.replaceChildren(box, h('p', 'vx-note', ctx.t('list.count', {shown: shown.length, total: cards.length})), shown.length ? list : emptyBox(ctx.t('list.empty')));
 }
