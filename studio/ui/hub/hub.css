@@ -23,7 +23,7 @@
 .hub-facts { display: grid; grid-template-columns: auto 1fr; gap: .1rem .75rem; margin: 0; font-size: .85rem; }
 .hub-facts dt { color: var(--muted); } .hub-facts dd { margin: 0; }
 .hub-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: auto; }
-.hub button, .hub select, .hub input[type="text"], .hub textarea { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); padding: .35rem .6rem; }
+.hub button, .hub select, .hub input[type="text"], .hub textarea { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line-strong); padding: .35rem .6rem; }
 .hub button { cursor: pointer; }
 .hub button:hover { border-color: var(--accent); }
 .hub button.primary { background: var(--accent-soft); border-color: var(--accent); }

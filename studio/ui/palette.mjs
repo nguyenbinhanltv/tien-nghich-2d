@@ -115,7 +115,8 @@ export function createPalette({ctx, project, getLang, t, fetchJson, navigate, go
     clearTimeout(timer);
     overlay.remove();
     overlay = undefined;
-    if (restore && opener?.isConnected) opener.focus();
+    // Closing without a route change gives focus back to where it came from; if that element is gone, to the search button.
+    if (restore) (opener?.isConnected ? opener : document.querySelector('.search-button'))?.focus();
   }
 
   document.addEventListener('keydown', event => {

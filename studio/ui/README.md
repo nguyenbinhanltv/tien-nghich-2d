@@ -114,7 +114,7 @@ Readiness is `planned` (designed only), `authored` (frames or masters exist) or 
 | `--ui-surface` | card, slip, stat background | `--theme-surface`, `#26262c` |
 | `--ui-surface-raised` | raised control (button, key, toast) | `--theme-surface`, `#30303a` |
 | `--ui-line` | quiet border, divider | `--theme-line`, `#46464e` |
-| `--ui-line-strong` | control border | `--theme-muted`, `#6b6b6b` |
+| `--ui-line-strong` | control border | `--theme-lineStrong`, `--theme-muted`, `#6b6b6b` |
 | `--ui-text` | body text | `--theme-text`, `#e4e4e8` |
 | `--ui-text-muted` | secondary text, labels | `--theme-muted`, `#9a9aa2` |
 | `--ui-accent` | primary action, selected segment | `--theme-accent`, `#4aa3a3` |

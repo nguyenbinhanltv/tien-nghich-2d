@@ -4,6 +4,7 @@ import { destinations } from './destinations.mjs';
 import { parseHash, formatHash, hubTab } from './router.mjs';
 import { translator, localize, pickLanguage, storageKey, loadTable } from './i18n.mjs';
 import { createPalette } from './palette.mjs';
+import { crumbParts } from './crumbs.mjs';
 import * as placeholder from './tabs/_placeholder/index.mjs';
 
 const $ = id => document.getElementById(id);
@@ -108,10 +109,10 @@ function renderTopbar() {
 function renderCrumbs() {
   const crumbs = $('crumbs');
   if (!crumbs || !state.route) return;
-  const r = state.route;
-  const parts = [h('span', {}, t('nav.' + r.tab))];
-  if (r.asset) parts.push(h('span', {class: 'sep', 'aria-hidden': 'true'}, '›'), h('code', {}, r.asset));
-  for (const [k, v] of [['clip', r.clip], ['dir', r.direction], ['frame', r.frame]]) if (v != null) parts.push(h('span', {class: 'chip'}, `${k} ${v}`));
+  const {tab, asset, detail} = crumbParts(state.route, t);
+  const parts = [h('span', {}, tab)];
+  if (asset) parts.push(h('span', {class: 'sep', 'aria-hidden': 'true'}, '›'), h('code', {title: asset}, asset));
+  if (detail) parts.push(h('span', {class: 'chip', title: detail}, detail));   // clip, direction and frame: one label, so the bar stays one line
   crumbs.replaceChildren(...parts);
 }
 
@@ -207,10 +208,18 @@ async function route() {
   const parsed = parseHash(hash);
   if (state.hubOnly) parsed.tab = hubTab;   // with no project open there is nothing else to show
   const clean = !hash || hash === '#' || hash === '#/' || hash === formatHash(parsed) || state.hubOnly;
+  const tabChanged = state.route?.tab !== parsed.tab;
+  // A new address ends whatever overlay the old one had open: the command palette never survives a route change.
+  const paletteWasOpen = Boolean(state.palette?.isOpen());
+  state.palette?.close(false);
   state.route = parsed;
   markActive();
   renderCrumbs();
   await mountRoute();
+  // Focus is predictable: after the palette or a change of tab it lands on the content (`main`), not on a control that is gone or on <body>.
+  // Moving inside one tab (another frame, asset or clip) leaves focus where the person put it.
+  if (state.booted && (paletteWasOpen || tabChanged)) $('main').focus({preventScroll: true});
+  state.booted = true;
   if (hash && !clean) announce(t('route.unknown'));
 }
 
