@@ -6,7 +6,7 @@ export default {
   title: 'Read the human\'s review decisions and comments',
   description:
     'For an asset: how many frames are pending, approved or changes_requested (decided by a human in the review UI), and the human comments that still wait for an answer, with the key, revision and comment index you need for studio_review_reply. ' +
-    'detail=full lists every frame with its comments and the replies already made. Read-only.',
+    'detail=full lists every frame with its comments and the replies already made. For an AUDIO cue the entries ("frames") are the candidate\'s waveform and spectrogram pictures. Read-only.',
   scope: 'read',
   inputSchema: {
     type: 'object',

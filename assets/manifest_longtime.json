@@ -654,7 +654,7 @@
   ],
   "vfx": {
     "status": "packed",
-    "provenance": "Design contract written by Claude Code (Sonnet 5.5) worker session tien-nghich-2d-3. Art produced by Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11 from deterministic SpriteFX JSON specs (pin e5867cc), 188 frames, machine checks only; no human 1x readability review yet. Acceptance numbers retuned once against real output (see docs/LONGTIME_VFX.md section 8).",
+    "provenance": "Design contract written by Claude Code (Sonnet 5.5) worker session tien-nghich-2d-3. Art produced by Claude Code (Sonnet 5.5) worker session tien-nghich-2d-11 from deterministic SpriteFX JSON specs (pin e5867cc), 188 frames, machine checks plus a human review: the project owner approved all six effects (including the redesigned lt_fx_craft) after a 1x readability read, stated in chat on 2026-11-22 and recorded, tied to each frame's sha256, in assets/review/art_approvals.json. The 'review pending' wording in the per-effect provenance.json files predates that approval and is not updated; the approvals file is the record. Acceptance numbers retuned once against real output (see docs/LONGTIME_VFX.md section 8).",
     "routing": "programmatic spritefx with the 40-colour palette; never PixelLab",
     "assigned_agent": "codex_antigravity",
     "palette_ramps": "tools/generators/vfx_specs/palettes/tien_nghich_40.json",
