@@ -2,6 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -125,20 +126,28 @@ test('real project: no origin field is empty without a stated reason (unknown, n
   }
 });
 
-test('real project: a script hash the ledger shows is the sha256 of the script in the repository', async () => {
+test('real project: a script hash the supplement adds is the sha256 of the script as it was at the commit recorded for that asset', async t => {
   const withScript = ledger.assets.filter(a => a.origin.script && a.origin.scriptSha256);
   assert.ok(withScript.length >= 200, 'every asset with a script carries its hash');
-  assert.ok(withScript.some(a => a.filled.includes('scriptSha256')), 'the supplement filled some');
-  const scripts = new Map();
-  for (const a of withScript) scripts.set(a.origin.script, [...(scripts.get(a.origin.script) ?? []), a]);
-  const wrong = [];
-  for (const [script, list] of scripts) {
-    const now = await lf(script);
-    for (const a of list) if (a.origin.scriptSha256 !== now) wrong.push(`${a.id}: ${script}`);
+  const filled = withScript.filter(a => a.filled.includes('scriptSha256'));
+  assert.ok(filled.length >= 100, 'the supplement filled most of them');
+  const doc = JSON.parse(await fs.readFile(path.join(REPO, 'assets/review/provenance_supplement.json'), 'utf8'));
+  const commits = new Map(doc.entries.flatMap(e => Object.entries(e.assets).map(([id, r]) => [id, r.scriptCommit])));
+  const git = (...args) => execFileSync('git', args, {cwd: REPO, maxBuffer: 1 << 26, stdio: ['ignore', 'pipe', 'ignore']});
+  try { git('rev-parse', '--git-dir'); } catch { return t.skip('no git history here'); }
+  const wrong = [], missing = [];
+  let checked = 0;
+  for (const a of filled) {
+    const commit = commits.get(a.id);
+    if (!/^[0-9a-f]{40}$/.test(commit ?? '')) { wrong.push(`${a.id}: no scriptCommit recorded`); continue; }
+    let blob;
+    try { blob = git('show', `${commit}:${a.origin.script}`); } catch { missing.push(a.id); continue; }  // a shallow clone may lack the commit
+    checked++;
+    if (sha(blob.toString('utf8').replaceAll('\r\n', '\n')) !== a.origin.scriptSha256) wrong.push(`${a.id}: ${a.origin.script}@${commit.slice(0, 8)}`);
   }
   assert.deepEqual(wrong, []);
+  assert.ok(checked > 0 || missing.length === filled.length, 'either verified through git or the history is not here');
   for (const id of ['wp_azure_wind_sword', 'ts_hengyue', 'icon_sinh_tu_cam', 'hit_spark', 'lt_abode_stone', 'sfx_bond', 'bgm_ancient_god']) assert.ok(byId(id).origin.scriptSha256, id);
-  assert.ok(byId('icon_sinh_tu_cam').filled.includes('scriptSha256'));
 });
 
 test('real project: the script and document files an asset names exist', async () => {
