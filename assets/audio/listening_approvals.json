@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "description": "Listening approvals the user gave BEFORE the studio existed. Read by the studio's Review tab and shown as 'approved before the studio', distinct from a sign-off made in the studio. This file is a record, not a gate: a master whose sha256 differs from `master_sha256` is NOT covered and waits for a fresh listening. master_sha256 is the hash of each master in the commit that added this record (the packs approved are the ones in assets/audio/packs/pilot_v1 and wave2_batch1_v1).",
+  "approvals": [
+    {
+      "id": "pilot_v1",
+      "approved_by": "user",
+      "recorded": null,
+      "assets": {
+        "bgm_dong_phu": {
+          "master_sha256": "e1e1bfe6b76a6d096ca6d837b9e7717ac6e5b544ae27d3b2cef79b998c854f71"
+        },
+        "sfx_blade": {
+          "master_sha256": "2eeebb35ae5a707baf182bc02c710b5503984d990e4fe9e985f8cb1c1a7f6507"
+        },
+        "sfx_breakthrough": {
+          "master_sha256": "91c559744f1545f3d4762a9d67a84ac455f9b2ad48b17ab06f7fec49466203bd"
+        },
+        "sfx_chest": {
+          "master_sha256": "152fe0ff3eeacb9b3fa30cc0b57ce350518b48864709499f05c7f439d24610b5"
+        },
+        "sfx_confirm": {
+          "master_sha256": "e7a5fe3e417c8667a39742958eaf7242991102b2a7c37ce6e8975d15dfbf702b"
+        },
+        "sfx_dash": {
+          "master_sha256": "d41b3776b2a5160ca0540fed0e80993ac91a9cd30c3a11ff8092798de8506d47"
+        },
+        "sfx_hit_flesh": {
+          "master_sha256": "a02d13cc69b6166527007757b52a80173aa422d8f492c84e89ef824c6c91ed7d"
+        },
+        "sfx_pickup": {
+          "master_sha256": "61f9337ff4dc5db0f21d26702593a2bf6a8e644e5c92fad2eaccc2ccbcd06389"
+        },
+        "sfx_seal_lock": {
+          "master_sha256": "a09c6ef8183ac15d27d0ad7d94c113e5cdf58a40d60d430546d0ef81f65e992b"
+        }
+      },
+      "evidence": {
+        "source": "docs/ORCHESTRATOR_HANDOFF.md, section 'Approved Hằng Nhạc audio (history, still the listening reference)'",
+        "quote": "The approved Động Phủ pilot (one bed and eight cues) remains the listening reference.",
+        "pr": "PR #39 packaged the pilot; the approval date was not recorded."
+      }
+    },
+    {
+      "id": "wave2_batch1_v1",
+      "approved_by": "user",
+      "recorded": "2026-11-21T20:25:54Z",
+      "assets": {
+        "bgm_hengyue": {
+          "master_sha256": "78f89b07c6e2027648bbaa61314e5cf3a0ea717d53024d08d00f5f6cea9158a6"
+        },
+        "sfx_bolt": {
+          "master_sha256": "ec59abda2e9d9bad3d812ff8925b24dc8b1dec6e7e96e6697c4e9b5a593a246c"
+        },
+        "sfx_cancel": {
+          "master_sha256": "d0b06dcca6c8e7d51d16e79ad36ba39c7f541392d7254fe99d7af48adb39a82d"
+        },
+        "sfx_cast": {
+          "master_sha256": "46d395858adf360aedbe335092ed8a6a53824f3bab3fd453fd730c5fb28bb022"
+        },
+        "sfx_deny": {
+          "master_sha256": "87eb1969176e7a6d7c76f7fa814c3526dbadffbe2a470d86dd1eea93e7963942"
+        },
+        "sfx_evade": {
+          "master_sha256": "d70899eb1c7d4db34e508cc462aac20ca9b981d0df098098850152515d5b1704"
+        },
+        "sfx_focus": {
+          "master_sha256": "da811ccc40bbbf49dc89f0d5867258e5db16d4a54a11ee0474d7963b7f278ac7"
+        },
+        "sfx_step": {
+          "master_sha256": "de102c277265484c3f5dfc36e7aaf9ba56db029bf797b78213fd2cce0fdfc840"
+        },
+        "sfx_tell_light": {
+          "master_sha256": "6e50e0b378d3d0703312c2d8b8b0c14ded168c520be4ad93b8d1d839d639f94d"
+        }
+      },
+      "evidence": {
+        "source": "docs/ORCHESTRATOR_HANDOFF.md, section 'Approved Hằng Nhạc audio'",
+        "quote": "The user heard and approved the Hằng Nhạc Ogg/AAC A/B.",
+        "pr": "https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52 (merged 2026-11-21T20:25:54Z into main at c1db17870829ae4cdadf310786567efb8b99489e); date shown is the merge time"
+      }
+    }
+  ]
+}

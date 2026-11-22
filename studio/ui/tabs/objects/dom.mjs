@@ -44,3 +44,6 @@ export function pixelCanvas(w, h_) {
   g.imageSmoothingEnabled = false;
   return [c, g];
 }
+
+/** replaceChildren that skips null/false (the native call would print the text "null"). */
+export const fill = (el, ...kids) => el.replaceChildren(...kids.filter(k => k != null && k !== false));

@@ -1,5 +1,5 @@
 // Tool workspaces that replace the grid: 47-tile sheet + autotiling test room, nine-slice, HUD bar clipping.
-import { h, imgUrl, loadImage, button, pixelCanvas } from './dom.mjs';
+import { h, imgUrl, loadImage, button, pixelCanvas, fill } from './dom.mjs';
 import { framesOf, framesOfClip, clipNames, blobSheets, bitmaskMap, testRoom, autotile, floorTilePath, blobMasks,
   defaultInsets, clampInsets, nineSlice, nineSizes, hudClipWidth } from './model.mjs';
 
@@ -8,8 +8,8 @@ const none = (app, key) => h('p', {class: 'muted pad', role: 'status'}, app.ctx.
 export async function renderTool(app, host) {
   const {ctx, state} = app;
   const entry = app.selected();
-  if (!entry) return host.replaceChildren(none(app, 'tool.pick'));
-  host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
+  if (!entry) return fill(host, none(app, 'tool.pick'));
+  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
   let node;
   try {
     const detail = await app.detail(entry);
@@ -17,9 +17,9 @@ export async function renderTool(app, host) {
     node = await {blob: blobTool, nine: nineTool, hud: hudTool}[state.tool](app, entry, detail, frames);
   } catch (error) {
     if (error.name === 'AbortError') return;
-    return host.replaceChildren(h('p', {role: 'alert', class: 'pad'}, ctx.t('common.error', {message: error.message})));
+    return fill(host, h('p', {role: 'alert', class: 'pad'}, ctx.t('common.error', {message: error.message})));
   }
-  host.replaceChildren(h('h2', 'toolname', ctx.t('tool.' + state.tool), ' ', h('code', '', entry.id)), node);
+  fill(host, h('h2', 'toolname', ctx.t('tool.' + state.tool), ' ', h('code', '', entry.id)), node);
 }
 
 /** A frame chooser shared by the UI tools: every frame of the asset as `clip n`. */
@@ -71,7 +71,7 @@ async function blobTool(app, entry, detail, frames) {
       const r = c.getBoundingClientRect(), x = Math.floor((ev.clientX - r.left) / (r.width / grid[0].length)), y = Math.floor((ev.clientY - r.top) / (r.height / grid.length));
       if (x > 0 && y > 0 && x < grid[0].length - 1 && y < grid.length - 1) { grid[y][x] ^= 1; draw(); }
     });
-    room.replaceChildren(c);
+    fill(room, c);
   };
   await draw();
   const reseed = button(ctx.t('blob.reseed'), () => app.go({seed: (state.seed % 999999) + 1}));
@@ -121,14 +121,14 @@ async function hudTool(app, entry, detail, frames) {
   const w = img.naturalWidth, hgt = img.naturalHeight;
   const out = h('div', 'hudout checker');
   const label = h('span', {class: 'tick', role: 'status'});
-  const draw = fill => {
-    const cw = hudClipWidth(w, fill);
+  const draw = pct => {
+    const cw = hudClipWidth(w, pct);
     const [c, g] = pixelCanvas(w * state.zoom, hgt * state.zoom);
     if (cw > 0) g.drawImage(img, 0, 0, cw, hgt, 0, 0, cw * state.zoom, hgt * state.zoom);
     c.setAttribute('role', 'img');
-    c.setAttribute('aria-label', ctx.t('hud.canvas', {fill}));
-    out.replaceChildren(c);
-    label.textContent = ctx.t('hud.clip', {fill, cw, w});
+    c.setAttribute('aria-label', ctx.t('hud.canvas', {fill: pct}));
+    fill(out, c);
+    label.textContent = ctx.t('hud.clip', {fill: pct, cw, w});
   };
   const range = h('input', {type: 'range', min: 0, max: 100, step: 1, value: state.fill, id: 'ob-fill', 'aria-label': ctx.t('hud.fill')});
   range.addEventListener('input', () => draw(Number(range.value)));

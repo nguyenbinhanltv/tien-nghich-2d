@@ -1,5 +1,5 @@
 // The right column: one asset, its clips and frames with timing playback, links, provenance and frame editing.
-import { h, humanize, imgUrl, button, loadImage } from './dom.mjs';
+import { h, humanize, imgUrl, button, loadImage, fill } from './dom.mjs';
 import { framesOf, clipNames, framesOfClip, frameMs, groupLinks } from './model.mjs';
 import { kindLabel } from './browser.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
@@ -9,15 +9,15 @@ const short = hash => (typeof hash === 'string' ? hash.slice(0, 12) : '');
 export async function renderDetail(app, host, token) {
   const {ctx, state} = app;
   const entry = app.selected();
-  if (!state.asset) { host.replaceChildren(h('p', 'muted pad', ctx.t('detail.none'))); return; }
-  if (!entry) { host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.unknown', {id: state.asset}))); return; }
-  host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
+  if (!state.asset) { fill(host, h('p', 'muted pad', ctx.t('detail.none'))); return; }
+  if (!entry) { fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.unknown', {id: state.asset}))); return; }
+  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
   let detail, provenance;
   try {
     [detail, provenance] = await Promise.all([app.detail(entry), app.provenance(entry).catch(() => null)]);
   } catch (error) {
     if (error.name === 'AbortError' || token !== app.token) return;
-    host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('common.error', {message: error.message})));
+    fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('common.error', {message: error.message})));
     return;
   }
   if (token !== app.token) return;
@@ -30,7 +30,7 @@ export async function renderDetail(app, host, token) {
   const current = inClip[index] ?? null;
   const name = ctx.label(detail.record?.name) || entry.name || entry.id;
   const links = renderLinks(app, entry);
-  host.replaceChildren(
+  fill(host, 
     h('header', 'dhead', h('div', '', h('h2', '', name), h('code', '', entry.id)),
       h('a', {class: 'plain-link', href: ctx.href(app.route({}, {asset: null})), 'aria-label': ctx.t('detail.close')}, '×')),
     metaList(app, entry, detail, current),
@@ -134,7 +134,7 @@ async function editorPanel(app, entry, detail, current, token) {
   const box = h('section', 'dsec', h('h3', '', ctx.t('edit.title')), h('p', 'muted', ctx.t('edit.loading')));
   const load = async () => {
     let snap;
-    try { snap = await api.getFrame(info.key); } catch (error) { box.replaceChildren(h('h3', '', ctx.t('edit.title')), h('p', {role: 'alert'}, ctx.t('edit.failed', {message: error.message}))); return; }
+    try { snap = await api.getFrame(info.key); } catch (error) { fill(box, h('h3', '', ctx.t('edit.title')), h('p', {role: 'alert'}, ctx.t('edit.failed', {message: error.message}))); return; }
     if (token !== app.token) return;
     const [px, py] = snap.metadata.pivot ?? [0, 0];
     const x = h('input', {type: 'number', min: 0, max: info.width - 1, value: px, id: 'ob-px'});
@@ -151,7 +151,7 @@ async function editorPanel(app, entry, detail, current, token) {
       try { await api.reviewFrame({key: info.key, revision: snap.revision, status: status.value, ...(text.value.trim() ? {text: text.value.trim()} : {})}); ctx.announce(ctx.t('edit.reviewed')); await load(); }
       catch (error) { fail(error); }
     });
-    box.replaceChildren(h('h3', '', ctx.t('edit.title')),
+    fill(box, h('h3', '', ctx.t('edit.title')),
       h('p', 'muted', ctx.t('edit.revision', {revision: snap.revision, status: ctx.t('review.' + snap.status)})),
       h('div', 'editrow', h('label', {for: 'ob-px'}, 'X'), x, h('label', {for: 'ob-py'}, 'Y'), y, save),
       h('div', 'editrow', status, text, review), msg,
