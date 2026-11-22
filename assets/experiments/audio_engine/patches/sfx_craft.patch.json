@@ -1,0 +1,162 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_craft",
+  "title": "sfx_craft",
+  "design": "Two hammer taps on warm metal, then the finished piece rings: D5, A5 and D6 sound together as one open chord over a thin high ping, then fade. Completion rather than collection, and the notes arrive at once, not in sequence.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9337,
+  "durationMs": 1100,
+  "trim": 0.47,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 24,
+      "gain": 0.9,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 700,
+          "highHz": 5000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 7,
+        "releaseMs": 9
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 110,
+      "gain": 0.5,
+      "hz": 392,
+      "endHz": 380,
+      "fm": {
+        "ratio": 2.76,
+        "index": 0.6
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 26,
+        "releaseMs": 36
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 170,
+      "ms": 26,
+      "gain": 1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 700,
+          "highHz": 5000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 7,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 170,
+      "ms": 120,
+      "gain": 0.55,
+      "hz": 440,
+      "endHz": 428,
+      "fm": {
+        "ratio": 2.76,
+        "index": 0.6
+      },
+      "env": {
+        "attackMs": 1,
+        "decayMs": 28,
+        "releaseMs": 40
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 340,
+      "ms": 760,
+      "gain": 0.42,
+      "hz": 587.33,
+      "endHz": 587.33,
+      "fm": {
+        "ratio": 2.01,
+        "index": 0.35
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 300,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 340,
+      "ms": 760,
+      "gain": 0.34,
+      "hz": 880,
+      "endHz": 880,
+      "fm": {
+        "ratio": 2.01,
+        "index": 0.3
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 280,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 340,
+      "ms": 700,
+      "gain": 0.26,
+      "hz": 1174.66,
+      "endHz": 1174.66,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 240,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 340,
+      "ms": 300,
+      "gain": 0.1,
+      "hz": 3290,
+      "endHz": 3270,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 70,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 340,
+      "ms": 20,
+      "gain": 0.7,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 900,
+          "highHz": 6000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 6,
+        "releaseMs": 8
+      }
+    }
+  ]
+}

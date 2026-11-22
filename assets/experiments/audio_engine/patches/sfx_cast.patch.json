@@ -1,0 +1,76 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_cast",
+  "title": "sfx_cast",
+  "design": "Breath gathers under a widening resonant fifth, then releases into a brief puff.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8219,
+  "durationMs": 309,
+  "trim": 0.73,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 180,
+      "gain": 0.53,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 430,
+          "highHz": 2600
+        }
+      ],
+      "env": {
+        "attackMs": 47,
+        "decayMs": 240,
+        "releaseMs": 49
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 4,
+      "ms": 244,
+      "gain": 0.35,
+      "hz": 257,
+      "endHz": 293.665,
+      "env": {
+        "attackMs": 41,
+        "decayMs": 250,
+        "releaseMs": 66
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 70,
+      "ms": 212,
+      "gain": 0.3,
+      "hz": 397,
+      "endHz": 440,
+      "env": {
+        "attackMs": 48,
+        "decayMs": 210,
+        "releaseMs": 67
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 196,
+      "ms": 110,
+      "gain": 0.85,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 800,
+          "highHz": 4700
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 30,
+        "releaseMs": 43
+      }
+    }
+  ]
+}

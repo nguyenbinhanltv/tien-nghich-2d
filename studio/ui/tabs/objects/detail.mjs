@@ -1,0 +1,162 @@
+// The right column: one asset, its clips and frames with timing playback, links, provenance and frame editing.
+import { h, humanize, imgUrl, button, loadImage } from './dom.mjs';
+import { framesOf, clipNames, framesOfClip, frameMs, groupLinks } from './model.mjs';
+import { kindLabel } from './browser.mjs';
+import { EditorApiClient } from '../../../src/editorApi.js';
+
+const short = hash => (typeof hash === 'string' ? hash.slice(0, 12) : '');
+
+export async function renderDetail(app, host, token) {
+  const {ctx, state} = app;
+  const entry = app.selected();
+  if (!state.asset) { host.replaceChildren(h('p', 'muted pad', ctx.t('detail.none'))); return; }
+  if (!entry) { host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.unknown', {id: state.asset}))); return; }
+  host.replaceChildren(h('p', 'muted pad', ctx.t('common.loading')));
+  let detail, provenance;
+  try {
+    [detail, provenance] = await Promise.all([app.detail(entry), app.provenance(entry).catch(() => null)]);
+  } catch (error) {
+    if (error.name === 'AbortError' || token !== app.token) return;
+    host.replaceChildren(h('p', {class: 'pad', role: 'alert'}, ctx.t('common.error', {message: error.message})));
+    return;
+  }
+  if (token !== app.token) return;
+  const frames = framesOf(detail);
+  const clips = clipNames(frames);
+  app.frames = frames;
+  const clip = clips.includes(state.clip) ? state.clip : clips[0] ?? null;
+  const inClip = clip ? framesOfClip(frames, clip) : [];
+  const index = Math.max(0, inClip.findIndex(f => f.n === state.frame));
+  const current = inClip[index] ?? null;
+  const name = ctx.label(detail.record?.name) || entry.name || entry.id;
+  const links = renderLinks(app, entry);
+  host.replaceChildren(
+    h('header', 'dhead', h('div', '', h('h2', '', name), h('code', '', entry.id)),
+      h('a', {class: 'plain-link', href: ctx.href(app.route({}, {asset: null})), 'aria-label': ctx.t('detail.close')}, '×')),
+    metaList(app, entry, detail, current),
+    clip ? stage(app, entry, clips, clip, inClip, index) : h('p', {class: 'muted pad'}, entry.readiness === 'planned' ? ctx.t('detail.planned') : ctx.t('detail.noFrames')),
+    links,
+    provenancePanel(app, entry, detail, provenance),
+    current ? await editorPanel(app, entry, detail, current, token) : null);
+}
+
+function metaList(app, entry, detail, current) {
+  const {ctx} = app;
+  const rows = [
+    ['kind', kindLabel(ctx, entry.category)],
+    ['ready', h('span', 'badge state-' + entry.readiness, ctx.t('ready.' + entry.readiness))],
+    ['chunk', detail.record?.chunk_group ?? entry.chunk ?? '–'],
+    ['source', (() => { const s = ctx.project.sources.find(x => x.id === entry.source); return s ? ctx.label(s.label) : entry.source; })()],
+    ['wave', entry.wave ? humanize(entry.wave) : '–'],
+    ['size', current ? h('span', {class: 'native', 'data-path': current.path}, entry.size ? entry.size.join('×') + ' px' : '…') : entry.size ? entry.size.join('×') + ' px' : '–']
+  ];
+  if (detail.record?.brief || detail.record?.description) rows.push(['brief', detail.record.brief ?? detail.record.description]);
+  const dl = h('dl', 'kv');
+  for (const [key, value] of rows) dl.append(h('dt', '', ctx.t('meta.' + key)), h('dd', '', value));
+  if (current) measure(app, dl.querySelector('.native'), current.path);
+  return dl;
+}
+
+async function measure(app, el, path) {
+  try { const img = await loadImage(path); el.textContent = app.ctx.t('meta.native', {w: img.naturalWidth, h: img.naturalHeight}); } catch { /* keep manifest size */ }
+}
+
+function stage(app, entry, clips, clip, inClip, index) {
+  const {ctx, state} = app;
+  const current = inClip[index];
+  const img = h('img', {class: 'stage-img', alt: `${entry.id} ${clip} ${current.n}`, src: imgUrl(current.path), draggable: 'false'});
+  const sized = () => { img.style.width = img.naturalWidth * state.zoom + 'px'; img.style.height = img.naturalHeight * state.zoom + 'px'; };
+  img.addEventListener('load', sized);
+  const label = h('span', {class: 'tick', role: 'status'});
+  const setLabel = i => { const f = inClip[i]; label.textContent = ctx.t('play.frame', {n: f.n, total: inClip.length, ms: frameMs(f)}) + (f.ms ? '' : ' · ' + ctx.t('play.defaultMs')); };
+  setLabel(index);
+  let at = index, playing = false, timer;
+  const show = i => { at = i; img.src = imgUrl(inClip[i].path); setLabel(i); };
+  const tick = () => { show((at + 1) % inClip.length); timer = setTimeout(tick, frameMs(inClip[at])); };
+  const play = button(ctx.t('play.play'), () => {
+    playing = !playing;
+    play.textContent = ctx.t(playing ? 'play.pause' : 'play.play');
+    play.setAttribute('aria-pressed', String(playing));
+    clearTimeout(timer);
+    if (playing) timer = setTimeout(tick, frameMs(inClip[at]));
+  }, {'aria-pressed': 'false'});
+  if (inClip.length < 2) play.disabled = true;
+  app.onCleanup(() => clearTimeout(timer));
+  return h('section', 'stage',
+    h('nav', {class: 'clips', 'aria-label': ctx.t('detail.clips')}, ...clips.map(c => h('a', {class: 'clip' + (c === clip ? ' on' : ''), 'aria-current': c === clip ? 'true' : null,
+      href: ctx.href(app.route({}, {clip: c, frame: framesOfClip(app.frames, c)[0]?.n ?? 0}))}, c, h('small', '', String(framesOfClip(app.frames, c).length))))),
+    h('div', 'stagebox checker', img),
+    h('div', 'controls', play, label),
+    h('ol', {class: 'strip', 'aria-label': ctx.t('detail.frames')}, ...inClip.map((f, i) => h('li', '',
+      h('a', {class: 'thumb' + (i === index ? ' on' : ''), 'aria-current': i === index ? 'true' : null, href: ctx.href(app.route({}, {clip, frame: f.n}))},
+        h('span', 'checker', h('img', {src: imgUrl(f.path), alt: '', loading: 'lazy', draggable: 'false', style: `--z:${Math.max(1, Math.min(state.zoom, 4))}`})),
+        h('small', '', `${f.n}`), h('small', 'ms', f.ms ? f.ms + ' ms' : '–'))))));
+}
+
+function renderLinks(app, entry) {
+  const {ctx} = app;
+  const groups = groupLinks(app.links[entry.id], app.byId, entry.category);
+  const section = h('section', 'dsec', h('h3', '', ctx.t('links.title')));
+  if (!Object.keys(groups).length) return section.append(h('p', 'muted', ctx.t('links.none'))), section;
+  for (const [group, ids] of Object.entries(groups)) section.append(h('div', 'linkgroup', h('h4', '', ctx.t('links.' + group)),
+    h('ul', '', ...ids.map(id => { const other = app.byId.get(id);
+      return h('li', '', h('a', {href: ctx.href(app.route({}, {asset: other}))}, id), ' ', h('small', 'muted', kindLabel(ctx, other.category))); }))));
+  return section;
+}
+
+function provenancePanel(app, entry, detail, provenance) {
+  const {ctx} = app;
+  const section = h('section', 'dsec', h('h3', '', ctx.t('prov.title')));
+  const file = provenance?.files?.[0];
+  const dl = h('dl', 'kv');
+  const row = (key, value, mono) => dl.append(h('dt', '', ctx.t('prov.' + key)), h('dd', mono ? 'mono' : '', value || h('span', 'muted', ctx.t('prov.none'))));
+  row('generator', file?.generator, true);
+  row('seed', file?.seed != null ? String(file.seed) : '', true);
+  row('generatorHash', short(file?.generator_sha256_lf ?? file?.generator_sha256), true);
+  row('sourceHash', short(file?.source_sha256), true);
+  row('producer', file?.producer);
+  row('method', file?.method);
+  row('palette', file?.palette ?? provenance?.record?.paletteRefs?.join(' '));
+  row('output', provenance?.record?.outputPath, true);
+  section.append(dl);
+  if (file?.parent_sources?.length) section.append(h('p', 'muted', ctx.t('prov.parents', {ids: file.parent_sources.map(p => p.id).join(', ')})));
+  if (!file) section.append(h('p', 'muted', ctx.t('prov.noFile')));
+  section.append(h('p', 'muted note', ctx.t('prov.readonly')));
+  if (file) section.append(h('p', 'muted', h('code', '', file.path)));
+  return section;
+}
+
+async function editorPanel(app, entry, detail, current, token) {
+  const {ctx} = app;
+  const info = (await app.editable()).get('/' + current.path);
+  if (!info) return h('section', 'dsec', h('h3', '', ctx.t('edit.title')), h('p', 'muted', ctx.t('edit.notCovered')));
+  const api = new EditorApiClient();
+  const box = h('section', 'dsec', h('h3', '', ctx.t('edit.title')), h('p', 'muted', ctx.t('edit.loading')));
+  const load = async () => {
+    let snap;
+    try { snap = await api.getFrame(info.key); } catch (error) { box.replaceChildren(h('h3', '', ctx.t('edit.title')), h('p', {role: 'alert'}, ctx.t('edit.failed', {message: error.message}))); return; }
+    if (token !== app.token) return;
+    const [px, py] = snap.metadata.pivot ?? [0, 0];
+    const x = h('input', {type: 'number', min: 0, max: info.width - 1, value: px, id: 'ob-px'});
+    const y = h('input', {type: 'number', min: 0, max: info.height - 1, value: py, id: 'ob-py'});
+    const msg = h('p', {class: 'muted', role: 'status'});
+    const fail = error => { msg.textContent = error.status === 409 ? ctx.t('edit.conflict') : ctx.t('edit.failed', {message: error.message}); if (error.status === 409) load(); };
+    const save = button(ctx.t('edit.savePivot'), async () => {
+      try { await api.saveFrame({key: info.key, baseRevision: snap.head, metadata: {pivot: [Number(x.value), Number(y.value)]}}); ctx.announce(ctx.t('edit.saved')); await load(); }
+      catch (error) { fail(error); }
+    });
+    const status = h('select', {id: 'ob-review', 'aria-label': ctx.t('edit.status')}, ...['pending', 'approved', 'changes_requested'].map(s => h('option', {value: s, selected: s === snap.status ? 'selected' : null}, ctx.t('review.' + s))));
+    const text = h('input', {type: 'text', maxlength: 2000, id: 'ob-note', placeholder: ctx.t('edit.note'), 'aria-label': ctx.t('edit.note')});
+    const review = button(ctx.t('edit.review'), async () => {
+      try { await api.reviewFrame({key: info.key, revision: snap.revision, status: status.value, ...(text.value.trim() ? {text: text.value.trim()} : {})}); ctx.announce(ctx.t('edit.reviewed')); await load(); }
+      catch (error) { fail(error); }
+    });
+    box.replaceChildren(h('h3', '', ctx.t('edit.title')),
+      h('p', 'muted', ctx.t('edit.revision', {revision: snap.revision, status: ctx.t('review.' + snap.status)})),
+      h('div', 'editrow', h('label', {for: 'ob-px'}, 'X'), x, h('label', {for: 'ob-py'}, 'Y'), y, save),
+      h('div', 'editrow', status, text, review), msg,
+      snap.comments?.length ? h('ul', 'comments', ...snap.comments.slice(-3).map(c => h('li', '', c.text ?? ''))) : null);
+  };
+  load();
+  return box;
+}

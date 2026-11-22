@@ -8,6 +8,7 @@
 // open with `initialize`. The era is chosen from how the client opens, as the spec describes.
 
 import { appendFileSync } from 'node:fs';
+import { randomBytes } from 'node:crypto';
 import {
   ERR, LEGACY_VERSIONS, META_CLIENT_INFO, META_SERVER_INFO, META_VERSION, MODERN_VERSIONS,
   RpcError, errorResponse, isObject, isValidId, resultResponse,
@@ -30,13 +31,19 @@ export class McpServer {
    * @param {string} [o.scope]        permission scope granted to this connection
    * @param {string} [o.agent]        operator-asserted agent name; beats self-reported clientInfo
    * @param {(rec: object) => void} [o.audit]
+   * @param {string} [o.session]      session id; the SERVER assigns it (a client cannot choose or claim one)
+   * @param {object} [o.policy]       {requireIndependentCheck}: rules the server enforces on every connection
+   * @param {object} [o.jobs]         JobRunner shared by the connections of one process
    */
-  constructor({ registry, project, scope = 'read', agent = '', audit = () => {} }) {
+  constructor({ registry, project, scope = 'read', agent = '', audit = () => {}, session, policy = {}, jobs = null }) {
     this.registry = registry;
     this.project = project;
     this.scope = scope;
     this.agentOverride = cleanName(agent);
     this.audit = audit;
+    this.session = session ?? 's-' + randomBytes(6).toString('hex');
+    this.policy = { requireIndependentCheck: true, ...policy };
+    this.jobs = jobs;
     this.legacy = null; // { protocolVersion } after a successful `initialize`
     this.clientInfo = null;
   }
@@ -155,7 +162,7 @@ export class McpServer {
 
     const args = params.arguments ?? {};
     const started = Date.now();
-    const record = { ts: new Date(started).toISOString(), agent: this.agent, scope: this.scope, tool: tool.name, era };
+    const record = { ts: new Date(started).toISOString(), agent: this.agent, session: this.session, scope: this.scope, tool: tool.name, era };
     const finish = (ok, result, reason) => {
       try { this.audit({ ...record, ok, ms: Date.now() - started, ...(reason ? { reason } : {}) }); } catch { /* auditing must never break a call */ }
       return this.#withMeta(era, result);
@@ -170,14 +177,15 @@ export class McpServer {
     if (problems.length) return fail(`Invalid arguments for ${tool.name}: ${problems.join('; ')}`);
 
     try {
-      const ctx = { project: this.project, caller: { agent: this.agent, clientInfo: this.clientInfo }, scope: this.scope, era, protocolVersion };
+      const ctx = { project: this.project, caller: { agent: this.agent, session: this.session, clientInfo: this.clientInfo }, scope: this.scope, era, protocolVersion, policy: this.policy, jobs: this.jobs };
       let out = await tool.handler(args, ctx);
       if (!isObject(out) || !('content' in out || 'structuredContent' in out)) {
-        out = { content: [{ type: 'text', text: JSON.stringify(out, null, 2) }], structuredContent: out };
+        out = { content: [{ type: 'text', text: JSON.stringify(out) }], structuredContent: out };
       }
       return finish(!out.isError, out, out.isError ? 'tool reported isError' : undefined);
     } catch (e) {
-      if (e instanceof ToolError) return fail(e.message);
+      // ToolError, plus the core's own expected failures (problem(status, code, message)): the model sees the message.
+      if (e instanceof ToolError || (Number.isInteger(e?.status) && typeof e?.code === 'string' && e.status < 500)) return fail(e.message);
       process.stderr.write(`[studio-mcp] tool ${tool.name} crashed: ${e?.stack ?? e}\n`);
       return fail(`Tool ${tool.name} failed unexpectedly (see server stderr).`);
     }

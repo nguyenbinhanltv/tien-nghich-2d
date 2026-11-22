@@ -1,0 +1,43 @@
+{
+  "schema": "studio.audio.score",
+  "version": 1,
+  "id": "dusk",
+  "title": "Dusk (example bed)",
+  "sampleRate": 44100,
+  "seed": 99,
+  "tempoBpm": 90,
+  "beatsPerBar": 4,
+  "tuningA4Hz": 440,
+  "key": {"tonic": "A", "scale": "minor-pentatonic", "enforce": true},
+  "loop": {"bars": 4},
+  "instruments": {
+    "pluck": {
+      "gains": [0.5, 0.35], "tailMs": 900, "fadeOutMs": 10,
+      "layers": [{"type": "osc", "wave": "additive", "ratio": 1,
+        "harmonics": {"count": 6, "rolloff": 1.2, "pickPosition": 0.3, "decayBase": 3, "decayStep": 1.2},
+        "env": {"attackMs": 3, "attackShape": "exp", "releaseMs": 70, "releaseShape": "exp"}}]
+    },
+    "pad": {
+      "gains": [0.12, 0.12], "tailMs": 1200, "fadeOutMs": 10,
+      "layers": [
+        {"type": "osc", "wave": "saw", "ratio": 1, "vibrato": {"hz": 4.5, "depth": 0.002, "riseMs": 600},
+         "filters": [{"type": "biquad", "mode": "lowpass", "hz": 1200, "q": 0.8}],
+         "env": {"attackMs": 250, "attackShape": "exp", "releaseMs": 300, "releaseShape": "exp"}},
+        {"type": "osc", "wave": "triangle", "ratio": 0.5, "env": {"attackMs": 300, "attackShape": "exp", "releaseMs": 300, "releaseShape": "exp"}}
+      ]
+    }
+  },
+  "patterns": {
+    "walk": [[0, "A3", 0.5, 0.8], [1.5, "C4", 0.5, 0.6], [2, "E4", 0.5, 0.7], [3, "G3", 0.75, 0.6]],
+    "turn": [[0, "D4", 0.5, 0.8], [1.5, "E4", 0.5, 0.6], [2, "G4", 0.5, 0.7], [3, "E4", 0.75, 0.6]],
+    "drone": [[0, "A2", 3.5, 0.9]],
+    "drone_high": [[0, "E3", 3.5, 0.9]]
+  },
+  "tracks": [
+    {"name": "pluck", "instrument": "pluck", "sequence": [{"bar": 0, "pattern": "walk"}, {"bar": 1, "pattern": "turn"}, {"bar": 2, "pattern": "walk", "transpose": 12}, {"bar": 3, "pattern": "turn", "transpose": -12}]},
+    {"name": "pad", "instrument": "pad", "sequence": [{"bar": 0, "pattern": "drone"}, {"bar": 2, "pattern": "drone_high"}]}
+  ],
+  "reverb": {"type": "feedback", "wet": 0.35, "dry": 1, "inputGain": 0.25,
+    "combs": [{"ms": 29.7, "feedback": 0.78, "damp": 0.3}, {"ms": 37.1, "feedback": 0.77, "damp": 0.3}, {"ms": 41.1, "feedback": 0.76, "damp": 0.3}, {"ms": 43.7, "feedback": 0.75, "damp": 0.3}],
+    "allpasses": [{"ms": 5, "gain": 0.5}, {"ms": 1.7, "gain": 0.5}]}
+}

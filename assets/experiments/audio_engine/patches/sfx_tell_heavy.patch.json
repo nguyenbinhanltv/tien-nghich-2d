@@ -1,0 +1,62 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_tell_heavy",
+  "title": "sfx_tell_heavy",
+  "design": "A low reed growl swells upward under rumbling breath, then lands one dull knock: the heavy wind-up before a stone or brute strike.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9103,
+  "durationMs": 520,
+  "trim": 0.38,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 400,
+      "gain": 0.5,
+      "hz": 84,
+      "endHz": 122,
+      "fm": {
+        "ratio": 2,
+        "index": 1.7
+      },
+      "env": {
+        "attackMs": 160,
+        "decayMs": 900,
+        "releaseMs": 70
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 380,
+      "gain": 2.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 90,
+          "highHz": 700
+        }
+      ],
+      "env": {
+        "attackMs": 190,
+        "decayMs": 900,
+        "releaseMs": 80
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 378,
+      "ms": 135,
+      "gain": 0.75,
+      "hz": 74,
+      "endHz": 48,
+      "env": {
+        "attackMs": 3,
+        "decayMs": 38,
+        "releaseMs": 34
+      }
+    }
+  ]
+}

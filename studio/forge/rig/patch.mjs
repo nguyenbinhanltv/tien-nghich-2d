@@ -4,7 +4,7 @@
 //   {"schema": "studio.patch", "version": 1, "frames": {"idle_south_0": [{"op": "set", ...}, ...]}}
 //
 // Colours are palette ids (null clears to transparent). Boxes are half-open [x0, y0, x1, y1].
-import { cloneFrame, getRgb, outline, setPixel, alphaAt, sameRgb, inBounds } from './raster.mjs';
+import { cloneFrame, getRgb, outline, setPixel, alphaAt, sameRgb, inBounds } from '../image.mjs';
 
 export const patchKey = (clip, facing, index) => `${clip}_${facing}_${index}`;
 export const patchOps = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline'];

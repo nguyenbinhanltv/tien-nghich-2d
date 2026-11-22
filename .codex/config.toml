@@ -2,6 +2,6 @@
 # Relative path on purpose: each git worktree runs its own copy of the server and sees its own files.
 [mcp_servers.studio]
 command = "node"
-args = ["studio/mcp.mjs", "--agent", "codex"]
+args = ["studio/mcp.mjs", "--scope", "author", "--agent", "codex"]
 startup_timeout_sec = 20
 default_tools_approval_mode = "writes"

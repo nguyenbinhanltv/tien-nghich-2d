@@ -1,0 +1,85 @@
+{
+  "ranAt": "2026-11-21T23:16:02.091Z",
+  "model": "default",
+  "agent": "Claude Code headless",
+  "correct": 5,
+  "total": 5,
+  "rows": [
+    {
+      "n": 1,
+      "expected": "72",
+      "got": "72",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_catalog_search",
+        "studio_asset_get"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 5649,
+      "costUsd": 0.1209258,
+      "exit": 0
+    },
+    {
+      "n": 2,
+      "expected": "19",
+      "got": "19",
+      "correct": true,
+      "toolCalls": 9,
+      "tools": [
+        "studio_catalog_search"
+      ],
+      "toolErrors": [],
+      "turns": 10,
+      "ms": 11557,
+      "costUsd": 0.1699672,
+      "exit": 0
+    },
+    {
+      "n": 3,
+      "expected": "idle_south_2 #010203",
+      "got": "idle_south_2 #010203",
+      "correct": true,
+      "toolCalls": 2,
+      "tools": [
+        "studio_qa_run"
+      ],
+      "toolErrors": [],
+      "turns": 3,
+      "ms": 3646,
+      "costUsd": 0.0890325,
+      "exit": 0
+    },
+    {
+      "n": 4,
+      "expected": "idle_south_1 pending",
+      "got": "idle_south_1 pending",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_review_list"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 3609,
+      "costUsd": 0.0707361,
+      "exit": 0
+    },
+    {
+      "n": 5,
+      "expected": "claude-code no",
+      "got": "claude-code no",
+      "correct": true,
+      "toolCalls": 1,
+      "tools": [
+        "studio_asset_get"
+      ],
+      "toolErrors": [],
+      "turns": 2,
+      "ms": 3539,
+      "costUsd": 0.0767787,
+      "exit": 0
+    }
+  ]
+}

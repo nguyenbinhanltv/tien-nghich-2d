@@ -6,9 +6,9 @@ import { validateRig } from './validate.mjs';
 import { validatePatch, applyPatch, appendOps, emptyPatch, patchKey } from './patch.mjs';
 import { bodyPlans, checkApplicable, clipTable, getTemplate } from '../motion/library.mjs';
 import { runGates, stability, defaultOptions } from '../gates/index.mjs';
-import { writeFrame } from './raster.mjs';
+import { writeFrame } from '../image.mjs';
 
-export { makePalette, readFrame, writeFrame, framesEqual, contactSheet } from './raster.mjs';
+export { makePalette, readFrame, writeFrame, framesEqual, contactSheet } from '../image.mjs';
 export { validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, bakeClip };
 export { loadLibrary, getTemplate, listTemplates, coverage, clipTable, checkApplicable, validateLibrary } from '../motion/library.mjs';
 export { runGates, stability, defaultOptions } from '../gates/index.mjs';

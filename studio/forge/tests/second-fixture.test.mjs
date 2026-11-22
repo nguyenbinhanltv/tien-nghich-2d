@@ -53,7 +53,7 @@ test('template -> import -> pixelise on a 1200x800 green-key sheet with other si
     const sprite = result.cells.get(info.id).native;
     assert.equal(sprite.width, 48); assert.equal(sprite.height, 40);
     assert.deepEqual(info.warnings, [], info.id);
-    const gate = checkPixels({width: 48, height: 40, pixels: Buffer.from(sprite.data)}, options);
+    const gate = checkPixels({width: 48, height: 40, pixels: Buffer.from(sprite.pixels)}, options);
     assert.deepEqual(gate.errors, [], info.id);
     // Foot anchored: lowest opaque row is the support line (pivot y - groundLift - 1), centred near pivot x.
     const box = boundsOf(sprite);
@@ -83,7 +83,7 @@ test('the CLI runs the same steps against the second project', async t => {
   const before = await fs.readFile(path.join(dir, 'sheet.png'));
   await run('node', [cli, 'import', '--layout', path.join(dir, 'layout.json'), '--sheet', path.join(dir, 'sheet.png'), '--out', path.join(dir, 'imp'), '--prompt-text', 'cli', ...common]);
   await run('node', [cli, 'pixelise', '--import', path.join(dir, 'imp'), '--out', path.join(dir, 'native'), ...common]);
-  assert.deepEqual((await fs.readdir(path.join(dir, 'native'))).sort(), ['back.png', 'front.png', 'pixelize.json', 'side.png']);
+  assert.deepEqual((await fs.readdir(path.join(dir, 'native'))).sort(), ['back.png', 'front.png', 'indexed', 'pixelize.json', 'side.png']);
   const record = JSON.parse(await fs.readFile(path.join(dir, 'native/pixelize.json'), 'utf8'));
   assert.equal(record.profile.name, 'critter');
   assert.equal(decodePng(await fs.readFile(path.join(dir, 'native/front.png'))).width, 48);

@@ -50,7 +50,10 @@ export async function settingsFromPack(pack, root, profile) {
 
 /**
  * Marks are palette colours (an id or a hex that is in the palette) kept out of ordinary snapping and preserved where the source shows them:
- * {color, minRgb: [r, g, b] (required), blueOverGreen?: n}. A source pixel is a mark pixel
+ * {color, minRgb: [r, g, b] (required), blueOverGreen?: n, region?: [x0, y0, x1, y1], minCoverage?: 0..1, keepOnOutline?: bool}.
+ * `region` (fractions of the figure's box, top left origin) limits where the mark is looked for, so a stray similar colour elsewhere is ignored. With `minCoverage` a native
+ * pixel also becomes a mark when that share of its source footprint matched the detector at full resolution (small notches
+ * that the area filter would average away); `keepOnOutline` keeps such pixels as the mark colour when the outline is rebuilt. A source pixel is a mark pixel
  * when each channel reaches minRgb and blue exceeds green by blueOverGreen (the prototype's lavender test).
  */
 export function resolveMarks(marks = [], palette) {
@@ -62,7 +65,12 @@ export function resolveMarks(marks = [], palette) {
     if (!Array.isArray(min) || min.length !== 3 || !min.every(v => Number.isInteger(v) && v >= 0 && v <= 255))
       throw new Error(`mark "${mark.color}": minRgb is required and must be three 0-255 integers`);
     if (mark.blueOverGreen !== undefined && !Number.isInteger(mark.blueOverGreen)) throw new Error(`mark "${mark.color}": blueOverGreen must be an integer`);
-    return {id: entry.id, hex: entry.hex, rgb: entry.rgb, minRgb: min, blueOverGreen: mark.blueOverGreen ?? -255};
+    if (mark.minCoverage !== undefined && !(mark.minCoverage > 0 && mark.minCoverage <= 1)) throw new Error(`mark "${mark.color}": minCoverage must be in (0, 1]`);
+    if (mark.region !== undefined && !(Array.isArray(mark.region) && mark.region.length === 4 && mark.region.every(v => v >= 0 && v <= 1) && mark.region[2] > mark.region[0] && mark.region[3] > mark.region[1]))
+      throw new Error(`mark "${mark.color}": region must be [x0, y0, x1, y1] fractions of the figure with x1 > x0 and y1 > y0`);
+    return {id: entry.id, hex: entry.hex, rgb: entry.rgb, minRgb: min, blueOverGreen: mark.blueOverGreen ?? -255,
+      ...(mark.region ? {region: mark.region} : {}),
+      ...(mark.minCoverage !== undefined ? {minCoverage: mark.minCoverage} : {}), keepOnOutline: mark.keepOnOutline === true};
   });
 }
 

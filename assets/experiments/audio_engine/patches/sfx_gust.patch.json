@@ -1,0 +1,85 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_gust",
+  "title": "sfx_gust",
+  "design": "A broad wind that swells in slowly: a low body of air, a mid band arriving a beat later, then bright air streaming over the top as it thins away, with a faint fluttering whistle. The onset is soft and the whole shape is longer than a dash.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9239,
+  "durationMs": 760,
+  "trim": 0.66,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 600,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 140,
+          "highHz": 1300
+        }
+      ],
+      "env": {
+        "attackMs": 230,
+        "decayMs": 520,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 90,
+      "ms": 540,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 700,
+          "highHz": 3400
+        }
+      ],
+      "env": {
+        "attackMs": 210,
+        "decayMs": 460,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 190,
+      "ms": 520,
+      "gain": 0.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1800,
+          "highHz": 6000
+        }
+      ],
+      "env": {
+        "attackMs": 190,
+        "decayMs": 360,
+        "releaseMs": 300
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 60,
+      "ms": 560,
+      "gain": 0.07,
+      "hz": 480,
+      "endHz": 760,
+      "env": {
+        "attackMs": 230,
+        "decayMs": 600,
+        "releaseMs": 250
+      },
+      "am": {
+        "hz": 11,
+        "depth": 0.6
+      }
+    }
+  ]
+}

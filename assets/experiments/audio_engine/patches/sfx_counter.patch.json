@@ -1,0 +1,92 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_counter",
+  "title": "sfx_counter",
+  "design": "A hard bronze clash deflects the blow, and a brighter high ring answers it a beat later: parry then riposte accent.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9209,
+  "durationMs": 340,
+  "trim": 0.48,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 30,
+      "gain": 1.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2400,
+          "highHz": 9000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 8,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 230,
+      "gain": 0.55,
+      "hz": 196,
+      "endHz": 194,
+      "fm": {
+        "ratio": 2.72,
+        "index": 0.8
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 85,
+        "releaseMs": 90
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 160,
+      "gain": 0.32,
+      "hz": 533,
+      "endHz": 528,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 55,
+        "releaseMs": 70
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 70,
+      "ms": 270,
+      "gain": 0.5,
+      "hz": 784,
+      "endHz": 790,
+      "fm": {
+        "ratio": 2.72,
+        "index": 0.55
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 105,
+        "releaseMs": 100
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 71,
+      "ms": 190,
+      "gain": 0.18,
+      "hz": 2132,
+      "endHz": 2120,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 50,
+        "releaseMs": 80
+      }
+    }
+  ]
+}

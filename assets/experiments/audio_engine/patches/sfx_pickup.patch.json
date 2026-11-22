@@ -1,0 +1,61 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_pickup",
+  "title": "sfx_pickup",
+  "design": "D5 to A5. A bright stone facet rings above each step of the rising fifth.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7351,
+  "durationMs": 452,
+  "trim": 0.6,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 193,
+      "gain": 0.52,
+      "hz": 587.33,
+      "endHz": 587.33,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.58
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 73,
+        "releaseMs": 42
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 102,
+      "ms": 332,
+      "gain": 0.65,
+      "hz": 880,
+      "endHz": 880,
+      "fm": {
+        "ratio": 2.61,
+        "index": 0.52
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 108,
+        "releaseMs": 73
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 105,
+      "ms": 139,
+      "gain": 0.14,
+      "hz": 2439,
+      "endHz": 2439,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 34,
+        "releaseMs": 36
+      }
+    }
+  ]
+}

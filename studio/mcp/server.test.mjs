@@ -16,6 +16,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ENTRY = resolve(HERE, '..', 'mcp.mjs');
 const ROOT = resolve(HERE, '..', '..');
 const INIT = { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'test-client', version: '1' } };
+const READ_TOOLS = ['studio_asset_get', 'studio_catalog_search', 'studio_diff', 'studio_job_status', 'studio_job_wait', 'studio_preview_render', 'studio_project_info', 'studio_qa_run', 'studio_review_list'];
 const MODERN = { [META_VERSION]: '2026-07-28', [META_CLIENT_INFO]: { name: 'modern-client', version: '1' } };
 
 const readJson = (rel) => JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));
@@ -38,11 +39,11 @@ test('legacy handshake: initialize, list, call; stdout is protocol-only', async 
     assert.ok(init.result.capabilities.tools);
 
     const list = await c.request(2, 'tools/list', {});
-    const [tool, ...rest] = list.result.tools;
-    assert.equal(rest.length, 0);
-    assert.equal(tool.name, 'studio_project_info');
+    assert.deepEqual(list.result.tools.map((t) => t.name), READ_TOOLS, 'a read-scope connection sees the read tools, in name order');
+    const tool = list.result.tools.find((t) => t.name === 'studio_project_info');
     assert.equal(tool.inputSchema.type, 'object');
     assert.equal(tool.annotations.readOnlyHint, true);
+    for (const t of list.result.tools) assert.ok(t.description.length > 40 && t.inputSchema.additionalProperties === false, t.name);
     assert.equal(list.result.resultType, undefined, 'legacy results carry no resultType');
 
     const call = await c.request(3, 'tools/call', { name: 'studio_project_info', arguments: {} });
@@ -126,7 +127,7 @@ test('requests with no protocol version are rejected until initialize', async ()
     const r = await c.request(1, 'tools/list', {});
     assert.equal(r.error.code, -32602);
     assert.match(r.error.message, /initialize/);
-    assert.deepEqual((await c.request(2, 'tools/list', { _meta: MODERN })).result.tools.length, 1, 'server still healthy');
+    assert.deepEqual((await c.request(2, 'tools/list', { _meta: MODERN })).result.tools.length, READ_TOOLS.length, 'server still healthy');
   });
 });
 

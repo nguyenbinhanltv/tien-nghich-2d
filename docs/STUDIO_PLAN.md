@@ -1,6 +1,6 @@
 # Pixel Studio: kế hoạch nâng cấp preview-app
 
-Phiên bản v4, đã được người dùng duyệt (tám quyết định ngày 2026-11-22, cộng một điều chỉnh cùng ngày: chỉ cần một agent). Từ khi tài liệu này vào `main`, đây là nguồn chuẩn; bản HTML v3 và v4 trong `/tmp` chỉ là bản nháp trình bày. Mục [Quyết định đã duyệt](#quyết-định-đã-duyệt-2026-11-22) ghi lại các lựa chọn, và [Điều chỉnh](#điều-chỉnh-2026-11-22-một-agent-là-đủ) ghi thay đổi từ v3 sang v4.
+Phiên bản v4, đã được người dùng duyệt (tám quyết định ngày 2026-11-22, cộng một điều chỉnh cùng ngày: chỉ cần một agent). Từ khi tài liệu này vào `main`, đây là nguồn chuẩn; bản HTML v3 và v4 trong `/tmp` chỉ là bản nháp trình bày. Mục [Quyết định đã duyệt](#quyết-định-đã-duyệt-2026-11-22) ghi lại các lựa chọn, [Điều chỉnh](#điều-chỉnh-2026-11-22-một-agent-là-đủ) ghi thay đổi từ v3 sang v4, và [Điều chỉnh về animation nhân vật](#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3) ghi thay đổi mặc định của quyết định 3 sau hai bài thử forge.
 
 ## Tổng quan
 
@@ -107,17 +107,18 @@ Studio không tự sinh ảnh. Hình đến từ hai nguồn bạn đã có: cô
 |---|---|---|---|---|
 | 1 · Vẽ bằng mã | Tile, prop, pháp bảo, đạn, icon, UI, trụ trận | Viết generator xác định từ palette | Chạy lại theo seed, lưới biến thể, cổng kiểm tra | 93 ID Longtime và mọi vật thể lõi |
 | 2 · Sheet ảnh → pixel hóa | Tạo hình nhân vật, mob, boss; turnaround và pose chính | Vẽ sheet độ phân giải cao theo khung bố cục studio cấp | Cắt ô, tách nền, chuẩn tỉ lệ theo điểm chân, hạ về cỡ native, ép 40 màu, dựng viền | Drowned Court: 7 sheet ImageGen của Codex thành 22 pose chính và 16 pose phản ứng; 15 mob lõi là bản Codex |
-| 3 · Rig + mẫu chuyển động | Idle, walk, cast, hurt, telegraph, strike; boss, trụ, prop động | Tách bộ phận, đặt khớp, chọn mẫu chuyển động, chỉnh khóa | Bake ra frame native, dọn pixel sau khi xoay, giữ pivot | Chuông Evening Bell: rig 3 xương, 48 + 30 frame |
-| 4 · Sửa pixel trực tiếp | Frame trung gian, chi tiết bất đối xứng, sửa sau khi duyệt | Ghi lưới chỉ số palette hoặc lệnh pixel qua MCP | Áp lệnh, trả ảnh xem lại, lưu revision | Frame Editor hiện có (mới chỉ cho người) |
+| 2b · Sheet pose khóa → clip | Clip di chuyển của nhân vật, mob, boss: walk, follow, và các clip cần dáng đi đọc được | Vẽ một sheet duy nhất theo hướng × pose khóa trên khung studio cấp; khai báo bàn chân nào chạm đất ở từng key | Cắt ô, chuẩn tỉ lệ và đường chân dùng chung cho cả sheet, hạ về native, dựng viền, cổng kiểm tra cho key vẽ | Thử `lt_ink_marten` follow: 16 key từ một sheet ([kết quả](FORGE_BAKEOFF.md#p2-production-forge-trial--ink-marten-follow-from-drawn-poses)) |
+| 3 · Rig + mẫu chuyển động | Idle; chuyển động phụ (đuôi, tai, đầu) chồng lên pose vẽ; cast, hurt, telegraph, strike khi cần ổn định; boss, trụ, prop động | Tách bộ phận, đặt khớp, chọn mẫu chuyển động, chỉnh khóa | Bake ra frame native, dọn pixel sau khi xoay, giữ pivot | Chuông Evening Bell: rig 3 xương, 48 + 30 frame; chồn mực: idle ổn định ([bài thử đầu](FORGE_BAKEOFF.md#same-rubric-on-both-versions)) |
+| 4 · Sửa pixel trực tiếp | Frame trung gian, chi tiết bất đối xứng (dấu tai, huy hiệu: lưu thành bản vá và áp lại sau mỗi lần bake), sửa sau khi duyệt | Ghi lưới chỉ số palette hoặc lệnh pixel qua MCP | Áp lệnh, trả ảnh xem lại, lưu revision | Frame Editor hiện có (mới chỉ cho người) |
 
 ### Một nhân vật có animation đi qua sáu bước
 
 1. Lập thẻ nhân vật: vai màu trong palette, tỉ lệ, đạo cụ và tay cầm, từng dấu bất đối xứng
 2. Agent vẽ turnaround bốn hướng theo khung của studio; studio pixel hóa
 3. Bạn duyệt silhouette trên một mẫu trước khi làm tiếp
-4. Tách bộ phận, rig, áp mẫu chuyển động theo profile trong manifest
+4. Theo clip (xem [điều chỉnh về animation](#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3)): clip di chuyển lấy từ sheet pose khóa (hướng × pose, một sheet, tỉ lệ và đường chân chung); idle và chuyển động phụ đi qua rig và mẫu chuyển động của profile trong manifest
 5. Một phiên khác kiểm độc lập: chạy cổng animation và xem phát lại
-6. Sửa pixel những frame hỏng rồi gửi vào Review
+6. Sửa pixel những frame hỏng và lưu thành bản vá (dấu bất đối xứng, mặt) rồi gửi vào Review
 
 ### Cổng kiểm tra animation (mới)
 
@@ -306,6 +307,7 @@ Tách thành gói độc lập; lệnh `studio init`; một dự án mẫu thứ
 
 ## Rủi ro chính
 
+- **Animation nhân vật: rig cứng, pose vẽ trôi.** Hai bài thử (`lt_ink_marten`, [FORGE_BAKEOFF](FORGE_BAKEOFF.md)) cho thấy rig đứng một mình làm clip di chuyển trông như thân cứng trượt trên chân nhỏ, còn pose vẽ cho dáng đi đọc được nhưng mất dấu tai (11 trong 16 key) và đổi màu nội thất giữa các key (cổng nhấp nháy bắt 16 trong 16 key). Giảm thiểu: rig cho idle và chuyển động phụ, pose vẽ cho clip di chuyển, bản vá pixel lưu cùng asset để giữ dấu, cổng riêng cho key vẽ (đo trôi nhận dạng, ngưỡng chưa hiệu chỉnh). Con người duyệt cuối; quyết định này đảo lại được.
 - **Chất lượng hình khi bỏ PixelLab.** Chưa có bằng chứng đường mới đạt mức PixelLab ở 32×32. Bài thử chồn mực ở P0 trả lời câu này trước khi làm P2.
 - **Công cụ tạo ảnh của agent.** Tạo ảnh ăn vào hạn mức gói thuê bao của agent được chọn và có thể đổi theo phiên bản. Studio chỉ phụ thuộc file ảnh đầu ra, nên đổi công cụ không ảnh hưởng pipeline.
 - **Phình phạm vi.** Chín tab là nhiều. Mỗi pha có tiêu chí nghiệm thu riêng và dùng được ngay, nên có thể dừng sau bất kỳ pha nào.
@@ -332,6 +334,8 @@ Người dùng đã duyệt cả tám quyết định theo phương án đề xu
 | 7 | Ngôn ngữ giao diện | Tiếng Anh và tiếng Việt, chuyển được | Một ngôn ngữ |
 | 8 | Thứ tự ưu tiên | Xưởng tạo hình (P2) song song với giao diện (P1), MCP ngay sau | Xong giao diện rồi mới làm xưởng và MCP |
 
+Ghi chú về quyết định 3: mặc định đã được điều chỉnh sau hai bài thử forge; xem [Điều chỉnh về animation nhân vật](#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3). Dòng trong bảng giữ nguyên là điều người dùng đã duyệt.
+
 Ghi chú về quyết định 1: bản HTML v3 ghi "tách thành gói riêng ở P5", nhưng lộ trình bảy pha đặt việc tách gói ở P6 (Tái sử dụng cho dự án khác); phương án đã duyệt là P6.
 
 Hệ quả kèm theo: PixelLab ngừng dùng từ 2026-11-22. Không gọi MCP `pixellab` cho bất kỳ việc gì và không thiết kế xoay quanh nó; asset do PixelLab làm trước đó giữ nguyên nguồn gốc của chúng.
@@ -349,3 +353,21 @@ Ngày 2026-11-22, sau khi duyệt tám quyết định, người dùng sửa k�
 - **Tài liệu định tuyến và skill:** viết là "Codex hoặc Antigravity, một trong hai là đủ", không bao giờ là cả hai bắt buộc.
 
 Các điểm khác của v3 giữ nguyên, kể cả bảy pha, 25 công cụ và tám quyết định ở trên.
+
+## Điều chỉnh (2026-11-22): animation nhân vật mặc định (quyết định 3)
+
+Ngày 2026-11-22 người dùng duyệt quyết định 3 là "rig theo bộ phận và mẫu chuyển động, sửa pixel khi cần". Từ đó đã có hai bài thử forge trên `lt_ink_marten`, ghi trong [FORGE_BAKEOFF](FORGE_BAKEOFF.md):
+
+- **Bài thử đầu (rig).** Idle ổn định và giữ dấu tai đúng bên ở cả bốn hướng (4/4 key mỗi hướng), nhưng clip follow trông như thân cứng trượt trên chân nhỏ: thân không dịch chuyển, nhất là hướng nam và bắc ([so sánh](FORGE_BAKEOFF.md#same-rubric-on-both-versions)).
+- **Bài thử sheet pose** (một sheet, 16 key follow). Dáng đi đọc được rõ hơn ở nam, tây và đông, nhưng dấu tai mất ở 11 trong 16 key, màu nội thất đổi giữa các key (cổng nhấp nháy bắt 16 trong 16 key), và hướng bắc ít thấy đổi chân ([kết quả](FORGE_BAKEOFF.md#p2-production-forge-trial--ink-marten-follow-from-drawn-poses)).
+
+**Mặc định làm việc hiện nay** (do orchestrator đặt theo quyền được ủy, **người dùng có thể đảo lại**):
+
+| Clip | Nguồn | Ghi chú |
+|---|---|---|
+| Di chuyển (walk, follow và tương tự) | Pose khóa vẽ trên một sheet hướng × pose | Tỉ lệ và đường chân dùng chung; khai báo chân chạm đất ở từng key; cổng nhấp nháy của rig không áp cho key vẽ, thay bằng đo trôi nhận dạng |
+| Idle | Rig và mẫu chuyển động | Ổn định, giữ dấu |
+| Chuyển động phụ trên pose vẽ (đuôi, tai, đầu) | Rig chồng lên pose | Tùy chọn |
+| Dấu bất đối xứng | Bản vá pixel lưu cùng asset | Áp lại sau mỗi lần bake; cổng đánh dấu kiểm đúng bên |
+
+Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh ảnh, mọi bước xác định và dựng lại được, người duyệt cuối. Cổng nhấp nháy dùng cho key vẽ và ngưỡng đo trôi nhận dạng chưa được hiệu chỉnh trên clip thật; cần một bài thử nữa trước khi coi mặc định này là chốt.

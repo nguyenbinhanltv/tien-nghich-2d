@@ -1,0 +1,27 @@
+<evaluation>
+   <!-- First half of the ten-question evaluation the studio plan requires (mcp-builder method).
+        Read-only, independent, one verifiable value each. They are answered against the scene that
+        scene.mjs builds: a throwaway copy of the project in a known state. The second half (forge tools)
+        is written when those tools exist. Answers are checked by test (eval.test.mjs) against ground
+        truth computed without the studio tools, so they cannot silently drift. -->
+   <qa_pair>
+      <question>Some Longtime characters have not been made yet (nothing authored or processed). Exactly one of the boss characters among them belongs to the ember_delta chunk. Counting every clip in every direction, how many native frames will that boss need in total? Answer with the number only.</question>
+      <answer>72</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Some Longtime chunks contain a boss that has not been made yet (bosses of any size). Counting every Longtime asset that has not been made yet (nothing authored or processed) and that belongs to one of those chunks, how many assets are there in total? Answer with the number only.</question>
+      <answer>19</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>An agent submitted four frames for lt_seed_broker, and since then one of them has been damaged on disk so that it breaks the project's palette rule. Which frame is it, and what is the colour of the offending pixel? Answer as "frame_name #rrggbb", for example "idle_south_0 #abcdef".</question>
+      <answer>idle_south_2 #010203</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>A human reviewed the lt_seed_broker frames. One frame has a human comment about the length of what the broker carries. Which frame is that, and what is its review status right now? Answer as "frame_name status", for example "idle_south_0 approved".</question>
+      <answer>idle_south_1 pending</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>The studio asks a human to review an asset only after a session other than the author's has checked it. Which agent recorded the independent check on lt_seed_broker, and does that check still describe the frames exactly as they are on disk now? Answer as "agent yes" or "agent no".</question>
+      <answer>claude-code no</answer>
+   </qa_pair>
+</evaluation>

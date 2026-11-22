@@ -1,0 +1,155 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_boss_fall",
+  "title": "sfx_boss_fall",
+  "design": "A massive low impact with a sub drop, a bronze bell fading through the debris, a long rumble, and two shrinking settles: the chapter boss going down.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9283,
+  "durationMs": 1900,
+  "trim": 0.45,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 760,
+      "gain": 0.85,
+      "hz": 92,
+      "endHz": 30,
+      "fm": {
+        "ratio": 1,
+        "index": 0.6
+      },
+      "env": {
+        "attackMs": 5,
+        "decayMs": 260,
+        "releaseMs": 220
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 220,
+      "gain": 2,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 80,
+          "highHz": 1400
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 60,
+        "releaseMs": 90
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 130,
+      "ms": 1100,
+      "gain": 0.3,
+      "hz": 110,
+      "endHz": 104,
+      "env": {
+        "attackMs": 6,
+        "decayMs": 520,
+        "releaseMs": 330
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 130,
+      "ms": 800,
+      "gain": 0.2,
+      "hz": 299,
+      "endHz": 285,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 260,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 100,
+      "ms": 1250,
+      "gain": 1.8,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 60,
+          "highHz": 520
+        }
+      ],
+      "env": {
+        "attackMs": 260,
+        "decayMs": 650,
+        "releaseMs": 450
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 820,
+      "ms": 380,
+      "gain": 0.5,
+      "hz": 70,
+      "endHz": 36,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 95,
+        "releaseMs": 150
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 820,
+      "ms": 120,
+      "gain": 1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 100,
+          "highHz": 1000
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 30,
+        "releaseMs": 60
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1260,
+      "ms": 560,
+      "gain": 0.28,
+      "hz": 58,
+      "endHz": 32,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 80,
+        "releaseMs": 180
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 1260,
+      "ms": 100,
+      "gain": 0.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 100,
+          "highHz": 900
+        }
+      ],
+      "env": {
+        "attackMs": 3,
+        "decayMs": 25,
+        "releaseMs": 50
+      }
+    }
+  ]
+}

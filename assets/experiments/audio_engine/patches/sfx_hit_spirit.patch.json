@@ -1,0 +1,87 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_hit_spirit",
+  "title": "sfx_hit_spirit",
+  "design": "A soft-edged hollow strike whose two wobbling, inharmonic tones shimmer and thin away like a bell struck through mist.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9173,
+  "durationMs": 420,
+  "trim": 0.55,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 70,
+      "gain": 1.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1800,
+          "highHz": 6200
+        }
+      ],
+      "env": {
+        "attackMs": 8,
+        "decayMs": 22,
+        "releaseMs": 30
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 330,
+      "gain": 0.45,
+      "hz": 664,
+      "endHz": 548,
+      "fm": {
+        "ratio": 1.5,
+        "index": 1.1
+      },
+      "env": {
+        "attackMs": 9,
+        "decayMs": 120,
+        "releaseMs": 110
+      },
+      "am": {
+        "hz": 22,
+        "depth": 0.45
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 36,
+      "ms": 320,
+      "gain": 0.3,
+      "hz": 1832,
+      "endHz": 1480,
+      "fm": {
+        "ratio": 2.76,
+        "index": 0.7
+      },
+      "env": {
+        "attackMs": 9,
+        "decayMs": 95,
+        "releaseMs": 110
+      },
+      "am": {
+        "hz": 31,
+        "depth": 0.5
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 180,
+      "gain": 0.3,
+      "hz": 150,
+      "endHz": 110,
+      "env": {
+        "attackMs": 8,
+        "decayMs": 55,
+        "releaseMs": 60
+      }
+    }
+  ]
+}

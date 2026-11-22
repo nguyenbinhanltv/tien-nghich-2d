@@ -110,10 +110,16 @@ function publicPath(relative) {
 }
 
 export function createPreviewServer({ revisionDir } = {}) {
-  let editor, studio, tabs;
+  let editor, studio, tabs, mcp;
   const server = http.createServer(async (req, res) => {
     try {
       const urlObj = new URL(req.url || '/', 'http://127.0.0.1');
+      if (urlObj.pathname === '/mcp' || urlObj.pathname.startsWith('/mcp/')) {
+        // MCP over loopback HTTP: same tools as `node studio/mcp.mjs`, see studio/mcp/README.md.
+        mcp ??= import('./mcp/http.mjs').then(m => m.createMcpHttp({ root: REPO_ROOT, libraryDir: revisionDir }));
+        await (await mcp).handle(req, res, urlObj, server.address());
+        return;
+      }
       if (urlObj.pathname.startsWith('/api/editor/')) {
         editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir));
         await (await editor).handle(req, res, urlObj, server.address());
@@ -201,7 +207,7 @@ export function createPreviewServer({ revisionDir } = {}) {
       res.end('Server error');
     }
   });
-  server.on('close', () => editor?.then(api => api.close(), () => {}));
+  server.on('close', () => { editor?.then(api => api.close(), () => {}); mcp?.then(api => api.close(), () => {}); });
   return server;
 }
 

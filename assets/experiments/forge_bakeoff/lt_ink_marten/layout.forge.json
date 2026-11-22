@@ -1,0 +1,107 @@
+{
+ "schema": "forge.layout",
+ "version": 1,
+ "id": "lt-ink-marten",
+ "size": [
+  1024,
+  1024
+ ],
+ "key": {
+  "rgb": [
+   0,
+   255,
+   0
+  ],
+  "minChannel": 105,
+  "margin": 55
+ },
+ "labelBand": {
+  "fraction": 0.13
+ },
+ "ground": {
+  "fraction": 0.82
+ },
+ "landmarkBasis": "cell_width",
+ "cells": [
+  {
+   "id": "south",
+   "facing": "south",
+   "pose": null,
+   "label": "SOUTH",
+   "rect": [
+    0,
+    0,
+    0.5,
+    0.5
+   ],
+   "landmarks": {
+    "centerX": 0.480064,
+    "footWindow": [
+     0.280702,
+     0.660287
+    ],
+    "heightPx": 21
+   }
+  },
+  {
+   "id": "west",
+   "facing": "west",
+   "pose": null,
+   "label": "WEST",
+   "rect": [
+    0.5,
+    0,
+    1,
+    0.5
+   ],
+   "landmarks": {
+    "centerX": 0.500797,
+    "footWindow": [
+     0.140351,
+     0.669856
+    ],
+    "heightPx": 15
+   }
+  },
+  {
+   "id": "north",
+   "facing": "north",
+   "pose": null,
+   "label": "NORTH",
+   "rect": [
+    0,
+    0.5,
+    0.475,
+    1
+   ],
+   "landmarks": {
+    "centerX": 0.578859,
+    "footWindow": [
+     0.662752,
+     0.778523
+    ],
+    "heightPx": 19
+   }
+  },
+  {
+   "id": "east",
+   "facing": "east",
+   "pose": null,
+   "label": "EAST",
+   "rect": [
+    0.475,
+    0.5,
+    1,
+    1
+   ],
+   "landmarks": {
+    "centerX": 0.504559,
+    "footWindow": [
+     0.238602,
+     0.905775
+    ],
+    "heightPx": 15
+   }
+  }
+ ]
+}

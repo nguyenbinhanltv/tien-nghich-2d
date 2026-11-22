@@ -1,39 +1,143 @@
-# Forge: sheet import and pixelisation (lane A)
+# Forge: sheet import, pixelisation, rig bake and gates as one pipeline
 
-Zero-dependency Node 24, ES modules, no build. The forge turns an agent-drawn sheet into native-size
-sprites on the project palette. It is a library (`studio/forge/index.mjs`) that the MCP server and the UI
-call in-process, plus a CLI (`cli.mjs`) that runs the same steps. Nothing project-specific lives here:
-palette, outline rule, native size and pivot all come from the project pack
-(see `studio/core/pack.mjs`). The Python prototype in `prototype/` is the reference the tests compare
-against; it is not extended.
+Zero-dependency Node 24, ES modules, no build. The forge turns an agent-drawn sheet into native-size sprites on the
+project palette, bakes animation from them and judges the result. `studio/forge/index.mjs` is the library the MCP server
+and the UI call in-process; `cli.mjs` runs the same steps for a human or CI. Nothing project-specific lives here:
+palette, outline rule, native size, pivot and clip table all come from the project pack
+(see `studio/core/pack.mjs`). The Python prototype in `prototype/` is the reference the tests compare against; it is
+not extended.
 
 ```
-layout (forge.layout) ──► renderTemplate ──► template.png        agent draws on it
-drawn sheet + layout  ──► importSheet ──► import dir              cleaned crops + landmarks + prompt + SHA-256
-import dir + pack     ──► pixelizeImport ──► native sprites       <cell>.png + pixelize.json
+layout (forge.layout) ──► renderTemplate ──► template.png         agent draws on it
+drawn sheet + layout  ──► importSheet ──► import dir               cleaned crops + landmarks + prompt + SHA-256
+import dir + pack     ──► pixelizeImport ──► <cell>.png + indexed/<cell>.png + pixelize.json
+indexed layers + rig  ──► bakeStage (rig clips, pose-sheet clips, patches) ──► frames + bake.json
+bake                  ──► qaStage (gates) ──► findings with frame and pixel coordinates
+                          runPipeline = import → pixelise → bake → gates in one call, JSON summary out
 ```
 
-Lane ownership: this lane owns `index.mjs`, `image.mjs`, `cli.mjs`, `sheet/`, `pixelize/` and `tests/`
-(`image`, `layout`, `parity`, `second-fixture`, `literals`, plus `fixture.mjs`). `rig/`, `motion/` and
-`gates/` belong to the other lane and build on `image.mjs` and the records below.
+Directory map: `image.mjs` (shared image type and every pixel primitive), `sheet/` (layout, template, import),
+`pixelize/`, `pipeline/` (the chain and pose-sheet clips), `rig/`, `motion/`, `gates/` (see `rig/README.md`),
+`tests/`, `prototype/`.
 
 ## Run it
 
 ```sh
-node --test 'studio/forge/tests/*.test.mjs'          # unit, parity and second-fixture tests
+node --test 'studio/forge/tests/*.test.mjs' 'studio/forge/rig/tests/*.test.mjs' 'studio/forge/motion/tests/*.test.mjs' 'studio/forge/gates/tests/*.test.mjs'
 node studio/forge/cli.mjs template --project . --profile pet --out /tmp/t.png --layout-out /tmp/layout.json
 node studio/forge/cli.mjs import   --layout /tmp/layout.json --sheet drawn.png --out /tmp/imp --prompt prompt.txt --project . --profile pet
-node studio/forge/cli.mjs pixelise --import /tmp/imp --out /tmp/native --project . --profile pet --marks marks.json
+node studio/forge/cli.mjs pixelise --import /tmp/imp --out /tmp/px --project . --profile pet --marks marks.json
+node studio/forge/cli.mjs bake     --pixelize /tmp/px --out /tmp/bake --project . --profile pet --rig rig.json [--poses poseclips.json] [--patch patch.json]
+node studio/forge/cli.mjs gates    --bake /tmp/bake --project . --profile pet --rig rig.json     # `qa` is an alias
+node studio/forge/cli.mjs compare  --sets rig=/tmp/bake,poses=/tmp/bake2 --out /tmp/cmp.png --json /tmp/cmp.json [--project . --profile pet --rig rig.json]
+node studio/forge/cli.mjs run      --layout layout.json --sheet drawn.png --out /tmp/all --project . --profile pet --rig rig.json
 ```
 
 `template`: with `--layout` it renders that file; otherwise it builds a turnaround from `--facings` (or the
-profile's `directions`), optional `--poses`, `--size WxH`, `--height-px`. `import` and `pixelise` never modify
+profile's `directions`), optional `--poses`, `--size WxH`, `--height-px`. `import`, `pixelise`, `bake` and `run` never modify
 their inputs: outputs go to the `--out` directory and a write that would hit the input sheet is refused.
-Warnings (sprite touching the canvas edge, figure clipped) print to stderr and sit in `pixelize.json`.
+`compare` makes one contact sheet (a row per clip and facing, a block of keys per set) from bake directories or plain `<clip>_<facing>_<n>.png` directories; with `--profile` it also
+runs the gates on each bake directory and prints findings per gate. `bake` writes `<clip>_<facing>_<n>.png`, `bake.json` and `gates.json` and exits 2 on a gate error; `gates` re-runs the gates from
+`bake.json` and the frames. `run` writes `import/`, `pixelize/`, `bake/` and `pipeline.json`. Options: `--library` (motion library
+JSON, default the body plan's), `--clips a,b`, `--qa gates.json` (per-gate options), `--pose-rig`, `--marks`, and for import and run
+`--scale-mode cell|facing|sheet`, `--ground-lift`, `--margin`, `--fixed-scale scales.json`. Warnings (cut drawings, sprite on the canvas edge, clipped figure) print to stderr and sit in the records.
+
+## Which route for which clip
+
+Working default (amended 2026-11-22; the orchestrator set it under delegated authority and the user can reverse it:
+[STUDIO_PLAN](../../docs/STUDIO_PLAN.md#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3)). The evidence is two trials on the Ink Marten in
+[FORGE_BAKEOFF](../../docs/FORGE_BAKEOFF.md): the rig alone gave a stable idle and kept the ear mark in every key, but its follow read as a rigid body
+sliding over small paws; drawn key poses gave a readable gait in three of four facings, but lost the mark in 11 of 16 keys and changed interior colours between keys
+([drawn poses](../../docs/FORGE_BAKEOFF.md#p2-production-forge-trial--ink-marten-follow-from-drawn-poses)).
+
+| Clip | Route | How |
+| --- | --- | --- |
+| Locomotion (walk, follow, anything whose legs must read) | **Drawn key poses on one sheet** | `turnaroundLayout({facings, poses})`, import with `scaleOptions.mode` `facing` (or `sheet`, or `fixedScale` from the turnaround), a `forge.poseclips` document with declared `contacts` |
+| Idle | **Rig + motion template** | `bakeStage` with `rig`; the template sways tail, ears and head on the turnaround cells |
+| Secondary motion on a drawn gait (tail, ears, head) | Rig on top of the pose clip | `secondary` in the pose clip, with a rig whose polygons fit the pose silhouettes (or a separate `poseRig`) |
+| Asymmetric marks (ear notch, badge side) | **Stored pixel patch** | `studio.patch` ops, applied after every bake and mirror; declare the mark's `landmarks` box so the `markSide` gate checks it on every key |
+| Cast, hurt, telegraph, strike and other short clips | Either; start with the rig when the pose must stay on model, with drawn keys when the silhouette must change | pick per clip, compare with `compare` |
+
+Gates differ by route. Rig clips get the full set. Drawn-key clips skip the A-B-A flicker gate (drawn poses churn more than rig keys, and it flagged 16 of 16 in the trial) and get the
+identity-drift measure instead, as warnings; its default threshold is uncalibrated, so treat it as a guard against gross change and tune it per clip. Check a drawn clip's contacts, ear mark and
+size against the turnaround with `compare`, then send it to Review: a human approves the art.
+
+## One pipeline (`pipeline/index.mjs`, exported from `index.mjs`)
+
+| Call | What it does |
+| --- | --- |
+| `openForgeProject(root, profile)` | loads the pack, returns `{pack, root, settings, palette}` (settings from `settingsFromPack`, palette for the rig lane) |
+| `runPipeline({project, layout, sheet, prompt, marks, scaleOptions, rig, poseRig, poseClips, library, patch, clips, qa, out})` | import → pixelise → bake → gates; returns `{summary, artifacts}` |
+| `bakeStage({settings, palette, cells, rig, poseRig, poseClips, library, patch, clips})` | rig clips through `bakeRig`, pose clips through `bakePoseClip`, patches applied; returns `{rig, profile, clips, frames}` |
+| `qaStage(result, {settings, palette, rig, poseRig, options})` | gates per clip and facing, plus stability across clips; `{pass, findings, metrics}` |
+| `summarizeBake`, `writeBakeDir`, `readBakeDir` | JSON summary (per-frame SHA-256, contacts, poses), write and read back a bake directory |
+
+`project` is `{root, profile}` (opened for you) or an `openForgeProject` result. `sheet` is `{bytes, source?}` or `{image}`. `summary` is
+exactly what an MCP tool hands back (it survives `JSON.parse(JSON.stringify(summary))` unchanged):
+
+```json
+{"ok": false, "failed": "gates", "error": "2 gate error(s)", "profile": "pet", "stages": {
+  "import":   {"ok": true, "record": {…forge.sheet-import…}, "warnings": [{"cell": "south", "warnings": ["label_band"]}]},
+  "pixelize": {"ok": true, "record": {…forge.pixelize…}, "warnings": []},
+  "bake":     {"ok": true, "patched": 3, "schema": "forge.bake", "clips": {"idle": {"durationMs": 180, "loop": true, "source": "rig", "facings": {"south": {"frames": 4, "contacts": [[…]], "poses": [[…]]}}}}, "frames": {"idle_south_0": "<sha256>"}},
+  "gates":    {"ok": false, "pass": false, "findings": [{"gate": "foot_slide", "severity": "error", "clip": "follow", "facing": "west", "frame": 1, "pixels": [[10, 24]], "message": "…"}], "metrics": {…}}}}
+```
+
+A failing stage (invalid layout, rig, patch, template that does not fit, empty cell) ends the run with `failed` set to the stage and `error` to its message; it
+never throws. A finished run is `ok` only when the gates have no error finding. Stages only run when their input exists: without `rig` and `poseClips` the run stops
+after pixelise.
+
+**The baker is fed the outline-free `indexed` layer.** `pixelizeImport` returns `{indexed, native}` per cell, and `bakeStage` hands `indexed` to the rig baker, which rebuilds the
+outline itself on every key. Feeding the outlined `native` layer instead loses the fill colour under every boundary pixel: on the marten that is 12 of 32 frames off by 1 to 8 ink
+pixels (`rig/README.md`). `writePixelized` writes the layers to `indexed/<cell>.png` so `bake` works from disk. `tests/pipeline.test.mjs` runs the committed bake-off
+`turnaround.png`, layout and `rig.json` (through `convertPrototypeRig`) and compares all 32 frames with `assets/experiments/forge_bakeoff/lt_ink_marten/frames/`, pixel for pixel, with the gates passing.
+
+## Pose-sheet clips (`pipeline/poses.mjs`)
+
+A clip whose keys are imported pose cells, not rig-derived keys: facings by key poses on one sheet. Build the layout with `turnaroundLayout({facings, poses})` (cell ids
+`<pose>_<facing>`), import with `scaleOptions.mode` `facing` or `sheet`, then give `bakeStage`/`runPipeline` a `forge.poseclips` document:
+
+```jsonc
+{"schema": "forge.poseclips", "version": 1, "clips": {"follow": {
+  "keys": ["contact_a", "passing_a", "contact_b", "passing_b"],   // pose names, one per frame of the profile's clip
+  "facings": ["south", "west", "north"],                          // optional; default: facings that have a cell for every key
+  "contacts": {"south": [[{"id": "paw_l", "xy": [11, 24], "planted": true}], […], […], […]]},   // optional: one list per key
+  "mirror": {"east": {"of": "west", "swapColors": {"soul_07": "ink_05"}}},                       // optional
+  "secondary": {"template": "idle"},                              // optional: a motion template of the same profile, on top
+  "loop": true
+}}}
+```
+
+- **Without `secondary`** the frames are the pixelised cells as they are. With it each key's cell is cut by the rig's parts for that facing (`poseRig`, default `rig`) and moved by the
+  template, and the baker rebuilds the outline: a tail that sways on a drawn stride. The rig's cut polygons apply to every pose of that facing, so author them for the silhouettes of the poses, or give a separate
+  `poseRig`. A rig is required for `secondary` (an error otherwise, never a silent skip).
+- **Shared alignment.** `scaleOptions.mode`: `cell` (default, each figure fitted on its own: right for a turnaround), `facing` (the poses of one facing share the smallest scale any needs and one ground line), `sheet` (every
+  cell shares one scale and one ground line). A shared ground line is the median measured ground row, as a fraction of the cell height, so a pose drawn a little low or high does not jump, and a deliberate lift (`groundShiftPx`)
+  survives instead of being pinned to the floor. Poses stay on the template's centre column. `fixedScale` (`{facing: scale}`, e.g. `scalesByFacing(turnaroundRecord)`) pins a facing's scale outright (limit `"fixed"`).
+- **Contacts.** The importer cannot tell which paw plants, so a clip can declare them per key. A declared contact must sit on an opaque pixel (error otherwise); then the foot-slide gate judges the pose clip like a rig clip.
+  `weightTransfer` needs body-plate offsets that a plain pose clip does not have, so it is skipped there.
+- **Landmarks.** `"landmarks": {"<facing>": [{"id", "color", "box": [x0, y0, x1, y1]}]}` declares where an asymmetric mark must be in the final sprite; the `markSide` gate checks every key (a missing mark or a stray one is an error). Validated against the palette at bake time.
+- **Gates for drawn keys.** Rig landmarks and features apply to rig clips and to pose clips with `secondary`. The A-B-A flicker gate is tuned for rig keys and flagged 16 of 16 drawn keys in the Codex trial, so drawn-key clips skip it by default and
+  get `identityDrift` (`pipeline/drift.mjs`): per pair of consecutive keys `interiorChange` (share of the shared interior that changes colour) and `colorShift` (half the L1 distance between the interior colour mixes), worst pair in the metrics
+  (`<clip>/<facing>`), and `identity_drift` **warnings** when `identity.maxInteriorChange` (default 0.6, uncalibrated: a gross-change guard) or `identity.maxColorShift` (default off) is exceeded. Override per run with `qa.pose`
+  (`{flicker: {maxPixels: 60}, identity: {…} | false}`) or per clip with the spec's `qa`; set `pose.flicker` to put the flicker gate back.
+- Mirrored facings are flipped from their source after baking (contacts mirrored too); patches apply after the mirror.
+
+## Import and layout details added with the pose trial
+
+- **Labels fit.** `renderTemplate` shrinks a label to the cell's width as well as its band, and `validateLayout` rejects a label that cannot fit even at the smallest size (the first trial had labels overrunning 256 px cells).
+- **Import warnings.** Each cell record has `warnings`: `left_edge`, `right_edge`, `bottom_edge` (foreground touches that edge of the crop, so the drawing may be cut) and `label_band` (foreground in the first row under the label band: the
+  band mask may have cropped the drawing). They are not errors; `run`, `import` and the pipeline summary list them. Move the seam in the layout (cell `rect`s need not tile) or the band fraction, and import again.
+- **Marks.** `resolveMarks` takes `region` (`[x0, y0, x1, y1]` fractions of the figure's box: look for the mark only there, so a similar colour elsewhere is ignored), `minCoverage` (0..1: a native pixel also becomes a mark when that share of its source footprint matched the detector at full resolution, for notches the area filter would average away) and
+  `keepOnOutline` (such pixels stay mark-coloured when the outline is rebuilt). Both off by default, so parity is unchanged.
+- **Scale options are recorded.** `import.json` holds `scaleOptions: {mode, groundLift, margin, fixedScale?}`. `pixelizeImport` reuses a recorded fit only when the profile and the options match; otherwise it refits (`normalizeEntries`).
+- **The marten's layout.** `assets/experiments/forge_bakeoff/lt_ink_marten/layout.forge.json` is the bake-off layout in `forge.layout` form with `landmarkBasis: "cell_width"`; its fractions were chosen so every
+  rounded window and centre lands on the same pixel as the legacy `layout.json` (`cell_height`). Importing with either gives the same ground points, scales and all 32 frames (`tests/pipeline.test.mjs`).
+  The committed `layout.json` is untouched because the Python prototype reads it.
 
 ## image.mjs: the shared image type
 
-`{width, height, data}` with `data` a `Uint8Array` of RGBA bytes, row-major, zero-based from the top left,
+`{width, height, pixels}` with `pixels` a `Buffer` of RGBA bytes (`data` is a non-enumerable alias of the same buffer), row-major, zero-based from the top left,
 rectangles half-open `[x0, y0, x1, y1)`. Pure functions, all copy their input unless named "in place".
 
 | function | notes |
@@ -48,6 +152,7 @@ rectangles half-open `[x0, y0, x1, y1)`. Pure functions, all copy their input un
 | `rebuildOutline(img, rgb, {borderIsEdge})` | every opaque pixel with a transparent 4-neighbour becomes the outline colour |
 | `boundsOf(img, test?, region?)` | bounding box of non-transparent (or `test(index)`) pixels, or `null` |
 | `upscale(img, n)` | nearest neighbour, for previews |
+| `makeImage`, `createFrame`/`cloneFrame`/`framesEqual`, `readFrame`/`writeFrame` (PNG files), `makePalette`, `polygonMask`, `maskPart`, `rotateNearest`, `place`, `shiftFrame`, `flipHorizontal`, `outline`, `contactSheet`, `getRgb`, `setPixel`, `alphaAt`, `isColor`, `luma`, `bounds`, `opaqueMask` | the rig lane's raster primitives, folded in from `rig/raster.mjs` (which now only re-exports this module); polygon fill and rotate reproduce Pillow bit for bit |
 | `diffImages`, `imagesEqual`, `sha256`, `roundHalfEven`, `hexToRgb`, `rgbToHex`, `resizeBox`, `premultiply`, `unpremultiply`, `getPixel` | helpers; `roundHalfEven` matches Python `round()` |
 
 ## forge.layout (version 1)
@@ -98,14 +203,17 @@ A declarative sheet description, JSON. Produced by `turnaroundLayout` or `gridLa
   "sheet":  {"sha256": "…", "width": 1254, "height": 1254, "source": "turnaround.png"},
   "prompt": {"text": "…verbatim…", "sha256": "…"},
   "profile": {"nativePx": [32, 32], "pivotPx": [16, 29]},
+  "scaleOptions": {"mode": "cell", "groundLift": 4, "margin": 1},
   "cells": [{
     "id": "south", "facing": "south", "pose": null, "label": "SOUTH",
     "rect": [0, 0, 627, 627],         // cell on the sheet, pixels
     "bounds": [x0, y0, x1, y1],       // figure box in cell pixels (below the label band, key removed)
     "ground": [gx, gy],               // ground point in cell pixels; gy is exclusive (one past the lowest foot row)
     "heightPx": 21, "foregroundPx": 123456,
+    "warnings": [],                   // left_edge | right_edge | bottom_edge | label_band
     "crop": "cells/south.png",        // RGBA, size = bounds, background transparent, source colours kept
-    "scale": 0.0529, "limit": "height", "targetY": 25   // only with a profile
+    "scale": 0.0529, "limit": "height", "targetY": 25,   // only with a profile
+    "alignGround": [301, 538]         // the ground point pinned to the pivot (shared modes: the shared ground row)
   }]
 }
 ```
@@ -190,10 +298,11 @@ poses and a mark colour with a different detector. It runs template → drawn sh
 core pixel gates (palette, binary alpha, outline) on every sprite, the support line and centring on the pivot, and runs
 the CLI against the same pack.
 
-## Notes for the other lanes
+## Notes for the MCP lane
 
-- Build on `image.mjs`; do not copy its helpers. `indexed` (no outline) and `native` are both returned per cell.
-- Marks and landmarks that the rig needs per facing are not recorded here: they belong to the rig document.
-- The MCP lane can map `studio_template_get` to `turnaroundLayout` + `renderTemplate`, `studio_sheet_import` to
-  `importSheet` + `writeImport`, and the image half of `studio_process` to `settingsFromPack` + `pixelizeImport` +
-  `writePixelized`. All return plain JSON-serialisable records; images are `{width, height, data}`.
+- `studio_template_get` → `turnaroundLayout` + `renderTemplate`; `studio_sheet_import` → `importSheet` + `writeImport`;
+  `studio_process` (image half) → `pixelizeImport` + `writePixelized`; `studio_rig_bake` → `bakeStage`; `studio_frame_patch` → `validatePatch`/`appendOps`
+  (the patch is stored with the asset and passed back to `bakeStage`); `studio_qa_run` → `qaStage`; the whole chain → `runPipeline`. All return plain JSON-serialisable records; images
+  are `{width, height, pixels}` and stay in `artifacts`.
+- Not covered by this lane: the contact and body-offset data a drawn clip would need beyond declared `contacts`, a landmark-aware onion-skin or overlay view of the import crops and
+  seams, and playing a pose clip on moving ground. The gates judge sprite space only.

@@ -1,0 +1,115 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_crush",
+  "title": "sfx_crush",
+  "design": "A slow grinding rumble: rolling rock under a grit that rattles at roughly twenty beats a second, a sinking sub, and two loose pebbles settling at the end. Mass and friction, with no sharp crack on the front.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9217,
+  "durationMs": 820,
+  "trim": 0.44,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 640,
+      "gain": 3,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 55,
+          "highHz": 620
+        }
+      ],
+      "env": {
+        "attackMs": 70,
+        "decayMs": 520,
+        "releaseMs": 200
+      },
+      "am": {
+        "hz": 17,
+        "depth": 0.78
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 20,
+      "ms": 560,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 300,
+          "highHz": 2400
+        }
+      ],
+      "env": {
+        "attackMs": 60,
+        "decayMs": 380,
+        "releaseMs": 180
+      },
+      "am": {
+        "hz": 23,
+        "depth": 0.9
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 620,
+      "gain": 0.4,
+      "hz": 74,
+      "endHz": 44,
+      "fm": {
+        "ratio": 1.5,
+        "index": 0.9
+      },
+      "env": {
+        "attackMs": 60,
+        "decayMs": 420,
+        "releaseMs": 220
+      },
+      "am": {
+        "hz": 17,
+        "depth": 0.5
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 560,
+      "ms": 40,
+      "gain": 0.9,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 500,
+          "highHz": 2600
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 11,
+        "releaseMs": 14
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 655,
+      "ms": 55,
+      "gain": 0.6,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 400,
+          "highHz": 2000
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 14,
+        "releaseMs": 20
+      }
+    }
+  ]
+}

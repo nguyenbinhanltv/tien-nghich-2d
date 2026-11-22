@@ -1,0 +1,101 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_chime",
+  "title": "sfx_chime",
+  "design": "One struck glass-bell: bright inharmonic partials ring high with a faint shimmer from a detuned twin, and nothing sounds below 1 kHz. A single strike with no rising interval: the mirror and bell weapon release, and the ward pulse.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9203,
+  "durationMs": 1000,
+  "trim": 0.51,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 14,
+      "gain": 0.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2500,
+          "highHz": 9500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 5,
+        "releaseMs": 5
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 900,
+      "gain": 0.4,
+      "hz": 1480,
+      "endHz": 1478,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 340,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 900,
+      "gain": 0.24,
+      "hz": 1487,
+      "endHz": 1485,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 300,
+        "releaseMs": 260
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 620,
+      "gain": 0.22,
+      "hz": 4085,
+      "endHz": 4075,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 170,
+        "releaseMs": 200
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 400,
+      "gain": 0.12,
+      "hz": 7990,
+      "endHz": 7970,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 70,
+        "releaseMs": 150
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 700,
+      "gain": 0.1,
+      "hz": 2220,
+      "endHz": 2215,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 200,
+        "releaseMs": 200
+      },
+      "am": {
+        "hz": 9,
+        "depth": 0.5
+      }
+    }
+  ]
+}

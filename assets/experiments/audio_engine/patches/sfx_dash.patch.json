@@ -1,0 +1,63 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_dash",
+  "title": "sfx_dash",
+  "design": "Immediate wide rush of cloth and air. A lower gust follows the leading hiss.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7021,
+  "durationMs": 242,
+  "trim": 0.6,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 180,
+      "gain": 1.55,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 460,
+          "highHz": 6800
+        }
+      ],
+      "env": {
+        "attackMs": 4,
+        "decayMs": 73,
+        "releaseMs": 55
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 11,
+      "ms": 210,
+      "gain": 1.22,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 90,
+          "highHz": 1150
+        }
+      ],
+      "env": {
+        "attackMs": 15,
+        "decayMs": 88,
+        "releaseMs": 60
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 110,
+      "gain": 0.14,
+      "hz": 210,
+      "endHz": 74,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 36,
+        "releaseMs": 26
+      }
+    }
+  ]
+}

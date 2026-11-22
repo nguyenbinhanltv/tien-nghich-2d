@@ -14,7 +14,7 @@
 //   }]                                  // and the figure height (ground to crown) wanted at native size
 // }
 import { roundHalfEven } from '../image.mjs';
-import { canDraw } from './font.mjs';
+import { canDraw, glyphWidth } from './font.mjs';
 
 export const layoutSchema = 'forge.layout';
 
@@ -46,6 +46,10 @@ export function validateLayout(layout) {
     else ids.add(cell.id);
     if (typeof cell.label !== 'string' || !cell.label || !canDraw(cell.label)) bad(`${where}.label must be upper-case letters, digits, space, "-", "_" or "."`);
     const r = cell.rect;
+    if (typeof cell.label === 'string' && Array.isArray(layout.size) && Array.isArray(r) && r.length === 4) {
+      const needed = cell.label.length * (glyphWidth + 1) - 1 + 8, available = Math.floor(layout.size[0] * (r[2] - r[0]));
+      if (needed > available) bad(`${where}.label "${cell.label}" needs ${needed}px at the smallest size but the cell is ${available}px wide: shorten it or enlarge the sheet`);
+    }
     if (!Array.isArray(r) || r.length !== 4 || !r.every(isFraction) || r[2] <= r[0] || r[3] <= r[1]) bad(`${where}.rect must be fractions [x0, y0, x1, y1] with x1 > x0 and y1 > y0`);
     const m = cell.landmarks;
     if (!isFraction(m?.centerX)) bad(`${where}.landmarks.centerX must be a fraction`);
