@@ -2,41 +2,27 @@
 // Pure layout plus PNG assembly with the forge's image primitives; deterministic for equal inputs.
 import { readInside } from '../../../core/files.mjs';
 import { createImage, decodePng, encodePng, blit, upscale, hexToRgb } from '../../../forge/image.mjs';
-import { drawText, canDraw, glyphHeight } from '../../../forge/sheet/font.mjs';
+import { drawText, canDraw } from '../../../forge/sheet/font.mjs';
+import { GUTTER, PAD, LABEL_SCALE, glyphHeight, maxSheetPixels, layoutSheet, labelWidthFor, largestScale } from './layout.mjs';
 
-const GUTTER = 2, PAD = 6, LABEL_SCALE = 1;
+export { layoutSheet, largestScale, maxSheetPixels };
 
 const upper = text => [...text.toUpperCase()].map(ch => canDraw(ch) ? ch : '-').join('');
 
-/**
- * Where everything goes. Rows are clips in the order of first appearance, then facings in the given order
- * (facings the character lacks are skipped). `size` is the native frame size; all frames of a character share it.
- */
-export function layoutSheet({frames, facings, scale, clip = null, size, labelWidth}) {
-  const clips = [...new Set(frames.map(f => f.clip))].filter(c => !clip || c === clip);
-  const rows = [];
-  let y = PAD + glyphHeight * 2 + PAD;
-  for (const name of clips) {
-    y += glyphHeight + GUTTER;
-    for (const facing of facings) {
-      const list = frames.filter(f => f.clip === name && f.direction === facing).sort((a, b) => a.n - b.n);
-      if (!list.length) continue;
-      rows.push({clip: name, facing, y, frames: list.map((f, i) => ({path: f.path, n: f.n, x: PAD + labelWidth + i * (size[0] * scale + GUTTER)}))});
-      y += size[1] * scale + GUTTER;
-    }
-    y += PAD;
-  }
-  const columns = Math.max(0, ...rows.map(r => r.frames.length));
-  return {rows, width: PAD * 2 + labelWidth + columns * (size[0] * scale + GUTTER), height: y};
-}
-
 export async function contactSheet({root, frames, facings, scale, clip, title, background = '#14101a', foreground = '#d4d0d8'}) {
-  const images = new Map();
-  for (const f of frames) images.set(f.path, decodePng(await readInside(root, f.path)));
-  const size = [images.get(frames[0].path).width, images.get(frames[0].path).height];
-  for (const [path, img] of images) if (img.width !== size[0] || img.height !== size[1]) throw new Error(`Frame ${path} is not ${size.join('x')}`);
-  const labelWidth = (Math.max(...facings.map(f => f.length)) * 6 + 2) * LABEL_SCALE + PAD;
+  // Size the sheet from the first frame and refuse before decoding or allocating anything large.
+  const first = decodePng(await readInside(root, frames[0].path));
+  const size = [first.width, first.height];
+  const labelWidth = labelWidthFor(facings);
   const layout = layoutSheet({frames, facings, scale, clip, size, labelWidth});
+  if (layout.width * layout.height > maxSheetPixels) {
+    const largest = largestScale({frames, facings, clip, size});
+    throw Object.assign(new Error(`This sheet would be ${layout.width}x${layout.height} px, over the ${maxSheetPixels / 1e6} MP limit. ` +
+      (largest ? `The largest scale for this character${clip ? ' and clip' : ''} is ${largest}.` : 'Even scale 1 is too large; export one clip.')), {status: 422, code: 'sheet_too_large', largestScale: largest});
+  }
+  const images = new Map([[frames[0].path, first]]);
+  for (const f of frames) if (!images.has(f.path)) images.set(f.path, decodePng(await readInside(root, f.path)));
+  for (const [path, img] of images) if (img.width !== size[0] || img.height !== size[1]) throw new Error(`Frame ${path} is not ${size.join('x')}`);
   const sheet = createImage(layout.width, layout.height, hexToRgb(background));
   const ink = hexToRgb(foreground);
   const text = (value, x, y) => drawText(upper(value), x, y, LABEL_SCALE, (px, py) => {

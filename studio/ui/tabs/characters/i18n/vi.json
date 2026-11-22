@@ -153,5 +153,7 @@
   "stage.frameSource": "Nguồn frame",
   "source.library": "Frame thư viện",
   "source.bake": "Bản bake của forge",
-  "stage.bakeNote": "Đang hiện bản bake của forge trong thư mục thử nghiệm. Các frame này không thuộc danh mục sửa được."
+  "stage.bakeNote": "Đang hiện bản bake của forge trong thư mục thử nghiệm. Các frame này không thuộc danh mục sửa được.",
+  "export.limit": "Sheet giới hạn {mp} megapixel nên nhân vật này xuất được tối đa {max}×. Chọn một clip để phóng lớn hơn.",
+  "export.tooLarge": "Ngay cả ở 1×, mọi clip gộp lại vẫn vượt giới hạn {mp} megapixel. Hãy chọn một clip."
 }

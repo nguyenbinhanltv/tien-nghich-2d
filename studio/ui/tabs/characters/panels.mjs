@@ -1,6 +1,7 @@
 import { h, humanize } from './dom.mjs';
 import { panels, clipFrames } from './state.mjs';
 import { compare, mirrorX, markPixels, markSide } from './facing.mjs';
+import { largestScale, maxSheetPixels } from './layout.mjs';
 
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888';
 const hexRgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
@@ -134,14 +135,21 @@ function experimentView(app) {
 // ---------------------------------------------------------------- contact sheet export
 function exportPanel(app) {
   const {ctx, detail, sel} = app;
-  const scale = Number(app.exportScale ?? 3), clip = app.exportClip ?? '';
+  const clip = app.exportClip && sel.clips.includes(app.exportClip) ? app.exportClip : '';
+  const facings = ctx.project.tabConfig.characters?.facings ?? ['south', 'east', 'north', 'west'];
+  // Offer only the scales the server will build: it refuses sheets over the pixel budget.
+  const max = largestScale({frames: detail.frames, facings, clip: clip || null, size: detail.size ?? [32, 32]});
+  const scale = Math.min(Number(app.exportScale ?? 3), max);
   const url = '/api/tabs/characters/sheet.png?' + new URLSearchParams({id: detail.id, source: detail.source, scale, ...(clip ? {clip} : {})});
+  const options = [1, 2, 3, 4, 6, 8].filter(v => v <= max);
   return h('div', {}, h('p', 'muted small', ctx.t('export.help')),
-    h('div', 'row', h('label', {}, ctx.t('export.scale'), h('select', {onchange: event => { app.exportScale = event.target.value; app.renderPanel(); }}, ...[1, 2, 3, 4, 6, 8].map(v => h('option', {value: v, selected: v === scale}, v + '×')))),
+    max < 8 ? h('p', {class: 'note'}, max ? ctx.t('export.limit', {max, mp: maxSheetPixels / 1e6}) : ctx.t('export.tooLarge', {mp: maxSheetPixels / 1e6})) : null,
+    max ? h('div', 'row', h('label', {}, ctx.t('export.scale'), h('select', {onchange: event => { app.exportScale = event.target.value; app.renderPanel(); }}, ...options.map(v => h('option', {value: v, selected: v === scale}, v + '×')))),
       h('label', {}, ctx.t('export.clip'), h('select', {onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
         ...sel.clips.map(c => h('option', {value: c, selected: c === clip}, c)))),
-      h('a', {class: 'button primary', href: url, download: `${detail.id}_sheet_${scale}x.png`}, ctx.t('export.download'))),
-    h('figure', 'sheet', h('img', {src: url, alt: ctx.t('export.alt', {id: detail.id}), loading: 'lazy'})));
+      h('a', {class: 'button primary', href: url, download: `${detail.id}_sheet_${scale}x.png`}, ctx.t('export.download'))) : h('div', 'row', h('label', {}, ctx.t('export.clip'), h('select', {onchange: event => { app.exportClip = event.target.value; app.renderPanel(); }}, h('option', {value: ''}, ctx.t('export.allClips')),
+        ...sel.clips.map(c => h('option', {value: c, selected: c === clip}, c))))),
+    max ? h('figure', 'sheet', h('img', {src: url, alt: ctx.t('export.alt', {id: detail.id}), loading: 'lazy'})) : null);
 }
 
 export function renderPanel(app) {

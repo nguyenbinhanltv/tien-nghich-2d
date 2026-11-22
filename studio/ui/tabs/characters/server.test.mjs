@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createPreviewServer } from '../../../serve.mjs';
 import { summarizeRig, parseFrameFile } from './server.mjs';
-import { layoutSheet } from './sheet.mjs';
+import { layoutSheet, largestScale, maxSheetPixels } from './sheet.mjs';
 import { decodePng } from '../../../forge/image.mjs';
 
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
@@ -139,4 +139,37 @@ test('frame file names parse into clip, direction and number', () => {
   assert.deepEqual(parseFrameFile('a/b/cast_attack_east_12.png'), {clip: 'cast_attack', direction: 'east', n: 12});
   assert.deepEqual(parseFrameFile('x/idle_none_0.png'), {clip: 'idle', direction: 'none', n: 0});
   assert.equal(parseFrameFile('anchor.json'), null);
+});
+
+test('contact sheet: oversized requests are refused with 422 and the largest allowed scale', async () => {
+  const boss = (await api('asset?id=boss_ancient_god_remnant')).data;
+  const facings = ['south', 'east', 'north', 'west'];
+  const size = boss.size;
+  const largest = largestScale({frames: boss.frames, facings, size});
+  const at = scale => { const l = layoutSheet({frames: boss.frames, facings, scale, size, labelWidth: 38}); return l.width * l.height; };
+  assert.ok(largest >= 1 && largest < 8, 'the biggest character cannot be exported at 8x with every clip');
+  assert.ok(at(largest) <= maxSheetPixels && at(largest + 1) > maxSheetPixels, 'largest is exactly the biggest scale that fits');
+  assert.ok(at(8) > 100e6, 'scale 8 would be over 100 megapixels, the case the limit exists for');
+  const refused = await api('sheet.png?id=boss_ancient_god_remnant&scale=8');
+  assert.equal(refused.status, 422);
+  assert.equal(refused.data.error.code, 'sheet_too_large');
+  assert.match(refused.data.error.message, new RegExp(`largest scale for this character is ${largest}\\.`));
+  const ok = await get(`sheet.png?id=boss_ancient_god_remnant&scale=${largest}`);
+  assert.equal(ok.status, 200);
+  const image = decodePng(ok.body);
+  assert.ok(image.width * image.height <= maxSheetPixels);
+  // One clip at the top scale is allowed when it fits.
+  const clip = Object.keys(boss.clips)[0];
+  const l = layoutSheet({frames: boss.frames, facings, scale: 8, clip, size, labelWidth: 38});
+  const single = await get(`sheet.png?id=boss_ancient_god_remnant&scale=8&clip=${clip}`);
+  assert.equal(single.status, l.width * l.height <= maxSheetPixels ? 200 : 422);
+  // Every ordinary character still exports at 8x for a single clip, and the limit is enforced before any decoding.
+  assert.equal((await get('sheet.png?id=lt_ink_marten&scale=8&clip=idle')).status, 200);
+});
+
+test('largestScale: 0 when even 1x does not fit, 8 for a small sheet', () => {
+  const frame = (n, clip = 'a') => ({clip, direction: 'south', n, path: `${clip}_${n}.png`});
+  assert.equal(largestScale({frames: [frame(0)], facings: ['south'], size: [32, 32]}), 8);
+  const many = Array.from({length: 4000}, (_, n) => frame(n));
+  assert.equal(largestScale({frames: many, facings: ['south'], size: [96, 96]}), 0);
 });

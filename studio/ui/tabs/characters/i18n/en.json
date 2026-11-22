@@ -153,5 +153,7 @@
   "stage.frameSource": "Frame source",
   "source.library": "Library frames",
   "source.bake": "Forge bake",
-  "stage.bakeNote": "Showing the forge bake from the experiment folder. These frames are not in the editable catalog."
+  "stage.bakeNote": "Showing the forge bake from the experiment folder. These frames are not in the editable catalog.",
+  "export.limit": "Sheets are limited to {mp} megapixels, so this character can be exported at up to {max}×. Pick one clip to go higher.",
+  "export.tooLarge": "Even at 1× all clips together exceed the {mp} megapixel limit. Pick one clip."
 }
