@@ -1,0 +1,32 @@
+{
+  "schema": "studio.scene",
+  "version": 1,
+  "id": "drowned-court",
+  "kind": "scripted",
+  "name": {
+    "en": "Drowned Court",
+    "vi": "Thủy Cung Chìm"
+  },
+  "room": {
+    "size": [
+      384,
+      256
+    ]
+  },
+  "host": {
+    "url": "/studio/blood-sea/index.html",
+    "size": [
+      384,
+      256
+    ],
+    "logic": [
+      "Boss encounter state machine: stalk, warn, impact, recover, and the wail and seal attacks (combat.mjs)",
+      "Dodge guard window, counter hits and the double-damage bead (combat.mjs)",
+      "Win and lose conditions: releasing, falling, won, lost (combat.mjs step)",
+      "Fight clock, local best time and hit counts (results.mjs)",
+      "Input recording and best-run replay (replay.mjs)",
+      "Touch controls and the Web Audio combat score (touch.mjs, sound.mjs)"
+    ],
+    "note": "Hosted unchanged: studio/blood-sea/game.mjs runs inside the Sandbox frame."
+  }
+}

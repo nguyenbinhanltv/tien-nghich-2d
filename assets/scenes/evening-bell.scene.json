@@ -1,0 +1,30 @@
+{
+  "schema": "studio.scene",
+  "version": 1,
+  "id": "evening-bell",
+  "kind": "scripted",
+  "name": {
+    "en": "Evening Bell",
+    "vi": "Chuông Chiều"
+  },
+  "room": {
+    "size": [
+      384,
+      224
+    ]
+  },
+  "host": {
+    "url": "/studio/courtyard/index.html",
+    "size": [
+      384,
+      224
+    ],
+    "logic": [
+      "Walking on the 2 px navigation grid with swept-footprint edge bits, and click-to-route breadth-first search (room.js)",
+      "Shrine reach test and the bell ring interaction with its strike timing (room.js ring, paint)",
+      "Bronze chime effect fired 260 ms into the strike (room.js paint)",
+      "The training hall trial: guard bash AI, casting, dash, upgrade choice, seal and gate (trial.js, hall.js)"
+    ],
+    "note": "Hosted unchanged: studio/courtyard/room.js runs inside the Sandbox frame. Its art is sheet-based and local to the playable, not in the catalog."
+  }
+}
