@@ -5,9 +5,10 @@ import { applyFilters, fmtMs } from './model.mjs';
 /** Rest on the first frame; while the row is hovered or focused, step through the first clip. Off under prefers-reduced-motion. */
 function animateThumb(app, row, img, card) {
   if (!card.first || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let live = false, timer;
+  let live = false, timer, hover = false, focus = false;
   const stop = () => { live = false; clearTimeout(timer); img.src = imgUrl(card.first); };
   const start = async () => {
+    if (live) return; // hover and focus both start it: one loop only
     live = true;
     try {
       const clip = (await app.effect(card.id)).effect.clips[0], paths = Object.values(clip.paths)[0]?.map((p, i) => [p, clip.ms?.[i]]).filter(([p]) => p) ?? [];
@@ -17,8 +18,10 @@ function animateThumb(app, row, img, card) {
       timer = setTimeout(tick, Math.max(60, paths[0][1] ?? 100));
     } catch { live = false; }
   };
-  row.addEventListener('pointerenter', start); row.addEventListener('focus', start);
-  row.addEventListener('pointerleave', stop); row.addEventListener('blur', stop);
+  // keep playing while either the pointer is over the row or it has focus
+  const set = (kind, on) => { if (kind === 'hover') hover = on; else focus = on; if (hover || focus) start(); else stop(); };
+  row.addEventListener('pointerenter', () => set('hover', true)); row.addEventListener('pointerleave', () => set('hover', false));
+  row.addEventListener('focus', () => set('focus', true)); row.addEventListener('blur', () => set('focus', false));
 }
 
 export function renderBrowser(app, el) {
