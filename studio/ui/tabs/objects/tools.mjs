@@ -1,15 +1,15 @@
 // Tool workspaces that replace the grid: 47-tile sheet + autotiling test room, nine-slice, HUD bar clipping.
-import { h, imgUrl, loadImage, button, pixelCanvas, fill } from './dom.mjs';
+import { h, imgUrl, loadImage, button, pixelCanvas, fill, emptyBox, loadingBox, errorBox } from './dom.mjs';
 import { framesOf, framesOfClip, clipNames, blobSheets, bitmaskMap, testRoom, autotile, floorTilePath, blobMasks,
   defaultInsets, clampInsets, nineSlice, nineSizes, hudClipWidth } from './model.mjs';
 
-const none = (app, key) => h('p', {class: 'muted pad', role: 'status'}, app.ctx.t(key));
+const none = (app, key) => emptyBox(app.ctx.t(key));
 
 export async function renderTool(app, host) {
   const {ctx, state} = app;
   const entry = app.selected();
   if (!entry) return fill(host, none(app, 'tool.pick'));
-  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
+  fill(host, loadingBox(ctx.t('common.loading')));
   let node;
   try {
     const detail = await app.detail(entry);
@@ -17,7 +17,7 @@ export async function renderTool(app, host) {
     node = await {blob: blobTool, nine: nineTool, hud: hudTool}[state.tool](app, entry, detail, frames);
   } catch (error) {
     if (error.name === 'AbortError') return;
-    return fill(host, h('p', {role: 'alert', class: 'pad'}, ctx.t('common.error', {message: error.message})));
+    return fill(host, errorBox(ctx.t('common.error', {message: error.message}), ctx.t('common.retry'), () => app.repaint()));
   }
   fill(host, h('h2', 'toolname', ctx.t('tool.' + state.tool), ' ', h('code', '', entry.id)), node);
 }
@@ -27,7 +27,7 @@ function frameChooser(app, frames) {
   const {ctx, state} = app;
   const clip = clipNames(frames).includes(state.clip) ? state.clip : clipNames(frames)[0];
   const n = framesOfClip(frames, clip).some(f => f.n === state.frame) ? state.frame : framesOfClip(frames, clip)[0]?.n ?? 0;
-  const sel = h('select', {id: 'ob-frame', 'aria-label': ctx.t('tool.frame')}, ...frames.map(f => h('option', {value: `${f.clip}:${f.n}`, selected: f.clip === clip && f.n === n ? 'selected' : null}, `${f.clip} · ${f.n}`)));
+  const sel = h('select', {id: 'ob-frame', class: 'field', 'aria-label': ctx.t('tool.frame')}, ...frames.map(f => h('option', {value: `${f.clip}:${f.n}`, selected: f.clip === clip && f.n === n ? 'selected' : null}, `${f.clip} · ${f.n}`)));
   sel.addEventListener('change', () => { const [c, i] = sel.value.split(':'); app.go({}, {clip: c, frame: Number(i)}); });
   return [sel, frames.find(f => f.clip === clip && f.n === n)];
 }
@@ -44,7 +44,7 @@ async function blobTool(app, entry, detail, frames) {
   const imgs = new Map(await Promise.all(tiles.map(async f => [f.n, await loadImage(f.path)])));
   const map = bitmaskMap(null);
   const tile = imgs.get(tiles[0].n).naturalWidth;
-  const picker = h('select', {id: 'ob-sheet', 'aria-label': ctx.t('blob.sheet')}, ...sheets.map(s => h('option', {value: s, selected: s === sheet ? 'selected' : null}, `${s} — ${role(s)}`)));
+  const picker = h('select', {id: 'ob-sheet', class: 'field', 'aria-label': ctx.t('blob.sheet')}, ...sheets.map(s => h('option', {value: s, selected: s === sheet ? 'selected' : null}, `${s} — ${role(s)}`)));
   picker.addEventListener('change', () => app.go({sheet: picker.value}));
   // the sheet: 47 tiles in index order, labelled with their gated neighbour mask
   const sheetGrid = h('ol', {class: 'blobsheet checker', style: `--tile:${tile * state.zoom}px`, 'aria-label': ctx.t('blob.sheetLabel', {count: tiles.length})},
@@ -94,7 +94,7 @@ async function nineTool(app, entry, detail, frames) {
   const ins = clampInsets(state.ins ?? defaultInsets(w, hgt), w, hgt);
   const names = ['L', 'T', 'R', 'B'];
   const inputs = names.map((n, i) => {
-    const input = h('input', {type: 'number', min: 0, max: i % 2 ? hgt : w, value: ins[i], id: 'ob-ins-' + n, 'aria-label': ctx.t('nine.inset.' + n)});
+    const input = h('input', {type: 'number', class: 'field', min: 0, max: i % 2 ? hgt : w, value: ins[i], id: 'ob-ins-' + n, 'aria-label': ctx.t('nine.inset.' + n)});
     input.addEventListener('change', () => { const next = [...ins]; next[i] = Math.max(0, Math.floor(Number(input.value) || 0)); app.go({ins: next}, {replace: true}); });
     return h('label', 'inset', h('span', '', n), input);
   });
@@ -130,7 +130,7 @@ async function hudTool(app, entry, detail, frames) {
     fill(out, c);
     label.textContent = ctx.t('hud.clip', {fill: pct, cw, w});
   };
-  const range = h('input', {type: 'range', min: 0, max: 100, step: 1, value: state.fill, id: 'ob-fill', 'aria-label': ctx.t('hud.fill')});
+  const range = h('input', {type: 'range', class: 'zoomrange', min: 0, max: 100, step: 1, value: state.fill, id: 'ob-fill', 'aria-label': ctx.t('hud.fill')});
   range.addEventListener('input', () => draw(Number(range.value)));
   range.addEventListener('change', () => app.go({fill: Number(range.value)}, {replace: true}));
   draw(state.fill);

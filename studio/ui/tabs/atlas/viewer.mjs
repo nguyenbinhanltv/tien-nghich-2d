@@ -53,7 +53,7 @@ function detail(app, sel, frame, page) {
       row('viewer.detail.file', frame.file ? h('code', '', frame.file) : ctx.t('viewer.detail.noFile')),
       row('viewer.detail.pivot', frame.pivotPx ? `${frame.pivotPx[0]}, ${frame.pivotPx[1]}` : frame.pivot ? `${frame.pivot.x}, ${frame.pivot.y}` : ctx.t('viewer.detail.notRecorded')),
       row('viewer.detail.duration', frame.durationMs != null ? `${frame.durationMs} ms` : ctx.t('viewer.detail.notRecorded'))].filter(Boolean).flat()),
-    link ? h('a', {class: 'button-link', href: link}, ctx.t('viewer.detail.open', {tab: ctx.t('nav.' + tab)})) : h('p', 'muted', ctx.t('viewer.detail.noTab')));
+    link ? h('a', {class: 'btn', href: link}, ctx.t('viewer.detail.open', {tab: ctx.t('nav.' + tab)})) : h('p', 'muted', ctx.t('viewer.detail.noTab')));
 }
 
 export async function renderViewer(app, sel, box) {
@@ -86,8 +86,9 @@ export async function renderViewer(app, sel, box) {
     else if (ev.key === 'Escape') app.go({key: null}, {replace: true, focus: 'canvas'});
   });
 
-  const chip = (patch, label, on) => h('a', {class: 'chip' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route(patch))}, label);
-  const search = h('input', {type: 'search', class: 'search', value: state.q, placeholder: ctx.t('viewer.search.placeholder'), 'aria-label': ctx.t('viewer.search.label')});
+  const seg = (label, items) => h('nav', {class: 'seg', 'aria-label': label}, ...items.map(([patch, text, on]) => h('a', {class: 'seg-item' + (on ? ' is-pressed' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route(patch))}, text)));
+  const chip = (patch, label, on) => h('a', {class: 'chip' + (on ? ' on is-pressed' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route(patch))}, label);
+  const search = h('input', {type: 'search', class: 'field search', value: state.q, placeholder: ctx.t('viewer.search.placeholder'), 'aria-label': ctx.t('viewer.search.label')});
   search.addEventListener('change', () => app.go({q: search.value.trim(), key: null}));
   const u = page.usage;
   const list = h('ul', {class: 'framelist', 'aria-label': ctx.t('viewer.list')});
@@ -102,9 +103,9 @@ export async function renderViewer(app, sel, box) {
   }
   fill(box,
     h('div', 'toolbar',
-      h('nav', {class: 'chips', 'aria-label': ctx.t('viewer.profile')}, ...sel.set.profiles.map(p => chip({profile: p, page: 0, key: null}, p, p === sel.profile))),
-      h('nav', {class: 'chips', 'aria-label': ctx.t('viewer.pages')}, ...data.pages.map(p => chip({page: p.index, key: null}, p.name.replace('atlas-', ctx.t('viewer.pagePrefix') + ' '), p.index === page.index))),
-      h('nav', {class: 'chips', 'aria-label': ctx.t('viewer.zoom')}, h('span', 'muted', ctx.t('viewer.zoom')), ...ZOOMS.map(z => chip({zoom: z}, `${z}×`, z === zoom))),
+      seg(ctx.t('viewer.profile'), sel.set.profiles.map(p => [{profile: p, page: 0, key: null}, p, p === sel.profile])),
+      seg(ctx.t('viewer.pages'), data.pages.map(p => [{page: p.index, key: null}, p.name.replace('atlas-', ctx.t('viewer.pagePrefix') + ' '), p.index === page.index])),
+      h('div', 'inline', h('span', 'muted', ctx.t('viewer.zoom')), seg(ctx.t('viewer.zoom'), ZOOMS.map(z => [{zoom: z}, `${z}×`, z === zoom]))),
       h('nav', {class: 'chips', 'aria-label': ctx.t('viewer.show')}, ...['borders', 'frames', 'unused'].map(s => chip({show: s}, ctx.t('viewer.show.' + s), s === state.show))),
       h('label', 'searchbox', h('span', 'sr-only', ctx.t('viewer.search.label')), search)),
     h('p', 'facts', badge(ctx.t('viewer.facts.size', {w: page.width, h: page.height}), 'muted'), ' ', badge(ctx.t('viewer.facts.frames', {n: page.frameCount}), 'muted'), ' ',

@@ -1,5 +1,5 @@
 // The left filter column and the grid of real frames.
-import { h, humanize, imgUrl, fill } from './dom.mjs';
+import { h, humanize, imgUrl, fill, emptyBox } from './dom.mjs';
 import { applyFilters, facetCounts, zoomRange } from './model.mjs';
 
 const readiness = ['packed', 'authored', 'planned'];
@@ -9,9 +9,9 @@ export function kindLabel(ctx, id) {
   return text === key ? humanize(id) : text;
 }
 
-function facetLink(app, group, value, label, count, current) {
+function facetLink(app, group, value, label, count, current, base = 'facet') {
   const on = current === value;
-  const a = h('a', {class: 'facet' + (on ? ' on' : ''), href: app.ctx.href(app.route({[group]: on ? null : value}, {keepAsset: true})), 'aria-current': on ? 'true' : null},
+  const a = h('a', {class: base + (on ? ' on is-pressed' : ''), href: app.ctx.href(app.route({[group]: on ? null : value}, {keepAsset: true})), 'aria-current': on ? 'true' : null},
     h('span', 'facet-name', label), h('span', 'facet-count', String(count)));
   return a;
 }
@@ -21,23 +21,32 @@ export function renderFilters(app, host) {
   const counts = facetCounts(app.assets, state);
   const kindTotal = Object.values(counts.kind).reduce((a, b) => a + b, 0);
   const select = (group, options, label) => {
-    const sel = h('select', {id: 'ob-' + group, 'aria-label': label}, h('option', {value: ''}, ctx.t('filter.any')));
+    const sel = h('select', {id: 'ob-' + group, class: 'field', 'aria-label': label}, h('option', {value: ''}, ctx.t('filter.any')));
     for (const [value, text, count] of options) sel.append(h('option', {value, selected: state[group] === value ? 'selected' : null}, `${text} (${count})`));
     sel.addEventListener('change', () => app.go({[group]: sel.value || null}, {keepAsset: true}));
-    return h('label', 'field', h('span', '', label), sel);
+    return h('label', 'fld', h('span', 'field-label', label), sel);
   };
   const sourceLabel = id => { const s = ctx.project.sources.find(x => x.id === id); return s ? ctx.label(s.label) : humanize(id); };
-  fill(host, 
+  const box = h('details', 'filterbox', h('summary', 'btn', ctx.t('filter.label'), h('span', 'chip', String([state.kind, state.ready, state.chunk, state.src].filter(Boolean).length))));
+  const wide = matchMedia('(min-width: 901px)');
+  // wide: always open; narrow: keep the user's choice across repaints (a filter tap repaints the page)
+  const sync = () => { box.open = wide.matches || app.filtersOpen === true; };
+  sync();
+  box.addEventListener('toggle', () => { if (!wide.matches) app.filtersOpen = box.open; });
+  wide.addEventListener('change', sync);
+  app.onCleanup(() => wide.removeEventListener('change', sync));
+  box.append(
     h('section', 'fgroup', h('h2', '', ctx.t('filter.kind')),
       h('nav', {'aria-label': ctx.t('filter.kind')},
         h('a', {class: 'facet' + (!state.kind ? ' on' : ''), href: ctx.href(app.route({kind: null}, {keepAsset: true})), 'aria-current': !state.kind ? 'true' : null},
           h('span', 'facet-name', ctx.t('filter.all')), h('span', 'facet-count', String(kindTotal))),
         ...app.kinds.map(k => facetLink(app, 'kind', k, kindLabel(ctx, k), counts.kind[k] ?? 0, state.kind)))),
     h('section', 'fgroup', h('h2', '', ctx.t('filter.readiness')),
-      h('nav', {'aria-label': ctx.t('filter.readiness')}, ...readiness.map(r => facetLink(app, 'ready', r, ctx.t('ready.' + r), counts.ready[r] ?? 0, state.ready)))),
+      h('nav', {class: 'chiprow', 'aria-label': ctx.t('filter.readiness')}, ...readiness.map(r => facetLink(app, 'ready', r, ctx.t('ready.' + r), counts.ready[r] ?? 0, state.ready, 'chip')))),
     h('section', 'fgroup',
       select('chunk', Object.entries(counts.chunk).sort(([a], [b]) => a.localeCompare(b)).map(([id, n]) => [id, humanize(id), n]), ctx.t('filter.chunk')),
       select('src', Object.entries(counts.src).map(([id, n]) => [id, sourceLabel(id), n]), ctx.t('filter.source'))));
+  fill(host, box);
 }
 
 /** Cards that load their image at once, then the batch size and delay for the rest. Timers, not an observer or native `loading=lazy`: both wait for the page to paint. */
@@ -62,12 +71,12 @@ export function renderGrid(app, host) {
   const shown = applyFilters(app.assets, state);
   app.shown = shown;
   const zoom = h('div', 'zoombar', h('label', {for: 'ob-zoom'}, ctx.t('grid.zoom', {zoom: state.zoom})),
-    Object.assign(h('input', {id: 'ob-zoom', type: 'range', min: zoomRange[0], max: zoomRange[1], step: 1, value: state.zoom}), {}));
+    Object.assign(h('input', {id: 'ob-zoom', class: 'zoomrange', type: 'range', min: zoomRange[0], max: zoomRange[1], step: 1, value: state.zoom}), {}));
   zoom.lastChild.addEventListener('input', e => app.go({zoom: Number(e.target.value)}, {replace: true, keepAsset: true}));
   const cards = shown.map(a => card(app, a));
   fill(host, 
     h('div', 'gridhead', h('p', {class: 'muted', role: 'status'}, ctx.t('grid.count', {shown: shown.length, total: app.assets.length})), zoom),
-    shown.length ? h('div', {class: 'grid', style: `--zoom:${state.zoom}`}, ...cards) : h('p', 'muted empty', ctx.t('grid.empty')));
+    shown.length ? h('div', {class: 'grid', style: `--zoom:${state.zoom}`}, ...cards) : emptyBox(ctx.t('grid.empty')));
   fillCovers(app, shown, cards);
 }
 

@@ -44,7 +44,7 @@ export function mountStage(app, host, {effect, clip, focus, variant, frames, flo
   canvas.setAttribute('role', 'img');
 
   const readout = h('p', {class: 'vx-readout', 'aria-live': 'off'});
-  const scrub = h('input', {type: 'range', min: 0, max: Math.max(count - 1, 0), step: 1, value: live.frame, 'aria-label': ctx.t('player.scrub')});
+  const scrub = h('input', {type: 'range', class: 'vx-range', min: 0, max: Math.max(count - 1, 0), step: 1, value: live.frame, 'aria-label': ctx.t('player.scrub')});
   const tl = layoutTimeline(clip);
   const timeline = buildTimeline(ctx, tl, clip, i => { pause(); show(i, true); });
 
@@ -95,7 +95,7 @@ export function mountStage(app, host, {effect, clip, focus, variant, frames, flo
     if (live.playing) live.raf = requestAnimationFrame(tick);
   }
 
-  const playBtn = button('', () => (live.playing ? pause(true) : play()), {class: 'plain vx-play'});
+  const playBtn = button('', () => (live.playing ? pause(true) : play()), {class: 'primary vx-play'});
   function syncPlay() { playBtn.textContent = live.playing ? ctx.t('player.pause') : ctx.t('player.play'); playBtn.setAttribute('aria-pressed', String(live.playing)); }
   function play() {
     if (live.playing) return;
@@ -118,10 +118,10 @@ export function mountStage(app, host, {effect, clip, focus, variant, frames, flo
   const hasLoop = plan.some(s => s.kind === 'loop');
   const release = button(ctx.t('player.release'), () => { live.held = false; loopHeld.checked = false; if (!live.playing) play(); }, {title: ctx.t('player.releaseHint')});
 
-  const scaleBar = h('div', {class: 'vx-seg', role: 'group', 'aria-label': ctx.t('player.scale')}, ...scales.map(s =>
-    h('a', {class: 'vx-segbtn' + (s === scale ? ' on' : ''), href: ctx.href(onChange({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
-  const floorBar = h('div', {class: 'vx-seg', role: 'group', 'aria-label': ctx.t('player.floor')}, ...floors.map(f =>
-    h('a', {class: 'vx-segbtn' + (f.id === floor.id ? ' on' : ''), href: ctx.href(onChange({floor: f.id})), 'aria-current': f.id === floor.id ? 'true' : null, title: f.paletteId}, ctx.t('floor.' + f.id))));
+  const scaleBar = h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('player.scale')}, ...scales.map(s =>
+    h('a', {class: 'seg-item' + (s === scale ? ' is-pressed' : ''), href: ctx.href(onChange({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
+  const floorBar = h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('player.floor')}, ...floors.map(f =>
+    h('a', {class: 'seg-item' + (f.id === floor.id ? ' is-pressed' : ''), href: ctx.href(onChange({floor: f.id})), 'aria-current': f.id === floor.id ? 'true' : null, title: f.paletteId}, ctx.t('floor.' + f.id))));
 
   const stageBox = h('div', {class: 'vx-stagebox'}, canvas);
   host.replaceChildren(

@@ -1,6 +1,6 @@
 // Objects: everything that is not a character (tilesets, props, weapons and their projectiles, icons,
 // UI sets, towers, facilities). Catalog from GET /api/studio/*; links and provenance from this tab's server.mjs.
-import { h, humanize, button, fill } from './dom.mjs';
+import { h, fill, errorBox } from './dom.mjs';
 import { parseRoute as parse, stateParams, objectKinds, inScope, tools } from './model.mjs';
 import { renderFilters, renderGrid } from './browser.mjs';
 import { renderDetail } from './detail.mjs';
@@ -46,23 +46,24 @@ function makeApp(ctx, state) {
 }
 
 function layout(ctx) {
-  const search = h('input', {type: 'search', id: 'ob-q', class: 'search', placeholder: ctx.t('filter.search'), 'aria-label': ctx.t('filter.search'), autocomplete: 'off'});
+  const ui = {};
+  const search = h('input', {type: 'search', id: 'ob-q', class: 'field search', placeholder: ctx.t('filter.search'), 'aria-label': ctx.t('filter.search'), autocomplete: 'off'});
   const filters = h('div', 'filters');
   const tabs = h('nav', {class: 'tooltabs', 'aria-label': ctx.t('tool.label')});
   const center = h('div', 'work');
   const aside = h('aside', {class: 'detail', 'aria-label': ctx.t('detail.label')});
   fill(ctx.root, 
     h('header', 'ob-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
-    h('div', 'ob', h('aside', {class: 'side', 'aria-label': ctx.t('filter.label')}, h('label', {class: 'sr-only', for: 'ob-q'}, ctx.t('filter.search')), search, filters),
+    ui.ob = h('div', 'ob', h('aside', {class: 'side', 'aria-label': ctx.t('filter.label')}, h('label', {class: 'sr-only', for: 'ob-q'}, ctx.t('filter.search')), search, filters),
       h('section', 'center', tabs, center), aside));
-  return {search, filters, tabs, center, aside};
+  return Object.assign(ui, {search, filters, tabs, center, aside});
 }
 
 function renderTabs(app, el) {
   const {ctx, state} = app;
-  const link = (tool, label) => h('a', {class: 'tooltab' + (state.tool === tool ? ' on' : ''), 'aria-current': state.tool === tool ? 'true' : null, href: ctx.href(app.route({tool}))}, label);
-  fill(el, link(null, ctx.t('tool.grid')), ...tools.map(t => link(t, ctx.t('tool.' + t))),
-    h('span', {class: 'newid', title: ctx.t('tool.newIdHint'), 'aria-disabled': 'true'}, ctx.t('tool.newId')));
+  const link = (tool, label) => h('a', {class: 'seg-item' + (state.tool === tool ? ' is-pressed' : ''), 'aria-current': state.tool === tool ? 'true' : null, href: ctx.href(app.route({tool}))}, label);
+  fill(el, h('div', 'seg', link(null, ctx.t('tool.grid')), ...tools.map(t => link(t, ctx.t('tool.' + t)))),
+    h('button', {type: 'button', class: 'btn quiet newid', title: ctx.t('tool.newIdHint'), 'aria-disabled': 'true'}, ctx.t('tool.newId')));
 }
 
 async function paint(ui) {
@@ -76,10 +77,13 @@ async function paint(ui) {
   else { renderGrid(app, ui.center); ui.center.scrollTop = scroll; }
   await renderDetail(app, ui.aside, token);
   ui.aside.toggleAttribute('hidden', false);
+  // below 900 px a picked asset replaces the list; the back link in the detail header returns to it
+  ui.ob.classList.toggle('reveal', Boolean(app.state.asset) && !app.state.tool);
 }
 
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./objects.css', import.meta.url));
+  ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
   ctx.onUnmount(() => mine.runCleanups());
   const ui = layout(ctx);
@@ -98,7 +102,7 @@ export async function mount(ctx, state) {
   } catch (error) {
     if (error.name === 'AbortError') return;
     ctx.root.removeAttribute('aria-busy');
-    fill(ctx.root, h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
+    fill(ctx.root, errorBox(ctx.t('common.error', {message: error.message}), ctx.t('common.retry'), () => mount(ctx, state)));
     return;
   }
   let timer;

@@ -99,7 +99,7 @@ export function roundsPanel(ctx, ev, state, go) {
   const have = rounds.filter(r => r.exists);
   if (!have.length) return h('p', 'muted', ctx.t('rounds.none'));
   const pickSel = (field, label) => {
-    const sel = h('select', {'aria-label': label}, ...have.map(r => h('option', {value: r.round, selected: r.round === state[field] ? 'selected' : null}, ctx.t('rounds.round', {n: r.round}))));
+    const sel = h('select', {class: 'field', 'aria-label': label}, ...have.map(r => h('option', {value: r.round, selected: r.round === state[field] ? 'selected' : null}, ctx.t('rounds.round', {n: r.round}))));
     sel.addEventListener('change', () => go({[field]: Number(sel.value)}));
     return h('label', 'vx-field', label, sel);
   };
@@ -180,7 +180,7 @@ export async function readPanel(ctx, effect, clip, frames, floors, variant, live
     radios.push(input);
     scoreBox.append(h('label', 'vx-score', input, h('span', '', String(s))));
   }
-  const text = h('textarea', {rows: 3, maxlength: 900, 'aria-label': ctx.t('read.note'), placeholder: ctx.t('read.notePlaceholder')});
+  const text = h('textarea', {class: 'field', rows: 3, maxlength: 900, 'aria-label': ctx.t('read.note'), placeholder: ctx.t('read.notePlaceholder')});
   const msg = h('p', {class: 'vx-note', role: 'status'});
   const save = button(ctx.t('read.save'), async () => {
     if (!key) return;

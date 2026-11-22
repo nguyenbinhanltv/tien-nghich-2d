@@ -3,6 +3,7 @@
   "subtitle": "Xem các trang atlas đã giao, đóng gói vào vùng tạm rồi so sánh từng byte với atlas đã giao, xuất cho các engine game và đọc xem mỗi asset đến từ đâu.",
   "safe": "Chỉ ghi vào vùng tạm",
   "loading": "Đang tải…",
+  "error.retry": "Thử lại",
   "error.generic": "Có lỗi: {message}",
   "sets.label": "Bộ atlas và chunk",
   "sets.frames": "{n} frame",
