@@ -10,3 +10,4 @@
 - **TOKENS-006** The brand seal is a 12x12 grid of `.` and `#` in the pack, and the schema enforces that.
 - **TOKENS-007** Both fonts ship as woff2 with their OFL text and a record of source and hash, loaded with `font-display: swap` and a system fallback.
 - **TOKENS-008** Below 900 px the rail is a drawer with an accessible toggle, the top bar stays one row and does not repeat the page title.
+- **TOKENS-009** `components.css` is wrapped in `@scope (.ui-kit)`: loading it globally changes no tab until a tab puts `ui-kit` on its root; the styleguide does.

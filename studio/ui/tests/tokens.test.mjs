@@ -118,3 +118,13 @@ test('TOKENS-008: below 900 px the rail is a drawer, one page title, one-row top
   assert.ok(setRail.indexOf('.inert = open') < setRail.indexOf("$('rail-toggle')?.focus()"), 'inert is cleared before focus returns to the toggle');
   assert.match(shell, /narrow\.addEventListener\('change', \(\) => \{ if \(!narrow\.matches\) setRail\(false/, 'widening the window closes the drawer, which clears inert');
 });
+
+test('TOKENS-009: components.css is scoped to .ui-kit, so loading it changes no tab; the styleguide opts in', () => {
+  const css = strip(read('components.css')).trim();
+  const afterKeyframes = css.replace(/@keyframes [^{]+\{[^{}]*\{[^}]*\}[^{}]*\{[^}]*\}\s*\}/g, '').trim();
+  assert.match(afterKeyframes, /^@scope \(\.ui-kit\) \{/, 'every rule is inside @scope (.ui-kit)');
+  assert.ok(afterKeyframes.endsWith('}'));
+  assert.match(fs.readFileSync(studio + 'index.html', 'utf8'), /components\.css/);
+  assert.match(read('styleguide.html'), /<body class="ui-kit">/);
+  assert.doesNotMatch(fs.readFileSync(studio + 'index.html', 'utf8'), /class="[^"]*ui-kit/, 'the app page does not opt in: tabs do, when they migrate');
+});

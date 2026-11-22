@@ -78,7 +78,7 @@ a:hover { color: var(--gold-soft); }
 .topbar > :not(.crumbs) { flex: none; }
 .crumbs .sep { color: var(--muted); }
 .crumbs code { color: var(--gold-soft); max-width: 16rem; overflow: hidden; text-overflow: ellipsis; }
-.crumbs .chip { font: var(--ui-fs-xs, .75rem) var(--font-mono); min-height: 0; letter-spacing: 0; padding: .1rem .45rem; border: 1px solid var(--line-strong); color: var(--muted); }
+.chip { font: .75rem var(--font-mono); padding: .1rem .45rem; border: 1px solid var(--line-strong); color: var(--muted); }
 .switcher, .search-button, .lang button, .rail-toggle, .rail-close, button.plain { font: inherit; font-size: var(--ui-fs-sm, .875rem); color: var(--text); background: var(--surface-2); border: var(--ui-bw, 2px) solid var(--line-strong); cursor: pointer; padding: .35rem .7rem; border-radius: 0; }
 .switcher { display: inline-flex; gap: var(--ui-sp-2, .5rem); align-items: baseline; max-width: 14rem; }
 .switcher strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--gold-soft); }
