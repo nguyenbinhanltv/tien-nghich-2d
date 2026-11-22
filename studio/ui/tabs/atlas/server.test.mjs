@@ -67,7 +67,7 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   const abode = chunks.chunks.find(c => c.id === 'abode');
   assert.deepEqual([abode.shipped.mobile.pages, abode.shipped.mobile.frames, abode.shipped.mobile.bytes, abode.shipped.mobile.budget.state, abode.ceilingPages], [ABODE_PAGES, ABODE_FRAMES, ABODE_BYTES, ABODE_STATE, ABODE_CEILING]);
   assert.equal(abode.shipped.mobile.budget.ceilingBytes, 4194304);
-  assert.deepEqual(json.formats.map(f => f.id), ['phaser', 'pixi', 'godot', 'unity', 'aseprite', 'tiled']);
+  assert.deepEqual(json.formats.map(f => f.id), ['phaser', 'pixi', 'godot', 'unity', 'aseprite', 'tiled', 'ldtk']);
 });
 
 test('pages: every frame carries its rectangle and where it came from; the image route serves the shipped bytes', async t => {

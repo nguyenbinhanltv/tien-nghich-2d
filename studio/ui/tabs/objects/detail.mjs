@@ -38,6 +38,7 @@ export async function renderDetail(app, host, token) {
     h('div', 'pad', importButton(ctx, {assetId: entry.id, label: ctx.t('import.open'), onDone: () => { app.forget(); app.repaint(); }})),
     clip ? stage(app, entry, clips, clip, inClip, index) : h('p', {class: 'muted pad'}, entry.readiness === 'planned' ? ctx.t('detail.planned') : ctx.t('detail.noFrames')),
     links,
+    await tilesPanel(app, entry),
     provenancePanel(app, entry, detail, provenance),
     current ? await editorPanel(app, entry, detail, current, token) : null);
 }
@@ -104,6 +105,20 @@ function renderLinks(app, entry) {
     h('ul', '', ...ids.map(id => { const other = app.byId.get(id);
       return h('li', '', h('a', {href: ctx.href(app.route({}, {asset: other}))}, id), ' ', h('small', 'muted', kindLabel(ctx, other.category))); }))));
   return section;
+}
+
+/** F5: the tile animations and collision shapes stored in the asset's metadata, read only. Nothing is shown for an asset with none. */
+async function tilesPanel(app, entry) {
+  const {ctx} = app;
+  let sheets = {};
+  try { sheets = (await (await fetch(`/api/tabs/objects/tiles?id=${encodeURIComponent(entry.id)}`, {signal: ctx.signal})).json()).sheets ?? {}; } catch (error) { if (error.name === 'AbortError') throw error; }
+  const rows = [];
+  for (const [sheet, tiles] of Object.entries(sheets)) for (const [n, tile] of Object.entries(tiles)) {
+    if (tile.animation) rows.push(h('li', '', h('code', '', sheet), ' ', ctx.t('tiles.animation', {n, steps: tile.animation.map(s => ctx.t('tiles.step', {n: s.n, ms: s.ms})).join(' → ')})));
+    if (tile.shapes) rows.push(h('li', '', h('code', '', sheet), ' ', ctx.t('tiles.shapes', {n, shapes: tile.shapes.map(s => ctx.t('tiles.' + s.kind, {...s, count: s.points?.length ?? 0}) + (s.name ? ` “${s.name}”` : '') + (s.properties ? ' ' + Object.entries(s.properties).map(([k, v]) => `${k}=${v}`).join(', ') : '')).join('; ')})));
+  }
+  if (!rows.length) return null;
+  return h('section', 'dsec', h('h3', '', ctx.t('tiles.title')), h('ul', '', ...rows));
 }
 
 function provenancePanel(app, entry, detail, provenance) {

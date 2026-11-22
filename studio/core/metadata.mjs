@@ -4,6 +4,7 @@
 import path from 'node:path';
 import { clipSpec, isShipped, milestones } from './assets.mjs';
 import { problem } from './errors.mjs';
+import { checkTiles, mergeTiles } from './tiledata.mjs';
 import { ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from './fsutil.mjs';
 
 export const METADATA_FILE = 'studio-metadata.json';
@@ -56,14 +57,14 @@ function checkClip(asset, name, clip) {
 }
 
 /**
- * patch: {pivot?, hitbox?, clips?: {name: {frameMs?, events?}}}. A null value clears a field.
+ * patch: {pivot?, hitbox?, clips?: {name: {frameMs?, events?}}, tiles?: {sheet: {n: {animation?, shapes?}}}}. A null value clears a field.
  * Fields not mentioned keep their value. `etag` (from the last read) is required once a sidecar exists.
  */
 export async function setMetadata({root, asset, caller, patch, etag, dryRun = false}) {
   if (!asset.layout?.studioRawDir) throw problem(422, 'unsupported', `${asset.id} (${asset.source}) has no authoring metadata; only design-manifest assets do`);
   const m = await milestones(root, asset);
   if (isShipped(m)) throw problem(409, 'already_processed', `${asset.id} already has processed or packed frames; its metadata changes through a reviewed revision`);
-  const known = ['pivot', 'hitbox', 'clips'];
+  const known = ['pivot', 'hitbox', 'clips', 'tiles'];
   const keys = Object.keys(patch);
   if (!keys.length || keys.some(k => !known.includes(k))) invalid(`give at least one of ${known.join(', ')} and nothing else`);
   if (patch.pivot) checkPivot(asset, patch.pivot);
@@ -73,6 +74,7 @@ export async function setMetadata({root, asset, caller, patch, etag, dryRun = fa
     // Every name must be a real clip, including when the value is null (a clear): no name reaches the file unchecked.
     for (const [name, clip] of Object.entries(patch.clips)) checkClip(asset, name, clip);
   }
+  if (patch.tiles) { try { checkTiles(asset, patch.tiles); } catch (error) { invalid(error.message); } }
   const rel = `${asset.layout.rawDir}/${METADATA_FILE}`;
   return withLock(path.join(root, rel), async () => {
     const current = await readMetadata(root, asset);
@@ -87,6 +89,7 @@ export async function setMetadata({root, asset, caller, patch, etag, dryRun = fa
       if (clip === null) { delete data.clips[name]; continue; }
       data.clips[name] = {...data.clips[name], ...clip};
     }
+    if (patch.tiles) { const tiles = mergeTiles(data.tiles, patch.tiles); if (tiles) data.tiles = tiles; else delete data.tiles; }
     if (dryRun) return {dryRun: true, before, data, file: rel, etag: current?.etag ?? null};
     data.updated = {agent: caller.agent, session: caller.session, at: new Date().toISOString()};
     const text = JSON.stringify(data, null, 2) + '\n';
