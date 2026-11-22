@@ -1,0 +1,67 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "3964ae90-8050-4561-afa9-1b4b3268bc74",
+  "character_job_id": "a5f2fc10-9d75-4934-91bd-b1e76f7a3088",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi cicada insect, plump body of dull bronze metal with a lighter bronze belly, two big round dark eyes, short legs. Its two wing cases are raised up and held open above its back like a pair of big bronze plates, clearly lifted away from the body, with pale glassy wings under them. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "2c1f5cda-a030-409d-8167-848e36fc0c8d",
+      "job_ids": {
+        "south": "12a9d4af-1e1b-4d7b-9623-2fd2d97cefda",
+        "west": "86a2cb64-62e9-4078-8da4-9d8c3d971a5b",
+        "north": "4dfe5dab-1b06-40f8-8c85-2d8793c1869c",
+        "east": "422f4941-30ce-4925-b794-f008ade42713"
+      },
+      "action_description": "stands still, the raised bronze wing cases tremble and twitch slightly while the body breathes; the wing cases stay lifted up from the back",
+      "direction_prompts": {
+        "south": "facing the viewer, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised",
+        "west": "facing left, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised",
+        "north": "seen from behind, the raised bronze wing cases tremble slightly, body breathes; wing cases stay raised",
+        "east": "facing right, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c3238877-2afb-4552-a244-d558dec6b564",
+      "job_ids": {
+        "south": "84f331ef-38c7-4108-adc1-3907a4585a2a",
+        "west": "2c0434a3-5bdd-42a8-8f67-c7fdb7c140aa",
+        "north": "516262da-06c1-490c-b256-bf3fc06cdf96",
+        "east": "fa38db73-8f97-4443-ac0a-c5da1db25f12"
+      },
+      "action_description": "scuttles and short-flies forward in quick low hops, the raised bronze wing cases buzzing and vibrating, staying lifted above the back",
+      "direction_prompts": {
+        "south": "scuttles toward the viewer in short quick hops, compact and narrow, the raised wing cases vibrate and stay lifted",
+        "west": "scuttles to the left in short quick hops, the raised wing cases vibrate and stay lifted",
+        "north": "scuttles away from the viewer, seen from behind, compact and narrow, the raised wing cases vibrate",
+        "east": "scuttles to the right in short quick hops, the raised wing cases vibrate and stay lifted"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "idle north frames 3-4 and follow north frames 3-4 carry isolated stray specks beside the wing cases",
+    "the glassy under-wings read as white blocks at 1x"
+  ]
+}

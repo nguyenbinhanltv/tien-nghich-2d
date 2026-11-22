@@ -1,0 +1,492 @@
+{
+  "id": "lt_bronze_cicada",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Raised wing cases",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "3964ae90-8050-4561-afa9-1b4b3268bc74",
+  "character_job_id": "a5f2fc10-9d75-4934-91bd-b1e76f7a3088",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi cicada insect, plump body of dull bronze metal with a lighter bronze belly, two big round dark eyes, short legs. Its two wing cases are raised up and held open above its back like a pair of big bronze plates, clearly lifted away from the body, with pale glassy wings under them. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "2c1f5cda-a030-409d-8167-848e36fc0c8d",
+      "job_ids": {
+        "south": "12a9d4af-1e1b-4d7b-9623-2fd2d97cefda",
+        "west": "86a2cb64-62e9-4078-8da4-9d8c3d971a5b",
+        "north": "4dfe5dab-1b06-40f8-8c85-2d8793c1869c",
+        "east": "422f4941-30ce-4925-b794-f008ade42713"
+      },
+      "action_description": "stands still, the raised bronze wing cases tremble and twitch slightly while the body breathes; the wing cases stay lifted up from the back",
+      "direction_prompts": {
+        "south": "facing the viewer, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised",
+        "west": "facing left, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised",
+        "north": "seen from behind, the raised bronze wing cases tremble slightly, body breathes; wing cases stay raised",
+        "east": "facing right, the raised bronze wing cases tremble slightly above its back, body breathes; wing cases stay raised"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "c3238877-2afb-4552-a244-d558dec6b564",
+      "job_ids": {
+        "south": "84f331ef-38c7-4108-adc1-3907a4585a2a",
+        "west": "2c0434a3-5bdd-42a8-8f67-c7fdb7c140aa",
+        "north": "516262da-06c1-490c-b256-bf3fc06cdf96",
+        "east": "fa38db73-8f97-4443-ac0a-c5da1db25f12"
+      },
+      "action_description": "scuttles and short-flies forward in quick low hops, the raised bronze wing cases buzzing and vibrating, staying lifted above the back",
+      "direction_prompts": {
+        "south": "scuttles toward the viewer in short quick hops, compact and narrow, the raised wing cases vibrate and stay lifted",
+        "west": "scuttles to the left in short quick hops, the raised wing cases vibrate and stay lifted",
+        "north": "scuttles away from the viewer, seen from behind, compact and narrow, the raised wing cases vibrate",
+        "east": "scuttles to the right in short quick hops, the raised wing cases vibrate and stay lifted"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "accepted with flags; no regeneration used"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "total_generations": 14
+  },
+  "known_flaws": [
+    "idle north frames 3-4 and follow north frames 3-4 carry isolated stray specks beside the wing cases",
+    "the glassy under-wings read as white blocks at 1x"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2467,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "3a6919b98ef514e4b340f4fa69028934b8c6c5075dc2ac8c52bb8310f5b25578",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_bronze_cicada/contact_1x.png": "f36b429108e759f6eaa8eb7bcbce86ce5dc4915f629d39cc37648eebab539905",
+    "assets/raw/longtime/lt_bronze_cicada/contact_4x.png": "4b8e145e44df9e4edb7baa7a9e5b6d3f48d9f3afb9f9cd10ca25aab71e0e2d42"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_bronze_cicada/follow_east_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/east/frame_000.png",
+      "raw_sha256": "f2662ccb0f462eb227f9af3f6bf0fca9ae72e9cd09a6cca9e30b6ca9bd80d2cc",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "16dbe9362ca75ae1c5e932ae48a2a5e224955f9f8a6fd554d7eea8abeb1cf4c3"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_east_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/east/frame_001.png",
+      "raw_sha256": "8164915deb2230b97f9e5291bd89bfa8eb3bb20c26ce0cb7fd0bb18764d25b7c",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "764307173ea27ee750da69654ead870d15096c092b341ae93a41a3ab850abe5a"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_east_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/east/frame_002.png",
+      "raw_sha256": "83db9d278c59084eb9329640d5c7dced3c38fa909e9efbf74236f8f6dc98f566",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "fb3a3c71f3a1b6726374b93b08b08f6692afed1d84085608e18ef5d49456418a"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_east_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/east/frame_003.png",
+      "raw_sha256": "7b930fb179d2ccc26da59ad5302eaf795901b80d88ccd2ced839b7eaf8ae3d00",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "89fdeb8081f277934fd704c50a38fdf13c0d939e3ce15f5ac319695b8cc8d80b"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_north_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/north/frame_000.png",
+      "raw_sha256": "bc729e1005ee3affabb68f45867a2377e5629055d593cf23a58836a2d3107e2a",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "2687ad6f8774b4c541fc435f2f0b290a3039d47a8decb6b807f0c85b3ec25773"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_north_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/north/frame_001.png",
+      "raw_sha256": "65562618232ec5d9d5474e9b9c7e5747cd4bca4a898bb1bc268b74e484f56d90",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "89779f2cbd6bd35b04ade6b4ce6c79f0361d805598339aef6c04e7cc655031ce"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_north_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/north/frame_002.png",
+      "raw_sha256": "908db7d0bdd39085f06faf3df593e1d27d2d404a077f80ded9a0f5b677441589",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "bd8d3ab7a9e5a187dfe6f36c72054350d953ce43150e8ee7f6db871386912ea5"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_north_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/north/frame_003.png",
+      "raw_sha256": "9281a58f8741d34a698f1aa495010763281d70634b8bb7dc5dd5ec9960f7e50e",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "c8d9a9449032f6fec9e956a43661dba56e0faf745a9715ec6b310997e528fd3d"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_south_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/south/frame_000.png",
+      "raw_sha256": "7113c6dc80e3bf2c0b43c3119b356d8beab116300168f02392a31458d3ceba0a",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "9a54ddc9ecfeaf86f70d599049e9bb019759973ed7010d0496ef0d8633b1eab2"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_south_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/south/frame_001.png",
+      "raw_sha256": "bac78ea848833d4d851be4a27fe7d2c1081e6b6a09716943c32c0499e968f442",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "2925ddc9977076711e858b60727b4c12fc81ce57a3ecfdc4ad46ebb46ea1d7a3"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_south_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/south/frame_002.png",
+      "raw_sha256": "7b445ed369a524a03a8a0bcdd369429c9ecd041b32279dd7d4533f25f591cada",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "4e6378c2788373ae55e7d56222a08b5cf232cc94380e703980940c58db8c7f65"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_south_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/south/frame_003.png",
+      "raw_sha256": "efdbe7c02fe780b29b8b9efda4a571522ebfd4c02dffe37ef63354b777dc2187",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "1c2e81c37aee00c367bfc538560ce1cdcda31ecbf5eb692c9c8113c545628250"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_west_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/west/frame_000.png",
+      "raw_sha256": "135a6dd831f580ee76048122b5c098a5803265776c73af2e3a83dc2ca1dc5e6d",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "6b50e8105a154724daa12300f7fee0b0fe6023f39076032d22f5fd3c2973a935"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_west_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/west/frame_001.png",
+      "raw_sha256": "4a8c2880c15fea80f1e5ec5320d5ab43a7d4d2f5935bb32db77dd4c865361864",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "97eb95fb073447063be543e82bfa1357d21a8c92c61c1143a437302d09e8a5d2"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_west_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/west/frame_002.png",
+      "raw_sha256": "2b318c34b461a6a39e3753f8500ed9ffab6fed50a18026be7a7b1f4a859e231d",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "40ef8975cafdcf76d04913d748dc9409c83a5f21bb51317558d2834ebc3f13c4"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/follow_west_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/follow_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/follow/west/frame_003.png",
+      "raw_sha256": "31ebab3ed87d8fa4801f502712f3cf36437f31e0bc91f317d4541aac0c30c5e5",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "97635189b7984d62ac39c7c4022b116ac230341edd9abbfea3e8fc092cbbbdbe"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_east_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/east/frame_000.png",
+      "raw_sha256": "bda9071bd996e5987ba6c597742e29e22d08111047502005ca8ee9d5206c89e9",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "80835b0e8fb883c5b1cc8b057a769dedbcf01080d1c3586aafb7f9a551c0c91a"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_east_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/east/frame_001.png",
+      "raw_sha256": "4d8cca841919904bd07bb98af05a0443f94bc914366b01f5c38338f7ffedada7",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "24a2d2e19ec5e1309fcf04b73601e3bbdb15d36607ac1186eef332485fbb6b11"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_east_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/east/frame_002.png",
+      "raw_sha256": "8e18b5f184fd54902690da1f5412b03371ad5aeafb9c90e2fd731efd5a745b75",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "1c75deb0490a6fc80ebc78b7d2f0790de7b4d32dab2e963ed97670aab66cfde4"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_east_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/east/frame_003.png",
+      "raw_sha256": "0bab10ff81a5462478b5d8e7ae63d1b3d89c70f18fbf8b95e8a8e510cfa3c511",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "fdea92066e33b449ae36462872467ae25ca01b9e3a049c39f883f4199d25dd00"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_north_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/north/frame_000.png",
+      "raw_sha256": "ecf4055c56aeaec1a08fee4b151379148e3ccc2617281234c39f406160ab4fa7",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "903a9e05a46e86549b7fa7b7bf85021fcc49363b61162a0dd778a45f215673d7"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_north_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/north/frame_001.png",
+      "raw_sha256": "e58b670fb5690283a0c2f305febc0fb24a1ff1cf8fa67e798fe1ba6ebde9b178",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "eca026ed6709f9ffdc5ac39d837dc6d85076fa86e8316b50498e812bdb4db9cd"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_north_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/north/frame_002.png",
+      "raw_sha256": "c136b0e449175e783c15681e33a7140342fc62af02cde50859910c05f8c48516",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "2c290a1633cf492a51b93dbb471dcb4d225b85f2f8ace7053186c4f4d30b039f"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_north_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/north/frame_003.png",
+      "raw_sha256": "251d1fdc2cf51dce13cb1d9d33c22994eabb9e3453a2140229229241655a199f",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "c51442354b171b4b171e222a9e91b06238216edca3343fbed2f0d6c67ee899a5"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_south_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/south/frame_000.png",
+      "raw_sha256": "eb5d642d78ceebf658a6a53252fefc9dba033187c1b9fa5c3b0fb5896d660074",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "66e49f406ad2faa081d006a028f9c9e670075b0be9df3e9fba1f64e5dfd27101"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_south_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/south/frame_001.png",
+      "raw_sha256": "cde299f7f64062bc699fa991c8bed0947ee7724a0a6ffe9de21a984a928ee59f",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "a259d5d945e31ed7e69cd880ffbffd07d555aed9d78443812f7147ae8a481377"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_south_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/south/frame_002.png",
+      "raw_sha256": "7f8cfe4b6375b0668fb3cdd2fd55336d9870f5227cc3bbcdb5785e4fc1b69564",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "816e28d4c16a04a2b68bec2324cd04bf5b6d07aba6bf97d6301b1387ccf5af0e"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_south_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/south/frame_003.png",
+      "raw_sha256": "14937e160d922b596028751c2a5f85007a2f640136cbc0c114b9fa4e85d698d7",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "40f9ca796dd3d440b7178e87897101ae8b85c76017d7b72809d942ded247fe6f"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_west_0",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/west/frame_000.png",
+      "raw_sha256": "94bab603dd28a70c6af4884012612280b79b118c20996ba955274e0d2dcf986e",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "e85985b8af5f674c4d585db49231e70d04f374a156cafa7267307c81bd047fba"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_west_1",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/west/frame_001.png",
+      "raw_sha256": "8da6606acb07a0296474ab3da1f52930746f36cd91b40fa8dee3316d6a3a498c",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "1c963f39f7666cee262b0fb1d6ebc41aa8280a6b20f3bd8f17bf761ebd8847f9"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_west_2",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/west/frame_002.png",
+      "raw_sha256": "7856ba6838ac90602e2cf445377cbe7d5b89646cf97182c2ff73c3ddc445af74",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "2c1bc34797c305863b702a386400f907097ec248b4c9ed6b7942e2618d0f9566"
+    },
+    {
+      "key": "longtime/lt_bronze_cicada/idle_west_3",
+      "path": "assets/processed_longtime/lt_bronze_cicada/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_bronze_cicada/idle/west/frame_003.png",
+      "raw_sha256": "bb6cd0421abd23b2948446457877b37d5cf2e82e913f1cacbfa3fb6158d8bbc2",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "431d7b22e921613dc479b0779a21d48ab2b36a2ccbe42c43a11763448536fd86"
+    }
+  ]
+}
