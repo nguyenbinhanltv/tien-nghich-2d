@@ -1,0 +1,89 @@
+{
+  "group_id": "37bc7c3b-031e-4012-981a-0827299cb46a",
+  "states": [
+    {
+      "character": {
+        "id": "f42399e8-1aa4-4665-bdc7-97213198da3f",
+        "name": "Idle",
+        "prompt": "Small chibi carp fish floating upright in the air, round plump body of soft blue-grey scales with a pale belly, big round eyes, a tail that splits into a forked ribbon of two long thin flowing pale-blue ribbons, small fins. Wisps of mist beneath it. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T08:18:45.100563+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ]
+          },
+          "follow": {
+            "east": [
+              "Idle/animations/follow/east/frame_000.png",
+              "Idle/animations/follow/east/frame_001.png",
+              "Idle/animations/follow/east/frame_002.png",
+              "Idle/animations/follow/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/follow/south/frame_000.png",
+              "Idle/animations/follow/south/frame_001.png",
+              "Idle/animations/follow/south/frame_002.png",
+              "Idle/animations/follow/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/follow/north/frame_000.png",
+              "Idle/animations/follow/north/frame_001.png",
+              "Idle/animations/follow/north/frame_002.png",
+              "Idle/animations/follow/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/follow/west/frame_000.png",
+              "Idle/animations/follow/west/frame_001.png",
+              "Idle/animations/follow/west/frame_002.png",
+              "Idle/animations/follow/west/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T08:24:01.086756"
+}

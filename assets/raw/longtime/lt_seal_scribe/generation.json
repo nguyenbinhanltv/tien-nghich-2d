@@ -1,0 +1,87 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "340abb45-9aa7-4de5-9268-df65b6104635",
+  "character_job_id": "f2798fc1-00fe-44d0-ac09-41a4577b1b3a",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Young xianxia scribe, small human in a plain pale-blue robe with wide sleeves, black hair tied in a topknot, calm face. In the RIGHT hand a very wide flat calligraphy brush held up and forward with a dark ink-tipped head; under the LEFT arm a rolled paper scroll with a red seal ribbon (asymmetric). Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "81c5c45d-b9bf-438f-af42-b730dffb7168",
+      "job_ids": {
+        "south": "be717b5a-4abd-4d7c-9cc6-15ab90271beb",
+        "west": "04afd579-474e-45e1-9974-266faac27986",
+        "north": "d5b774c0-b324-42a3-8dff-c9ff72967489",
+        "east": "87d0571c-d4f0-408d-bd29-328f2d17d9cf"
+      },
+      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the wide brush stays held in the same right hand and the rolled seal scroll stays under the other arm, both clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the wide brush stays held in his right hand on the viewer's left, the scroll with the red seal stays under his other arm on the viewer's right",
+        "west": "facing left, breathes gently; the wide brush stays held in front of him pointing left, the scroll stays under his arm",
+        "north": "back to the viewer, breathes gently; the wide brush stays visible in his right hand on the viewer's right side, the scroll stays under the other arm",
+        "east": "facing right, breathes gently, upright and standing like the front view; the long wide brush is held low in front of him pointing right and down, a dark brush head clearly visible in EVERY frame, never lost (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "c768827a-7a7b-4b15-8ee2-fb220bf8b890",
+          "prompt": "facing right, breathes gently; the wide brush stays held in front of him pointing right, the scroll stays under his arm",
+          "why": "brush lost in every frame, ghostly pose"
+        },
+        "west_regeneration": {
+          "job_id": "dc71b4d7-5620-45f5-a7af-280677a7b2dc",
+          "prompt": "facing left, breathes gently, upright and standing like the front view; the long wide brush is held low in front of him pointing left and down, a dark brush head clearly visible in EVERY frame (second attempt, west only)",
+          "why": "brush lost, worse than take 1; take 1 kept"
+        }
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "cb9a703a-ce71-4224-b062-06902ad1fe2f",
+      "job_ids": {
+        "south": "68a54a29-ae73-4661-8039-38715aa2d6b9",
+        "west": "9bb08a2c-be04-4178-94d3-7b6259eee20e",
+        "north": "1941befa-1d63-4ee3-96e2-2e81a478792f",
+        "east": "f92d874a-10ab-4fc3-8609-c742a130bf89"
+      },
+      "action_description": "lifts the wide brush a little forward and up as if about to write a stamp mark, then lowers it; the brush always stays in the same right hand and clearly visible; the scroll stays under the other arm",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the wide brush in his right hand (the viewer's left side) slightly forward and up, then lowers; the brush never crosses to the viewer's right",
+        "west": "facing left, holds the wide brush out in front toward the left a little higher, then lowers it; brush stays on the left",
+        "north": "seen from behind, his right arm is on the viewer's RIGHT; the wide brush is held in that right hand beside his body, clearly visible to the right of his back in EVERY frame, raised slightly then lowered; nothing is held on the viewer's left",
+        "east": "facing right, holds the wide brush out in front toward the right a little higher, then lowers it; brush stays on the right and does not rise above his head"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and interact v3, four directions each",
+      "credits": 14,
+      "result": "accepted except idle east (brush lost) and idle west (brush absent in frame 1)"
+    },
+    {
+      "n": 2,
+      "what": "idle east and idle west regenerated once each with a stronger brush prompt",
+      "credits": 2,
+      "result": "east take 2 kept (brush visible in all 4 frames; raw idle/east frames replaced, take 1 is not shipped); west take 2 rejected as worse, west take 1 kept"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "regenerations": 2,
+    "total_generations": 16
+  },
+  "known_flaws": [
+    "idle west: the brush is absent in frame 1 and only a short stub in frames 2-4 (kept after its one allowed regeneration was worse)",
+    "interact south frames 3-4: the brush swings to a horizontal pose at waist height",
+    "west and east views are narrow, the red-seal scroll is mostly hidden"
+  ]
+}

@@ -1,32 +1,42 @@
 {
   "asset_ids": [
     "lt_abode_stone",
+    "lt_bell_founder",
+    "lt_bronze_cicada",
+    "lt_chart_reader",
+    "lt_coal_toad",
     "lt_fx_gate_unseal",
     "lt_herb_bed",
     "lt_ink_marten",
     "lt_kiln",
     "lt_kiln_keeper",
-    "lt_moon_gate"
+    "lt_mist_carp",
+    "lt_moon_gate",
+    "lt_reed_crane",
+    "lt_seal_scribe",
+    "lt_seed_broker",
+    "lt_star_hare",
+    "lt_ward_mason"
   ],
   "chunk_group": "abode",
-  "frame_count": 110,
+  "frame_count": 430,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 110,
-      "height": 128,
+      "frames": 430,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "4bdded9bab61a3186ed9cada7440d1505781726b22b6cf0f9220810426835725",
-      "png_sha256": "10a4e89bca0b219b86d8034fae9d0b5071fd1ae2688cb955e81e82ee28664b68",
-      "rgba8_bytes": 1048576,
+      "json_sha256": "db3d0803a3dde1a65846984e861215f7947f0bbbf11357e14c6d514ebfe636fd",
+      "png_sha256": "bb00dd22d25b0191c1d802d05e5f5126c8a2dc2b315c4243129f0667a26a4d75",
+      "rgba8_bytes": 2097152,
       "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 1048576,
-  "rgba8_mib": 1.0,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

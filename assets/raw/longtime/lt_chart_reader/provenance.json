@@ -1,0 +1,558 @@
+{
+  "id": "lt_chart_reader",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Square astrolabe",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style anchor = the processed lt_kiln_keeper idle_south_0 frame passed as base64, colour palette NOT copied) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6e053eac-d1bd-4fb5-bcd1-4dfdb1915223",
+  "character_job_id": "88ddbf21-de8a-4611-87d6-a0ae404c1eab",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Scholarly xianxia chart reader, chibi with a very large round head and a short wide body, small human in a LIGHT pale-cream knee-length robe with a wide indigo sash and wide sleeves, short black hair tied in a small topknot (hair does NOT hang down the back), thin beard, calm eyes. Held out in front of his chest in both hands is a big flat SQUARE bronze astrolabe, a bright gold square frame with a round dial, wide and clearly visible from the front and from both sides. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "bd50a00a-b036-4492-856a-3c04bff99968",
+      "job_ids": {
+        "south": "45f8d833-0744-4c1f-9308-9d061809ea73",
+        "west": "1dbe3596-fbd1-451d-9149-05db3003483c",
+        "north": "70108b20-e4f8-4d81-a104-a1b8ca61f1e1",
+        "east": "d74c4fde-d737-495d-8635-f64cb18d7b0b"
+      },
+      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square gold astrolabe stays held in both hands in front of his chest, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the square gold astrolabe stays held in both hands in front of his chest, always visible",
+        "west": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide; the face and beard stay clean and unchanged, no floating marks or pieces beside the face (second attempt, west only)",
+        "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
+        "east": "facing right, breathes gently; the big square gold astrolabe stays held out in front of his chest on the right, always visible and wide"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "3b6e5ee2-663c-416d-b090-659994064a10",
+          "prompt": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide",
+          "why": "replaced by take 2: take 1 had a pale wedge and a dark whisker attached to the beard in frames 3-4 that no processing step can isolate; take 2 has only detached 1-px specks, removed in processing by speck_clean"
+        }
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "01c664d5-df39-4796-9037-1d5ba8494edc",
+      "job_ids": {
+        "south": "ea7c7f2e-4b50-445d-8d9a-c7f0e3bb4b11",
+        "west": "b8f849ba-07c2-40d0-8fb2-87a72d0c6980",
+        "north": "c0793cec-ed8a-4835-82ff-2221969a55cd",
+        "east": "5f9141eb-fcd3-4802-b2b6-a84c88c6d7bf"
+      },
+      "action_description": "tilts the square gold astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the square gold astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
+        "west": "facing left, holds the big square gold astrolabe out in front toward the left and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, west only)",
+        "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
+        "east": "facing right, holds the big square gold astrolabe out in front toward the right and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, east only)"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "e90e3e71-dd3e-4314-bb4c-9df268d414b0",
+          "prompt": "facing left, holds the big square gold astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into an X-shaped sparkle in frames 1-2"
+        },
+        "east_take1": {
+          "job_id": "e0e6bb78-295b-44b7-99f0-050c9ee1bbda",
+          "prompt": "facing right, holds the big square gold astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into a white-gold glow in frames 2-3"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character generation (character id 5de2dc63-eaa6-4b36-8555-84958b700368, job bb1fad10-d56c-4f06-8957-b0e90b7a5eb2, seed 7, long indigo robe) with idle and interact v3 (idle group 05fb4e11-1377-4f20-98cb-ff376e1dc743, interact group c3b8d8b4-7fc3-45b8-a1bf-c2483d73ed49; shipped jobs idle 03d9ecfb, 7a403f70, a2a24671, 0e825f20; interact 4ef42182, 6584ec76, 9bdacb88, abdb1911), plus one round-2 regeneration of idle west/east and interact west/east (jobs 0e15a282, 954ad966, 179f00f7, abdb1911)",
+      "credits": 18,
+      "result": "replaced after owner review: west and east views were a tall dark pillar and the astrolabe a small dim block; round-2 clip regenerations could not fix it because the silhouette comes from the rotations"
+    },
+    {
+      "n": 2,
+      "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each (touch-up round 3)",
+      "credits": 14,
+      "result": "accepted in touch-up round 3 with no clip regeneration at that time; three clip-directions (idle west, interact west, interact east) were later replaced by their second takes in touch-up round 4, see attempt 3"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 4 (after the round 3 character redraw): interact west, interact east and idle west regenerated once each (appended to the same animation groups)",
+      "credits": 3,
+      "result": "all three take-2 clips shipped: interact west/east keep a solid square astrolabe in all 4 frames (take 1 had a sparkle/glow for 2 frames); idle west take 2 has only detached 1 px specks which speck_clean (max 3 px) removes in processing"
+    }
+  ],
+  "credits_spent": {
+    "character_replaced_1": 6,
+    "animations_replaced_1": 8,
+    "round2_regenerations_replaced": 4,
+    "character_shipped": 6,
+    "animations_shipped": 8,
+    "total_generations": 35,
+    "round4_regenerations": 3
+  },
+  "known_flaws": [
+    "the north view has no astrolabe (held in front), only the robe and topknot identify the character"
+  ],
+  "style_anchor": {
+    "image": "assets/processed_longtime/lt_kiln_keeper/idle_south_0.png (32x32)",
+    "usage_description": "Match this character's chibi proportions: very large head, small body, thick outline. Do not copy its colours or clothes.",
+    "style_options": {
+      "color_palette": false,
+      "detail": true,
+      "outline": true,
+      "shading": true
+    }
+  },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "idle west take 2 has detached 1 px specks beside the face and astrolabe in frames 1-4; counts per frame in provenance.processing.speck_clean"
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 1100,
+      "outline_thinned": 14,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "speck_clean": {
+      "rule": {
+        "max_px": 3,
+        "why": "idle west take 2 has detached 1 px specks beside the face and astrolabe in frames 1-4; counts per frame in provenance.processing.speck_clean"
+      },
+      "frames": {
+        "idle/west/0": 1,
+        "idle/west/1": 3,
+        "idle/west/2": 3,
+        "idle/west/3": 2
+      }
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "382a577fdf795d9d23f285db43dbec2381b05a873380c456b04179808960abbe",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_chart_reader/contact_1x.png": "70a6ed265fb4f883290970039050a8dd0ebf5d7d6c1f615bbbbdc4eaf4a214b3",
+    "assets/raw/longtime/lt_chart_reader/contact_4x.png": "f210983b25cb07bf683e540e94e28b19ddd1a215b6f21aadadd9ca468b36851c"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_chart_reader/idle_east_0",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/east/frame_000.png",
+      "raw_sha256": "fbfd0ca725059aac75194c8807b7032e2059681185359af59e5a7fec8bf87903",
+      "source_xy": [
+        0,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "93e9cea7512a7be8f1153efff620a77c48bb573588ed4800a7c1013c21ff410f"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_east_1",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/east/frame_001.png",
+      "raw_sha256": "2b3a2e137807977bf9a9a16c9c275efbb732c675098ccbd46256a24bb59d3344",
+      "source_xy": [
+        44,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "c2d97a330e694a360e016a246a3387130df9a90d0c10183f385625badcd80d2c"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_east_2",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/east/frame_002.png",
+      "raw_sha256": "46a5eaa2cb28ec5607c764194c3e4139410fc541ad88465725ed7c7693802678",
+      "source_xy": [
+        88,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "8701e1a4a2f4d69622d4f2436ff32fc18e34d4665ddaebee6c0108f9ee47832d"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_east_3",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/east/frame_003.png",
+      "raw_sha256": "af2c88546bcfa0794d1c27410a0dce9e009b238f17eb3486c7df69892c0a0075",
+      "source_xy": [
+        132,
+        132
+      ],
+      "duration_ms": 200,
+      "sha256": "9eea19e0535fc70c0dd3551966f94e6237926180573713d0fe88e709d0a9cbda"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_north_0",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/north/frame_000.png",
+      "raw_sha256": "d60243900c76f0b929fc8f760324a3928b61f1df84b6b10b83196210cbf898a6",
+      "source_xy": [
+        0,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "5f6f21b3f21ddef1dba64a27099fd2100c5e24833519a528334420edc5244f1f"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_north_1",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/north/frame_001.png",
+      "raw_sha256": "0804be2ce4619982de3cdbcdd7c21c83e89ee008a4a512149ea5cbac186969c6",
+      "source_xy": [
+        44,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "dabc967b1e289a3b31d192fe33f6b26492b78bf6a3f279342ac8c7d54b210b05"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_north_2",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/north/frame_002.png",
+      "raw_sha256": "cfe638d3a882e488b112410b60a31b26c3e16fafe23c41e6764fef2b5aab2073",
+      "source_xy": [
+        88,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "a7381e99302e00e981a7cd12b8fe9bcda8a2dd646454453301a572c3465c2d16"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_north_3",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/north/frame_003.png",
+      "raw_sha256": "8a0ac4bf530c7de32b77afc07d6eb4b1895a971c9ae319d4595fd3776d78fff5",
+      "source_xy": [
+        132,
+        88
+      ],
+      "duration_ms": 200,
+      "sha256": "a6f337182cad93330296aeed294d745de2546a66440fd9d32457e785025d9b48"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_south_0",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/south/frame_000.png",
+      "raw_sha256": "d32f9af0d702dae1b85bd6681cb2cbf8a321cf265a3e4dba0cc9df56b7e853c9",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "4619cd6f0e5b6f12e573c2a2f0d005c85c256a8efe6b93c96f4ba4b0698e93e5"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_south_1",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/south/frame_001.png",
+      "raw_sha256": "0f3adf6edbd41c9ee8b761dc988362b9d4709c619c683812f8d9e44576bf9ff6",
+      "source_xy": [
+        44,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "67d728b71fd79992e1b90e0bb953b0397d71f214163bec5a8281f08e49870048"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_south_2",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/south/frame_002.png",
+      "raw_sha256": "48a9775e0bc455230aa02510f12bccbd6cb63c3aa9282cb170f6f38943a64fb5",
+      "source_xy": [
+        88,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "bd08ced0465f262ab3f32fa192b82769d3594efb2245620d1e85278a5e7ca508"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_south_3",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/south/frame_003.png",
+      "raw_sha256": "4181dcb493345e89e64fcd4b9c17adb681a3fbdbe822ca8a66d8c07c0859ca60",
+      "source_xy": [
+        132,
+        0
+      ],
+      "duration_ms": 200,
+      "sha256": "db3ef12703913ba8fd8e75334cb1606588ebbdd411b00fed0f585987a4450df4"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_west_0",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/west/frame_000.png",
+      "raw_sha256": "e137a8b41a950124799ea7649fb7e8174c712f8d6cd6cf0a6e6362fc02c12115",
+      "source_xy": [
+        0,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "2a40ec2372b4118e8e9d9058b5dac32c498531c124ecc5d3fa2f2613e6d51296"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_west_1",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/west/frame_001.png",
+      "raw_sha256": "b14101bef4a763fce10c1eb09b0df6835f7ff5a36a9a32fd5542a7b6c05d3c7e",
+      "source_xy": [
+        44,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "2069949d3a42c38f42adbeccba8fc978b0e87b4fae516943b4ea17787c3a6169"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_west_2",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/west/frame_002.png",
+      "raw_sha256": "7fe6cc5687c503f77ae0969e2c260e51dff4a4677a655614757efb8c22a9200c",
+      "source_xy": [
+        88,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "6f44139ec8f8b9f87405f392990689c052b7afe57f263f2601ba8dbdc0b1721d"
+    },
+    {
+      "key": "longtime/lt_chart_reader/idle_west_3",
+      "path": "assets/processed_longtime/lt_chart_reader/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/idle/west/frame_003.png",
+      "raw_sha256": "25d4fb568b11a9ca95a91a063a4dfaf8c459456a632a21aa63e9979bc47a7cc3",
+      "source_xy": [
+        132,
+        44
+      ],
+      "duration_ms": 200,
+      "sha256": "f733fb67bd81e311553285cef7e1e79865d3edd03335e837b4ebe386cbbb95d0"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_east_0",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_000.png",
+      "raw_sha256": "5ff1f062542a62951bb50d6caae1a1fa2a7c01b38130fcd0caca0d40c566a74d",
+      "source_xy": [
+        0,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "f77807898ecf31a391d622b89b60f1cb304d36f4a216d6554ec8f1c96f778ea4"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_east_1",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_001.png",
+      "raw_sha256": "02ec30898bddda310ae1cf26f55688969800575eb67d0ef2ea4bf68be45c733d",
+      "source_xy": [
+        44,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "7868d430841a59ebf510adad04e6545ad8a803b150e398d523c30be87abab9ce"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_east_2",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_002.png",
+      "raw_sha256": "185135fdef41dad0671f22a20b8ec1d668294df4b9c19c4a35098a06220d9b64",
+      "source_xy": [
+        88,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "f1b91b36042fd47a4f938e4837ddf8ef27624f1326e1a361c8beb6c0baa65b16"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_east_3",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/east/frame_003.png",
+      "raw_sha256": "d7a143b15199c956dc8fc48564eeef7e3afd14878bcedece5bc64f7fa5def1ca",
+      "source_xy": [
+        132,
+        308
+      ],
+      "duration_ms": 140,
+      "sha256": "cf526739bff355d60b1c2b226eace4db18e3505f6a61bd28e39383f60d8baad2"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_north_0",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/north/frame_000.png",
+      "raw_sha256": "7918c9e63d39285f81d6758535271345c47c36c662c9cce4442fd10e75f415cb",
+      "source_xy": [
+        0,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "066203bb4e92784859c05a96b3c34a6ff6ad2a11531b3e6cb4218b2784aa3147"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_north_1",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/north/frame_001.png",
+      "raw_sha256": "100d7c8bcd7e5b81ec283ae8db6d8105394a54c5d0ffea8578b513753cd7a9dd",
+      "source_xy": [
+        44,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "8b42f3808c8429d5d1dedcf0c5d56c24d44ffb0d1ae740833e80a81d511272ad"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_north_2",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/north/frame_002.png",
+      "raw_sha256": "e16d123a8400267b4697d23ee9316f3b75d3db03721c713b48ddcf0fe8956145",
+      "source_xy": [
+        88,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "8d763d916a5e3d6ef3eae37b7626e00603c61c6bbb05b4e9e2d1d8d34867c6a8"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_north_3",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/north/frame_003.png",
+      "raw_sha256": "5feddeabbccfef558bb773bf8020194d79b33df4afe93403e001d6b4ef098423",
+      "source_xy": [
+        132,
+        264
+      ],
+      "duration_ms": 140,
+      "sha256": "ad8531a36808752f00ffab3c961c1133afdd55109d4c23f774a3ef0f1461f18d"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_south_0",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/south/frame_000.png",
+      "raw_sha256": "4d1ba9b6cb1e31623e541fdd8ad4a056875b9d93ee9dc0309b33640b7c87a010",
+      "source_xy": [
+        0,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "7af005631d4195d2e5497f968d1af6f832742358f8c14f133303a4c1a07205bf"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_south_1",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/south/frame_001.png",
+      "raw_sha256": "0e7a27d50421e854064b6d5645451f16eb136bbb307b6ae869324137aed321ca",
+      "source_xy": [
+        44,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "76dbb0802d65f0db63b59b138ec4a4f202d15868b08156bc5e8201d5ef6cd7e9"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_south_2",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/south/frame_002.png",
+      "raw_sha256": "7e6e3b4e31ea5a71f295f3f4e1cf798cec3c498d5e8fa453812a9db6e0ef43b9",
+      "source_xy": [
+        88,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "37cf8d2fc54f899dc5465c4e1fa733bfb1f3a60fa4365893f0c5606a608a5cf4"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_south_3",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/south/frame_003.png",
+      "raw_sha256": "54e8b28f4301f3dcb398a25ef9b0e404d36dcdb2a58193100c5063670bd2627b",
+      "source_xy": [
+        132,
+        176
+      ],
+      "duration_ms": 140,
+      "sha256": "df5cffe358d75715a485224af1266f4e78c4daf8f70ed15a29520c9b49fb54ff"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_west_0",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/west/frame_000.png",
+      "raw_sha256": "d9f254ac0b581997ddd01be40343a9a0ff23193d72294b990c8bc82c5e55d603",
+      "source_xy": [
+        0,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "9c487e8ea5f6f9ee78de24eca73dd9a5c46f986c8ad88e584c4965ef4bb2a0f2"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_west_1",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/west/frame_001.png",
+      "raw_sha256": "e19b81e60de366bc24a7b3550ce05426fb1fe42145e75bfb2e6e0947f8094905",
+      "source_xy": [
+        44,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "945a4fa67418112c2838c0e9221662f858c2741b58ecced19c3b47b8a22ec949"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_west_2",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/west/frame_002.png",
+      "raw_sha256": "4041ac1b9e96820efe2f8498974748afaea844cb716320c2d38d8aa0964dd711",
+      "source_xy": [
+        88,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "ab3089f85fdb7276363f23451a5dec0cc5696a744faa7ae032a35b6f5ee808c3"
+    },
+    {
+      "key": "longtime/lt_chart_reader/interact_west_3",
+      "path": "assets/processed_longtime/lt_chart_reader/interact_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_chart_reader/interact/west/frame_003.png",
+      "raw_sha256": "45f531212007bef660b686179cbc996331ba3b44d9bf2c75224004a50b926296",
+      "source_xy": [
+        132,
+        220
+      ],
+      "duration_ms": 140,
+      "sha256": "a194d69524816a2f4568a44a92aa386e8bb9e6c88960e7dc0c9c86e2f2fea75e"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

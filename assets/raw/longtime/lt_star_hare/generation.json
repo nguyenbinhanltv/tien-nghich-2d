@@ -1,0 +1,117 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, cat template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6eee158f-5e51-4c5d-8f01-38d8b20ac1c2",
+  "character_job_id": "fe39bf35-c781-491e-8a57-73e60bfbed73",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small hare, slender rabbit-like animal standing on all four legs, soft blue-grey fur, cream belly, two very long upright ears. The LEFT ear has a bright pale-yellow star-glint tip, clearly visible as a bright dot at the top of that ear; the RIGHT ear is plain grey with a dark tip. Short round tail. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f3148f75-6475-4380-883f-c60abd3c1fef",
+      "job_ids": {
+        "south": "5115dd37-4058-4077-8b20-3cac0ca39fda",
+        "west": "bcfd9b0c-8531-4e6f-a8b4-f2b18d5a5042",
+        "north": "5a58189a-9b45-48c9-ab90-c225e3cc2bf8",
+        "east": "cd859a7d-e671-42ab-b3b0-5bcebc0fd5f4"
+      },
+      "action_description": "stands still breathing gently, the long ears twitch slightly, nose wiggles; the single bright yellow glint stays at the tip of the one marked ear",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently, ears twitch; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear on the viewer's left and is clearly visible in EVERY frame (second attempt, south only)",
+        "west": "facing left, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear",
+        "north": "seen from behind, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear on the viewer's right",
+        "east": "facing right, breathes gently, ears twitch; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear and is clearly visible in EVERY frame (second attempt, east only)"
+      },
+      "rejected_regeneration": {
+        "west": {
+          "job_id": "dcb8f231-6f16-49ec-be6d-947b580a2b5c",
+          "prompt": "facing left, breathes gently, ears twitch; a bright yellow glint dot stays clearly visible at the tip of the nearer ear in EVERY frame, the ear tip is never dark (second attempt, west only)"
+        }
+      },
+      "rejected": {
+        "south_take1": {
+          "job_id": "ba205f1d-7db8-4e9a-9814-58202acde6b9",
+          "prompt": "facing the viewer, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear on the viewer's left",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        },
+        "east_take1": {
+          "job_id": "1e91dd42-e2ad-49e6-921d-e177f801bd0e",
+          "prompt": "facing right, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        }
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ecf6caff-259f-45c7-a47d-159a385a3ea6",
+      "job_ids": {
+        "south": "4a5ef4ef-687a-400d-a6e2-6a30d8ecc077",
+        "west": "fb34b63d-0071-4589-a770-3a7c38ce46cd",
+        "north": "d2e0b110-1d34-47aa-bb01-603ea5aeae81",
+        "east": "4c57a786-b827-41c9-96ae-ddcaa646e146"
+      },
+      "action_description": "hops forward in a quick bounding hop cycle, ears streaming back; the single bright yellow glint stays at the tip of the one marked ear",
+      "direction_prompts": {
+        "south": "hops toward the viewer in a compact narrow hop; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear on the viewer's left and is clearly visible in EVERY frame (second attempt, south only)",
+        "west": "hops to the left, ears streaming back to the right; the bright yellow glint stays at the tip of the ear",
+        "north": "hops away from the viewer, seen from behind, compact narrow hop; the bright yellow glint stays at the tip of the ear on the viewer's right",
+        "east": "hops to the right, ears streaming back to the left; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear and is clearly visible in EVERY frame (second attempt, east only)"
+      },
+      "rejected_regeneration": {
+        "west": {
+          "job_id": "0042de1c-6829-496d-9f71-b2daedabc5e7",
+          "prompt": "hops to the left, ears streaming back to the right; a bright yellow glint dot stays clearly visible at the tip of the nearer ear in EVERY frame, the ear tip is never dark (second attempt, west only)"
+        }
+      },
+      "rejected": {
+        "south_take1": {
+          "job_id": "460399cc-0bdf-4e80-91db-48268ec9448e",
+          "prompt": "hops toward the viewer in a compact narrow hop, staying within a narrow column; the bright yellow glint stays at the tip of the ear on the viewer's left",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        },
+        "east_take1": {
+          "job_id": "66838861-47f7-4730-9c80-2ef711f816d9",
+          "prompt": "hops to the right, ears streaming back to the left; the bright yellow glint stays at the tip of the ear",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character (seed 7) then idle and follow v3, four directions each (follow east appended to the follow group because only 3 job slots were free)",
+      "credits": 14,
+      "result": "accepted with flags"
+    },
+    {
+      "n": 2,
+      "what": "idle west and follow west regenerated once each with an emphasised ear-tip prompt (the first west clips showed a thin, partly dark tip)",
+      "credits": 2,
+      "result": "rejected: idle west no better than the first take; follow west worse (tip floats off the ear in frame 3, ear shape distorted). The first west clips were kept. The regenerated frames are only in the PixelLab account, not shipped."
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 2: idle south, idle east, follow south, follow east regenerated once each (appended to the same animation groups) for a brighter ear-tip glint; west and north not touched",
+      "credits": 4,
+      "result": "all four take-2 clips shipped (bright 2-3 px glint or sparkle in every frame except follow east frame 4, where the tip is missing and reads as a twinkle)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "west_regenerations_rejected": 2,
+    "total_generations": 20,
+    "round2_regenerations": 4
+  },
+  "known_flaws": [
+    "the bright ear tip is small (1-3 px) and shifts between pale yellow and cream between frames; in west it is the thinnest",
+    "the cat template stands the hare upright in south and north, so it reads as a sitting-up hare rather than a four-legged crouch"
+  ]
+}
