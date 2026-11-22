@@ -4,7 +4,7 @@ Phiên bản v4, đã được người dùng duyệt (tám quyết định ngà
 
 ## Tổng quan
 
-**Pixel Kiln** (trước đây tạm gọi Pixel Kiln; chủ dự án chọn tên ngày 2026-11-22) biến `preview-app` từ trình xem asset của riêng Tiên Nghịch thành một xưởng asset pixel 2D chạy hoàn toàn trên máy bạn và dùng lại được cho dự án khác.
+**Pixel Kiln** (trước đây tạm gọi Pixel Studio; chủ dự án chọn tên Pixel Kiln ngày 2026-11-22) biến `preview-app` từ trình xem asset của riêng Tiên Nghịch thành một xưởng asset pixel 2D chạy hoàn toàn trên máy bạn và dùng lại được cho dự án khác.
 
 **Mục tiêu trung tâm:** chỉ cần một agent, Codex hoặc Antigravity, kết nối MCP của studio là tạo được cả bốn loại sản phẩm (asset, animation, VFX, audio); không bắt buộc có cả hai. Bạn là người duyệt cuối. Studio không phụ thuộc PixelLab hay dịch vụ tạo hình trả phí nào.
 
