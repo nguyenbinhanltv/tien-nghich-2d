@@ -9,6 +9,7 @@ import { clipSpec, expectedFrames, isShipped, listFrames, milestones } from './a
 import { problem } from './errors.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock } from './fsutil.mjs';
 import { readInside } from './files.mjs';
+import { stampOf } from './rules.mjs';
 
 export const SUBMISSIONS_FILE = 'studio-submissions.jsonl';
 const MAX_PNG_BYTES = 96 * 1024, MAX_BATCH_FRAMES = 128, MAX_BATCH_BYTES = 4 * 1024 * 1024;
@@ -206,7 +207,7 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
       for (const g of provs) {
         const mine = g.names ? plan.filter(p => g.names.includes(p.f.name)) : plan;
         if (!mine.length) continue;
-        const record = {at: new Date().toISOString(), agent: caller.agent, session: caller.session, kind: 'frames', ...g.prov,
+        const record = {at: new Date().toISOString(), agent: caller.agent, session: caller.session, kind: 'frames', ...g.prov, rules: stampOf(pack, palette),
           frames: mine.map(p => ({name: p.f.name, file: p.rel, sha256: sha256(p.f.bytes), width: w, height: h, created: !p.exists})),
           gates: {errors: 0, warnings: report.frames.reduce((n, x) => n + x.warnings, 0)}};
         // A resubmission that wrote nothing adds no provenance: the pixels' origin is the first record.

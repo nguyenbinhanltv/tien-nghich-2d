@@ -44,6 +44,10 @@ export function openStudioDb(dir) {
       for (const table of ['checks', 'events']) {
         if (!connection.prepare(`PRAGMA table_info(${table})`).all().some(c => c.name === 'evidence')) connection.exec(`ALTER TABLE ${table} ADD COLUMN evidence TEXT`);
       }
+      // What runs cost in generations and wall time (quota.mjs). The studio knows no prices.
+      connection.exec(`CREATE TABLE IF NOT EXISTS spend(seq INTEGER PRIMARY KEY, ts TEXT NOT NULL, agent TEXT NOT NULL, session TEXT NOT NULL, tool TEXT NOT NULL,
+          kind TEXT NOT NULL, generations INTEGER NOT NULL, est_wall_ms INTEGER NOT NULL DEFAULT 0, wall_ms INTEGER, ok INTEGER, asset TEXT);
+        CREATE INDEX IF NOT EXISTS spend_by_agent ON spend(agent, seq);`);
       try { fs.chmodSync(file, 0o600); } catch { /* best effort */ }
       db = connection;
       return db;
@@ -61,6 +65,17 @@ export function openStudioDb(dir) {
       if (!d) return [];
       return d.prepare('SELECT ts,stage,content,session,agent,independent,pass,errors,warnings,evidence FROM checks WHERE asset=? ORDER BY seq DESC LIMIT ?')
         .all(asset, limit).map(r => ({...r, independent: !!r.independent, pass: !!r.pass, evidence: r.evidence ? JSON.parse(r.evidence) : null}));
+    },
+    /** A run accepted by the quota: recorded when it starts (with its estimate), completed by finishSpend. */
+    recordSpend({agent, session, tool, kind, generations, estWallMs = 0, asset = null}) {
+      return Number(open(true).prepare('INSERT INTO spend(ts,agent,session,tool,kind,generations,est_wall_ms,asset) VALUES(?,?,?,?,?,?,?,?)').run(now(), agent, session, tool, kind, generations, estWallMs, asset).lastInsertRowid);
+    },
+    finishSpend(id, {wallMs, ok}) { open(true).prepare('UPDATE spend SET wall_ms=?, ok=? WHERE seq=?').run(Math.round(wallMs), ok ? 1 : 0, id); },
+    spend({limit = 5000} = {}) {
+      const d = open(false);
+      if (!d) return [];
+      return d.prepare('SELECT * FROM spend ORDER BY seq DESC LIMIT ?').all(limit).map(r => ({id: r.seq, at: r.ts, agent: r.agent, session: r.session, tool: r.tool, kind: r.kind, generations: r.generations,
+        estWallMs: r.est_wall_ms, wallMs: r.wall_ms ?? 0, ok: r.ok === null ? null : !!r.ok, asset: r.asset}));
     },
     addEvent({request, key, rev, kind, agent, session, text, replyTo = null, resolves = false, evidence = null}) {
       const d = open(true);

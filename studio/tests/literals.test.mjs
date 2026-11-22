@@ -67,6 +67,7 @@ const FIXTURE_TESTS = new Set([
   'mcp/checks.test.mjs',
   'mcp/eval.test.mjs',
   'mcp/forge-tools.test.mjs',
+  'mcp/handoff.test.mjs',
   'mcp/http.test.mjs',
   'mcp/humanonly-p3b.test.mjs',
   'mcp/humanonly.test.mjs',

@@ -2,6 +2,7 @@
 import { h, button, fill } from './dom.mjs';
 import { badge, failure } from './common.mjs';
 import { filterLedger } from './model.mjs';
+import { handoffSection, rulesSection } from './handoff.mjs';
 
 const ROWS = 200;
 
@@ -26,6 +27,8 @@ export async function renderLedger(app, sel, box) {
   const field = (value, need) => value == null || value === '' ? (need ? h('span', 'nr', nr) : '') : String(value);
   fill(box,
     h('section', 'sec', h('h2', '', ctx.t('ledger.disclosure')), h('pre', 'disclosure', ledger.disclosure.text), h('div', 'actions', copy, dl('md', 'en'), dl('md', 'vi'), dl('json', ctx.lang))),
+    rulesSection(ctx, ledger.rules),
+    handoffSection(app),
     h('section', 'sec', h('h2', '', ctx.t('ledger.decisions')),
       ledger.decisions.length ? h('ul', 'decisions', ...ledger.decisions.flatMap(d => d.flags.map(f => h('li', '', h('b', '', d.id), d.count ? ` (${d.count})` : '', ': ', f)))) : h('p', 'muted', ctx.t('ledger.noDecisions'))),
     h('section', 'sec', h('h2', '', ctx.t('ledger.components')),

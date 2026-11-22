@@ -7,6 +7,8 @@ import path from 'node:path';
 import { loadPackSync } from '../../../core/pack.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
 import { reviewKeys, touchedAssets } from './links.mjs';
+import { openStudioDb } from '../../../core/studio-db.mjs';
+import { inWindow, quotaConfig, totals } from '../../../core/quota.mjs';
 
 const TIMEOUT_MS = 2000, LINKS_TTL_MS = 8000;
 const linkCache = new Map();
@@ -57,7 +59,21 @@ export async function handle(req, res, url, context) {
     res.end(JSON.stringify(data));
   }
   if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The Jobs tab API is read-only');
-  if (url.pathname.slice(prefix.length) !== 'feed') throw problem(404, 'unknown_route', 'Unknown Jobs route');
+  const route = url.pathname.slice(prefix.length);
+  if (route === 'quota') {
+    // Generations and wall time per agent and per kind of work, and the pack's ceiling (quota.mjs). Read-only; the studio knows no prices.
+    const config = quotaConfig(loadPackSync(root, undefined, {verifyFiles: false}));
+    const db = openStudioDb(libraryOf(root, context));
+    try {
+      const rows = db.spend();
+      const windowed = inWindow(rows, config);
+      const t = totals(windowed);
+      return send(200, {window: config.window ?? 'all', ceilings: {all: config.ceilings ?? null, perAgent: config.perAgent ?? null, perRun: config.perRun ?? null},
+        all: t.all, byAgent: t.byAgent, byKind: t.byKind, byAgentKind: Object.entries(t.byAgentKind).map(([k, v]) => ({agent: k.split('\0')[0], kind: k.split('\0')[1], ...v})),
+        recent: windowed.slice(0, 12).map(r => ({at: r.at, agent: r.agent, session: r.session, tool: r.tool, kind: r.kind, generations: r.generations, wallMs: r.wallMs || r.estWallMs, finished: r.wallMs > 0}))});
+    } finally { db.close(); }
+  }
+  if (route !== 'feed') throw problem(404, 'unknown_route', 'Unknown Jobs route');
   const sinceParam = Number(url.searchParams.get('since') ?? 0);
   const since = Number.isSafeInteger(sinceParam) && sinceParam >= 0 ? sinceParam : 0;
   const [activity, jobs] = await Promise.all([upstream(address, `/mcp/activity?since=${since}`), upstream(address, '/mcp/jobs')]);
