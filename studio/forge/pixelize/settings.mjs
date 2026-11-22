@@ -45,7 +45,7 @@ export async function settingsFromPack(pack, root, profile) {
     if (!resolved) throw new Error(`no profile "${profile}" in the pack's design manifests`);
   }
   return {palette, outline: {mode: rule.mode, color: outline?.rgb ?? null, hex: outline?.hex ?? null, borderIsEdge: rule.borderIsEdge},
-    alpha: pack.rules.alpha, profile: resolved};
+    alpha: pack.rules.alpha, profile: resolved, hold: pack.forge?.pixelize?.hold ?? null};
 }
 
 /**
