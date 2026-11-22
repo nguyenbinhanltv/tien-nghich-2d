@@ -62,21 +62,23 @@ class MistArchiveTests(unittest.TestCase):
         for platform in ("web","mobile"):
             chunk=ROOT/"assets/atlases_longtime"/platform/"mist_archive"
             manifest=json.loads((chunk/"chunk-manifest.json").read_bytes())
-            self.assertEqual(manifest["asset_ids"],[ASSET])
-            self.assertEqual(manifest["frame_count"],24)
+            self.assertIn(ASSET,manifest["asset_ids"])  # other mist_archive characters share the chunk
+            self.assertGreaterEqual(manifest["frame_count"],24)
             self.assertEqual(manifest["page_count"],1)
             self.assertEqual(manifest["readiness"],"packed")
             page=manifest["pages"][0]
             self.assertEqual(sha(chunk/page["image"]),page["png_sha256"])
             self.assertEqual(sha(chunk/page["json"]),page["json_sha256"])
             data=json.loads((chunk/page["json"]).read_bytes())
-            self.assertEqual(set(data["frames"]),{f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")})
+            self.assertLessEqual({f"longtime/{ASSET}/{p.stem}" for p in NATIVE.glob("*.png")},set(data["frames"]))
             with Image.open(chunk/page["image"]) as atlas:
                 if platform=="mobile":
                     self.assertEqual((data["meta"]["padding"],data["meta"]["extrude"]),(2,1))
                     self.assertLessEqual(manifest["page_count"],manifest["mobile_page_budget"])
                     self.assertTrue(all(s<=1024 and s & (s-1)==0 for s in atlas.size))
                 for key,entry in data["frames"].items():
+                    if not key.startswith(f"longtime/{ASSET}/"):
+                        continue
                     self.assertEqual((entry["pivotPx"],entry["durationMs"]),([0,0],0))
                     rect=entry["frame"]
                     x,y=rect["x"],rect["y"]

@@ -1,26 +1,27 @@
 {
   "asset_ids": [
+    "lt_binding_archivist",
     "lt_mist_archive"
   ],
   "chunk_group": "mist_archive",
-  "frame_count": 24,
+  "frame_count": 96,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 24,
-      "height": 16,
+      "frames": 96,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "ac72b5743ea9d3cdfc3ceed34fdb179bfdee8e97942aa86da4ad9c66c8ec7ffd",
-      "png_sha256": "ba7a60df95797e9be1e92a150fdba4ffa9fdea5c2f33c373eb3f74c76757a60d",
-      "rgba8_bytes": 32768,
-      "width": 512
+      "json_sha256": "3df94d4c7d862cf9c718e162972dceaffbaf4680ba887e4ba5b1fd23ee071db6",
+      "png_sha256": "3411b2c5577d723725ff341b05639c8b422785a1745c4d21e33166b3498cca09",
+      "rgba8_bytes": 2097152,
+      "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 32768,
-  "rgba8_mib": 0.0312,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
