@@ -41,6 +41,8 @@ const FIXTURE_TESTS = new Set([
   'mcp/figure-tools.test.mjs',
   'mcp/lineup-tools.test.mjs',
   'mcp/motion-tools.test.mjs',
+  'mcp/timeline-tools.test.mjs',
+  'ui/timeline/timeline.test.mjs',
   'ui/tabs/review/art-approvals.test.mjs',
   'ui/tabs/review/owner-approval-all-art.test.mjs',
   'audio/tests/determinism.test.mjs',
