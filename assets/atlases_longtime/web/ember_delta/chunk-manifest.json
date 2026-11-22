@@ -1,26 +1,27 @@
 {
   "asset_ids": [
-    "lt_ember_delta"
+    "lt_ember_delta",
+    "lt_furnace_ferryman"
   ],
   "chunk_group": "ember_delta",
-  "frame_count": 24,
+  "frame_count": 96,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 24,
-      "height": 16,
+      "frames": 96,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "3839b7fa4fc48fefc6a18e5031fe305e9bffcc3330006139940b546bffe372fd",
-      "png_sha256": "dadcdab3b81173ad1efb990135abe6b57e1a1168792dc78014fa79efd9f9fcbc",
-      "rgba8_bytes": 32768,
-      "width": 512
+      "json_sha256": "a178065d7d5b77ca476564a7c1201900680422845f5099c2121961c9a2ec863e",
+      "png_sha256": "2fa87a32ce5b835d10fbbea7fa99695a19ff66f28c79cf13f5f665bd9a6db8eb",
+      "rgba8_bytes": 2097152,
+      "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 32768,
-  "rgba8_mib": 0.0312,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
