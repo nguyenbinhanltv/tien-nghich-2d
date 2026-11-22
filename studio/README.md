@@ -15,7 +15,7 @@ Serve the repository root so `/studio/`, `/assets/`, and `/tools/generators/pale
 node studio/serve.mjs --port 4173
 
 # Or Python 3 stdlib fallback
-python studio/serve.py --port 4173
+python playables/serve.py --port 4173
 ```
 
 Open: `http://127.0.0.1:4173/studio/` (shell) or `http://127.0.0.1:4173/studio/?tab=arena` (previewer)

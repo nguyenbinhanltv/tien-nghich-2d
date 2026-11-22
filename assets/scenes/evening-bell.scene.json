@@ -25,6 +25,6 @@
       "Bronze chime effect fired 260 ms into the strike (room.js paint)",
       "The training hall trial: guard bash AI, casting, dash, upgrade choice, seal and gate (trial.js, hall.js)"
     ],
-    "note": "Hosted unchanged: studio/courtyard/room.js runs inside the Sandbox frame. Its art is sheet-based and local to the playable, not in the catalog."
+    "note": "Hosted unchanged: playables/courtyard/room.js runs inside the Sandbox frame. Its art is sheet-based and local to the playable, not in the catalog."
   }
 }

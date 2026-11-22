@@ -16,14 +16,19 @@ import {
 import { ToolError, ToolRegistry, scopeAllows } from './registry.mjs';
 import { validate } from './schema.mjs';
 
-export const SERVER_INFO = Object.freeze({ name: 'tien-nghich-2d-studio', title: 'Tien Nghich 2D Studio', version: '0.1.0' });
-const INSTRUCTIONS =
-  'Asset studio for Tien Nghich 2D. Call studio_project_info first for the palette, size classes, rules and frame-key templates, and studio_guide for the shortest correct tool sequence of a task. ' +
-  'Only a human approves art or signs audio listening; no tool here can do either.';
-/** The server's own text plus the project's pixel-art rules, which live in the project pack (agentGuidance.rules), not in this code. */
-const instructionsFor = (project) => {
+export const STUDIO_VERSION = '0.1.0';
+/** Server identity and instructions for one project: the name and the pixel-art rules come from its pack, never from this code. */
+const identityOf = (project) => {
+  let pack;
+  try { pack = project.identity?.(); } catch { /* a broken pack is reported by the tools, not by the handshake */ }
+  pack ??= { id: 'studio-project', name: 'this project' };
+  const text = `Asset studio for ${pack.name}. Call studio_project_info first for the palette, size classes, rules and frame-key templates, and studio_guide for the shortest correct tool sequence of a task. ` +
+    'Only a human approves art or signs audio listening; no tool here can do either.';
   const rules = project?.agentGuidance?.()?.rules;
-  return rules?.length ? `${INSTRUCTIONS}\n\nProject rules:\n${rules.map((r) => `- ${r}`).join('\n')}` : INSTRUCTIONS;
+  return {
+    serverInfo: Object.freeze({ name: `${pack.id}-studio`, title: `${pack.name} Studio`, version: STUDIO_VERSION }),
+    instructions: rules?.length ? `${text}\n\nProject rules:\n${rules.map((r) => `- ${r}`).join('\n')}` : text,
+  };
 };
 
 const cleanName = (v) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 64) : '');
@@ -52,6 +57,9 @@ export class McpServer {
     this.legacy = null; // { protocolVersion } after a successful `initialize`
     this.clientInfo = null;
   }
+
+  get identity() { return this.#identity ??= identityOf(this.project); }
+  #identity;
 
   get agent() {
     return this.agentOverride || cleanName(this.clientInfo?.name) || 'unknown';
@@ -103,7 +111,7 @@ export class McpServer {
 
   #withMeta(era, result) {
     if (era !== 'modern') return result;
-    return { resultType: 'complete', ...result, _meta: { ...result._meta, [META_SERVER_INFO]: SERVER_INFO } };
+    return { resultType: 'complete', ...result, _meta: { ...result._meta, [META_SERVER_INFO]: this.identity.serverInfo } };
   }
 
   async #dispatch(method, params) {
@@ -132,8 +140,8 @@ export class McpServer {
     return {
       protocolVersion,
       capabilities: { tools: { listChanged: false } },
-      serverInfo: SERVER_INFO,
-      instructions: instructionsFor(this.project),
+      serverInfo: this.identity.serverInfo,
+      instructions: this.identity.instructions,
     };
   }
 
@@ -144,10 +152,10 @@ export class McpServer {
       resultType: 'complete',
       supportedVersions: [...MODERN_VERSIONS],
       capabilities: { tools: {} },
-      instructions: instructionsFor(this.project),
+      instructions: this.identity.instructions,
       ttlMs: 60_000,
       cacheScope: 'private',
-      _meta: { [META_SERVER_INFO]: SERVER_INFO },
+      _meta: { [META_SERVER_INFO]: this.identity.serverInfo },
     };
   }
 

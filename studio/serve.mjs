@@ -1,30 +1,26 @@
 #!/usr/bin/env node
 /**
- * Zero-dependency static dev server for Tien Nghich 2D Previewer.
- * Serves the repository root so /studio/ (also reachable as /preview-app/), /assets/, and
- * /tools/generators/palette.json
- * are all reachable, and exposes /__preview_index.json for live asset discovery.
+ * Zero-dependency static dev server for a studio project.
+ * The studio's own files answer under /studio/; every other URL is a file of the project (the
+ * directory holding studio.project.json). The pack's `serve` block adds overlays, aliases,
+ * page rewrites and project-side hooks.
  *
  * Usage:
- *   node studio/serve.mjs [--port 4173] [--host 127.0.0.1]
+ *   node studio/serve.mjs [--project <dir>] [--port 4173] [--host 127.0.0.1] [--revision-dir <dir>]
  */
 
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { loadPackSync } from './core/pack.mjs';
 import { studioApi } from './server/catalog-api.mjs';
 import { tabApi } from './server/tab-api.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const REPO_ROOT = path.resolve(__dirname, '..');
-// Project-specific directories come from the project pack (studio.project.json).
-const PACK = loadPackSync(REPO_ROOT, undefined, { verifyFiles: false });
-const DIRS = PACK.directories;
-const LEGACY_PREFIX = '/preview-app';
-const LEGACY_TABS = ['arena', 'inspector'];
+const STUDIO_DIR = path.dirname(__filename);
+const DEFAULT_ROOT = path.resolve(STUDIO_DIR, '..');
+const STUDIO_PREFIX = '/studio/';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -43,73 +39,36 @@ const MIME_TYPES = {
   '.md': 'text/markdown; charset=utf-8',
 };
 
-async function walkFiles(relDir, predicate) {
-  const absDir = path.join(REPO_ROOT, relDir);
-  const results = [];
-
-  async function visit(dir) {
-    let entries;
-    try {
-      entries = await fs.readdir(dir, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const ent of entries) {
-      const full = path.join(dir, ent.name);
-      if (ent.isDirectory()) {
-        await visit(full);
-      } else if (ent.isFile()) {
-        const rel = path.relative(REPO_ROOT, full).replace(/\\/g, '/');
-        if (!predicate || predicate(rel)) results.push(rel);
-      }
-    }
-  }
-
-  await visit(absDir);
-  results.sort();
-  return results;
-}
-
-export async function buildPreviewIndex() {
-  const [
-    atlases,
-    processedPngs,
-    rawEnvironmentPngs,
-    rawCharacterPngs,
-    processedJsons,
-    rawEnvJsons,
-    fixtureAtlases,
-    fixturePngs,
-  ] = await Promise.all([
-    walkFiles(DIRS.atlases.core + '/web', (f) => /atlas-\d+\.json$/.test(f)),
-    walkFiles(DIRS.processed.core, (f) => f.endsWith('.png')),
-    walkFiles(DIRS.raw.environment, (f) => f.endsWith('.png')),
-    walkFiles(DIRS.raw.characters, (f) => f.endsWith('.png')),
-    walkFiles(DIRS.processed.core, (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
-    walkFiles(DIRS.raw.environment, (f) => /(bitmask|blob47|autotile).*\.json$/i.test(f)),
-    walkFiles(DIRS.fixtures.atlases, (f) => f.endsWith('.json')),
-    walkFiles(DIRS.fixtures.pngs, (f) => f.endsWith('.png')),
-  ]);
-
-  return {
-    generatedAt: new Date().toISOString(),
-    repoRoot: path.basename(REPO_ROOT),
-    atlases,
-    processedPngs,
-    rawEnvironmentPngs,
-    rawCharacterPngs,
-    bitmaskJsons: [...processedJsons, ...rawEnvJsons],
-    fixtureAtlases,
-    fixturePngs,
+export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir } = {}) {
+  const REPO_ROOT = path.resolve(root);
+  const PACK = loadPackSync(REPO_ROOT, undefined, { verifyFiles: false });
+  const SERVE = PACK.serve ?? {};
+  const publicPath = relative => !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>
+    !['..', '.git', PACK.directories.revisions].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
+  const hooks = new Map((SERVE.hooks ?? []).map(h => [h.path, h.module]));
+  const underPrefix = (reqPath, prefix) => reqPath === prefix || reqPath.startsWith(prefix + '/');
+  const mounts = [...(SERVE.mounts ?? [])].sort((x, y) => y.url.length - x.url.length);
+  const exists = async (base, rel) => {
+    try { const st = await fs.stat(path.join(base, rel)); return st.isFile() || (st.isDirectory() && await fs.stat(path.join(base, rel, 'index.html')).then(x => x.isFile(), () => false)); } catch { return false; }
   };
-}
-
-function publicPath(relative) {
-  return !path.isAbsolute(relative) && relative.split(/[\\/]/).every(part =>
-    !['..', '.git', DIRS.revisions].includes(part.toLowerCase()) && !/[:. ]$|:/.test(part));
-}
-
-export function createPreviewServer({ revisionDir } = {}) {
+  // A mount must be a real directory inside the project, not under a blocked directory, whatever symlinks it passes through.
+  // Not cached: a mount may be a directory that a build creates after the server started.
+  const mountOk = async mount => {
+    if (!publicPath(mount.dir)) return false;
+    try { return publicPath(path.relative(await fs.realpath(REPO_ROOT), await fs.realpath(path.join(REPO_ROOT, mount.dir)))); } catch { return false; }
+  };
+  /** Which directory answers a URL path: the studio first under /studio/, then the pack's mounts (any URL prefix), else the project. */
+  const locate = async reqPath => {
+    const underStudio = reqPath.startsWith(STUDIO_PREFIX);
+    if (underStudio && await exists(STUDIO_DIR, reqPath.slice(STUDIO_PREFIX.length))) return {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)};
+    for (const mount of mounts) {
+      if (!reqPath.startsWith(mount.url)) continue;
+      const base = path.join(REPO_ROOT, mount.dir), rel = reqPath.slice(mount.url.length);
+      if (!await mountOk(mount) || !await exists(base, rel)) continue;
+      return {base, rel, mount: true};
+    }
+    return underStudio ? {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)} : {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
+  };
   let editor, studio, tabs, mcp;
   const server = http.createServer(async (req, res) => {
     try {
@@ -121,7 +80,7 @@ export function createPreviewServer({ revisionDir } = {}) {
         return;
       }
       if (urlObj.pathname.startsWith('/api/editor/')) {
-        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir));
+        editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT));
         await (await editor).handle(req, res, urlObj, server.address());
         return;
       }
@@ -136,27 +95,24 @@ export function createPreviewServer({ revisionDir } = {}) {
         return;
       }
       let reqPath = decodeURIComponent(urlObj.pathname);
-      // Legacy alias: the app used to live at /preview-app/ and other tools still use that URL.
-      if (reqPath === LEGACY_PREFIX || reqPath.startsWith(LEGACY_PREFIX + '/'))
-        reqPath = '/studio' + reqPath.slice(LEGACY_PREFIX.length);
-      // The shell owns /studio/. The original two-tab previewer keeps answering its own
-      // deep links (/studio/?tab=arena|inspector, used by tests, docs and the library page).
-      if (['/studio', '/studio/', '/studio/index.html'].includes(reqPath) && LEGACY_TABS.includes(urlObj.searchParams.get('tab')))
-        reqPath = '/studio/previewer.html';
+      // Aliases from the pack: a project's old URL prefix keeps answering as its new one.
+      for (const alias of SERVE.aliases ?? [])
+        if (underPrefix(reqPath, alias.from)) { reqPath = alias.to + reqPath.slice(alias.from.length); break; }
+      // Page rewrites from the pack (the project's own page answers some deep links of /studio/).
+      for (const page of SERVE.pages ?? []) {
+        const here = [page.path, page.path + 'index.html'].includes(reqPath) || reqPath === page.path.replace(/\/$/, '');
+        if (here && Object.entries(page.query).every(([k, values]) => values.includes(urlObj.searchParams.get(k)))) { reqPath = page.serve; break; }
+      }
 
       if (reqPath === '/') {
-        res.writeHead(302, { Location: '/studio/' });
+        res.writeHead(302, { Location: STUDIO_PREFIX });
         res.end();
         return;
       }
 
-      if (reqPath === '/__preview_index.json') {
-        const payload = await buildPreviewIndex();
-        res.writeHead(200, {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'no-store',
-        });
-        res.end(JSON.stringify(payload, null, 2));
+      if (hooks.has(reqPath)) {
+        const mod = await import(pathToFileURL(path.join(REPO_ROOT, hooks.get(reqPath))).href);
+        await mod.handle(req, res, { root: REPO_ROOT, pack: PACK });
         return;
       }
 
@@ -166,10 +122,10 @@ export function createPreviewServer({ revisionDir } = {}) {
         return;
       }
 
-      // Resolve safely inside REPO_ROOT
-      const cleaned = reqPath.replace(/^\/+/, '');
-      let absPath = path.resolve(REPO_ROOT, cleaned);
-      if (!publicPath(cleaned) || !publicPath(path.relative(REPO_ROOT, absPath))) {
+      // Resolve safely inside the directory that owns the URL
+      const {base, rel: cleaned, mount} = await locate(reqPath);
+      let absPath = path.resolve(base, cleaned);
+      if (!publicPath(cleaned) || !publicPath(path.relative(base, absPath))) {
         res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('Forbidden');
         return;
@@ -189,7 +145,9 @@ export function createPreviewServer({ revisionDir } = {}) {
       }
 
       absPath = await fs.realpath(absPath);
-      if (!publicPath(path.relative(await fs.realpath(REPO_ROOT), absPath))) {
+      const realRoot = await fs.realpath(mount ? REPO_ROOT : base);
+      const inside = path.relative(realRoot, absPath);
+      if (inside.startsWith('..') || path.isAbsolute(inside) || !publicPath(inside)) {
         res.writeHead(403);
         res.end('Forbidden');
         return;
@@ -214,22 +172,25 @@ export function createPreviewServer({ revisionDir } = {}) {
 function parseArgs(argv) {
   let port = Number(process.env.PORT || 4173);
   let host = process.env.HOST || '127.0.0.1';
-  let revisionDir;
+  let revisionDir, root = DEFAULT_ROOT;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--port' && argv[i + 1]) port = Number(argv[++i]);
     else if (argv[i] === '--host' && argv[i + 1]) host = argv[++i];
+    else if (argv[i] === '--project' && argv[i + 1]) root = path.resolve(argv[++i]);
     else if (argv[i] === '--revision-dir' && argv[i + 1]) revisionDir = argv[++i];
   }
-  return { port, host, revisionDir };
+  return { port, host, revisionDir, root };
 }
 
-/** Start the server from command-line arguments (used directly and by the preview-app shim). */
+const PACKNAME = root => { try { return loadPackSync(root, undefined, { verifyFiles: false }).name; } catch { return root; } };
+
+/** Start the server from command-line arguments (used directly and by project shims). */
 export function runCli(argv = process.argv.slice(2)) {
-  const { port, host, revisionDir } = parseArgs(argv);
-  const server = createPreviewServer({ revisionDir });
+  const { port, host, revisionDir, root } = parseArgs(argv);
+  const server = createPreviewServer({ root, revisionDir });
   server.listen(port, host, () => {
     const addr = server.address();
-    console.log(`Tien Nghich 2D Previewer serving repo root at http://${host}:${addr.port}/studio/`);
+    console.log(`Studio serving ${PACKNAME(root)} at http://${host}:${addr.port}/studio/`);
   });
   return server;
 }

@@ -76,7 +76,7 @@ test('resolveClip / resolveVariant / clamp / step', () => {
   const core = {group: 'core', clips: [clip('all', 12, [sec('flash', 0, 1), sec('burst', 2, 4)])], variants: []};
   assert.equal(resolveClip(core, 'burst').focus.name, 'burst');
   assert.equal(resolveClip(core, 'nope').focus, null);
-  const lt = {group: 'longtime', clips: [clip('place', 5, []), clip('release', 8, [])], variants: [{id: 'a'}, {id: 'b'}]};
+  const lt = {group: 'design', clips: [clip('place', 5, []), clip('release', 8, [])], variants: [{id: 'a'}, {id: 'b'}]};
   assert.equal(resolveClip(lt, 'release').clip.id, 'release'); assert.equal(resolveClip(lt, 'x').clip.id, 'place');
   assert.equal(resolveVariant(lt, 'b'), 'b'); assert.equal(resolveVariant(lt, 'zz'), 'a'); assert.equal(resolveVariant(core, 'x'), '');
   assert.equal(clampFrame(99, 12), 11); assert.equal(clampFrame(null, 12), 0); assert.equal(stepFrame(0, -1, 12), 11); assert.equal(stepFrame(11, 1, 12), 0);

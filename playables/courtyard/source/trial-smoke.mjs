@@ -1,6 +1,6 @@
 ﻿import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {createPreviewServer} from '../../serve.mjs';
+import {createPreviewServer} from '../../../studio/serve.mjs';
 import {Trial} from '../trial.js';
 
 const {chromium} = createRequire(import.meta.url)('playwright-core');

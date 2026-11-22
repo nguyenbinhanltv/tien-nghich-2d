@@ -188,5 +188,19 @@ class TestBloodSeaAnimQA(unittest.TestCase):
             self.assertIn("web_dirty_transparent", codes)
 
 
+
+
+class DefaultRuntimeLookupTest(unittest.TestCase):
+    def test_cli_auto_discovers_the_moved_runtime(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as out:
+            result = subprocess.run([sys.executable, str(REPO / "tools/scripts/qa_blood_sea_anim.py"),
+                                     "--encounter-dir", str(REPO / "assets/encounter/blood-sea"), "--out-dir", out],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads((Path(out) / "blood-sea-qa-report.json").read_text(encoding="utf-8"))
+            self.assertTrue(report["runtime"]["checked"], "no --runtime-dir: the audit must find playables/blood-sea itself")
+
+
 if __name__ == "__main__":
     unittest.main()

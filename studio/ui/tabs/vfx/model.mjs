@@ -48,8 +48,8 @@ export function applyFilters(cards, state) {
 export const clampFrame = (frame, count) => (count <= 0 ? 0 : Math.min(Math.max(Number.isInteger(frame) ? frame : 0, 0), count - 1));
 
 /**
- * The clip the URL selects. Longtime effects have real clips (`place`, `release`); a core effect has one clip
- * and `clip` may name one of its sections (`#/vfx/hit_spark?clip=burst`), which narrows playback to that range.
+ * The clip the URL selects. Design effects have real clips (`place`, `release`); a core effect has one clip
+ * and `clip` may name one of its sections (`#/vfx/<id>?clip=<clip>`), which narrows playback to that range.
  */
 export function resolveClip(effect, name) {
   const real = effect.clips.find(c => c.id === name);

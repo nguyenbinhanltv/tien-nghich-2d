@@ -23,7 +23,7 @@ export async function build(desc) {
       mine.push(...rest);
       const doc = {frames: mine.map(f => ({filename: f.key, frame: {x: f.x, y: f.y, w: f.w, h: f.h}, rotated: false, trimmed: false, spriteSourceSize: {x: 0, y: 0, w: f.w, h: f.h},
         sourceSize: {w: f.w, h: f.h}, duration: f.durationMs ?? 100})),
-        meta: {app: 'tien-nghich studio export', version: '1', image: p.image, format: 'RGBA8888', size: {w: p.width, h: p.height}, scale: '1', frameTags: tags}};
+        meta: {app: 'pixel studio export', version: '1', image: p.image, format: 'RGBA8888', size: {w: p.width, h: p.height}, scale: '1', frameTags: tags}};
       files.push({name: `aseprite/${stem(asset)}${desc.pages.length > 1 ? `.${p.name}` : ''}.json`, data: json(doc)});
     }
   }

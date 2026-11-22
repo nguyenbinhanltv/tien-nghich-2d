@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeSection, coreEffect, longtimeEffect, frameMetrics, checkAcceptance, parseCoreRubric, parseLongtimeSelfScores, specSummary, diffSummaries, sha256Lf } from './data.mjs';
+import { normalizeSection, coreEffect, designEffect, frameMetrics, checkAcceptance, parseCoreRubric, parseDesignSelfScores, specSummary, diffSummaries, sha256Lf } from './data.mjs';
 
 test('sections normalise from descriptor tags and index tags; bad ones drop', () => {
   assert.deepEqual(normalizeSection({name: 'fade', from: 5, to: 11, repeat: '1'}), {name: 'fade', from: 5, to: 11, kind: 'once', role: null});
@@ -15,12 +15,12 @@ test('coreEffect keeps per-frame durations, sections and events', () => {
   assert.deepEqual(e.clips[0].ms, [33, 34]); assert.deepEqual(e.clips[0].events, [{name: 'hit', frame: 0}]); assert.deepEqual(e.clips[0].paths[''], ['a_0.png', 'a_1.png']);
 });
 
-test('longtimeEffect expands clips x palettes into frame paths and filters events by clip', () => {
+test('designEffect expands clips x palettes into frame paths and filters events by clip', () => {
   const entry = {id: 'lt', native_px: [32, 32], pivot_px: [16, 16], loop: 'one_shot', chunk_group: 'armory',
     clips: {hit: {n: 2, ms: [33, 40], kind: 'once'}, off: {n: 1, ms: [50], kind: 'once'}}, events: [['hit', 'hit', 0], ['bye', 'off', 0]],
     palettes: {stone: {ramps: ['ink']}, spirit: {ramps: ['soul']}}};
   const have = new Set(['p/hit_stone_0.png', 'p/hit_stone_1.png']);
-  const e = longtimeEffect(entry, {sourceLabel: 'L', readiness: 'packed', pathTemplate: 'p/{clip}_{palette}_{n}.png', existing: have});
+  const e = designEffect(entry, {sourceLabel: 'L', readiness: 'packed', pathTemplate: 'p/{clip}_{palette}_{n}.png', existing: have});
   assert.deepEqual(e.variants.map(v => v.id), ['stone', 'spirit']);
   assert.deepEqual(e.clips[0].paths.stone, ['p/hit_stone_0.png', 'p/hit_stone_1.png']);
   assert.deepEqual(e.clips[0].paths.spirit, [null, null]); // missing files stay null, never invented
@@ -43,7 +43,7 @@ test('rubric and self-score tables parse; family rows fan out', () => {
   assert.deepEqual(r.get('hit_spark').v4, {originality: 4, readability: 8, consistency: 8, wow: 4});
   assert.deepEqual(r.get('breakthrough_aura_b').auditErrors, {v1: '0-3', v4: 0}); assert.equal(r.has('other'), false);
   const lt = '### 8.4 Tự chấm\n\n| ID | Đọc | Tổng | Điểm yếu thật |\n|---|---:|---:|---|\n| `lt_fx_impact` | 6 | 5 | a | b |\n';
-  assert.deepEqual(parseLongtimeSelfScores(lt, ['lt_fx_impact']).get('lt_fx_impact'), {readability: 6, overall: 5, weakness: 'a | b'});
+  assert.deepEqual(parseDesignSelfScores(lt, ['lt_fx_impact']).get('lt_fx_impact'), {readability: 6, overall: 5, weakness: 'a | b'});
 });
 
 test('specSummary tags ramp colours with palette ids; diffSummaries reports what changed', () => {

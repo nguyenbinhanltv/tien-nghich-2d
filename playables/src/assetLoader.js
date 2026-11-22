@@ -14,7 +14,7 @@ import {
   buildCandidateFrameKeys,
   primaryContractKey,
 } from './assetKeys.js';
-import { createDefaultBitmaskMap, parseWorkerBitmaskJson } from './blob47.js';
+import { createDefaultBitmaskMap, parseWorkerBitmaskJson } from '../../studio/src/blob47.js';
 
 const IMAGE_CACHE = new Map();
 

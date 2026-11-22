@@ -102,7 +102,7 @@
   "audio.otherMaster": "older master",
   "signoff.approved_before": "approved on record",
   "approval.title": "Approved outside the studio sign-off form",
-  "approval.text": "{by} listened to this and approved it ({pack}, {date}), before the studio existed or in chat. This is the project's record (assets/audio/listening_approvals.json), not a sign-off made here.",
+  "approval.text": "{by} listened to this and approved it ({pack}, {date}), before the studio existed or in chat. This is the project's record, not a sign-off made here.",
   "approval.stale": "{by} approved an earlier version of this master ({pack}, {date}). The master has changed since, so it needs a fresh listening.",
   "approval.noDate": "date not recorded",
   "approval.evidence": "Evidence:",
