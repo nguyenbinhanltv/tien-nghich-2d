@@ -119,3 +119,18 @@ test('build: a project that cannot be opened does not leave the build slot taken
   }
   fs.rmSync(empty, {recursive: true});
 });
+
+test('VFX-003 build: the recorder cuts the rebuilt sheet like studio_vfx_build, refuses a bad cut, and writes nothing the project tracks', { skip: haveFx ? false : 'the SpriteFX environment is not available' }, async () => {
+  const before = dirty();
+  const bad = await post({id: 'hit_spark', record: {first: 99}});
+  assert.equal(bad.error, 'bad_record');
+  const cut = (await post({id: 'hit_spark', record: {first: 0, last: 10, skip: 1, columns: 3}})).body;
+  assert.equal(cut.ok, true);
+  assert.deepEqual(cut.record.kept, [0, 2, 4, 6, 8, 10]);
+  assert.equal(cut.table.count, 6);
+  assert.equal(cut.sheet.frames.length, 6);
+  assert.deepEqual([cut.record.columns, cut.record.rows], [3, 2]);
+  assert.match(cut.record.text, /recorded frames 0\.\.10 of 12, skip 1/);
+  assert.match(cut.record.sheetSha256, /^[0-9a-f]{64}$/);
+  assert.equal(dirty(), before);
+});

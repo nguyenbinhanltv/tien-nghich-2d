@@ -3,7 +3,7 @@
 //   GET effect?id=             one effect with frame paths, sections, events and the pack's floors
 //   GET evidence?id=           spec summaries, provenance and recorded + freshly computed audits, spec rounds
 //   GET floors                 the three floor colours, from the pack palette
-//   POST build {id, clip?, variant?}   human action: rebuild the committed spec with the registered SpriteFX adapter into scratch and audit it.
+//   POST build {id, clip?, variant?, record?: {first,last,skip,columns}}   human action: rebuild the committed spec with the registered SpriteFX adapter into scratch and audit it.
 //                              It reads the project and writes only the git-ignored scratch directory; no asset file, no review status.
 import fs from 'node:fs/promises';
 import { loadPack, buildCatalog } from '../../../core/index.mjs';
@@ -108,7 +108,7 @@ async function buildAction(req, root, context) {
     const recorded = prov?.render_sheets_sha256?.[spec?.name];
     if (recorded) reference = {source: 'sheet hash recorded in provenance', sha256: recorded};
   }
-  const result = await buildAndAudit({root, libraryDir: context.libraryDir, effect, specPath, deliveredPaths: sheetOf(effect, clip, variant), reference});
+  const result = await buildAndAudit({root, libraryDir: context.libraryDir, effect, specPath, deliveredPaths: sheetOf(effect, clip, variant), reference, record: body.record});
   return {...result, clip: clip.id, variant: variant || null};
 }
 

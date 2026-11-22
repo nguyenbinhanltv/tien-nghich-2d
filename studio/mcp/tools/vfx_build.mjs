@@ -5,6 +5,7 @@ import { crop, decodePng } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { callDir, shown } from '../workflow/forge.mjs';
 import { buildTwice, checkSpec, vfxAdapter } from '../workflow/vfx.mjs';
+import { composeSheet, describeRecord, recordedDurations, recordedEvents, resolveRecord } from '../workflow/vfx-record.mjs';
 
 export { checkSpec }; // kept here for callers that imported it from the tool
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
@@ -21,7 +22,7 @@ export default {
     'You get the frames as a contact sheet, SpriteFX\'s fault count and audit output (build: N faults), the frame table (count, size, anchor, fps, durations) and the project pixel-gate verdict. ' +
     'Plan the asset first with studio_asset_plan custom: {category:"vfx", size, pivot, clips:{<clip>:{frames, frameMs}}}; the number of frames SpriteFX renders (the sum of the phase ticks) must equal the clip\'s frames. ' +
     'submit=true commits the frames as raw frames of the clip (provenance keeps the spec and its hash). Specs cannot reference files.' +
-    ' dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
+    ' record {first, last, skip, columns} is the recorder: cut the exported sheet to frames first..last, keep one frame then leave skip out, and lay the kept frames out columns to a row (the kept count must equal the clip\'s frames; the cut and the recorded sheet\'s hash go into provenance). dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -30,6 +31,7 @@ export default {
       spec: { type: 'object', description: 'A SpriteFX effect spec: name, type, canvas, anchor, fps, seed, palette (a registered name), ramps (hex lists), phases, layers.' },
       clip: { type: 'string', maxLength: 24, description: 'The clip the frames belong to (default: the asset\'s only clip).' },
       submit: { type: 'boolean', description: 'Commit the frames as raw frames if the build is clean, deterministic and passes the pixel gates.' },
+      record: { type: 'object', properties: { first: { type: 'integer', minimum: 0 }, last: { type: 'integer', minimum: 0 }, skip: { type: 'integer', minimum: 0, description: 'Frames left out after each kept one (0 keeps every frame).' }, columns: { type: 'integer', minimum: 1, description: 'Columns of the exported sheet (default: one row).' } }, additionalProperties: false, description: 'The recorder: which frames of the effect the exported sheet keeps, and its column count.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
       dryRun: dryRunProp,
       background: backgroundProp,
@@ -60,27 +62,36 @@ export default {
       }
       const { meta, sheetBytes, sheetSha256: sheetHash, deterministic, render } = built;
       const sheet = decodePng(sheetBytes);
+      const rendered = meta.frames.map((f) => crop(sheet, f.x, f.y, f.x + f.w, f.y + f.h));
+      let cut;
+      try { cut = resolveRecord(args.record, rendered.length); } catch (error) { if (error.recordError) throw new ToolError(error.message); throw error; }
+      const recording = args.record !== undefined;
+      const kept = cut.indices.map((i) => rendered[i]);
+      const recorded = recording ? composeSheet(kept, cut.columns) : null;
       const frames = {};
-      meta.frames.forEach((f, i) => { frames[`${clip}_none_${i}`] = crop(sheet, f.x, f.y, f.x + f.w, f.y + f.h); });
+      kept.forEach((img, i) => { frames[`${clip}_none_${i}`] = img; });
+      if (recorded && !args.dryRun) await fs.writeFile(path.join(built.out, 'sheets', `${name}.recorded.png`), recorded.png);
+      const recordText = recording ? describeRecord(cut, rendered.length) : null;
       const options = pixelOptions(snap, asset);
       const view = sheetContent({ title: `VFX ${name}`, cells: cellsOf(frames, options), scale: args.scale ?? 4 });
       const out = {
         ok: true, effect: name, clip, audit, deterministic, sheetSha256: sheetHash,
-        frameTable: { count: meta.frames.length, size: meta.frame_size, anchor: meta.anchor, fps: meta.fps, loop: meta.loop, durationsMs: meta.frames.map((f) => f.duration), events: meta.events ?? [] },
+        frameTable: { count: kept.length, size: meta.frame_size, anchor: meta.anchor, fps: meta.fps, loop: meta.loop, durationsMs: recording ? recordedDurations(meta.frames.map((f) => f.duration), cut) : meta.frames.map((f) => f.duration), events: recording ? recordedEvents(meta.events, cut) : meta.events ?? [] },
+        ...(recording ? { record: { first: cut.first, last: cut.last, skip: cut.skip, columns: cut.columns, rows: cut.rows, kept: cut.indices, rendered: rendered.length, sheet: { sha256: recorded.sha256, width: recorded.width, height: recorded.height, cells: recorded.cells } } } : {}),
         wantedFrames: asset.clips[clip].frames, ...(args.dryRun ? { dryRun: true, wrote: 'nothing' } : { review: shown(ws, path.join(built.out, 'review')), workDir: shown(ws, base) }), ...view.structured,
       };
       const problems = [];
       if (!deterministic) problems.push('two builds of the same spec gave different sheets, so the effect is not reproducible');
-      if (meta.frames.length !== asset.clips[clip].frames) problems.push(`SpriteFX rendered ${meta.frames.length} frames but clip ${clip} has ${asset.clips[clip].frames}; change the phase ticks, or plan the asset with ${meta.frames.length} frames`);
+      if (kept.length !== asset.clips[clip].frames) problems.push(recording ? `the recorder keeps ${kept.length} of the ${rendered.length} rendered frames but clip ${clip} has ${asset.clips[clip].frames}; change first, last or skip, or plan the asset with ${kept.length} frames` : `SpriteFX rendered ${meta.frames.length} frames but clip ${clip} has ${asset.clips[clip].frames}; change the phase ticks, or plan the asset with ${meta.frames.length} frames`);
       if (meta.frame_size[0] !== w || meta.frame_size[1] !== h) problems.push(`frames are ${meta.frame_size.join('x')} but the asset is ${w}x${h}`);
       if (problems.length) out.problems = problems;
       out.qa = envelope({ method: 'built the SpriteFX spec twice in scratch, read its audits and gated the frames',
         checks: [check('spriteFxFaults', { ok: audit.faults === 0, measured: audit.faults, threshold: 0 }),
           check('deterministic', { ok: deterministic, measured: deterministic, threshold: true }),
-          check('frameCount', { ok: meta.frames.length === asset.clips[clip].frames, measured: meta.frames.length, threshold: asset.clips[clip].frames }),
+          check('frameCount', { ok: kept.length === asset.clips[clip].frames, measured: kept.length, threshold: asset.clips[clip].frames }),
           check('pixelGates', { ok: view.structured.defects.errors === 0, warn: view.structured.defects.warnings > 0, measured: view.structured.defects, threshold: { errors: 0 } })],
         notProven: [{ what: 'that the effect reads well in play', why: 'a human reviews the art' }],
-        inputs: { spec: sha(specText), sheet: sheetHash } });
+        inputs: { spec: sha(specText), sheet: sheetHash, ...(recorded ? { recordedSheet: recorded.sha256 } : {}) } });
       if (args.submit) {
         if (problems.length || view.structured.defects.errors) {
           out.submit = { accepted: false, message: `Nothing was committed: ${[...problems, view.structured.defects.errors ? `${view.structured.defects.errors} pixel-gate error(s)` : null].filter(Boolean).join('; ')}.` };
@@ -88,7 +99,7 @@ export default {
         }
         const prompt = specText.length <= 7500 ? specText : `SpriteFX spec ${name}, ${specText.length} characters, sha256 ${sha256(specText)}`;
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller, dryRun: args.dryRun,
-          provenance: { tool: `SpriteFX via the project toolchain (${vfx.clone})`, prompt, sourceHash: sha256(specText), notes: `faults 0; digest ${render.digest ?? '-'}; sheet ${sheetHash}; two builds identical` } });
+          provenance: { tool: `SpriteFX via the project toolchain (${vfx.clone})`, prompt, sourceHash: sha256(specText), notes: `faults 0; digest ${render.digest ?? '-'}; sheet ${sheetHash}; two builds identical${recorded ? `; ${recordText}; recorded sheet ${recorded.sha256}` : ''}` } });
         out.submit = { accepted, ...(args.dryRun ? { dryRun: true, wouldWrite: report.wouldWrite } : { written: report.written }), unchanged: report.unchanged, message: report.message,
           frames: accepted ? undefined : report.frames?.filter((f) => f.errors || f.problem).map((f) => ({ name: f.name, errors: f.errors, problem: f.problem, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
