@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseRoute, stateParams, stageOf, listeningOf, filterEntries, facets, matchedGains, levelGain, makeTrials, binomialP, scoreTrials, nearestPairs,
+import { parseRoute, stateParams, stageOf, listeningOf, listeningFromInbox, filterEntries, facets, matchedGains, levelGain, makeTrials, binomialP, scoreTrials, nearestPairs,
   spriteSegments, heardFor, playLabel, signoffNote, allChecked, checklistItems, numericParams, withParam, paramGroup, parsePair } from './model.mjs';
 
 test('parseRoute is total and keeps only known values', () => {
@@ -20,6 +20,8 @@ test('stateParams round-trips and drops defaults', () => {
 });
 
 test('stage and listening state', () => {
+  assert.equal(listeningOf({stage: 'packed', masterSha: 'a'.repeat(64), evidence: 'pending', record: 'approved_before'}), 'approved', 'a human approval on record covers the master');
+  assert.equal(listeningOf({stage: 'packed', masterSha: 'a'.repeat(64), evidence: 'pending', record: 'stale'}), 'stale');
   assert.deepEqual(['planned', 'authored', 'packed'].map(stageOf), ['planned', 'master', 'packed']);
   const sha = 'a'.repeat(64);
   assert.equal(listeningOf({stage: 'planned'}), 'none');
@@ -123,4 +125,14 @@ test('only playbacks of this cue and this master count as listening', () => {
   assert.deepEqual(heardFor(played, 'sfx_dash', 'c'.repeat(64)), [], 'a changed master has not been heard');
   assert.deepEqual(heardFor(played, 'sfx_dash_extra', sha), [], 'a cue id that merely starts the same does not match');
   assert.equal(playLabel('x', undefined, 'ogg'), 'play:x@?:ogg');
+});
+
+test('the Review inbox row decides the listening state, in the shape the route really returns', () => {
+  const row = (label, signoff) => ({id: 'x', label, signoff});   // inbox signoff is {ts, verdict, current}: no content hash
+  assert.equal(listeningFromInbox(row('signed', {ts: 1, verdict: 'signed', current: true}), 'pending'), 'approved');
+  assert.equal(listeningFromInbox(row('approved_before', null), 'pending'), 'approved');
+  assert.equal(listeningFromInbox(row('needs_work', {ts: 1, verdict: 'needs_work', current: true}), 'pending'), 'needs_work');
+  assert.equal(listeningFromInbox(row('stale', null), 'approved'), 'stale');
+  assert.equal(listeningFromInbox(row('none', null), 'pending'), 'pending');
+  assert.equal(listeningFromInbox(undefined, 'pending'), 'pending', 'no row (Review unavailable): fall back to the pack evidence');
 });

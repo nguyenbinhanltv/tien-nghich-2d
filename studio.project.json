@@ -45,6 +45,7 @@
       "atlases": "assets/_fixtures/atlases/web",
       "pngs": "assets/_fixtures/pngs"
     },
+    "approvals": "assets/review",
     "revisions": ".inspector-revisions"
   },
   "atlasProfiles": {
@@ -158,8 +159,12 @@
             {"id": "spritefx", "name": "SpriteFX", "role": {"en": "Renders the VFX sheets from a JSON effect spec", "vi": "Dựng sheet VFX từ đặc tả JSON"},
              "licence": "MIT", "pin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a", "evidence": ["docs/SKILLS_INSTALLED.md", "assets/raw/longtime/lt_fx_gate_unseal/provenance.json"], "ships": "tool only; output carries no external rights (recorded in the VFX provenance)"},
             {"id": "ffmpeg", "name": "FFmpeg 6.1.1 (self-built)", "role": {"en": "Encodes the audio pack codecs", "vi": "Mã hóa codec cho gói audio"},
-             "licence": null, "evidence": ["tools/scripts/build_ffmpeg_611_mac.sh", "docs/AUDIO_TOOLCHAIN_MAC.md"], "ships": "tool only; encoded files are shipped",
-             "flag": "The build script configures libvorbis and does not pass --enable-gpl or --enable-nonfree. The resulting licence of the build is for a human to confirm."},
+             "licence": "LGPL 2.1 or later, as printed by the pinned binary (ffmpeg -L); built without --enable-gpl, --enable-version3 or --enable-nonfree", "pin": "6.1.1 (source sha256 8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968; binary sha256 468833134308b22bc67dde18016cc3a9fae1d93d839f54581dab5fa4cd5c1744)",
+             "evidence": ["tools/scripts/build_ffmpeg_611_mac.sh", "docs/AUDIO_TOOLCHAIN_MAC.md", "docs/LEDGER_FACTS.md"], "ships": "the game ships audio files encoded with this build, not the binary",
+             "flag": "Recorded as facts in docs/LEDGER_FACTS.md. For the owner: whether shipping audio encoded by an LGPL build needs anything more is not decided here, and the licences of the statically linked libogg and libvorbis are not recorded in this project."},
+            {"id": "pixellab", "name": "PixelLab (retired)", "role": {"en": "Generated 24 characters before it was retired; the owner is spending the last credits on 2026-11-22", "vi": "Đã tạo 24 nhân vật trước khi ngừng dùng; chủ dự án dùng nốt credit còn lại ngày 2026-11-22"},
+             "licence": "Public terms (https://pixellab.ai/termsofservice, last updated 2026-10-30, read 2026-11-22): the user owns the outputs and may use them commercially; see docs/LEDGER_FACTS.md for the clauses", "evidence": ["docs/LEDGER_FACTS.md"],
+             "ships": "service only; its outputs are in the game", "flag": "Plan tier: the owner's account was on \"Tier 1: Pixel Apprentice\" on 2026-11-22 (owner's account page, shown to the orchestrator); that is the tier for the characters generated that day. For the 24 older characters and the two from PR #56 the tier at generation time is not recorded. No legal conclusion is drawn from the terms."},
             {"id": "spine-animation-ai", "name": "spine-animation-ai skill", "role": {"en": "Experimental rig builder used for one scratch courtyard bell", "vi": "Công cụ dựng rig thử cho một chuông ở sân"},
              "licence": "PolyForm Noncommercial 1.0.0", "pin": "702b71689cac826efee942ee4564fef9560d6ef8", "evidence": ["docs/SKILLS_INSTALLED.md", ".claude/skills/spine-animation/SKILL.md"], "mustNotShip": true,
              "ships": "must not ship", "flag": "Noncommercial licence. Keep it out of the shipping pipeline and out of shipped builds unless a human decides otherwise."},
@@ -205,6 +210,17 @@
       {"id": "evening-bell", "href": "courtyard/", "tab": "sandbox",
        "label": {"en": "Evening Bell", "vi": "Chuông Chiều"}, "note": {"en": "Courtyard bell trial", "vi": "Thử chuông ở sân"}}
     ]
+  },
+  "figures": {
+    "humanoid": {
+      "description": "Upright characters with a head, a torso and two legs: the shipped players, and humanoid mobs and NPCs. Head share is head height over figure height; every length of the guide is a fraction of the figure height.",
+      "measured": "six shipped 32x32 humanoids (wl_blood_foundation, wl_extreme_jing, wl_outer_disciple, wl_qi_condensation, mob_courtyard_guard, mob_rogue_disciple), idle and walk frames facing south in assets/processed, measured with studio/forge/figure measureFigure: head share (head height over figure height, where a neck shows) 0.31 to 0.38 for nine of eleven frames, one frame 0.50 and one 0.11 (a hat), median 0.37; leg width in the bottom rows (median run of opaque pixels) 4 to 9 px, never below 4; widest row 0.52 to 0.69 of the height; accent colours 5 to 20 px per palette id (blood, bronze, jade). The minimum limb width is set one pixel under the thinnest shipped figure.",
+      "profiles": ["player", "npc", "mob"],
+      "headToBody": {"min": 0.28, "max": 0.52, "target": 0.37},
+      "minLimbWidthPx": 3,
+      "accentMinPixels": 6,
+      "guide": {"headWidth": 0.42, "bodyWidth": 0.58, "legWidth": 0.14, "legGap": 0.07}
+    }
   },
   "adapters": {
     "interpreter": {"command": "tools/.venvs/project/bin/python", "args": ["-I"]},

@@ -12,3 +12,4 @@ export { runGates, stability, defaultOptions } from './gates/index.mjs';
 export { openForgeProject, rigPalette, manifestProfile, bakeStage, qaStage, summarizeBake, writeBakeDir, readBakeDir, runPipeline, bakeSchema,
   poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops } from './pipeline/index.mjs';
 export { compareSets, loadFrameSet } from './pipeline/compare.mjs';
+export { figureFor, guidanceText, guideShapes, drawGuide, measureFigure, figureWarnings } from './figure/figure.mjs';
