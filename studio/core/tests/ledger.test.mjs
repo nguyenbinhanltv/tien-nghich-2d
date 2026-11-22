@@ -59,7 +59,7 @@ test('tools and inputs: licences as recorded, the noncommercial skill flagged, t
   assert.match(c.ffmpeg.ships, /not the binary/);
   assert.ok(c.ffmpeg.flags.some(f => /owner/.test(f)), 'what only the owner can know stays flagged');
   assert.match(c.pixellab.licence, /pixellab\.ai\/termsofservice/);
-  assert.ok(c.pixellab.flags.some(f => /Plan tier.*owner to confirm/.test(f)));
+  assert.ok(c.pixellab.flags.some(f => /Tier 1: Pixel Apprentice.*not recorded/.test(f)));
   for (const id of ['ui_card_frame', 'ui_form_portraits', 'ui_hud_bars', 'ui_minimap', 'ui_panel_cursor']) {
     const a = ledger.assets.find(x => x.id === id);
     assert.deepEqual([a.origin.kind, a.origin.script, a.recorded, a.missing], ['generator', 'tools/generators/gen_phase2_ui.py', true, []], id + ' has a reconstructed provenance record');
