@@ -72,6 +72,15 @@ Design follows the mcp-builder rules: action-named tools, concise descriptions t
 - **Asymmetric marks (a scar, a one-sided charm): pixel patches** (`studio_frame_patch`), which are stored operations and survive every re-bake, instead of redrawing.
 - **Environment, items, projectiles, icons: generators** (`studio_generator_run`); **VFX: `studio_vfx_build`**. The image-generation route is not used for these.
 
+### Figure guides: proportions come from the pack
+
+Characters at native size only read if the head is large and the limbs and accent colours are bold; an image tool left to itself draws realistic tall figures that pixelise into a thin dark shape. The pack's `figures` block (optional, `studio.project.json`) says what this project wants, and nothing is hard-coded in `studio/`:
+
+- `headToBody {min, max, target}`: head height over figure height. `minLimbWidthPx`: the narrowest leg or arm in final pixels, outline included. `accentMinPixels`: pixels an accent colour needs to read. `guide {headWidth, bodyWidth, legWidth, legGap}`: a silhouette, as fractions of the figure height. `profiles`: the manifest profiles the guide applies to. `measured`: where the numbers come from.
+- `studio_template_get` draws the guide silhouette into every cell (in the dimmed key colour, so it still keys out as background) and returns `figure` with the numbers and a paragraph of text for the image prompt; `figure: "none"` turns it off.
+- `studio_process` warns, never refuses, about limbs thinner than the minimum, a head far outside the range (only where a neck is visible; ignore it for a beast or a construct), and any colour named in `accents` that falls below the minimum pixel count (`accents` are palette ids, stored like marks).
+- This project's `humanoid` guide was measured from six shipped 32x32 humanoids: head share 0.31 to 0.38 in eight of eleven frames (median 0.37), legs 4 to 9 px wide, widest row 0.52 to 0.69 of the height, accents 5 to 20 px per palette id. `minLimbWidthPx` is set one pixel under the thinnest shipped figure. A test (`figure-tools.test.mjs`) re-measures those sprites against the guide on every run.
+
 ### The forge's tracked documents
 
 Every forge step is a pure function of documents stored **beside the asset** and tracked by git; intermediates are rebuilt and git-ignored.

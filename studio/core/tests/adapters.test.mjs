@@ -193,3 +193,17 @@ test('output over the cap also stops the program and what it started', { skip: p
   for (let i = 0; i < 40 && alive(); i++) await new Promise(res => setTimeout(res, 50));
   if (alive()) { process.kill(pid, 'SIGKILL'); assert.fail('the sleeper survived the output cap'); }
 });
+
+test('validatePack: the figures block (readability guides) is checked, and the real one is valid', () => {
+  assert.deepEqual(validatePack(realPack()), []);
+  const f = mutate => issues(p => { mutate(p.figures.humanoid); });
+  assert.match(f(g => { g.profiles = []; }).join(), /figures\.humanoid\.profiles: needs at least 1 item/);
+  assert.match(f(g => { g.headToBody = { min: 0.6, max: 0.4, target: 0.5 }; }).join(), /headToBody: needs 0 < min < max <= 1 and a target between them/);
+  assert.match(f(g => { g.headToBody.target = 0.9; }).join(), /headToBody/);
+  assert.match(f(g => { g.minLimbWidthPx = 0; }).join(), /minLimbWidthPx: must be >= 1/);
+  assert.match(f(g => { g.accentMinPixels = 2.5; }).join(), /accentMinPixels: expected integer/);
+  assert.match(f(g => { g.guide.bodyWidth = 0.2; }).join(), /two legs and their gap are wider than the body/);
+  assert.match(f(g => { g.guide.headWidth = 1.5; }).join(), /guide\.headWidth: must be a number above 0 and at most 1/);
+  assert.match(issues(p => { p.figures.Bad = clone(p.figures.humanoid); }).join(), /name must be lowercase/);
+  assert.deepEqual(issues(p => { delete p.figures; }), [], 'the block is optional');
+});

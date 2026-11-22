@@ -2,7 +2,7 @@ import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
 import { readDoc, forgeCall, pixelizedFor, settingsFor, writeDoc } from '../workflow/forge.mjs';
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
-import { resolveMarks } from '../../forge/index.mjs';
+import { figureFor, figureWarnings, measureFigure, resolveMarks } from '../../forge/index.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 
 const markItem = {
@@ -47,6 +47,7 @@ export default {
   description:
     'Turn the imported sheet into native-size sprites: scale each figure to the profile, snap to the project palette (40 colours), rebuild the 1px outline, align the feet to the pivot. ' +
     'Raw is untouched. Returns a contact sheet of the sprites (look at it) with defects boxed, the fit per cell (scale and what limited it), and warnings. ' +
+    'It also checks the figure against the project\'s readability guide (pack figures, when one applies to this profile): warnings for limbs thinner than the minimum, a head far from the proportion range, and any accent colour you named in accents that drops below its minimum pixel count (warnings, never a refusal). ' +
     'marks keep an ASYMMETRIC colour through pixelisation (a coloured ear, a tool in one hand): they are stored and reused by every later step. ' +
     'For a single-frame asset, submit=true commits the sprites as its raw frames (cell "<pose>_<facing>" becomes frame "<pose>_<facing>_0" of the one-frame clip named like the pose; a plain facing cell becomes the asset\'s only clip). ' +
     'For a clip with several frames do not submit here: use studio_rig_bake.',
@@ -56,6 +57,8 @@ export default {
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Design asset id with an imported sheet.' },
       marks: { type: 'array', maxItems: 4, items: markItem, description: 'Asymmetric marks to keep. Replaces the stored marks; [] clears them. Omit to reuse the stored ones.' },
+      accents: { type: 'array', maxItems: 8, items: { type: 'string', maxLength: 20 }, description: 'Palette ids of the accent colours (a scarf, a sash, a gem) that must survive pixelisation. Each is checked in every sprite against the pack\'s minimum pixel count and warned about if it is lost. Stored; [] clears; omit to reuse.' },
+      figure: { type: 'string', maxLength: 31, description: 'Pack figure guide to check the sprites against (default: the one that lists this asset\'s profile); "none" turns the figure check off.' },
       submit: { type: 'boolean', description: 'Commit the sprites as the asset\'s raw frames (single-frame clips only). Refused if any sprite fails the pixel gates.' },
       clip: { type: 'string', maxLength: 40, description: 'With submit: the clip a plain facing cell belongs to.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
@@ -74,6 +77,11 @@ export default {
         resolveMarks(args.marks, settings.palette); // refuse bad marks before storing them
         await writeDoc(ws, asset, 'process', { marks: args.marks, by: ctx.caller.agent, at: new Date().toISOString() });
       }
+      if (args.accents !== undefined) {
+        for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
+        const current = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
+        await writeDoc(ws, asset, 'process', { ...current, accents: args.accents, by: ctx.caller.agent, at: new Date().toISOString() });
+      }
       const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
       log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);
       const options = pixelOptions(snap, asset);
@@ -85,7 +93,18 @@ export default {
           defects: cells[pixelized.record.cells.indexOf(c)].errors })),
         warnings: pixelized.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings })),
       };
+      // The figure check: only warnings, judged against the pack's guide for this profile.
+      const guide = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
+      if (args.figure && args.figure !== 'none' && !guide) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
+      if (guide) {
+        const accents = (processDoc.accents ?? []).map((id) => settings.palette.colors.find((c) => c.id === id)).filter(Boolean).map((c) => ({ id: c.id, hex: c.hex }));
+        const found = [];
+        for (const c of pixelized.record.cells) for (const w of figureWarnings(measureFigure(pixelized.cells.get(c.id).native), guide, { accents })) found.push({ cell: c.id, ...w });
+        summary.figure = { guide: guide.name, accents: accents.map((a) => a.id), warnings: found,
+          means: `checked against figures.${guide.name} in the project pack: head ${Math.round(guide.headToBody.min * 100)}-${Math.round(guide.headToBody.max * 100)}% of the height (where a neck shows), legs at least ${guide.minLimbWidthPx} px, each named accent at least ${guide.accentMinPixels} px` };
+      }
       const shown = sheetContent({ title: `Pixelised ${asset.id}`, cells, scale: args.scale ?? 4, extra: summary });
+      if (summary.figure) shown.content[0].text += summary.figure.warnings.length ? ` Figure check: ${summary.figure.warnings.length} warning(s): ${[...new Set(summary.figure.warnings.map((w) => w.check))].join(', ')} (see figure.warnings).` : ` Figure check (${summary.figure.guide}): no warnings.`;
       let submitted;
       if (args.submit) {
         const map = staticMapping(asset, pixelized.record, args.clip);
