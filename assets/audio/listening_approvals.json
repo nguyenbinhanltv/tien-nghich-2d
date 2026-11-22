@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Listening approvals the user gave BEFORE the studio existed. Read by the studio's Review tab and shown as 'approved before the studio', distinct from a sign-off made in the studio. This file is a record, not a gate: a master whose sha256 differs from `master_sha256` is NOT covered and waits for a fresh listening. master_sha256 is the hash of each master in the commit that added this record (the packs approved are the ones in assets/audio/packs/pilot_v1 and wave2_batch1_v1).",
+  "description": "Listening approvals a human gave OUTSIDE the studio's sign-off form: before the studio existed (kind 'before_studio': pilot_v1, wave2_batch1_v1) and later, stated by the project owner in chat and recorded here by an agent (kind 'owner_statement': wave2_batch2_v1 to wave2_batch4_v1). Read by the studio's Review tab and shown as 'approved before the studio / by record', distinct from a sign-off made in the studio's form. An agent only transcribes what the human said; it never approves. This file is a record, not a gate: a master whose sha256 differs from `master_sha256` is NOT covered and waits for a fresh listening. master_sha256 is the hash of each master in the commit that added that approval. The packs' own evidence.json files keep `human_listening: pending` on purpose (rewriting them would change pack hashes); this file is the record of the listening.",
   "approvals": [
     {
       "id": "pilot_v1",
@@ -39,7 +39,8 @@
         "source": "docs/ORCHESTRATOR_HANDOFF.md, section 'Approved Hằng Nhạc audio (history, still the listening reference)'",
         "quote": "The approved Động Phủ pilot (one bed and eight cues) remains the listening reference.",
         "pr": "PR #39 packaged the pilot; the approval date was not recorded."
-      }
+      },
+      "kind": "before_studio"
     },
     {
       "id": "wave2_batch1_v1",
@@ -78,6 +79,133 @@
         "source": "docs/ORCHESTRATOR_HANDOFF.md, section 'Approved Hằng Nhạc audio'",
         "quote": "The user heard and approved the Hằng Nhạc Ogg/AAC A/B.",
         "pr": "https://github.com/nguyenbinhanltv/tien-nghich-2d/pull/52 (merged 2026-11-21T20:25:54Z into main at c1db17870829ae4cdadf310786567efb8b99489e); date shown is the merge time"
+      },
+      "kind": "before_studio"
+    },
+    {
+      "id": "wave2_batch2_v1",
+      "kind": "owner_statement",
+      "approved_by": "user",
+      "recorded": "2026-11-22T14:10:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-30 (an agent; it transcribed the statement, it did not listen or approve)",
+      "assets": {
+        "bgm_blood_sea": {
+          "master_sha256": "303efbf3e735ae2f361a1486b6070f3dd9115941df51a73c77ae6f05b421d026"
+        },
+        "sfx_boss_fall": {
+          "master_sha256": "632cec8ff26782f73df97436c0d055c4abb0b0ad55140b10cdb94c636f5633e9"
+        },
+        "sfx_counter": {
+          "master_sha256": "b309fffb9ce6d6470b64e3dbf934883e09897c8db03f072be9b0c73313d6e8bb"
+        },
+        "sfx_enemy_fall": {
+          "master_sha256": "f46c91659b17e8bbaa77ea08548daeb81be802c214a6564f0bfb47860fa24dcc"
+        },
+        "sfx_hit_spirit": {
+          "master_sha256": "a7746af979de08bc43d4715cd60d4c60891fad151496fbb1e1fe96ac78db5394"
+        },
+        "sfx_hit_stone": {
+          "master_sha256": "bbfed2049ffc174ccb8a43e8131b3bc08bc39a3d19094b5a9b82887bd6ccc9a3"
+        },
+        "sfx_player_hurt": {
+          "master_sha256": "0786989d972769fb34458881d05f9c6f114d9fb09b5d524c83d1d1c32cebd26a"
+        },
+        "sfx_tell_boss": {
+          "master_sha256": "643d4b183f799a0716c2788019f6fd7da4846e2224aac000c9b22249beb4ddf1"
+        },
+        "sfx_tell_heavy": {
+          "master_sha256": "2bfd3302da29c15550b5e48085d6dd3aa4a840327fd62c7c7c9a8b142412b1fe"
+        }
+      },
+      "evidence": {
+        "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1), 2026-11-22 about 14:10 Asia/Saigon, relayed to the recording worker in its task brief",
+        "quote": "As relayed by the orchestrator (not verbatim): the owner listened to the 28 audio items of batches 2 to 4 and approve them.",
+        "pr": "Recorded in the pull request that added this entry; the date is the time of the statement, not of the commit"
+      }
+    },
+    {
+      "id": "wave2_batch3_v1",
+      "kind": "owner_statement",
+      "approved_by": "user",
+      "recorded": "2026-11-22T14:10:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-30 (an agent; it transcribed the statement, it did not listen or approve)",
+      "assets": {
+        "bgm_ancient_god": {
+          "master_sha256": "cb1d36a582cf4172e49087e185d4358eaf6828a14ba849a9b3ad3500a743bf74"
+        },
+        "sfx_chime": {
+          "master_sha256": "a65a4f6e4b3069923d55e156f54e31affd52c7d5d1e577aff35a477bc095216f"
+        },
+        "sfx_crush": {
+          "master_sha256": "4265d8777d5da186d4c4eef5d33a2456885a779139b466d735d98ae1d0ee2790"
+        },
+        "sfx_flame": {
+          "master_sha256": "8efca1d99d8ece20c38809bd6023c6b3a29344db2b62cfa7f0e0c2e8594155d5"
+        },
+        "sfx_gust": {
+          "master_sha256": "c3356686e578f1cda26f6c7739ac0d1e9f18938bbedf4125ad4711ae425ac443"
+        },
+        "sfx_player_fall": {
+          "master_sha256": "d48dd8210e9d488552cf158ab418ca3610e3b008b3b5dca6ca761f0a986daced"
+        },
+        "sfx_shade": {
+          "master_sha256": "d3e317a6ef6deb7af485cbfe7a8ddb59683e9cd1579c9cac5f191f1aa13f9e5c"
+        },
+        "sfx_shock": {
+          "master_sha256": "f8c60343857fab8924795538f5347730c56a3c8ebbd581259fb402a57bb7060d"
+        },
+        "sfx_thorn": {
+          "master_sha256": "a08a123d557cff5d8403bf31d9c9ccc020127319ebf1a45da090c1c354e64ff7"
+        }
+      },
+      "evidence": {
+        "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1), 2026-11-22 about 14:10 Asia/Saigon, relayed to the recording worker in its task brief",
+        "quote": "As relayed by the orchestrator (not verbatim): the owner listened to the 28 audio items of batches 2 to 4 and approve them.",
+        "pr": "Recorded in the pull request that added this entry; the date is the time of the statement, not of the commit"
+      }
+    },
+    {
+      "id": "wave2_batch4_v1",
+      "kind": "owner_statement",
+      "approved_by": "user",
+      "recorded": "2026-11-22T14:10:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-30 (an agent; it transcribed the statement, it did not listen or approve)",
+      "assets": {
+        "bgm_boss_trial": {
+          "master_sha256": "39f85bb9a406810d8dadd364cf917f27b43cb1124bab5bc7d5aa99282b44cf0b"
+        },
+        "bgm_endless": {
+          "master_sha256": "6e938f93277a85093a34b6ffff19527b730bff4bcf5145924d1ffb6464f327f2"
+        },
+        "sfx_bond": {
+          "master_sha256": "6711456ddcf447c7e3200b10d692184c362b63d14afc4e23c557ab31f1889867"
+        },
+        "sfx_craft": {
+          "master_sha256": "c73edd3978ea41c0b679ed90310070fdb5328705bda58573058a3359e2346f3c"
+        },
+        "sfx_gate": {
+          "master_sha256": "96fe36a20d5b544f4288e0b92e12800a1727f551bc3177a5845cec4e5fd0f94f"
+        },
+        "sfx_harvest": {
+          "master_sha256": "84629e4088c99b15d2a59f7dc4a046a6417fe5bf6bc52ca19093d3241218b64f"
+        },
+        "sfx_kiln": {
+          "master_sha256": "a2c3f71110949908f468e3ddaf6a6ccb7d48a1e4dfa8a0323de0eb8878b9ea3b"
+        },
+        "sfx_reward": {
+          "master_sha256": "1ce3e544828818af72db74d09577063d3a117a0df7586b648f3b368d702d6123"
+        },
+        "sfx_seed": {
+          "master_sha256": "843ee991f4fe8bb2dc5f7dedb98a0e7bbd2360d79a99f7f5be01db4901d8db08"
+        },
+        "sfx_ward_place": {
+          "master_sha256": "29cdc737e87eecf0596272adf041a3a75e83873dd4ecc7e6003199e29a7f5389"
+        }
+      },
+      "evidence": {
+        "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1), 2026-11-22 about 14:10 Asia/Saigon, relayed to the recording worker in its task brief",
+        "quote": "As relayed by the orchestrator (not verbatim): the owner listened to the 28 audio items of batches 2 to 4 and approve them.",
+        "pr": "Recorded in the pull request that added this entry; the date is the time of the statement, not of the commit"
       }
     }
   ]
