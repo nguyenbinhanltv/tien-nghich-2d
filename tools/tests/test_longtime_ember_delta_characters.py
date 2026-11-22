@@ -48,8 +48,7 @@ class EmberDeltaCharacters(unittest.TestCase):
                 tmp = Path(tmp)
                 shutil.copytree(RAW / aid, tmp / "raw" / aid)
                 proc = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))["processing"]
-                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out",
-                                        allow_crop=proc.get("cropped_opaque_pixels", 0), clean_feet="cleanup" in proc)
+                blc.build_character(aid, raw_root=tmp / "raw", out_root=tmp / "out", clean_feet="cleanup" in proc)
                 want = sorted(p.name for p in (PROCESSED / aid).glob("*.png"))
                 got = sorted(p.name for p in (tmp / "out" / aid).glob("*.png"))
                 self.assertEqual(got, want)
@@ -74,8 +73,8 @@ class EmberDeltaCharacters(unittest.TestCase):
                 proc = prov["processing"]
                 self.assertEqual(proc["entry_point"], "tools/scripts/build_longtime_ember_delta.py")
                 self.assertEqual(proc["entry_point_sha256"], sha(ROOT / proc["entry_point"]))
-                self.assertIn("crop_limit", proc)
-                self.assertEqual(proc["crop_limit"], proc["cropped_opaque_pixels"])
+                gen = json.loads((RAW / aid / "generation.json").read_text(encoding="utf-8"))
+                self.assertEqual(proc.get("cropped_opaque_pixels", {}), gen.get("crop_allowance", {}))
                 self.assertEqual(prov["review"]["status"], "awaiting_owner_review")
                 self.assertEqual(prov["tool"], "PixelLab")
                 self.assertTrue(prov["pixellab_character_id"])
@@ -106,21 +105,28 @@ class EmberDeltaCharacters(unittest.TestCase):
     def test_rejected_build_writes_nothing(self):
         def snapshot(base):
             return {str(f.relative_to(base)): sha(f) for f in sorted(base.rglob("*")) if f.is_file()}
-        aid = "lt_kiln_crab"  # records a 6 px crop
-        crop = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))["processing"]["cropped_opaque_pixels"]
-        self.assertGreater(crop, 0)
+        aid = "lt_kiln_crab"  # records a per-frame crop allowance
+        allowance = json.loads((RAW / aid / "generation.json").read_text(encoding="utf-8"))["crop_allowance"]
+        self.assertTrue(allowance)
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
             shutil.copytree(RAW / aid, tmp / "raw" / aid)
-            blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out", allow_crop=crop)
+            blc.build_character(aid, raw_root=tmp / "raw", out_root=tmp / "out")
             before = (snapshot(tmp / "raw"), snapshot(tmp / "out"))
-            with self.assertRaises(SystemExit):
-                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out", allow_crop=crop - 1)
-            self.assertEqual((snapshot(tmp / "raw"), snapshot(tmp / "out")), before)
-            # and with no limit given the shared default of zero refuses too, leaving the files alone
-            with self.assertRaises(SystemExit):
-                blc.build_allowing_crop(aid, raw_root=tmp / "raw", out_root=tmp / "out")
-            self.assertEqual((snapshot(tmp / "raw"), snapshot(tmp / "out")), before)
+            gen_path = tmp / "raw" / aid / "generation.json"
+            gen = json.loads(gen_path.read_text(encoding="utf-8"))
+            first = sorted(allowance)[0]
+            gen["crop_allowance"][first] = allowance[first] - 1
+            gen_path.write_text(json.dumps(gen, indent=2), encoding="utf-8")
+            before_gen = sha(gen_path)
+            for _ in range(2):  # a too-small allowance, and again after dropping the allowance entirely
+                with self.assertRaises(SystemExit):
+                    blc.build_character(aid, raw_root=tmp / "raw", out_root=tmp / "out")
+                self.assertEqual(snapshot(tmp / "out"), before[1])
+                self.assertEqual({k: v for k, v in snapshot(tmp / "raw").items() if not k.endswith("generation.json")},
+                                 {k: v for k, v in before[0].items() if not k.endswith("generation.json")})
+                gen.pop("crop_allowance", None)
+                gen_path.write_text(json.dumps(gen, indent=2), encoding="utf-8")
 
     def test_profile_counts_and_qa(self):
         palette, outline = ql.load_palette(ql.DEFAULT_PALETTE)

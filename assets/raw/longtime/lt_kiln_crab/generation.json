@@ -187,5 +187,9 @@
     "strike south: 4 px of claw tips cropped",
     "idle and telegraph were generated with 4 frames and trimmed to the profile's 3",
     "telegraph east: compact, low-motion pose (pincers barely lifted)"
-  ]
+  ],
+  "crop_allowance": {
+    "telegraph/south/1": 2,
+    "strike/south/1": 4
+  }
 }
