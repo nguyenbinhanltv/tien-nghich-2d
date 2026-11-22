@@ -4,20 +4,21 @@
     "lt_folio_hound",
     "lt_ink_leech",
     "lt_mist_archive",
-    "lt_scroll_moth"
+    "lt_scroll_moth",
+    "lt_wax_sentinel"
   ],
   "chunk_group": "mist_archive",
-  "frame_count": 264,
+  "frame_count": 320,
   "mobile_page_budget": 3,
   "page_count": 1,
   "pages": [
     {
-      "frames": 264,
+      "frames": 320,
       "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "ba313fa5fb9862315a4b16d7bd8deb95d9680b992c1f336de06df359b45748da",
-      "png_sha256": "51aa0c16183133644f5c58e2f16412d3987c583f1ea2ef595aa2fb3ae8c9ab7c",
+      "json_sha256": "f5ed34d7679d8eea5121b7b7c3f30311f97cdc1be14c061b5cd66ec94a86ab2c",
+      "png_sha256": "840ae9f9fe447fc088439a19d13956ffa214bcbedda57b8cf0dac7b286f7c155",
       "rgba8_bytes": 4194304,
       "width": 1024
     }

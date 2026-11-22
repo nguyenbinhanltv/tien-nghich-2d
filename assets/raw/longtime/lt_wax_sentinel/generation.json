@@ -1,0 +1,155 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed; canvases come back 36-44 px and are centred on 32 by the build script). All four facings are separate PixelLab generations; nothing is mirrored. Diagonal direction_prompts keys are required by the tool and were filled with 'unused diagonal: ...' placeholders; no diagonal was generated.",
+  "pixellab_character_id": "9a5cb6e9-ce51-4959-a6f6-f2c708ae19f0",
+  "character_job_id": "4ed93f10-72ec-4316-94ad-71c07b3a0490",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small wax sentinel, a stout chibi guardian figure made of pale cream candle wax, a melted drooping wax dome helmet with one glowing amber ember slit for eyes, thick rounded wax limbs with drip lines, holding a short stubby bronze candlestick shield-and-spike in its RIGHT hand, a vermilion wax seal stamped on its chest, wax puddle at the feet. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2
+      ],
+      "animation_group_id": "8b6e294f-1195-4b09-a0e3-61e61b0ad899",
+      "job_ids": {
+        "south": "eb40330c-8601-41fc-9169-7682b87ad893",
+        "west": "0d946247-ebd8-422a-a5f0-5df22c8c60e7",
+        "north": "a1914fc6-2e40-4881-939a-c1bc267db2e5",
+        "east": "a8fe9e42-c304-4ff6-b92d-829ea3a56274"
+      },
+      "action_description": "stands guard and breathes slowly, the wax body sways very slightly, the candlestick stays held in the right hand, the red seal stays on the chest, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, stands guard, breathes slowly, the candlestick stays in his right hand on the viewer's left",
+        "west": "facing left, stands guard, breathes slowly, the candlestick stays in front of him",
+        "north": "seen from behind, stands guard, breathes slowly, the candlestick stays visible on the viewer's right",
+        "east": "facing right, stands guard, breathes slowly, the candlestick stays in front of him"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "382247bb-8a66-4f0a-bc99-0c261697c0a5",
+      "job_ids": {
+        "south": "8b6f49b7-4909-4ead-afdd-f36169f8dd38",
+        "west": "118c28dd-f450-4f9b-8ae4-07fc3a4ccb98",
+        "north": "dfe58fd5-5d74-4fb0-bbe0-be44afd642a7",
+        "east": "4f944a52-40dc-4099-9ed8-b10a0db4876d"
+      },
+      "action_description": "marches forward with short stiff heavy steps, the candlestick stays held in the right hand, the red seal stays on the chest, no effects",
+      "direction_prompts": {
+        "south": "walks toward the viewer with short stiff steps, candlestick stays in his right hand on the viewer's left",
+        "west": "walks to the left with short stiff steps, candlestick stays in front of him",
+        "north": "walks away from the viewer, seen from behind, short stiff steps, candlestick stays visible on the viewer's right",
+        "east": "walks to the right with short stiff steps, candlestick stays in front of him"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        2,
+        3
+      ],
+      "animation_group_id": "c0dc3e5d-1215-40ea-85c4-c17326314d05",
+      "job_ids": {
+        "south": "e38343c1-50d2-49a6-afe8-c9e70576e54a",
+        "west": "66db979e-2e4f-46d5-8b74-65237f99fc5a",
+        "north": "c26b2b98-db89-47a6-bb6a-d721e6fc39de",
+        "east": "365c3ca3-3cc5-4dfb-96d6-cefec0b7d654"
+      },
+      "action_description": "raises the candlestick high in the right hand and leans back, the wax body swells and the ember slit eyes glow brighter, preparing a downward strike, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, raises the candlestick high with his right hand (viewer's left) and leans back",
+        "west": "facing left, raises the candlestick high in front of him and leans back",
+        "north": "seen from behind, raises the candlestick high on the viewer's right and leans back",
+        "east": "facing right, raises the candlestick high in front of him and leans back"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "32a41e61-c54d-4f88-b5b4-7cade8a9840c",
+      "job_ids": {
+        "south": "2b58bb85-d8b0-4f51-87ff-b0ca9b7d41ed",
+        "west": "5888e24c-6e60-4180-a684-dd2f632b2a1e",
+        "north": "e99cce97-89dc-4936-958b-851e63ace376",
+        "east": "bcb54bbd-9612-41fa-b7a4-e63f39a6f341"
+      },
+      "rejected_first_take_job_ids": {
+        "north": "85e12a95-13d0-4f41-ae6f-5ab0bc12f42c",
+        "east": "6b5c829c-3e98-4cc4-846f-151ea52d680b"
+      },
+      "action_description": "slams the candlestick down hard in front of it with the right hand, the wax body lurches forward, then recovers upright, no effects",
+      "direction_prompts": {
+        "south": "facing the viewer, slams the candlestick down toward the viewer with his right hand (viewer's left), lurches forward, then stands up",
+        "west": "facing left, slams the candlestick down in front of him toward the left, lurches forward, then stands up",
+        "north": "seen from behind, slams the candlestick down away from the viewer, lurches forward, then stands up",
+        "east": "facing right, slams the candlestick down in front of him toward the right, lurches forward, then stands up"
+      },
+      "regeneration_action_description": "slams the short bronze candlestick down in front of it with the right hand, the wax body lurches forward, then recovers upright, the candlestick stays gripped in the hand in every frame, no slash, no sparks, no effects",
+      "regeneration_direction_prompts": {
+        "north": "seen from behind, his right arm is on the viewer's RIGHT and holds the bronze candlestick; he swings it down and forward past his right side, lurches forward, then stands up; the candlestick stays visible and gripped in every frame; no sparks",
+        "east": "facing right, slams the bronze candlestick down in front of him toward the right with the arm nearest the viewer, lurches forward, then stands up; the candlestick stays gripped in his hand in every frame, never detached; no slash, no sparks"
+      }
+    }
+  },
+  "frame_count_note": "The mob profile wants 3 frames for idle and telegraph but PixelLab v3 only returns even counts (min 4). Idle: 4 generated, last dropped. Telegraph: 4 generated, frame 1 dropped (kept 0, 2, 3, renumbered 0-2). The raw folder holds the kept frames only.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32, mannequin template, seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: wax guardian with red chest seal and candlestick in its right hand reads on all four facings"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike x 4 directions, first take",
+      "credits": 16,
+      "result": "all accepted except strike north (candlestick hidden) and strike east (candlestick detached as a loose blob in the last frame)"
+    },
+    {
+      "n": 3,
+      "what": "strike north and east regenerated once each (appended to the same group)",
+      "credits": 2,
+      "result": "kept: north is clean; east keeps the candlestick attached but shows white sparkle specks in frames 0-2 (needs a human decision)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 2,
+    "total_generations": 24
+  },
+  "crop_allowance": {
+    "telegraph/south/2": 1
+  },
+  "known_flaws": [
+    "needs a human decision: strike east has white sparkle specks around the head in frames 0-2 and the wax body reads thin and bent",
+    "strike west has a pale-blue slash arc beside the body (palette colour, not requested)",
+    "telegraph south frame 2 has a few dark dotted spark pixels above the head; one opaque pixel at the top edge is cropped (crop_allowance)",
+    "the cream wax renders as bright gold, so it sits close to the bronze palette group; the candlestick is a small 3 px shape at 1x",
+    "ember-slit eyes read as a dark band, not a glow, at 1x"
+  ]
+}
