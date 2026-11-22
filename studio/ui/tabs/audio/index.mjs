@@ -154,6 +154,7 @@ export async function mount(ctx, state) {
       mine.parts.au.dataset.view = 'detail';   // the error shows in the main column, which is hidden in the list view on a narrow window
       return;
     }
+    mine.loaded = true;
     mine.onEngine = () => mine.parts && renderSide(mine, mine.parts.right, {keepForm: true});
     renderAll(mine);
   }
@@ -164,6 +165,7 @@ export async function update(ctx, state) {
   if (!app) return mount(ctx, state);
   const changedAsset = state.asset !== app.state.asset, changedView = state.view !== app.state.view;
   app.state = state;
+  if (!app.loaded) return;   // still loading, or the load failed: keep the skeleton or the error with its Retry; load() paints the latest state
   if (changedAsset) { app.engine.stopAll(); app.runCleanups(); app.detail = null; }
   else if (changedView) app.runCleanups();
   renderAll(app);
