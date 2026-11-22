@@ -26,10 +26,11 @@ export function parseFrameFile(file) {
 
 const sortFrames = (a, b) => a.clip === b.clip ? a.direction === b.direction ? a.n - b.n : a.direction.localeCompare(b.direction) : 0;
 
-let cache;
+const caches = new Map(); // one short-lived cache per project root
 async function library(root) {
+  let cache = caches.get(root);
   if (cache && Date.now() - cache.at < 2000) return cache.value;
-  cache ??= {at: 0, value: null, pending: null};
+  if (!cache) caches.set(root, cache = {at: 0, value: null, pending: null});
   cache.pending ??= (async () => {
     const pack = await loadPack(root, undefined, {verifyFiles: false});
     const config = pack.ui?.tabs?.characters;
@@ -169,9 +170,9 @@ const routes = {
   async roster(root) {
     const {people, config} = await library(root);
     const out = people.map(p => describe(p, config));
-    const count = key => out.reduce((all, c) => (all[c[key]] = (all[c[key]] ?? 0) + 1, all), {});
+    const count = (key, zero = []) => out.reduce((all, c) => (all[c[key]] = (all[c[key]] ?? 0) + 1, all), Object.fromEntries(zero.map(k => [k, 0])));
     return {characters: out, categories: config.categories, facings: config.facings, defaultFrameMs: config.defaultFrameMs,
-      counts: {total: out.length, byCategory: count('category'), byReadiness: count('readiness')}};
+      counts: {total: out.length, byCategory: count('category'), byReadiness: count('readiness', ['planned', 'authored', 'packed'])}};
   },
   async asset(root, url) {
     const id = url.searchParams.get('id');
