@@ -132,6 +132,7 @@ function setRail(open, {restoreFocus = true} = {}) {
   if (open === railOpen() || (open && !narrow.matches)) return;
   shell.classList.toggle('rail-open', open);
   document.body.classList.toggle('rail-lock', open);
+  $('app').querySelector('.column').inert = open;   // the drawer is modal: the page behind the scrim cannot take focus or be read until it closes
   $('rail-toggle')?.setAttribute('aria-expanded', String(open));
   if (open) ($('nav').querySelector('[aria-current="page"]') ?? $('nav').querySelector('a') ?? $('rail-close'))?.focus();
   else if (restoreFocus && shell.contains(document.activeElement) && document.activeElement.closest('#rail')) $('rail-toggle')?.focus();

@@ -113,4 +113,8 @@ test('TOKENS-008: below 900 px the rail is a drawer, one page title, one-row top
   assert.doesNotMatch(css, /\.topbar \{[^}]*flex-wrap: wrap/);
   const shell = read('shell.js');
   assert.match(shell, /aria-expanded/); assert.match(shell, /'Escape'/); assert.match(shell, /rail-lock/);
+  const setRail = shell.slice(shell.indexOf('function setRail'), shell.indexOf('function markActive'));
+  assert.match(setRail, /querySelector\('\.column'\)\.inert = open/, 'opening makes the page behind inert, closing clears it');
+  assert.ok(setRail.indexOf('.inert = open') < setRail.indexOf("$('rail-toggle')?.focus()"), 'inert is cleared before focus returns to the toggle');
+  assert.match(shell, /narrow\.addEventListener\('change', \(\) => \{ if \(!narrow\.matches\) setRail\(false/, 'widening the window closes the drawer, which clears inert');
 });
