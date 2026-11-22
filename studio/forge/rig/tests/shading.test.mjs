@@ -110,5 +110,9 @@ test('SHADING-005 the helpers validate their inputs and refuse unknown colours, 
   assert.match(check({ op: 'pattern', box: [0, 0, 4, 4], name: 'checker', colors: ['g1', '#ff0000'] })[0], /unknown palette id/);
   assert.match(check({ op: 'gradient', box: [0, 0, 4, 4], base: 'ink' })[0], /outline/);
   assert.match(check({ op: 'gradient', box: [0, 0, 4, 4], base: 'g2', steps: 1 })[0], /steps/);
+  for (const shift of ['abc', -1, 181, 1e9, NaN, Infinity]) assert.match(check({ op: 'gradient', box: [0, 0, 4, 4], base: 'g2', shift })[0], /shift/);
+  assert.throws(() => hueShiftRamp(pal.colors, 'g2', { shift: NaN }), /shift/);
+  assert.throws(() => hueShiftRamp(pal.colors, 'g2', { shift: 200 }), /shift/);
+  assert.deepEqual(check({ op: 'gradient', box: [0, 0, 4, 4], base: 'g2', shift: 40 }), []);
   assert.deepEqual(check({ op: 'gradient', box: [0, 0, 4, 4], base: 'g2' }), []);
 });

@@ -78,6 +78,7 @@ function checkShading(at, op, {palette, width, height}, issues, checkBox, color)
     if (typeof op.base !== 'string' || !palette.has(op.base)) issues.push(`${at}: gradient needs base, a palette id`);
     else if (op.base === palette.outlineId) issues.push(`${at}: gradient base cannot be the outline colour`);
     if (op.steps !== undefined && !(Number.isInteger(op.steps) && op.steps >= 2 && op.steps <= 9)) issues.push(`${at}: steps must be an integer from 2 to 9`);
+    if (op.shift !== undefined && !(Number.isFinite(op.shift) && op.shift >= 0 && op.shift <= 180)) issues.push(`${at}: shift must be a number of degrees from 0 to 180`);
     if (op.light !== undefined && !Object.hasOwn(LIGHTS, op.light)) issues.push(`${at}: light must be one of ${Object.keys(LIGHTS).join(', ')}`);
     if (op.dither !== undefined && op.dither !== false && !BAYER_SIZES.includes(op.dither)) issues.push(`${at}: dither must be false or one of ${BAYER_SIZES.join(', ')}`);
     if (op.over !== undefined && !['opaque', 'all'].includes(op.over)) issues.push(`${at}: over must be "opaque" or "all"`);

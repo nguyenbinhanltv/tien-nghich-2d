@@ -44,6 +44,7 @@ export function hueShiftRamp(colors, baseId, { steps = 5, shift = 24, outlineId 
   const pool = usable(colors, outlineId);
   const base = pool.find((c) => c.id === baseId);
   if (!base) throw new Error(`ramp base "${baseId}" is not a palette colour (or is the outline colour)`);
+  if (!Number.isFinite(shift) || shift < 0 || shift > 180) throw new Error('ramp shift must be a number of degrees from 0 to 180');
   if (!Number.isInteger(steps) || steps < 2 || steps > 9) throw new Error('ramp steps must be an integer from 2 to 9');
   const b = toHsl(base.hex), hsl = pool.map((c) => ({ id: c.id, ...toHsl(c.hex) }));
   const chosen = new Map();
