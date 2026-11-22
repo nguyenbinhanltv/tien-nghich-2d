@@ -192,6 +192,18 @@
       "what": "second touch-up round: one character regeneration, character id e71aba51-06aa-458f-b43a-2518a3e258c9, job 3946e59c-5a4b-4686-b3df-3609f6dfcb6e (6 credits, 8 rotations only, not animated). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, black topknot hair, pale skin, calm face. A tall BROKEN CROWN of pale ash-grey metal sits on his head in front of the black topknot: three jagged points rising clearly above the hair, the right-hand point snapped off to a short stump, ash-white with dark cracks, unmistakable from every side. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.' 32x32, seed 7, 40-colour palette, style_image = lt_river_oath south rotation with the sash ignored",
       "credits": 6,
       "result": "rejected at rotation level, never animated: the robe and face match the other forms, but the crown, the form's defining mark, shrinks to a pale band that is barely visible against the black hair in north and west, and the robe is a long flared gown unlike the other forms. Not clearly better at 1x, so the original (attempt 2) ships and the remaining 16 credits for clips were not spent."
+    },
+    {
+      "n": 5,
+      "what": "third touch-up round, character attempt A (6 credits, rotations only, never animated): character id 87fd1dec-8736-4a4b-88ad-80ac56b2e931, job 6bbdbc01-b7a7-404b-b1f2-c25435e9d395, seed 11, 32x32, view low top-down, 40-colour palette, style_image = lt_river_oath south rotation (usage: copy face, black topknot hair, chibi proportions, line weight, shading and light grey robe; ignore the sash). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, black topknot hair, pale skin, calm face, same hero as the reference. On his head sits a LARGE BROKEN CROWN, jagged and ash-black with one bright orange ember crack glowing across it, clearly taller than the hairline: three tall spiky points rising well above the head, the right-hand point snapped off to a short stump, with a thick pale ash-grey rim at its base so it stands out from the black hair. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.'",
+      "credits": 6,
+      "result": "rejected at rotation level: large readable ember crown and light robe, but cluttered: ragged hair, ember noise, and the crown band covers the eyes in the south view. Not clearly better than the shipped art."
+    },
+    {
+      "n": 6,
+      "what": "third touch-up round, character attempt B (6 credits, rotations only, never animated): character id 437f5423-fa41-4939-b14b-bb74ea9c91fc, job 6f8451e4-ec43-416c-9f0c-1ac1dd580c15, seed 23, 32x32, view low top-down, 40-colour palette, style_image = lt_river_oath south rotation (usage: copy face, black topknot hair, chibi proportions, line weight, shading and light grey robe; ignore the sash). Prompt: 'Young xianxia disciple hero, chibi with a large head, plain light grey robe, neat black topknot hair, pale skin, calm face with clearly visible eyes, same hero as the reference. A clean, simple BROKEN CROWN sits on top of his head above the hairline: a dark ash-black circlet with three tall jagged points, the right point snapped short, a thin pale grey rim, and one small bright orange ember crack. The crown is clearly taller than the hairline and sits above the forehead, not over the eyes. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.'",
+      "credits": 6,
+      "result": "not shipped: clean, face and light robe match lt_ink_veil / lt_river_oath / lt_star_vessel, but the crown is dark on dark hair and reads as a faint mark at 1x, weaker than the shipped crown. Neither attempt was clearly better, so the shipped art (attempt 2) stays and the 16 credits for clips were not spent. Character B is kept in the PixelLab account in case the owner wants it animated."
     }
   ],
   "credits_spent": {
@@ -201,18 +213,31 @@
     "walk": 4,
     "cast": 4,
     "hurt": 4,
-    "total_generations": 51,
+    "total_generations": 63,
     "balance_before": 804.26,
-    "touch_up": 7
+    "touch_up": 19
   },
   "known_flaws": [
     "darker and greyer than the other three forms (dark robe, long black hair): needs a human decision; prompt-only retries do not change it"
   ],
-  "rejected_character_regeneration": {
-    "pixellab_character_id": "e71aba51-06aa-458f-b43a-2518a3e258c9",
-    "character_job_id": "3946e59c-5a4b-4686-b3df-3609f6dfcb6e",
-    "shipped": false
-  },
+  "rejected_character_regenerations": [
+    {
+      "pixellab_character_id": "e71aba51-06aa-458f-b43a-2518a3e258c9",
+      "character_job_id": "3946e59c-5a4b-4686-b3df-3609f6dfcb6e",
+      "shipped": false
+    },
+    {
+      "pixellab_character_id": "87fd1dec-8736-4a4b-88ad-80ac56b2e931",
+      "character_job_id": "6bbdbc01-b7a7-404b-b1f2-c25435e9d395",
+      "shipped": false
+    },
+    {
+      "pixellab_character_id": "437f5423-fa41-4939-b14b-bb74ea9c91fc",
+      "character_job_id": "6f8451e4-ec43-416c-9f0c-1ac1dd580c15",
+      "shipped": false,
+      "note": "candidate for the owner, rotations only"
+    }
+  ],
   "native_px": [
     32,
     32
