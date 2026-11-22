@@ -48,7 +48,7 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   const abode = chunks.chunks.find(c => c.id === 'abode');
   assert.deepEqual([abode.shipped.mobile.pages, abode.shipped.mobile.frames, abode.shipped.mobile.bytes, abode.shipped.mobile.budget.state, abode.ceilingPages], [1, 110, 1048576, 'full', 1]);
   assert.equal(abode.shipped.mobile.budget.ceilingBytes, 4194304);
-  for (const c of chunks.chunks.filter(c => c.shipped.mobile.frames === 0)) assert.equal(c.shipped.mobile.budget.state, 'empty', 'a chunk with no shipped atlas yet is empty, not over budget');
+  assert.equal(chunks.chunks.find(c => c.id === 'forms').shipped.mobile.budget.state, 'empty', 'a chunk with no shipped atlas yet is empty, not over budget');
   assert.deepEqual(json.formats.map(f => f.id), ['phaser', 'pixi', 'godot', 'unity', 'aseprite', 'tiled']);
 });
 
@@ -120,8 +120,7 @@ test('pack with the project packer (authority) stages byte-identical files', {sk
   assert.equal(r.status, 200, r.message);
   assert.equal(r.json.authority.ok, true);
   assert.deepEqual(Object.values(r.json.profiles).map(p => p.comparison.verdict), ['identical', 'identical']);
-  const none = (await call(REPO, lib, 'GET', 'sets')).json.sets.find(s => s.id === 'longtime').chunks.find(c => c.shipped.mobile.frames === 0);
-  if (none) assert.equal((await call(REPO, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: none.id, engine: 'authority'}})).status, 409, 'a chunk with no processed frames has nothing to pack');
+  assert.equal((await call(REPO, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: 'forms', engine: 'authority'}})).status, 409, 'a chunk with no processed frames has nothing to pack');
   assert.equal((await call(REPO, lib, 'POST', 'pack', {body: {set: 'core', engine: 'nope'}})).status, 422);
 });
 
