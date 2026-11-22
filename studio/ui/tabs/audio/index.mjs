@@ -2,7 +2,7 @@
 // the pictures and numbers, the sprite map of a pack, the listening checklist and sign-off, and patch/score viewing with a
 // scratch preview. The page never listens for anyone: sign-off is a human action in this UI, recorded by the Review tab's route.
 import { h, button, humanize, put } from './dom.mjs';
-import { parseRoute as parse, stateParams, views, listeningOf, filterEntries } from './model.mjs';
+import { parseRoute as parse, stateParams, views, listeningOf, listeningFromInbox, filterEntries } from './model.mjs';
 import { createEngine } from './engine.mjs';
 import { renderLibrary } from './library.mjs';
 import { renderListen } from './listen.mjs';
@@ -37,7 +37,8 @@ function makeApp(ctx, state) {
       for (const e of self.entries) {
         const item = self.review.items.get(e.id);
         e.signoff = item?.signoff ?? null;
-        e.listening = listeningOf({stage: e.stage, signoff: e.signoff, masterSha: e.masterSha, evidence: e.evidenceListening});
+        const own = listeningOf({stage: e.stage, signoff: null, masterSha: e.masterSha, evidence: e.evidenceListening});
+        e.listening = e.stage === 'planned' ? own : listeningFromInbox(item, own);
       }
     },
     async refreshReview() {

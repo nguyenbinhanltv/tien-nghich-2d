@@ -371,3 +371,32 @@ Ngày 2026-11-22 người dùng duyệt quyết định 3 là "rig theo bộ ph�
 | Dấu bất đối xứng | Bản vá pixel lưu cùng asset | Áp lại sau mỗi lần bake; cổng đánh dấu kiểm đúng bên |
 
 Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh ảnh, mọi bước xác định và dựng lại được, người duyệt cuối. Cổng nhấp nháy dùng cho key vẽ và ngưỡng đo trôi nhận dạng chưa được hiệu chỉnh trên clip thật; cần một bài thử nữa trước khi coi mặc định này là chốt.
+
+## Ghi nhận (2026-11-22): quyết định của chủ dự án và trạng thái P0 đến P5
+
+Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
+
+**Quyết định 5: những gì orchestrator tự đặt, chủ dự án nói "làm theo đề xuất".**
+
+| Việc | Đã duyệt theo đề xuất |
+|---|---|
+| Animation mặc định | Pose sheet cho di chuyển, rig cho idle, bản vá pixel cho dấu một bên (xem phần điều chỉnh animation ở trên) |
+| Đóng gói audio batch 2 đến 4 | Dùng bộ công cụ FFmpeg 6.1.1 dựng trên Mac; pack mới ghi bộ công cụ của chính nó, `--check` chạy trên cùng bộ công cụ (xem [AUDIO_TOOLCHAIN_MAC](AUDIO_TOOLCHAIN_MAC.md)) |
+| Ba bản chơi thử | Chạy trong tab Sandbox như scene kịch bản được host |
+| Atlas | Packer Python vẫn là nguồn chuẩn về byte của atlas; xuất của studio phải trùng nó |
+| `studio/package.json` | Được phép có, miễn không có phụ thuộc ngoài |
+
+**Quyết định 6: credit PixelLab.** Chủ dự án yêu cầu dùng hết credit PixelLab còn lại trong ngày 2026-11-22; năm worker đang làm việc đó cho 30 nhân vật Longtime còn lại. Từ sau hôm nay PixelLab lại ngừng dùng, như đã ghi ở phần "Quyết định đã duyệt". Đây là ngoại lệ một ngày, không đổi quy tắc định tuyến.
+
+**Trạng thái lộ trình, kiểm tra theo mã trên `main` (9e841dd):** P0 đến P5 đã có trên `main`.
+
+| Pha | Có trên `main` |
+|---|---|
+| P0 | Pack dự án `studio.project.json` và `studio/schemas/`; MCP tối thiểu qua stdio |
+| P1 | Vỏ studio, hợp đồng tab, tab Tổng quan, Characters, Objects |
+| P2 | Xưởng tạo hình thuần Node `studio/forge/`: nhập sheet, pixel hóa, rig, mẫu chuyển động, bake, bản vá pixel, cổng animation |
+| P3 | MCP 25 công cụ (stdio và HTTP loopback, `GET /mcp/jobs`), tab Review và Jobs |
+| P4 | Tab VFX và Audio, động cơ audio khai báo `studio/audio/` |
+| P5 | Tab Sandbox (scene `studio/core/scene.mjs`), tab Atlas và Nguồn gốc, xuất cho engine `studio/core/export/`, sổ giấy phép `studio/core/ledger.mjs` |
+
+P6 (tái sử dụng cho dự án khác) chưa nằm trong ghi nhận này; trạng thái P6 và README do worker `tien-nghich-2d-24` cập nhật.
