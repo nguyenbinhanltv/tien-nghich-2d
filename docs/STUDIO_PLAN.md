@@ -399,4 +399,60 @@ Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với o
 | P4 | Tab VFX và Audio, động cơ audio khai báo `studio/audio/` |
 | P5 | Tab Sandbox (scene `studio/core/scene.mjs`), tab Atlas và Nguồn gốc, xuất cho engine `studio/core/export/`, sổ giấy phép `studio/core/ledger.mjs` |
 
-P6 (tái sử dụng cho dự án khác) chưa nằm trong ghi nhận này; trạng thái P6 và README do worker `tien-nghich-2d-24` cập nhật.
+P6 và các đợt 1, 2 của kế hoạch ý tưởng mã nguồn mở được ghi ở phần cuối tài liệu: [Trạng thái cuối](#trạng-thái-cuối-kiểm-theo-mã-trên-main-sau-p6).
+
+## Trạng thái cuối, kiểm theo mã trên `main` sau P6
+
+Kiểm theo mã và lệnh chạy được trên `main` ở `6a47370` (sau PR #115), không theo trí nhớ. **Cả bảy pha P0 đến P6 đã có trên `main`.**
+
+| Pha | Có trên `main` |
+|---|---|
+| P0 đến P5 | Như bảng ở phần ghi nhận phía trên |
+| P6 | **#94**: gỡ mọi quy ước của Tiên Nghịch ra khỏi `studio/` (khối `catalog.categories`, `info`, `serve` và các tùy chọn nguồn trong pack; `playables/` chứa ba bản chơi thử và trang Previewer; bài kiểm tra `studio/tests/literals.test.mjs` quét cả cây `studio/`). **#115**: `node studio/cli.mjs` với `init`, `serve`, `mcp`, `check`, `doctor`, `baseline`; `studio/package.json` không phụ thuộc; dự án mẫu thứ hai `studio/examples/moss-lantern/`; bài kiểm tra nghiệm thu CLI-005 chạy trọn vòng qua MCP trên một bản sao nguyên vẹn của `studio/` đặt ngoài dự án. PR này: `studio/README.md` viết lại cho người lạ, phần tham chiếu pack sinh từ schema (`studio/schemas/reference.mjs`), bản bàn giao. |
+
+**Tiêu chí nghiệm thu của P6 đạt:** dự án mẫu chạy cả vòng tạo, kiểm, duyệt, đóng gói mà không sửa một dòng mã studio; bài kiểm tra băm cả bản sao `studio/` trước và sau và so khớp.
+
+### Những gì đổi so với kế hoạch
+
+| Kế hoạch v4 nói | Thực tế trên `main` |
+|---|---|
+| 25 công cụ MCP | **27** (14 `read`, 13 `author`; không công cụ nào cần phạm vi `pack`): thêm `studio_guide` (đợt 1) và `studio_frame_read` (đợt 1). Quyết định 4 của kế hoạch ý tưởng giữ 27 nên mọi thao tác mới gộp vào công cụ đã có |
+| Trạng thái duyệt: đã duyệt hoặc chưa | Ba trạng thái: **approved** (người quyết, gắn hash), **baseline** (art có trước studio, khai báo trong `review.baseline`, không phải duyệt), **awaiting review**. Dự án không khai báo baseline thì mọi frame chưa có bản ghi của người đều là awaiting (#108) |
+| Pack gồm palette, cỡ khung, quy tắc, key, thư mục, định tuyến | Thêm các khối tùy chọn: `policy` (chính sách dừng), `agentGuidance`, `references`, `figures`, `lineup`, `motion`, `rubric`, `review`, `forge`, `serve`, `info`, và `catalog.categories`. Pack có 25 khối cấp trên, 13 bắt buộc; bảng tham chiếu trong README sinh thẳng từ schema |
+| Bộ chạy chương trình là một Python trong venv | `adapters.interpreter` có thêm `runtime: "node"`: dự án chỉ dùng Node không cần cài gì |
+| Ba bản chơi thử nằm trong `studio/` | Nằm ở `playables/` (là của dự án đầu, không phải của studio); URL cũ vẫn chạy nhờ khối `serve` của pack |
+| Xuất atlas của studio phải trùng byte với packer Python | **Trùng pixel, không trùng byte**: nén PNG của Node khác Pillow. Atlas tab so pixel và nói rõ. Packer Python vẫn là nguồn chuẩn về byte |
+| Kiểm tra độc lập "khác phiên, khác agent thì tốt hơn" | Máy chủ chỉ nhận kiểm tra độc lập từ phiên khác; bằng chứng hết hạn khi frame, sheet hay contact sheet đổi (#107) |
+| Test hành vi gắn với tên tab | Mỗi hành vi có mã ổn định (`studio/specs/*.md`, thêm `cli.md`); mỗi mã phải có test nêu tên nó |
+| PixelLab ngừng dùng | Vẫn ngừng. Ngoại lệ một ngày 2026-11-22 (credit còn lại) đã xong; 30 nhân vật Longtime đã có và được chủ dự án duyệt |
+
+### Kế hoạch ý tưởng mã nguồn mở ([STUDIO_OSS_IDEAS](STUDIO_OSS_IDEAS.md)): đợt 1 xong, đợt 2 làm được 7 trên 18
+
+**Đợt 1: cả 14 ý tưởng đã làm.**
+
+| PR | Ý tưởng |
+|---|---|
+| #95 | B8: ép palette cho chuỗi frame không nhấp nháy |
+| #99 | A1 đọc và sửa frame bằng văn bản, A8 đọc pixel phân trang, A2 ảnh xem trước soi được, A5 `dryRun` ở mọi công cụ ghi |
+| #105 | E5 trình nhập spritesheet, D6 nhập danh sách asset từ CSV, E6 đặc tả có mã ổn định |
+| #106 | A3 `studio_guide` và luật dự án gửi lúc initialize, C2 thực thể khóa phong cách, C3 quy ước prompt |
+| #107 | B1 phong bì QA chuẩn, B3 chính sách dừng, B4 bằng chứng hết hạn |
+
+**Đợt 2: 7 trên 18 ý tưởng đã làm.**
+
+| PR | Ý tưởng |
+|---|---|
+| #111 | A4 đo chuyển động, B7 hợp đồng và lint cho clip, B2 rubric cố định |
+| #112 | D1 chạy ứng viên và người chọn, D2 mỗi lần render thêm một take, B5 yêu cầu sửa theo vùng |
+| #114 | C1 thước dàn nhân vật |
+
+**Chưa làm của đợt 2 (11):** A6 trợ thủ vẽ theo palette, C4 tem phiên bản art bible, D3 gói bàn giao và bản công bố AI, D7 ước tính hạn mức, E1 frame tag và cel liên kết, E3 biến đổi theo phạm vi, E7 mở được bằng Pixelorama và LibreSprite (`.pxo`, `.ase`), F5 animation theo tile, F6 xuất `.ldtk` và TMX, F8 recorder cho VFX, F9 audio theo cửa sổ gameplay. **Đợt 3 (12 ý tưởng): chưa làm gì**, và theo quyết định 1 chỉ làm khi dự án thực sự cần.
+
+### Còn thiếu, nói thẳng
+
+- Các tệp xuất cho Phaser, Pixi, Godot, Unity, Aseprite và Tiled chưa được mở trong engine tương ứng; chỉ được kiểm bằng test theo định dạng công bố.
+- Chưa chạy trên Windows.
+- Tab Review chưa có bảng cho rubric và ảnh lineup (công cụ và pack đã có; kết quả của agent và ghi chú review mang chúng).
+- Ba bản chơi thử chạy như scene kịch bản được host; art của chúng không nằm trong catalog.
+- Mô tả một số công cụ MCP còn nêu ví dụ của dự án đầu ("40 màu", id `lt_`); hành vi đọc theo pack. `studio mcp --self-test` viết cho dự án đầu.
+
