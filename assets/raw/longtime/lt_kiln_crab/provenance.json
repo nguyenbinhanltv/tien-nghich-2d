@@ -59,8 +59,8 @@
       "keep_first_frame": false,
       "animation_group_id": "198cb06a-bf76-4393-af1c-400fca0950e3",
       "job_ids": {
-        "south": "27cc65f8-aaea-4d48-b598-44bb77f4dfd1",
-        "west": "a5aa0054-6950-468b-92cf-3f02ea7f8f9c",
+        "south": "31d1f408-9049-4439-a85e-6f6de79c5bba",
+        "west": "1aa0328d-629f-4d01-9d31-cd4b1d705e93",
         "north": "a37fc56e-82a9-4589-af21-5fabd006d3d3",
         "east": "377c7914-6635-4c26-b9e6-807fe8d54913"
       },
@@ -70,6 +70,23 @@
         "west": "facing left, rears up and raises both pincers high in front, vent flaring bright",
         "north": "seen from behind, rears up, vent on the shell flaring bright orange, pincers spreading out to the sides",
         "east": "facing right, rears up and raises both pincers high in front, vent flaring bright"
+      },
+      "shipped": {
+        "south": "touch-up attempt (animation_group_id d32e2067-21d2-417f-bceb-eebfbbb2b537), frames 1-3",
+        "west": "touch-up attempt (same group), frames 1-3",
+        "north": "attempt 1",
+        "east": "attempt 1 (touch-up east rejected: noisier)"
+      },
+      "rejected_job_ids": {
+        "south": "27cc65f8-aaea-4d48-b598-44bb77f4dfd1",
+        "west": "a5aa0054-6950-468b-92cf-3f02ea7f8f9c",
+        "east_touch_up": "dd67a59d-94b8-4fff-b488-8b90d2ae1ee3"
+      },
+      "action_description_touch_up": "rears up on its back legs and raises both big deep red pincers high, kept close to the body, shell vent flaring bright orange; the pincers stay deep red the whole time, never white or cream",
+      "direction_prompts_touch_up": {
+        "south": "facing the viewer, rears up and raises both deep red pincers high but close together above the shell, not spreading wide, vent flaring bright, pincers stay deep red",
+        "west": "facing left, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white",
+        "east": "facing right, rears up and raises both deep red pincers high in front, vent flaring bright, pincers stay solid deep red and never cream or white"
       }
     },
     "strike": {
@@ -78,10 +95,10 @@
       "keep_first_frame": false,
       "animation_group_id": "c4341953-c985-4b28-9506-c20d6ea3e0f5",
       "job_ids": {
-        "south": "0d526511-3fc4-4035-8f5d-be12605b394e",
+        "south": "624e2221-65ea-42d1-a59c-68aa1c68476b",
         "west": "6ab91deb-abe6-4417-9d60-b752667386c4",
-        "north": "efbc139e-dc61-431f-9940-014cf6ce3402",
-        "east": "05ecc0af-6240-451e-b2ef-a556cb41fd13"
+        "north": "e8252181-4718-42ca-aab4-5b178730d8fa",
+        "east": "8476272a-559a-4033-b53b-276ad6636557"
       },
       "action_description": "lunges forward and snaps both pincers shut hard in front of it, then scuttles back to its starting spot",
       "direction_prompts": {
@@ -89,6 +106,23 @@
         "west": "facing left, lunges left and snaps both pincers shut, then backs off",
         "north": "seen from behind, lunges away from the viewer, pincers snapping out to the sides, then backs off",
         "east": "facing right, lunges right and snaps both pincers shut, then backs off"
+      },
+      "shipped": {
+        "south": "touch-up (animation_group_id af95d5c0-9be8-4fdc-ae85-b35bd9fb4cbb)",
+        "north": "touch-up (same group)",
+        "east": "touch-up (same group)",
+        "west": "attempt 1"
+      },
+      "rejected_job_ids": {
+        "south": "0d526511-3fc4-4035-8f5d-be12605b394e",
+        "north": "efbc139e-dc61-431f-9940-014cf6ce3402",
+        "east": "05ecc0af-6240-451e-b2ef-a556cb41fd13"
+      },
+      "action_description_touch_up": "lunges forward and snaps both deep red pincers shut hard in front of it, then scuttles back to its starting spot; the pincers stay deep red the whole time, never white or cream",
+      "direction_prompts_touch_up": {
+        "south": "facing the viewer, lunges toward the viewer and snaps both deep red pincers shut, pincers stay deep red, then backs off",
+        "north": "seen from behind, lunges away from the viewer, both deep red pincers visible snapping out at the sides of the shell, pincers stay deep red, then backs off",
+        "east": "facing right, lunges right and snaps both deep red pincers shut, the pincers stay solid deep red and never turn white or cream, then backs off"
       }
     }
   },
@@ -104,18 +138,26 @@
       "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
       "credits": 16,
       "result": "accepted with flags; no regeneration spent. telegraph south frames 1-3 each lose 4-5 claw-tip pixels outside the 32 px box (13 in total, recorded as cropped_opaque_pixels): NEEDS A HUMAN DECISION whether to regenerate."
+    },
+    {
+      "n": 3,
+      "what": "touch-up: one regeneration each of strike south/north/east and telegraph south/west/east (cream-white pincer blobs, white bar, crop), 6 credits",
+      "credits": 6,
+      "result": "shipped: strike south, north, east; telegraph south, west. Rejected: telegraph east (noisier, messy white/red specks), old east kept. strike south: white bar gone, 4 px of claw tips cropped. telegraph south: red pincers, crop 13 -> 2 px but the pincers are not raised as high as the brief asks. telegraph west: red pincers, vent glows pale blue-white in frames 1-2. strike west was not regenerated (it was already red)."
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations": 16,
-    "total": 22,
+    "touch_up": 6,
+    "total": 28,
     "model_estimate": 22
   },
   "known_flaws": [
-    "telegraph south: the raised claw tips leave the 32 px box and 13 opaque pixels are cropped in total",
-    "telegraph west and east: the pincers turn pale cream and read as a different colour from the red idle/walk pincers",
-    "strike north: the claws read as thin yellow tips at the shell sides; strike south frame 2-3 shows a white bar that reads as snapping claws",
+    "telegraph east (first attempt): pincers read as large cream-white blobs in two frames, the touch-up was noisier so it was not used: NEEDS A HUMAN DECISION",
+    "telegraph south: pincers held low rather than raised; 2 px cropped",
+    "telegraph west: vent glows pale blue-white in frames 1-2",
+    "strike south: 4 px of claw tips cropped",
     "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
   ],
   "native_px": [
@@ -140,19 +182,19 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 4674,
+      "outline_repainted": 4569,
       "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
     },
-    "cropped_opaque_pixels": 13
+    "cropped_opaque_pixels": 6
   },
   "source": "source.png",
-  "source_sha256": "0204896838eb7cf67d52d3bc94fc1e0c0ad99b172c730debbb5902f79d53fe6c",
+  "source_sha256": "72643e8f4bd0c67e3edc889278065747b17f3ebd0be39ce9267ab9997fafc39e",
   "contact_sheets": {
-    "assets/raw/longtime/lt_kiln_crab/contact_1x.png": "4b1b64ebca7bd22b5d6f37e4842a5a2d8acebdaf634433913b2cae014b52c95a",
-    "assets/raw/longtime/lt_kiln_crab/contact_4x.png": "d3495f53cd7e21af46b80472a6d455f213f1e00af0c0ca24271bc325ff682dae"
+    "assets/raw/longtime/lt_kiln_crab/contact_1x.png": "b65a66099be8a9460a5605d1e25e71e66e68e6bd0cbac444a9ecb8fc28f6bf45",
+    "assets/raw/longtime/lt_kiln_crab/contact_4x.png": "5175abb5f34096baee2cde5a9112c50d1fd910a33f1cf65d33cc102a6aba3e9f"
   },
   "frames": [
     {
@@ -303,145 +345,145 @@
       "key": "longtime/lt_kiln_crab/strike_east_0",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_east_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/east/frame_000.png",
-      "raw_sha256": "d90b6a27f2020d4b545e624056d1b429065d3d3629a4ff9c299f35d864fa1a8d",
+      "raw_sha256": "050e0e603956c4cb1c9a4f0ba083bbb4e6e21bb8417e81807c5eb93c9a9002d5",
       "source_xy": [
         0,
         660
       ],
       "duration_ms": 90,
-      "sha256": "3f6def1275832d2512db57898a75aa11b664ad8c5c517cfe4833abafe30ab26c"
+      "sha256": "004d714e28d2c4778d7b0ed1b9404d8f2a9a373256239049fe818f2441477f9a"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_east_1",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_east_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/east/frame_001.png",
-      "raw_sha256": "18ab7ed478b5d8bcb2792b881f52980a9dfe6f2ebfb4fd3150cbeb45d5c4d02b",
+      "raw_sha256": "403f729fceb2e204bb9c5448858dbd8e7f090ef7c524a2ac869de4f2ea662863",
       "source_xy": [
         44,
         660
       ],
       "duration_ms": 90,
-      "sha256": "b9f0a19c0f52c395b41c8939881ece0b65d7e4c71f2333e21b8cbd421b6b7e24"
+      "sha256": "bfd97640f63880d9466c645a26de2b6e5acecca1955259d3279b3d61f1c8e812"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_east_2",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_east_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/east/frame_002.png",
-      "raw_sha256": "7780ad63ffdd8e9094e5bd58f66653cc51e8b6fe2ff4784ebb63029532bb4f57",
+      "raw_sha256": "42261f43b1fdf019804c76e44bcd660d3a616f34281eb66f701d8437156e38aa",
       "source_xy": [
         88,
         660
       ],
       "duration_ms": 90,
-      "sha256": "1808c997ca8c7c3836404dd4e9fb8d1271e2e5188804b28ad6b6d7a4d17c33a1"
+      "sha256": "90b9ffe4973160ca43570db2bd3baa67b0fdca801d9872220c62753ef2c3e7fb"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_east_3",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_east_3.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/east/frame_003.png",
-      "raw_sha256": "17ffe2c6cc553bd628284c085f75715280f727255758ce5aad12b9050f05abf1",
+      "raw_sha256": "67dfddfb9edcf5a35f3be87671b6dd4b97a122cf13f097d8a242daea183b197f",
       "source_xy": [
         132,
         660
       ],
       "duration_ms": 90,
-      "sha256": "6a4b5fae973e1223cd5015099924796547ce30d9b5dacc37fa89deeccb50de63"
+      "sha256": "8f6c56c905699fabdbde0a7c0f9215f50fada4e0f62cc4e3b0660707ba7d2adf"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_north_0",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_north_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/north/frame_000.png",
-      "raw_sha256": "50939ed6737b5f9e4ab43f55833a54a0c8045699003fa52baa4d78aadfa62ba2",
+      "raw_sha256": "a6739e17737eacf5feeba2f4cb12b8890d39eed0c06e8a42936990559ada9cf1",
       "source_xy": [
         0,
         616
       ],
       "duration_ms": 90,
-      "sha256": "72804cd5dce0916e4880c7f797c9464877c4195dcaee3a544d6b1bdcbf6454d5"
+      "sha256": "584b9fcf15b04345928d6512117041de1aa80b86253bb06052a285dbb905123e"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_north_1",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_north_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/north/frame_001.png",
-      "raw_sha256": "f544e84842fc264ea2a675486fc0717d7b177961732107cb48226c2770b8c6e1",
+      "raw_sha256": "d73b72b382c7e51aa0339d6deed221968fa1bdd0ee87faf54978c0b472a24da2",
       "source_xy": [
         44,
         616
       ],
       "duration_ms": 90,
-      "sha256": "6f5e14c8f12572b3ae11dc8c2ff4ed1a057259a6993cae493a8ad9a5a433e301"
+      "sha256": "3e35159512cf64ba99f8a1380324c756b5766df5ce436af3c3e58fcc4eaae1a5"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_north_2",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_north_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/north/frame_002.png",
-      "raw_sha256": "9106109524aa5fe09afd04a17b3644619401589d16b6c8c8033c2087523d9631",
+      "raw_sha256": "874ce14d5fc5afe02a7e5d66c7dd13b65f98c9a3567e9ba72a79774e8a333cdf",
       "source_xy": [
         88,
         616
       ],
       "duration_ms": 90,
-      "sha256": "267b9ec37cd4ebe3ce001b1234d01c8564de20f3b38dd0ebeab9047487548cf7"
+      "sha256": "56c2a3695b0e9294b5c017e9bc7ca8b13c20e4554c1ae91a3daebc41445cb68a"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_north_3",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_north_3.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/north/frame_003.png",
-      "raw_sha256": "f654b591233fbafd1243df0f58bd6a29c00a23a27a656252bb8083977184a76c",
+      "raw_sha256": "cd2eaa2046a77459224faee7b3a6216fa059ff953da907f3333f9627e4b1a074",
       "source_xy": [
         132,
         616
       ],
       "duration_ms": 90,
-      "sha256": "0fdd247239da0ccc63e10a3b042e58d2b9622fc42f81588bfe46c21b08de0a01"
+      "sha256": "7f92a580a96585575fd5b5fc949b63f435d84f8353729a79dc337a4eae7d2a92"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_south_0",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_south_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/south/frame_000.png",
-      "raw_sha256": "fd47d43caf99697f12e01acd03b2a0bf97e948481a22067bdad0437077c59dee",
+      "raw_sha256": "f3fb523e81b6782ac02fae7e063d66d8d2e4a9221081e9f7134f76c167d43363",
       "source_xy": [
         0,
         528
       ],
       "duration_ms": 90,
-      "sha256": "5e3543c9011526fbdcfc8434d6d92748bf4f6d9a745abe9dfb1987461b7d914d"
+      "sha256": "aef757766375b6fa11944a512792b524ea03bdacf4883016d2d8879576bccecc"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_south_1",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_south_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/south/frame_001.png",
-      "raw_sha256": "4b703504ea8c4c1186d911dd418f016ff7784c7daff337a2bd28556932cee5f0",
+      "raw_sha256": "04866e441e82cff43235e8b468fd76e70b0b42b416c22a8334229c3f788fb0b8",
       "source_xy": [
         44,
         528
       ],
       "duration_ms": 90,
-      "sha256": "579d10239eef679baf82a5682d21d91c680f2a8760049e2f82cf815af4dab6f8"
+      "sha256": "f45059dd5ebda3517f61642fdc98d466aa5404970a78fc1ae08ad12aac1c58ca"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_south_2",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_south_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/south/frame_002.png",
-      "raw_sha256": "02fe1d80647fdf933d538d26c6b2f99cf263c4a5df7794d22094396207b35a81",
+      "raw_sha256": "3e7f24439c2d6826a20fc007af7e989f77174a8d0a2d2f22f5ee281721fba04d",
       "source_xy": [
         88,
         528
       ],
       "duration_ms": 90,
-      "sha256": "a4117ebc600df95d58c245b27bf88d2d80ced78cdc8397b25ff8bcbe76627247"
+      "sha256": "5d8ee8d52e1dd23534591d3d2dece0ef5faf6925cdc6b6af2b3f1a40feb231b0"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_south_3",
       "path": "assets/processed_longtime/lt_kiln_crab/strike_south_3.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/strike/south/frame_003.png",
-      "raw_sha256": "a1a9859e831cbf5669a6496bd072e92e12f1f85d0b2aa6b2cbafd837cac7c186",
+      "raw_sha256": "e8c3849fc93156cdcfd0d329f496faa09eac50ddb23a89aecd76b929a22959de",
       "source_xy": [
         132,
         528
       ],
       "duration_ms": 90,
-      "sha256": "2abd2ec2b086e4ef5010f1083b774bff73ac71338fb108512d11eee6f58a3a56"
+      "sha256": "9b8a62fa8add9aadfdab15cb51e99f4c5042bed0e9260bcd910ed496d6f00f97"
     },
     {
       "key": "longtime/lt_kiln_crab/strike_west_0",
@@ -567,73 +609,73 @@
       "key": "longtime/lt_kiln_crab/telegraph_south_0",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_south_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/south/frame_000.png",
-      "raw_sha256": "baa15f93b46bc71a59cf7011f965619af92381651ee76b6ba62425071fb007ed",
+      "raw_sha256": "ccae2e83bb9498aee0e430c49f0f3d78db2419e4f6c80b0e06f4741937f58354",
       "source_xy": [
         0,
         352
       ],
       "duration_ms": 160,
-      "sha256": "d357dfba5991ada779a21529f70e636b5656f11e6baf5c513ba1a86146fa2182"
+      "sha256": "faace7085e6fd7497dc00445c6eb5926e672b9ec6057197a3cfed5afdd92b49b"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_south_1",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_south_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/south/frame_001.png",
-      "raw_sha256": "2d90907670d5fe092a22b91113e1db6bc8f0831f5763654d7c22623044e50f41",
+      "raw_sha256": "8cc30e24c89f5acbbc9dfb031954d5d31a6a9cf06ddf2da65f86a680f24f38ef",
       "source_xy": [
         44,
         352
       ],
       "duration_ms": 160,
-      "sha256": "bea25ee0561a0bb8ed8b1557ad957ac2471bbee174ce73099b89925bdb1929fb"
+      "sha256": "7fb3e6037621af48a2a6e1784856c916a50d41f82ff534e060c17a5178fe48a5"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_south_2",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_south_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/south/frame_002.png",
-      "raw_sha256": "bb50427b732fe6252e7ccc2cdae7bb5be12b6f3c04e6cda5b8e8f722a7921174",
+      "raw_sha256": "06270fbab73c6d0bea67d7b69a0c7285f5462f9557d567c5b53b4b822b33828b",
       "source_xy": [
         88,
         352
       ],
       "duration_ms": 160,
-      "sha256": "abd6489e2e0969e7f4f549891085c47bdd555850f265d3cae902b85b9252111a"
+      "sha256": "313d7a4454c92e2d3fc8fa50ffa6b8e81c78e827525f431fd671c465b3761346"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_west_0",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_west_0.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/west/frame_000.png",
-      "raw_sha256": "98e987f2354ac0e55c012e60e16c2ea6d3118bc25f2a8a185fefb28cedcf58f3",
+      "raw_sha256": "69bf0dd4c02bb0c03e5c1b428fe90a5aae89577147711832eecda88aa15de30a",
       "source_xy": [
         0,
         396
       ],
       "duration_ms": 160,
-      "sha256": "dc706bd7670af611d8b4c3eb070453d8188e07ddfe58657d2a9c0a04723855d4"
+      "sha256": "89d4eb30ffac71e9a52bbedfee9a25ee75d8db54ed0435810f78de687ab5bbfa"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_west_1",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_west_1.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/west/frame_001.png",
-      "raw_sha256": "b0d46628ad355ae87b0bdc5d37b2d80917b89969d79d8ba6074d6998ecb4f002",
+      "raw_sha256": "0f11a2b537fe4d571c0d7e339fc6a4d964b0108112497fe421f5ae10cd815a12",
       "source_xy": [
         44,
         396
       ],
       "duration_ms": 160,
-      "sha256": "af7eebeca8c4a818cf674c6cbef7bd68b70d0044e0edd35e01d4aa45060a0cc2"
+      "sha256": "1860ce1e8eac2654b384a9af4d070c2a2a94e275b7e9dec7a93c199b67ce84b1"
     },
     {
       "key": "longtime/lt_kiln_crab/telegraph_west_2",
       "path": "assets/processed_longtime/lt_kiln_crab/telegraph_west_2.png",
       "raw_path": "assets/raw/longtime/lt_kiln_crab/telegraph/west/frame_002.png",
-      "raw_sha256": "b5bf8c6b2a6631a3a6a54ba38129d98df81f088e556cf4b1e8472cb01075d1af",
+      "raw_sha256": "5dc58cfd879e1d3ec97fccf28d0af89a25d9854397b75ffbc174534c6cd29b56",
       "source_xy": [
         88,
         396
       ],
       "duration_ms": 160,
-      "sha256": "00472d0ca5ee53991715de0fc5b24405326dcee7615ec3e3bc322ff78877f244"
+      "sha256": "600a4ff0244bc676d55732d04941de90533c2adf586fcfec35acf129dcda4f9c"
     },
     {
       "key": "longtime/lt_kiln_crab/walk_east_0",

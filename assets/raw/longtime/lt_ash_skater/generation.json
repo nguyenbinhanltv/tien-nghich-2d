@@ -3,23 +3,23 @@
   "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
   "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
   "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
-  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 21) then animate_character v3 per direction (frames come back on a 40x40 canvas, centred on 32x32 without scaling). v3 only makes even frame counts, so idle (3 wanted) keeps frames 0-2 of 4 and telegraph (3 wanted) keeps frames 1-3 of 4; the dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
-  "pixellab_character_id": "6c6993c1-24d0-402d-bf2f-6dd222dc009c",
-  "character_job_id": "d85086b0-d3bf-4862-a79b-c30021f44c63",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 22 (second character, see attempts)) then animate_character v3 per direction (frames come back on a 40x40 canvas, centred on 32x32 without scaling). v3 only makes even frame counts, so idle (3 wanted) keeps frames 0-2 of 4 and telegraph (3 wanted) keeps frames 1-3 of 4; the dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "a7df57f8-6cea-4c79-af6f-ff8745c6eadd",
+  "character_job_id": "ae8d2315-523c-4691-aad9-b3c31d3958c4",
   "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
-  "prompt": "Ash skater, a small chibi gaunt figure with a very large head, ash-grey skin dusted with soot, a ragged dark charcoal hooded cowl, glowing ember-orange eyes, standing on a single long flat curved dark iron skate-runner board under both feet, a long ragged pale grey ash scarf streaming behind it, hooked soot-black claw hands held low, bent forward. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "prompt": "Ash skater, a small chibi gaunt figure with a very large head, pale bone-white and light ash-grey skin and a light grey ragged hooded cowl lined inside with glowing orange-red ember, bright glowing ember-orange eyes, a bright orange ember glow along the hem and scarf edges, standing on a single long flat curved iron skate-runner board under both feet with orange hot sparks at the runner, a long ragged pale ash scarf streaming behind it, hooked claw hands held low with ember-orange fingertips, bent forward. Light colours, strong contrast against a dark floor. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
   "animations": {
     "idle": {
       "mode": "v3",
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "3f262088-e714-43d6-ae67-8dbabd64b681",
+      "animation_group_id": "e1281224-923c-4e10-acdf-b5fcfba97e45",
       "job_ids": {
-        "south": "47cdc774-d9f0-483d-a6df-7b988f886d3c",
-        "west": "8efd4d34-bf62-4d6a-9914-e95c3b107fc0",
-        "north": "6bd82e6b-e3bb-4aa5-b7dd-787e8fbae9b5",
-        "east": "8156c24e-1a07-49ed-bfc1-a1ef6ae74761"
+        "south": "4f3e4774-a646-4d42-a3e5-470e581291a0",
+        "west": "a40d6de6-76d5-409f-a715-24f002b037e6",
+        "north": "944ec042-cef1-4eb6-b18d-694c0b173820",
+        "east": "b8fdfc8e-3b99-43ba-91eb-53e9de1a35dd"
       },
       "action_description": "hovers in place on its skate board, body swaying slightly side to side, scarf fluttering, ember eyes glowing",
       "direction_prompts": {
@@ -33,12 +33,12 @@
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "47c52d29-a031-4f39-9872-e4bfdde1ee33",
+      "animation_group_id": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
       "job_ids": {
-        "south": "77e7ce25-f9f5-432e-8594-bf14261d2374",
-        "west": "9b7fd1ae-420a-4c80-9348-bb4bfea35f9d",
-        "north": "9a4bfd71-4e66-4c5c-8d7c-b44662835b08",
-        "east": "968dd54d-9da1-4ae2-81fd-2f9c7f9bd316"
+        "south": "99b35b56-7eec-4916-acc5-e0998fe15d04",
+        "west": "620c015d-d273-4f7b-9449-bcc8936337e3",
+        "north": "f2177bb4-3a7d-4dec-a91f-e8ee5946dcef",
+        "east": "9964456c-9663-400b-842d-faa2134c6279"
       },
       "action_description": "glides forward on its skate board in a fast skating stride, body leaning forward, scarf streaming behind",
       "direction_prompts": {
@@ -53,12 +53,12 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "70a56a3b-e995-426c-9106-68a315f74398",
+      "animation_group_id": "4491aa6b-f804-4781-b81d-c5527556346c",
       "job_ids": {
-        "south": "da5e261f-fdd8-4cbc-820d-68d5040d0c07",
-        "west": "7c5e98ad-eaeb-4d6c-a074-0b20c915fe58",
-        "north": "c3e9b150-b411-44cc-a86e-2de02863ec9b",
-        "east": "e2e32313-e675-4668-8ec1-ca1358b95e45"
+        "south": "c75807e1-bb81-4f58-8855-31f5b98a12d0",
+        "west": "a17521d9-02c9-439c-8d7d-481b21e5e34f",
+        "north": "0e61381d-aba0-438e-bcf0-273e41e9867b",
+        "east": "a6261fb9-2172-474b-aba3-cdcaf0ad373f"
       },
       "action_description": "crouches low on its skate board and rears back, claws spread wide and raised, scarf flaring, eyes flaring bright orange, silhouette clearly bigger and spiky before a lunge",
       "direction_prompts": {
@@ -72,12 +72,12 @@
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "c63ae5c6-559a-46ae-b09f-8764865d4585",
+      "animation_group_id": "4d744878-5842-4020-87c4-6d49cf3c7018",
       "job_ids": {
-        "south": "a53009c7-f7a6-4da4-814e-e458c8122cb1",
-        "west": "3db642bb-6ef6-47c5-8b28-a8c867167cd1",
-        "north": "4f762bc8-c0ad-42a4-8863-ecc9cd6ed7b4",
-        "east": "5049e2dd-e087-43b8-b5cf-83ee6d54ec26"
+        "south": "ff188998-548f-4d7f-9dac-4b4277ad82ba",
+        "west": "c78e5808-16c5-41e8-b959-a2c69446eaab",
+        "north": "8e01a9ae-c030-402f-9be0-83ebb3df170b",
+        "east": "b9c29f6f-4fc0-4e94-8ae1-2ea4e84bc4d2"
       },
       "action_description": "lunges forward fast on its skate board, slashing both claws across in front of it, then glides back to its starting stance",
       "direction_prompts": {
@@ -97,21 +97,112 @@
     },
     {
       "n": 2,
-      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "what": "first character animations (idle, walk, telegraph, strike x4)",
       "credits": 16,
-      "result": "accepted with flags; no regeneration was spent (kept for the human review)"
+      "result": "rejected with the whole first character: sinks into the dark floor (see first_character_rejected)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up: second character (lighter ash body, ember accent, seed 22) and all four clips x 4 directions with the same action prompts",
+      "credits": 22,
+      "result": "accepted: reads clearly on the floor colour at 1x and 4x"
     }
   ],
   "credits_spent": {
-    "character": 6,
-    "animations": 16,
-    "total": 22,
-    "model_estimate": 22
+    "first_character": 22,
+    "second_character_and_clips": 22,
+    "total": 44
   },
   "known_flaws": [
-    "the figure is dark on a dark ground: readability at 1x is weak, the pale scarf carries the silhouette",
-    "eye colour differs between facings (red in south/west telegraph and strike, yellow in east)",
-    "the skate board is a thin dark slab under the feet and is hard to see in some frames",
-    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
-  ]
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3",
+    "scarf and claw ember sparks are single scattered pixels and may flicker at 1x",
+    "the board is a thin dark slab under the feet",
+    "hood reads as a cone; face is a red-lined slit"
+  ],
+  "first_character_rejected": {
+    "pixellab_character_id": "6c6993c1-24d0-402d-bf2f-6dd222dc009c",
+    "character_job_id": "d85086b0-d3bf-4862-a79b-c30021f44c63",
+    "prompt": "Ash skater, a small chibi gaunt figure with a very large head, ash-grey skin dusted with soot, a ragged dark charcoal hooded cowl, glowing ember-orange eyes, standing on a single long flat curved dark iron skate-runner board under both feet, a long ragged pale grey ash scarf streaming behind it, hooked soot-black claw hands held low, bent forward. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+    "animations": {
+      "idle": {
+        "mode": "v3",
+        "frame_count": 4,
+        "shipped_frames": "0-2",
+        "keep_first_frame": false,
+        "animation_group_id": "3f262088-e714-43d6-ae67-8dbabd64b681",
+        "job_ids": {
+          "south": "47cdc774-d9f0-483d-a6df-7b988f886d3c",
+          "west": "8efd4d34-bf62-4d6a-9914-e95c3b107fc0",
+          "north": "6bd82e6b-e3bb-4aa5-b7dd-787e8fbae9b5",
+          "east": "8156c24e-1a07-49ed-bfc1-a1ef6ae74761"
+        },
+        "action_description": "hovers in place on its skate board, body swaying slightly side to side, scarf fluttering, ember eyes glowing",
+        "direction_prompts": {
+          "south": "facing the viewer, sways slightly on the skate board, scarf fluttering behind",
+          "west": "facing left, sways slightly on the skate board, scarf fluttering to the right",
+          "north": "seen from behind, sways slightly on the skate board, scarf fluttering",
+          "east": "facing right, sways slightly on the skate board, scarf fluttering to the left"
+        }
+      },
+      "walk": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_group_id": "47c52d29-a031-4f39-9872-e4bfdde1ee33",
+        "job_ids": {
+          "south": "77e7ce25-f9f5-432e-8594-bf14261d2374",
+          "west": "9b7fd1ae-420a-4c80-9348-bb4bfea35f9d",
+          "north": "9a4bfd71-4e66-4c5c-8d7c-b44662835b08",
+          "east": "968dd54d-9da1-4ae2-81fd-2f9c7f9bd316"
+        },
+        "action_description": "glides forward on its skate board in a fast skating stride, body leaning forward, scarf streaming behind",
+        "direction_prompts": {
+          "south": "skates toward the viewer on its board, leaning forward, scarf trailing behind it and hidden",
+          "west": "skates to the left on its board, leaning forward, scarf streaming to the right",
+          "north": "skates away from the viewer, seen from behind, scarf streaming",
+          "east": "skates to the right on its board, leaning forward, scarf streaming to the left"
+        }
+      },
+      "telegraph": {
+        "mode": "v3",
+        "frame_count": 4,
+        "shipped_frames": "1-3",
+        "keep_first_frame": false,
+        "animation_group_id": "70a56a3b-e995-426c-9106-68a315f74398",
+        "job_ids": {
+          "south": "da5e261f-fdd8-4cbc-820d-68d5040d0c07",
+          "west": "7c5e98ad-eaeb-4d6c-a074-0b20c915fe58",
+          "north": "c3e9b150-b411-44cc-a86e-2de02863ec9b",
+          "east": "e2e32313-e675-4668-8ec1-ca1358b95e45"
+        },
+        "action_description": "crouches low on its skate board and rears back, claws spread wide and raised, scarf flaring, eyes flaring bright orange, silhouette clearly bigger and spiky before a lunge",
+        "direction_prompts": {
+          "south": "facing the viewer, crouches and rears back, both claws spread wide and raised",
+          "west": "facing left, crouches and rears back, claws spread and raised, scarf flaring to the right",
+          "north": "seen from behind, crouches and rears back, scarf flaring, arms raised",
+          "east": "facing right, crouches and rears back, claws spread and raised, scarf flaring to the left"
+        }
+      },
+      "strike": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_group_id": "c63ae5c6-559a-46ae-b09f-8764865d4585",
+        "job_ids": {
+          "south": "a53009c7-f7a6-4da4-814e-e458c8122cb1",
+          "west": "3db642bb-6ef6-47c5-8b28-a8c867167cd1",
+          "north": "4f762bc8-c0ad-42a4-8863-ecc9cd6ed7b4",
+          "east": "5049e2dd-e087-43b8-b5cf-83ee6d54ec26"
+        },
+        "action_description": "lunges forward fast on its skate board, slashing both claws across in front of it, then glides back to its starting stance",
+        "direction_prompts": {
+          "south": "facing the viewer, lunges toward the viewer slashing both claws across, then returns",
+          "west": "facing left, lunges left slashing both claws across, then returns",
+          "north": "seen from behind, lunges away from the viewer slashing both claws, then returns",
+          "east": "facing right, lunges right slashing both claws across, then returns"
+        }
+      }
+    },
+    "why": "touch-up contrast check: 92% of its palette-snapped body pixels lay within a small Lab distance (dE<18) of the ember_delta floor colours #49434f/#2c2733/#6e6877 (other mobs 44-63%); it would sink into the floor. Raw frames not shipped."
+  }
 }

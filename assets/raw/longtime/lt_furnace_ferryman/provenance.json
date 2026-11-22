@@ -57,13 +57,13 @@
       "keep_first_frame": false,
       "shipped": {
         "north": "attempt 1 (animation_group_id 0d15c976-7d2b-4245-b37b-de117581f00a)",
-        "south": "attempt 2 (cc56cee7-c992-4fe1-bdab-d84eda62a87b)",
+        "south": "attempt 3 (touch-up, animation_group_id f3c0bc57-8fcf-4c3e-a39f-1c107c10fb25)",
         "west": "attempt 2",
         "east": "attempt 2"
       },
       "job_ids": {
         "north": "fb95de3b-9ff5-4dd0-91db-a8abe37ec785",
-        "south": "43b2dfe8-f1aa-4cea-a308-a1f1e6768a45",
+        "south": "c22f4bcc-79f5-4944-84ad-8ee9ceaa19c4",
         "west": "8dcf77ca-1ed9-48f2-9d61-9c6e345da125",
         "east": "40d647db-ff1c-4222-ae23-be1757477383"
       },
@@ -71,7 +71,8 @@
         "south": "85350606-d44e-419a-9006-d8537317701b",
         "west": "c1082490-faf6-41c1-a012-36ebe1b1dabb",
         "north_attempt_2": "f11f4ff0-2e87-472e-a0f4-0a67a2bbaa1b",
-        "east": "4add9af8-962f-48e0-ab5e-feaf16f3931c"
+        "east": "4add9af8-962f-48e0-ab5e-feaf16f3931c",
+        "south_attempt_2": "43b2dfe8-f1aa-4cea-a308-a1f1e6768a45"
       },
       "action_description_attempt_1": "winds up for a broadside: plants his feet wide, raises the long furnace paddle high above his shoulder with the glowing blade end up, holds it there glowing brighter, body leaning back slightly",
       "action_description_attempt_2": "raises the long furnace paddle straight up beside his head and holds it upright, glowing blade end high above the hat, legs planted wide, leaning back slightly, the paddle stays close to his body and does not stick out sideways",
@@ -86,6 +87,10 @@
         "west": "facing left, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways",
         "north": "seen from behind, lifts the long paddle in his right hand (viewer's RIGHT) straight up beside his head, the glowing blade end clearly visible above the hat on the viewer's right, held vertical and close to the body",
         "east": "facing right, lifts the long paddle straight up in front of him, held vertical, glowing blade end above the hat brim, close to the body, not sticking out sideways"
+      },
+      "action_description_attempt_3": "raises the long furnace paddle straight up beside his head with the right hand and keeps it raised and clearly visible in every frame, glowing blade end above the hat, legs planted wide, paddle close to the body",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, the long paddle in his right hand (viewer's left) is lifted straight up beside his head and stays raised and fully visible in all frames, blade end glowing above the hat brim, paddle held vertical and close to the body"
       }
     },
     "strike": {
@@ -95,18 +100,19 @@
       "shipped": {
         "west": "attempt 1 (animation_group_id 767ce2c8-ea41-4b15-a033-e49d238d06ea)",
         "east": "attempt 1",
-        "south": "attempt 2 (8eca5859-7376-4e97-a30d-ecfa7137f61c)",
+        "south": "attempt 3 (touch-up, animation_group_id c43c1c21-d1d8-489a-bdb9-c4140c930c6b)",
         "north": "attempt 2"
       },
       "job_ids": {
         "west": "cf424c6b-6fc7-4184-bde9-2b4394fa8c01",
         "east": "1a66e636-dbcd-4df3-8f2b-bf6df43f93d9",
-        "south": "4f8b15c8-33f1-4692-bb5e-5e098b74c03d",
+        "south": "4e387e4b-67f9-496a-a94f-057d13eb4e9e",
         "north": "e9ee2c86-c174-4a56-b022-b5eb47c75470"
       },
       "rejected_job_ids": {
         "south": "b47ef7ed-a0eb-42c5-8c2e-49b565e745e7",
-        "north": "ec8b9dd2-8fae-41e1-a9ba-1c44c99fb525"
+        "north": "ec8b9dd2-8fae-41e1-a9ba-1c44c99fb525",
+        "south_attempt_2": "4f8b15c8-33f1-4692-bb5e-5e098b74c03d"
       },
       "action_description_attempt_1": "swings the long furnace paddle down and across in a heavy broad sweep, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
       "action_description_attempt_2": "swings the long furnace paddle down and across in a compact heavy sweep that stays close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
@@ -119,6 +125,10 @@
       "direction_prompts_attempt_2": {
         "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward across in front of him in a compact sweep close to his body, then brings it back upright beside him",
         "north": "seen from behind, swings the long paddle in his right hand (viewer's RIGHT) down and away from the viewer in a compact sweep close to his body, then brings it back upright beside him"
+      },
+      "action_description_attempt_3": "swings the long furnace paddle down and across in a compact heavy sweep that stays inside a narrow arc close to his body, body twisting with the swing, then recovers to standing with the paddle upright again, the paddle stays in the same right hand",
+      "direction_prompts_attempt_3": {
+        "south": "facing the viewer, swings the long paddle in his right hand (viewer's left) down and forward in a short compact sweep that keeps the blade close to his body and never extends far to the side, then brings it back upright beside him"
       }
     }
   },
@@ -140,21 +150,26 @@
       "what": "regeneration of telegraph (south, west, north, east) with the paddle held upright and close to the body, and of strike south and north with a compact sweep: 4 + 2 single-direction regenerations",
       "credits": 6,
       "result": "telegraph west, east and south and strike north taken from this attempt (fit the box). telegraph north kept from attempt 1 (attempt 2 north never raises the paddle). strike south: attempt 2 still has 3 opaque paddle-tip pixels outside the 64 px box in frame 5 and no regeneration is left, so the build records a 3 px crop; NEEDS A HUMAN DECISION. telegraph south (attempt 2) loses the paddle in frame 4, also NEEDS A HUMAN DECISION."
+    },
+    {
+      "n": 4,
+      "what": "touch-up: one regeneration each of telegraph south and strike south (the two cropped/lost-paddle clip-directions)",
+      "credits": 2,
+      "result": "both shipped. strike south: 0 px outside the box (was 3), matches west/east. telegraph south: the paddle is now in hand in every frame (was lost in frame 4), but the blade flashes pale yellow-white in frames 1-2 and a grey blob sits on the blade tip in frame 3, and 2 px are cropped; kept as the better of the two, NEEDS A HUMAN DECISION"
     }
   ],
   "credits_spent": {
     "character": 6,
     "animations_attempt_2": 16,
     "regenerations_attempt_3": 6,
-    "total": 28,
-    "model_estimate": 28,
-    "balance_before_lane": 804.26
+    "touch_up_attempt_4": 2,
+    "total": 30,
+    "model_estimate": 28
   },
   "known_flaws": [
-    "telegraph south frame 4: the paddle is not visible (the right hand is at the hat brim); frames 1-3 show it raised",
-    "strike south frame 5: 3 opaque pixels of the paddle tip fall outside the 64 px box and are cropped (outline repainted by the snap step)",
     "idle west and east: a small pale breath puff beside the face, readable as breath at 1x, most visible in west frame 4",
-    "telegraph east holds a static diagonal paddle pose across the four frames (little motion); telegraph west/north motion is small"
+    "telegraph east holds a static diagonal paddle pose across the four frames (little motion); telegraph west/north motion is small",
+    "telegraph south: blade colour flashes pale yellow-white in frames 1-2 and a grey blob on the blade tip in frame 3 (off-palette look); 2 px of the raised paddle are cropped"
   ],
   "native_px": [
     64,
@@ -178,19 +193,19 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 1783,
-      "outline_thinned": 743,
+      "outline_repainted": 1933,
+      "outline_thinned": 732,
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
     },
-    "cropped_opaque_pixels": 3
+    "cropped_opaque_pixels": 2
   },
   "source": "source.png",
-  "source_sha256": "b711e80464f0645576aabd70e4b092ebc20ad0be5d472e9315b0e7ba40363b05",
+  "source_sha256": "11fccd5d7acdb45af7f8b293efb5e365e54e46c2505b53107aad3051435c5a2d",
   "contact_sheets": {
-    "assets/raw/longtime/lt_furnace_ferryman/contact_1x.png": "d426682dad35b474d30f7c60e088f02c2ff664c74c9ef569edbbf28be768a2d1",
-    "assets/raw/longtime/lt_furnace_ferryman/contact_4x.png": "77129717f73ff86edb5da71e8f718144ed1efe627c03c26b74281bc3bcc6b78f"
+    "assets/raw/longtime/lt_furnace_ferryman/contact_1x.png": "731b940606bff822d62221628896d1f41242f88240d94c69a91d29419fba78a5",
+    "assets/raw/longtime/lt_furnace_ferryman/contact_4x.png": "070877b7cbb248a5051df0255193a102bb5b23e143f7f41a3679233e890399c4"
   },
   "frames": [
     {
@@ -725,73 +740,73 @@
       "key": "longtime/lt_furnace_ferryman/strike_south_0",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_0.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_000.png",
-      "raw_sha256": "7ad5bd2c4acb6b68381160fb3f2da541cd39adeeb94d282fb7e28443c87d31bd",
+      "raw_sha256": "71fb7abd081398e4fdb75d1bd09792dab07aab62d22a5b1f95cddc1fefe563ef",
       "source_xy": [
         0,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "9e4ac8cf9e1f54d6adac201d15829f10c8856dadf9037e3f554106f95e6e1e2e"
+      "sha256": "1607ddc6937c2d86015dc40f5f0473bdde6c71c4c5761147a9dcd27912da40ee"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_south_1",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_1.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_001.png",
-      "raw_sha256": "fdf3687cd4dfc0867ea53a03898d078d00a50c954888f84cbbadec26a9469d6b",
+      "raw_sha256": "2645ef139a23204c3f3c518ef75547dbb2b3531e4068fa57d03acd5f3096117d",
       "source_xy": [
         84,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "e31931ab4db72b32452ce6eacbed6d8160c3c95de1c0a8c4eb6352a38d4cf681"
+      "sha256": "e3cc018011d9aabcb8c926fbfabd742f03ec04b40ada2af86ab50fb6fb4d24ff"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_south_2",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_2.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_002.png",
-      "raw_sha256": "bff843839bb05d7cf737d751f8397450e65b30840295deaaf308ef3973062c14",
+      "raw_sha256": "85b2790da2f08bd3f50197b284e71cf1745b3d86c5319e77c82057fd8dc183df",
       "source_xy": [
         168,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "6d2d3c0cf6750ccf305d094341ce253360d98d493d9da3438bb399ad69ce68fd"
+      "sha256": "d24cc2be31d8234aff9667b006de2e20e8ab7969394b8ad6ca5d92c7317fe935"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_south_3",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_3.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_003.png",
-      "raw_sha256": "3932a144f6683aef2c81a3477adf7e178de8bad4fd582b508dd6e8e60aaca2a6",
+      "raw_sha256": "e2579cded46198d595236a1da5e327291a7028bd9be5ec2fc41b04f213c1e9e2",
       "source_xy": [
         252,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "50251ecce39027e87f017aae6c766ab0822c99a06cf2d3065c955f5bda019fcf"
+      "sha256": "c8e73e7d74e43bccf2c59fad8803513b94c63e325b4fa920185b92a7a7f000a7"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_south_4",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_4.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_004.png",
-      "raw_sha256": "c9d9c0a68d798c51d5e25cbd089bdf1debdb924e00be8e6fd87a0d66360a221e",
+      "raw_sha256": "85eeffda6464eeb85e031a546f906131e05e56c0d0099dbc02eb05a91552ea37",
       "source_xy": [
         336,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "11b9eedbdfb3ef9747fea13159c1c35f9c7480bc369838b5a0b631059e786a28"
+      "sha256": "59fe4ebbf0d10c319da4087675354a266f8d3d95b477737031ed588479735e19"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_south_5",
       "path": "assets/processed_longtime/lt_furnace_ferryman/strike_south_5.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/strike/south/frame_005.png",
-      "raw_sha256": "8fe4c531699d0c9e19a0998b3722f84094fac53d062f7b6342b719362e2220ed",
+      "raw_sha256": "1fd5e3f937fbdff61b49e001e3e0a8d66d493b0170b3dfa13506631dbc40f937",
       "source_xy": [
         420,
         1008
       ],
       "duration_ms": 100,
-      "sha256": "a4b1334030ebb97617c0842f6ac0a7fa8c5ae8951ca7b1cfd2e0978bb03afa6a"
+      "sha256": "67b1d241a10744314ac8c853b1bbce75d659e1fca06c9816c76b05482b9f003b"
     },
     {
       "key": "longtime/lt_furnace_ferryman/strike_west_0",
@@ -965,49 +980,49 @@
       "key": "longtime/lt_furnace_ferryman/telegraph_south_0",
       "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_0.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_000.png",
-      "raw_sha256": "dfd8810976ee8ecc0a9d11279af347bf9ab415b75dff9349a8c63770b6c81981",
+      "raw_sha256": "71e7f56093d4153c2243d49126e77beacc7e0abc103aa0d3d37417202a35f290",
       "source_xy": [
         0,
         672
       ],
       "duration_ms": 180,
-      "sha256": "688ce2b1e7fcbafc8f7f6bc853ec18a157d5de6c3133ad57cc7f145615090d92"
+      "sha256": "534a3e3752fd63d984918e9340110e6fa34cff9c4c1fb4c0190ba0b849ea6540"
     },
     {
       "key": "longtime/lt_furnace_ferryman/telegraph_south_1",
       "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_1.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_001.png",
-      "raw_sha256": "ded094dfac43f4ca613f615b56c076078e4c30540c4cde4f3aeb36569a2da895",
+      "raw_sha256": "75c6005a8f90536e113dac16ed28c3178e689aee47f2d602f05c7f3d535c20f2",
       "source_xy": [
         84,
         672
       ],
       "duration_ms": 180,
-      "sha256": "d664a99e542188597194a601ce5330a6308d53d4150278f5a5c6e110872035fe"
+      "sha256": "ed41be04947339cb56fb36eb00537075b971de193e3b7b9800e08307876a185b"
     },
     {
       "key": "longtime/lt_furnace_ferryman/telegraph_south_2",
       "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_2.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_002.png",
-      "raw_sha256": "e13d5d8b76d1367c80af1beda498c9ac4978661951692050e0fee66e1a898145",
+      "raw_sha256": "d79b4bdc18d2baab9e1e054bd09d2e5cf94f872518656666c99014723e6eec05",
       "source_xy": [
         168,
         672
       ],
       "duration_ms": 180,
-      "sha256": "7b8bb500718ebc50b8b8db1ebfc705f4c8f24ef970ba39b9fb5c3ef860581b43"
+      "sha256": "8f7e637ffe2f5196a54c9baaaf06e6aa500385b7c24e00e437beee4e6a91685e"
     },
     {
       "key": "longtime/lt_furnace_ferryman/telegraph_south_3",
       "path": "assets/processed_longtime/lt_furnace_ferryman/telegraph_south_3.png",
       "raw_path": "assets/raw/longtime/lt_furnace_ferryman/telegraph/south/frame_003.png",
-      "raw_sha256": "4816877da1f1ac0101d097882508f0c2675deaa71ab35fee05ed73490a432ccb",
+      "raw_sha256": "f3e8610f25093ac4b1ff7583383dc364b0e429202ea23eaf110c902c1a4c7a71",
       "source_xy": [
         252,
         672
       ],
       "duration_ms": 180,
-      "sha256": "b44df22ef0ce5bb68ea6e31f760250304751b2da24170f294b945811db94ca29"
+      "sha256": "a9ffe301fea326de27469556cc40812ba2be49898ec76c49e602f3206bfe1321"
     },
     {
       "key": "longtime/lt_furnace_ferryman/telegraph_west_0",

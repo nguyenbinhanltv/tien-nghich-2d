@@ -7,23 +7,23 @@
   "operator": "worker session tien-nghich-2d-27 (Claude Code, claude-sonnet-5-5), 2026-11-22",
   "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-27, 2026-11-22",
   "authorization": "Owner told the orchestrator on 2026-11-22 to use the remaining PixelLab credits today; same-day exception to the retirement rule.",
-  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 21) then animate_character v3 per direction (frames come back on a 40x40 canvas, centred on 32x32 without scaling). v3 only makes even frame counts, so idle (3 wanted) keeps frames 0-2 of 4 and telegraph (3 wanted) keeps frames 1-3 of 4; the dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
-  "pixellab_character_id": "6c6993c1-24d0-402d-bf2f-6dd222dc009c",
-  "character_job_id": "d85086b0-d3bf-4862-a79b-c30021f44c63",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 22 (second character, see attempts)) then animate_character v3 per direction (frames come back on a 40x40 canvas, centred on 32x32 without scaling). v3 only makes even frame counts, so idle (3 wanted) keeps frames 0-2 of 4 and telegraph (3 wanted) keeps frames 1-3 of 4; the dropped frames are not shipped. All four facings are separate generations; nothing is mirrored.",
+  "pixellab_character_id": "a7df57f8-6cea-4c79-af6f-ff8745c6eadd",
+  "character_job_id": "ae8d2315-523c-4691-aad9-b3c31d3958c4",
   "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
-  "prompt": "Ash skater, a small chibi gaunt figure with a very large head, ash-grey skin dusted with soot, a ragged dark charcoal hooded cowl, glowing ember-orange eyes, standing on a single long flat curved dark iron skate-runner board under both feet, a long ragged pale grey ash scarf streaming behind it, hooked soot-black claw hands held low, bent forward. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "prompt": "Ash skater, a small chibi gaunt figure with a very large head, pale bone-white and light ash-grey skin and a light grey ragged hooded cowl lined inside with glowing orange-red ember, bright glowing ember-orange eyes, a bright orange ember glow along the hem and scarf edges, standing on a single long flat curved iron skate-runner board under both feet with orange hot sparks at the runner, a long ragged pale ash scarf streaming behind it, hooked claw hands held low with ember-orange fingertips, bent forward. Light colours, strong contrast against a dark floor. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
   "animations": {
     "idle": {
       "mode": "v3",
       "frame_count": 4,
       "shipped_frames": "0-2",
       "keep_first_frame": false,
-      "animation_group_id": "3f262088-e714-43d6-ae67-8dbabd64b681",
+      "animation_group_id": "e1281224-923c-4e10-acdf-b5fcfba97e45",
       "job_ids": {
-        "south": "47cdc774-d9f0-483d-a6df-7b988f886d3c",
-        "west": "8efd4d34-bf62-4d6a-9914-e95c3b107fc0",
-        "north": "6bd82e6b-e3bb-4aa5-b7dd-787e8fbae9b5",
-        "east": "8156c24e-1a07-49ed-bfc1-a1ef6ae74761"
+        "south": "4f3e4774-a646-4d42-a3e5-470e581291a0",
+        "west": "a40d6de6-76d5-409f-a715-24f002b037e6",
+        "north": "944ec042-cef1-4eb6-b18d-694c0b173820",
+        "east": "b8fdfc8e-3b99-43ba-91eb-53e9de1a35dd"
       },
       "action_description": "hovers in place on its skate board, body swaying slightly side to side, scarf fluttering, ember eyes glowing",
       "direction_prompts": {
@@ -37,12 +37,12 @@
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "47c52d29-a031-4f39-9872-e4bfdde1ee33",
+      "animation_group_id": "6ac61f33-883e-4379-8fe5-3221f8b53d25",
       "job_ids": {
-        "south": "77e7ce25-f9f5-432e-8594-bf14261d2374",
-        "west": "9b7fd1ae-420a-4c80-9348-bb4bfea35f9d",
-        "north": "9a4bfd71-4e66-4c5c-8d7c-b44662835b08",
-        "east": "968dd54d-9da1-4ae2-81fd-2f9c7f9bd316"
+        "south": "99b35b56-7eec-4916-acc5-e0998fe15d04",
+        "west": "620c015d-d273-4f7b-9449-bcc8936337e3",
+        "north": "f2177bb4-3a7d-4dec-a91f-e8ee5946dcef",
+        "east": "9964456c-9663-400b-842d-faa2134c6279"
       },
       "action_description": "glides forward on its skate board in a fast skating stride, body leaning forward, scarf streaming behind",
       "direction_prompts": {
@@ -57,12 +57,12 @@
       "frame_count": 4,
       "shipped_frames": "1-3",
       "keep_first_frame": false,
-      "animation_group_id": "70a56a3b-e995-426c-9106-68a315f74398",
+      "animation_group_id": "4491aa6b-f804-4781-b81d-c5527556346c",
       "job_ids": {
-        "south": "da5e261f-fdd8-4cbc-820d-68d5040d0c07",
-        "west": "7c5e98ad-eaeb-4d6c-a074-0b20c915fe58",
-        "north": "c3e9b150-b411-44cc-a86e-2de02863ec9b",
-        "east": "e2e32313-e675-4668-8ec1-ca1358b95e45"
+        "south": "c75807e1-bb81-4f58-8855-31f5b98a12d0",
+        "west": "a17521d9-02c9-439c-8d7d-481b21e5e34f",
+        "north": "0e61381d-aba0-438e-bcf0-273e41e9867b",
+        "east": "a6261fb9-2172-474b-aba3-cdcaf0ad373f"
       },
       "action_description": "crouches low on its skate board and rears back, claws spread wide and raised, scarf flaring, eyes flaring bright orange, silhouette clearly bigger and spiky before a lunge",
       "direction_prompts": {
@@ -76,12 +76,12 @@
       "mode": "v3",
       "frame_count": 4,
       "keep_first_frame": false,
-      "animation_group_id": "c63ae5c6-559a-46ae-b09f-8764865d4585",
+      "animation_group_id": "4d744878-5842-4020-87c4-6d49cf3c7018",
       "job_ids": {
-        "south": "a53009c7-f7a6-4da4-814e-e458c8122cb1",
-        "west": "3db642bb-6ef6-47c5-8b28-a8c867167cd1",
-        "north": "4f762bc8-c0ad-42a4-8863-ecc9cd6ed7b4",
-        "east": "5049e2dd-e087-43b8-b5cf-83ee6d54ec26"
+        "south": "ff188998-548f-4d7f-9dac-4b4277ad82ba",
+        "west": "c78e5808-16c5-41e8-b959-a2c69446eaab",
+        "north": "8e01a9ae-c030-402f-9be0-83ebb3df170b",
+        "east": "b9c29f6f-4fc0-4e94-8ae1-2ea4e84bc4d2"
       },
       "action_description": "lunges forward fast on its skate board, slashing both claws across in front of it, then glides back to its starting stance",
       "direction_prompts": {
@@ -101,23 +101,114 @@
     },
     {
       "n": 2,
-      "what": "idle, walk, telegraph, strike v3 for south/west/north/east, 4 clips x 4 directions",
+      "what": "first character animations (idle, walk, telegraph, strike x4)",
       "credits": 16,
-      "result": "accepted with flags; no regeneration was spent (kept for the human review)"
+      "result": "rejected with the whole first character: sinks into the dark floor (see first_character_rejected)"
+    },
+    {
+      "n": 3,
+      "what": "touch-up: second character (lighter ash body, ember accent, seed 22) and all four clips x 4 directions with the same action prompts",
+      "credits": 22,
+      "result": "accepted: reads clearly on the floor colour at 1x and 4x"
     }
   ],
   "credits_spent": {
-    "character": 6,
-    "animations": 16,
-    "total": 22,
-    "model_estimate": 22
+    "first_character": 22,
+    "second_character_and_clips": 22,
+    "total": 44
   },
   "known_flaws": [
-    "the figure is dark on a dark ground: readability at 1x is weak, the pale scarf carries the silhouette",
-    "eye colour differs between facings (red in south/west telegraph and strike, yellow in east)",
-    "the skate board is a thin dark slab under the feet and is hard to see in some frames",
-    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3"
+    "idle and telegraph were generated with 4 frames and trimmed to the profile's 3",
+    "scarf and claw ember sparks are single scattered pixels and may flicker at 1x",
+    "the board is a thin dark slab under the feet",
+    "hood reads as a cone; face is a red-lined slit"
   ],
+  "first_character_rejected": {
+    "pixellab_character_id": "6c6993c1-24d0-402d-bf2f-6dd222dc009c",
+    "character_job_id": "d85086b0-d3bf-4862-a79b-c30021f44c63",
+    "prompt": "Ash skater, a small chibi gaunt figure with a very large head, ash-grey skin dusted with soot, a ragged dark charcoal hooded cowl, glowing ember-orange eyes, standing on a single long flat curved dark iron skate-runner board under both feet, a long ragged pale grey ash scarf streaming behind it, hooked soot-black claw hands held low, bent forward. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+    "animations": {
+      "idle": {
+        "mode": "v3",
+        "frame_count": 4,
+        "shipped_frames": "0-2",
+        "keep_first_frame": false,
+        "animation_group_id": "3f262088-e714-43d6-ae67-8dbabd64b681",
+        "job_ids": {
+          "south": "47cdc774-d9f0-483d-a6df-7b988f886d3c",
+          "west": "8efd4d34-bf62-4d6a-9914-e95c3b107fc0",
+          "north": "6bd82e6b-e3bb-4aa5-b7dd-787e8fbae9b5",
+          "east": "8156c24e-1a07-49ed-bfc1-a1ef6ae74761"
+        },
+        "action_description": "hovers in place on its skate board, body swaying slightly side to side, scarf fluttering, ember eyes glowing",
+        "direction_prompts": {
+          "south": "facing the viewer, sways slightly on the skate board, scarf fluttering behind",
+          "west": "facing left, sways slightly on the skate board, scarf fluttering to the right",
+          "north": "seen from behind, sways slightly on the skate board, scarf fluttering",
+          "east": "facing right, sways slightly on the skate board, scarf fluttering to the left"
+        }
+      },
+      "walk": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_group_id": "47c52d29-a031-4f39-9872-e4bfdde1ee33",
+        "job_ids": {
+          "south": "77e7ce25-f9f5-432e-8594-bf14261d2374",
+          "west": "9b7fd1ae-420a-4c80-9348-bb4bfea35f9d",
+          "north": "9a4bfd71-4e66-4c5c-8d7c-b44662835b08",
+          "east": "968dd54d-9da1-4ae2-81fd-2f9c7f9bd316"
+        },
+        "action_description": "glides forward on its skate board in a fast skating stride, body leaning forward, scarf streaming behind",
+        "direction_prompts": {
+          "south": "skates toward the viewer on its board, leaning forward, scarf trailing behind it and hidden",
+          "west": "skates to the left on its board, leaning forward, scarf streaming to the right",
+          "north": "skates away from the viewer, seen from behind, scarf streaming",
+          "east": "skates to the right on its board, leaning forward, scarf streaming to the left"
+        }
+      },
+      "telegraph": {
+        "mode": "v3",
+        "frame_count": 4,
+        "shipped_frames": "1-3",
+        "keep_first_frame": false,
+        "animation_group_id": "70a56a3b-e995-426c-9106-68a315f74398",
+        "job_ids": {
+          "south": "da5e261f-fdd8-4cbc-820d-68d5040d0c07",
+          "west": "7c5e98ad-eaeb-4d6c-a074-0b20c915fe58",
+          "north": "c3e9b150-b411-44cc-a86e-2de02863ec9b",
+          "east": "e2e32313-e675-4668-8ec1-ca1358b95e45"
+        },
+        "action_description": "crouches low on its skate board and rears back, claws spread wide and raised, scarf flaring, eyes flaring bright orange, silhouette clearly bigger and spiky before a lunge",
+        "direction_prompts": {
+          "south": "facing the viewer, crouches and rears back, both claws spread wide and raised",
+          "west": "facing left, crouches and rears back, claws spread and raised, scarf flaring to the right",
+          "north": "seen from behind, crouches and rears back, scarf flaring, arms raised",
+          "east": "facing right, crouches and rears back, claws spread and raised, scarf flaring to the left"
+        }
+      },
+      "strike": {
+        "mode": "v3",
+        "frame_count": 4,
+        "keep_first_frame": false,
+        "animation_group_id": "c63ae5c6-559a-46ae-b09f-8764865d4585",
+        "job_ids": {
+          "south": "a53009c7-f7a6-4da4-814e-e458c8122cb1",
+          "west": "3db642bb-6ef6-47c5-8b28-a8c867167cd1",
+          "north": "4f762bc8-c0ad-42a4-8863-ecc9cd6ed7b4",
+          "east": "5049e2dd-e087-43b8-b5cf-83ee6d54ec26"
+        },
+        "action_description": "lunges forward fast on its skate board, slashing both claws across in front of it, then glides back to its starting stance",
+        "direction_prompts": {
+          "south": "facing the viewer, lunges toward the viewer slashing both claws across, then returns",
+          "west": "facing left, lunges left slashing both claws across, then returns",
+          "north": "seen from behind, lunges away from the viewer slashing both claws, then returns",
+          "east": "facing right, lunges right slashing both claws across, then returns"
+        }
+      }
+    },
+    "why": "touch-up contrast check: 92% of its palette-snapped body pixels lay within a small Lab distance (dE<18) of the ember_delta floor colours #49434f/#2c2733/#6e6877 (other mobs 44-63%); it would sink into the floor. Raw frames not shipped."
+  },
   "native_px": [
     32,
     32
@@ -140,8 +231,8 @@
     ],
     "pixels_changed": {
       "alpha_snapped": 0,
-      "outline_repainted": 4459,
-      "outline_thinned": 99,
+      "outline_repainted": 5036,
+      "outline_thinned": 0,
       "quantized": 0,
       "speckle_removed": 0,
       "transparent_cleaned": 0
@@ -149,683 +240,683 @@
     "cropped_opaque_pixels": 0
   },
   "source": "source.png",
-  "source_sha256": "0df6d18ff588e9a993eb8b8f05b30b2a00a59d8f7428d60a160fbd303687e03e",
+  "source_sha256": "7084f2e123b22334f8d401b17da6821ff4bfd53983c916451f24486d03fe592e",
   "contact_sheets": {
-    "assets/raw/longtime/lt_ash_skater/contact_1x.png": "63a08792863b17b97abf3772bc39c5c9965835620a714725ce96afaa85760359",
-    "assets/raw/longtime/lt_ash_skater/contact_4x.png": "f0af60bcf847ead2e810d65ac26ba821845b90761d2502ec94b5f1feaad240f8"
+    "assets/raw/longtime/lt_ash_skater/contact_1x.png": "b124249094606387e955489be84bd7893e1b5d7599d85bc88dfa0bafde3e8eb9",
+    "assets/raw/longtime/lt_ash_skater/contact_4x.png": "a71e59f645fd425276ec1f61a429fa995d34d88ce4ed7b196facd3147a79667e"
   },
   "frames": [
     {
       "key": "longtime/lt_ash_skater/idle_east_0",
       "path": "assets/processed_longtime/lt_ash_skater/idle_east_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/east/frame_000.png",
-      "raw_sha256": "916656521fc02089ae892c25caf5fd8137f387ec7b78d325369e3a2c6ba215dd",
+      "raw_sha256": "bdc6d7d59abf451738f37baa641be5f94e0052c393e2a4d9ee52085cf3be877f",
       "source_xy": [
         0,
         120
       ],
       "duration_ms": 160,
-      "sha256": "5bdcc93e293d1b0dadbc077920b58af379282106385187624501d15d1246c395"
+      "sha256": "6d0cfeb0fe616cd26cd8e62e7f87d410dce7d9e58c9b8848c2ed008d3beb4312"
     },
     {
       "key": "longtime/lt_ash_skater/idle_east_1",
       "path": "assets/processed_longtime/lt_ash_skater/idle_east_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/east/frame_001.png",
-      "raw_sha256": "7f8cf602fb52826c88caee78a787b9c571abc568d5374d9fd1b606a3caa22125",
+      "raw_sha256": "5ca97cbbf7a92a26c56f34eae10be35e423df3f5ce9c85407c488f1bef2ab401",
       "source_xy": [
         40,
         120
       ],
       "duration_ms": 160,
-      "sha256": "8a9f73532e2154fbe558e006b8f27a64a32f7cdbd1f871c87f6b73320ea9bf15"
+      "sha256": "c2080adc4551b0a27415f98133c309db81549b47773a7a56f889fc356c54fc62"
     },
     {
       "key": "longtime/lt_ash_skater/idle_east_2",
       "path": "assets/processed_longtime/lt_ash_skater/idle_east_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/east/frame_002.png",
-      "raw_sha256": "3dd5269f81a43846ccbce107fed495578dad26a889bf4282a886df19a359788c",
+      "raw_sha256": "9611b1225af638c566f2231725119a2edea6fd0bf64e1a5520ff8eedec07e10a",
       "source_xy": [
         80,
         120
       ],
       "duration_ms": 160,
-      "sha256": "169a5b20f39d58dd9fa9374b91cd144242005ef6760cfcc8fcf9cfc958d66e0c"
+      "sha256": "bbe9dadba55598edaf2a477ce654663b61822ef1f7bdc9613456cef00b42c41f"
     },
     {
       "key": "longtime/lt_ash_skater/idle_north_0",
       "path": "assets/processed_longtime/lt_ash_skater/idle_north_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/north/frame_000.png",
-      "raw_sha256": "044eff37b56eea633da786b5ca46ab52ae0cbc8573c7ef24392edcfab02aa1ee",
+      "raw_sha256": "be5aaeb2d3f3df784793460058bb25ea49e08c343184f704acf31234b98b228d",
       "source_xy": [
         0,
         80
       ],
       "duration_ms": 160,
-      "sha256": "0d1b6f4c9b0cffaa884ec8d3c191d9816d8f709f50bdd6aca12cc33ad07cceee"
+      "sha256": "30503d01e21bdf771de146fef6e49190b60620882f956a708b7597cd02ed8f43"
     },
     {
       "key": "longtime/lt_ash_skater/idle_north_1",
       "path": "assets/processed_longtime/lt_ash_skater/idle_north_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/north/frame_001.png",
-      "raw_sha256": "40f6d5c7681540f0bdd5f002547d51ed35c46895fe62a242aad3f3065cf31020",
+      "raw_sha256": "a4f785d59fdd2263984128985825b59dc6fd917157428e8979032e726599cf3a",
       "source_xy": [
         40,
         80
       ],
       "duration_ms": 160,
-      "sha256": "aafb1fb1b1f7b3f3ca2ed2290b3f88f6f67c1a2fe4ed95f090499f2150ecefe6"
+      "sha256": "ec15346683aced0b3ad265c8ccc83a9c8bd05051136c80e47242427a06efc359"
     },
     {
       "key": "longtime/lt_ash_skater/idle_north_2",
       "path": "assets/processed_longtime/lt_ash_skater/idle_north_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/north/frame_002.png",
-      "raw_sha256": "9b2be103d8ca20b453eafdac9a555abd444566f8fd7590521f5bc2af4e4009e1",
+      "raw_sha256": "484ca71c526b9d731aea0c29f3da31f067bbd9f6e98e144b2ae62c58317a749d",
       "source_xy": [
         80,
         80
       ],
       "duration_ms": 160,
-      "sha256": "9d364975cebdabdf21bb6c29ec7a878514b22059548643cf5d8bbdea8674e886"
+      "sha256": "3c66062df61bc3292e978083cd5291f489a793e17c2e159b66342e625c09f300"
     },
     {
       "key": "longtime/lt_ash_skater/idle_south_0",
       "path": "assets/processed_longtime/lt_ash_skater/idle_south_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/south/frame_000.png",
-      "raw_sha256": "940eb6dc17f208350a727e82f55ac02efabf631007ff3640016e790f508c4f5c",
+      "raw_sha256": "3ea11eb12241a41a41803a343456994db48b29c04b3b19297e5972950535d2ac",
       "source_xy": [
         0,
         0
       ],
       "duration_ms": 160,
-      "sha256": "410e24477b26041f8a3aa446ae1f9620e5172efb382735e45377ba9cd0285c0b"
+      "sha256": "5ab0e6f54f219506fbacaaf877468f694ba75ddda1bc96adc44cc2e95d9e5885"
     },
     {
       "key": "longtime/lt_ash_skater/idle_south_1",
       "path": "assets/processed_longtime/lt_ash_skater/idle_south_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/south/frame_001.png",
-      "raw_sha256": "55fb65254fb8ded0bc90394c6026831847ab4c3348c18fc53b0260abf38e9faa",
+      "raw_sha256": "0751a2dbc70c0fbe19eab6101c37093c4e4abff128f1f2ff986f4c8ff666029a",
       "source_xy": [
         40,
         0
       ],
       "duration_ms": 160,
-      "sha256": "1b8cd0f7deac4153e56ab6c9de36ec71ffa0458c69947244d81f8039172e1f05"
+      "sha256": "4362af03857965ce80d4e46473d6d17b0de6c518f37fb3ed9db6c955c521b926"
     },
     {
       "key": "longtime/lt_ash_skater/idle_south_2",
       "path": "assets/processed_longtime/lt_ash_skater/idle_south_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/south/frame_002.png",
-      "raw_sha256": "c8f49a635f69b78e3b00953c33406d0e7b0b5a03134a0b6f09cbfd9ff5e231b9",
+      "raw_sha256": "f1c57cab01e4ff67184a62c979f88ab2ca7e0efe86bc31434f7a9b74d43c1791",
       "source_xy": [
         80,
         0
       ],
       "duration_ms": 160,
-      "sha256": "9b56219975823c629055812439f1c30c2a21396f040cdf5d7cdfc5152cd7229b"
+      "sha256": "14eda641c506275c55a7ceb1c339e9dfcf9e9a92ded954903e1c5590423ab37b"
     },
     {
       "key": "longtime/lt_ash_skater/idle_west_0",
       "path": "assets/processed_longtime/lt_ash_skater/idle_west_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/west/frame_000.png",
-      "raw_sha256": "d320fbe2f28db5dc7daccb3d7905010b5cb559fc5a7a8fe559ad71c953468f5a",
+      "raw_sha256": "fc552760ba3f7342264a650e84f308764ce0c02073923505a64f6b7500659742",
       "source_xy": [
         0,
         40
       ],
       "duration_ms": 160,
-      "sha256": "f3e0c48df514425f5537783fade6cc056ca959910a71d7984fb89937bb8f1d86"
+      "sha256": "29bc67218cafb3fe76f327dd7dea56f5068515fca66705e9bc1a3aa5135a0bff"
     },
     {
       "key": "longtime/lt_ash_skater/idle_west_1",
       "path": "assets/processed_longtime/lt_ash_skater/idle_west_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/west/frame_001.png",
-      "raw_sha256": "3335c6dd1bb10ddeb4275df813513ad1b07f011211917ed1970b568be02a8b44",
+      "raw_sha256": "823545c32a00d460b01795d013dd1aab1b8e01b353a6586fb9d0fb8a027f78f9",
       "source_xy": [
         40,
         40
       ],
       "duration_ms": 160,
-      "sha256": "260e7ecbb12b1bd0908392d284f674f39dabeba9ca6cf0cd050eaeb946419b4a"
+      "sha256": "885523905166544bdb90624f972be98b9945b35cef1abf5fd1eb601eb1b0c204"
     },
     {
       "key": "longtime/lt_ash_skater/idle_west_2",
       "path": "assets/processed_longtime/lt_ash_skater/idle_west_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/idle/west/frame_002.png",
-      "raw_sha256": "9339fc3d46da8d2781832ea750e0e58c665e93aeaf6419f60e1fb7a86925e545",
+      "raw_sha256": "afe36fa1dc4292158cd30e3dc4450ba88b8f6b7383774df2195e3800064b5e9b",
       "source_xy": [
         80,
         40
       ],
       "duration_ms": 160,
-      "sha256": "0304b3b1f4528fec16f853e0b8a24fc7a88ed1dfa00afb4e3eadada14322fbae"
+      "sha256": "2e68c22bd98a25f1b0bb17ad3035999454fa47889e6a22b993b4adb4fc9a731f"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_0",
       "path": "assets/processed_longtime/lt_ash_skater/strike_east_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/east/frame_000.png",
-      "raw_sha256": "18b8183d75c40ead0c257b1f334bca36a0f10c66c2b8b2727b292c7c86df40d6",
+      "raw_sha256": "2f86895e6cb5775b9ec15544d367adb8b432f446b07814bd9a828fbf436c4c9e",
       "source_xy": [
         0,
         600
       ],
       "duration_ms": 90,
-      "sha256": "07c0b9d7f2e720df7d3c25d04a0df4ca8dce3a3e2253c5f8c4fa65f6e9d934a7"
+      "sha256": "28bc037e398f7edc8e43dc138588022ed7833f6ccd66b9d2a21d7db9e876c7d4"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_1",
       "path": "assets/processed_longtime/lt_ash_skater/strike_east_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/east/frame_001.png",
-      "raw_sha256": "cd61ad3a827d63a11ceaedb8678cd835ac38db6f74c3b3abcc1070513612db2b",
+      "raw_sha256": "eaa1ec7678c4e37eb48fb1c136c663c248dbb82142f67f95375c9e77a4c20340",
       "source_xy": [
         40,
         600
       ],
       "duration_ms": 90,
-      "sha256": "67377bfded6fb7773fab9905efec613c05e03df8b4dab3abaea8b985271ae255"
+      "sha256": "45de15ae7d16b67faffa4cf79d32cab860aedbd85b89c98efd1662638b9c043e"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_2",
       "path": "assets/processed_longtime/lt_ash_skater/strike_east_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/east/frame_002.png",
-      "raw_sha256": "31bca65dc244ac5f835797dc2747be1b390fa23330f11d2359e378cf7ea4451a",
+      "raw_sha256": "625cfacb15c81c172fa65df92d92ac7753cd169e17b271ed5f792e37afb7d4dc",
       "source_xy": [
         80,
         600
       ],
       "duration_ms": 90,
-      "sha256": "0fabdca66bd2fcc2df335df1c2f1068b290a2bbc8d83ceedbadd18a05c15b38c"
+      "sha256": "02bf15fed16395da8012b049346e3566edf5a83ae60466bf4990304f42d2554e"
     },
     {
       "key": "longtime/lt_ash_skater/strike_east_3",
       "path": "assets/processed_longtime/lt_ash_skater/strike_east_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/east/frame_003.png",
-      "raw_sha256": "be2968d9e448c703e02d94cd70ee71242e3dbdbf2b02842aa9b7a19f4bc09022",
+      "raw_sha256": "066f07261fec8d125cf1f9b29e141a3020973f3323ffa9fab50355621d5bd89f",
       "source_xy": [
         120,
         600
       ],
       "duration_ms": 90,
-      "sha256": "1b53a4624c5bb7f37a214bcc09759e7cd336c717fc4dd0cfda792f1b19757e62"
+      "sha256": "87d2d0cd6e8a16e8c17a6c2196ff25a4abc41280e0d11c2107ca79f13a158349"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_0",
       "path": "assets/processed_longtime/lt_ash_skater/strike_north_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/north/frame_000.png",
-      "raw_sha256": "27b452ee1f5f7aabc6298602d405efcc720a1827dc13577e49c1a65968255e09",
+      "raw_sha256": "af7772f04ebfa0391ba2d083e3df2c2efd84a4867a3dc7b311760782a8b3bd49",
       "source_xy": [
         0,
         560
       ],
       "duration_ms": 90,
-      "sha256": "486a1b578a7846f62a26fb9a719576977325f1eb1dd695379d27aadcfbe090ae"
+      "sha256": "a7b05c1d4c9326d10b124cdc980ce759edb94a259c15625bf230ed6105bdd0c4"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_1",
       "path": "assets/processed_longtime/lt_ash_skater/strike_north_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/north/frame_001.png",
-      "raw_sha256": "4487d1855be20e3e864842ee33b7eab594a7760e1129310ee6f10c6e68802412",
+      "raw_sha256": "998bc1c271101e0481ecda997ebe28c6f6cf7219f127e095a0e8fa43fe02ae75",
       "source_xy": [
         40,
         560
       ],
       "duration_ms": 90,
-      "sha256": "0284fb98a54a0397a7ead5a398a296e1e01acc26081a6bfb37a807f56639f6d4"
+      "sha256": "60e12e95cc9e9f4c6802c4940abdc0401c2564ce1f0dff7e63770ede436d235c"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_2",
       "path": "assets/processed_longtime/lt_ash_skater/strike_north_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/north/frame_002.png",
-      "raw_sha256": "c8941425fb20e44cd71bfff9d2dac83c19366e7a45d8c4dfc34698e565a981ef",
+      "raw_sha256": "68e0a7cfb4a122a4e7387d75a09b998d91d436497a0f5749ee0ad90dcd150f3c",
       "source_xy": [
         80,
         560
       ],
       "duration_ms": 90,
-      "sha256": "19254663840dc53debf8661adacf2b524677c56fbc9ae79235545480ddcd9b70"
+      "sha256": "afac75ca6a85f4a489c498948b03b245aacf9957e3848e3c12dee9ef83b029ab"
     },
     {
       "key": "longtime/lt_ash_skater/strike_north_3",
       "path": "assets/processed_longtime/lt_ash_skater/strike_north_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/north/frame_003.png",
-      "raw_sha256": "9b19fca678cd92dcd471ac1c3c58b9cd2e9f7e1246688fa8ac72a79b775df140",
+      "raw_sha256": "4033eb34ed1b5f290fba55f2e17c68b0467be7aabeaa0885e895710272c06116",
       "source_xy": [
         120,
         560
       ],
       "duration_ms": 90,
-      "sha256": "c3ec0f739685208b7bf505b1c88565a5a64e2633a155b5f1c6bef8dbfb96c5b8"
+      "sha256": "18b9df153bf4ce5d8e276d9c8c35033c7b1fd26083b00bca0ce35e3694d5ee2c"
     },
     {
       "key": "longtime/lt_ash_skater/strike_south_0",
       "path": "assets/processed_longtime/lt_ash_skater/strike_south_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/south/frame_000.png",
-      "raw_sha256": "aafbedeaef5b98c28ad38f8a1b2ef948341771a7f9815f11c31dfcad0ea26ebb",
+      "raw_sha256": "7257721a11a4a5561aa74ebd4198190256e04a83a39be4e9dbc0518663ea7c5a",
       "source_xy": [
         0,
         480
       ],
       "duration_ms": 90,
-      "sha256": "4c44d6fa0705bc21759ec7ce7cdd42309b6bdc2b8756770404419ceb4c9b09ea"
+      "sha256": "0e796bcbf04316da543a0c7e2958497fcee3033699228814508bbf7975bdca38"
     },
     {
       "key": "longtime/lt_ash_skater/strike_south_1",
       "path": "assets/processed_longtime/lt_ash_skater/strike_south_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/south/frame_001.png",
-      "raw_sha256": "4d93cbf3d931de95e04c5ace89eef60231a454207455d057d5a61a32e344069c",
+      "raw_sha256": "5e385e68bf603943685601d5b54e88c60547ac11cfbd370d888a8560b6057883",
       "source_xy": [
         40,
         480
       ],
       "duration_ms": 90,
-      "sha256": "44b131a28860601a2136d1f7d3d4867c3bcd719efb09fa40ec37ec40a425f82a"
+      "sha256": "b68d2332f96ce713bd0488e895f5a24f5bcb0e8c83c91a3da59cce30102ab138"
     },
     {
       "key": "longtime/lt_ash_skater/strike_south_2",
       "path": "assets/processed_longtime/lt_ash_skater/strike_south_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/south/frame_002.png",
-      "raw_sha256": "ea95a5ed48e597fde9237d13dcca257297c1d6fa6dfd15ab6059f095e07b974f",
+      "raw_sha256": "13840ec1e522ccdf13ef121d3332ed7c53aabc66c985f802ae84601965250cbd",
       "source_xy": [
         80,
         480
       ],
       "duration_ms": 90,
-      "sha256": "336e1c3aba6d821fa7823fa0f3893f7662a3e19c69bd8e665a9b45718dfbe8f6"
+      "sha256": "0d55bd7647309f1f0fc3e18e04ca867867ebf689cf8bd9aea12a77e78cd277e1"
     },
     {
       "key": "longtime/lt_ash_skater/strike_south_3",
       "path": "assets/processed_longtime/lt_ash_skater/strike_south_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/south/frame_003.png",
-      "raw_sha256": "5f736a447608235daa48f8748aa045d03d353b560cca850438412ed353f2ac40",
+      "raw_sha256": "4acfba5b227025f46276e2098622602a93d3ca0b0afd1739d1f1457ce0ed33ba",
       "source_xy": [
         120,
         480
       ],
       "duration_ms": 90,
-      "sha256": "70c0a51f5ba5b319847fcd6a2c65dd8e574ea60210f7f81cc56447050ea22b66"
+      "sha256": "019593e9abf4c5ac1b1ca04a26e9528fca91fd124ec0c1adc98a3988f9991145"
     },
     {
       "key": "longtime/lt_ash_skater/strike_west_0",
       "path": "assets/processed_longtime/lt_ash_skater/strike_west_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/west/frame_000.png",
-      "raw_sha256": "daa093a0da1abd6a908cc03c7160c4e9502882464815b992170e4522292f9a01",
+      "raw_sha256": "a1ebcaaf6d031f1d1a4f973562e83fe974211fca8baa7e26cb238f6ea12b93ab",
       "source_xy": [
         0,
         520
       ],
       "duration_ms": 90,
-      "sha256": "9a70013c1f98e5ad0668811c2c1b4bfbf97d9a53f4a9bb90c691d7e742dfa239"
+      "sha256": "3ed91d09d2da54e89f8512a4921bad1543c286b42b09d35396744e726e06f500"
     },
     {
       "key": "longtime/lt_ash_skater/strike_west_1",
       "path": "assets/processed_longtime/lt_ash_skater/strike_west_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/west/frame_001.png",
-      "raw_sha256": "fb9293b2e2d0e3b9b3442d73b1eacafd25d7f792f6e625cb8ed19fe2fb515484",
+      "raw_sha256": "9aa1b1ce570721fcd02eca419c823de625f9ebcd10756dc8db93503e9afe0ea3",
       "source_xy": [
         40,
         520
       ],
       "duration_ms": 90,
-      "sha256": "6ba4377483bc345d9213c137ba176bf30bd4625578ac79ac0769ea951fa55acd"
+      "sha256": "a545fa539663c399147ef8426cf50135ca8ccdee6efc484366cc202e81baa97d"
     },
     {
       "key": "longtime/lt_ash_skater/strike_west_2",
       "path": "assets/processed_longtime/lt_ash_skater/strike_west_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/west/frame_002.png",
-      "raw_sha256": "796e8b5bfbeee9b43673cd22ddeddcb3e31aa224db681bb303104f656c9e48cb",
+      "raw_sha256": "1ba449083b61f6bc31f6acd1feb615c241a93257cdbfac873d9d54895bf428ac",
       "source_xy": [
         80,
         520
       ],
       "duration_ms": 90,
-      "sha256": "12e88d09786a7032927e5da677d040640ccf21777f84e902a23db805fa9402bc"
+      "sha256": "790247e7a5d18e52378044dd819c6c3dca6b659ad94e79f1ee93e62b72fda960"
     },
     {
       "key": "longtime/lt_ash_skater/strike_west_3",
       "path": "assets/processed_longtime/lt_ash_skater/strike_west_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/strike/west/frame_003.png",
-      "raw_sha256": "8ed5beabf4da5134926bfc9fa2ed84e47d87b97436da07429dc7afcb80c31b98",
+      "raw_sha256": "8af72981896f028da0f7b10c69bd2e7c0188c5255d27d19c0dd61dda0f3aa150",
       "source_xy": [
         120,
         520
       ],
       "duration_ms": 90,
-      "sha256": "a142b564aa7f22dd20b490acbb8b04ea4dbeb7f33357315d3a9aafbd5750a207"
+      "sha256": "63ffed0ceac612fbae9a21204020739e6257c16c1dadca432d756a23ec1cef09"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_east_0",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_east_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/east/frame_000.png",
-      "raw_sha256": "3721411d10846a78adcdd335a630d369a222e1bb65003d8e94e4f0e2e39999a1",
+      "raw_sha256": "7ae90333c8f11f3ae536afa2b1527fa397eaa6299ebbcbd92970bd1be20b9735",
       "source_xy": [
         0,
         440
       ],
       "duration_ms": 160,
-      "sha256": "36c79f18d0a711af4cca9755b4876fa628222767a68b085f914d7fd2e62b5cea"
+      "sha256": "69aef630114aee01f846c29ee7677986beb31b3462b20741812a45be8ea37785"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_east_1",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_east_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/east/frame_001.png",
-      "raw_sha256": "091b51060aec40855c39c4a0a0b64d89e52f502b2454f75b80ba1b5d5c6bd7f3",
+      "raw_sha256": "5c7706951e8d08f9b467dfa658bfd6d70d7669081050f018e9c48a72ddd44f6f",
       "source_xy": [
         40,
         440
       ],
       "duration_ms": 160,
-      "sha256": "3e6261cf7711dd8a2ea9b4fa2e6ed55a988c475d874cc681f848e266482b0f9d"
+      "sha256": "b4544b9b423619a964ab803f03ad7b3db41e1cfe781d29912dc77d6e9cec52c1"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_east_2",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_east_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/east/frame_002.png",
-      "raw_sha256": "04af97533f48d9dd9d292d2ea4ff2d6e5793c9b292eaca26c7d031914d1d04ed",
+      "raw_sha256": "bf95dfee8e85a34e1034f0588509d8543ff96f170c4fedeff2994ad4c051cb78",
       "source_xy": [
         80,
         440
       ],
       "duration_ms": 160,
-      "sha256": "ae07f524729a36d809a204c48887736a6203e2043f918697333300fcb1620c79"
+      "sha256": "e073279ecb44ad31ae0bce5297f79b436e549a7b5529c378ac03344e73cbc521"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_north_0",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_north_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/north/frame_000.png",
-      "raw_sha256": "53037a2ea072b3e64ad9e82bf03defb61f50657675172167729bcc241935c13d",
+      "raw_sha256": "ce0dc61b1634a28edd9b960001dfcd8a419f2472f46c659c641fb47412be3527",
       "source_xy": [
         0,
         400
       ],
       "duration_ms": 160,
-      "sha256": "a36e439443a45abcc1809111d26c06bb7d1d7a02fe56c3519ee641c85545aec7"
+      "sha256": "e92044348222d466b26b317f1062ea239e0b08546ede1187c368db37e619825c"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_north_1",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_north_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/north/frame_001.png",
-      "raw_sha256": "7dd5b34a322ec0c8821754ea9e08c19420be0674b9322e8906cef5a17c9d322c",
+      "raw_sha256": "b13e9975c9962d690f40fbccb7350bc4eb2869eef98cf8182d8f0b4a26163aba",
       "source_xy": [
         40,
         400
       ],
       "duration_ms": 160,
-      "sha256": "e259f2050bee5943b323f0dba8a45a07d4afb61e3a900fae904a61e34edfe58f"
+      "sha256": "ced838ef8cf6ca87eb502c5aab5b22cfecfd80fea05ce02acfc7b885ff7353b6"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_north_2",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_north_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/north/frame_002.png",
-      "raw_sha256": "af629b79945dd9107a6c274a2123fb15bdbc9cf5f4bea288e39a496f7a972cee",
+      "raw_sha256": "7ddf92b9347bbab68f18ad3c3b215e32fd6142d8cb02cb2d296a4168072244cc",
       "source_xy": [
         80,
         400
       ],
       "duration_ms": 160,
-      "sha256": "9309a40bb4504ac22d07e1fa2b197bb41ed54b57209a0e506882fd681626b800"
+      "sha256": "9bab692a63c6940c2b2a1445b1c8bbe17c50b53d68b6b7c80a2bba3a28c883a0"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_south_0",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_south_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/south/frame_000.png",
-      "raw_sha256": "2558e7eb62324fac411adfbab488f5b6c38d14aaf116291b5d51d4f35aa47dd5",
+      "raw_sha256": "dd88cad3e43b1ca8072e0200e519dad7c94d1b92a1f18b2bbf1d142b2e9aff84",
       "source_xy": [
         0,
         320
       ],
       "duration_ms": 160,
-      "sha256": "d7b453bd1baad9b97c9e7946e5549f639da63fc37280652afcfacc0afb7c7abf"
+      "sha256": "fcad232a2abd8a2b53883a9ba66b468d41b7c93beaf2eb868c284d1bb5e77022"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_south_1",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_south_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/south/frame_001.png",
-      "raw_sha256": "cee4007c7e35e18b9049ec21e3b1febf2e43085910265f5965c6a0a398ee180d",
+      "raw_sha256": "2143277e4c111d623d45cd6767e0235f396538989c11cd0e28e5d8b214f6fa75",
       "source_xy": [
         40,
         320
       ],
       "duration_ms": 160,
-      "sha256": "e2369afe39d8156fb715c32dbdee6c184d14496f47f0a69727b044c9dfd5b35c"
+      "sha256": "3e7ae2d5e358e13efef020b542f6f18fa2cf72b5d3c32c094330996694dce0a3"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_south_2",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_south_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/south/frame_002.png",
-      "raw_sha256": "90ba7cbb1352948f7e32167bbbaff9b2c7e15d4cbbd967cecca1a27328abb742",
+      "raw_sha256": "54b603777248c71f07a6a8fc447d4cde81dddaa2f2f613bf44d0345d71d4f195",
       "source_xy": [
         80,
         320
       ],
       "duration_ms": 160,
-      "sha256": "de7d4d6aabb1368d828a7e2f1a97ed9e8529eac0fd795d316f1e3755b91a36c0"
+      "sha256": "5fe78242507b7b734384eba2f2d517a9a34d6fe9ca486cfef158712d4b7299a7"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_0",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_west_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/west/frame_000.png",
-      "raw_sha256": "df088ce3a5fec8e20e1b36dc57555acf8c4021a3bd73df9a4bc2335854a8ec18",
+      "raw_sha256": "687cc32a94e18b28ac40ec72cb86bf4974342011551b89c17658d485a9758b24",
       "source_xy": [
         0,
         360
       ],
       "duration_ms": 160,
-      "sha256": "ec7bacd5bf3621fa6713c85c13dce9473d11838370fa272681bf4bb0ed939830"
+      "sha256": "11bf9b2a385df8821b7b12f72c37ef49ad02bd02244a669f52dcf8522ba6e1bc"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_1",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_west_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/west/frame_001.png",
-      "raw_sha256": "9aef5c045dce3dc8846f534bbd1ef57d552f01280ad3acb3dc5c14198e5dca32",
+      "raw_sha256": "36e19aa63b04b803cdfaddabc9275eb4420d13d8c4857f8e956d513e99e24569",
       "source_xy": [
         40,
         360
       ],
       "duration_ms": 160,
-      "sha256": "cc38f819d31df71375d077eb97f2a1738570f1ba6ab1906d117b3dc7e8aaa038"
+      "sha256": "1d44831d19a665e838beddd37c4c5bee1ffef9e0a5bde40bdd9353b4bdc888a5"
     },
     {
       "key": "longtime/lt_ash_skater/telegraph_west_2",
       "path": "assets/processed_longtime/lt_ash_skater/telegraph_west_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/telegraph/west/frame_002.png",
-      "raw_sha256": "af665e3af53004d3255a38cc5a5060a977442f3f39ba5eb9ee155cd62e37efbe",
+      "raw_sha256": "8a4106bcaf2e9e40f575f6159178542ba5c6a1bf1abd8a2b9cb9891641ecca30",
       "source_xy": [
         80,
         360
       ],
       "duration_ms": 160,
-      "sha256": "a07af98ed9042f0e37ece242851f4c0f99f39cfa29bb1ab2af5887a0212464e1"
+      "sha256": "85ec06835defd4de6b19dec0882d38ccf7336599a5c506ddc4ce1f60b8352e05"
     },
     {
       "key": "longtime/lt_ash_skater/walk_east_0",
       "path": "assets/processed_longtime/lt_ash_skater/walk_east_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/east/frame_000.png",
-      "raw_sha256": "8e832ca02f42c3c3674788f69f2ea39c9914a80a8c408e917a7b3f0825c98f02",
+      "raw_sha256": "d19a008a5ffb217cf3ec616316d636e7aba9ebafc8b49629df2da9cdff9cc4a9",
       "source_xy": [
         0,
         280
       ],
       "duration_ms": 120,
-      "sha256": "1def766b4f0ffc12046a9b425e443b301beb356a5cc682e52da6762270bfd9dd"
+      "sha256": "303e718ec1237a5e234ad7b395acebb88666cf2d2476e26cfa4b07fa5c885683"
     },
     {
       "key": "longtime/lt_ash_skater/walk_east_1",
       "path": "assets/processed_longtime/lt_ash_skater/walk_east_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/east/frame_001.png",
-      "raw_sha256": "0e5eeb125c63ed2307a94da0189952571a494faa2b17eb2baa5ea62a185d360a",
+      "raw_sha256": "32f7a4d1ffde6765fcf558b49460fe76cc8de5b39adf3a88ec74b3b57cea4ca9",
       "source_xy": [
         40,
         280
       ],
       "duration_ms": 120,
-      "sha256": "7b05f6fe2fe04f72d866c051c1fb4e227a7cc643710e449e77c11127c3ca5fb9"
+      "sha256": "20387ee3210b755ce28e75c63e9bf873f2471b356d04c0ee13a66e31e2eb55f3"
     },
     {
       "key": "longtime/lt_ash_skater/walk_east_2",
       "path": "assets/processed_longtime/lt_ash_skater/walk_east_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/east/frame_002.png",
-      "raw_sha256": "24dd93d8acc163e157724774a05c072fdd6c27ae2419d71a0f48f8e2d5196fda",
+      "raw_sha256": "0c69c5f12a49c03e80403299ab3ca8c7de50498db2c153fcf61b5b639e0ab6dd",
       "source_xy": [
         80,
         280
       ],
       "duration_ms": 120,
-      "sha256": "f3062e8e95cf00fc73b9813ac13cb8153cdc0903a216b5a5951c0555ca194429"
+      "sha256": "85643e3062b37b81f98ed3ac2134980be8413af4e5c057d2292a7ff4f43b979d"
     },
     {
       "key": "longtime/lt_ash_skater/walk_east_3",
       "path": "assets/processed_longtime/lt_ash_skater/walk_east_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/east/frame_003.png",
-      "raw_sha256": "504048d9e9bc9d9089ac72fb963863d86a2012ff625c261bb7df3a9b830f50f8",
+      "raw_sha256": "27e7da2d281ceead152665098fbba2a95034a623d6dcee40a19ed3da21e8a73f",
       "source_xy": [
         120,
         280
       ],
       "duration_ms": 120,
-      "sha256": "8ad1784544ed859156b9b5c611aef8ba1d894d40d679a93ea94692f1006a8516"
+      "sha256": "816dba9a07781b63ae58d4161271334ae504a7162f6d74bf4b56f1367b5a105e"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_0",
       "path": "assets/processed_longtime/lt_ash_skater/walk_north_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/north/frame_000.png",
-      "raw_sha256": "70b4f118c600258557cf1afa249cdee16e559d1326e575a2cb7d14203f7cc0cc",
+      "raw_sha256": "b2ef3f60b180990a22af6a44bcfacbd541bf443e7587d91f553626cbb9b21feb",
       "source_xy": [
         0,
         240
       ],
       "duration_ms": 120,
-      "sha256": "106645b4f01661b2bdf663380cc6fd2f5f6d5535a24c9fad18a3938737d9b02c"
+      "sha256": "9e1cf8540eb62d0d9703d409ff1e6e2d33c1e39b448ca57e0f0343f934eaa595"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_1",
       "path": "assets/processed_longtime/lt_ash_skater/walk_north_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/north/frame_001.png",
-      "raw_sha256": "209a48bbe8170760cf5211b7262ee4ecc1d5f7c2d21584b5d50a79c0cbdeb248",
+      "raw_sha256": "b7915a9dd7788c05965fd03f1eab6334745051fbcfd08f07b1fc2ea199d72bbc",
       "source_xy": [
         40,
         240
       ],
       "duration_ms": 120,
-      "sha256": "c7f1e9919a5e20029ad51fe0b30187132eef25d6c7c770c15e1041a8770bdc68"
+      "sha256": "49bc4d89b733dc02fa30ad5dafcf62fb9bf984cf46bf209a02b95498a9a73a0e"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_2",
       "path": "assets/processed_longtime/lt_ash_skater/walk_north_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/north/frame_002.png",
-      "raw_sha256": "1f4364d4e8bf7e0d8d1040d5a0faf71d0a92f49eb108f03a0be11ac68e5e969f",
+      "raw_sha256": "25af7f7e44124952a38591a99a9af87da36c83c847358658979721a385a3b211",
       "source_xy": [
         80,
         240
       ],
       "duration_ms": 120,
-      "sha256": "53bb2f6f2a6948567843d8aa958a647cf4dbea11223ce08f5f79958f149ce04b"
+      "sha256": "7bab36d5ad534a11c78e0185ff43b2a0b6b5a23c9a19796a2ee1b263e97df5bb"
     },
     {
       "key": "longtime/lt_ash_skater/walk_north_3",
       "path": "assets/processed_longtime/lt_ash_skater/walk_north_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/north/frame_003.png",
-      "raw_sha256": "beeaabba0902ac29be35219db0809fa2c4934375ac6751e1cfac05b938820c16",
+      "raw_sha256": "60218e67339304b88e07d87b663137a3985059c07cfef194742908f5fb7215d0",
       "source_xy": [
         120,
         240
       ],
       "duration_ms": 120,
-      "sha256": "64e7d230ddc6501f875031eb037451bf8d406275b0c0f3ec28b74d8cb10f7986"
+      "sha256": "d7f35d83f8ea8580ceb5d668604d96ec984a4f40101ba87c1f79df4311b07141"
     },
     {
       "key": "longtime/lt_ash_skater/walk_south_0",
       "path": "assets/processed_longtime/lt_ash_skater/walk_south_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/south/frame_000.png",
-      "raw_sha256": "faca3f18f3e748c3421b60a429ea0b90a0ea8792137a3f9721f2f7c42ae8f652",
+      "raw_sha256": "1339095fca69e610a84008ebd246996884c045e31f01a19bb19595eaaed9c90d",
       "source_xy": [
         0,
         160
       ],
       "duration_ms": 120,
-      "sha256": "c3e1fd8814a0029a387866d1a854ec680298b9c0848456d545ac0d8970b6b92a"
+      "sha256": "f3ea384aecae5723cf8e2958edad99552fb4800ea613730bba958d9c14c62ea0"
     },
     {
       "key": "longtime/lt_ash_skater/walk_south_1",
       "path": "assets/processed_longtime/lt_ash_skater/walk_south_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/south/frame_001.png",
-      "raw_sha256": "6c9c3bbc1346f6fc1ba8eb4b23a9146b3920c753b65dccf7bb46e33673c567a9",
+      "raw_sha256": "e92be7a96a039c3f5edd793543dfcdaf12c5fbe90e9f2fd2a48cc70bacaf0056",
       "source_xy": [
         40,
         160
       ],
       "duration_ms": 120,
-      "sha256": "7f7f050726c0eed599844bc7ebb83f1b7270b0bdb72713516af7bfbbf1d3040d"
+      "sha256": "14f9389e6f143afc59c07c02ab5ae05f8217832d0b337c4918440194b23790c1"
     },
     {
       "key": "longtime/lt_ash_skater/walk_south_2",
       "path": "assets/processed_longtime/lt_ash_skater/walk_south_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/south/frame_002.png",
-      "raw_sha256": "3f0327fcef833adae655874b14ac2b4c85710c0e536215b134b4bb781ee1ec2e",
+      "raw_sha256": "b132c767d241583a4e858f67f6c51cf8a99e5d9e22e284c677cbe08e7839e04c",
       "source_xy": [
         80,
         160
       ],
       "duration_ms": 120,
-      "sha256": "442ad4237179e1453e4a4f38f12ffa8616a7ab2f18478672aa842e821c12fea8"
+      "sha256": "279f213995a76bfb6e71d235840bab86fbfd1651039671bbdf732f7793c5d2a9"
     },
     {
       "key": "longtime/lt_ash_skater/walk_south_3",
       "path": "assets/processed_longtime/lt_ash_skater/walk_south_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/south/frame_003.png",
-      "raw_sha256": "0faf80f89d97422e39739ce2d00240769372008dec8f527c56c275334a4afe87",
+      "raw_sha256": "2f19230210fd3b0edd20498ae760a48c5dba5ebd584c391b8c5b8019050a3f76",
       "source_xy": [
         120,
         160
       ],
       "duration_ms": 120,
-      "sha256": "c38e2907890d1abffbd4c9bb7feb4cbac1985d9893081cb38327f09f84507a2e"
+      "sha256": "33c49896bc593b1b6e6f5d6becb93491cd999a8f52cd94b32ba2c78b36151932"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_0",
       "path": "assets/processed_longtime/lt_ash_skater/walk_west_0.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/west/frame_000.png",
-      "raw_sha256": "07b046d0e193eb6d704baf79ca03145347c87967276cff2f0b6aace15c1271c2",
+      "raw_sha256": "05b9170f16cbcc522fc62452a8fb906f6019469a43b4cc0717571afaea4efcc6",
       "source_xy": [
         0,
         200
       ],
       "duration_ms": 120,
-      "sha256": "f9b14dd477fe638c91af508665837fa8c5318094fb04455424c7858980797096"
+      "sha256": "3d3d113d18e7ecd0ab40ee3230dcf65bd1be117d6bf9e0c8a8c175fde0f8664a"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_1",
       "path": "assets/processed_longtime/lt_ash_skater/walk_west_1.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/west/frame_001.png",
-      "raw_sha256": "867a17e5c2c6efc231eea8e49f3a78af6b807a7ccc030f625b2bf6a51adc07bf",
+      "raw_sha256": "2b57d78cada70f44d2ea9f59cc1e1a5deefd30ef0b29188b9a7e3af6e4ed227d",
       "source_xy": [
         40,
         200
       ],
       "duration_ms": 120,
-      "sha256": "c58973942c65b26bb0fd24500a5a94547f703a902393846478278aaa542a261b"
+      "sha256": "4df70e4df38552a4cd2d92726954be3cd7c84b5a900f39e3e02d989222a46f20"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_2",
       "path": "assets/processed_longtime/lt_ash_skater/walk_west_2.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/west/frame_002.png",
-      "raw_sha256": "fdd92c2a8902053c2779ee9a454e96a3d4f393994ff7ac62c69d0e03bf09ce3d",
+      "raw_sha256": "262d5024620fa8aa221b1acfbb651207a85aff4318e122e1510983baed099829",
       "source_xy": [
         80,
         200
       ],
       "duration_ms": 120,
-      "sha256": "1918728a48db95254b2dfe475a8bd823ca121627c0e62e37cc19da866b9962fa"
+      "sha256": "00bd8374fbcd68bba32c3da56b640cc30c3122a6e38d2033c6c1be1ca5ec080e"
     },
     {
       "key": "longtime/lt_ash_skater/walk_west_3",
       "path": "assets/processed_longtime/lt_ash_skater/walk_west_3.png",
       "raw_path": "assets/raw/longtime/lt_ash_skater/walk/west/frame_003.png",
-      "raw_sha256": "fd8edb178d1e46bd14b26cc4da1b0567ac7f5e8b4a57845354b269c5be07b8b3",
+      "raw_sha256": "03810bea50b2a9bc6b32078f87d363ac43916a2cb33a553555670055c29bcd99",
       "source_xy": [
         120,
         200
       ],
       "duration_ms": 120,
-      "sha256": "364cdcde226a612c26cedebed34b7f114847211e8a826cff68bc07ec90ed31a7"
+      "sha256": "b49fbc462b6ef74538bf25e339f9b9306a7c009741163d58e923134b6f4ef981"
     }
   ]
 }
