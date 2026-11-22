@@ -72,7 +72,7 @@ function openWorkspace(rootArg, revisionDir) {
     }
     return underStudio ? {base: STUDIO_DIR, rel: reqPath.slice(STUDIO_PREFIX.length)} : {base: REPO_ROOT, rel: reqPath.replace(/^\/+/, '')};
   };
-  const ws = {root: REPO_ROOT, pack: PACK, serve: SERVE, hooks, publicPath, locate, editor: undefined, studio: undefined, tabs: undefined, mcp: undefined,
+  const ws = {root: REPO_ROOT, revisionDir, pack: PACK, serve: SERVE, hooks, publicPath, locate, editor: undefined, studio: undefined, tabs: undefined, mcp: undefined,
     close() { ws.editor?.then(api => api.close(), () => {}); ws.mcp?.then(api => api.close(), () => {}); }};
   ws.editorApi = () => (ws.editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT)));
   ws.mcpApi = () => (ws.mcp ??= import('./mcp/http.mjs').then(m => m.createMcpHttp({ root: REPO_ROOT, libraryDir: revisionDir })));
@@ -97,6 +97,8 @@ const noProject = res => {
  */
 export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir, registry } = {}) {
   let ws = root == null ? null : openWorkspace(root, revisionDir);
+  // --revision-dir belongs to the project the server started with: it follows that project (a settings save reloads it, a switch away and back reopens it).
+  const startReal = ws ? ws.root : null;
   let projectsApi, ownRegistry;
   const getRegistry = () => registry ?? (ownRegistry ??= createRegistry());
   const host = {
@@ -104,7 +106,8 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir, registry
     registry: getRegistry, studioDir: STUDIO_DIR,
     /** Open another project in place: the old one is closed after the new one loaded, so a failure leaves the server as it was. */
     async switchProject(rootArg) {
-      const next = openWorkspace(rootArg); // --revision-dir belongs to the project the server started with
+      const same = startReal && fsSync.realpathSync(path.resolve(rootArg)) === startReal;
+      const next = openWorkspace(rootArg, same ? revisionDir : undefined);
       const old = ws; ws = next; old?.close();
       return host.current();
     },
@@ -220,6 +223,7 @@ export function createPreviewServer({ root = DEFAULT_ROOT, revisionDir, registry
   server.on('close', () => { ws?.close(); });
   server.switchProject = host.switchProject;
   server.currentProject = host.current;
+  server.revisionDirInUse = () => ws?.revisionDir;
   return server;
 }
 

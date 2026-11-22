@@ -18,11 +18,11 @@ function sandbox(t) {
   t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
   return dir;
 }
-async function start(t, {root = null} = {}) {
+async function start(t, {root = null, revisionDir} = {}) {
   const base = sandbox(t);
   const home = path.join(base, 'home');
   const registry = createRegistry({home});
-  const server = createPreviewServer({root, registry});
+  const server = createPreviewServer({root, registry, revisionDir});
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(() => new Promise(resolve => server.close(resolve)));
   const origin = `http://127.0.0.1:${server.address().port}`;
@@ -239,4 +239,35 @@ test('PROJECTS-012: the projects API is loopback and same origin only, takes JSO
   assert.equal(form.status, 415);
   for (const url of ['/api/projects/browse', '/api/projects/ls', '/api/projects/files', '/api/projects/..%2f']) assert.equal((await s.call('GET', url)).status, 404, url);
   assert.equal((await s.call('DELETE', '/api/projects')).status, 405);
+});
+
+test('PROJECTS-015: --revision-dir stays with the project the server started with, through a settings save and a switch away and back', async t => {
+  const base = sandbox(t);
+  const project = path.join(base, 'proj'), library = path.join(base, 'library');
+  fs.mkdirSync(project);
+  const { scaffold } = await import('../core/scaffold.mjs');
+  await scaffold(project, STUDIO, {name: 'Lib'});
+  const s = await start(t, {root: project, revisionDir: library});
+  assert.equal(s.server.revisionDirInUse(), library);
+  const got = (await s.call('GET', '/api/projects/settings')).json;
+  assert.equal((await s.call('POST', '/api/projects/settings', {baseSha: got.baseSha, changes: {name: 'Lib 2'}})).status, 200);
+  assert.equal(s.server.revisionDirInUse(), library, 'a settings save reloads the workspace with the same library');
+  const other = await s.call('POST', '/api/projects/create', {dir: path.join(base, 'other')});
+  const back = await s.call('POST', '/api/projects/add', {path: project});
+  await s.call('POST', '/api/projects/switch', {id: other.json.project.id});
+  assert.equal(s.server.revisionDirInUse(), undefined, 'another project does not borrow it');
+  await s.call('POST', '/api/projects/switch', {id: back.json.project.id});
+  assert.equal(s.server.revisionDirInUse(), library, 'coming back to the start project uses it again');
+});
+
+test('PROJECTS-016: create validates name and id before writing anything, for every template', async t => {
+  const s = await start(t);
+  const dir = n => path.join(s.base, n);
+  for (const [template, body, label] of [['moss-lantern', {name: 5}, 'name 5'], ['blank', {name: {}}, 'name object'], ['blank', {id: 5}, 'id 5'], ['moss-lantern', {id: 'my-id'}, 'id on a sample'], ['blank', {id: 'Bad Id'}, 'bad id']]) {
+    const r = await s.call('POST', '/api/projects/create', {template, dir: dir('v-' + label.replace(/\W/g, '')), ...body});
+    assert.equal(r.status, 422, label);
+    assert.equal(r.json.error.code, 'invalid_input', label);
+    assert.equal(fs.existsSync(dir('v-' + label.replace(/\W/g, ''))), false, `${label}: nothing was written`);
+  }
+  assert.equal((await s.call('POST', '/api/projects/create', {template: 'blank', dir: dir('ok'), id: 'fine-id', name: 'Fine'})).status, 201);
 });

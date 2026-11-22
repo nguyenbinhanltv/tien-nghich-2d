@@ -16,3 +16,5 @@ Pixel Kiln is the tool; a project is a folder with a `studio.project.json`. The 
 - **PROJECTS-012** The projects API is loopback and same origin only, takes JSON only, and has no way to browse or list folders.
 - **PROJECTS-013** The `projects list|add|remove` commands keep the same list; `serve` with no project starts on the Projects screen, and `serve --project` records that project as opened.
 - **PROJECTS-014** The project switcher in the top bar opens the Projects screen, the screen is the default when no project is open, and every string of it exists in English and Vietnamese.
+- **PROJECTS-015** `--revision-dir` stays with the project the server started with: a settings save, or switching away and back, reopens that project with the same library.
+- **PROJECTS-016** Creating a project validates the typed name and id (text, id pattern, no id for a sample) before writing anything, so a refused request leaves no half-made folder.

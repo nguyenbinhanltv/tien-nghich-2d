@@ -34,6 +34,10 @@ async function copyTree(from, to) {
  */
 export async function createProject({template = 'blank', dir: dirArg, name, id}, studioDir, options) {
   if (!TEMPLATES.includes(template)) throw problem(422, 'unknown_template', `Unknown template "${template}"`);
+  // Everything a person typed is checked before anything is written: a half-made folder would block the retry.
+  if (name != null && typeof name !== 'string') throw problem(422, 'invalid_input', 'The name must be text');
+  if (id != null && typeof id !== 'string') throw problem(422, 'invalid_input', 'The id must be text');
+  if (id && template !== 'blank') throw problem(422, 'invalid_input', `The ${template} sample keeps its own id; leave the id empty`);
   const dir = normalizeProjectPath(dirArg, options);
   if (path.dirname(dir) === dir) throw problem(422, 'invalid_path', 'Choose a folder, not the root of the disk');
   const realStudio = await fs.realpath(studioDir);
@@ -49,7 +53,7 @@ export async function createProject({template = 'blank', dir: dirArg, name, id},
   }
   const projectName = (typeof name === 'string' && name.trim()) || path.basename(target);
   if (projectName.length > 80) throw problem(422, 'invalid_input', 'The name must be 1 to 80 characters');
-  if (id !== undefined && id !== '' && !/^[a-z0-9][a-z0-9_-]*$/.test(id)) throw problem(422, 'invalid_input', 'The id uses lowercase letters, digits, - and _');
+  if (id && !/^[a-z0-9][a-z0-9_-]*$/.test(id)) throw problem(422, 'invalid_input', 'The id uses lowercase letters, digits, - and _');
   if (template === 'blank') {
     const r = await scaffold(target, studioDir, {name: projectName, id: id || undefined});
     return {dir: r.dir, id: r.id, name: r.name, template};
