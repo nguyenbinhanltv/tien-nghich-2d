@@ -149,7 +149,9 @@ test('review_request: gates, history and policy', () => withProject(async (p) =>
   assert.match(text(gated), /studio_qa_run lists each/);
 
   // An asset with no frames of its own has nothing to ask about.
-  assert.match(text(await author.call('studio_review_request', { assetId: 'lt_kiln_keeper', note: 'x' })), /no frames with a revision history/);
+  assert.match(text(await author.call('studio_review_request', { assetId: 'lt_ash_bow', note: 'x' })), /has no frames/);
+  // Processed frames with no revision history yet are awaiting review, so a human can be asked about them (after the same checks).
+  assert.match(text(await author.call('studio_review_request', { assetId: 'lt_kiln_keeper', note: 'x' })), /different session than the author/);
   assert.match(text(await author.call('studio_review_request', { assetId: 'lt_nothing', note: 'x' })), /No asset/);
   assert.match(text(await author.call('studio_review_request', { assetId: 'lt_seed_broker', note: '' })), /Invalid arguments|1 to 1200/);
   assert.match(text(await author.call('studio_review_request', { assetId: 'lt_seed_broker', note: 'x', questions: Array(9).fill('q') })), /more than 8 items/);

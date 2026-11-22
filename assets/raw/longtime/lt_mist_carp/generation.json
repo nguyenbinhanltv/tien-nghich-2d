@@ -1,0 +1,96 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored. Directions were queued in several calls and appended to the same animation group because the account's 8 job slots were shared with other lanes.",
+  "pixellab_character_id": "f42399e8-1aa4-4665-bdc7-97213198da3f",
+  "character_job_id": "814ae2b5-ef77-43e5-8aea-5c01c7bfa392",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small chibi carp fish floating upright in the air, round plump body of soft blue-grey scales with a pale belly, big round eyes, a tail that splits into a forked ribbon of two long thin flowing pale-blue ribbons, small fins. Wisps of mist beneath it. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "9cf1d3fd-94c7-41ec-adfa-c6fb26ebe2c7",
+      "job_ids": {
+        "south": "6a6fcabc-1395-413d-a347-d4945eb71b15",
+        "west": "9c859d1b-a66d-4a1e-8d28-591e891c3c33",
+        "north": "9c8750ae-a2ab-4fa2-9abf-e80823d7e4e4",
+        "east": "51be157f-e9db-4199-864d-c90f2fc37abe"
+      },
+      "action_description": "floats in place gently bobbing up and down, the forked ribbon tail sways slowly and the fins flutter; the tail stays split into two ribbons",
+      "direction_prompts": {
+        "south": "facing the viewer, floats and bobs gently, the two ribbon tails sway; tail stays forked",
+        "west": "facing left, floats and bobs gently, the two ribbon tails sway behind it; tail stays forked",
+        "north": "seen from behind, floats and bobs gently, the two ribbon tails sway; tail stays forked",
+        "east": "facing right, floats and bobs gently, the two ribbon tails sway behind it; tail stays forked"
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "a5ace0f5-5bf6-4bae-b03d-ef2a496b77f1",
+      "job_ids": {
+        "south": "0aa14531-6b4c-4a6c-97de-ddfb1408920e",
+        "west": "a60748c7-b9d0-454c-a272-16862c86af44",
+        "north": "cbceb355-5c26-4c6e-80d1-b6f4a6bcb4e3",
+        "east": "86c2e55d-63aa-4d9e-91d7-95cb1650fcf2"
+      },
+      "action_description": "glides forward through the air with a swimming wave motion of the body, the forked ribbon tail streams behind in two ribbons and the fins flap",
+      "direction_prompts": {
+        "south": "glides toward the viewer with a swimming wave, compact and narrow, the two ribbon tails stay behind and above it; tail stays forked",
+        "west": "glides to the left with a swimming wave, the two ribbon tails stream behind it to the right; tail stays forked",
+        "north": "glides away from the viewer, seen from behind, compact and narrow; tail stays forked",
+        "east": "glides to the right with a swimming wave, the two ribbon tails stream low and flat behind it to the left, level with its body, never rising above its head; tail stays forked; the whole fish stays small and low in the frame (second attempt, east only)"
+      },
+      "rejected": {
+        "east_take1": {
+          "job_id": "c5d2b92a-9843-4291-999d-8014e2f0556c",
+          "prompt": "glides to the right with a swimming wave, the two ribbon tails stream behind it to the left; tail stays forked",
+          "why": "5 opaque pixels fell outside the 32x32 canvas (ribbon tip above frames 1-2, mist below frame 3)"
+        },
+        "east_take3": {
+          "job_id": "b984037e-0444-417b-821f-d1f49c33f5e8",
+          "prompt": "glides to the right with a swimming wave, the two ribbon tails stream low and flat behind it to the left, level with its body, never rising above its head; tail stays forked; the whole fish stays small, in the upper middle of the frame with plenty of empty space below it and no mist under it (third attempt, east only)",
+          "why": "worse: 20+ mist pixels fell below the canvas in frames 1-3"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character, then idle and follow v3, four directions each",
+      "credits": 14,
+      "result": "follow east take 1 did not fit the 32px canvas"
+    },
+    {
+      "n": 2,
+      "what": "follow east regenerated once (second take)",
+      "credits": 1,
+      "result": "2 mist pixels still outside the canvas in frame 3; kept as the better take"
+    },
+    {
+      "n": 3,
+      "what": "follow east generated a third time on the orchestrator's explicit permission (one extra generation)",
+      "credits": 1,
+      "result": "rejected, worse than take 2; take 2 kept and its 2 outside pixels cropped at build time (crop_allowance)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "follow_east_regenerations": 2,
+    "total_generations": 16
+  },
+  "known_flaws": [
+    "CROPPED AT BUILD TIME (not edited): follow east frame 3 (assets/raw/longtime/lt_mist_carp/follow/east/frame_003.png, the untouched PixelLab output, sha256 aa438f6503d3ab12e60829283b72e2f6badf04c3cf6455a60507e90189d5d7b6) has 2 opaque mist pixels one row below the 32x32 canvas (canvas x=12,13 y=32; raw x=18,19 y=38; colours #8ae8ff and #28a8dc). build_longtime_characters.py drops them under the explicit crop_allowance {\"follow/east/3\": 2} in this file and reports them in provenance processing.cropped_opaque_pixels",
+    "the mist beneath the fish is drawn as scattered 1-3 px specks that flicker between frames, not a coherent wisp",
+    "the forked ribbon tail points straight up in south and north views and reads like long ears"
+  ],
+  "crop_allowance": {
+    "follow/east/3": 2
+  }
+}

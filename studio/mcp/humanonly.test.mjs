@@ -42,7 +42,7 @@ const props = (schema, path = '') => {
 };
 
 for (const scope of SCOPES) {
-  test(`[${scope}] no tool is named for, or takes an argument that could, approve, reject, sign, publish, delete or run a command`, () => {
+  test(`MCP-001: [${scope}] no tool is named for, or takes an argument that could, approve, reject, sign, publish, delete or run a command`, () => {
     const tools = buildRegistry().list(scope);
     assert.ok(tools.length >= 5);
     for (const t of tools) {
@@ -56,7 +56,7 @@ for (const scope of SCOPES) {
     }
   });
 
-  test(`[${scope}] the human-only tools do not exist: unknown tool, whatever the arguments`, async () => {
+  test(`MCP-002: [${scope}] the human-only tools do not exist: unknown tool, whatever the arguments`, async () => {
     const p = makeProject({ git: false });
     try {
       const c = connect(p.root, { scope });
@@ -70,7 +70,7 @@ for (const scope of SCOPES) {
     } finally { await p.cleanup(); }
   });
 
-  test(`[${scope}] every tool rejects approve/status/decision/publish/delete/session arguments`, async () => {
+  test(`MCP-003: [${scope}] every tool rejects approve/status/decision/publish/delete/session arguments`, async () => {
     const p = makeProject({ git: false });
     try {
       const c = connect(p.root, { scope });
@@ -91,7 +91,7 @@ for (const scope of SCOPES) {
   });
 }
 
-test('read scope cannot reach any tool that writes', async () => {
+test('MCP-004: read scope cannot reach any tool that writes', async () => {
   const p = makeProject({ git: false });
   try {
     const c = connect(p.root, { scope: 'read' });
@@ -117,7 +117,7 @@ test('read scope cannot reach any tool that writes', async () => {
   } finally { await p.cleanup(); }
 });
 
-test('after a full agent loop at the highest scope, nothing is approved, rejected or reopened', async () => {
+test('MCP-005: after a full agent loop at the highest scope, nothing is approved, rejected or reopened', async () => {
   const p = makeProject({ git: false });
   try {
     const project = openProject(p.root);
@@ -162,7 +162,7 @@ function sources(dir, out = []) {
   return out;
 }
 
-test('static: the only code that writes to the revision store is reviewed and cannot set a decision', () => {
+test('MCP-006: static: the only code that writes to the revision store is reviewed and cannot set a decision', () => {
   const files = [...sources(join(REPO, 'studio/mcp')), ...sources(join(REPO, 'studio/core'))];
   const calls = [];
   for (const f of files) {
@@ -200,7 +200,7 @@ test('static: no server code imports the evaluation harness or the test kit (the
   }
 });
 
-test('sessions are assigned by the server and cannot be chosen, claimed or forged', async () => {
+test('MCP-007: sessions are assigned by the server and cannot be chosen, claimed or forged', async () => {
   const p = makeProject({ git: false });
   try {
     const project = openProject(p.root);

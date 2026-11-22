@@ -48,6 +48,7 @@ function pathFields(pack) {
     if (s.atlas) fields.push([`catalog.sources[${i}].atlas.dir`, s.atlas.dir]);
     for (const [name, value] of Object.entries(s.evidence ?? {})) fields.push([`catalog.sources[${i}].evidence.${name}`, value]);
   });
+  if (pack.review?.baseline) fields.push(['review.baseline.file', pack.review.baseline.file], ...pack.review.baseline.roots.map((r, i) => [`review.baseline.roots[${i}]`, r]));
   fields.push(['directories.revisions', pack.directories?.revisions], ['directories.approvals', pack.directories?.approvals]);
   (pack.catalog?.sources ?? []).forEach((s, i) => fields.push([`catalog.sources[${i}].file`, s.file]));
   fields.push(['adapters.interpreter.command', pack.adapters?.interpreter?.command]);
@@ -206,7 +207,7 @@ function check(pack, root, verifyFiles) {
   const issues = validatePack(pack);
   if (!issues.length && verifyFiles) {
     for (const [where, value] of pathFields(pack)) {
-      if (where === 'directories.revisions' || where === 'editable.overlay' || where.startsWith('adapters.')
+      if (where === 'directories.revisions' || where === 'editable.overlay' || where.startsWith('review.') || where.startsWith('adapters.')
           || where.startsWith('directories.')) continue;
       if (!fs.existsSync(path.join(root, value))) issues.push(`${where}: file not found: ${value}`);
     }

@@ -124,7 +124,7 @@ test('the authority (the project packer through the registered adapter) stages b
   }
 });
 
-test('staging never lands in a shipped directory, and what packing staged assets would change is computed without drawing pages', async t => {
+test('ATLAS-001: staging never lands in a shipped directory, and what packing staged assets would change is computed without drawing pages', async t => {
   const base = await temp(t);
   await assert.rejects(stagingFor(REPO, pack, path.join(REPO, pack.directories.atlases.core), 'x'), e => e.code === 'staging_in_shipped');
   await assert.rejects(stagingFor(REPO, pack, REPO, 'assets'), e => e.code === 'staging_in_shipped', 'a directory that contains a shipped one is refused too');

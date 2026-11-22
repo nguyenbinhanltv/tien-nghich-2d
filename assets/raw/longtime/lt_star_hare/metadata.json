@@ -1,0 +1,89 @@
+{
+  "group_id": "2388ede0-ffe1-4b61-8af8-8300436d71a2",
+  "states": [
+    {
+      "character": {
+        "id": "6eee158f-5e51-4c5d-8f01-38d8b20ac1c2",
+        "name": "Idle",
+        "prompt": "Small hare, slender rabbit-like animal standing on all four legs, soft blue-grey fur, cream belly, two very long upright ears. The LEFT ear has a bright pale-yellow star-glint tip, clearly visible as a bright dot at the top of that ear; the RIGHT ear is plain grey with a dark tip. Short round tail. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "cat",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T07:12:27.749220+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "follow": {
+            "west": [
+              "Idle/animations/follow/west/frame_000.png",
+              "Idle/animations/follow/west/frame_001.png",
+              "Idle/animations/follow/west/frame_002.png",
+              "Idle/animations/follow/west/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/follow/south/frame_000.png",
+              "Idle/animations/follow/south/frame_001.png",
+              "Idle/animations/follow/south/frame_002.png",
+              "Idle/animations/follow/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/follow/east/frame_000.png",
+              "Idle/animations/follow/east/frame_001.png",
+              "Idle/animations/follow/east/frame_002.png",
+              "Idle/animations/follow/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/follow/north/frame_000.png",
+              "Idle/animations/follow/north/frame_001.png",
+              "Idle/animations/follow/north/frame_002.png",
+              "Idle/animations/follow/north/frame_003.png"
+            ]
+          },
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T07:17:20.839866"
+}

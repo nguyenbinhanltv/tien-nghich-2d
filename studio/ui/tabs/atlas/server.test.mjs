@@ -122,7 +122,7 @@ test('search finds frames by asset id or key across sets, and is capped', async 
   assert.equal(many.json.truncated, true);
 });
 
-test('pack with the studio packer stages beside, compares with the shipped chunk and leaves every shipped file untouched', async t => {
+test('ATLAS-001: pack with the studio packer stages beside, compares with the shipped chunk and leaves every shipped file untouched', async t => {
   const lib = await realTemp(t), before = await shipped();
   const r = await call(REPO, lib, 'POST', 'pack', {body: {set: 'longtime', chunk: 'abode', engine: 'studio'}});
   assert.equal(r.status, 200);
@@ -235,7 +235,7 @@ test('a second project works from its own pack: default set, shipped pages, byte
   assert.deepEqual(ledger.components, []);
 });
 
-test('a packer that writes into a shipped directory and then fails is reported as a shipped change, not as an ordinary failure', async t => {
+test('ATLAS-002: a packer that writes into a shipped directory and then fails is reported as a shipped change, not as an ordinary failure', async t => {
   const root = await tinyProject(t), lib = path.join(root, 'lib');
   await fs.mkdir(path.join(root, 'atl/web'), {recursive: true});
   await fs.writeFile(path.join(root, 'atl/web/atlas-0.json'), '{}');

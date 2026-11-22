@@ -1,0 +1,89 @@
+{
+  "group_id": "52345eba-fe02-4b1b-9b27-355b8b8985f8",
+  "states": [
+    {
+      "character": {
+        "id": "6691eceb-19d5-4117-b152-4812e7ba5597",
+        "name": "Idle",
+        "prompt": "Middle-aged xianxia seed broker, small human in a plain brown-green robe and a woven straw hat, a long wooden carrying pole resting across the RIGHT shoulder only (asymmetric), with two round cloth seed pouches hanging by cords from the two ends of the pole, one in front and one behind, tied with red string. Friendly face. Front-facing 3/4 top-down, chibi large head, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T08:45:19.327226+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "idle": {
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ]
+          },
+          "interact": {
+            "north": [
+              "Idle/animations/interact/north/frame_000.png",
+              "Idle/animations/interact/north/frame_001.png",
+              "Idle/animations/interact/north/frame_002.png",
+              "Idle/animations/interact/north/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/interact/south/frame_000.png",
+              "Idle/animations/interact/south/frame_001.png",
+              "Idle/animations/interact/south/frame_002.png",
+              "Idle/animations/interact/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/interact/east/frame_000.png",
+              "Idle/animations/interact/east/frame_001.png",
+              "Idle/animations/interact/east/frame_002.png",
+              "Idle/animations/interact/east/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/interact/west/frame_000.png",
+              "Idle/animations/interact/west/frame_001.png",
+              "Idle/animations/interact/west/frame_002.png",
+              "Idle/animations/interact/west/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T08:49:00.003777"
+}

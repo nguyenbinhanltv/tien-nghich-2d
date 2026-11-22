@@ -1,0 +1,115 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style anchor = the processed lt_kiln_keeper idle_south_0 frame passed as base64, colour palette NOT copied) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6e053eac-d1bd-4fb5-bcd1-4dfdb1915223",
+  "character_job_id": "88ddbf21-de8a-4611-87d6-a0ae404c1eab",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Scholarly xianxia chart reader, chibi with a very large round head and a short wide body, small human in a LIGHT pale-cream knee-length robe with a wide indigo sash and wide sleeves, short black hair tied in a small topknot (hair does NOT hang down the back), thin beard, calm eyes. Held out in front of his chest in both hands is a big flat SQUARE bronze astrolabe, a bright gold square frame with a round dial, wide and clearly visible from the front and from both sides. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "bd50a00a-b036-4492-856a-3c04bff99968",
+      "job_ids": {
+        "south": "45f8d833-0744-4c1f-9308-9d061809ea73",
+        "west": "1dbe3596-fbd1-451d-9149-05db3003483c",
+        "north": "70108b20-e4f8-4d81-a104-a1b8ca61f1e1",
+        "east": "d74c4fde-d737-495d-8635-f64cb18d7b0b"
+      },
+      "action_description": "stands still and breathes gently, chest and sleeves rising slightly and falling; the flat square gold astrolabe stays held in both hands in front of his chest, clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently; the square gold astrolabe stays held in both hands in front of his chest, always visible",
+        "west": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide; the face and beard stay clean and unchanged, no floating marks or pieces beside the face (second attempt, west only)",
+        "north": "back to the viewer, breathes gently; the sash and topknot stay in place, arms stay forward",
+        "east": "facing right, breathes gently; the big square gold astrolabe stays held out in front of his chest on the right, always visible and wide"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "3b6e5ee2-663c-416d-b090-659994064a10",
+          "prompt": "facing left, breathes gently; the big square gold astrolabe stays held out in front of his chest on the left, always visible and wide",
+          "why": "replaced by take 2: take 1 had a pale wedge and a dark whisker attached to the beard in frames 3-4 that no processing step can isolate; take 2 has only detached 1-px specks, removed in processing by speck_clean"
+        }
+      }
+    },
+    "interact": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "01c664d5-df39-4796-9037-1d5ba8494edc",
+      "job_ids": {
+        "south": "ea7c7f2e-4b50-445d-8d9a-c7f0e3bb4b11",
+        "west": "b8f849ba-07c2-40d0-8fb2-87a72d0c6980",
+        "north": "c0793cec-ed8a-4835-82ff-2221969a55cd",
+        "east": "5f9141eb-fcd3-4802-b2b6-a84c88c6d7bf"
+      },
+      "action_description": "tilts the square gold astrolabe a little forward and up as if reading a star, then brings it back to his chest; the astrolabe always stays in both hands and clearly visible",
+      "direction_prompts": {
+        "south": "facing the viewer, lifts the square gold astrolabe held in both hands slightly forward and up, then lowers it back to his chest",
+        "west": "facing left, holds the big square gold astrolabe out in front toward the left and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, west only)",
+        "north": "seen from behind, both arms stay forward and the elbows move slightly as he lifts something out of view, then lowers it; nothing else changes",
+        "east": "facing right, holds the big square gold astrolabe out in front toward the right and tilts it slightly up then down; the astrolabe stays a solid square gold instrument with a round dial in EVERY frame, never a sparkle, star or glow (second attempt, east only)"
+      },
+      "rejected": {
+        "west_take1": {
+          "job_id": "e90e3e71-dd3e-4314-bb4c-9df268d414b0",
+          "prompt": "facing left, holds the big square gold astrolabe out in front toward the left a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into an X-shaped sparkle in frames 1-2"
+        },
+        "east_take1": {
+          "job_id": "e0e6bb78-295b-44b7-99f0-050c9ee1bbda",
+          "prompt": "facing right, holds the big square gold astrolabe out in front toward the right a little higher, then lowers it; it stays in front of him and stays wide and bright",
+          "why": "replaced by take 2: take 1 turned the astrolabe into a white-gold glow in frames 2-3"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "first character generation (character id 5de2dc63-eaa6-4b36-8555-84958b700368, job bb1fad10-d56c-4f06-8957-b0e90b7a5eb2, seed 7, long indigo robe) with idle and interact v3 (idle group 05fb4e11-1377-4f20-98cb-ff376e1dc743, interact group c3b8d8b4-7fc3-45b8-a1bf-c2483d73ed49; shipped jobs idle 03d9ecfb, 7a403f70, a2a24671, 0e825f20; interact 4ef42182, 6584ec76, 9bdacb88, abdb1911), plus one round-2 regeneration of idle west/east and interact west/east (jobs 0e15a282, 954ad966, 179f00f7, abdb1911)",
+      "credits": 18,
+      "result": "replaced after owner review: west and east views were a tall dark pillar and the astrolabe a small dim block; round-2 clip regenerations could not fix it because the silhouette comes from the rotations"
+    },
+    {
+      "n": 2,
+      "what": "second and final character generation (the one shipped): light cream robe, short topknot, big gold astrolabe, kiln-keeper style anchor; rotations judged before animating (all four clearly better than the shipped ones: light robe, chibi width, astrolabe visible in west and east), then idle and interact v3 for 4 directions each (touch-up round 3)",
+      "credits": 14,
+      "result": "accepted in touch-up round 3 with no clip regeneration at that time; three clip-directions (idle west, interact west, interact east) were later replaced by their second takes in touch-up round 4, see attempt 3"
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 4 (after the round 3 character redraw): interact west, interact east and idle west regenerated once each (appended to the same animation groups)",
+      "credits": 3,
+      "result": "all three take-2 clips shipped: interact west/east keep a solid square astrolabe in all 4 frames (take 1 had a sparkle/glow for 2 frames); idle west take 2 has only detached 1 px specks which speck_clean (max 3 px) removes in processing"
+    }
+  ],
+  "credits_spent": {
+    "character_replaced_1": 6,
+    "animations_replaced_1": 8,
+    "round2_regenerations_replaced": 4,
+    "character_shipped": 6,
+    "animations_shipped": 8,
+    "total_generations": 35,
+    "round4_regenerations": 3
+  },
+  "known_flaws": [
+    "the north view has no astrolabe (held in front), only the robe and topknot identify the character"
+  ],
+  "style_anchor": {
+    "image": "assets/processed_longtime/lt_kiln_keeper/idle_south_0.png (32x32)",
+    "usage_description": "Match this character's chibi proportions: very large head, small body, thick outline. Do not copy its colours or clothes.",
+    "style_options": {
+      "color_palette": false,
+      "detail": true,
+      "outline": true,
+      "shading": true
+    }
+  },
+  "speck_clean": {
+    "max_px": 3,
+    "why": "idle west take 2 has detached 1 px specks beside the face and astrolabe in frames 1-4; counts per frame in provenance.processing.speck_clean"
+  }
+}

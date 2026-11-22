@@ -6,6 +6,7 @@ import { milestones, isShipped } from './assets.mjs';
 import { readJson } from './files.mjs';
 import { problem } from './errors.mjs';
 import { sha256, withLock, writeFileAtomic } from './fsutil.mjs';
+import { parseCsv } from './csv.mjs';
 
 export const PLANS_SCHEMA = 'studio.plans';
 
@@ -64,6 +65,136 @@ function validateFields(fields, index, selfId) {
   }
 }
 
+const CONTEXT_LIMITS = {keys: 24, value: 300};
+
+/** Free-form notes from a spreadsheet's unmapped columns: short strings under short names. */
+function validateContext(context) {
+  if (!context || typeof context !== 'object' || Array.isArray(context) || Object.keys(context).length > CONTEXT_LIMITS.keys) invalid(`context must be an object of at most ${CONTEXT_LIMITS.keys} entries`);
+  for (const [k, v] of Object.entries(context)) {
+    if (!k || k.length > 60 || typeof v !== 'string' || v.length > CONTEXT_LIMITS.value) invalid(`context "${k.slice(0, 20)}" must be a string of at most ${CONTEXT_LIMITS.value} characters under a name of at most 60`);
+  }
+}
+
+/** Validate a new entry and build it (no I/O). Throws a 422 problem that says what is wrong. */
+function buildCreate(index, id, fields, stamp) {
+  const rule = index.info.planId;
+  if (!new RegExp(rule.pattern).test(id) || id.length > 64) invalid(`id must look like ${rule.hint} (lowercase words joined by underscores, at most 64 characters)`);
+  if (index.assets.has(id)) throw problem(409, 'id_taken', `An asset "${id}" already exists`);
+  for (const f of ['chunk_group', 'brief']) if (!(f in fields)) invalid(`create needs ${f}`);
+  if (('profile' in fields) === ('custom' in fields)) invalid('create needs exactly one of profile (a manifest profile: size, pivot and clips come from it) or custom (an inline size, pivot and clips)');
+  const merged = {...('profile' in fields ? {profile: fields.profile} : {custom: fields.custom}), chunk_group: fields.chunk_group, phase: fields.phase ?? 'later',
+    method: fields.method ?? 'new_source', brief: fields.brief, dependencies: fields.dependencies ?? []};
+  validateFields(merged, index, id);
+  if ('context' in fields) { validateContext(fields.context); if (Object.keys(fields.context).length) merged.context = fields.context; }
+  return {id, ...merged, studio: {createdBy: stamp}};
+}
+
+/** "idle:4@120; walk:6@100" -> {idle: {frames: 4, frameMs: 120}, walk: {...}}. A missing @ms means 120. */
+export function parseClips(text) {
+  const clips = {};
+  for (const part of String(text).split(/[;|]/).map(p => p.trim()).filter(Boolean)) {
+    const m = /^([a-z][a-z0-9_]*)\s*[:=x]\s*(\d+)\s*(?:@\s*(\d+))?$/i.exec(part);
+    if (!m) throw problem(422, 'invalid_input', `clips: "${part}" does not look like name:frames@ms (for example idle:4@120)`);
+    clips[m[1].toLowerCase()] = {frames: Number(m[2]), frameMs: m[3] ? Number(m[3]) : 120};
+  }
+  return clips;
+}
+
+export const IMPORT_LIMITS = {rows: 500, bytes: 256 * 1024};
+const MAPPED = ['id', 'category', 'size', 'clips', 'brief', 'chunk'];
+
+/** The column that most likely holds each field, by header name. Only a suggestion: the person confirms it. */
+export function suggestMapping(headers) {
+  const words = {id: ['id', 'asset id', 'asset_id', 'key'], category: ['category', 'type', 'kind'], size: ['size class', 'size_class', 'size', 'profile', 'class'],
+    clips: ['clips', 'animations', 'anims'], brief: ['brief', 'description', 'notes', 'note'], chunk: ['chunk', 'chunk_group', 'group', 'zone']};
+  const lower = headers.map(h => h.toLowerCase());
+  const out = {};
+  for (const [field, names] of Object.entries(words)) {
+    const at = lower.findIndex(h => names.includes(h));
+    if (at >= 0 && !Object.values(out).includes(headers[at])) out[field] = headers[at];
+  }
+  return out;
+}
+
+/**
+ * Plan a spreadsheet import: which rows would be created and which skipped, and why. Existing ids (in
+ * a manifest or already planned) and repeats inside the file are skipped, never overwritten.
+ * mapping: {id, brief, chunk?, category?, size?, clips?} -> column headers. defaults: {chunk?, phase?, method?}.
+ * Columns that are not mapped travel with the entry as `context`.
+ */
+export function planRows({csv, mapping = {}, defaults = {}, index, existing = new Set()}) {
+  const {headers, rows} = csv;
+  for (const [field, column] of Object.entries(mapping)) {
+    if (!MAPPED.includes(field)) invalid(`mapping: "${field}" is not a field (use ${MAPPED.join(', ')})`);
+    if (column && !headers.includes(column)) invalid(`mapping: the file has no column "${column}"`);
+  }
+  for (const field of ['id', 'brief']) if (!mapping[field]) invalid(`mapping needs a column for ${field}`);
+  if (rows.length > IMPORT_LIMITS.rows) invalid(`the file has ${rows.length} rows; the limit is ${IMPORT_LIMITS.rows}`);
+  const at = Object.fromEntries(Object.entries(mapping).filter(([, c]) => c).map(([f, c]) => [f, headers.indexOf(c)]));
+  const mappedColumns = new Set(Object.values(at));
+  const seen = new Set();
+  const stamp = {agent: 'studio-ui', session: 'spreadsheet-import', at: new Date().toISOString()};
+  return rows.map(({line, cells}) => {
+    const cell = f => (f in at ? cells[at[f]] : '');
+    const id = cell('id');
+    const out = {line, id, action: 'skip', reason: null, entry: null};
+    try {
+      if (!id) invalid('the id cell is empty');
+      if (existing.has(id) || index.assets.has(id)) { out.reason = 'exists'; out.message = `"${id}" already exists; existing ids are never overwritten`; return out; }
+      if (seen.has(id)) { out.reason = 'repeated'; out.message = `"${id}" appears earlier in this file`; return out; }
+      seen.add(id);
+      const context = {};
+      headers.forEach((name, i) => { if (!mappedColumns.has(i) && cells[i]) context[name.slice(0, 60)] = cells[i].slice(0, CONTEXT_LIMITS.value); });
+      const fields = {chunk_group: cell('chunk') || defaults.chunk, brief: cell('brief'), phase: defaults.phase, method: defaults.method, context};
+      if (!fields.chunk_group) invalid('no chunk: map a chunk column or choose a default chunk');
+      for (const k of ['phase', 'method']) if (fields[k] === undefined) delete fields[k];
+      const size = cell('size');
+      if (Object.hasOwn(index.info.profiles, size)) fields.profile = size;
+      else {
+        const m = /^(\d+)\s*[x×]\s*(\d+)$/i.exec(size);
+        if (!m) invalid(size ? `size class "${size}" is neither one of ${Object.keys(index.info.profiles).join(', ')} nor a WxH size such as 32x32` : 'the size class cell is empty');
+        const [w, h] = [Number(m[1]), Number(m[2])];
+        const clips = cell('clips');
+        if (!clips) invalid('a WxH size needs clips (for example idle:4@120)');
+        fields.custom = {category: cell('category'), size: [w, h], pivot: [Math.floor(w / 2), h - 1], clips: parseClips(clips)};
+      }
+      if (fields.profile && cell('category')) context.category = cell('category'); // the profile decides the category; the cell stays as a note
+      out.entry = buildCreate(index, id, fields, stamp);
+      out.action = 'create';
+    } catch (error) {
+      if (!error.status) throw error;
+      out.reason = out.reason ?? 'invalid'; out.message = error.message;
+    }
+    return out;
+  });
+}
+
+/**
+ * Import a spreadsheet of planned assets into the plan store. dryRun returns the plan and writes nothing;
+ * otherwise the rows that would be created are written in ONE atomic write, under the same lock planAsset uses.
+ */
+export async function planImport({root, index, csvText, mapping, defaults, dryRun = true, caller}) {
+  if (!index.info.plansFile) throw problem(422, 'unsupported', 'This project has no design manifest to plan against');
+  if (typeof csvText !== 'string' || !csvText.trim()) invalid('csv is empty');
+  if (Buffer.byteLength(csvText) > IMPORT_LIMITS.bytes) invalid(`the file is larger than ${IMPORT_LIMITS.bytes} bytes`);
+  let csv;
+  try { csv = parseCsv(csvText); } catch (error) { invalid(error.message); }
+  const file = path.join(root, index.info.plansFile);
+  const run = async () => {
+    const current = await readPlans(root, index.info.plansFile);
+    const results = planRows({csv, mapping, defaults, index, existing: new Set(current.entries.map(e => e.id))});
+    const create = results.filter(r => r.action === 'create');
+    const summary = {create: create.length, skip: results.length - create.length};
+    if (!dryRun && create.length) {
+      const stamp = {agent: caller?.agent ?? 'studio-ui', session: caller?.session ?? 'spreadsheet-import', at: new Date().toISOString()};
+      for (const r of create) { r.entry.studio.createdBy = stamp; current.entries.push(r.entry); }
+      await writeFileAtomic(file, JSON.stringify({schema: PLANS_SCHEMA, version: 1, entries: current.entries}, null, 2) + '\n');
+    }
+    return {dryRun, headers: csv.headers, delimiter: csv.delimiter, rows: results, summary, written: !dryRun && create.length > 0, file: index.info.plansFile};
+  };
+  return dryRun ? run() : withLock(file, run);
+}
+
 /**
  * op 'create': {id, profile, chunk_group, brief, phase?, method?, dependencies?}
  * op 'edit':   {id, etag, ...any of profile, chunk_group, brief, phase, method, dependencies}
@@ -79,15 +210,8 @@ export async function planAsset({root, index, caller, op, id, etag, dryRun = fal
     const stamp = {agent: caller.agent, session: caller.session, at: new Date().toISOString()};
     let entry, created = false, before = null;
     if (op === 'create') {
-      const rule = index.info.planId;
-      if (!new RegExp(rule.pattern).test(id) || id.length > 64) invalid(`id must look like ${rule.hint} (lowercase words joined by underscores, at most 64 characters)`);
-      if (index.assets.has(id) || at >= 0) throw problem(409, 'id_taken', `An asset "${id}" already exists`);
-      for (const f of ['chunk_group', 'brief']) if (!(f in fields)) invalid(`create needs ${f}`);
-      if (('profile' in fields) === ('custom' in fields)) invalid('create needs exactly one of profile (a manifest profile: size, pivot and clips come from it) or custom (an inline size, pivot and clips)');
-      const merged = {...('profile' in fields ? {profile: fields.profile} : {custom: fields.custom}), chunk_group: fields.chunk_group, phase: fields.phase ?? 'later',
-        method: fields.method ?? 'new_source', brief: fields.brief, dependencies: fields.dependencies ?? []};
-      validateFields(merged, index, id);
-      entry = {id, ...merged, studio: {createdBy: stamp}};
+      if (at >= 0) throw problem(409, 'id_taken', `An asset "${id}" already exists`);
+      entry = buildCreate(index, id, fields, stamp);
       current.entries.push(entry);
       created = true;
     } else {
@@ -119,4 +243,14 @@ export async function planAsset({root, index, caller, op, id, etag, dryRun = fal
     await writeFileAtomic(file, JSON.stringify(out, null, 2) + '\n');
     return {entry, etag: planEtag(entry), created, file: index.info.plansFile};
   });
+}
+
+/** What a planned entry may name in this project: chunks, profiles, categories, phases, methods. */
+export function planOptions(index) {
+  const phases = new Set(), methods = new Set(), categories = new Set(['vfx']);
+  for (const a of index.assets.values()) { categories.add(a.category); if (a.profile !== undefined) { phases.add(a.phase); methods.add(a.method); } }
+  phases.add('later'); methods.add('new_source');
+  const sort = set => [...set].filter(Boolean).sort();
+  return {chunks: Object.keys(index.info.chunks ?? {}), profiles: Object.keys(index.info.profiles ?? {}), categories: sort(categories), phases: sort(phases), methods: sort(methods),
+    idHint: index.info.planId?.hint ?? null, limits: IMPORT_LIMITS};
 }

@@ -96,7 +96,7 @@ class PromotionTest(unittest.TestCase):
             self.assertIn("already published", self.run_promotion(key, True))
             local = self.inspector(key, "view")
             fresh = self.inspector(key, "fresh")
-            self.assertEqual((fresh["revision"], fresh["status"]), (0, "approved"))
+            self.assertEqual((fresh["revision"], fresh["status"]), (0, "pending"))  # no review record in this trimmed tree: awaiting review, never approved
             self.assertEqual(fresh["pngBase64"], local["pngBase64"])
             self.assertEqual(fresh["metadata"], local["metadata"])
             self.assertEqual((local["revision"],local["status"]), (1,"approved"))

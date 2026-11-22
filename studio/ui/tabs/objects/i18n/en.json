@@ -88,8 +88,9 @@
   "edit.reviewed": "Review saved",
   "edit.conflict": "Someone saved a newer revision; reloaded. Try again.",
   "edit.failed": "Could not use the frame editor: {message}",
-  "review.pending": "pending",
+  "review.pending": "awaiting review",
   "review.approved": "approved",
+  "review.baseline": "baseline, no review record",
   "review.changes_requested": "changes requested",
   "blob.none": "This asset has no 47-tile blob sheet.",
   "blob.sheet": "Sheet",
@@ -111,5 +112,6 @@
   "hud.help": "The bar is clipped from the right; the left edge stays fixed.",
   "hud.fill": "Fill level",
   "hud.canvas": "HUD bar at {fill} percent",
-  "hud.clip": "{fill}% fill shows {cw} of {w} px"
+  "hud.clip": "{fill}% fill shows {cw} of {w} px",
+  "import.open": "Import a spritesheet…"
 }

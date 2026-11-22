@@ -1,0 +1,548 @@
+{
+  "id": "lt_star_hare",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Single bright ear tip",
+  "tool": "PixelLab MCP (character tools only)",
+  "operator": "tien-nghich-2d-29",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-29, 2026-11-22",
+  "method": "create_character_pro_flash (32x32 native, low top-down, cat template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction. All four facings are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "6eee158f-5e51-4c5d-8f01-38d8b20ac1c2",
+  "character_job_id": "fe39bf35-c781-491e-8a57-73e60bfbed73",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small hare, slender rabbit-like animal standing on all four legs, soft blue-grey fur, cream belly, two very long upright ears. The LEFT ear has a bright pale-yellow star-glint tip, clearly visible as a bright dot at the top of that ear; the RIGHT ear is plain grey with a dark tip. Short round tail. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f3148f75-6475-4380-883f-c60abd3c1fef",
+      "job_ids": {
+        "south": "5115dd37-4058-4077-8b20-3cac0ca39fda",
+        "west": "bcfd9b0c-8531-4e6f-a8b4-f2b18d5a5042",
+        "north": "5a58189a-9b45-48c9-ab90-c225e3cc2bf8",
+        "east": "cd859a7d-e671-42ab-b3b0-5bcebc0fd5f4"
+      },
+      "action_description": "stands still breathing gently, the long ears twitch slightly, nose wiggles; the single bright yellow glint stays at the tip of the one marked ear",
+      "direction_prompts": {
+        "south": "facing the viewer, breathes gently, ears twitch; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear on the viewer's left and is clearly visible in EVERY frame (second attempt, south only)",
+        "west": "facing left, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear",
+        "north": "seen from behind, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear on the viewer's right",
+        "east": "facing right, breathes gently, ears twitch; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear and is clearly visible in EVERY frame (second attempt, east only)"
+      },
+      "rejected_regeneration": {
+        "west": {
+          "job_id": "dcb8f231-6f16-49ec-be6d-947b580a2b5c",
+          "prompt": "facing left, breathes gently, ears twitch; a bright yellow glint dot stays clearly visible at the tip of the nearer ear in EVERY frame, the ear tip is never dark (second attempt, west only)"
+        }
+      },
+      "rejected": {
+        "south_take1": {
+          "job_id": "ba205f1d-7db8-4e9a-9814-58202acde6b9",
+          "prompt": "facing the viewer, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear on the viewer's left",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        },
+        "east_take1": {
+          "job_id": "1e91dd42-e2ad-49e6-921d-e177f801bd0e",
+          "prompt": "facing right, breathes gently, ears twitch; the bright yellow glint stays at the tip of the ear",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        }
+      }
+    },
+    "follow": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ecf6caff-259f-45c7-a47d-159a385a3ea6",
+      "job_ids": {
+        "south": "4a5ef4ef-687a-400d-a6e2-6a30d8ecc077",
+        "west": "fb34b63d-0071-4589-a770-3a7c38ce46cd",
+        "north": "d2e0b110-1d34-47aa-bb01-603ea5aeae81",
+        "east": "4c57a786-b827-41c9-96ae-ddcaa646e146"
+      },
+      "action_description": "hops forward in a quick bounding hop cycle, ears streaming back; the single bright yellow glint stays at the tip of the one marked ear",
+      "direction_prompts": {
+        "south": "hops toward the viewer in a compact narrow hop; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear on the viewer's left and is clearly visible in EVERY frame (second attempt, south only)",
+        "west": "hops to the left, ears streaming back to the right; the bright yellow glint stays at the tip of the ear",
+        "north": "hops away from the viewer, seen from behind, compact narrow hop; the bright yellow glint stays at the tip of the ear on the viewer's right",
+        "east": "hops to the right, ears streaming back to the left; a bright pale-yellow star-shaped glint, three pixels wide, sits on the very tip of the ear and is clearly visible in EVERY frame (second attempt, east only)"
+      },
+      "rejected_regeneration": {
+        "west": {
+          "job_id": "0042de1c-6829-496d-9f71-b2daedabc5e7",
+          "prompt": "hops to the left, ears streaming back to the right; a bright yellow glint dot stays clearly visible at the tip of the nearer ear in EVERY frame, the ear tip is never dark (second attempt, west only)"
+        }
+      },
+      "rejected": {
+        "south_take1": {
+          "job_id": "460399cc-0bdf-4e80-91db-48268ec9448e",
+          "prompt": "hops toward the viewer in a compact narrow hop, staying within a narrow column; the bright yellow glint stays at the tip of the ear on the viewer's left",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        },
+        "east_take1": {
+          "job_id": "66838861-47f7-4730-9c80-2ef711f816d9",
+          "prompt": "hops to the right, ears streaming back to the left; the bright yellow glint stays at the tip of the ear",
+          "why": "replaced by take 2 in touch-up round 2: ear-tip glint only 1-3 dim pixels"
+        }
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character (seed 7) then idle and follow v3, four directions each (follow east appended to the follow group because only 3 job slots were free)",
+      "credits": 14,
+      "result": "accepted with flags"
+    },
+    {
+      "n": 2,
+      "what": "idle west and follow west regenerated once each with an emphasised ear-tip prompt (the first west clips showed a thin, partly dark tip)",
+      "credits": 2,
+      "result": "rejected: idle west no better than the first take; follow west worse (tip floats off the ear in frame 3, ear shape distorted). The first west clips were kept. The regenerated frames are only in the PixelLab account, not shipped."
+    },
+    {
+      "n": 3,
+      "what": "touch-up round 2: idle south, idle east, follow south, follow east regenerated once each (appended to the same animation groups) for a brighter ear-tip glint; west and north not touched",
+      "credits": 4,
+      "result": "all four take-2 clips shipped (bright 2-3 px glint or sparkle in every frame except follow east frame 4, where the tip is missing and reads as a twinkle)"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations": 8,
+    "west_regenerations_rejected": 2,
+    "total_generations": 20,
+    "round2_regenerations": 4
+  },
+  "known_flaws": [
+    "the bright ear tip is small (1-3 px) and shifts between pale yellow and cream between frames; in west it is the thinnest",
+    "the cat template stands the hare upright in south and north, so it reads as a sitting-up hare rather than a four-legged crouch"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "09ecccd55d06c2b385884a7282ec1a6e96780352232cdc78ccd232d2e50ad255",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2295,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "entry_point": "tools/scripts/build_longtime_abode.py",
+    "entry_point_sha256": "0705e00acaeac9ca64f941d26047cadbc4098dd206c255ecded79cbe8c8d45ae"
+  },
+  "source": "source.png",
+  "source_sha256": "7e0bb5226ec37351ecdb152e05740f57dc9cad4ce4d7ad11824cb619c645e4e0",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_star_hare/contact_1x.png": "07e9dd07646484e24e1652c57745a287b4b50f969921a5239fb5254e66c72b9c",
+    "assets/raw/longtime/lt_star_hare/contact_4x.png": "5084a424f00fc3fceff720c42f7a6cb474ae5dcadc2c6fa2ad1ae4ca1f3e40c2"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_star_hare/follow_east_0",
+      "path": "assets/processed_longtime/lt_star_hare/follow_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/east/frame_000.png",
+      "raw_sha256": "90fed09502c62dc5d0c30b29c8a1e49fb0b344cdf5f48e54039481521b7cb2c8",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "ab79c41d8a85d6abe3990dd3e38ad7a2cd37186eb24fb8869585d0227a7da937"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_east_1",
+      "path": "assets/processed_longtime/lt_star_hare/follow_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/east/frame_001.png",
+      "raw_sha256": "e68e42d933f4d3b91076bcb76f3bf5faebaaac106e52753a8b279fdd3b0ce2f4",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "3ca828f60b269ba236b4df5b37aa6ff9981ceae7e1b724739000de53d67c27a2"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_east_2",
+      "path": "assets/processed_longtime/lt_star_hare/follow_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/east/frame_002.png",
+      "raw_sha256": "f1da6d46b2cb263aaddc49c45ffcbedaac7dd1b18c54af6a8c8af6afa8dedb27",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "71a64ca12434cb84fdb4297cd78c1ce67478a14dac9f0069756653ab31d6919a"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_east_3",
+      "path": "assets/processed_longtime/lt_star_hare/follow_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/east/frame_003.png",
+      "raw_sha256": "5b6de537a9c6162b705470225ee8aefd833ac2610c4d638770455f3357d08b7a",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "dd52d2a49fa07c2c89b4036d55f841be4df89126635fb1b9bc0e3949318a3cfb"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_north_0",
+      "path": "assets/processed_longtime/lt_star_hare/follow_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/north/frame_000.png",
+      "raw_sha256": "d70d5c47223bd353dd80dfb98a00061e96b35636e07d918d2f0205caa008126d",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "2d52c46be4f77b4a39d84464abfb45d534770c479b1e25deaecf3e1cf16b048e"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_north_1",
+      "path": "assets/processed_longtime/lt_star_hare/follow_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/north/frame_001.png",
+      "raw_sha256": "a8a8f858556e97a374a20f7d6d6c9c737a02e87493ecf092f0a77b67082ae6b3",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "face182b711dea67001efd27493db3088ea4ef18fc50f4eb2587d339c64e5e1e"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_north_2",
+      "path": "assets/processed_longtime/lt_star_hare/follow_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/north/frame_002.png",
+      "raw_sha256": "c21171487bd402aad0cfb2c241a4f53082c20caa027c0393334672ab8a39abd3",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "a727ee2e50a4c8cc5b3a618080edcd2363b7a8881b62dfe692ed34daa8a88691"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_north_3",
+      "path": "assets/processed_longtime/lt_star_hare/follow_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/north/frame_003.png",
+      "raw_sha256": "741d6f8594c7a5ca5d11b103b57a267e2946ca61878995e6a42e82a2ae82859f",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "2591febe1240b90472f6d8ffec40a73e98367ad9aace2747c369b42b55cb5a95"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_south_0",
+      "path": "assets/processed_longtime/lt_star_hare/follow_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/south/frame_000.png",
+      "raw_sha256": "20ef5ccf45ebe8d933a2e390748e8fec22d63578525910a6cc51ed0dc50ce325",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "cfe72e786d1a3408e15d454d2a971ae90d086a52a9faa274b6332dc4d2161bfd"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_south_1",
+      "path": "assets/processed_longtime/lt_star_hare/follow_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/south/frame_001.png",
+      "raw_sha256": "f6507e71ecdeeff65146aa27c2263ef130e29e9cc73b6288255e5ccc0a4da857",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "eef7eb32e2a416373fde6caa19ea9e2ad057fcde529141cccef7851d846c92b0"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_south_2",
+      "path": "assets/processed_longtime/lt_star_hare/follow_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/south/frame_002.png",
+      "raw_sha256": "24ab737895506b38e1283fa5ee57093fd6b95dee0a4e8bf38443927769abaa88",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "a6acc5656a61499bad9bdd4c062673bb9f521516d503e3d0b5d14be07779d1ff"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_south_3",
+      "path": "assets/processed_longtime/lt_star_hare/follow_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/south/frame_003.png",
+      "raw_sha256": "4acdf5c39799b5d923b83b4bcd3e771e6aa0542168ce3d931379302477e61790",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "e3ad82b21f8a5263f64247775f391c23b4c82089812c6b384e1a943951edaf41"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_west_0",
+      "path": "assets/processed_longtime/lt_star_hare/follow_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/west/frame_000.png",
+      "raw_sha256": "4fe6e584fa285ff8c68507d44fed8ed1236e4117945704628a5ae51415692f04",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "03eb3d7210406ea2d65e6cfe3ef269b69ce996690a2461fdf6a74b57136a9c96"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_west_1",
+      "path": "assets/processed_longtime/lt_star_hare/follow_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/west/frame_001.png",
+      "raw_sha256": "765d9d051eea00411443c92cfbce98c6b36910d6614176157cc9deb12abd3bc0",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "14da5429294f58e45218681baa65eeba29bbc0ff05b35c63fd52de060abec336"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_west_2",
+      "path": "assets/processed_longtime/lt_star_hare/follow_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/west/frame_002.png",
+      "raw_sha256": "b8afcb8f3e500376225042ff9ea53be687c76bad8dcb9c75b186d9d5ca9653b9",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "cf72761f3408c6b6d67229d71596dc9b4bc9c92c0b5b9989516b9f44f91a2aaf"
+    },
+    {
+      "key": "longtime/lt_star_hare/follow_west_3",
+      "path": "assets/processed_longtime/lt_star_hare/follow_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/follow/west/frame_003.png",
+      "raw_sha256": "7a413bf984ce8890cdb8ffc5441af8fdac3b7f3aeb66aa9b7c05001c21cdb163",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "4f87238cda413fcbe0cb72497c6ec8c1a40085b9be23edccac169b3b5066af04"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_east_0",
+      "path": "assets/processed_longtime/lt_star_hare/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/east/frame_000.png",
+      "raw_sha256": "4ae6b7219541ef9ab6dbf9a672bfc8602b3c851f77c23e243eafad4e0f33a9fd",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "34cfd345a0ea70dbee5f50db7775c4a83651232b1549c0f4d1ea7ec89a94a1d8"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_east_1",
+      "path": "assets/processed_longtime/lt_star_hare/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/east/frame_001.png",
+      "raw_sha256": "411c73c4a228b508aaa6bee5adf44bd91709e7eb294ec9e66caf9a186309b187",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "f9083c199a6e71adc75c76a82b74a55a6748922328fd8d037101d9d71bbeb17b"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_east_2",
+      "path": "assets/processed_longtime/lt_star_hare/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/east/frame_002.png",
+      "raw_sha256": "f6740b0642f22961c19d13fd96ed88066afb8f02eff96a7efbdfd9b2955968a4",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "a09438d318fcb148a41dd3333549ded29c8f1f018c2d3d455b6e25c0c65fce2f"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_east_3",
+      "path": "assets/processed_longtime/lt_star_hare/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/east/frame_003.png",
+      "raw_sha256": "28d9a5f73d6148a98cf134d06e0def219eeb1cab77cb1df962493ed8df598a0f",
+      "source_xy": [
+        120,
+        120
+      ],
+      "duration_ms": 180,
+      "sha256": "ed6ed487db21ddc931c4df1b3dcd765dae044e6852f8cc93f8f49b0a5d890146"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_north_0",
+      "path": "assets/processed_longtime/lt_star_hare/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/north/frame_000.png",
+      "raw_sha256": "655f184163ad4f54845feeb277185eea786267ebd0b4aed1463afe3bfba2031c",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "a9060620281e543a8988dc69b85e8415fc40b2c1b539319b38fc20107a9dc6f7"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_north_1",
+      "path": "assets/processed_longtime/lt_star_hare/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/north/frame_001.png",
+      "raw_sha256": "e5c60956b3f29067cbc2404a0acc8a98dd42f8227a959d2dee41aa26d41f3517",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "7cb989b8b49e4942acdefe7335f13e9c1d648d0c0823f69b5f031b6006101e21"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_north_2",
+      "path": "assets/processed_longtime/lt_star_hare/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/north/frame_002.png",
+      "raw_sha256": "0fcea1d69e7d20eda25d8cadcf795e5bc50c80779358dd7ebee0ffb9d56b4993",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "6e769e3353b0e3cbaeb391bfe394e6049202bf168084b7d64a4bb9090df9605a"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_north_3",
+      "path": "assets/processed_longtime/lt_star_hare/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/north/frame_003.png",
+      "raw_sha256": "12d7b047f9a7805994501d12c164f85d356b52ca79e4ad80b0683e6d878dea39",
+      "source_xy": [
+        120,
+        80
+      ],
+      "duration_ms": 180,
+      "sha256": "bbe5648ca9d5ce8ac4efc091072ba39da6467fda6b460244a1b9671d10485dcc"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_south_0",
+      "path": "assets/processed_longtime/lt_star_hare/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/south/frame_000.png",
+      "raw_sha256": "9b197f8bd43f62fa1008cbf3e04a6b6755ae8c5a334d53c1344de0cc3d656592",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "621ec24ab163c5629338b6ecb52d3bddc651f7be423a3541f8044263464b455f"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_south_1",
+      "path": "assets/processed_longtime/lt_star_hare/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/south/frame_001.png",
+      "raw_sha256": "f1b80fe278613820bbb3473aae92c94397f455633c6a5dbaa866fb397a23fd09",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "eb0f4b9b747b1d5d36f5ecfb98ebc3fa8e7f2cd3bfc9215dd3076f3b20189c85"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_south_2",
+      "path": "assets/processed_longtime/lt_star_hare/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/south/frame_002.png",
+      "raw_sha256": "962ee0a741409ab49677437f2c1c49bb7c2dba3b46e263deb86bd0a9e9d7ad8b",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "ef34e04d6794b7eb6d233ba43fd6a9f85d3e6dc0e6cf14723eeacf916eb0198c"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_south_3",
+      "path": "assets/processed_longtime/lt_star_hare/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/south/frame_003.png",
+      "raw_sha256": "83f7282ee26168e0ed21a2769cbafc4bc20e9ec1a424a2961bc30529bfb1e111",
+      "source_xy": [
+        120,
+        0
+      ],
+      "duration_ms": 180,
+      "sha256": "73604488faa0f98d365fb1745ca95f5e991f82df0fd0da6972f4352190d10374"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_west_0",
+      "path": "assets/processed_longtime/lt_star_hare/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/west/frame_000.png",
+      "raw_sha256": "c26ec1717f7db3d273cd52f6f482b28dddc59f71e8e5c86cfb106112116f5f00",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "9cd7eb269054870cc9dca4bdaafaa2bed02c1ad2896b001b7e4041ad3b4d751b"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_west_1",
+      "path": "assets/processed_longtime/lt_star_hare/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/west/frame_001.png",
+      "raw_sha256": "6c1898aa7972b34dbade6c02ad5db233c6a7dc2b82dc54e3f55d0bf5a8f77434",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "c54b3973db0f4088d37c2b85bcc06f50b8aee0fe49beb65d448aca73f4c80383"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_west_2",
+      "path": "assets/processed_longtime/lt_star_hare/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/west/frame_002.png",
+      "raw_sha256": "f00921e65e427098df98f6df973341e86f1434b8f22ba01248fcee5d6e55fdcf",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "31fdcaf751bb61fd09cf5c35babfcd5c994b87f74dcf9534f532cec46670d784"
+    },
+    {
+      "key": "longtime/lt_star_hare/idle_west_3",
+      "path": "assets/processed_longtime/lt_star_hare/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_star_hare/idle/west/frame_003.png",
+      "raw_sha256": "ed26dc1a86b78936ce006566c995169e09778229e31bb82ff4017e6b8b84c3ab",
+      "source_xy": [
+        120,
+        40
+      ],
+      "duration_ms": 180,
+      "sha256": "726a734ca6c0959d9a17522717efe09abd8876b9ab96ef4043a06471265746b4"
+    }
+  ],
+  "review": {
+    "status": "awaiting_owner_review",
+    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."
+  }
+}

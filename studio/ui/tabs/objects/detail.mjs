@@ -3,6 +3,7 @@ import { h, humanize, imgUrl, button, loadImage, fill } from './dom.mjs';
 import { framesOf, clipNames, framesOfClip, frameMs, groupLinks } from './model.mjs';
 import { kindLabel } from './browser.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
+import { importButton } from '../../importer/dialog.mjs';
 
 const short = hash => (typeof hash === 'string' ? hash.slice(0, 12) : '');
 
@@ -34,6 +35,7 @@ export async function renderDetail(app, host, token) {
     h('header', 'dhead', h('div', '', h('h2', '', name), h('code', '', entry.id)),
       h('a', {class: 'plain-link', href: ctx.href(app.route({}, {asset: null})), 'aria-label': ctx.t('detail.close')}, '×')),
     metaList(app, entry, detail, current),
+    h('div', 'pad', importButton(ctx, {assetId: entry.id, label: ctx.t('import.open'), onDone: () => { app.forget(); app.repaint(); }})),
     clip ? stage(app, entry, clips, clip, inClip, index) : h('p', {class: 'muted pad'}, entry.readiness === 'planned' ? ctx.t('detail.planned') : ctx.t('detail.noFrames')),
     links,
     provenancePanel(app, entry, detail, provenance),

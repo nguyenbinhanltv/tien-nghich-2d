@@ -34,6 +34,7 @@
 .who small { color: var(--muted); font-size: .72rem; }
 .badge { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; padding: .05rem .4rem; border: 2px solid var(--line); color: var(--muted); white-space: nowrap; }
 .badge.readiness-packed, .badge.status-approved { border-color: var(--accent); color: var(--accent); }
+.badge.status-baseline { border-color: var(--line); color: var(--muted); border-style: dotted; }
 .badge.readiness-authored, .badge.status-pending { border-color: var(--gold); color: var(--gold-soft); }
 .badge.status-changes_requested { border-color: var(--danger); color: var(--danger); }
 
@@ -90,3 +91,4 @@
 .mini-table th, .mini-table td { text-align: left; padding: .25rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 .mini-table thead th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: .68rem; letter-spacing: .08em; }
 pre { white-space: pre-wrap; font-size: .75rem; background: var(--ink); padding: .5rem; border: 1px solid var(--line); }
+.panel-import { padding: .4rem .6rem 0; }

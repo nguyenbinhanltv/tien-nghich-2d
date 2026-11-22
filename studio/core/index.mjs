@@ -6,3 +6,4 @@ export { loadEditableCatalog } from './editable.mjs';
 export { encodePixels, normalizePng, decodeStrict, decodeRgba, maxPngBytes } from './png.mjs';
 export { checkSize, checkPixels, checkPng, gateOptions } from './gates.mjs';
 export { revisionStore } from './store.mjs';
+export { createStanding, STANDINGS } from './standing.mjs';

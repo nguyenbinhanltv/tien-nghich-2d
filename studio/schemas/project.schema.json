@@ -501,6 +501,22 @@
         }
       }
     },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional. Names the accepted baseline: shipped art that predates the studio and has no review record. Anything not covered here and not approved by a human record reads as awaiting review.",
+      "properties": {
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["file", "roots"],
+          "properties": {
+            "file": {"$ref": "#/$defs/path", "description": "Record of {directories: {<frame directory>: <digest of its PNG names and sha256s>}}, written by `node studio/baseline.mjs --write`. A frame is baseline only while its directory still digests to the recorded value."},
+            "roots": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/path"}, "description": "Directories whose PNG directories the record covers when it is (re)written."}
+          }
+        }
+      }
+    },
     "adapters": {
       "type": "object",
       "additionalProperties": false,

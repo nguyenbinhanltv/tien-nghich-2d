@@ -135,7 +135,7 @@ test('roster: a project with no planned character reports a planned count of 0',
   } finally { await p.cleanup(); }
 });
 
-test('asset: bad ids, unknown ids and non-characters are refused', async () => {
+test('CHARACTERS-001: asset: bad ids, unknown ids and non-characters are refused', async () => {
   assert.equal((await api('asset')).status, 422);
   assert.equal((await api('asset?id=../../etc')).status, 422);
   assert.equal((await api('asset?id=no_such_character')).status, 404);
