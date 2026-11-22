@@ -30,12 +30,14 @@ RAW = ROOT / "assets/raw/longtime"
 PROCESSED = ROOT / "assets/processed_longtime"
 _MANIFEST = json.loads((ROOT / "assets/manifest_longtime.json").read_text(encoding="utf-8"))
 _PROFILE = {a["id"]: a["profile"] for a in _MANIFEST["assets"]}
-# every PixelLab Longtime character: discovered from raw/<id>/generation.json, so new ones need no edit here
+_CHUNK = {a["id"]: a["chunk_group"] for a in _MANIFEST["assets"]}
+# every PixelLab pet / npc of the abode chunk: discovered from raw/<id>/generation.json, so new ones need no edit
+# here (other chunks' PixelLab characters, e.g. mist_archive, have their own profiles and their own tests)
 IDS = {}
 for _gen in sorted(RAW.glob("*/generation.json")):
-    if "pixellab_character_id" in json.loads(_gen.read_text(encoding="utf-8")):
-        _prof = _PROFILE[_gen.parent.name]
-        IDS[_gen.parent.name] = (_prof, set(_MANIFEST["profiles"][_prof]["clips"]))
+    _aid = _gen.parent.name
+    if _CHUNK.get(_aid) == "abode" and _PROFILE.get(_aid) in ("pet", "npc") and "pixellab_character_id" in json.loads(_gen.read_text(encoding="utf-8")):
+        IDS[_aid] = (_PROFILE[_aid], set(_MANIFEST["profiles"][_PROFILE[_aid]]["clips"]))
 DIRECTIONS = {"south", "west", "north", "east"}
 
 
