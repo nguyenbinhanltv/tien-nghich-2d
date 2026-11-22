@@ -3,7 +3,7 @@ import path from 'node:path';
 import { FILES, keepCandidate, planKeep } from '../../core/audio-candidates.mjs';
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
-import { LISTENING, analyzeRender, glance, insideProtected, renderChecked } from '../workflow/audio.mjs';
+import { LISTENING, analyzeRender, glance, insideProtected, renderChecked, sizeByWindow } from '../workflow/audio.mjs';
 import { shown } from '../workflow/forge.mjs';
 import { dryRunProp, loadAsset } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
@@ -18,13 +18,13 @@ export default {
     'You get the numbers AND both pictures: that is how you inspect it. NO AGENT LISTENS, and no tool can sign a listening: a human does that in the Review tab. ' +
     'A patch must start and end at digital zero and must not clip. See studio/audio/README.md for the formats. ' +
     'keep=true stores the render as the next immutable CANDIDATE of the cue (source, WAV, pictures, measurements, provenance) and starts a review history for it; without keep it renders into scratch only. ' +
-    'It never writes to the delivered audio directories. dryRun renders and measures but writes nothing, not even scratch, and says which candidate version keep would create. Use studio_qa_run on the cue for the audio checks, and studio_review_request to ask a human.',
+    'A patch with a window block is sized by it before rendering; the resolved configuration is hashed (window.configSha256), returned and recorded in the candidate\'s provenance. It never writes to the delivered audio directories. dryRun renders and measures but writes nothing, not even scratch, and says which candidate version keep would create. Use studio_qa_run on the cue for the audio checks, and studio_review_request to ask a human.',
   scope: 'author',
   inputSchema: {
     type: 'object',
     properties: {
       cueId: { type: 'string', maxLength: 64, description: 'The audio cue this is for (an id from studio_catalog_search source=audio, e.g. sfx_step).' },
-      document: { type: 'object', description: 'A studio.audio.patch or studio.audio.score document. sampleRate may be omitted (the project\'s rate is used); seed is required.' },
+      document: { type: 'object', description: 'A studio.audio.patch or studio.audio.score document. sampleRate may be omitted (the project\'s rate is used); seed is required. A patch may carry window: {ms} | {frames, frameMs} | {clip:{asset, clip, from?, to?}} plus tailMs: its length is then the gameplay window (+ tail) and its layer times and envelopes stretch from the patch\'s own durationMs to fit; the clip form reads the clip contract and frame timing of that asset.' },
       keep: { type: 'boolean', description: 'Store this render as the next candidate of the cue and start its review history. Needs a deterministic render.' },
       note: { type: 'string', maxLength: 500, description: 'With keep: what you intended, recorded with the candidate.' },
       dryRun: dryRunProp,
@@ -37,7 +37,9 @@ export default {
     const { ws, snap, asset } = await loadAsset(ctx, args.cueId);
     if (args.keep) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     if (!asset.audio) throw new ToolError(`${asset.id} is not an audio cue. Audio cues come from studio_catalog_search source=audio.`);
-    const { doc, kind, render, deterministic, protectedDirs } = await renderChecked(ws.root, args.document);
+    // A patch may say how long the action it belongs to lasts (window); that is resolved, hashed and recorded BEFORE anything renders.
+    const sized = await sizeByWindow({ ws, snap, document: args.document });
+    const { doc, kind, render, deterministic, protectedDirs } = await renderChecked(ws.root, sized.document);
     const analysis = analyzeRender(render, 800, doc);
     const scratch = path.join(ws.libraryDir(), 'work', 'audio', asset.id);
     for (const target of [scratch, path.join(ws.root, asset.audio.dir)]) {
@@ -58,6 +60,7 @@ export default {
       ...(render.scale ? { scale: render.scale } : {}), glance: glance(analysis.measurements), measurements: analysis.measurements, ...(analysis.pitch ? { pitch: analysis.pitch } : {}),
       images: { waveform: { width: analysis.images.waveform.width, height: analysis.images.waveform.height, axes: analysis.images.waveform.axes },
         spectrogram: { width: analysis.images.spectrogram.width, height: analysis.images.spectrogram.height, axes: analysis.images.spectrogram.axes } },
+      ...(sized.window ? { window: sized.window } : {}),
       ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldWrite: { scratch: shown(ws, scratch), files: ['render.wav', 'waveform.png', 'spectrogram.png'] } } : { scratch: shown(ws, scratch) }), listening: LISTENING,
     };
     out.qa = envelope({ method: 'rendered the document twice in memory and measured the result', 
@@ -74,7 +77,7 @@ export default {
       const candidate = await keepCandidate(ws, { dir: asset.audio.dir, cueId: asset.id, parts: {
         source: doc, wav: render.wav, waveform: analysis.images.waveform.png, spectrogram: analysis.images.spectrogram.png, measurements: analysis.measurements,
         provenance: { agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), tool: 'studio_audio_render (studio/audio engine)', cue: asset.id, kind,
-          documentSha256: docSha, wavSha256: wavSha, deterministic, sampleRate: render.sampleRate, ...(args.note ? { note: args.note } : {}) } } });
+          documentSha256: docSha, wavSha256: wavSha, deterministic, sampleRate: render.sampleRate, ...(sized.window ? { window: { configSha256: sized.window.configSha256, config: sized.window.config } } : {}), ...(args.note ? { note: args.note } : {}) } } });
       out.kept = { version: candidate.version, dir: candidate.dir, files: candidate.files, review: 'pending: a human signs listening and approves in the Review tab' };
     }
     out.next = args.dryRun ? 'Nothing was written. Run again without dryRun (and with keep=true to store a candidate).' : out.kept ? 'studio_qa_run (from a different session, independent=true) for the audio checks, then studio_review_request.' : 'Look at the pictures and numbers. Change the document, or render again with keep=true.';

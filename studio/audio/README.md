@@ -59,6 +59,15 @@ All functions are synchronous and pure except `projectAudio` (reads the pack). D
   `layer_overflow`, `endpoint`, `clip`, `silent`, `out_of_scale`, `sample_rate_mismatch`, `mixed_sample_rates`, `bad_wav`, `bad_input`.
 * The engine never decides approval. The MCP server must keep exposing no tool that signs a listening.
 
+## Sized by the gameplay window (`window`, F9)
+
+A patch may carry a `window` block saying how long the action it belongs to lasts; `resolveWindow` (`window.mjs`) then sets the
+patch's length and stretches every layer's `startMs`, `ms` and envelope times from the patch's own `durationMs` to the window plus an
+optional `tailMs`. Exactly one source: `{ms}`, `{frames, frameMs}` (a telegraph of N frames at M ms) or `{clip: {asset, clip, from?, to?}}`,
+which `studio_audio_render` resolves from the clip contract of that asset (its frame timing and the events `tell`, `hit`, `step`; default the
+whole clip). The configuration and the source document are hashed (`configSha256`, over canonical JSON) before rendering; the tool returns
+the record and a kept candidate's provenance stores it. Patches only: a score is a loop with its own length. Nothing here listens.
+
 ## Patch format: `studio.audio.patch` (one-shot)
 
 Schema: `$defs.patch` in [`schemas/audio.schema.json`](schemas/audio.schema.json). Example: [`examples/zap.patch.json`](examples/zap.patch.json).

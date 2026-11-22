@@ -32,6 +32,7 @@ const FIXTURE_TESTS = new Set([
   'mcp/frame-text.test.mjs',
   'mcp/shading-tool.test.mjs',
   'mcp/vfx-record.test.mjs',
+  'mcp/audio-window.test.mjs',
   'mcp/preview-inspect.test.mjs',
   'core/tests/revisions-exports.test.mjs',
   'mcp/policy.test.mjs',
