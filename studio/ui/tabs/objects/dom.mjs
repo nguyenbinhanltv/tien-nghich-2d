@@ -30,7 +30,7 @@ export function loadImage(path) {
 }
 
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', ...attrs, class: 'btn' + (attrs.class ? ' ' + attrs.class : '')}, label);
   b.addEventListener('click', onClick);
   return b;
 }
@@ -47,3 +47,8 @@ export function pixelCanvas(w, h_) {
 
 /** replaceChildren that skips null/false (the native call would print the text "null"). */
 export const fill = (el, ...kids) => el.replaceChildren(...kids.filter(k => k != null && k !== false));
+
+/** Shared-kit states: a short empty box, a loading skeleton, and an error with a retry button. */
+export const emptyBox = (text, ...extra) => h('div', 'empty', h('p', 'empty-body', text), ...extra);
+export const loadingBox = label => h('div', {class: 'skeleton block', role: 'status', 'aria-label': label});
+export const errorBox = (text, retryLabel, onRetry) => h('div', {class: 'empty err', role: 'alert'}, h('p', 'empty-body', text), onRetry && button(retryLabel, onRetry));

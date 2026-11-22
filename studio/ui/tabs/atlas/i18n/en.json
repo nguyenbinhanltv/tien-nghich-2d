@@ -3,6 +3,7 @@
   "subtitle": "Look at the shipped atlas pages, pack into staging and compare byte by byte with the shipped atlas, export for game engines, and read where every asset came from.",
   "safe": "Writes only to staging",
   "loading": "Loading…",
+  "error.retry": "Retry",
   "error.generic": "Something went wrong: {message}",
   "sets.label": "Atlas sets and chunks",
   "sets.frames": "{n} frames",

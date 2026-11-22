@@ -7,7 +7,7 @@ export function h(tag, attrs, ...kids) {
 }
 export const humanize = id => String(id).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', ...attrs, class: 'btn' + (attrs.class ? ' ' + attrs.class : '')}, label);
   b.addEventListener('click', onClick);
   return b;
 }

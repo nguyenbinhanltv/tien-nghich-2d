@@ -28,7 +28,7 @@ export function loadImage(path) {
 }
 
 export function button(label, onClick, attrs = {}) {
-  const b = h('button', {type: 'button', class: 'plain', ...attrs}, label);
+  const b = h('button', {type: 'button', ...attrs, class: 'btn' + (attrs.class ? ' ' + attrs.class : '')}, label);
   b.addEventListener('click', onClick);
   return b;
 }
@@ -42,6 +42,11 @@ export function pixelCanvas(w, h_) {
   g.imageSmoothingEnabled = false;
   return [c, g];
 }
+
+/** Shared-kit states: a short empty box, a loading skeleton, and an error with a retry button. */
+export const emptyBox = text => h('div', 'empty', h('p', 'empty-body', text));
+export const loadingBox = label => h('div', {class: 'skeleton block', role: 'status', 'aria-label': label});
+export const errorBox = (text, retryLabel, onRetry) => h('div', {class: 'empty err', role: 'alert'}, h('p', 'empty-body', text), onRetry && button(retryLabel, onRetry));
 
 export const humanize = id => String(id).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 

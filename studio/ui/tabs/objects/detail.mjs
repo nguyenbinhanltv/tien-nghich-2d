@@ -1,5 +1,5 @@
 // The right column: one asset, its clips and frames with timing playback, links, provenance and frame editing.
-import { h, humanize, imgUrl, button, loadImage, fill } from './dom.mjs';
+import { h, humanize, imgUrl, button, loadImage, fill, emptyBox, loadingBox, errorBox } from './dom.mjs';
 import { framesOf, clipNames, framesOfClip, frameMs, groupLinks } from './model.mjs';
 import { kindLabel } from './browser.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
@@ -11,15 +11,15 @@ const short = hash => (typeof hash === 'string' ? hash.slice(0, 12) : '');
 export async function renderDetail(app, host, token) {
   const {ctx, state} = app;
   const entry = app.selected();
-  if (!state.asset) { fill(host, h('p', 'muted pad', ctx.t('detail.none'))); return; }
-  if (!entry) { fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.unknown', {id: state.asset}))); return; }
-  fill(host, h('p', 'muted pad', ctx.t('common.loading')));
+  if (!state.asset) { fill(host, emptyBox(ctx.t('detail.none'))); return; }
+  if (!entry) { fill(host, errorBox(ctx.t('detail.unknown', {id: state.asset})), h('a', {class: 'btn back', href: ctx.href(app.route({}, {asset: null}))}, '← ' + ctx.t('detail.back'))); return; }
+  fill(host, loadingBox(ctx.t('common.loading')));
   let detail, provenance;
   try {
     [detail, provenance] = await Promise.all([app.detail(entry), app.provenance(entry).catch(() => null)]);
   } catch (error) {
     if (error.name === 'AbortError' || token !== app.token) return;
-    fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('common.error', {message: error.message})));
+    fill(host, errorBox(ctx.t('common.error', {message: error.message}), ctx.t('common.retry'), () => { app.forget(); app.repaint(); }));
     return;
   }
   if (token !== app.token) return;
@@ -33,11 +33,11 @@ export async function renderDetail(app, host, token) {
   const name = ctx.label(detail.record?.name) || entry.name || entry.id;
   const links = renderLinks(app, entry);
   fill(host, 
-    h('header', 'dhead', h('div', '', h('h2', '', name), h('code', '', entry.id)),
-      h('a', {class: 'plain-link', href: ctx.href(app.route({}, {asset: null})), 'aria-label': ctx.t('detail.close')}, '×')),
+    h('header', 'dhead', h('a', {class: 'btn quiet back', href: ctx.href(app.route({}, {asset: null})), 'aria-label': ctx.t('detail.close')}, h('span', {class: 'back-arrow', 'aria-hidden': 'true'}, '←'), h('span', 'back-text', ctx.t('detail.back')), h('span', {class: 'back-x', 'aria-hidden': 'true'}, '×')),
+      h('div', 'dtitle', h('h2', '', name), h('code', {title: entry.id}, entry.id))),
     metaList(app, entry, detail, current),
-    h('div', 'pad', importButton(ctx, {assetId: entry.id, label: ctx.t('import.open'), onDone: () => { app.forget(); app.repaint(); }}), ' ', timelineButton(ctx, {assetId: entry.id, label: ctx.t('timeline.open'), onDone: () => { app.forget(); app.repaint(); }})),
-    clip ? stage(app, entry, clips, clip, inClip, index) : h('p', {class: 'muted pad'}, entry.readiness === 'planned' ? ctx.t('detail.planned') : ctx.t('detail.noFrames')),
+    h('div', 'dactions', importButton(ctx, {assetId: entry.id, label: ctx.t('import.open'), onDone: () => { app.forget(); app.repaint(); }}), ' ', timelineButton(ctx, {assetId: entry.id, label: ctx.t('timeline.open'), onDone: () => { app.forget(); app.repaint(); }})),
+    clip ? stage(app, entry, clips, clip, inClip, index) : emptyBox(entry.readiness === 'planned' ? ctx.t('detail.planned') : ctx.t('detail.noFrames')),
     links,
     await tilesPanel(app, entry),
     provenancePanel(app, entry, detail, provenance),
@@ -48,7 +48,7 @@ function metaList(app, entry, detail, current) {
   const {ctx} = app;
   const rows = [
     ['kind', kindLabel(ctx, entry.category)],
-    ['ready', h('span', 'badge state-' + entry.readiness, ctx.t('ready.' + entry.readiness))],
+    ['ready', h('span', 'chip ' + (entry.readiness === 'packed' ? 'ok' : entry.readiness === 'authored' ? 'warn' : ''), ctx.t('ready.' + entry.readiness))],
     ['chunk', detail.record?.chunk_group ?? entry.chunk ?? '–'],
     ['source', (() => { const s = ctx.project.sources.find(x => x.id === entry.source); return s ? ctx.label(s.label) : entry.source; })()],
     ['wave', entry.wave ? humanize(entry.wave) : '–'],
@@ -87,7 +87,7 @@ function stage(app, entry, clips, clip, inClip, index) {
   if (inClip.length < 2) play.disabled = true;
   app.onCleanup(() => clearTimeout(timer));
   return h('section', 'stage',
-    h('nav', {class: 'clips', 'aria-label': ctx.t('detail.clips')}, ...clips.map(c => h('a', {class: 'clip' + (c === clip ? ' on' : ''), 'aria-current': c === clip ? 'true' : null,
+    h('nav', {class: 'clips', 'aria-label': ctx.t('detail.clips')}, ...clips.map(c => h('a', {class: 'chip clip' + (c === clip ? ' on is-pressed' : ''), 'aria-current': c === clip ? 'true' : null,
       href: ctx.href(app.route({}, {clip: c, frame: framesOfClip(app.frames, c)[0]?.n ?? 0}))}, c, h('small', '', String(framesOfClip(app.frames, c).length))))),
     h('div', 'stagebox checker', img),
     h('div', 'controls', play, label),
@@ -155,16 +155,16 @@ async function editorPanel(app, entry, detail, current, token) {
     try { snap = await api.getFrame(info.key); } catch (error) { fill(box, h('h3', '', ctx.t('edit.title')), h('p', {role: 'alert'}, ctx.t('edit.failed', {message: error.message}))); return; }
     if (token !== app.token) return;
     const [px, py] = snap.metadata.pivot ?? [0, 0];
-    const x = h('input', {type: 'number', min: 0, max: info.width - 1, value: px, id: 'ob-px'});
-    const y = h('input', {type: 'number', min: 0, max: info.height - 1, value: py, id: 'ob-py'});
+    const x = h('input', {type: 'number', class: 'field', min: 0, max: info.width - 1, value: px, id: 'ob-px'});
+    const y = h('input', {type: 'number', class: 'field', min: 0, max: info.height - 1, value: py, id: 'ob-py'});
     const msg = h('p', {class: 'muted', role: 'status'});
     const fail = error => { msg.textContent = error.status === 409 ? ctx.t('edit.conflict') : ctx.t('edit.failed', {message: error.message}); if (error.status === 409) load(); };
     const save = button(ctx.t('edit.savePivot'), async () => {
       try { await api.saveFrame({key: info.key, baseRevision: snap.head, metadata: {pivot: [Number(x.value), Number(y.value)]}}); ctx.announce(ctx.t('edit.saved')); await load(); }
       catch (error) { fail(error); }
     });
-    const status = h('select', {id: 'ob-review', 'aria-label': ctx.t('edit.status')}, ...['pending', 'approved', 'changes_requested'].map(s => h('option', {value: s, selected: s === snap.status ? 'selected' : null}, ctx.t('review.' + s))));
-    const text = h('input', {type: 'text', maxlength: 2000, id: 'ob-note', placeholder: ctx.t('edit.note'), 'aria-label': ctx.t('edit.note')});
+    const status = h('select', {id: 'ob-review', class: 'field', 'aria-label': ctx.t('edit.status')}, ...['pending', 'approved', 'changes_requested'].map(s => h('option', {value: s, selected: s === snap.status ? 'selected' : null}, ctx.t('review.' + s))));
+    const text = h('input', {type: 'text', class: 'field', maxlength: 2000, id: 'ob-note', placeholder: ctx.t('edit.note'), 'aria-label': ctx.t('edit.note')});
     const review = button(ctx.t('edit.review'), async () => {
       try { await api.reviewFrame({key: info.key, revision: snap.revision, status: status.value, ...(text.value.trim() ? {text: text.value.trim()} : {})}); ctx.announce(ctx.t('edit.reviewed')); await load(); }
       catch (error) { fail(error); }

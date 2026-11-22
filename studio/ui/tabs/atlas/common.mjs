@@ -1,8 +1,9 @@
 // Small widgets shared by the Atlas views.
-import { h } from './dom.mjs';
+import { h, button } from './dom.mjs';
 import { budgetTone, fmtBytes, meter } from './model.mjs';
 
-export const badge = (text, tone = 'muted') => h('span', 'badge t-' + tone, text);
+const CHIP_TONE = {good: ' ok', warn: ' warn', bad: ' danger'};
+export const badge = (text, tone = 'muted') => h('span', 'chip badge t-' + tone + (CHIP_TONE[tone] ?? ''), text);
 
 /** A horizontal meter with its numbers. `ceiling` null draws no bar. */
 export function bar(ctx, {used, ceiling, label, format = String}) {
@@ -16,7 +17,10 @@ export const stateBadge = (ctx, state) => badge(ctx.t('budget.state.' + state), 
 export const pre = text => h('pre', 'pre', text);
 
 /** An error panel that stays in the page. */
-export const failure = (ctx, error) => h('p', {class: 'banner bad', role: 'alert'}, ctx.t('error.generic', {message: error.message}));
+export const failure = (ctx, error, retry) => h('div', {class: 'empty err', role: 'alert'}, h('p', 'empty-body', ctx.t('error.generic', {message: error.message})), retry && button(ctx.t('error.retry'), retry));
+
+/** A loading skeleton and a short empty state from the shared kit. */
+export const loadingBox = ctx => h('div', {class: 'skeleton block', role: 'status', 'aria-label': ctx.t('loading')});
 
 export const section = (title, ...kids) => h('section', 'sec', h('h2', '', title), ...kids);
 

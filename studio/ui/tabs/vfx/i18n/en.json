@@ -178,6 +178,7 @@
  "build.title": "Build and audit",
  "build.button": "Build + audit",
  "build.note": "Rebuilds this effect's committed spec with the project's registered SpriteFX, twice, in scratch. It never writes into assets/ and never changes a review status.",
+ "detail.back": "Back to list",
  "common.loading": "Loading…",
  "common.error": "Could not load: {message}",
  "common.retry": "Retry",

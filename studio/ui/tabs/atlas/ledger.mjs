@@ -21,12 +21,12 @@ export async function renderLedger(app, sel, box) {
   const nr = ctx.t('ledger.notRecorded');
   const rows = filterLedger(ledger.assets, {origin: state.origin, text: state.ledgerQ, gap: state.gap});
   const shown = rows.slice(0, ROWS);
-  const dl = (format, lang) => h('a', {class: 'button-link', href: `/api/tabs/atlas/ledger?${new URLSearchParams({format, lang, download: '1'})}`, download: ''}, ctx.t('ledger.download.' + format, {lang: lang.toUpperCase()}));
+  const dl = (format, lang) => h('a', {class: 'btn', href: `/api/tabs/atlas/ledger?${new URLSearchParams({format, lang, download: '1'})}`, download: ''}, ctx.t('ledger.download.' + format, {lang: lang.toUpperCase()}));
   const copy = button(ctx.t('ledger.copy'), async () => { try { await navigator.clipboard.writeText(ledger.disclosure.text); ctx.announce(ctx.t('ledger.copied')); } catch { ctx.announce(ctx.t('ledger.copyFailed')); } });
-  const chip = (origin, label, count) => h('a', {class: 'chip' + ((state.origin ?? '') === (origin ?? '') ? ' on' : ''), 'aria-current': (state.origin ?? '') === (origin ?? '') ? 'true' : null, href: ctx.href(app.route({origin}))}, label, h('span', 'n', String(count)));
-  const search = h('input', {type: 'search', class: 'search', value: state.ledgerQ, 'aria-label': ctx.t('ledger.search'), placeholder: ctx.t('ledger.search')});
+  const chip = (origin, label, count) => h('a', {class: 'chip' + ((state.origin ?? '') === (origin ?? '') ? ' on is-pressed' : ''), 'aria-current': (state.origin ?? '') === (origin ?? '') ? 'true' : null, href: ctx.href(app.route({origin}))}, label, h('span', 'n', String(count)));
+  const search = h('input', {type: 'search', class: 'field search', value: state.ledgerQ, 'aria-label': ctx.t('ledger.search'), placeholder: ctx.t('ledger.search')});
   search.addEventListener('change', () => app.go({ledgerQ: search.value.trim()}));
-  const gapChip = (gap, label) => h('a', {class: 'chip' + ((state.gap ?? '') === (gap ?? '') ? ' on' : ''), 'aria-current': (state.gap ?? '') === (gap ?? '') ? 'true' : null, href: ctx.href(app.route({gap}))}, label);
+  const gapChip = (gap, label) => h('a', {class: 'chip' + ((state.gap ?? '') === (gap ?? '') ? ' on is-pressed' : ''), 'aria-current': (state.gap ?? '') === (gap ?? '') ? 'true' : null, href: ctx.href(app.route({gap}))}, label);
   const reasonOf = (a, name) => a.reasons?.[name];
   const field = (a, name, value) => value == null || value === '' ? (reasonOf(a, name) ? h('span', {class: 'nr', title: reasonOf(a, name).reason}, ctx.t('ledger.status.' + reasonOf(a, name).status)) : h('span', 'nr', a.missing.includes(name) || a.open.includes(name) ? ctx.t('ledger.status.open') : '')) : String(value);
   const details = a => h('details', {class: 'origin-details'}, h('summary', '', ctx.t('ledger.detail'), a.open.length ? [' ', badge(String(a.open.length), 'bad')] : null),

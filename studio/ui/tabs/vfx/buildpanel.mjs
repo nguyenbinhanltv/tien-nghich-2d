@@ -66,7 +66,7 @@ export function buildPanel(ctx, effect, clip, variant, live) {
   const out = h('div', 'vx-buildout', h('p', 'vx-note muted', ctx.t('build.idle')));
   const msg = h('p', {class: 'vx-note', role: 'status'});
   // The recorder (F8): blank means the effect's own value. It changes the picture and the recorded sheet, never the delivered files.
-  const field = (name) => h('input', {type: 'number', min: name === 'columns' ? 1 : 0, step: 1, class: 'vx-rec', 'aria-label': ctx.t('build.rec.' + name), placeholder: ctx.t('build.rec.' + name)});
+  const field = (name) => h('input', {type: 'number', min: name === 'columns' ? 1 : 0, step: 1, class: 'field vx-rec', 'aria-label': ctx.t('build.rec.' + name), placeholder: ctx.t('build.rec.' + name)});
   const inputs = Object.fromEntries(['first', 'last', 'skip', 'columns'].map(n => [n, field(n)]));
   const recorder = h('div', 'vx-recorder', h('p', {class: 'vx-note'}, ctx.t('build.rec.note')), ...Object.values(inputs));
   const recordFrom = () => {

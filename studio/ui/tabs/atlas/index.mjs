@@ -2,7 +2,7 @@
 // engine exports, and the licence and provenance ledger with the AI disclosure. Everything it writes goes to staging directories;
 // the shipped atlases are never touched, and no action here approves, signs or publishes anything.
 import { h, fill } from './dom.mjs';
-import { badge, failure, stateBadge } from './common.mjs';
+import { badge, failure, stateBadge, loadingBox } from './common.mjs';
 import { VIEWS, parseRoute as parse, stateParams } from './model.mjs';
 import { renderViewer } from './viewer.mjs';
 import { renderBudget } from './budget.mjs';
@@ -48,10 +48,10 @@ async function render(app) {
   const {ctx, state} = app, mine = ++app.token;
   if (!app.ui) return;
   const {ui} = app;
-  if (app.failed) return fill(ui.body, failure(ctx, app.failed));
+  if (app.failed) return fill(ui.body, failure(ctx, app.failed, () => mount(ctx, state)));
   const sel = selection(app);
   fill(ui.side, sidebar(app, sel));
-  fill(ui.views, ...VIEWS.map(v => h('a', {class: 'chip' + (v === state.view ? ' on' : ''), 'aria-current': v === state.view ? 'true' : null, href: ctx.href(app.route({view: v}))}, ctx.t('view.' + v))));
+  fill(ui.views, ...VIEWS.map(v => h('a', {class: 'chip' + (v === state.view ? ' on is-pressed' : ''), 'aria-current': v === state.view ? 'true' : null, href: ctx.href(app.route({view: v}))}, ctx.t('view.' + v))));
   fill(ui.target, h('span', 'muted', ctx.t('target.label')), ' ', h('b', '', ctx.label(sel.set.label)), ...(sel.chunk ? [' / ', h('code', '', sel.chunk)] : []));
   const body = h('div', 'view');
   await RENDERERS[state.view](app, sel, body);
@@ -64,8 +64,9 @@ async function render(app) {
 export async function mount(ctx, state) {
   await ctx.loadCss(new URL('./atlas.css', import.meta.url));
   app = makeApp(ctx, state);
-  const ui = app.ui = {side: h('div', 'side-nav'), views: h('nav', {class: 'chips views', 'aria-label': ctx.t('view.label')}), target: h('p', 'target'), body: h('div', 'body', h('p', 'muted pad', ctx.t('loading')))};
+  const ui = app.ui = {side: h('div', 'side-nav'), views: h('nav', {class: 'chips views', 'aria-label': ctx.t('view.label')}), target: h('p', 'target'), body: h('div', 'body', loadingBox(ctx))};
   ctx.root.dataset.tab = 'atlas';
+  ctx.root.classList.add('ui-kit');
   ctx.root.replaceChildren(h('div', 'at',
     h('header', 'at-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))), h('p', 'safe', badge(ctx.t('safe'), 'good'))),
     h('div', 'at-grid', ui.side, h('main', 'at-main', ui.target, ui.views, ui.body))));

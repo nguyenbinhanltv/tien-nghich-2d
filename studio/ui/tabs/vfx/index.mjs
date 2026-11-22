@@ -1,7 +1,7 @@
 // VFX: browse the eighteen effects, play them frame-accurately, judge them in context, read their specs and
 // provenance, compare improvement rounds, and record a human 1x readability note.
 // Catalog from this tab's server.mjs (index, manifest, specs, provenance); notes through the existing review API.
-import { h, button } from './dom.mjs';
+import { h, button, emptyBox, errorBox, loadingBox } from './dom.mjs';
 import { parseRoute as parse, stateParams, resolveClip, resolveVariant, views, applyFilters } from './model.mjs';
 import { renderBrowser } from './browser.mjs';
 import { mountStage, loadFrames, loadCharacter } from './stage.mjs';
@@ -32,14 +32,15 @@ function makeApp(ctx, state) {
 }
 
 function layout(ctx) {
-  const search = h('input', {type: 'search', id: 'vx-q', class: 'vx-search', placeholder: ctx.t('filter.search'), 'aria-label': ctx.t('filter.search'), autocomplete: 'off'});
+  const ui = {};
+  const search = h('input', {type: 'search', id: 'vx-q', class: 'field vx-search', placeholder: ctx.t('filter.search'), 'aria-label': ctx.t('filter.search'), autocomplete: 'off'});
   const filters = h('div', 'vx-filters');
   const center = h('section', {class: 'vx-center', 'aria-label': ctx.t('stage.label')});
   const aside = h('aside', {class: 'vx-aside', 'aria-label': ctx.t('panel.label')});
   ctx.root.replaceChildren(
     h('header', 'vx-head', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
-    h('div', 'vx', h('aside', {class: 'vx-side', 'aria-label': ctx.t('filter.label')}, search, filters), center, aside));
-  return {search, filters, center, aside};
+    ui.vx = h('div', 'vx', h('aside', {class: 'vx-side', 'aria-label': ctx.t('filter.label')}, search, filters), center, aside));
+  return Object.assign(ui, {search, filters, center, aside});
 }
 
 async function characterList(app) {
@@ -57,28 +58,28 @@ function header(app, effect, clip, focus, variant) {
   if (effect.group === 'core') {
     const named = clip.sections.filter(s => !s.role);
     const roles = clip.sections.filter(s => s.role);
-    chips.append(h('a', {class: 'vx-chip-link' + (!focus ? ' on' : ''), href: ctx.href(app.route({}, {clip: null}))}, ctx.t('clip.all')),
-      ...[...named, ...roles].map(s => h('a', {class: 'vx-chip-link' + (focus?.name === s.name ? ' on' : ''), href: ctx.href(app.route({}, {clip: s.name}))}, s.name, h('small', '', ` ${s.from}–${s.to}`))));
+    chips.append(h('a', {class: 'chip vx-chip-link' + (!focus ? ' on is-pressed' : ''), href: ctx.href(app.route({}, {clip: null}))}, ctx.t('clip.all')),
+      ...[...named, ...roles].map(s => h('a', {class: 'chip vx-chip-link' + (focus?.name === s.name ? ' on is-pressed' : ''), href: ctx.href(app.route({}, {clip: s.name}))}, s.name, h('small', '', ` ${s.from}–${s.to}`))));
   } else {
-    chips.append(...effect.clips.map(c => h('a', {class: 'vx-chip-link' + (c.id === clip.id ? ' on' : ''), href: ctx.href(app.route({}, {clip: c.id}))}, c.id, h('small', '', ` ${c.ms.length}`))));
+    chips.append(...effect.clips.map(c => h('a', {class: 'chip vx-chip-link' + (c.id === clip.id ? ' on is-pressed' : ''), href: ctx.href(app.route({}, {clip: c.id}))}, c.id, h('small', '', ` ${c.ms.length}`))));
   }
   const variantSel = effect.variants.length > 1 ? h('label', 'vx-field', ctx.t('variant.label'),
-    h('select', {id: 'vx-variant'}, ...effect.variants.map(v => h('option', {value: v.id, selected: v.id === variant ? 'selected' : null}, v.id + (v.ramps.length ? ' · ' + v.ramps.join('+') : ''))))) : null;
+    h('select', {id: 'vx-variant', class: 'field'}, ...effect.variants.map(v => h('option', {value: v.id, selected: v.id === variant ? 'selected' : null}, v.id + (v.ramps.length ? ' · ' + v.ramps.join('+') : ''))))) : null;
   variantSel?.querySelector('select').addEventListener('change', e => app.go({variant: e.target.value}));
   const meta = [effect.sourceLabel, ctx.t('ready.' + effect.readiness), effect.chunk && ctx.t('meta.chunk', {chunk: effect.chunk}), `${effect.size[0]}×${effect.size[1]}`,
     ctx.t('meta.anchor', {x: effect.anchor[0], y: effect.anchor[1]}), effect.fps && ctx.t('meta.fps', {fps: effect.fps}), ctx.t('kind.' + clip.kind)].filter(Boolean).join(' · ');
-  return h('div', 'vx-title', h('h2', '', effect.id), h('p', 'vx-meta', meta), effect.reads && h('p', 'vx-note', effect.reads), chips, variantSel);
+  return h('div', 'vx-title', h('a', {class: 'btn quiet vx-back', href: ctx.href(app.route({}, {asset: null}))}, '← ' + ctx.t('detail.back')), h('h2', {title: effect.id}, effect.id), h('p', 'vx-meta', meta), effect.reads && h('p', 'vx-note', effect.reads), chips, variantSel);
 }
 
 async function overlayControls(app, effect) {
   const {ctx, state} = app;
-  const toggle = h('a', {class: 'vx-segbtn vx-toggle' + (state.overlay ? ' on' : ''), href: ctx.href(app.route({overlay: !state.overlay})), 'aria-pressed': String(state.overlay)}, ctx.t('overlay.toggle'));
+  const toggle = h('a', {class: 'btn vx-toggle', href: ctx.href(app.route({overlay: !state.overlay})), 'aria-pressed': String(state.overlay), role: 'button'}, ctx.t('overlay.toggle'));
   if (!state.overlay) return {el: h('div', 'vx-overlay', toggle, h('span', 'vx-note', ctx.t('overlay.hint'))), character: null};
   const list = await characterList(app);
   const id = list.some(a => a.id === state.char) ? state.char : list.find(a => /outer_disciple/.test(a.id))?.id ?? list[0]?.id;
   const character = id ? await loadCharacter(app, {...state, char: id}) : null;
   const sel = (label, value, options, field, fmt = x => x) => {
-    const s = h('select', {'aria-label': label}, ...options.map(o => h('option', {value: o, selected: o === value ? 'selected' : null}, fmt(o))));
+    const s = h('select', {class: 'field', 'aria-label': label}, ...options.map(o => h('option', {value: o, selected: o === value ? 'selected' : null}, fmt(o))));
     s.addEventListener('change', () => app.go({[field]: s.value, ...(field === 'char' ? {cclip: null, cdir: null, cn: 0} : {})}));
     return h('label', 'vx-field', label, s);
   };
@@ -86,7 +87,7 @@ async function overlayControls(app, effect) {
   if (character?.count) {
     controls.push(sel(ctx.t('overlay.clip'), character.clip, character.clips, 'cclip'), sel(ctx.t('overlay.dir'), character.dir, character.dirs, 'cdir'),
       sel(ctx.t('overlay.frame'), String(Math.min(state.cn, character.count - 1)), Array.from({length: character.count}, (_, i) => String(i)), 'cn'));
-    const range = h('input', {type: 'range', min: 0, max: 24, step: 1, value: state.oy, 'aria-label': ctx.t('overlay.lift')});
+    const range = h('input', {type: 'range', class: 'vx-range', min: 0, max: 24, step: 1, value: state.oy, 'aria-label': ctx.t('overlay.lift')});
     range.addEventListener('change', () => app.go({oy: Number(range.value)}, {replace: true}));
     controls.push(h('label', 'vx-field', ctx.t('overlay.lift'), range, h('small', '', ctx.t('overlay.px', {px: state.oy}))));
   }
@@ -96,7 +97,7 @@ async function overlayControls(app, effect) {
 
 async function paintStage(app, token) {
   const {ctx, state, ui} = app;
-  if (!state.asset) { app.stage?.destroy(); app.stage = null; app.stageKey = null; ui.center.replaceChildren(h('p', 'vx-pad muted', ctx.t('stage.none'))); return null; }
+  if (!state.asset) { app.stage?.destroy(); app.stage = null; app.stageKey = null; ui.center.replaceChildren(emptyBox(ctx.t('stage.none'))); return null; }
   const {effect, floors} = await app.effect(state.asset);
   if (token !== app.token) return null;
   const {clip, focus} = resolveClip(effect, state.clip);
@@ -123,11 +124,11 @@ async function paintStage(app, token) {
 async function paintAside(app, ctx_, token) {
   const {ctx, state, ui} = app;
   clearInterval(app.readTimer);
-  if (!ctx_) { ui.aside.replaceChildren(h('p', 'vx-pad muted', ctx.t('panel.none'))); return true; }
+  if (!ctx_) { ui.aside.replaceChildren(emptyBox(ctx.t('panel.none'))); return true; }
   const {effect, clip, variant} = ctx_;
   const tabs = h('nav', {class: 'vx-tabs', 'aria-label': ctx.t('panel.label')}, ...views.map(v => h('a', {class: 'vx-tab' + (state.view === v ? ' on' : ''), href: ctx.href(app.route({view: v})), 'aria-current': state.view === v ? 'true' : null}, ctx.t('view.' + v))));
   clearInterval(app.readTimer);
-  const body = h('div', 'vx-panel', h('p', 'vx-pad muted', ctx.t('common.loading')));
+  const body = h('div', 'vx-panel', loadingBox(ctx.t('common.loading')));
   ui.aside.replaceChildren(tabs, body);
   try {
     const ev = await app.evidence(effect.id);
@@ -143,7 +144,7 @@ async function paintAside(app, ctx_, token) {
     return true;
   } catch (error) {
     if (error.name === 'AbortError') return false;
-    body.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})));
+    body.replaceChildren(errorBox(ctx.t('common.error', {message: error.message}), ctx.t('common.retry'), () => { app.asideKey = null; paint(); }));
     return false; // an error panel is not "done": the next paint tries again
   }
 }
@@ -153,6 +154,7 @@ async function paint() {
   const {ui, state} = app;
   if (ui.search.value !== state.q && document.activeElement !== ui.search) ui.search.value = state.q;
   renderBrowser(app, ui.filters);
+  ui.vx.classList.toggle('reveal', Boolean(state.asset)); // below 900 px a picked effect replaces the list
   try {
     const shown = await paintStage(app, token);
     if (token !== app.token) return;
@@ -160,14 +162,15 @@ async function paint() {
     if (asideKey !== app.asideKey || !shown) { if (await paintAside(app, shown, token)) app.asideKey = asideKey; }
   } catch (error) {
     if (error.name === 'AbortError') return;
-    ui.center.replaceChildren(h('p', {role: 'alert'}, app.ctx.t('common.error', {message: error.message})));
+    ui.center.replaceChildren(errorBox(app.ctx.t('common.error', {message: error.message}), app.ctx.t('common.retry'), () => paint()));
   }
 }
 
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./vfx.css', import.meta.url));
+  ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
-  ctx.onUnmount(() => { mine.stage?.destroy(); clearInterval(mine.readTimer); });
+  ctx.onUnmount(() => { mine.stage?.destroy(); clearInterval(mine.readTimer); mine.onFilterCleanup?.(); });
   const ui = layout(ctx);
   app.ui = ui;
   ctx.root.setAttribute('aria-busy', 'true');
@@ -178,7 +181,7 @@ export async function mount(ctx, state) {
   } catch (error) {
     if (error.name === 'AbortError') return;
     ctx.root.removeAttribute('aria-busy');
-    ctx.root.replaceChildren(h('p', {role: 'alert'}, ctx.t('common.error', {message: error.message})), button(ctx.t('common.retry'), () => mount(ctx, state)));
+    ctx.root.replaceChildren(errorBox(ctx.t('common.error', {message: error.message}), ctx.t('common.retry'), () => mount(ctx, state)));
     return;
   }
   let timer;
