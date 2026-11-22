@@ -37,7 +37,9 @@ async function run(script, args) {
   await import(file);
 }
 
-const [command, ...rest] = process.argv.slice(2);
+// `--project=<dir>` and `--project <dir>` mean the same everywhere: hand every script the separate form.
+const argv = process.argv.slice(2).flatMap(a => (a.startsWith('--project=') ? ['--project', a.slice('--project='.length)] : [a]));
+const [command, ...rest] = argv;
 if (!command || ['-h', '--help', 'help'].includes(command)) { console.log(HELP); process.exit(command ? 0 : 2); }
 
 function flags(options) {
@@ -60,9 +62,9 @@ switch (command) {
     } catch (error) { console.error(`studio init: ${error.message}`); process.exit(1); }
     break;
   }
-  case 'serve': await run('serve.mjs', rest.some(a => a === '--project' || a.startsWith('--project=')) ? rest : ['--project', process.cwd(), ...rest]); break;
-  case 'mcp': await run('mcp.mjs', rest.some(a => a === '--project' || a.startsWith('--project=')) ? rest : ['--project', process.cwd(), ...rest]); break;
-  case 'baseline': await run('baseline.mjs', rest.some(a => a === '--project') ? rest : ['--project', process.cwd(), ...rest]); break;
+  case 'serve': await run('serve.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
+  case 'mcp': await run('mcp.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
+  case 'baseline': await run('baseline.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
   case 'check': {
     const {values} = flags({json: {type: 'boolean'}});
     const {checkProject, formatCheck} = await import('./core/check-project.mjs');

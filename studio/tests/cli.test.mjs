@@ -170,3 +170,39 @@ test('CLI-006: the agent configs init writes are at read scope, and an agent con
   assert.ok(write.error || write.result?.isError, 'a write at read scope is refused: ' + JSON.stringify(write));
   assert.match(JSON.stringify(write), /scope|Unknown tool/);
 });
+
+test('CLI-003: --project=<dir> and --project <dir> select the same project for serve, check, baseline and mcp', async t => {
+  const dir = tmpdir(t), studio = copyStudio(dir), project = path.join(dir, 'equals form');
+  await cli(studio, 'init', project, '--name', 'Equals Form');
+  const other = path.join(dir, 'cwd project');   // the current directory is a DIFFERENT project: picking it would be the bug
+  await cli(studio, 'init', other, '--name', 'The Cwd One');
+  const inCwd = (args, extra = {}) => run(process.execPath, [path.join(studio, 'cli.mjs'), ...args], {cwd: other, ...extra}).then(r => ({code: 0, ...r}), e => ({code: e.code, stdout: e.stdout, stderr: e.stderr}));
+  for (const form of [['--project', project], [`--project=${project}`]]) {
+    assert.match((await inCwd(['check', ...form])).stdout, /Equals Form \[equals-form\]: OK/, form.join(' '));
+    // baseline reads the pack of the project it is given: a declared baseline in one project and none in the other tells them apart.
+    const pack = JSON.parse(fs.readFileSync(path.join(project, 'studio.project.json'), 'utf8'));
+    pack.review = {baseline: {file: 'records/baseline.json', roots: ['build/frames']}};
+    fs.writeFileSync(path.join(project, 'studio.project.json'), JSON.stringify(pack));
+    fs.writeFileSync(path.join(project, 'records/baseline.json'), JSON.stringify({schema_version: 1, roots: ['build/frames'], directories: {}}));
+    assert.match((await inCwd(['baseline', ...form, '--check'])).stdout, /0 of 0 baseline directories still match/, form.join(' '));
+    delete pack.review;
+    fs.writeFileSync(path.join(project, 'studio.project.json'), JSON.stringify(pack));
+    assert.match((await inCwd(['baseline', ...form, '--check'])).stdout, /declares no review\.baseline/, form.join(' '));
+    // serve announces the project it serves.
+    const server = spawn(process.execPath, [path.join(studio, 'cli.mjs'), 'serve', ...form, '--port', '0'], {cwd: other, stdio: ['ignore', 'pipe', 'pipe']});
+    const said = await new Promise((resolve, reject) => {
+      let out = '';
+      server.stdout.on('data', c => { out += c; if (/http:\/\/127\.0\.0\.1:\d+\/studio\//.test(out)) resolve(out); });
+      server.on('exit', code => reject(new Error(`server exited ${code}`)));
+      setTimeout(() => reject(new Error('no server')), 20_000).unref();
+    });
+    server.kill('SIGTERM');
+    assert.match(said, /Studio serving Equals Form at /, form.join(' '));
+    // mcp: the project info of the session names the project.
+    const client = new StdioClient(path.join(studio, 'cli.mjs'), ['mcp', ...form, '--scope', 'read'], {cwd: other});
+    const info = await client.request('i1', 'tools/call', {name: 'studio_project_info', arguments: {sections: ['palette']}, _meta: META}, 30_000);
+    await client.close();
+    assert.equal(info.result.structuredContent.palette.count, 8);
+    assert.match(info.result._meta['io.modelcontextprotocol/serverInfo'].title, /Equals Form/, form.join(' '));
+  }
+});

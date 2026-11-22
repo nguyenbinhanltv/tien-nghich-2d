@@ -179,6 +179,7 @@ function parseArgs(argv) {
     if (argv[i] === '--port' && argv[i + 1]) port = Number(argv[++i]);
     else if (argv[i] === '--host' && argv[i + 1]) host = argv[++i];
     else if (argv[i] === '--project' && argv[i + 1]) root = path.resolve(argv[++i]);
+    else if (argv[i].startsWith('--project=')) root = path.resolve(argv[i].slice('--project='.length));
     else if (argv[i] === '--revision-dir' && argv[i + 1]) revisionDir = argv[++i];
   }
   return { port, host, revisionDir, root };

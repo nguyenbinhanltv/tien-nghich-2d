@@ -13,8 +13,8 @@ import { fileURLToPath } from 'node:url';
 import { loadPack } from './core/pack.mjs';
 import { buildBaselineRecord, baselineDirectories, createStanding } from './core/standing.mjs';
 
-const at = process.argv.indexOf('--project');
-const root = at > 0 ? path.resolve(process.argv[at + 1]) : path.resolve(fileURLToPath(new URL('../', import.meta.url)));
+const at = process.argv.indexOf('--project'), joined = process.argv.find(a => a.startsWith('--project='));
+const root = joined ? path.resolve(joined.slice('--project='.length)) : at > 0 ? path.resolve(process.argv[at + 1]) : path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const mode = process.argv.slice(2).find(a => a === '--write' || a === '--check');
 if (!['--write', '--check'].includes(mode)) { console.error('Usage: node studio/baseline.mjs [--project <dir>] --check | --write'); process.exit(2); }
 const pack = await loadPack(root, undefined, {verifyFiles: false});
