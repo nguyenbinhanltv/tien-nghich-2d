@@ -11,20 +11,21 @@
     "lt_moon_gate",
     "lt_reed_crane",
     "lt_seal_scribe",
+    "lt_seed_broker",
     "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 270,
+  "frame_count": 302,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 270,
+      "frames": 302,
       "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "da1bbf82f4f4d48e1cd8bbe49af81c5d3ea62e571b29e57a1123b6f38bbacff2",
-      "png_sha256": "f1c5337b2f5694a6afcfad24cf9b777329965f68e727c4627c88728e50f37f73",
+      "json_sha256": "d859b85c175d3558313fccc69e09958c743e21196bcd97cb35f2bdf998b22796",
+      "png_sha256": "ab8d91a9ecc14cc6fe54670b0750b40becf699e8500eef041ecbddb11248c901",
       "rgba8_bytes": 2097152,
       "width": 2048
     }
