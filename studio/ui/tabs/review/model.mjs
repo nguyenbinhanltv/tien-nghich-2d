@@ -118,3 +118,39 @@ export const clock = (date, lang) => date.toLocaleTimeString(lang === 'vi' ? 'vi
 
 /** Whole seconds waited since `since` (ms); never negative. */
 export const elapsedSeconds = (since, now) => Math.max(0, Math.floor((now - since) / 1000));
+
+/**
+ * The item to open after `key` was decided: the next one still waiting for the human in list order, else the first waiting before it,
+ * else null (the queue is clear). `items` is the inbox list; `key` itself is never returned.
+ */
+export function nextWaiting(items, key) {
+  const waiting = items.filter(i => i.state === 'waiting' && i.key !== key);
+  if (!waiting.length) return null;
+  const at = items.findIndex(i => i.key === key);
+  return (at < 0 ? waiting[0] : waiting.find(i => items.indexOf(i) > at)) ?? waiting[0];
+}
+
+/** J / K: the id after or before `current` in `ids` (no wrap); with nothing open, J opens the first and K the last. */
+export function stepId(ids, current, dir) {
+  if (!ids.length) return null;
+  const at = ids.indexOf(current);
+  if (at < 0) return dir > 0 ? ids[0] : ids.at(-1);
+  return ids[at + dir] ?? null;
+}
+
+/** Done / total for the queue bar: art counted once (approved or baseline), audio counted when signed or approved before the studio. */
+export function queueProgress(artCounts, audio, items) {
+  const art = artCounts ? {done: (artCounts.approved ?? 0) + (artCounts.baseline ?? 0), total: artCounts.total ?? 0}
+    : {done: items.filter(i => i.state === 'decided').length, total: items.length};
+  const sound = {done: audio.filter(a => a.state === 'decided').length, total: audio.length};
+  const total = art.total + sound.total, done = Math.min(total, art.done + sound.done);
+  return {done, total, percent: total ? Math.round(done * 100 / total) : 0};
+}
+
+/** Which review shortcut a key press is, or null. Never while typing, never with a modifier (so Cmd+R still reloads). */
+export function shortcutFor(event) {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.isComposing || event.repeat) return null;
+  const t = event.target;
+  if (t && (['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName) || t.isContentEditable)) return null;
+  return {a: 'approve', r: 'changes', c: 'comment', j: 'next', k: 'prev', u: 'undo'}[String(event.key).toLowerCase()] ?? null;
+}

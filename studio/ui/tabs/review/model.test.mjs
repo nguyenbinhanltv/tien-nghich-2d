@@ -87,3 +87,48 @@ test('clock and elapsedSeconds', async () => {
   assert.equal(elapsedSeconds(1000, 4999), 3);
   assert.equal(elapsedSeconds(5000, 1000), 0);
 });
+
+import { nextWaiting, stepId, queueProgress, shortcutFor } from './model.mjs';
+const it = (key, state) => ({key, state});
+
+test('nextWaiting: the next waiting item after the decided one, else the first, else null', () => {
+  const items = [it('a', 'waiting'), it('b', 'waiting'), it('c', 'agent'), it('d', 'waiting')];
+  assert.equal(nextWaiting(items, 'a').key, 'b');
+  assert.equal(nextWaiting(items, 'b').key, 'd');
+  assert.equal(nextWaiting(items, 'd').key, 'a');
+  assert.equal(nextWaiting([it('a', 'waiting')], 'a'), null);
+  assert.equal(nextWaiting([], 'a'), null);
+});
+
+test('stepId steps without wrapping', () => {
+  assert.equal(stepId(['x', 'y', 'z'], 'y', 1), 'z');
+  assert.equal(stepId(['x', 'y', 'z'], 'z', 1), null);
+  assert.equal(stepId(['x', 'y', 'z'], 'x', -1), null);
+  assert.equal(stepId(['x', 'y'], null, 1), 'x');
+  assert.equal(stepId(['x', 'y'], null, -1), 'y');
+  assert.equal(stepId([], 'x', 1), null);
+});
+
+test('queueProgress counts approved and baseline art plus decided audio', () => {
+  assert.deepEqual(queueProgress({approved: 3, baseline: 1, total: 10}, [{state: 'decided'}, {state: 'waiting'}], []), {done: 5, total: 12, percent: 42});
+  assert.deepEqual(queueProgress(null, [], [it('a', 'decided'), it('b', 'waiting')]), {done: 1, total: 2, percent: 50});
+  assert.deepEqual(queueProgress(null, [], []), {done: 0, total: 0, percent: 0});
+});
+
+test('shortcuts are ignored while typing and with modifiers', () => {
+  const key = (k, extra = {}) => ({key: k, target: {tagName: 'BODY'}, ...extra});
+  assert.equal(shortcutFor(key('a')), 'approve');
+  assert.equal(shortcutFor(key('R')), 'changes');
+  assert.equal(shortcutFor(key('c')), 'comment');
+  assert.equal(shortcutFor(key('j')), 'next');
+  assert.equal(shortcutFor(key('k')), 'prev');
+  assert.equal(shortcutFor(key('u')), 'undo');
+  assert.equal(shortcutFor(key('a', {target: {tagName: 'TEXTAREA'}})), null);
+  assert.equal(shortcutFor(key('a', {target: {tagName: 'INPUT'}})), null);
+  assert.equal(shortcutFor(key('a', {target: {tagName: 'DIV', isContentEditable: true}})), null);
+  assert.equal(shortcutFor(key('r', {metaKey: true})), null);
+  assert.equal(shortcutFor(key('a', {defaultPrevented: true})), null);
+  assert.equal(shortcutFor(key('a', {repeat: true})), null); // a held key is one press, never several approvals
+  assert.equal(shortcutFor(key('r', {repeat: true})), null);
+  assert.equal(shortcutFor(key('x')), null);
+});

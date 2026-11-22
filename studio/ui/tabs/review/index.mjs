@@ -3,20 +3,23 @@
 // The inbox polls every POLL_MS while the page is visible (and refreshes after every decision). A new request cancels the one still
 // running, so slow answers never pile up; while one runs the page says so, with the seconds it has waited, and a failure keeps the
 // last list on screen with a retry button.
-import { h, button, humanize, fill, badgeClass } from './dom.mjs';
-import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint, clock, elapsedSeconds } from './model.mjs';
+import { h, button, humanize, fill, badgeClass, keepFocus } from './dom.mjs';
+import { parseRoute as parse, stateParams, parseKey, visibleItems, countsByState, states, shouldDeferRepaint, clock, elapsedSeconds, nextWaiting, stepId, queueProgress, shortcutFor } from './model.mjs';
+import { playSeal, actionToast, sealAllowed, sealSetting, setSealSetting, reducedMotion, TOAST_MS } from '../../seal.mjs';
+import { EditorApiClient } from '../../../src/editorApi.js';
 import { renderArt } from './art.mjs';
 import { renderAudio } from './audio.mjs';
 import { candidatesSection } from './takes.mjs';
 
 export const POLL_MS = 10000;
+export const GHOST_MS = 1200;
 export function parseRoute(route) { return parse(route); }
 
 let app;
 
 function makeApp(ctx, state) {
   const self = {
-    ctx, state, items: [], audio: [], artRecords: [], drafts: new Map(), token: 0, signature: '', timer: null, cleanups: [], flight: null, load: {phase: 'idle', since: 0, error: null, updatedAt: null}, loaded: false,
+    ctx, state, items: [], audio: [], artRecords: [], drafts: new Map(), token: 0, signature: '', timer: null, cleanups: [], flight: null, ghosts: new Map(), undoLast: null, always: [], api: new EditorApiClient(), busy: false, load: {phase: 'idle', since: 0, error: null, updatedAt: null}, loaded: false,
     onCleanup(fn) { self.cleanups.push(fn); },
     runCleanups() { for (const fn of self.cleanups.splice(0)) fn(); },
     selection() {
@@ -46,6 +49,45 @@ function makeApp(ctx, state) {
       }
       return {tab: 'review', asset, clip: asset ? clip : null, direction: asset ? direction : null, frame: asset ? frame : null, params: stateParams(next)};
     },
+    /** The seal and its words, called by the art detail ONLY after the server confirmed an approval (see approveThenStamp). */
+    stampApproved(item, revision) {
+      const {ctx} = self, label = item.key.split('/').at(-1);
+      ctx.announce(ctx.t('decide.approvedAnnounce', {id: label, rev: revision}));
+      self.ghosts.set(item.key, item);
+      const drop = setTimeout(() => { self.ghosts.delete(item.key); if (self.ui && self.ctx.root.isConnected) renderList(self, self.ui.list); }, GHOST_MS);
+      self.onCleanupAlways(() => clearTimeout(drop));
+      if (sealAllowed(localStorage, window)) { const stage = playSeal(ctx.root, ctx.project?.brand?.seal); self.onCleanupAlways(() => stage.remove()); }
+      self.toastUndo(item, revision, label);
+    },
+    /** A 6 s toast with "Undo". Undo is real here: the review store keeps every decision as a row and the newest wins, so 'pending' puts the revision back to awaiting review. */
+    toastUndo(item, revision, label) {
+      const {ctx} = self;
+      self.undoLast?.dismiss();
+      const host = ctx.root.querySelector('.rv-toasts');
+      if (!host) return;
+      const toast = actionToast(host, {text: ctx.t('undo.toast', {id: label, rev: revision}), actionLabel: ctx.t('undo.label'), ms: TOAST_MS, onAction: () => self.undo(item, revision, label)});
+      self.undoLast = {...toast, item, revision, label, undo: () => { toast.dismiss(); return self.undo(item, revision, label); }};
+      const mine = self.undoLast;
+      setTimeout(() => { if (self.undoLast === mine) self.undoLast = null; }, TOAST_MS);
+    },
+    async undo(item, revision, label) {
+      const {ctx} = self;
+      self.undoLast = null;
+      try {
+        await self.api.reviewFrame({key: item.key, revision, status: 'pending'});
+        ctx.announce(ctx.t('undo.done', {id: label, rev: revision}));
+        self.go({}, {item});
+        await self.refresh({keepSelection: true, quiet: true});
+      } catch (error) { ctx.announce(ctx.t('undo.failed', {message: error.message})); }
+    },
+    /** After an approval: open the next item still waiting, or go back to the list when none is. The refresh is quiet so it cannot talk over the "Approved" announcement. */
+    async advanceFrom(item) {
+      const next = nextWaiting(self.items, item.key);
+      if (next) self.go({}, {item: next}); else self.go({}, {item: null});
+      await self.refresh({quiet: true}).catch(() => {});
+      if (!next) self.ctx.announce(self.ctx.t('queue.clear'));
+    },
+    onCleanupAlways(fn) { self.always.push(fn); },
     go(patch, opts = {}) { self.ctx.navigate(self.route(patch, opts), {replace: opts.replace}); },
     /** Show the loading / error / last-updated line and, before any list has arrived, the skeleton or the error with its retry button. */
     setLoad(patch) {
@@ -54,20 +96,21 @@ function makeApp(ctx, state) {
       if (self.load.phase === 'loading') self.ticker = setInterval(() => renderStatus(self), 1000);
       renderStatus(self);
     },
-    refresh({keepSelection = false} = {}) {
+    refresh({keepSelection = false, quiet = false} = {}) {
       // a request still running is cancelled by the new one; a repaint it was owed (after a decision) passes on to the new one
       const previous = self.flight;
       const keep = keepSelection || Boolean(previous?.keep);
+      quiet = quiet || Boolean(previous?.quiet);
       previous?.controller.abort();
       const controller = new AbortController();
-      const flight = self.flight = {controller, keep};
-      flight.promise = self.fetchInbox(flight, AbortSignal.any([self.ctx.signal, controller.signal]), keep).catch(error => {
+      const flight = self.flight = {controller, keep, quiet};
+      flight.promise = self.fetchInbox(flight, AbortSignal.any([self.ctx.signal, controller.signal]), keep, quiet).catch(error => {
         if (error.name === 'AbortError' && !self.ctx.signal.aborted && self.flight && self.flight !== flight) return self.flight.promise; // superseded
         throw error;
       });
       return flight.promise;
     },
-    async fetchInbox(flight, signal, keepSelection) {
+    async fetchInbox(flight, signal, keepSelection, quiet = false) {
       if (self.load.phase !== 'loading') self.setLoad({phase: 'loading', since: Date.now(), error: null});
       let data, runs;
       try {
@@ -87,7 +130,7 @@ function makeApp(ctx, state) {
       if (changed || keepSelection) {
         await paint(self.ui, {force: keepSelection, poll: !keepSelection});
         const waiting = (countsByState(self.items).waiting ?? 0) + audio.filter(a => a.state === 'waiting').length;
-        if (!keepSelection && changed) self.ctx.announce(self.ctx.t('inbox.changed', {count: waiting}));
+        if (!keepSelection && !quiet && changed) self.ctx.announce(self.ctx.t('inbox.changed', {count: waiting}));
       }
       return changed;
     }
@@ -101,9 +144,23 @@ function layout(ctx) {
   fill(ctx.root, h('header', 'rv-head', h('div', '', h('h1', '', ctx.t('title')), h('p', 'muted', ctx.t('subtitle'))),
     h('div', 'live', h('span', {class: 'pulse', 'aria-hidden': 'true'}), h('span', 'muted', ctx.t('live', {seconds: POLL_MS / 1000})),
       h('span', {class: 'muted rv-stamp', 'data-role': 'stamp'}), h('span', {class: 'rv-wait', 'data-role': 'wait', 'aria-hidden': 'true'}),
-      h('span', {class: 'rv-fail', 'data-role': 'fail'}))),
-    h('div', {class: 'rv', 'data-view': 'list'}, h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), h('div', 'rv-pane', back, detail)));
+      h('span', {class: 'rv-fail', 'data-role': 'fail'}), sealToggle(ctx))),
+    h('p', {class: 'rv-keys muted'}, ctx.t('keys.label'), ' ', ...[['A', 'keys.approve'], ['R', 'keys.changes'], ['C', 'keys.comment'], ['J', 'keys.next'], ['K', 'keys.prev'], ['U', 'keys.undo']]
+      .flatMap(([k, label]) => [h('kbd', 'kbd', k), ' ' + ctx.t(label) + '  '])),
+    h('div', {class: 'rv', 'data-view': 'list'}, h('aside', {class: 'side', 'aria-label': ctx.t('inbox.label')}, list), h('div', 'rv-pane', back, detail)),
+    h('div', {class: 'rv-toasts'}));
   return {list, detail, rv: ctx.root.querySelector('.rv')};
+}
+
+/** The switch for the approval seal: stored in localStorage; reduced motion turns the effect off whatever it says. */
+function sealToggle(ctx) {
+  const reduced = reducedMotion(window);
+  const on = () => sealSetting(localStorage) === 'on';
+  const b = h('button', {type: 'button', class: 'btn quiet rv-seal-toggle', 'aria-pressed': String(on() && !reduced), disabled: reduced, title: reduced ? ctx.t('seal.reduced') : null});
+  const text = () => { b.textContent = ctx.t(reduced ? 'seal.reducedShort' : on() ? 'seal.on' : 'seal.off'); b.setAttribute('aria-pressed', String(on() && !reduced)); };
+  text();
+  b.addEventListener('click', () => { setSealSetting(localStorage, on() ? 'off' : 'on'); text(); });
+  return b;
 }
 
 
@@ -134,7 +191,16 @@ function paintFirstLoad(app) {
     h('div', {class: 'rv-skeletons', 'aria-hidden': 'true'}, ...Array.from({length: 5}, () => h('span', 'skeleton block'))));
 }
 
-function renderList(app, host) {
+function renderList(app, host) { keepFocus(host, () => paintList(app, host)); }
+
+/** The queue bar: how much of everything the project has is reviewed (a progressbar, with the numbers in words). */
+function progressView(ctx, p) {
+  if (!p.total) return null;
+  return h('div', {class: 'rv-progress', role: 'progressbar', 'aria-label': ctx.t('progress.label'), 'aria-valuemin': 0, 'aria-valuemax': p.total, 'aria-valuenow': p.done, 'aria-valuetext': ctx.t('progress.text', {done: p.done, total: p.total})},
+    h('span', {class: 'rv-progress-fill', style: `width:${p.percent}%`}), h('span', 'rv-progress-text mono', ctx.t('progress.text', {done: p.done, total: p.total})));
+}
+
+function paintList(app, host) {
   const {ctx, state} = app;
   const art = app.items, audio = app.audio;
   const showArt = state.kind !== 'audio', showAudio = state.kind !== 'art';
@@ -157,8 +223,9 @@ function renderList(app, host) {
   const empty = all.length ? h('div', 'empty', h('p', 'empty-title', ctx.t('inbox.nothingTitle')), h('p', 'empty-body', ctx.t('inbox.nothingHere')),
       h('a', {class: 'btn', href: ctx.href(app.route({state: 'all', kind: null, agent: null}))}, ctx.t('inbox.showAll')))
     : h('div', 'empty', h('p', 'empty-title', ctx.t('inbox.emptyTitle')), h('p', 'empty-body', ctx.t('inbox.empty')), h('p', 'empty-body', ctx.t('inbox.emptyNext')));
-  fill(host, candidatesSection(app), artCountsView(ctx, app.artCounts), toggle, filters,
-    shownArt.length || shownAudio.length ? h('ul', 'rows', ...shownArt.map(i => artRow(ctx, app, i, sel)), ...shownAudio.map(a => audioRow(ctx, app, a, sel))) : empty,
+  const ghosts = [...app.ghosts.values()].filter(g => !shownArt.some(i => i.key === g.key));
+  fill(host, candidatesSection(app), progressView(ctx, queueProgress(app.artCounts, audio, art)), artCountsView(ctx, app.artCounts), toggle, filters,
+    shownArt.length || shownAudio.length || ghosts.length ? h('ul', 'rows', ...ghosts.map(g => artRow(ctx, app, g, sel, true)), ...shownArt.map(i => artRow(ctx, app, i, sel)), ...shownAudio.map(a => audioRow(ctx, app, a, sel))) : empty,
     showArt && ['decided', 'all'].includes(state.state) ? artRecordsView(ctx, app.artRecords) : null);
 }
 
@@ -180,15 +247,15 @@ function artRecordsView(ctx, records) {
       h('span', badgeClass(r.current ? 'approved' : 'pending'), ctx.t(r.current ? 'artrec.badge' : 'artrec.badgeStale')))))));
 }
 
-function artRow(ctx, app, i, sel) {
-  const on = sel?.type === 'art' && sel.item.key === i.key;
+function artRow(ctx, app, i, sel, ghost = false) {
+  const on = !ghost && sel?.type === 'art' && sel.item.key === i.key;
   const req = i.requests.at(-1);
-  return h('li', '', h('a', {class: 'row' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: ctx.href(app.route({}, {item: i}))},
+  return h('li', ghost ? {class: 'ghost', 'aria-hidden': 'true'} : '', h(ghost ? 'div' : 'a', {class: 'row' + (on ? ' on' : '') + (ghost ? ' fading' : ''), 'aria-current': on ? 'true' : null, href: ghost ? null : ctx.href(app.route({}, {item: i}))},
     h('span', 'thumb checker', h('img', {src: `/api/editor/image?key=${encodeURIComponent(i.key)}&revision=${i.head}`, alt: '', loading: 'lazy', draggable: 'false'})),
     h('span', 'rtext', h('b', {title: i.key}, i.key.split('/').at(-1)), h('small', 'muted', `${i.assetId} · r${i.head}`),
       req ? h('small', 'agentline', ctx.t('row.requestedBy', {agent: req.agent, session: req.session})) : null,
       req ? h('small', 'note', req.note) : null),
-    h('span', badgeClass(i.status), ctx.t('status.' + i.status))));
+    h('span', badgeClass(ghost ? 'approved' : i.status), ctx.t('status.' + (ghost ? 'approved' : i.status)))));
 }
 
 function audioRow(ctx, app, a, sel) {
@@ -226,10 +293,14 @@ const selKey = sel => (sel.type === 'art' ? `${sel.item.key}@${sel.item.head}:${
 
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./review.css', import.meta.url));
+  ctx.loadCss(new URL('../../seal.css', import.meta.url));
   ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
-  ctx.onUnmount(() => { mine.runCleanups(); clearInterval(mine.timer); clearInterval(mine.ticker); mine.flight?.controller.abort(); });
+  ctx.onUnmount(() => { mine.runCleanups(); for (const fn of mine.always.splice(0)) fn(); mine.undoLast?.dismiss(); clearInterval(mine.timer); clearInterval(mine.ticker); mine.flight?.controller.abort(); });
   mine.ui = layout(ctx);
+  const onKey = event => handleKey(mine, event);
+  document.addEventListener('keydown', onKey);
+  ctx.onUnmount(() => document.removeEventListener('keydown', onKey));
   ctx.root.setAttribute('aria-busy', 'true');
   mine.timer = setInterval(() => { if (!document.hidden) mine.refresh().catch(() => {}); }, POLL_MS);
   try { await mine.refresh({keepSelection: true}); }
@@ -243,3 +314,21 @@ export async function update(ctx, state) {
 }
 
 export async function unmount() { clearInterval(app?.timer); clearInterval(app?.ticker); app?.flight?.controller.abort(); app?.runCleanups(); }
+
+/** A, R, C, J, K, U. Ignored while typing or with a modifier (shortcutFor); A and R press the visible buttons, so the rules for a disabled button, a missing comment and a non-head revision stay in one place. */
+function handleKey(app, event) {
+  const action = shortcutFor(event);
+  if (!action || !app.ui) return;
+  const {detail} = app.ui;
+  const press = sel => { const b = detail.querySelector(sel); if (!b || b.disabled) return false; b.click(); return true; };
+  if (action === 'approve') { if (press('.decide .approve[data-art]')) event.preventDefault(); }
+  else if (action === 'changes') { if (press('.decide .changes[data-art]')) event.preventDefault(); }
+  else if (action === 'comment') { const ta = detail.querySelector('#rv-text, #rv-note'); if (ta) { ta.focus(); event.preventDefault(); } }
+  else if (action === 'undo') { if (app.undoLast) { app.undoLast.undo(); event.preventDefault(); } }
+  else {
+    const ids = [...app.ui.list.querySelectorAll('a.row')].map(a => a.getAttribute('href'));
+    const here = app.ui.list.querySelector('a.row.on')?.getAttribute('href') ?? null;
+    const target = stepId(ids, here, action === 'next' ? 1 : -1);
+    if (target) { event.preventDefault(); location.hash = target; }
+  }
+}

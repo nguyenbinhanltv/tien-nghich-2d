@@ -4,6 +4,7 @@ import { h, button, badgeClass, humanize, dataUrl, loadImg, pixelsOf, pixelCanva
 import { thread, diffPixels, beforeOf, draftKey } from './model.mjs';
 import { takeBadges, takeLegend, selectTakeButton, regionSection } from './takes.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
+import { approveThenStamp } from '../../seal.mjs';
 
 const api = new EditorApiClient();
 
@@ -102,12 +103,24 @@ export async function renderArt(app, host, item, token) {
     const body = text.value.trim();
     if (status === 'changes_requested' && !body) { msg.textContent = ctx.t('decide.needText'); text.focus(); return; }
     if (status === undefined && !body) { msg.textContent = ctx.t('decide.needText'); text.focus(); return; }
+    if (app.busy) return;
+    app.busy = true;
+    host.setAttribute('aria-busy', 'true');
     try {
-      await api.reviewFrame({key: item.key, revision: snap.revision, ...(status ? {status} : {}), ...(body ? {text: body} : {})});
-      app.drafts.delete(draft);
-      ctx.announce(ctx.t('decide.done'));
-      await app.refresh({keepSelection: true});
-    } catch (error) { msg.textContent = error.status === 409 ? ctx.t('decide.conflict') : ctx.t('decide.failed', {message: error.message}); }
+      const call = () => api.reviewFrame({key: item.key, revision: snap.revision, ...(status ? {status} : {}), ...(body ? {text: body} : {})});
+      if (status === 'approved') {
+        // The seal, the words and the undo toast come only after the server confirmed the write (a failure throws before the stamp).
+        await approveThenStamp(call, () => app.stampApproved(item, snap.revision));
+        app.drafts.delete(draft);
+        await app.advanceFrom(item);
+      } else {
+        await call(); // no celebration for changes requested or a plain comment
+        app.drafts.delete(draft);
+        ctx.announce(ctx.t('decide.done'));
+        await app.refresh({keepSelection: true});
+      }
+    } catch (error) { msg.textContent = ''; msg.textContent = error.status === 409 ? ctx.t('decide.conflict') : ctx.t('decide.failed', {message: error.message}); }
+    finally { app.busy = false; host.removeAttribute('aria-busy'); }
   };
   const requests = thread(snap.comments).filter(c => c.kind === 'request');
   fill(host, 
@@ -131,6 +144,6 @@ export async function renderArt(app, host, item, token) {
     h('section', 'dsec decide', h('h3', '', ctx.t('decide.title')),
       isHead ? h('p', 'muted', ctx.t('decide.humanOnly')) : h('p', {class: 'muted', role: 'status'}, ctx.t('decide.notHead', {head: snap.head})),
       h('label', {class: 'sr-only', for: 'rv-text'}, ctx.t('decide.comment')), text,
-      h('div', 'buttons', button(ctx.t('decide.approve'), send('approved'), {class: 'btn primary approve', disabled: !isHead}), button(ctx.t('decide.changes'), send('changes_requested'), {class: 'btn danger changes', disabled: !isHead}),
+      h('div', 'buttons', button(ctx.t('decide.approve'), send('approved'), {class: 'btn primary approve', 'data-art': '', disabled: !isHead}), button(ctx.t('decide.changes'), send('changes_requested'), {class: 'btn danger changes', 'data-art': '', disabled: !isHead}),
         button(ctx.t('decide.commentOnly'), send(undefined))), msg));
 }

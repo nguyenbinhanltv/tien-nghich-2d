@@ -108,3 +108,17 @@ audio { width: 100%; max-width: 640px; display: block; }
 .ui-kit :is(.empty p, .empty-title) { margin: 0; }
 .ui-kit a.btn { text-decoration: none; }
 .inbox { display: grid; gap: var(--ui-sp-2); }
+
+/* wave 4C: queue bar, shortcut line, sticky decision bar, fading row, toasts */
+.rv-keys { margin: 0; font-size: var(--ui-fs-xs); line-height: 2; }
+.rv-seal-toggle { font-size: var(--ui-fs-xs); }
+.rv-progress { position: relative; height: 1.4rem; border: var(--ui-bw) solid var(--ui-line); background: var(--ui-bg); overflow: hidden; }
+.rv-progress-fill { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(90deg, var(--ui-ok) 0 6px, color-mix(in srgb, var(--ui-ok) 70%, var(--ui-bg)) 6px 8px); transition: width calc(var(--ui-step) * 3) steps(6, end); }
+.rv-progress-text { position: relative; display: block; padding: 0 var(--ui-sp-2); font-size: var(--ui-fs-xs); line-height: 1.3rem; color: var(--ui-text); text-shadow: 0 1px 0 var(--ui-bg); }
+.decide { position: sticky; bottom: 0; z-index: 2; background: var(--ui-surface); box-shadow: 0 -4px 0 var(--ui-surface); }
+.decide .buttons { margin-bottom: 0; }
+.row.fading { opacity: 1; animation: rv-fade var(--ui-dur-seal, 1100ms) steps(6, end) both; }
+@keyframes rv-fade { 0% { opacity: 1; } 40% { opacity: 1; } 100% { opacity: .15; } }
+.rv-toasts { position: fixed; right: var(--ui-sp-4); bottom: var(--ui-sp-4); display: grid; gap: var(--ui-sp-2); z-index: 70; }
+@media (max-width: 900px) { .rv-toasts { left: var(--ui-sp-3); right: var(--ui-sp-3); bottom: 4.5rem; } }
+@media (prefers-reduced-motion: reduce) { .row.fading { animation: none; opacity: .5; } .rv-progress-fill { transition: none; } }

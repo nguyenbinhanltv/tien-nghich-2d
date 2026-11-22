@@ -18,7 +18,7 @@ test('every literal ctx.t key exists in the tab or shell strings, in both langua
 
 test('dynamic key families are complete', () => {
   const families = {status: ['pending', 'approved', 'changes_requested'], signoff: ['none', 'signed', 'needs_work', 'stale'], state: ['waiting', 'agent', 'decided', 'all'],
-    ready: ['planned', 'authored', 'packed'], thread: ['reply', 'handledReply'], inbox: ['empty', 'nothingHere']};
+    ready: ['planned', 'authored', 'packed'], thread: ['reply', 'handledReply'], inbox: ['empty', 'nothingHere'], keys: ['approve', 'changes', 'comment', 'next', 'prev', 'undo'], seal: ['on', 'off', 'reducedShort', 'reduced']};
   for (const [family, names] of Object.entries(families)) for (const n of names) assert.ok(`${family}.${n}` in en, `${family}.${n}`);
 });
 

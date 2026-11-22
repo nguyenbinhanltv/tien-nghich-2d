@@ -32,3 +32,18 @@ export function pixelCanvas(w, h_, zoom) {
 }
 /** replaceChildren that skips null/false (the native call would print the text "null"). */
 export const fill = (el, ...kids) => el.replaceChildren(...kids.filter(k => k != null && k !== false));
+
+/**
+ * Run `paint` (a repaint of `host`) and give keyboard focus back to the same control afterwards. A repaint replaces the nodes, which would
+ * otherwise drop focus to the page. The control is found again by its href, id, or class list.
+ */
+export function keepFocus(host, paint) {
+  const el = document.activeElement;
+  const inside = el && el !== document.body && host.contains(el);
+  const id = inside ? {href: el.getAttribute('href'), id: el.id, cls: el.className} : null;
+  paint();
+  if (!id) return;
+  const again = (id.href && [...host.querySelectorAll('a[href]')].find(a => a.getAttribute('href') === id.href)) || (id.id && host.querySelector('#' + CSS.escape(id.id)))
+    || (id.cls && [...host.querySelectorAll(el.tagName.toLowerCase())].find(n => n.className === id.cls));
+  if (again && again !== document.activeElement) again.focus({preventScroll: true});
+}
