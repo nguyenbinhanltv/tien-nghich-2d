@@ -66,3 +66,7 @@ audio { width: 100%; max-width: 640px; display: block; }
 /* Readability reads recorded in the VFX tab */
 .read-line { margin: .2rem 0; font-size: .85rem; }
 .read-item { border-left: 4px solid var(--accent-soft, var(--accent)); padding: .2rem .6rem; margin: .3rem 0; background: var(--ink); }
+
+/* Art approved on record (assets/review/art_approvals.json) */
+.artrec { margin-top: 1rem; } .artrec h3 { margin: 0 0 .2rem; }
+.artrow { grid-template-columns: minmax(0, 1fr) auto; }
