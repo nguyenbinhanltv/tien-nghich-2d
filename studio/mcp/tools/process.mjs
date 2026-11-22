@@ -1,6 +1,6 @@
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
-import { readDoc, forgeCall, pixelizedFor, settingsFor, writeDoc } from '../workflow/forge.mjs';
+import { readDoc, forgeCall, pixelizedFor, settingsFor, updateDoc } from '../workflow/forge.mjs';
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { figureFor, figureWarnings, measureFigure, resolveMarks } from '../../forge/index.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
@@ -78,8 +78,7 @@ export default {
       if (args.accents !== undefined) for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
       if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
       if (args.marks !== undefined || args.accents !== undefined) {
-        const current = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
-        await writeDoc(ws, asset, 'process', { ...current, ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), by: ctx.caller.agent, at: new Date().toISOString() });
+        await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
       const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
       log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);

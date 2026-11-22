@@ -142,3 +142,19 @@ test('process: a marks-only call keeps stored accents; a refused call stores not
   assert.match(text(await a.call('studio_process', { assetId: MOB, marks: [], figure: 'nope' })), /No figure guide/);
   assert.equal(JSON.stringify(stored()), before, 'nothing was stored by a refused call');
 }));
+
+test('process: a marks-only call and an accents-only call racing each other both survive', () => withProject(async (p) => {
+  const a = connect(p.root), b = connect(p.root, { session: 'second' });
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(EXP, 'turnaround.png'), join(p.root, 'work/turnaround.png'));
+  await a.ok('studio_sheet_import', { assetId: MOB, sheet: { file: 'work/turnaround.png' }, layout: json(join(EXP, 'layout.forge.json')), prompt: 'x', tool: 'test' });
+  const marks = [{ color: 'soul_07', minRgb: [165, 0, 187], blueOverGreen: 17 }];
+  for (let round = 0; round < 6; round++) {
+    const accents = round % 2 ? ['bronze_04'] : ['jade_04'];
+    const m = round % 2 ? marks : [];
+    const [r1, r2] = await Promise.all([a.call('studio_process', { assetId: MOB, marks: m }), b.call('studio_process', { assetId: MOB, accents })]);
+    assert.equal(r1.isError ?? r2.isError, undefined, text(r1) + text(r2));
+    const stored = json(join(p.root, 'assets/raw/longtime', MOB, 'forge/process.json'));
+    assert.deepEqual([stored.marks.length, stored.accents], [m.length, accents], `round ${round}: both updates are in the stored document`);
+  }
+}));
