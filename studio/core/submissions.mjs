@@ -66,9 +66,9 @@ export function validateProvenance(p, index) {
   return out;
 }
 
-function frameName(f) { return `${f.clip}_${f.direction}_${f.n}`; }
+export function frameName(f) { return `${f.clip}_${f.direction}_${f.n}`; }
 
-async function loadBytes(root, f) {
+export async function loadBytes(root, f) {
   if ((f.pngBase64 === undefined) === (f.file === undefined)) invalid(`frame ${frameName(f)}: give exactly one of pngBase64 or file`);
   let bytes;
   if (f.file !== undefined) {
@@ -92,7 +92,7 @@ async function loadBytes(root, f) {
   return bytes;
 }
 
-function checkAddress(asset, f) {
+export function checkAddress(asset, f) {
   const spec = clipSpec(asset, f.clip);
   if (!spec) invalid(`${asset.id} has no clip "${f.clip}". Clips: ${Object.keys(asset.clips ?? {}).join(', ')}`);
   if (!asset.directions.includes(f.direction)) invalid(`${asset.id} has no direction "${f.direction}". Directions: ${asset.directions.join(', ')}`);

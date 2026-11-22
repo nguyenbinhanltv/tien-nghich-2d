@@ -73,3 +73,15 @@ audio { width: 100%; max-width: 640px; display: block; }
 /* Art approved on record (assets/review/art_approvals.json) */
 .artrec { margin-top: 1rem; } .artrec h3 { margin: 0 0 .2rem; }
 .artrow { grid-template-columns: minmax(0, 1fr) auto; }
+
+/* takes, candidate runs and region requests */
+.candidates { margin: 0 0 1rem; padding: .6rem; border: 1px solid var(--line, #3a3646); border-radius: 6px; }
+.runsheet { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; margin: .5rem 0; }
+.runsheet img { image-rendering: pixelated; max-width: 100%; background: #2a2733; }
+.runsheet img.ref { max-height: 220px; image-rendering: auto; }
+.cands { list-style: none; padding: 0; margin: .25rem 0; display: grid; gap: .25rem; }
+.regions canvas { cursor: crosshair; touch-action: none; }
+.boxrow { display: flex; gap: .75rem; flex-wrap: wrap; margin: .4rem 0; }
+.boxrow .num { width: 4.5rem; }
+.regionlist { list-style: none; padding: 0; display: grid; gap: .75rem; }
+.takes { margin: .25rem 0 .5rem; }

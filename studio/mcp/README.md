@@ -38,7 +38,7 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | | `studio_catalog_search` | read | Find assets (art and audio cues) by text, source, category, profile, chunk, phase, delivery status or origin; facet counts; paging (default 25, max 100 per page) |
 | | `studio_asset_get` | read | One asset: spec, four milestones, frames, provenance, metadata, review state, checks, dependencies, audio candidates, and the etags editing needs |
 | | `studio_asset_plan` | author | Create, or edit one you created, a planned entry. `custom: {category, size, pivot, directions, clips}` describes what fits no profile (a VFX, a one-off icon) |
-| Authoring | `studio_frames_submit` | author | Native PNG frames with mandatory provenance; pixel gates run first; raw is immutable |
+| Authoring | `studio_frames_submit` | author | Native PNG frames with mandatory provenance; pixel gates run first; raw is immutable. `candidates` (1 to 6): the gates reject the broken ones, survivors are stored as takes, one run is recorded; only a person picks, in the Review tab |
 | | `studio_metadata_set` | author | Pivot, hitbox, per-frame durations, clip events |
 | Forge | `studio_template_get` | read | A layout template to hand to an image generator: `turnaround` (facings) or `pose-sheet` (the key poses of one clip), as an image plus the layout document (`write=true` saves it to the work directory) |
 | | `studio_sheet_import` | author | A generated sheet (file or inline) + layout + provenance: stored once by hash, cells cut, scale normalised. Writes the tracked import document |
@@ -57,7 +57,7 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | | `studio_audio_analyze` | read | The same measurements and two images for a file, a stored candidate or a document; loop seams on request. **Measurements only: no agent listens, and nothing here signs listening** |
 | Review loop | `studio_review_request` | author | Ask a human to review (a comment, never a status) |
 | | `studio_review_list` | read | The human's decisions and comments, and which comments still wait for an answer |
-| | `studio_review_reply` | author | Answer a human comment, optionally mark it handled (a comment, never a status) |
+| | `studio_review_reply` | author | Answer a human comment, optionally mark it handled (a comment, never a status); `answers` lists the region change requests (a person's note pinned to a revision hash, a frame and a box) a later revision answers |
 | Jobs | `studio_job_status` | read | Status, log tail, cost of a background job |
 | | `studio_job_wait` | read | Wait for a job and get its result (images included) |
 
@@ -196,7 +196,7 @@ A cue (`studio_catalog_search source=audio`) has **candidates**: immutable versi
 
 ### Review loop: an agent can ask, read and answer, never decide
 
-`studio_review_request` and `studio_review_reply` add a **comment** to the existing revision and review store (so a human sees it in the existing review UI, prefixed with the agent and session). Nothing in the server writes `approved`, `changes_requested` or `rejected`. The single status the studio ever writes is `pending`, when a new frame's history is created. A frame with no history at all reads as `approved` only when a human record covers exactly its bytes, as `baseline` (shipped before the studio, no review record, not approved) when the pack's `review.baseline` covers it, and as `pending` (awaiting review) otherwise; `studio_review_list` and `studio_asset_get` report those counts (`approvedByHuman`, `baselineNoRecord`, `awaitingReview`) and no tool can set any of them. It also never reopens a frame a human approved (a request skips it; a request for only approved frames is refused).
+`studio_review_request` and `studio_review_reply` add a **comment** to the existing revision and review store (so a human sees it in the existing review UI, prefixed with the agent and session). Nothing in the server writes `approved`, `changes_requested` or `rejected`. The single status the studio ever writes is `pending`, when a new frame's history is created. A frame with no history at all reads as `approved` only when a human record covers exactly its bytes, as `baseline` (shipped before the studio, no review record, not approved) when the pack's `review.baseline` covers it, and as `pending` (awaiting review) otherwise; `studio_review_list` and `studio_asset_get` report those counts (`approvedByHuman`, `baselineNoRecord`, `awaitingReview`) and no tool can set any of them. **Takes.** Every saved revision or candidate is a take; the store records three separate facts per frame: *newest* (the head), *selected* (a person picked it: only the Review tab's same-origin routes write it) and *in the game* (its pixels are the file the project uses). A new take changes only the first, and selecting never edits a file. **Change requests** a person pins to a region are append-only (the database refuses updates and deletes) and `studio_review_request` is refused while one has no answer. It also never reopens a frame a human approved (a request skips it; a request for only approved frames is refused).
 
 There is no approve, reject, sign, publish, delete or shell tool, at any scope, and no tool takes a status, decision or force argument. `humanonly.test.mjs` proves it at `read`, `author` and `pack`:
 

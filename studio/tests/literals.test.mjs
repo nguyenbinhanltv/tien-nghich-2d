@@ -72,6 +72,7 @@ const FIXTURE_TESTS = new Set([
   'mcp/humanonly.test.mjs',
   'mcp/review.test.mjs',
   'mcp/server.test.mjs',
+  'mcp/takes.test.mjs',
   'mcp/toolchain-tools.test.mjs',
   'mcp/tools.test.mjs',
   'server/catalog-api.test.mjs',

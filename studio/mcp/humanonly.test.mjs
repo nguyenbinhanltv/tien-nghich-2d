@@ -167,11 +167,13 @@ test('MCP-006: static: the only code that writes to the revision store is review
   const calls = [];
   for (const f of files) {
     const src = readFileSync(f, 'utf8');
-    for (const m of src.matchAll(/\.operate\([^;]*?'(review|save|restore)'[^;]*;/gs)) calls.push({ file: f.slice(REPO.length + 1), action: m[1], code: m[0].replace(/\s+/g, ' ') });
+    for (const m of src.matchAll(/\.operate\([^;]*?'(review|save|restore|select)'[^;]*;/gs)) calls.push({ file: f.slice(REPO.length + 1), action: m[1], code: m[0].replace(/\s+/g, ' ') });
   }
   const expected = [
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text\}\)/ },            // request: text only
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: rev, text: body\}\)/ },                 // reply: text only
+    { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text: clip\(`\[change request/ }, // a person's region request (Review tab route only): mirrored as a plain comment, text only
+    { file: 'studio/core/candidates.mjs', action: 'select', must: /'select', \{revision\}\)/ },                    // a person's pick (Review tab route only): records the selected take, writes no status
     { file: 'studio/core/submissions.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },      // new lineage starts pending
     { file: 'studio/core/audio-candidates.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },  // a new audio candidate's pictures start pending
     { file: 'studio/core/revisions.mjs', action: 'save', must: /\{baseRevision: baseRevision \?\? heads\[i\], png\}\)/ },            // a pixel patch is a new revision: pending, never a decision
