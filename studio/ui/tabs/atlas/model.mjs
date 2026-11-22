@@ -1,5 +1,7 @@
 // Pure helpers for the Atlas tab: route state, zoom, hit-testing frames on a page, formatting, and the view-models of a comparison and the ledger.
 export const VIEWS = ['atlas', 'budget', 'pack', 'export', 'ledger'];
+/** Ledger gap filters: a field checked and unknown, an asset only planned, a field nobody has checked yet. */
+export const GAPS = ['unknown', 'planned', 'open'];
 export const ZOOMS = [1, 2, 3, 4, 6, 8];
 const idPattern = /^[A-Za-z0-9_.-]{1,64}$/;
 const keyPattern = /^[A-Za-z0-9_./-]{1,200}$/;
@@ -18,6 +20,7 @@ export function parseRoute(route = {}) {
     key: typeof p.key === 'string' && keyPattern.test(p.key) ? p.key : null,
     q: typeof p.q === 'string' ? p.q.trim().slice(0, 64) : '',
     origin: typeof p.origin === 'string' && /^[a-z-]{1,20}$/.test(p.origin) ? p.origin : null,
+    gap: GAPS.includes(p.gap) ? p.gap : null,
     ledgerQ: typeof p.lq === 'string' ? p.lq.trim().slice(0, 64) : '',
     show: ['frames', 'borders', 'unused'].includes(p.show) ? p.show : 'borders'
   };
@@ -26,7 +29,7 @@ export function parseRoute(route = {}) {
 export function stateParams(s) {
   const out = {};
   if (s.view !== 'atlas') out.view = s.view;
-  for (const [name, value] of [['set', s.set], ['chunk', s.chunk], ['profile', s.profile], ['key', s.key], ['origin', s.origin]]) if (value) out[name] = value;
+  for (const [name, value] of [['set', s.set], ['chunk', s.chunk], ['profile', s.profile], ['key', s.key], ['origin', s.origin], ['gap', s.gap]]) if (value) out[name] = value;
   if (s.page) out.page = String(s.page);
   if (s.zoom) out.zoom = String(s.zoom);
   if (s.q) out.q = s.q;
@@ -89,9 +92,10 @@ export function describeDifference(file) {
 }
 
 /** Ledger rows filtered by origin kind and a text (id, source, category, tool, script). */
-export function filterLedger(assets, {origin, text}) {
+export function filterLedger(assets, {origin, text, gap}) {
   const q = (text ?? '').trim().toLowerCase();
-  return assets.filter(a => (!origin || a.origin.kind === origin) &&
+  const gapOk = a => !gap || (gap === 'planned' ? a.planned === true : gap === 'open' ? (a.open ?? []).length > 0 : Object.values(a.reasons ?? {}).some(r => r.status === 'unknown'));
+  return assets.filter(a => (!origin || a.origin.kind === origin) && gapOk(a) &&
     (!q || [a.id, a.source, a.category, a.origin.tool, a.origin.script, a.origin.producer].some(v => typeof v === 'string' && v.toLowerCase().includes(q))));
 }
 
