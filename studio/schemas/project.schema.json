@@ -145,6 +145,10 @@
             "$ref": "#/$defs/path"
           }
         },
+        "approvals": {
+          "$ref": "#/$defs/path",
+          "description": "Optional directory of tracked, hash-tied records of human approvals stated outside the studio (art_approvals.json). The Review tab reads it and never writes it."
+        },
         "revisions": {
           "type": "string",
           "pattern": "^[a-z0-9._-]+$",
