@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { join } from 'node:path';
+import { checkSpec } from './tools/vfx_build.mjs';
 import { HAVE_PYTHON, HAVE_SPRITEFX, REPO, connect, makeProject } from './testkit.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
@@ -414,3 +415,22 @@ test('scene_snapshot: plain errors, and it writes nothing', () => sceneProject(a
   assert.match(text(await a.call('studio_scene_snapshot', { assetId: 'bgm_hengyue' })), /an audio cue, not a frame asset/);
   assert.equal(fs.existsSync(join(p.root, '.inspector-revisions')), false, 'a read-scope snapshot creates nothing');
 }));
+
+// ---- spec path syntax -------------------------------------------------------------------------------
+test('checkSpec refuses "..", "/", "\\" and "~" anywhere in a nested spec: values, array items and object keys', () => {
+  const palettes = { tien_nghich_40: 'x.json' };
+  const base = () => ({ name: 'fx', palette: 'tien_nghich_40', canvas: [32, 32], ramps: { a: ['#000000'] }, layers: [{ kind: 'x', opts: { list: ['ok', { deep: 'fine' }] } }] });
+  assert.doesNotThrow(() => checkSpec(base(), palettes));
+  assert.doesNotThrow(() => checkSpec(JSON.parse(fs.readFileSync(join(REPO, 'tools/generators/vfx_specs/hit_spark.json'), 'utf8')), palettes), 'the shipped spec still passes');
+  const bad = [['value', (s) => { s.layers[0].opts.list[1].deep = '../etc/passwd'; }], ['value /', (s) => { s.ramps.a.push('a/b'); }], ['value \\', (s) => { s.layers[0].kind = 'a\\b'; }],
+    ['value ~', (s) => { s.layers[0].opts.list[0] = '~/x'; }], ['value ~ inside', (s) => { s.layers[0].opts.list[0] = 'a~b'; }], ['value ..', (s) => { s.layers[0].kind = 'a..b'; }],
+    ['array item', (s) => { s.ramps.a = [['#fff', '/abs']]; }],
+    ['key ..', (s) => { s.layers[0].opts['..'] = 1; }], ['key /', (s) => { s.layers[0].opts['a/b'] = 1; }], ['key \\', (s) => { s.ramps['a\\b'] = []; }],
+    ['key ~', (s) => { s.layers[0].opts['~root'] = 1; }], ['top-level key', (s) => { s['../x'] = 1; }], ['key in array object', (s) => { s.layers[0].opts.list[1]['x/y'] = 1; }]];
+  for (const [label, mutate] of bad) {
+    const spec = base();
+    mutate(spec);
+    assert.throws(() => checkSpec(spec, palettes), /looks like a file path/, label);
+  }
+  assert.throws(() => checkSpec({ ...base(), palette: 'tien_nghich_40/../x' }, palettes), /registered project palette/);
+});
