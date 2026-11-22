@@ -1,0 +1,561 @@
+{
+ "ranAt": "2026-11-22",
+ "codex": "0.171.0",
+ "model": "gpt-6.2-sol",
+ "repoCommit": "b61a183",
+ "approvalOverride": "-c 'mcp_servers.studio.default_tools_approval_mode=\"approve\"'",
+ "auditLogOverride": "--audit-log appended to mcp_servers.studio.args via -c",
+ "studioMcpFindings": "see markdown",
+ "parts": {
+  "1A": {
+   "wallSeconds": 68,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_plan",
+     "ok": true,
+     "result": "ok created lt_icon_sample_ring"
+    },
+    {
+     "n": 3,
+     "tool": "studio_generator_run",
+     "ok": false,
+     "result": "REFUSED/ERROR: parameter \"shape\" = \"circle\" is not allowed (one of diamond, disc, ring, cross, star, drop, shard)."
+    },
+    {
+     "n": 4,
+     "tool": "studio_generator_run",
+     "ok": true,
+     "result": "Generated lt_icon_sample_ring with primitives: 1 frame(s) at x6, 108x112px. row 1: glyph none, frames 0. Bars: green clean, yellow warnings only, red errors. Defects: 0 e"
+    },
+    {
+     "n": 5,
+     "tool": "studio_generator_run",
+     "ok": true,
+     "result": "Generated lt_icon_sample_ring with primitives: 1 frame(s) at x6, 108x112px. row 1: glyph none, frames 0. Bars: green clean, yellow warnings only, red errors. Defects: 0 e"
+    },
+    {
+     "n": 6,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,plan ..."
+    },
+    {
+     "n": 7,
+     "tool": "studio_metadata_set",
+     "ok": true,
+     "result": "ok lt_icon_sample_ring"
+    },
+    {
+     "n": 8,
+     "tool": "studio_preview_render",
+     "ok": true,
+     "result": "Contact sheet of lt_icon_sample_ring (raw), 1 frames at x6, 108x112px. row 1: glyph none, frames 0. Bars: green clean, yellow warnings only, red errors. Defects: 0 error "
+    },
+    {
+     "n": 9,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_icon_sample_ring (raw) glyph/none, 1 scene(s) 64x48 at x4 on tile. Subject pivot on ground point 32,38. [image]"
+    },
+    {
+     "n": 10,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 1, partial=true"
+    }
+   ]
+  },
+  "1B": {
+   "wallSeconds": 38,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,plan ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_preview_render",
+     "ok": true,
+     "result": "Contact sheet of lt_icon_sample_ring (raw), 1 frames at x8, 140x144px. row 1: glyph none, frames 0. Bars: green clean, yellow warnings only, red errors. Defects: 0 error "
+    },
+    {
+     "n": 4,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 1, partial=true"
+    },
+    {
+     "n": 5,
+     "tool": "studio_review_request",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 6,
+     "tool": "studio_review_list",
+     "ok": true,
+     "result": "1 frame(s) {\"pending\":1}"
+    }
+   ]
+  },
+  "2A": {
+   "wallSeconds": 519,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_catalog_search",
+     "ok": true,
+     "result": "total,count,offset,hasMore,facets,results ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,milestones ..."
+    },
+    {
+     "n": 4,
+     "tool": "studio_template_get",
+     "ok": true,
+     "result": "Template lt-ash-skater-turnaround for lt_ash_skater (mob, 32x32 native): 4 cells, 1024x1024px. Routes: idle=rig, walk=pose-sheet, telegraph=rig, strike=rig. Saved: .inspe"
+    },
+    {
+     "n": 5,
+     "tool": "studio_template_get",
+     "ok": true,
+     "result": "Template lt-ash-skater-pose-sheet-walk for lt_ash_skater (mob, 32x32 native): 16 cells, 1024x1024px. Routes: idle=rig, walk=pose-sheet, telegraph=rig, strike=rig. Saved: "
+    },
+    {
+     "n": 6,
+     "tool": "studio_sheet_import",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 7,
+     "tool": "studio_process",
+     "ok": true,
+     "result": "Pixelised lt_ash_skater: 4 frame(s) at x7, 236x948px. row 1: sprite east, frames 0; row 2: sprite north, frames 0; row 3: sprite south, frames 0; row 4: sprite west, fram"
+    },
+    {
+     "n": 8,
+     "tool": "studio_sheet_import",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 9,
+     "tool": "studio_process",
+     "ok": true,
+     "result": "Pixelised lt_ash_skater: 16 frame(s) at x4, 140x2244px. row 1: contact_a east, frames 0; row 2: contact_a north, frames 0; row 3: contact_a south, frames 0; row 4: contac"
+    },
+    {
+     "n": 10,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 16 frame(s) at x7, 920x948px. row 1: walk east, frames 0,1,2,3; row 2: walk north, frames 0,1,2,3; row 3: walk south, frames 0,1,2,3; row 4: walk wes"
+    },
+    {
+     "n": 11,
+     "tool": "studio_frame_patch",
+     "ok": true,
+     "result": "Stored operations for 8 frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: 8."
+    },
+    {
+     "n": 12,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 16 frame(s) at x7, 920x948px. row 1: walk east, frames 0,1,2,3; row 2: walk north, frames 0,1,2,3; row 3: walk south, frames 0,1,2,3; row 4: walk wes"
+    },
+    {
+     "n": 13,
+     "tool": "studio_frame_patch",
+     "ok": true,
+     "result": "Stored operations for 3 frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: 8."
+    },
+    {
+     "n": 14,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 16 frame(s) at x4, 536x564px. row 1: walk east, frames 0,1,2,3; row 2: walk north, frames 0,1,2,3; row 3: walk south, frames 0,1,2,3; row 4: walk wes"
+    },
+    {
+     "n": 15,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 16 frame(s) at x3, 408x436px. row 1: walk east, frames 0,1,2,3; row 2: walk north, frames 0,1,2,3; row 3: walk south, frames 0,1,2,3; row 4: walk wes"
+    },
+    {
+     "n": 16,
+     "tool": "studio_sheet_import",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 17,
+     "tool": "studio_process",
+     "ok": true,
+     "result": "Pixelised lt_ash_skater: 4 frame(s) at x1, 44x180px. row 1: sprite east, frames 0; row 2: sprite north, frames 0; row 3: sprite south, frames 0; row 4: sprite west, frame"
+    },
+    {
+     "n": 18,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x3, 408x1300px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fr"
+    },
+    {
+     "n": 19,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x3, 408x1300px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fr"
+    },
+    {
+     "n": 20,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x3, 408x1300px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fr"
+    },
+    {
+     "n": 21,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x3, 408x1300px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fr"
+    },
+    {
+     "n": 22,
+     "tool": "studio_frame_patch",
+     "ok": true,
+     "result": "Stored operations for 12 frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: 20."
+    },
+    {
+     "n": 23,
+     "tool": "studio_frame_patch",
+     "ok": true,
+     "result": "Stored operations for 8 frame(s) in the asset's patch; they apply after every studio_rig_bake. Frames in the patch: 28."
+    },
+    {
+     "n": 24,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x3, 408x1300px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fr"
+    },
+    {
+     "n": 25,
+     "tool": "studio_rig_bake",
+     "ok": true,
+     "result": "Baked lt_ash_skater: 40 frame(s) at x2, 280x916px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4: idle west, fra"
+    },
+    {
+     "n": 26,
+     "tool": "studio_metadata_set",
+     "ok": true,
+     "result": "ok lt_ash_skater"
+    },
+    {
+     "n": 27,
+     "tool": "studio_scene_snapshot",
+     "ok": false,
+     "result": "REFUSED/ERROR: ts_hengyue has no frame \"floor_none_0\" (first few: deco_f0_0, deco_f0_1, deco_f0_2, deco_f0_3, deco_f0_4)."
+    },
+    {
+     "n": 28,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_ash_skater (raw) walk/west, 4 scene(s) 96x80 at x5 on tile. Subject pivot on ground point 48,64. [image]"
+    },
+    {
+     "n": 29,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 40, partial=true"
+    }
+   ]
+  },
+  "2B": {
+   "wallSeconds": 84,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,milestones ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_preview_render",
+     "ok": true,
+     "result": "Contact sheet of lt_ash_skater (raw), 56 frames at x4, 536x2244px. row 1: idle east, frames 0,1,2; row 2: idle north, frames 0,1,2; row 3: idle south, frames 0,1,2; row 4"
+    },
+    {
+     "n": 4,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_ash_skater (raw) walk/south, 4 scene(s) 96x80 at x4 on tile. Subject pivot on ground point 48,64. [image]"
+    },
+    {
+     "n": 5,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "{\"asset\":\"lt_ash_skater\",\"stage\":\"raw\",\"pass\":true,\"summary\":{\"frames\":56,\"expected\":56,\"errors\":0,\"warnings\":40,\"framesWithErrors\":0,\"partial\":true},\"checks\":{\"palette\":"
+    },
+    {
+     "n": 6,
+     "tool": "studio_diff",
+     "ok": true,
+     "result": "asset,against,stage,summary,frames,note ..."
+    },
+    {
+     "n": 7,
+     "tool": "studio_review_request",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 8,
+     "tool": "studio_review_list",
+     "ok": true,
+     "result": "{\"asset\":\"lt_ash_skater\",\"frames\":56,\"byStatus\":{\"pending\":56},\"openComments\":[],\"openCommentCount\":0,\"items\":[{\"key\":\"longtime/lt_ash_skater/idle_east_0\",\"revision\":0,\"h"
+    }
+   ]
+  },
+  "3A": {
+   "wallSeconds": 101,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_plan",
+     "ok": true,
+     "result": "ok created lt_fx_sample_jade_spark"
+    },
+    {
+     "n": 3,
+     "tool": "studio_vfx_build",
+     "ok": false,
+     "result": "REFUSED/ERROR: SpriteFX reported 1 fault(s) for jade_impact_spark: nothing was rendered for review. build: <worktree>/.inspector-revisions/work/lt_fx_sample_jade_spark/vfx/call-cIaGyJ/a"
+    },
+    {
+     "n": 4,
+     "tool": "studio_vfx_build",
+     "ok": true,
+     "result": "VFX jade_impact_spark: 12 frame(s) at x4, 1592x144px. row 1: play none, frames 0,1,2,3,4,5,6,7,8,9,10,11. Bars: green clean, yellow warnings only, red errors. Defects: 0 "
+    },
+    {
+     "n": 5,
+     "tool": "studio_scene_snapshot",
+     "ok": false,
+     "result": "REFUSED/ERROR: lt_fx_sample_jade_spark has no raw frames to show. studio_asset_get lists which stages have frames."
+    },
+    {
+     "n": 6,
+     "tool": "studio_vfx_build",
+     "ok": true,
+     "result": "VFX jade_impact_spark: 12 frame(s) at x4, 1592x144px. row 1: play none, frames 0,1,2,3,4,5,6,7,8,9,10,11. Bars: green clean, yellow warnings only, red errors. Defects: 0 "
+    },
+    {
+     "n": 7,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_fx_sample_jade_spark (raw) play/none, 12 scene(s) 36x36 at x3 on tile. Subject pivot on ground point 18,28. [image]"
+    },
+    {
+     "n": 8,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_fx_sample_jade_spark (raw) play/none, 12 scene(s) 40x80 at x2 on tile. Subject pivot on ground point 20,64. [image]"
+    },
+    {
+     "n": 9,
+     "tool": "studio_metadata_set",
+     "ok": true,
+     "result": "ok lt_fx_sample_jade_spark"
+    },
+    {
+     "n": 10,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 0, partial=true"
+    }
+   ]
+  },
+  "3B": {
+   "wallSeconds": 49,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,plan ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_preview_render",
+     "ok": true,
+     "result": "Contact sheet of lt_fx_sample_jade_spark (raw), 12 frames at x3, 1208x112px. row 1: play none, frames 0,1,2,3,4,5,6,7,8,9,10,11. Bars: green clean, yellow warnings only, "
+    },
+    {
+     "n": 4,
+     "tool": "studio_scene_snapshot",
+     "ok": true,
+     "result": "lt_fx_sample_jade_spark (raw) play/none, 12 scene(s) 96x80 at x2 on tile. Subject pivot on ground point 48,64. [image]"
+    },
+    {
+     "n": 5,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 0, partial=true"
+    },
+    {
+     "n": 6,
+     "tool": "studio_review_request",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 7,
+     "tool": "studio_review_list",
+     "ok": true,
+     "result": "12 frame(s) {\"pending\":12}"
+    }
+   ]
+  },
+  "4A": {
+   "wallSeconds": 67,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_catalog_search",
+     "ok": true,
+     "result": "total,count,offset,hasMore,facets,results ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,milestones ..."
+    },
+    {
+     "n": 4,
+     "tool": "studio_audio_render",
+     "ok": true,
+     "result": "patch sfx_cancel for sfx_cancel: 150 ms, 1ch 44100 Hz; peak -13.7 dBFS, true peak -13.696 dBTP, RMS -23.045 dBFS, ungated -23.84 LUFS; starts at zero true, ends at zero t"
+    },
+    {
+     "n": 5,
+     "tool": "studio_audio_render",
+     "ok": true,
+     "result": "patch sfx_cancel for sfx_cancel: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; starts at zero true, ends at zero t"
+    },
+    {
+     "n": 6,
+     "tool": "studio_audio_analyze",
+     "ok": false,
+     "result": "REFUSED/ERROR: Give exactly one of file, cueId or document."
+    },
+    {
+     "n": 7,
+     "tool": "studio_audio_analyze",
+     "ok": true,
+     "result": "document sfx_cancel: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; onset 0.023 ms, tail 149.887 ms. Waveform then "
+    },
+    {
+     "n": 8,
+     "tool": "studio_audio_render",
+     "ok": true,
+     "result": "patch sfx_cancel for sfx_cancel: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; starts at zero true, ends at zero t"
+    },
+    {
+     "n": 9,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 0, partial=undefined"
+    }
+   ]
+  },
+  "4B": {
+   "wallSeconds": 47,
+   "calls": [
+    {
+     "n": 1,
+     "tool": "studio_project_info",
+     "ok": true,
+     "result": "project rules, palette, size classes"
+    },
+    {
+     "n": 2,
+     "tool": "studio_asset_get",
+     "ok": true,
+     "result": "id,source,category,status,spec,milestones ..."
+    },
+    {
+     "n": 3,
+     "tool": "studio_audio_analyze",
+     "ok": true,
+     "result": "sfx_cancel candidate v1: 150 ms, 1ch 44100 Hz; peak -16.621 dBFS, true peak -16.62 dBTP, RMS -26.712 dBFS, ungated -27.5 LUFS; onset 0.023 ms, tail 149.887 ms. Waveform t"
+    },
+    {
+     "n": 4,
+     "tool": "studio_qa_run",
+     "ok": true,
+     "result": "pass=true, errors 0, warnings 0, partial=undefined"
+    },
+    {
+     "n": 5,
+     "tool": "studio_review_request",
+     "ok": true,
+     "result": "ok"
+    },
+    {
+     "n": 6,
+     "tool": "studio_review_list",
+     "ok": true,
+     "result": "2 frame(s) {\"pending\":2}"
+    }
+   ]
+  }
+ }
+}
