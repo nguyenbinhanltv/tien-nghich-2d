@@ -24,7 +24,7 @@ test('the art record: only well-formed, hash-tied assets are read', () => {
   assert.deepEqual(parseArtApprovals({}), []);
 });
 
-test('a frame is covered only while its file hashes to the recorded bytes', async () => {
+test('REVIEW-005: a frame is covered only while its file hashes to the recorded bytes', async () => {
   const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'artrec-'));
   fs.mkdirSync(path.join(root, 'f'));
   fs.writeFileSync(path.join(root, 'f/a_0.png'), 'one'); fs.writeFileSync(path.join(root, 'f/a_1.png'), 'two');

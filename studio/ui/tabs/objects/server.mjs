@@ -1,10 +1,12 @@
 // Objects tab server routes, read-only, under /api/tabs/objects/:
 //   GET links                       relations between assets, read from every manifest
 //   GET provenance?id=&source=      generator, seed and hashes from the asset's provenance file(s)
-// Nothing here writes. Running generators and creating planned ids belong to the job runner.
+//   POST import                     spritesheet importer (studio/ui/importer): cut, gate, revision store; dryRun by default
+// Apart from import, nothing here writes. Running generators and creating planned ids belong to the job runner.
 import { loadPack, buildCatalog, describeAsset } from '../../../core/index.mjs';
 import { readJson, readJsonIfExists } from '../../../core/files.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
+import { handleImport } from '../../importer/route.mjs';
 
 const ttlMs = 2000;
 const cache = new Map();
@@ -64,9 +66,13 @@ export async function handle(req, res, url, {root, prefix}) {
     res.writeHead(status, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
     res.end(JSON.stringify(data));
   }
-  if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The Objects tab API is read-only');
   const name = url.pathname.slice(prefix.length);
+  if (name === 'import') {
+    const tabs = (await loadPack(root, undefined, {verifyFiles: false})).ui?.categoryTabs ?? {};
+    return handleImport(req, res, {root, url, allow: asset => tabs[asset.category] === 'objects'});
+  }
   const {pack, catalog} = await library(root);
+  if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The Objects tab API is read-only apart from import');
   if (name === 'links') {
     const manifests = [];
     for (const source of pack.catalog.sources) manifests.push(await readJson(root, source.file));

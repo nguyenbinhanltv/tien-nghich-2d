@@ -61,3 +61,23 @@ button.plain:hover { border-color: var(--accent); }
 .wave h3 { margin: 0; font-size: 1rem; }
 .wave .pct { font: 600 1.4rem var(--font-mono); color: var(--accent); }
 .wave p { margin: 0; font-size: .85rem; }
+
+/* Plan from a spreadsheet */
+.pi-body { display: grid; gap: .8rem; }
+.pi-pick { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
+.pi-file { font: inherit; color: var(--text); }
+.pi-file:focus-visible, .pi select:focus-visible, .pi button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.pi-map { border: 2px solid var(--line); padding: .7rem .9rem; display: grid; gap: .6rem; }
+.pi-map legend { padding: 0 .4rem; color: var(--muted); }
+.pi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: .6rem; }
+.pi-field { display: grid; gap: .2rem; font-size: .85rem; }
+.pi-field select { font: inherit; color: var(--text); background: var(--surface-2); border: 2px solid var(--line); padding: .3rem; }
+.pi-actions { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
+.pi button[disabled] { opacity: .5; cursor: not-allowed; }
+.pi-error { color: var(--danger); margin: 0; }
+.pi-done { color: var(--accent); margin: 0; font-weight: 600; }
+.pi-summary { margin: 0; font-weight: 600; }
+.pi .mono { font-family: var(--font-mono); }
+.pi-badge-create { color: var(--accent); }
+.pi-badge-skip { color: var(--muted); }
+.pi-skip td { color: var(--muted); }

@@ -76,7 +76,7 @@ test('asset: frames, clips and provenance pointers', async () => {
   assert.ok(sfx.provenance.some(p => /provenance\.json$/.test(p.path) && p.exists));
 });
 
-test('errors are JSON and the API is read-only and loopback-only', async () => {
+test('OVERVIEW-004: errors are JSON and the API is read-only and loopback-only', async () => {
   assert.equal((await get('/api/studio/assets/no_such_asset')).status, 404);
   assert.equal((await get('/api/studio/nope')).status, 404);
   assert.equal((await get('/api/studio/overview/extra')).status, 404);
