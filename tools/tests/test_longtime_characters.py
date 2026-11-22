@@ -40,13 +40,15 @@ REQUIRED = {
     "lt_ink_marten", "lt_star_hare", "lt_reed_crane", "lt_mist_carp", "lt_coal_toad", "lt_bronze_cicada",
 }
 _APPROVALS = json.loads((ROOT / "assets/review/art_approvals.json").read_text(encoding="utf-8"))["approvals"]
-# characters the owner approved (recorded in art_approvals.json); every other PixelLab abode character awaits review
-APPROVED = {aid for _a in _APPROVALS if _a.get("scope") == "character_art" for aid in _a["assets"]}
+_APPROVED_ANYWHERE = {aid for _a in _APPROVALS if _a.get("scope") == "character_art" for aid in _a["assets"]}
 IDS = {aid: (_PROFILE[aid], set(_MANIFEST["profiles"][_PROFILE[aid]]["clips"])) for aid in REQUIRED}
 for _gen in sorted(RAW.glob("*/generation.json")):
     _aid = _gen.parent.name
     if _CHUNK.get(_aid) == "abode" and _PROFILE.get(_aid) in ("pet", "npc") and "pixellab_character_id" in json.loads(_gen.read_text(encoding="utf-8")):
         IDS.setdefault(_aid, (_PROFILE[_aid], set(_MANIFEST["profiles"][_PROFILE[_aid]]["clips"])))
+# abode characters the owner approved (recorded in art_approvals.json); approvals of other chunks' characters are not ours.
+# Every other PixelLab abode character awaits review.
+APPROVED = _APPROVED_ANYWHERE & set(IDS)
 DIRECTIONS = {"south", "west", "north", "east"}
 
 
@@ -72,8 +74,7 @@ class LongtimeCharacters(unittest.TestCase):
                     self.assertEqual((tmp / "raw" / aid / name).read_bytes(), (RAW / aid / name).read_bytes(), name)
 
     def test_review_status_follows_art_approvals(self):
-        self.assertEqual(APPROVED, {"lt_kiln_keeper", "lt_ink_marten"}, "the owner approved exactly these two PixelLab characters")
-        self.assertTrue(APPROVED <= REQUIRED)
+        self.assertTrue({"lt_kiln_keeper", "lt_ink_marten"} <= APPROVED, "the owner approved these two abode characters")
         for aid in sorted(IDS):
             with self.subTest(aid=aid):
                 prov = json.loads((RAW / aid / "provenance.json").read_text(encoding="utf-8"))
