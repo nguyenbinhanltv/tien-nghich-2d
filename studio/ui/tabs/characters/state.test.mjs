@@ -67,6 +67,9 @@ test('raw lookup and zoom', () => {
   assert.equal(autoZoom(1000, 32), 6);
   assert.equal(autoZoom(100, 64), 1);
   assert.equal(autoZoom(4000, 16), 8);
+  for (let w = 100; w < 3000; w += 37) for (const size of [16, 24, 32, 64, 96]) assert.ok([1, 2, 3, 4, 6, 8].includes(autoZoom(w, size)), `auto ${w} ${size}`);
+  assert.equal(parseRoute({asset: null, params: {zoom: '5'}}).zoom, null, 'there is no 5x');
+  assert.equal(parseRoute({asset: null, params: {zoom: '12'}}).zoom, 12);
   assert.equal(autoZoom(660, 32), 3, 'four 3x cells of 96px plus overhead fit in 660px');
 });
 

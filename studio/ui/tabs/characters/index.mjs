@@ -5,7 +5,8 @@ import { h, notice } from './dom.mjs';
 import { parseRoute as parseState, toRoute, resolveSelection } from './state.mjs';
 import { createImageStore } from './images.mjs';
 import { renderRoster } from './roster.mjs';
-import { renderStage, drawCells, cancelPlayback } from './stage.mjs';
+import { renderStage, drawCells, cancelPlayback, handleKey } from './stage.mjs';
+import { installShortcuts } from '../../pixelview.mjs';
 import { renderPanel } from './panels.mjs';
 
 export { parseRoute } from './state.mjs';
@@ -22,7 +23,7 @@ async function postJson(url, body) {
 function makeApp(ctx) {
   const app = {
     ctx, store: createImageStore(), roster: null, detail: null, state: null, sel: {}, liveFrame: null, zoom: 4, draft: null,
-    play: {on: false, raf: 0, speed: 1}, editor: {frames: new Map(), snapshot: null, editable: false, error: null, busy: false},
+    play: {on: false, raf: 0, speed: 1}, pv: {grid: true, bg: 'dark', wipe: 0.5}, editor: {frames: new Map(), snapshot: null, editable: false, error: null, busy: false},
     els: {}, exportScale: 3, exportClip: '', searchTimer: 0,
     navigate(patch, options = {}) {
       app.draft = patch.frame !== undefined || patch.clip !== undefined || patch.direction !== undefined ? null : app.draft;
@@ -121,6 +122,7 @@ function syncView(app) {
 }
 
 export async function mount(ctx, state) {
+  ctx.loadCss(new URL('../../pixelview.css', import.meta.url));
   ctx.loadCss(new URL('./characters.css', import.meta.url));
   const app = makeApp(ctx);
   apps.set(ctx, app);
@@ -133,7 +135,8 @@ export async function mount(ctx, state) {
   ctx.root.replaceChildren(app.els.host);
   syncView(app);
   renderRoster(app); renderStage(app); renderPanel(app);
-  ctx.onUnmount(() => { cancelPlayback(app); clearTimeout(app.searchTimer); app.store.forget(); });
+  const stopKeys = installShortcuts(action => handleKey(app, action));
+  ctx.onUnmount(() => { stopKeys(); cancelPlayback(app); clearTimeout(app.searchTimer); app.store.forget(); });
   await Promise.all([app.loadRoster(), loadDetail(app)]);
 }
 
