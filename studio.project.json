@@ -195,10 +195,19 @@
               "en": "The project accepts: (a) original artwork drawn by hand or by project code; (b) audio synthesised by project scripts; (c) art generated with the owner's own PixelLab subscription for this project (PixelLab's published terms, recorded in docs/LEDGER_FACTS.md, grant ownership and commercial use). An asset with no recorded output licence is not accepted until a person records one. This states what the project accepts; it is not a legal conclusion.",
               "vi": "Dự án chấp nhận: (a) hình gốc do người vẽ tay hoặc do mã của dự án vẽ; (b) âm thanh do script của dự án tổng hợp; (c) hình sinh bằng gói PixelLab của chính chủ dự án cho dự án này (điều khoản công bố của PixelLab, ghi trong docs/LEDGER_FACTS.md, cho quyền sở hữu và dùng thương mại). Asset chưa ghi giấy phép đầu ra thì chưa được chấp nhận cho đến khi một người ghi. Đây là điều dự án chấp nhận, không phải kết luận pháp lý."
             },
-            "accepts": [],
-            "acceptsPattern": [
-              "^original (artwork|project artwork|procedural (audio|sound design)|note score|score)\\b",
-              "^generated with the project's pixellab subscription for this project\\b"
+            "accepts": [
+              "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+              "Original artwork created for this project.",
+              "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/FM/noise patch. No recordings, samples, soundfont or generative-audio model.",
+              "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/modal-stone/noise patch. No recordings, samples, soundfont or generative-audio model.",
+              "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/noise patch. No recordings, samples, soundfont or generative-audio model.",
+              "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and oscillator/noise patch. No recordings, samples or soundfont.",
+              "Original procedural audio authored for Tien Nghich 2D.",
+              "Original procedural sound design created for Tien Nghich 2D.",
+              "Original project artwork.",
+              "Original score and procedural instrument patches authored for this project. All audio is synthesized locally. No third-party samples, recordings, MIDI or soundfonts were incorporated.",
+              "original project artwork drawn by project code; no third-party assets and no external service are recorded (reconstructed, see above)",
+              "original project artwork; no third-party assets; tool output carries no external rights"
             ],
             "strict": true
           },

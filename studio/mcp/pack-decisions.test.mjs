@@ -20,6 +20,7 @@ test('ATLAS-006: the real project states its licence profile; no asset with a re
   const ledger = await buildLedger({ root: fs.realpathSync(REPO), pack: snap.pack, index: snap.index });
   const profile = licenceProfile(snap.pack);
   assert.ok(profile, 'the pack states a licence profile');
+  assert.deepEqual(profile.acceptsPattern ?? [], [], 'exact strings only: a prefix match would clear a string that names a foreign licence after an accepted phrase');
   assert.equal(profile.strict, true, 'an asset with no recorded licence blocks');
   assert.ok(profile.statement.en && profile.statement.vi, 'stated in English and Vietnamese');
   const withRights = ledger.assets.filter((a) => a.rights);
@@ -31,10 +32,12 @@ test('ATLAS-006: the real project states its licence profile; no asset with a re
   assert.ok(withRights.some((a) => /^original/i.test(a.rights)), 'the original-work strings are among the recorded rights');
   // a foreign licence and a missing one are still caught
   const probe = { ...ledger, assets: [...ledger.assets, { id: 'probe_foreign', recorded: true, rights: 'CC-BY-4.0 (a third party)' }, { id: 'probe_unknown', recorded: true, rights: null },
-    { id: 'probe_lookalike', recorded: true, rights: 'Generated with another service for this project' }] };
+    { id: 'probe_lookalike', recorded: true, rights: 'Generated with another service for this project' },
+    { id: 'probe_prefix_original', recorded: true, rights: 'Original artwork from OpenGameArt, CC-BY-SA 4.0' },
+    { id: 'probe_prefix_subscription', recorded: true, rights: `${[...new Set(withRights.map((a) => a.rights))].find((r) => /pixellab/i.test(r))} plus a third-party texture (CC-BY-NC)` }] };
   const after = checkLicences(probe, profile);
-  assert.deepEqual(after.blockers.filter((b) => b.id.startsWith('probe_')).map((b) => b.id).sort(), ['probe_foreign', 'probe_lookalike', 'probe_unknown']);
-  assert.equal(after.blockers.length, real.blockers.length + 3);
+  assert.deepEqual(after.blockers.filter((b) => b.id.startsWith('probe_')).map((b) => b.id).sort(), ['probe_foreign', 'probe_lookalike', 'probe_prefix_original', 'probe_prefix_subscription', 'probe_unknown']);
+  assert.equal(after.blockers.length, real.blockers.length + 5);
 });
 
 test('JOBS-004: the real project decided on no quota ceiling and says so: an explicit empty ceilings, nothing refused', () => withProject(async (p) => {
