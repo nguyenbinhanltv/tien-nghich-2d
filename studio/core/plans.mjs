@@ -69,7 +69,7 @@ function validateFields(fields, index, selfId) {
  * op 'edit':   {id, etag, ...any of profile, chunk_group, brief, phase, method, dependencies}
  * Returns {entry, etag, created}. Edits need the etag from the last read (optimistic concurrency).
  */
-export async function planAsset({root, index, caller, op, id, etag, ...fields}) {
+export async function planAsset({root, index, caller, op, id, etag, dryRun = false, ...fields}) {
   if (!index.info.plansFile) throw problem(422, 'unsupported', 'This project has no design manifest to plan against');
   const file = path.join(root, index.info.plansFile);
   return withLock(file, async () => {
@@ -77,7 +77,7 @@ export async function planAsset({root, index, caller, op, id, etag, ...fields}) 
     const current = await readPlans(root, index.info.plansFile);
     const at = current.entries.findIndex(e => e.id === id);
     const stamp = {agent: caller.agent, session: caller.session, at: new Date().toISOString()};
-    let entry, created = false;
+    let entry, created = false, before = null;
     if (op === 'create') {
       const rule = index.info.planId;
       if (!new RegExp(rule.pattern).test(id) || id.length > 64) invalid(`id must look like ${rule.hint} (lowercase words joined by underscores, at most 64 characters)`);
@@ -98,6 +98,7 @@ export async function planAsset({root, index, caller, op, id, etag, ...fields}) 
             : `No planned entry "${id}"`);
       }
       const old = current.entries[at];
+      before = old;
       if (!etag) invalid('edit needs the etag from studio_asset_get (it proves you saw the current entry)');
       if (etag !== planEtag(old)) throw problem(409, 'etag_mismatch', `"${id}" changed since you read it; call studio_asset_get again`);
       const record = index.assets.get(id);
@@ -113,6 +114,7 @@ export async function planAsset({root, index, caller, op, id, etag, ...fields}) 
       next.studio = {...old.studio, updatedBy: stamp};
       current.entries[at] = entry = next;
     }
+    if (dryRun) return {dryRun: true, entry, before, created, file: index.info.plansFile};
     const out = {schema: PLANS_SCHEMA, version: 1, entries: current.entries};
     await writeFileAtomic(file, JSON.stringify(out, null, 2) + '\n');
     return {entry, etag: planEtag(entry), created, file: index.info.plansFile};

@@ -4,7 +4,7 @@ import { bodyPlans } from '../../forge/motion/library.mjs';
 import { encodePng, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { defaultPoseNames, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
-import { loadAsset, requireFrames, requireScope } from './_shared.mjs';
+import { dryRunProp, loadAsset, requireFrames, requireScope } from './_shared.mjs';
 import path from 'node:path';
 
 const FACINGS = ['south', 'west', 'north', 'east'];
@@ -18,7 +18,7 @@ export default {
     'Routes (decided in the forge bake-off): a single frame is drawn on a sheet and pixelised; LOCOMOTION clips (walk, follow, advance...) start from drawn KEY POSES on a pose sheet (kind="pose-sheet", clip=<that clip>); ' +
     'IDLE and small motions are baked from a RIG with a motion template; asymmetric marks (a coloured ear, a held tool in one hand) are kept with studio_process marks and fixed with studio_frame_patch. ' +
     'kind="turnaround" gives one drawing per facing; kind="pose-sheet" gives one per pose and facing. Draw with your own image tool on a pure green key, using the template file as the reference. ' +
-    'write=true (needs scope author) saves the template PNG where your image tool can read it. Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
+    'write=true (needs scope author) saves the template PNG where your image tool can read it (with dryRun it only lists the files it would save). Returns the layout; pass it, or its layoutId, to studio_sheet_import.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -31,6 +31,7 @@ export default {
       size: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 512, maximum: 2048 }, description: 'Template size in pixels (default [1024, 1024]); the drawn sheet may be any size.' },
       heightPx: { type: 'integer', minimum: 4, maximum: 200, description: 'Wanted figure height at native size, ground to crown (default about 65% of the canvas).' },
       write: { type: 'boolean', description: 'Save the template PNG and layout under the work directory and return their paths (needs scope author).' },
+      dryRun: dryRunProp,
     },
     required: ['assetId'],
     additionalProperties: false,
@@ -73,17 +74,20 @@ export default {
       let files;
       if (args.write) {
         const dir = workDir(ws, asset, 'templates');
-        await fs.mkdir(dir, { recursive: true });
         const pngPath = path.join(dir, `${layoutId}.png`), layoutPath = path.join(dir, `${layoutId}.layout.json`);
-        await writeFileAtomic(pngPath, png);
-        await writeFileAtomic(layoutPath, JSON.stringify(layout, null, 2) + '\n');
+        if (!args.dryRun) {
+          await fs.mkdir(dir, { recursive: true });
+          await writeFileAtomic(pngPath, png);
+          await writeFileAtomic(layoutPath, JSON.stringify(layout, null, 2) + '\n');
+        }
         files = { png: shown(ws, pngPath), layout: shown(ws, layoutPath) };
       }
 
       const out = {
+        ...(args.dryRun ? { dryRun: true, wrote: 'nothing' } : {}),
         asset: { id: asset.id, profile: asset.profile, nativePx: profile.nativePx, pivotPx: profile.pivotPx, directions: asset.directions },
         clips,
-        template: { layoutId, kind, size: [w, h], cells: layout.cells.map((c) => ({ id: c.id, label: c.label, facing: c.facing, pose: c.pose })), ...(files ? { files } : {}),
+        template: { layoutId, kind, size: [w, h], cells: layout.cells.map((c) => ({ id: c.id, label: c.label, facing: c.facing, pose: c.pose })), ...(files ? (args.dryRun ? { wouldWrite: files } : { files }) : {}),
           drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.` },
         layout,
         ...(poseClips ? { poseClips } : {}),
@@ -94,7 +98,7 @@ export default {
       return {
         content: [
           { type: 'text', text: `Template ${layoutId} for ${asset.id} (${asset.profile}, ${profile.nativePx.join('x')} native): ${layout.cells.length} cells, ${w}x${h}px. ` +
-            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? `Saved: ${files.png}. ` : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result.` },
+            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result.` },
           { type: 'image', data: png.toString('base64'), mimeType: 'image/png' },
         ],
         structuredContent: out,

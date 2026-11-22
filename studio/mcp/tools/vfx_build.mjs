@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { sha256 } from '../../core/fsutil.mjs';
 import { crop, decodePng } from '../../forge/index.mjs';
@@ -7,7 +8,7 @@ import { buildTwice, checkSpec, vfxAdapter } from '../workflow/vfx.mjs';
 
 export { checkSpec }; // kept here for callers that imported it from the tool
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
-import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 
 export default {
   name: 'studio_vfx_build',
@@ -17,7 +18,8 @@ export default {
     'spec.palette must be a registered project palette and spec.canvas must equal the asset\'s size. The build runs twice and the sheets must be byte-identical. ' +
     'You get the frames as a contact sheet, SpriteFX\'s fault count and audit output (build: N faults), the frame table (count, size, anchor, fps, durations) and the project pixel-gate verdict. ' +
     'Plan the asset first with studio_asset_plan custom: {category:"vfx", size, pivot, clips:{<clip>:{frames, frameMs}}}; the number of frames SpriteFX renders (the sum of the phase ticks) must equal the clip\'s frames. ' +
-    'submit=true commits the frames as raw frames of the clip (provenance keeps the spec and its hash). Specs cannot reference files.',
+    'submit=true commits the frames as raw frames of the clip (provenance keeps the spec and its hash). Specs cannot reference files.' +
+    ' dryRun is the submit=false preview that writes nothing, not even scratch; with submit=true it lists the files submit would write (submit.wouldWrite).',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -27,6 +29,7 @@ export default {
       clip: { type: 'string', maxLength: 24, description: 'The clip the frames belong to (default: the asset\'s only clip).' },
       submit: { type: 'boolean', description: 'Commit the frames as raw frames if the build is clean, deterministic and passes the pixel gates.' },
       scale: { type: 'integer', minimum: 1, maximum: 8, description: 'Preview zoom (default 4).' },
+      dryRun: dryRunProp,
       background: backgroundProp,
     },
     required: ['assetId', 'spec'],
@@ -44,7 +47,8 @@ export default {
     if (!Array.isArray(args.spec.canvas) || args.spec.canvas[0] !== w || args.spec.canvas[1] !== h) throw new ToolError(`spec.canvas must be [${w}, ${h}] to match ${asset.id}; got ${JSON.stringify(args.spec.canvas)}.`);
 
     return inlineOrJob(ctx, 'vfx_build', args, async (log) => {
-      const base = await callDir(ws, asset, 'vfx');
+      const base = await callDir(ws, asset, 'vfx', { ephemeral: args.dryRun });
+      try {
       const built = await buildTwice({ root: ws.root, vfx, spec: args.spec, specText, base, log });
       const { name, audit } = built;
       if (!built.ok) {
@@ -60,7 +64,7 @@ export default {
       const out = {
         ok: true, effect: name, clip, audit, deterministic, sheetSha256: sheetHash,
         frameTable: { count: meta.frames.length, size: meta.frame_size, anchor: meta.anchor, fps: meta.fps, loop: meta.loop, durationsMs: meta.frames.map((f) => f.duration), events: meta.events ?? [] },
-        wantedFrames: asset.clips[clip].frames, review: shown(ws, path.join(built.out, 'review')), workDir: shown(ws, base), ...view.structured,
+        wantedFrames: asset.clips[clip].frames, ...(args.dryRun ? { dryRun: true, wrote: 'nothing' } : { review: shown(ws, path.join(built.out, 'review')), workDir: shown(ws, base) }), ...view.structured,
       };
       const problems = [];
       if (!deterministic) problems.push('two builds of the same spec gave different sheets, so the effect is not reproducible');
@@ -73,15 +77,16 @@ export default {
           return { content: view.content, structuredContent: out, isError: true };
         }
         const prompt = specText.length <= 7500 ? specText : `SpriteFX spec ${name}, ${specText.length} characters, sha256 ${sha256(specText)}`;
-        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller,
+        const { accepted, report } = await submitBaked({ ws, snap, asset, frames, caller: ctx.caller, dryRun: args.dryRun,
           provenance: { tool: `SpriteFX via the project toolchain (${vfx.clone})`, prompt, sourceHash: sha256(specText), notes: `faults 0; digest ${render.digest ?? '-'}; sheet ${sheetHash}; two builds identical` } });
-        out.submit = { accepted, written: report.written, unchanged: report.unchanged, message: report.message,
+        out.submit = { accepted, ...(args.dryRun ? { dryRun: true, wouldWrite: report.wouldWrite } : { written: report.written }), unchanged: report.unchanged, message: report.message,
           frames: accepted ? undefined : report.frames?.filter((f) => f.errors || f.problem).map((f) => ({ name: f.name, errors: f.errors, problem: f.problem, defects: f.defects?.slice(0, 20) })) };
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
-        view.content[0].text += ` Committed ${report.written.length} raw frame(s) (status pending).`;
+        view.content[0].text += args.dryRun ? ` DRY RUN: would commit ${report.wouldWrite.length} raw frame(s); nothing was written.` : ` Committed ${report.written.length} raw frame(s) (status pending).`;
       }
-      out.next = out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : problems.length ? 'Fix the problems above and build again.' : 'Look at the sheet; change the spec, or build again with submit=true.';
+      out.next = args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : problems.length ? 'Fix the problems above and build again.' : 'Look at the sheet; change the spec, or build again with submit=true.';
       return { content: view.content, structuredContent: out };
+      } finally { if (args.dryRun) await fs.rm(base, { recursive: true, force: true }); }
     });
   },
 };

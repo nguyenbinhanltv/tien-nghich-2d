@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Run the studio MCP evaluation as a real agent (headless Claude Code) against the real server.
-//   node studio/mcp/eval/run.mjs [--set 1|2|all] [--only 1,3] [--model <id>] [--keep] [--out <file.json>] [--max-turns 40]
+//   node studio/mcp/eval/run.mjs [--set 1|2|3|all] [--only 1,3] [--model <id>] [--keep] [--out <file.json>] [--max-turns 40]
 // Set 1 (questions 1-5, read scope) is about the context, checking and review tools; set 2 (questions 6-10, author scope
-// so the agent can run trial calls that write only scratch) is about the forge, toolchain and audio tools.
+// so the agent can run trial calls that write only scratch) is about the forge, toolchain and audio tools. Set 3 (questions 11-12, read scope, the set 1 scene) needs studio_frame_read.
 // The agent gets ONLY the studio tools (no shell, no file access), the scope of its set, and a
 // throwaway scene. Needs the `claude` CLI and its login; it is not part of `node --test`.
 import { spawn } from 'node:child_process';
@@ -61,16 +61,17 @@ function runClaude(prompt, { mcpConfig, model, maxTurns }) {
 export const SETS = {
   1: { questions: 'questions.xml', build: buildScene, scope: 'read', offset: 0 },
   2: { questions: 'questions2.xml', build: buildForgeScene, scope: 'author', offset: 5 },
+  3: { questions: 'questions3.xml', build: buildScene, scope: 'read', offset: 10 }, // two questions that need studio_frame_read
 };
 
 async function main() {
   const { values } = parseArgs({ options: { set: { type: 'string', default: 'all' }, only: { type: 'string' }, model: { type: 'string' }, keep: { type: 'boolean' }, out: { type: 'string' }, 'max-turns': { type: 'string', default: '40' } } });
   const only = values.only ? new Set(values.only.split(',').map(Number)) : null;
-  const sets = values.set === 'all' ? [1, 2] : [Number(values.set)];
+  const sets = values.set === 'all' ? [1, 2, 3] : [Number(values.set)];
   const rows = [];
   for (const setNo of sets) {
     const set = SETS[setNo];
-    if (!set) throw new Error(`--set must be 1, 2 or all`);
+    if (!set) throw new Error(`--set must be 1, 2, 3 or all`);
     const questions = parseQuestions(readFileSync(join(HERE, set.questions), 'utf8')).map((q) => ({ ...q, n: q.n + set.offset }));
     if (only && !questions.some((q) => only.has(q.n))) continue;
     const scene = await set.build();

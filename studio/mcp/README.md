@@ -1,6 +1,6 @@
 # Studio MCP server
 
-A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **25 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
+A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server written by hand for Node 24, over stdio and over loopback HTTP, sharing one tool registry. It has **26 tools** (see [Tools](#tools)): context, authoring, checking, seeing, the review loop, jobs, and the tools that sit on the forge, the pack toolchain and the audio engine. None of them can approve, sign, publish into a shipped atlas or delete.
 
 ```
 node studio/mcp.mjs [--project <path>] [--scope read|author|pack] [--agent <name>] [--audit-log <file>]
@@ -43,11 +43,12 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | | `studio_sheet_import` | author | A generated sheet (file or inline) + layout + provenance: stored once by hash, cells cut, scale normalised. Writes the tracked import document |
 | | `studio_process` | author | Pixelise the imported cells onto the palette and size class; `marks` keep chosen pixels. `submit=true` commits the result as frames |
 | | `studio_rig_bake` | author | Bake **rig clips** (idle, attack: a part rig and the motion library) or **pose-sheet clips** (locomotion: your drawn key poses, in-betweened); gates run; `save` stores the bake documents, `submit` commits frames |
-| | `studio_frame_patch` | author | Stored pixel operations on a frame (`set`, `line`, `fill`, `flood`, `shift`, `copy`, `outline`, `grid`): keeps an asymmetric mark through every re-bake, or edits a frame that is already in review as a new revision |
+| | `studio_frame_patch` | author | Stored pixel operations on a frame (`set`, `line`, `fill`, `flood`, `shift`, `copy`, `outline`, `grid`, or the text form `rows` + `legend` + `hash` read with `studio_frame_read`): keeps an asymmetric mark through every re-bake, or edits a frame that is already in review as a new revision |
 | Toolchain | `studio_generator_run` | author | A generator **registered in the project pack**, with checked parameters and a seed; run twice to prove determinism; never an arbitrary command |
 | | `studio_vfx_build` | author | A SpriteFX effect spec through the pack's toolchain adapter in its isolated environment; returns the frames, the audits and the gate verdict |
 | | `studio_pack` | author | Pack a chunk's atlas into a **staging area** with the mobile budget (pages, padding, extrude, bytes per pixel) checked; the shipped atlas directories are fingerprinted before and after and never touched |
-| Seeing | `studio_preview_render` | read | An **image**: contact sheet by clip and direction, nearest-neighbour x4, defect overlay |
+| Seeing | `studio_preview_render` | read | An **image**: contact sheet by clip and direction, nearest-neighbour x4, defect overlay; `zoom`, `grid`, `rulers`, `region` and `maxSide` to inspect pixels ([below](#pixels-as-text-and-an-inspectable-preview)) |
+| | `studio_frame_read` | read | A frame as **rows of characters** with a legend (palette id, hex), size, pivot and hash; paged; optional region ([below](#pixels-as-text-and-an-inspectable-preview)) |
 | | `studio_scene_snapshot` | read | An **image** of the asset in place: on a background colour or tile, a VFX at an anchor on it, a still or a strip |
 | Checking | `studio_qa_run` | read (record: author) | Palette, alpha, outline, size, frame count, naming, with pixel coordinates; for an audio cue the measurements; can record an independent check |
 | | `studio_diff` | read | Against the previous revision, or against main: changed pixels, bounding box, hashes |
@@ -59,9 +60,37 @@ Names carry the `studio_` prefix. Scope is the minimum a connection needs: `read
 | Jobs | `studio_job_status` | read | Status, log tail, cost of a background job |
 | | `studio_job_wait` | read | Wait for a job and get its result (images included) |
 
-Read-scope tools (12): `asset_get`, `audio_analyze`, `catalog_search`, `diff`, `job_status`, `job_wait`, `preview_render`, `project_info`, `qa_run`, `review_list`, `scene_snapshot`, `template_get`. `template_get write=true` saves the template PNG and layout in the git-ignored work directory (so an image tool can read it) and needs `author`.
+Read-scope tools (13): `asset_get`, `audio_analyze`, `catalog_search`, `diff`, `frame_read`, `job_status`, `job_wait`, `preview_render`, `project_info`, `qa_run`, `review_list`, `scene_snapshot`, `template_get`. `template_get write=true` saves the template PNG and layout in the git-ignored work directory (so an image tool can read it) and needs `author`.
 
 Design follows the mcp-builder rules: action-named tools, concise descriptions that say what comes back, `additionalProperties: false` everywhere, filters and paging on lists, errors that say what to do next ("Did you mean: lt_seed_broker?", "pass the etag from studio_asset_get", the list of registered generators for an unknown one), annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`).
+
+### Pixels as text, and an inspectable preview
+
+An agent cannot count pixels in an image, and should not draw a whole PNG to change two. Three additions fix that.
+
+**`studio_frame_read`** returns one frame as one line per pixel row and one character per pixel, plus a legend. `.` is transparent, `?` an opaque colour that is not in the palette (counted, with the offending hex values), `~` a partly transparent pixel; every palette colour is a letter or digit fixed by its place in the project palette, so the same id is the same character in every frame and every call. It also returns the size, the pivot and the frame's **hash** (SHA-256 of the newest revision's PNG). A 32x32 frame is 32 lines; a larger frame comes in pages (`pageRows`, default 48, `cursor`, `page.nextCursor`, `page.totalRows`), and `region {x, y, w, h}` reads a window while the rows and the ruler keep absolute coordinates. The legend and the counts describe the whole region, so they do not change from page to page.
+
+**The same notation writes.** `studio_frame_patch` takes, instead of `ops`, `rows` (the whole region as characters), `legend` (`{char: palette id}`; `.` is always transparent), `at` (`[x, y]`, default the corner) and `hash`. The tool compares the rows with the frame's current pixels and stores only the pixels that differ, as an ordinary `set` operation, so the edit is a revision (or a stored patch for a bake) like any other and survives re-bakes. It refuses a character the legend does not define, a colour that is not in the project palette, rows that are not a rectangle inside the frame, a `?` or `~` over a pixel that is not one, and a **stale or missing hash**: an agent cannot overwrite a frame that changed since it read it. The pixel gates still judge the result.
+
+**`studio_preview_render`** gained `zoom` (nearest-neighbour, up to 32; `scale` still works), `grid` (a faint line between pixels, stronger every 8th, from zoom 3), `rulers` (sprite x along the top and y down the left of every frame) and `region` (only that window of each frame; rulers and defect boxes keep sprite coordinates). `maxSide` caps the image's longer side: the zoom is lowered until it fits and the text says `SIZE CAP APPLIED: maxSide 200 lowered zoom from 32 to 8`; if even zoom 1 does not fit it refuses and says to narrow with `region`. Without the new parameters the sheet is byte-for-byte what it was.
+
+### Propose before applying: `dryRun`
+
+Every tool that writes takes `dryRun`. It runs the same checks as the real call, returns exactly what would change, and writes **nothing**: no file, no database row, not even scratch (the generator and SpriteFX run in a temporary directory outside the project and it is removed). The result carries `dryRun: true` and `wrote: "nothing"`.
+
+| Tool | What the proposal lists |
+|---|---|
+| `studio_frame_patch` | per pixel `{x, y, from, to}` (ids, `.`, `?`, `~`); for `create` the gate verdict and the file; for `revision` the new pending revision; for `bake` the operations and the patch file |
+| `studio_metadata_set`, `studio_asset_plan` | per field `{field, from, to}` and the file |
+| `studio_frames_submit` | the gate verdict, `wouldWrite` (new files) and `unchanged` (already stored) |
+| `studio_process`, `studio_rig_bake`, `studio_generator_run`, `studio_vfx_build` | the same preview as before; with `submit=true`, `submit.wouldWrite` is the file list the commit would write. `submit=false` stays the plain preview (which writes scratch); `dryRun` is the preview that writes nothing, so the two flags do not mean different things |
+| `studio_sheet_import` | the cells, and `wouldWrite`: the sheet (if new), `import.json`, one line appended to `imports.jsonl` |
+| `studio_pack` | `wouldWrite`: every staging page and description; the shipped-atlas fingerprint is still checked |
+| `studio_audio_render` | measurements and both pictures; with `keep=true`, `wouldKeep` names the candidate version and its files |
+| `studio_review_request`, `studio_review_reply` | the frames asked, and the exact comment that would be posted |
+| `studio_qa_run`, `studio_template_get` | read-scope tools with a write switch: `wouldRecord` (the check `record=true` would store) and `wouldWrite` (the files `write=true` would save) |
+
+`dryrun.test.mjs` proves "nothing" by fingerprinting the whole project directory (every path and every file's bytes, the revision store and the Studio database included) before and after a dry run of every writing tool, and checks that the real call then writes exactly the files the proposal listed. It also fails if a tool is added without being classified as a writer (with a `dryRun` and a test) or a reader.
 
 ### Which animation route (from the bake-off)
 
@@ -175,7 +204,7 @@ studio/mcp/project.mjs      project_info's view of the pack (the only file readi
 studio/mcp/asset-index.mjs  THE PROJECT ADAPTER: this project's manifests -> asset records
 studio/mcp/tools/           one module per tool; tools/index.mjs registers them
 studio/mcp/workflow/        shared logic of the forge, toolchain and audio tools (forge docs, frames, patch, audio)
-studio/mcp/eval/            the evaluation: questions.xml + questions2.xml, scene.mjs + scene2.mjs, run.mjs, results/
+studio/mcp/eval/            the evaluation: questions.xml + questions2.xml + questions3.xml, scene.mjs + scene2.mjs, run.mjs, results/
 studio/core/                project-agnostic engines the tools call (see below)
 ```
 
@@ -368,7 +397,7 @@ bearer_token_env_var = "STUDIO_MCP_TOKEN"
 
 What still differs from stdio: the HTTP server is **one long-lived process serving one project root** (the checkout it was started in, since `studio/serve.mjs` serves its own repo), so a worktree's own files are seen only by running that worktree's server on its own port; stdio remains the per-worktree transport. Jobs are shared by all HTTP connections of the process. The server never sends anything unprompted, so there is no SSE.
 
-## Evaluation (ten questions)
+## Evaluation (ten questions, plus two for `studio_frame_read`)
 
 The plan requires ten questions in the mcp-builder format, each answerable only by using the tools correctly, with one short verifiable answer. Questions 1 to 5 (`eval/questions.xml`) are read-only and run against **scene 1**; questions 6 to 10 (`eval/questions2.xml`) need the forge and toolchain tools and run against **scene 2** (`eval/scene2.mjs`). A scene is a throwaway copy of the project that a harness (not the agent) puts into a known state through the same tools and the review store: frames submitted by one session, an independent check by another, a human approving, commenting and requesting changes, a damaged frame, a stored sheet, a staged pack. Ground truth is computed **without** the studio tools (reading files and the databases directly).
 
@@ -387,6 +416,8 @@ The plan requires ten questions in the mcp-builder format, each answerable only 
 | 8 | author | `audio_analyze` (of two kept candidates of a cue: which has the higher peak, and its length in ms) | `1 220` | 2 | correct |
 | 9 | author | `generator_run` (run the registered primitives generator with given parameters and seed, no commit; hash prefix of its frame) | `6299b2aff7` | 1 | correct |
 | 10 | author | `pack` (does a chunk's current frame set fit its mobile atlas budget, and how many pages it is allowed) | `no 1` | 1 | correct |
+
+Questions 11 and 12 (`eval/questions3.xml`, `--set 3`, read scope, scene 1) need `studio_frame_read`: 11 counts the outline-colour pixels of a submitted frame (`88`), 12 finds the one-of-a-kind colour and its x,y in the newest revision of a frame that was edited after it was submitted (`blood_04 9,7`). Their answers equal ground truth computed from the PNG files, and an oracle answers both using the new tool alone at read scope (`eval.test.mjs`). They have **not** been run by a real agent yet.
 
 **10 of 10 correct, no tool errors, about 1.6 USD in total** (the first five cost 0.69 USD in this run). Coverage is honest: the real-agent run exercised `catalog_search`, `asset_get`, `qa_run`, `review_list`, `template_get`, `audio_analyze`, `generator_run` and `pack`. The other tools (`preview_render`, `scene_snapshot`, `sheet_import`, `process`, `rig_bake`, `frame_patch`, `vfx_build`, `diff`, the job tools) are covered by the tests, by the end-to-end checks below and by the sample runs. A separate probe confirmed an agent can *see* the preview: asked to look at the image and not the text, it reported the status bars and the boxed pixel in the damaged frame. Re-run after changing a tool description; a wrong answer or a tool error in `results` is the signal to improve it.
 

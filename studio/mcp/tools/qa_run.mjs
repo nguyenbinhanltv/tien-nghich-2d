@@ -4,7 +4,7 @@ import { auditCandidate } from '../workflow/audio.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
 import { ToolError } from '../registry.mjs';
 import { readVersion } from '../../core/audio-candidates.mjs';
-import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames, requireScope, selectionOf, selectionProps } from './_shared.mjs';
+import { backgroundProp, dryRunProp, inlineOrJob, jsonResult, loadAsset, requireFrames, requireScope, selectionOf, selectionProps } from './_shared.mjs';
 
 export default {
   name: 'studio_qa_run',
@@ -14,7 +14,8 @@ export default {
     'Each frame\'s defects come back with x, y coordinates. By default it only reads. ' +
     'record=true writes the result as a check (needs scope author); independent=true also claims it is an independent check, which the server accepts only from a session OTHER than the one that submitted the frames. ' +
     'For an AUDIO cue it checks the newest candidate: reproducible from its source, no clipping, not silent, endpoints at digital zero (patches), notes in the key (scores); never listening. ' +
-    'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate).',
+    'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate). ' +
+    'dryRun with record=true runs the checks and reports the check it would record (wouldRecord), recording nothing.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -24,6 +25,7 @@ export default {
       ...selectionProps,
       detail: { type: 'string', enum: ['summary', 'frames'], description: 'summary: per-check verdicts and totals (default); frames: also the defects of every frame that has any.' },
       record: { type: 'boolean', description: 'Store this run as a check on the current frames. Needs scope author and a run over the whole asset (no clip, direction or frame).' },
+      dryRun: dryRunProp,
       independent: { type: 'boolean', description: 'Claim an independent check (implies record). Refused if this session submitted frames for the asset.' },
       background: backgroundProp,
     },
@@ -52,10 +54,10 @@ export default {
         if (args.independent && authoredByThisSession) throw new ToolError(`An independent check must come from a different session than the one that authored the cue. This session (${ctx.caller.session.slice(0, 8)}) kept a candidate for ${asset.id}. Start another session and run studio_qa_run with independent=true there.`);
         const out = { asset: asset.id, stage: 'audio', candidate: cand.version, pass: audit.pass, kind: audit.kind, summary: audit.summary, checks: audit.checks, measurements: audit.measurements, listening: audit.listening };
         if (record) {
-          (await ws.db()).recordCheck({ asset: asset.id, stage: 'audio', content: audit.content, session: ctx.caller.session, agent: ctx.caller.agent, independent: !authoredByThisSession, pass: audit.pass, errors: audit.summary.errors, warnings: 0 });
-          out.recorded = { independent: !authoredByThisSession, pass: audit.pass, session: ctx.caller.session.slice(0, 8), note: !authoredByThisSession ? 'counts as an independent check on exactly this candidate' : 'recorded, but not independent: this session authored the cue' };
+          if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage: 'audio', content: audit.content, session: ctx.caller.session, agent: ctx.caller.agent, independent: !authoredByThisSession, pass: audit.pass, errors: audit.summary.errors, warnings: 0 });
+          out[args.dryRun ? 'wouldRecord' : 'recorded'] = { independent: !authoredByThisSession, pass: audit.pass, session: ctx.caller.session.slice(0, 8), note: !authoredByThisSession ? 'counts as an independent check on exactly this candidate' : 'recorded, but not independent: this session authored the cue' };
         }
-        return jsonResult(out);
+        return jsonResult(args.dryRun ? { ...out, dryRun: true, wrote: 'nothing' } : out);
       });
     }
     return inlineOrJob(ctx, 'qa_run', args, async (log) => {
@@ -81,10 +83,10 @@ export default {
       if (record) {
         const content = await contentHash(ws.root, asset, stage);
         const independent = !authoredByThisSession;
-        (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings });
-        out.recorded = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
+        if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings });
+        out[args.dryRun ? 'wouldRecord' : 'recorded'] = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
       }
-      return jsonResult(out);
+      return jsonResult(args.dryRun ? { ...out, dryRun: true, wrote: 'nothing' } : out);
     });
   },
 };

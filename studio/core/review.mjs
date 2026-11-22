@@ -59,7 +59,7 @@ export async function snapshotOf(ws, f, revision) {
  * a status), refuses frames that fail the gates, and, when policy says so, requires a passing check
  * from a session other than the author's against exactly the current pixels.
  */
-export async function requestReview({ws, asset, select, note, questions = [], caller, policy, qa, independentCheck}) {
+export async function requestReview({ws, asset, select, note, questions = [], caller, policy, qa, independentCheck, dryRun = false}) {
   const store = await ws.store(), db = await ws.db();
   if (typeof note !== 'string' || !note.trim() || note.length > 1200) invalid('note must be 1 to 1200 characters');
   if (!Array.isArray(questions) || questions.length > 8 || questions.some(q => typeof q !== 'string' || !q.trim() || q.length > 300)) invalid('questions: up to 8 strings of at most 300 characters');
@@ -80,10 +80,11 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
     throw problem(409, 'independent_check_required', 'A human is asked only after a different session than the author has run studio_qa_run (record=true, independent=true) on exactly the current frames and it passed. Have another session do that, then ask again.');
   }
 
-  const request = 'rq-' + randomBytes(4).toString('hex');
+  const request = dryRun ? 'rq-(assigned when sent)' : 'rq-' + randomBytes(4).toString('hex');
   const body = `${agentTag(caller)} REVIEW REQUEST ${request}: ${note.trim()}` + (questions.length ? '\nQuestions:\n' + questions.map((q, i) => `${i + 1}. ${q.trim()}`).join('\n') : '');
   const text = clip(body, MAX_COMMENT);
   const asked = [];
+  if (dryRun) return {dryRun: true, wouldAsk: targets.map(({f, snap}) => ({key: f.key, revision: snap.revision, status: snap.status})), alreadyDecided, comment: text, status: 'status is unchanged: only a human decides'};
   for (const {f, snap} of targets) {
     const baseline = await readInside(ws.root, f.rel);
     store.operate(bareFrame(f.key), baseline, 'review', {revision: snap.revision, text}); // text only: never a status
@@ -120,7 +121,7 @@ export async function listReviews({ws, asset, select, detail = 'summary', limit 
 }
 
 /** Answer a human comment (and optionally mark it handled). Never touches the review status. */
-export async function replyToReview({ws, key, revision, replyTo, text, resolves = false, caller}) {
+export async function replyToReview({ws, key, revision, replyTo, text, resolves = false, caller, dryRun = false}) {
   const store = await ws.store(), db = await ws.db();
   if (typeof text !== 'string' || !text.trim() || text.length > 1500) invalid('text must be 1 to 1500 characters');
   if (store.needsBaseline(key)) throw problem(404, 'no_history', `${key} has no revision history, so there is nothing to reply to`);
@@ -135,6 +136,7 @@ export async function replyToReview({ws, key, revision, replyTo, text, resolves 
   } else if (resolves) invalid('resolves needs replyTo: say which comment you handled');
   const prefix = `${agentTag(caller)} ${replyTo === undefined ? 'NOTE' : `REPLY to #${replyTo}${resolves ? ' (handled)' : ''}`}: `;
   const body = clip(prefix + text.trim(), MAX_COMMENT);
+  if (dryRun) return {dryRun: true, key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, wouldPost: body, note: 'status is unchanged: only a human decides'};
   const png = Buffer.from(snap.pngBase64, 'base64');
   store.operate(bareFrame(key), png, 'review', {revision: rev, text: body}); // text only: never a status
   db.addEvent({request: 'reply', key, rev, kind: 'reply', agent: caller.agent, session: caller.session, text: text.trim(), replyTo: replyTo ?? null, resolves});

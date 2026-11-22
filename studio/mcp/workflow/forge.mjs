@@ -12,6 +12,7 @@
 // depends on a scratch directory that a cleanup could remove, and the same documents always give the
 // same frames. Intermediate images (previews, bake directories) go to the git-ignored work directory.
 import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { ToolError } from '../registry.mjs';
 import { containedPath, ensureDirInside, readTextIfExists, sha256, withLock, writeFileAtomic } from '../../core/fsutil.mjs';
@@ -86,10 +87,10 @@ export async function importedFor(ws, asset, settings) {
 }
 
 /** Import, then pixelise with the stored marks. */
-export async function pixelizedFor(ws, asset, settings) {
+export async function pixelizedFor(ws, asset, settings, { marks } = {}) {
   const base = await importedFor(ws, asset, settings);
   if (!base) throw new ToolError(`${asset.id} has no imported sheet. Call studio_sheet_import first.`);
-  const processDoc = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
+  const processDoc = marks !== undefined ? { marks } : (await readDoc(ws, asset, 'process')) ?? { marks: [] };
   const pixelized = pixelizeImport(base.imported, settings, { marks: resolveMarks(processDoc.marks ?? [], settings.palette) });
   return { ...base, processDoc, pixelized };
 }
@@ -102,7 +103,9 @@ export const workDir = (ws, asset, ...parts) => path.join(ws.libraryDir(), 'work
  * (background jobs, several sessions) never delete or read each other's output. Directories of earlier calls stay
  * (a result points at its own review images) and are pruned once older than ten minutes.
  */
-export async function callDir(ws, asset, kind) {
+export async function callDir(ws, asset, kind, { ephemeral = false } = {}) {
+  // A dry run still has to run a program somewhere: a private directory OUTSIDE the project, removed by the caller.
+  if (ephemeral) return fs.mkdtemp(path.join(os.tmpdir(), `studio-dry-${kind}-`));
   const parent = workDir(ws, asset, kind);
   await fs.mkdir(parent, { recursive: true });
   const now = Date.now();

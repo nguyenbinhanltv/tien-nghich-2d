@@ -23,9 +23,8 @@ export default {
     'target "revision" (default for a frame you already submitted) applies the operations to the frame\'s newest revision and saves the result as a NEW revision, pending, leaving the raw file as submitted; ' +
     'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame); ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
-    'TEXT FORM (edit the frame you read with studio_frame_read): instead of ops give rows (the whole region as characters, "." transparent), a legend {char: palette id}, at [x, y] (default [0, 0]) and the frame\'s hash from studio_frame_read. ' +
-    'Only pixels that differ become stored operations; an unknown character, a colour outside the palette or a stale hash is refused. ' +
-    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. dryRun returns every pixel it would change and saves nothing. Cannot approve or change a review status.',
+    'TEXT FORM, to edit a frame you read with studio_frame_read: give rows (the whole region as characters, "." transparent), legend {char: palette id}, at [x, y] and the frame\'s hash instead of ops. Only differing pixels are stored; unknown characters, colours outside the palette and a stale hash are refused. ' +
+    'The result must pass the pixel gates (palette, outline, size) or nothing is saved. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status.',
   scope: 'author',
   inputSchema: {
     type: 'object',

@@ -7,7 +7,8 @@ import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
 import { MAX_SHEET_BYTES, forgeCall, forgeDir, readDoc, settingsFor, storeSheet, workDir, writeDoc } from '../workflow/forge.mjs';
-import { loadAsset, jsonResult, requireFrames } from './_shared.mjs';
+import { dryRunProp, loadAsset, jsonResult, proposal, requireFrames } from './_shared.mjs';
+import { sha256 } from '../../core/fsutil.mjs';
 
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
@@ -23,7 +24,7 @@ export default {
     'Bring in a sheet you drew with your own image tool on the template from studio_template_get. The forge cuts one crop per cell, removes the green key, measures the ground line and scale, ' +
     'and records the sheet\'s SHA-256 and your prompt VERBATIM as provenance. The sheet is stored once beside the asset and never changed; later steps re-derive everything from it. ' +
     'Give the layout (inline, or the layoutId when you used write=true). warnings say where a crop may cut the drawing and what to do. ' +
-    'Next: studio_process to pixelise. Importing again replaces the current import (the old sheet stays stored).',
+    'Next: studio_process to pixelise. Importing again replaces the current import (the old sheet stays stored). dryRun runs the import and lists the files it would write, storing nothing.',
   scope: 'author',
   inputSchema: {
     type: 'object',
@@ -41,6 +42,7 @@ export default {
       layoutId: { type: 'string', pattern: '^[a-z0-9][a-z0-9-]{0,80}$', description: 'Id of a layout saved by studio_template_get with write=true, instead of layout.' },
       prompt: { type: 'string', minLength: 1, maxLength: 8000, description: 'What you asked the image tool, verbatim. Recorded with the sheet hash.' },
       tool: { type: 'string', minLength: 1, maxLength: 120, description: 'The image tool that drew the sheet (e.g. "Codex built-in image generation").' },
+      dryRun: dryRunProp,
       scaleOptions: {
         type: 'object',
         properties: {
@@ -90,6 +92,15 @@ export default {
 
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
+      if (args.dryRun) {
+        const sheetRel = `${forgeDir(asset)}/sheets/${sha256(bytes).slice(0, 16)}.png`;
+        const previous = await readDoc(ws, asset, 'import');
+        const exists = await fs.stat(containedPath(ws.root, sheetRel)).then(() => true, () => false);
+        const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
+        return proposal({ asset: asset.id, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
+          wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/import.json`, `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists,
+          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings });
+      }
       const stored = await storeSheet(ws, asset, bytes);
       const doc = { sheet: { file: stored.rel, sha256: stored.sha256, width: image.width, height: image.height }, layout, prompt: args.prompt, tool: args.tool,
         agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), ...(args.scaleOptions ? { scaleOptions: args.scaleOptions } : {}) };
