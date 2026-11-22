@@ -48,7 +48,7 @@ test('real project: provenance shows generator and hashes where recorded, and is
   assert.ok(core.record.outputPath);
 });
 
-test('the API is read only and rejects bad input', async () => {
+test('OBJECTS-001: the API is read only and rejects bad input', async () => {
   assert.equal((await call('links', 'POST')).status, 405);
   assert.equal((await call('provenance')).status, 422);
   assert.equal((await call('provenance?id=nope')).status, 404);

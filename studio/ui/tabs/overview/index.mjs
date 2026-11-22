@@ -2,6 +2,9 @@
 // All numbers come from GET /api/studio/overview; nothing here is hard-coded.
 
 import { h } from './dom.mjs';
+import { renderPlanImport } from './plan-import.mjs';
+
+const importers = new WeakMap();
 
 const stages = ['packed', 'authored', 'planned'];
 const MiB = 1024 * 1024;
@@ -104,7 +107,8 @@ function render(ctx, data) {
       stat(ctx, 'stat.budget', String(budgetRisk), ctx.t('stat.budgetNote', {chunks: data.chunks.length}), budgetRisk ? 'warn' : '')),
     section(ctx, 'ov-readiness', ctx.t('readiness.title'), ctx.t('readiness.intro'), readinessTable(ctx, data)),
     section(ctx, 'ov-chunks', ctx.t('chunks.title'), ctx.t('chunks.intro'), chunkCards(ctx, data.chunks)),
-    section(ctx, 'ov-waves', ctx.t('waves.title'), ctx.t('waves.intro'), waves(ctx, data)));
+    section(ctx, 'ov-waves', ctx.t('waves.title'), ctx.t('waves.intro'), waves(ctx, data)),
+    importers.get(ctx));
 }
 
 async function load(ctx) {
@@ -124,5 +128,7 @@ export function parseRoute() { return {}; }
 
 export async function mount(ctx) {
   ctx.loadCss(new URL('./overview.css', import.meta.url));
+  // one importer panel per mount: a refresh redraws the numbers but keeps the file and mapping the person chose
+  importers.set(ctx, renderPlanImport(ctx, () => load(ctx)));
   await load(ctx);
 }

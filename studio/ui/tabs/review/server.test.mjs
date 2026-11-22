@@ -79,7 +79,7 @@ test('audio detail: real master, waveform, recorded measurements and hash', asyn
   assert.deepEqual([body.approval.approvedBy, body.approval.approvalId, body.approval.current], ['user', 'pilot_v1', true]);
 });
 
-test('listening sign-off: only a browser page records it, only for the exact master, and a changed master reads as stale', async () => {
+test('REVIEW-001: listening sign-off: only a browser page records it, only for the exact master, and a changed master reads as stale', async () => {
   const dir = lib();
   const detail = (await call(dir, 'audio?id=bgm_blood_sea')).body;
   const ok = {id: 'bgm_blood_sea', content: detail.contentHash, verdict: 'signed', note: 'Heard it.'};
@@ -112,14 +112,14 @@ test('the studio database file must be a real file in a real directory', () => {
   assert.throws(() => openSignoffs(dir).record({asset: 'a', content: 'c'.repeat(64), verdict: 'signed'}), /Invalid studio database file/);
 });
 
-test('no MCP code can reach the sign-off or the review routes', () => {
+test('REVIEW-002: no MCP code can reach the sign-off or the review routes', () => {
   const files = [];
   (function walk(d) { for (const e of fs.readdirSync(d, {withFileTypes: true})) { const p = path.join(d, e.name); if (e.isDirectory()) walk(p); else if (/\.mjs$/.test(e.name) && !/\.test\.mjs$/.test(e.name)) files.push(p); } })(path.join(root, 'studio/mcp'));
   assert.ok(files.length > 10);
   for (const f of files) assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /listening_signoffs|audio-signoff|api\/tabs\/review|ui\/tabs\/review|\/api\/editor\/review/, f);
 });
 
-test('a regenerated master drops back to waiting, whether the old verdict was a sign-off here or an approval from before the studio', async () => {
+test('REVIEW-003: a regenerated master drops back to waiting, whether the old verdict was a sign-off here or an approval from before the studio', async () => {
   const p = makeProject({extraDirs: ['assets/audio/bgm_blood_sea', 'assets/audio/bgm_hengyue']});
   for (const d of ['assets/atlases/web', 'assets/audio/packs', 'assets/audio/source']) fs.mkdirSync(path.join(p.root, d), {recursive: true}); // dirs the pack names but this test does not need
   fs.cpSync(path.join(root, 'assets/audio/listening_approvals.json'), path.join(p.root, 'assets/audio/listening_approvals.json'));

@@ -37,7 +37,7 @@ test('the sign-off request carries only the fields the Review route accepts', ()
   assert.deepEqual([...new Set(keys)].sort(), ['content', 'id', 'note', 'verdict']);
 });
 
-test('playback is only reachable from click handlers: nothing starts at mount', () => {
+test('AUDIO-001: playback is only reachable from click handlers: nothing starts at mount', () => {
   for (const f of ['listen.mjs', 'ab.mjs', 'sprite.mjs', 'patch.mjs']) {
     const src = text(f);
     // every engine.play( call sits inside a function that a button or key handler runs; mount-time code never calls it directly.

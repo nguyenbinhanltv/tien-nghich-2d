@@ -115,7 +115,7 @@ test('sessions link to review items and checked assets by agent and session', as
   } finally { await t.close(); }
 });
 
-test('refuses writes, unknown routes, non-loopback listeners; reports an unreachable feed', async () => {
+test('JOBS-001: refuses writes, unknown routes, non-loopback listeners; reports an unreachable feed', async () => {
   const t = await start();
   try {
     const run = async (method, name, address = t.address) => {
@@ -129,7 +129,7 @@ test('refuses writes, unknown routes, non-loopback listeners; reports an unreach
   } finally { await t.close(); }
 });
 
-test('shapeJob drops results and bounds text', () => {
+test('JOBS-002: shapeJob drops results and bounds text', () => {
   const j = shapeJob({id: 'job-1', name: 'x', status: 'failed', owner: {agent: 'a', session: 's'}, createdAt: 'c', result: {secret: 1}, error: {message: 'e'.repeat(900)}, log: Array.from({length: 40}, (_, i) => 'l' + i), logLines: 40, cost: {wallMs: 5}});
   assert.ok(!('result' in j));
   assert.equal(j.error.message.length, 300);

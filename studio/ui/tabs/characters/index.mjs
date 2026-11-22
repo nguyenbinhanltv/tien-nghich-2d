@@ -29,6 +29,7 @@ function makeApp(ctx) {
       ctx.navigate(toRoute({...app.state, ...patch}), options);
     },
     renderPanel: () => renderPanel(app),
+    reload: () => loadDetail(app),
     setDraft(pivot) { app.draft = pivot; renderPanel(app); drawCells(app); },
     async savePivot() {
       const {snapshot} = app.editor;

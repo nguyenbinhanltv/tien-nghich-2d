@@ -66,7 +66,7 @@ test('a poll does not repaint an open item while the human is writing in it; nav
   assert.notEqual(draftKey('art', 'x'), draftKey('audio', 'x'));
 });
 
-test('a VFX 1x readability read is a read, not a raw comment; an agent cannot post one', async () => {
+test('REVIEW-004: a VFX 1x readability read is a read, not a raw comment; an agent cannot post one', async () => {
   const {encodeNote} = await import('../vfx/model.mjs'); // the one writer of this format
   const r = parseComment(encodeNote({score: 4, variant: 'x', text: 'Reads well on grey.'}));
   assert.deepEqual([r.by, r.kind, r.score, r.variant, r.body], ['human', 'read', 4, 'x', 'Reads well on grey.']);
