@@ -49,7 +49,7 @@ function card(app, asset, observer) {
   const a = h('a', {class: 'card state-' + asset.readiness + (selected ? ' on' : ''), href: ctx.href(app.route({}, {asset, keepFilters: true})),
     'aria-current': selected ? 'true' : null, 'data-id': asset.id},
     frame, h('span', 'card-id', asset.id), h('span', 'card-meta', kindLabel(ctx, asset.category)));
-  a.title = `${asset.name ?? asset.id} · ${ctx.t('ready.' + asset.readiness)}`;
+  a.title = `${asset.id}${asset.name && asset.name !== asset.id ? ' · ' + asset.name : ''} · ${ctx.t('ready.' + asset.readiness)}`;
   if (!planned) { a._frame = frame; a._asset = asset; observer.observe(a); }
   return a;
 }
@@ -73,10 +73,17 @@ export function renderGrid(app, host) {
 async function fillCover(app, a) {
   try {
     const detail = await app.detail(a._asset);
-    const cover = coverFrame(framesOf(detail));
+    const cover = coverFrame(framesOf(detail), a._asset.category);
     if (!cover) { a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); return; }
-    const img = h('img', {src: imgUrl(cover.path), alt: '', loading: 'lazy', decoding: 'async', draggable: 'false'});
-    img.addEventListener('load', () => { img.style.width = img.naturalWidth * app.state.zoom + 'px'; img.style.height = img.naturalHeight * app.state.zoom + 'px'; });
+    // No native lazy loading: the observer above already decides when a card is near the viewport, and a
+    // second lazy layer on a zero-size image can leave the cell on the checkerboard.
+    const img = h('img', {src: imgUrl(cover.path), alt: '', decoding: 'async', draggable: 'false'});
+    img.addEventListener('load', () => {
+      const box = a._frame.clientWidth - 8, big = Math.max(img.naturalWidth, img.naturalHeight);
+      // Whole-number zoom while it fits; a frame larger than the cell at 1x shrinks to fit instead of being cropped.
+      const scale = big > box ? box / big : Math.max(1, Math.min(app.state.zoom, Math.floor(box / big)));
+      img.style.width = Math.max(1, Math.round(img.naturalWidth * scale)) + 'px'; img.style.height = Math.max(1, Math.round(img.naturalHeight * scale)) + 'px';
+    });
     a._frame.append(img);
   } catch (error) { if (error.name !== 'AbortError') a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); }
 }

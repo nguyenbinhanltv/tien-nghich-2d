@@ -45,6 +45,17 @@ test('frames: clip-less sheets take their clip from the file name; durations com
   assert.equal(coverFrame([]), null);
 });
 
+test('coverFrame: tilesets show a floor tile, nothing shows debris while a better clip exists', () => {
+  const mk = clips => clips.map((clip, i) => ({clip, n: 0, path: `a/${clip}_${i}.png`}));
+  assert.equal(coverFrame(mk(['deco', 'floor_blob47', 'floor_variants', 'wall_face']), 'tileset').clip, 'floor_variants');
+  assert.equal(coverFrame(mk(['blood_pool_blob47', 'deco', 'floor_blood_blob47', 'floor_blood_variants']), 'tileset').clip, 'floor_blood_variants');
+  assert.equal(coverFrame(mk(['edge', 'floor', 'wall_cap']), 'tileset').clip, 'floor');
+  assert.equal(coverFrame(mk(['debris', 'intact', 'shatter'])).clip, 'intact');
+  assert.equal(coverFrame(mk(['broken', 'idle'])).clip, 'idle');
+  assert.equal(coverFrame(mk(['debris'])).clip, 'debris');
+  assert.equal(coverFrame(mk(['wall_shadow', 'floor_blob47']), 'tileset').clip, 'floor_blob47');
+});
+
 test('links: a shot is the weapon\'s projectile, parents stay parents', () => {
   const byId = new Map([['wp', {category: 'weapon'}], ['shot', {category: 'projectile'}], ['relic', {category: 'weapon'}], ['p1', {category: 'weapon'}], ['fx', {category: 'vfx'}]]);
   assert.deepEqual(groupLinks({usedBy: ['shot', 'relic']}, byId, 'weapon'), {projectile: ['shot'], usedBy: ['relic']});

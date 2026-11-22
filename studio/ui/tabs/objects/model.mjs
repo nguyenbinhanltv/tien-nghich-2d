@@ -97,11 +97,27 @@ export const framesOfClip = (frames, clip) => frames.filter(f => f.clip === clip
 export const fallbackMs = 120;
 export const frameMs = frame => frame.ms ?? fallbackMs;
 
-/** The frame the card thumbnail shows: the first frame of the first clip, preferring idle-like names. */
-export function coverFrame(frames) {
+/** Clips that show a damaged, spent or helper state; a thumbnail only uses one when nothing else exists. */
+const poorClips = /(debris|broken|shatter|crumble|harvested|used|spawn|shadow|deco|overlay|impact|forbidden|nine_slice|cursor|edge)/;
+/** Preferred clips, best first. Anchored names win over the pattern entries. */
+const coverClips = ['idle', 'intact', 'common', 'static', 'glyph', 'held', 'flight', 'floor', 'closed', 'cold', 'open', 'boss_hp', 'form1', 'button', 'current'];
+/** Tileset sheets: a plain floor variant reads as a tile; the first blob-47 tile is an isolated corner. */
+const tileClips = [/^floor_variants$/, /^floor.*_variants$/, /^floor$/, /^floor.*(?<!blob47)$/, /floor/, /ground|grass|stone|wall_face|wall/];
+
+/**
+ * The frame the card thumbnail shows. Tilesets get a representative floor tile; every other asset
+ * its idle-like clip, never a debris, shadow or helper clip while a better one exists. Total and
+ * deterministic: the same frames always give the same cover.
+ */
+export function coverFrame(frames, category = null) {
   const clips = clipNames(frames);
-  const clip = ['idle', 'closed', 'cold', 'common', 'floor'].find(c => clips.includes(c)) ?? clips[0];
-  return frames.find(f => f.clip === clip) ?? null;
+  if (!clips.length) return null;
+  const good = clips.filter(c => !poorClips.test(c));
+  let clip = null;
+  if (category === 'tileset') for (const re of tileClips) { clip = good.find(c => re.test(c)); if (clip) break; }
+  clip ??= coverClips.find(c => good.includes(c)) ?? good[0] ?? coverClips.find(c => clips.includes(c)) ?? clips[0];
+  const own = frames.filter(f => f.clip === clip);
+  return own[0] ?? null;
 }
 
 /** Relation groups for display. A shot found via "used by" is the weapon's projectile and the reverse. */
