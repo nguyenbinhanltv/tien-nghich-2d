@@ -1279,7 +1279,7 @@
         "voice": {
           "type": "object",
           "additionalProperties": false,
-          "description": "The project's own words on the Overview: name (the page title), greeting (the line under it) and pipeline (the title of the readiness section). Each is a per-language label. Any may be left out; the Overview then uses neutral wording.",
+          "description": "The project's own words and scene on the Overview: name (the page title), greeting (the line under it) and pipeline (the title of the readiness section), each a per-language label, and scene (what the CSS-drawn picture shows). Any may be left out; the Overview then uses neutral wording and a neutral scene.",
           "properties": {
             "name": {
               "type": "object",
@@ -1320,6 +1320,22 @@
                 },
                 "vi": {
                   "type": "string"
+                }
+              }
+            },
+            "scene": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The culture-specific parts of the Overview scene. Without this block the scene is neutral: hills, moon and stars only. gate: 'pailou' draws a Chinese memorial gate (paifang) with tiled roofs, red posts and a plaque, 'none' (the default) draws no gate. lanterns: true hangs blinking lanterns (on the gate when there is one, else on the hills); default false.",
+              "properties": {
+                "gate": {
+                  "enum": [
+                    "pailou",
+                    "none"
+                  ]
+                },
+                "lanterns": {
+                  "type": "boolean"
                 }
               }
             }

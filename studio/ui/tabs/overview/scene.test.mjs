@@ -8,7 +8,7 @@ class FakeElement {
   append(...kids) { this.children.push(...kids); }
 }
 globalThis.document = {createElement: tag => new FakeElement(tag)};
-const { heroWords, readSceneChoice, saveSceneChoice, SCENE_KEY } = await import('./scene.mjs');
+const { heroWords, sceneOptions, readSceneChoice, saveSceneChoice, SCENE_KEY } = await import('./scene.mjs');
 
 const ctx = project => ({project, label: v => v.en, t: (key, vars) => key + (vars ? JSON.stringify(vars) : '')});
 
@@ -22,6 +22,13 @@ test('a project without voice gets neutral words', () => {
   assert.equal(words.title, 'title');
   assert.equal(words.greeting, 'subtitle{"project":"Moss"}');
   assert.equal(words.pipeline, 'pipeline.title');
+});
+
+test('the scene is neutral unless the pack declares otherwise', () => {
+  assert.deepEqual(sceneOptions(null), {gate: 'none', lanterns: false});
+  assert.deepEqual(sceneOptions({name: {en: 'x'}}), {gate: 'none', lanterns: false});
+  assert.deepEqual(sceneOptions({scene: {gate: 'pailou', lanterns: true}}), {gate: 'pailou', lanterns: true});
+  assert.deepEqual(sceneOptions({scene: {gate: 'torii', lanterns: 'yes'}}), {gate: 'none', lanterns: false}, 'unknown values fall back to neutral');
 });
 
 test('the scene choice is remembered and defaults to on; a broken store does not throw', () => {
@@ -40,8 +47,14 @@ test('the scene choice is remembered and defaults to on; a broken store does not
 
 test('the pack and its schema declare ui.voice; the example project needs none', () => {
   const schema = JSON.parse(fs.readFileSync(new URL('../../../schemas/project.schema.json', import.meta.url), 'utf8'));
-  assert.deepEqual(Object.keys(schema.properties.ui.properties.voice.properties), ['name', 'greeting', 'pipeline']);
+  assert.deepEqual(Object.keys(schema.properties.ui.properties.voice.properties), ['name', 'greeting', 'pipeline', 'scene']);
   assert.ok(!schema.properties.ui.required.includes('voice'));
+});
+
+test('the stylesheet draws the gate only from the pack-declared pailou pieces, with no hard-coded colours', () => {
+  const css = fs.readFileSync(new URL('overview.css', import.meta.url), 'utf8');
+  assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i);
+  assert.match(css, /\.pl\.roof/);
 });
 
 test('motion in the overview stylesheet is stepped and switched off for reduced motion', () => {

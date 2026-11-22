@@ -25,13 +25,27 @@ export function heroWords(ctx) {
   };
 }
 
-function artwork() {
-  const part = (cls, ...kids) => h('span', cls, ...kids);
-  return h('div', {class: 'ov-scene', 'aria-hidden': 'true'},
-    part('ov-stars'), part('ov-moon'),
-    part('ov-hill far'), part('ov-hill mid'),
-    part('ov-gate', part('ov-lantern a'), part('ov-lantern b')),
-    part('ov-hill near'), part('ov-lantern c'));
+/** What the scene may show: only what the pack declares in ui.voice.scene; without it, hills, moon and stars. */
+export function sceneOptions(voice) {
+  const scene = voice?.scene ?? {};
+  return {gate: scene.gate === 'pailou' ? 'pailou' : 'none', lanterns: scene.lanterns === true};
+}
+
+const part = (cls, ...kids) => h('span', cls, ...kids);
+
+/** A Chinese memorial gate (pailou): three tiers of tiled roofs over four red posts, with a plaque between the middle two. */
+function pailou(lanterns) {
+  return part('ov-gate', part('pl roof up'), part('pl roof mid'), part('pl roof side l'), part('pl roof side r'),
+    part('pl post p1'), part('pl post p2'), part('pl post p3'), part('pl post p4'), part('pl beam top'), part('pl beam low'), part('pl plaque'),
+    ...(lanterns ? [part('ov-lantern a'), part('ov-lantern b')] : []));
+}
+
+function artwork({gate, lanterns}) {
+  return h('div', {class: 'ov-scene', 'aria-hidden': 'true', 'data-gate': gate},
+    part('ov-stars'), part('ov-moon'), part('ov-hill far'), part('ov-hill mid'),
+    gate === 'pailou' ? pailou(lanterns) : null,
+    part('ov-hill near'),
+    lanterns ? part('ov-lantern c') : null, lanterns && gate !== 'pailou' ? part('ov-lantern d') : null);
 }
 
 /**
@@ -45,7 +59,7 @@ export function createHero(ctx, onRefresh) {
   refresh.addEventListener('click', onRefresh);
   const toggle = h('button', {type: 'button', class: 'btn quiet', 'data-fk': 'scene', 'aria-pressed': String(shown), title: ctx.t(shown ? 'scene.hide' : 'scene.show')}, ctx.t('scene.toggle'));
   const el = h('header', {class: 'ov-hero', 'data-scene': shown ? 'on' : 'off', 'data-collapsed': 'false'},
-    artwork(),
+    artwork(sceneOptions(ctx.project.voice)),
     h('div', 'ov-hero-text', h('h1', {}, words.title), h('p', 'ov-greeting', words.greeting), h('div', 'ov-hero-actions', refresh, toggle)));
   toggle.addEventListener('click', () => {
     shown = !shown;
