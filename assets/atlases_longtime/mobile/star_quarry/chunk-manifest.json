@@ -3,27 +3,38 @@
     "lt_hollow_astrolabe",
     "lt_orbit_wasp",
     "lt_seam_stalker",
+    "lt_shard_mole",
     "lt_star_quarry"
   ],
   "chunk_group": "star_quarry",
-  "frame_count": 208,
+  "frame_count": 264,
   "mobile_page_budget": 3,
-  "page_count": 1,
+  "page_count": 2,
   "pages": [
     {
-      "frames": 208,
+      "frames": 229,
       "height": 1024,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "bcb984187ab53f8c008838f1e17006a64ef0fe3f64ec471876e89d6214036bd3",
-      "png_sha256": "7691444344e46c00cbec46c86f05df74e7294e34ab5443ea698bfd9cfc7b7522",
+      "json_sha256": "37441748ab88285b8ab20e8e1057f28430631218f15eec98498b3a7381af4f4a",
+      "png_sha256": "867a493210335917ec66fadad4ea58ff452b73c864ba668f305ebdb648c8c511",
       "rgba8_bytes": 4194304,
+      "width": 1024
+    },
+    {
+      "frames": 35,
+      "height": 64,
+      "image": "atlas-1.png",
+      "json": "atlas-1.json",
+      "json_sha256": "d258ce7a279ed0e27f8f8629a105af8ee97303d9afac3a9e0a8dacee177fff64",
+      "png_sha256": "0d4ca19373b8e06167c210a9f09ad3a8ac3a877d1a2c70b5c341f32579bea102",
+      "rgba8_bytes": 262144,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 4194304,
-  "rgba8_mib": 4.0,
+  "rgba8_bytes": 4456448,
+  "rgba8_mib": 4.25,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

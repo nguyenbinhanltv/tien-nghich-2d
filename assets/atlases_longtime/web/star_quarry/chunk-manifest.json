@@ -3,20 +3,21 @@
     "lt_hollow_astrolabe",
     "lt_orbit_wasp",
     "lt_seam_stalker",
+    "lt_shard_mole",
     "lt_star_quarry"
   ],
   "chunk_group": "star_quarry",
-  "frame_count": 208,
+  "frame_count": 264,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 208,
+      "frames": 264,
       "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "5ededec3ff08c6ec0bad8bf5b5401e43dd74e943d1b487e99f4f8559a26b9347",
-      "png_sha256": "771bdc659f5c7cb35ecd765f18c875d6472b9e9b4004af0d0e17ab6846a4f667",
+      "json_sha256": "947a21b1793e9452a1a7e2ad944f7f5e42ab032ca676e41048e370285f3ed2a4",
+      "png_sha256": "49ae8cdb9920a4b04c1b0391e8acd5f8c66e97ae43645d558d2a2b5114d375f3",
       "rgba8_bytes": 4194304,
       "width": 2048
     }
