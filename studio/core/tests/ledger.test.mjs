@@ -106,6 +106,37 @@ test('a tiny project: a generator record, an image-tool sheet with a prompt hash
   assert.match(ledgerMarkdown(l), /\| c \| main \| prop \| not recorded \|/);
 });
 
+test('rightsDecisions: a decision fills rights for an asset with none, never replaces its own, and a missing or empty one changes nothing', async t => {
+  const root = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'ledger-'));
+  t.after(() => fs.rm(root, {recursive: true, force: true}));
+  const write = (rel, text) => fs.mkdir(path.dirname(path.join(root, rel)), {recursive: true}).then(() => fs.writeFile(path.join(root, rel), text));
+  // a: generator record with no rights; b: generator record with its own rights; c: not recorded; d, e: named only by broken decisions
+  await write('raw/a/provenance.json', JSON.stringify({generator: 'gen/a.py', seed: 1}));
+  await write('raw/b/provenance.json', JSON.stringify({generator: 'gen/b.py', seed: 2, rights: 'Own rights of b.'}));
+  await write('raw/d/provenance.json', JSON.stringify({generator: 'gen/d.py', seed: 3}));
+  await write('raw/e/provenance.json', JSON.stringify({generator: 'gen/e.py', seed: 4}));
+  await write('decisions.json', JSON.stringify({decisions: [
+    {id: 'ok', rights: '  Decided rights.  ', assets: ['a', 'b', 'c']},
+    {id: 'no-rights', assets: ['d']}, {id: 'blank-rights', rights: '   ', assets: ['d']}, {id: 'no-assets', rights: 'Ignored.'}, {id: 'bad-assets', rights: 'Ignored.', assets: 'e'}]}));
+  const assets = new Map(['a', 'b', 'c', 'd', 'e'].map(id => [id, {id, source: 'main', category: 'prop', readiness: 'authored', layout: {rawDir: `raw/${id}`}}]));
+  const build = decisions => buildLedger({root, pack: {id: 'tiny', name: 'Tiny', ui: {tabs: {atlas: {ledger: {assetRecords: ['provenance.json'], ...(decisions ? {rightsDecisions: decisions} : {})}}}}}, index: {assets, info: {}}});
+  const row = (l, id) => l.assets.find(x => x.id === id);
+
+  const l = await build(['decisions.json']);
+  assert.equal(row(l, 'a').rights, 'Decided rights.');
+  assert.ok(row(l, 'a').evidence.includes('decisions.json'), 'the decision file is cited');
+  assert.equal(row(l, 'b').rights, 'Own rights of b.', 'an asset\'s own rights string is kept');
+  assert.ok(!row(l, 'b').evidence.includes('decisions.json'), 'and the decision is not cited for it');
+  assert.equal(row(l, 'c').rights, 'Decided rights.', 'an unrecorded asset still gets the decided rights');
+  for (const id of ['d', 'e']) { assert.equal(row(l, id).rights, null, id); assert.ok(!row(l, id).evidence.includes('decisions.json'), id); }
+
+  // a missing decisions file, or none declared: the same rows as without any decision
+  const plain = await build(null);
+  assert.equal(row(plain, 'a').rights, null);
+  assert.deepEqual(await build(['absent.json']), plain);
+  assert.deepEqual(await build([]), plain);
+});
+
 const sha = data => createHash('sha256').update(data).digest('hex');
 const lf = async rel => sha((await fs.readFile(path.join(REPO, rel), 'utf8')).replaceAll('\r\n', '\n'));
 

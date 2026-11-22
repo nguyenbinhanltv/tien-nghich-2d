@@ -5881,6 +5881,7 @@
    "basis": [
     "assets/raw/longtime/lt_ash_skater/provenance.json",
     "assets/raw/longtime/lt_ashen_crown/provenance.json",
+    "assets/raw/longtime/lt_ashen_crown_b/provenance.json",
     "assets/raw/longtime/lt_bell_founder/provenance.json",
     "assets/raw/longtime/lt_binding_archivist/provenance.json",
     "assets/raw/longtime/lt_bronze_cicada/provenance.json",
@@ -5945,6 +5946,31 @@
       "agent": "tien-nghich-2d-25"
      },
      "reasons": {
+      "toolPin": {
+       "status": "unknown",
+       "reason": "PixelLab is a hosted service; the provenance records character and job ids but no service or model version."
+      },
+      "script": {
+       "status": "not-applicable",
+       "reason": "No project script drew it: it is a service output."
+      },
+      "scriptSha256": {
+       "status": "not-applicable",
+       "reason": "No project script drew it: it is a service output."
+      }
+     }
+    },
+    "lt_ashen_crown_b": {
+     "fields": {
+      "promptHash": "2538be5738b4152f25efc05b4b1561b22360945a273d2dddca73a8a73674cdc0",
+      "document": "docs/LONGTIME_GDD.md",
+      "agent": "tien-nghich-2d-25"
+     },
+     "reasons": {
+      "seed": {
+       "status": "unknown",
+       "reason": "The provenance records no seed for this PixelLab call, and it cannot be recovered from the repository."
+      },
       "toolPin": {
        "status": "unknown",
        "reason": "PixelLab is a hosted service; the provenance records character and job ids but no service or model version."

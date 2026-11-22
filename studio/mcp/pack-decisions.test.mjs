@@ -15,7 +15,7 @@ const text = (r) => r.content?.[0]?.text ?? '';
 const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const withProject = async (fn) => { const p = makeProject({ git: false }); try { return await fn(p); } finally { await p.cleanup(); } };
 
-test('ATLAS-006: the real project states its licence profile; no asset with a recorded licence blocks, one without (or a foreign one) still does', async () => {
+test('ATLAS-006: the real project states its licence profile; the owner decision clears the 97 that recorded none; a missing or foreign licence still blocks', async () => {
   const snap = await openProject(REPO).workspace.snapshot();
   const ledger = await buildLedger({ root: fs.realpathSync(REPO), pack: snap.pack, index: snap.index });
   const profile = licenceProfile(snap.pack);
@@ -27,7 +27,22 @@ test('ATLAS-006: the real project states its licence profile; no asset with a re
   assert.ok(withRights.length > 150, `the ledger has ${withRights.length} assets with recorded rights`);
   const real = checkLicences(ledger, profile);
   assert.deepEqual(real.blockers.filter((b) => b.rights), [], 'no recorded licence is refused');
-  assert.ok(real.blockers.every((b) => b.rights === null && /no output licence is recorded/.test(b.why)), 'what blocks has no recorded licence');
+  assert.deepEqual(real.blockers, [], 'the real project has no licence blocker');
+  // the owner's 2026-11-22 decision ("Toàn bộ là ảnh gốc dự án") is what clears the 97 legacy core assets
+  const decision = json(join(REPO, 'assets/review/licence_decisions.json')).decisions.find((d) => d.id === 'owner_original_project_artwork_2026-11-22');
+  assert.equal(decision.assets.length, 97);
+  assert.equal(decision.rights, 'Original artwork created for this project.');
+  assert.ok(profile.accepts.includes(decision.rights), 'a string the profile already accepted, none added');
+  const byId = new Map(ledger.assets.map((a) => [a.id, a]));
+  for (const id of decision.assets) {
+    const a = byId.get(id);
+    assert.equal(a.rights, decision.rights, id);
+    assert.ok(a.evidence.includes('assets/review/licence_decisions.json'), `${id} cites the decision`);
+  }
+  assert.equal(decision.assets.filter((id) => byId.get(id).origin.kind === 'retired-tool').length, 22, 'retired-tool origin is kept');
+  // without the decision the 97 block again
+  const without = { ...ledger, assets: ledger.assets.map((a) => (decision.assets.includes(a.id) ? { ...a, rights: null } : a)) };
+  assert.equal(checkLicences(without, profile).blockers.length, 97);
   assert.ok(withRights.some((a) => /pixellab/i.test(a.rights)), 'the owner\'s subscription strings are among the recorded rights');
   assert.ok(withRights.some((a) => /^original/i.test(a.rights)), 'the original-work strings are among the recorded rights');
   // a foreign licence and a missing one are still caught

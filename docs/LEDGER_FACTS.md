@@ -36,3 +36,12 @@ For the owner: whether any obligation follows from shipping audio encoded by an 
 - Clause 4.1 says users must comply with the Open RAIL-M license (linked from the terms). That licence was not read for this record.
 - **Plan tier.** For the characters generated on 2026-11-22: the owner's PixelLab subscription is "Tier 1: Pixel Apprentice", active on 2026-11-22. Source: the owner's own account page, shown to the orchestrator in chat (session tien-nghich-2d-1) and relayed to this worker; recorded 2026-11-22. For the 24 older PixelLab characters and the two from PR #56: the tier at their generation time is **not recorded**; all that is known is that the owner's account was on this tier on 2026-11-22. The terms page read here does not distinguish tiers, and no legal conclusion is drawn. No usage numbers or account identifiers are recorded.
 - 24 assets in the ledger carry the "retired tool" origin (PixelLab). PixelLab remains retired apart from the owner's use of the remaining credits on 2026-11-22.
+
+## 4. Output rights of the 97 legacy core assets (owner decision, 2026-11-22)
+
+The handoff licence check (`checkLicences`, `studio/core/handoff.mjs`) blocked 97 legacy core assets because nothing in their records carried an output licence: 75 made by project generators or drawing tools (19 `prop_*`, 16 `icon_*`, 12 `pj_*`, 12 `wp_*`, 3 `ts_*`, `ui_spirit_stone`, 12 VFX) and 22 with origin `retired-tool` (15 `mob_*`, 4 `wl_*`, 3 `boss_*`). Their origin logs and effect descriptors name how they were made but carry no `rights`.
+
+- **Owner's decision**, given to the orchestrator on 2026-11-22 around 22:50 (Asia/Saigon), verbatim: "Toàn bộ là ảnh gốc dự án" ("all of it is original project artwork"). Recorded by worker `tien-nghich-2d-45`, which only transcribed it.
+- **Where it is recorded:** `assets/review/licence_decisions.json` (decision `owner_original_project_artwork_2026-11-22`, with the 97 asset ids). The pack declares the file in `ui.tabs.atlas.ledger.rightsDecisions`; the ledger reads a decision's `rights` only for an asset whose own files record none.
+- **Rights string:** `Original artwork created for this project.`, one of the strings already in `licenceProfile.accepts`. The profile was not changed, no string was added, and no origin (including `retired-tool`) was altered.
+- This is a licence record. It approves no image and signs no audio. Not a legal conclusion.

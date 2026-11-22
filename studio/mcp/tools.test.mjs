@@ -15,12 +15,12 @@ const withProject = async (fn, opts = { git: true }) => {
 test('catalog_search: filters, derived status, facets and paging agree', () => withProject(async (p) => {
   const { ok, call } = connect(p.root, { scope: 'read' });
   const all = await ok('studio_catalog_search', { limit: 100 });
-  assert.equal(all.total, 294, 'core 90 + longtime 125 + longtime vfx 6 + vfx 12 + audio 61');
+  assert.equal(all.total, 295, 'core 90 + longtime 126 + longtime vfx 6 + vfx 12 + audio 61');
   assert.equal(all.facets.source.core, 90);
   assert.equal(all.facets.source.audio, 61);
 
   const lt = await ok('studio_catalog_search', { source: 'longtime', limit: 5 });
-  assert.equal(lt.total, 125);
+  assert.equal(lt.total, 126);
   assert.equal(lt.count, 5);
   assert.equal(lt.hasMore, true);
   const next = await ok('studio_catalog_search', { source: 'longtime', limit: 5, offset: lt.nextOffset });
@@ -31,7 +31,7 @@ test('catalog_search: filters, derived status, facets and paging agree', () => w
   const packed = await ok('studio_catalog_search', { source: 'longtime', status: 'packed' });
   assert.deepEqual(packed.results.map((r) => r.id), ['lt_kiln_keeper']);
   const planned = await ok('studio_catalog_search', { source: 'longtime', status: 'planned', limit: 100 });
-  assert.equal(planned.total, 123);   // #96 recorded one more asset as approved
+  assert.equal(planned.total, 124);   // #96 recorded one more asset as approved; lt_ashen_crown_b is one more planned ID in the fixture
   assert.equal((await ok('studio_catalog_search', { chunk: 'mist_archive', profile: 'npc', source: 'longtime' })).results.every((r) => r.profile === 'npc' && r.chunk === 'mist_archive'), true);
   const q = await ok('studio_catalog_search', { query: 'KILN' });
   assert.ok(q.results.some((r) => r.id === 'lt_kiln_keeper') && q.results.every((r) => r.id.includes('kiln') || (r.brief ?? '').toLowerCase().includes('kiln')));
@@ -84,7 +84,7 @@ test('asset_plan: create and edit planned entries without touching the locked ma
   assert.deepEqual(found.results.map((r) => r.id), ['lt_lantern_monk']);
   assert.equal(found.results[0].origin, 'studio-plan');
   assert.deepEqual((await author.ok('studio_catalog_search', { origin: 'studio-plan' })).results.map((r) => r.id), ['lt_lantern_monk']);
-  assert.equal((await author.ok('studio_catalog_search', { origin: 'manifest', source: 'longtime', limit: 1 })).total, 125);
+  assert.equal((await author.ok('studio_catalog_search', { origin: 'manifest', source: 'longtime', limit: 1 })).total, 126);
   const got = await author.ok('studio_asset_get', { assetId: 'lt_lantern_monk', sections: ['spec', 'dependencies'] });
   assert.equal(got.plan.etag, created.etag);
   assert.equal(got.spec.size[0], 32);

@@ -60,6 +60,20 @@ async function loadLogs(root, config) {
   return byId;
 }
 
+/** Owner decisions (`config.rightsDecisions`: files of {decisions: [{id, rights, assets: [asset ids]}]}): asset id -> {rights, file, decision}. */
+async function loadRightsDecisions(root, config) {
+  const byId = new Map();
+  for (const file of config.rightsDecisions ?? []) {
+    const doc = await jsonFile(root, file);
+    for (const d of Array.isArray(doc?.decisions) ? doc.decisions : []) {
+      const rights = str(d?.rights);
+      if (!rights || !Array.isArray(d.assets)) continue;
+      for (const id of d.assets) if (typeof id === 'string' && !byId.has(id)) byId.set(id, {rights, file, decision: str(d.id)});
+    }
+  }
+  return byId;
+}
+
 async function loadAudio(root, config) {
   const batches = new Map();
   const spec = config.audio?.batches;
@@ -91,7 +105,7 @@ export async function buildLedger({root, pack, index}) {
   const config = pack.ui?.tabs?.atlas?.ledger ?? {};
   const retired = Object.entries(config.agentOrigins ?? {}).filter(([, v]) => v.kind === 'retired-tool').map(([key, v]) => ({match: key.replace(/[^A-Za-z0-9]/g, ''), tool: v.tool}));
   const audioIds = new Set([...index.assets.values()].filter(a => a.audio).map(a => a.id));
-  const logs = await loadLogs(root, config), batches = await loadAudio(root, config);
+  const logs = await loadLogs(root, config), batches = await loadAudio(root, config), decided = await loadRightsDecisions(root, config);
   const records = [], supplements = await loadSupplements(root, config);
   const sourcesFile = config.thirdPartySources;
   const thirdParty = {file: sourcesFile ?? null, present: sourcesFile ? await exists(root, sourcesFile) : false};
@@ -161,6 +175,8 @@ export async function buildLedger({root, pack, index}) {
       o = origin('not-recorded', {agent: str(asset.assignedAgent)});
       if (asset.assignedAgent) note.push(`the manifest assigns this asset to "${asset.assignedAgent}", but no file records how it was made`);
     }
+    // 7. the project owner's recorded decision about an asset's output rights; it fills a gap and never replaces a rights string an asset's own file records
+    if (!rights && decided.has(asset.id)) { const d = decided.get(asset.id); rights = d.rights; evidence.push(d.file); }
     // a retired-service character with a source export folder: list the export's own record
     if (o.kind === 'retired-tool' && rawDir) { const meta = `${rawDir}/metadata.json`; if (await exists(root, meta)) evidence.push(meta); }
     // 8. supplements: fill only what the asset's own record leaves empty, and say why a field stays empty

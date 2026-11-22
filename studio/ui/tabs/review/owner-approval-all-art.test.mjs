@@ -31,7 +31,7 @@ test('both entries carry the owner\'s own words, say the first statement was nar
 
 test('the real project: zero awaiting, the legacy core art stays baseline, everything else is approved', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 2126, baseline: 2854, awaiting: 0, changes_requested: 0, total: 4980});
+  assert.deepEqual(counts, {approved: 2198, baseline: 2854, awaiting: 0, changes_requested: 0, total: 5052});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -57,7 +57,7 @@ test('the 30 new PixelLab characters are one entry, every processed frame and ev
 
 test('every asset record in the project file is current: nothing changed, missing or added', async () => {
   const records = await readArtApprovals(repo, 'assets/review');
-  assert.equal(records.length, 131);
+  assert.equal(records.length, 132);
   assert.deepEqual(records.filter(r => !r.current).map(r => [r.assetId, r.changed, r.missing, r.added, r.rawChanged]), []);
   const seen = new Map();
   for (const a of record.approvals) for (const info of Object.values(a.assets)) for (const key of Object.keys(info.frames)) {
@@ -122,5 +122,5 @@ test('the baseline record is kept untouched and never wins over an approval', as
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 2126, baseline: 2854});
+  assert.deepEqual(both, {approved: 2198, baseline: 2854});
 });

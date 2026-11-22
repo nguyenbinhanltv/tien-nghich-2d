@@ -23,7 +23,8 @@ Three levels per file: `identical`, `equivalent` (content equal, an encoding det
 
 - `sets[]`: `id, label, atlases` (a `directories.atlases` key), `layout` (`{profile}` or `{profile}/{chunk}`), `profiles`, `format` (`frame-hash` | `chunk-hash`), `array`, `processed`, `keyMap`, `skipSuffix`, `profileOverrides`, `design` (where mobile page/padding/extrude/ceilings come from in the asset index), `chunks` (`crlf`, `app`, `manifestSchema`, `summaryFile`), `extraFiles`, `authority.build|check` (registered `adapters.commands`, `{out}` and `{ids}` placeholders).
 - `export`: `tilesetCategories`, `pixelsPerUnit`.
-- `ledger`: `agentOrigins`, `originLogs`, `assetRecords`, `rawDirs`, `studioRecords`, `descriptors`, `audio`, `components`, `thirdPartySources`, `fontScan`.
+- `ledger`: `agentOrigins`, `originLogs`, `assetRecords`, `rawDirs`, `studioRecords`, `descriptors`, `audio`, `rightsDecisions`, `components`, `thirdPartySources`, `fontScan`.
+  - `rightsDecisions`: a list of JSON files shaped `{decisions: [{id, rights, assets: [ids]}]}`, for rights a person decided for assets whose own files record none (the owner's decision is the record). It only fills rights an asset does not record itself: an asset's own `rights` string is never replaced, and a missing file or a decision without `rights` or `assets` changes nothing. A filled asset cites the decision file in its evidence; the licence profile still has to accept the string.
 
 A pack with no block gets one read-only-or-studio-packable `frame-hash` set per `directories.atlases` key (tested with a second tiny project).
 
