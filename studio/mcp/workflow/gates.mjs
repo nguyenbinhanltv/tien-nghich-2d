@@ -35,7 +35,8 @@ export function gateCoverage(baked, { rig, poseRig, options = {} } = {}) {
     has('flicker', !off('flicker') && frames >= 3, off('flicker') ? (drawn && effective.flicker === false && poseOptions.flicker === undefined && c.qa?.flicker === undefined && gateOptions.flicker === undefined ? 'skipped by default for drawn pose clips' : 'turned off in qa') : 'fewer than 3 frames (flicker compares a frame with both neighbours)');
     has('loop_seam', !off('loopSeam') && c.loop && frames >= 3, !c.loop ? 'the clip does not loop' : frames < 3 ? 'fewer than 3 frames' : 'turned off in qa');
     has('mark_side', !off('markSide') && landmarks, off('markSide') ? 'turned off in qa' : 'no landmark is declared, so the mark side could not be judged');
-    if (!drawn) has('weight_transfer', options.weightTransfer !== false && facings.some((f) => c.facings[f].poses), options.weightTransfer === false ? 'turned off in qa' : 'no per-part poses');
+    // runGates runs weight transfer whenever the clip has per-part poses (rig clips, and pose clips with secondary rig motion) and the effective options do not turn it off.
+    has('weight_transfer', effective.weightTransfer !== false && facings.some((f) => c.facings[f].poses), effective.weightTransfer === false ? 'turned off in qa' : 'no per-part poses (a plain drawn pose clip has none)');
     if (drawn) has('identity_drift', effective.identity !== false, 'turned off in qa');
   }
   const clips = Object.keys(baked.clips);

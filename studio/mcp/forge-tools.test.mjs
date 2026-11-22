@@ -311,27 +311,47 @@ test('a legacy pose sheet in import.json is replaced by a new pose import, even 
   assert.equal(got.pose.prompt, 'second prompt', 'reads prefer the dedicated pose file over the legacy one');
 }));
 
-test('each frame is credited to its own import slot (grouped by slot, not by PNG hash), with its own prompt, tool and note', () => withProject(async (p) => {
+test('ONE PNG imported into both slots keeps two records: each frame is credited to its own slot (grouping by hash would merge them)', () => withProject(async (p) => {
   const a = connect(p.root);
   const m = marten(p);
-  const { tpl } = { tpl: await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' }) };
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
   fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
-  // The pose sheet drawn once, imported as a pose sheet AND (with a turnaround layout over the same bytes) as the rig slot.
-  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: 'rig record', tool: 'rig tool' });
-  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: 'pose record', tool: 'pose tool', scaleOptions: { mode: 'sheet' } });
-  // Force both records to point at one PNG hash (different prompt and tool): a grouping by hash would merge them.
-  const forge = join(p.root, 'assets/raw/longtime', ASSET, 'forge');
-  const rigDoc = json(join(forge, 'import.json')), poseDoc = json(join(forge, 'import.pose.json'));
-  assert.notEqual(rigDoc.sheet.sha256, poseDoc.sheet.sha256);
+  const poseLayout = json(join(POSE, 'layout.json'));
+  // A valid turnaround layout over the very same sheet: the four contact_a cells as plain facings (no pose), so it is the rig slot.
+  const rigLayout = { ...poseLayout, id: 'same-sheet-turnaround', cells: poseLayout.cells.filter((c) => c.pose === 'contact_a').map((c) => ({ ...c, id: c.facing, pose: null, label: c.facing.toUpperCase() })) };
+  const rigImp = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: rigLayout, prompt: 'rig record', tool: 'rig tool' });
+  const poseImp = await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: poseLayout, prompt: 'pose record', tool: 'pose tool', scaleOptions: { mode: 'sheet' } });
+  assert.deepEqual([rigImp.slot, poseImp.slot], ['rig', 'pose']);
+  assert.equal(rigImp.sheet.sha256, poseImp.sheet.sha256, 'one PNG, one hash, two slots');
   await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
-  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
-  const sub = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa, submit: true });
+  // A rig fitted to THIS sheet's cells: two paws per facing at the lowest left and right opaque pixels (computed with the forge library, not the tools).
+  const settings = await settingsFromPack(loadPackSync(p.root, undefined, { verifyFiles: false }), p.root, 'pet');
+  const bytes = fs.readFileSync(join(p.root, 'work/pose_sheet.png'));
+  const px = pixelizeImport(importSheet({ layout: normalizeLayout(rigLayout), sheet: decodePng(bytes), sheetBytes: bytes, profile: settings.profile }), settings, { marks: resolveMarks(MARKS, settings.palette) });
+  const facings = {};
+  for (const f of FACINGS) {
+    const img = px.cells.get(f).native;
+    const opaque = (x, y) => img.pixels[(y * 32 + x) * 4 + 3] === 255;
+    let yb = 31; while (!Array.from({ length: 32 }, (_, x) => x).some((x) => opaque(x, yb))) yb--;
+    const row = Array.from({ length: 32 }, (_, x) => x).filter((x) => opaque(x, yb));
+    const [xa, xb] = [row[0], row.at(-1)];
+    const box = (x, top) => [[x - 2, yb - top], [x + 3, yb - top], [x + 3, yb + 1], [x - 2, yb + 1]];
+    facings[f] = { forward: [0, 1], parts: [{ id: 'paw_0', role: 'limb', phase: 0, contact: [xa, yb], cut: box(xa, 5), remove: box(xa, 2) }, { id: 'paw_1', role: 'limb', phase: 1, contact: [xb, yb], cut: box(xb, 5), remove: box(xb, 2) }, { id: 'body', role: 'body' }] };
+  }
+  const rig = { schema: 'studio.rig', version: 1, id: ASSET, bodyPlan: 'quadruped', canvas: [32, 32], pivot: [16, 29], facings };
+  const library = { schema: 'studio.motion.library', version: 1, bodyPlan: 'quadruped', archetypes: { idle: { loop: true, tracks: [{ id: 'gait', target: { role: 'limb' }, gait: { groups: 2, planted: 0.5, stride: 1, lift: 1 } }] } }, templates: { 'pet/idle': { use: 'idle' } } };
+  const qa = { weightTransfer: false, pivotDrift: false, stability: false, footSlide: false, markSide: false, flicker: false, loopSeam: false, pose: { identity: false } };
+  const sub = await a.call('studio_rig_bake', { assetId: ASSET, rig, library, poseClips: tpl.structuredContent.poseClips, qa, submit: true });
   assert.equal(sub.isError, undefined, text(sub));
   const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
-  assert.equal(log.length, 2);
+  assert.equal(log.length, 2, 'two records, not one merged record');
+  assert.equal(log[0].sourceHash, log[1].sourceHash);
   const byPrompt = Object.fromEntries(log.map((l) => [l.prompt, l]));
-  assert.ok(byPrompt['rig record'].frames.every((f) => f.name.startsWith('idle_')) && byPrompt['pose record'].frames.every((f) => f.name.startsWith('follow_')));
+  assert.ok(byPrompt['rig record'].frames.length > 0 && byPrompt['rig record'].frames.every((f) => f.name.startsWith('idle_')));
+  assert.ok(byPrompt['pose record'].frames.length > 0 && byPrompt['pose record'].frames.every((f) => f.name.startsWith('follow_')));
   assert.match(byPrompt['rig record'].tool, /rig tool/);
+  assert.match(byPrompt['pose record'].tool, /pose tool/);
+  assert.match(byPrompt['rig record'].notes, /^rig sheet; layout same-sheet-turnaround/);
   assert.match(byPrompt['pose record'].notes, /^pose sheet;/);
 }));
 
@@ -453,4 +473,15 @@ test('gateCoverage agrees with qaStage: rig landmarks of a secondary-motion pose
   assert.ok(!c.notRun.some((n) => n.gate === 'mark_side' && n.clips.includes('walk')), 'and it is not also listed as not run');
   assert.ok(c.notRun.some((n) => n.gate === 'flicker' && n.clips.includes('pair')), 'flicker needs three frames');
   assert.match(c.notRun.find((n) => n.gate === 'stability').reason, /no two clips share a facing/);
+  // Weight transfer: a pose clip with secondary rig motion has per-part poses, so the gate is eligible; qa switches (global, pose-level, clip-level) turn it off.
+  const sec = (qa) => ({ clips: { walk: { source: 'poses', secondary: true, loop: true, ...(qa ? { qa } : {}), facings: { south: { frames: frames(4), contacts: [[], [], [], []], poses: [{}, {}, {}, {}] } } } } });
+  const wt = (baked, options) => gateCoverage(baked, { rig, options });
+  assert.ok(wt(sec(), {}).ran.some((g) => g.gate === 'weight_transfer'), 'eligible and on: ran');
+  for (const [label, baked, options] of [['global', sec(), { weightTransfer: false }], ['pose-level', sec(), { pose: { weightTransfer: false } }], ['clip-level', sec({ weightTransfer: false }), {}]]) {
+    const c2 = wt(baked, options);
+    assert.ok(!c2.ran.some((g) => g.gate === 'weight_transfer'), label);
+    assert.equal(c2.notRun.find((n) => n.gate === 'weight_transfer')?.reason, 'turned off in qa', label);
+  }
+  const plain = { clips: { walk: { source: 'poses', loop: true, facings: { south: { frames: frames(4), contacts: [[], [], [], []] } } } } };
+  assert.match(wt(plain, {}).notRun.find((n) => n.gate === 'weight_transfer').reason, /no per-part poses/);
 });
