@@ -93,17 +93,22 @@ def ingest(aid, zpath):
 
 def read_raw(aid, prof, raw_root=RAW):
     frames, raw_paths = {}, {}
+    gp = raw_root / aid / "generation.json"
+    # Opt-in generation.json "frame_select": {clip: [raw frame index per manifest frame]} for clips PixelLab cannot
+    # make at the manifest length (v3 needs >= 4 frames for a 3-frame clip). Unselected raw frames stay on disk.
+    sel = json.loads(gp.read_text(encoding="utf8")).get("frame_select", {}) if gp.is_file() else {}
     for clip, (count, _ms) in prof["clips"].items():
         for d in prof["directions"]:
             for n in range(count):
-                p = raw_root / aid / clip / d / f"frame_{n:03d}.png"
+                src_n = sel[clip][n] if clip in sel else n
+                p = raw_root / aid / clip / d / f"frame_{src_n:03d}.png"
                 if not p.is_file():
                     raise SystemExit(f"missing raw frame {p}")
                 arr = np.array(Image.open(p).convert("RGBA"))
                 frames[(clip, d, n)] = arr
                 raw_paths[(clip, d, n)] = p
             extra = sorted((raw_root / aid / clip / d).glob("frame_*.png"))
-            if len(extra) != count:
+            if clip not in sel and len(extra) != count:
                 raise SystemExit(f"{aid}/{clip}/{d}: {len(extra)} raw frames, manifest wants {count}")
     return frames, raw_paths
 
@@ -222,7 +227,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
         bp.write(arr, folder / f"{c}_{d}_{n}.png")
 
     # raw source sheet: untouched raw frames, one row per clip/direction (cell = largest raw canvas)
-    cell = max(max(f.shape[:2]) for f in raw.values())
+    cell = max(max(f.shape[:2]) for f in raw.values())  # source.png shows the selected frames only
     rows = [(c, d) for c in prof["clips"] for d in prof["directions"]]
     cols = max(n for n, _ in prof["clips"].values())
     src = Image.new("RGBA", (cols * cell, len(rows) * cell), (0, 0, 0, 0))

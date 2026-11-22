@@ -1,0 +1,853 @@
+{
+  "id": "lt_orbit_wasp",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Show the orbit wasp silhouette before its strike.",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-28, 2026-11-22",
+  "operator": "tien-nghich-2d-28",
+  "method": "create_character_pro_flash (32x32 native, low top-down, template custom, 8 views, 40-colour palette, seed 11) then animate_character v3 per direction (frames stored at 40 px, centred on the 32 px manifest canvas, no scaling). v3 needs >=4 frames, so the 3-frame idle and telegraph clips use frame_select of 4 generated frames. Four facings are separate generations; nothing mirrored.",
+  "pixellab_character_id": "44653e6d-33f0-4c4e-8367-6ed4f20d350d",
+  "character_job_id": "f7e120d3-669b-4284-9c5f-1020ef5e237c",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Orbit wasp, a small chibi flying stone-quarry insect: round dark grey-violet armoured body with a large head and two big cyan eyes, a thin bronze ring halo floating around its body like an orbit, short translucent pale wings, a bright cyan stinger at the back pointing down. Clear readable silhouette with the ring. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f9226358-ee0f-482d-8452-fe0d8582acd2",
+      "job_ids": {
+        "south": "7848fe3e-016a-41a9-9a4f-f1771c8bb36c",
+        "west": "29dc39ba-5793-47ed-b4e5-07783468cfb2",
+        "north": "3c89dfb7-39b4-4a54-b27b-62f3c9a68300",
+        "east": "d4811448-357e-4c89-8ca4-d1c2088225ab"
+      },
+      "action_description": "hovers in place, wings buzzing and the body bobbing up and down slightly, the bronze ring halo turning around the body",
+      "direction_prompts": {
+        "south": "seen from the front, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "west": "seen from the left side, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "north": "seen from behind, hovers in place, wings buzz and the body bobs slightly, the ring turns around it",
+        "east": "seen from the right side, hovers in place, wings buzz and the body bobs slightly, the ring turns around it"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "ba4ec8e6-ac57-4b20-b628-ae1852521a00",
+      "job_ids": {
+        "south": "4a6a8275-8cf6-4286-bfcd-42504ba9cdf7",
+        "west": "dbb71c84-9bd5-46f6-95ee-53a69dfa0f19",
+        "north": "6531e0cd-f511-4738-8d08-8d8bbb0eb99f",
+        "east": "99c3bd14-47b1-483c-ab1c-d3c8707c88a3"
+      },
+      "action_description": "flies forward in a quick buzzing hover, wings beating fast, body tilting slightly forward, the bronze ring halo wobbling around the body",
+      "direction_prompts": {
+        "south": "seen from the front, flies toward the viewer, wings beating fast, body tilted slightly forward",
+        "west": "seen from the left side, flies to the left, wings beating fast, body tilted slightly forward",
+        "north": "seen from behind, flies away from the viewer, wings beating fast",
+        "east": "seen from the right side, flies to the right, wings beating fast, body tilted slightly forward"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "f679902e-1e74-4d9c-89c5-fe90cac2106f",
+      "job_ids": {
+        "south": "5cd14331-ed5f-4be3-81ca-0d43cd30c132",
+        "west": "978df7de-a5de-4730-a896-de06ddef5b19",
+        "north": "75bcc194-101b-4001-b4d0-5c210afbb929",
+        "east": "abb33f52-2050-4792-ae96-a0b8751b1ca0"
+      },
+      "action_description": "rears back and curls its body, wings spread wide, the bronze ring halo snaps tight and its cyan stinger glows brighter, winding up to dive",
+      "direction_prompts": {
+        "south": "seen from the front, rears back with wings spread wide, the stinger glows brighter, winding up to dive",
+        "west": "seen from the left side, rears back to the right with wings spread wide, the stinger glows brighter, winding up to dive left",
+        "north": "seen from behind, rears back with wings spread wide, the stinger glows brighter",
+        "east": "seen from the right side, rears back to the left with wings spread wide, the stinger glows brighter, winding up to dive right"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "animation_group_id": "485aff3a-ede9-4510-a101-79e51388b8f7",
+      "job_ids": {
+        "south": "9eda0998-cf56-4e02-ae53-e6f23e5c1b81",
+        "west": "855c9fea-6c83-42de-b134-3fbe6257c473",
+        "north": "318ecab5-31df-4c89-aeae-c4a0c54678a6",
+        "east": "d16f39e0-a2b3-4693-bc09-c0067c8d66c4"
+      },
+      "action_description": "darts forward in a fast stinging dive, body stretched toward the target with the cyan stinger thrust out, wings swept back, then pulls back",
+      "direction_prompts": {
+        "south": "seen from the front, darts toward the viewer in a stinging dive, stinger thrust out, then pulls back",
+        "west": "seen from the left side, darts to the left in a stinging dive, stinger thrust out to the left, then pulls back",
+        "north": "seen from behind, darts away from the viewer in a stinging dive, then pulls back",
+        "east": "seen from the right side, darts to the right in a stinging dive, stinger thrust out to the right, then pulls back"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create character + idle, walk, telegraph, strike for 4 directions (idle/telegraph generated at 4 frames, 3 selected)",
+      "credits": 22,
+      "result": "accepted for integration, art awaits owner review"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "telegraph": 4,
+    "strike": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "bronze ring halo is thin and often reads as a small collar rather than an orbit, mainly in south and east",
+    "telegraph south/north differ only slightly from idle at 1x",
+    "one strike west frame shows a red-tinted eye",
+    "idle and telegraph clips use 3 of 4 generated frames (frame_select)"
+  ],
+  "frame_select": {
+    "idle": [
+      0,
+      1,
+      2
+    ],
+    "telegraph": [
+      0,
+      2,
+      3
+    ]
+  },
+  "edge_trim": {
+    "speck_max": 4,
+    "clip_max": 3,
+    "why": "one wing/ring pixel crosses the 32 px canvas; at most 3 px clipped per frame (see processing.edge_trim)"
+  },
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "9a487b717a8e6907a92571bb3a362eff9f1d7765191d3da2a22d51491b29a6d3",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 4021,
+      "outline_thinned": 0,
+      "quantized": 0,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    },
+    "edge_trim": {
+      "rule": {
+        "speck_max": 4,
+        "clip_max": 3,
+        "why": "one wing/ring pixel crosses the 32 px canvas; at most 3 px clipped per frame (see processing.edge_trim)"
+      },
+      "frames": {
+        "strike/west/3": {
+          "speck_px": 0,
+          "clipped_px": 1
+        }
+      }
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "737e8191c4683330391fef17b1c9fa19e1ff43283d7f2ab9bfe7c44052f32979",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_orbit_wasp/contact_1x.png": "80d3dbf71fafa4fca31194c3d6830a8c0450a6c0cf793e5858ebccbd037a1982",
+    "assets/raw/longtime/lt_orbit_wasp/contact_4x.png": "599057a2faa6f67adb696b034276671c878fa8c386544019119217558c9db0f9"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_orbit_wasp/idle_east_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/east/frame_000.png",
+      "raw_sha256": "66bc3306f6361940f482bd0b6d9e8ae8db513e7f95d47f82a71ad5b66894fab1",
+      "source_xy": [
+        0,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "63c3c9606480d052d9df6d97816487d0f2499278251be8aec1bf0a2449f96e96"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_east_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/east/frame_001.png",
+      "raw_sha256": "2267ec29abbd52f372a18ba00672e2a84c332e8d48e7d6147941465e83c023f3",
+      "source_xy": [
+        40,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "7947cdaa94de928806d4af38fabdd7597150a803b7f07ee2565190118cf6f731"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_east_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/east/frame_002.png",
+      "raw_sha256": "f0588b3640f3d7618516da9b5259cd7ad508376843841f2b76036dfc3f9581aa",
+      "source_xy": [
+        80,
+        120
+      ],
+      "duration_ms": 160,
+      "sha256": "3c2094af173573bb5dd56b4f6fd347f0f6c45ee61f2261fdf6cde7cabc4a53c4"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_north_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/north/frame_000.png",
+      "raw_sha256": "f40b477414ede5f994fa273e4d9f71aa450c69cc5971e4023085b837da5bcef6",
+      "source_xy": [
+        0,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "f885ee6afc5cb73ba52ea3351fdde664ea3b72588442dd39784349a90d88d7c2"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_north_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/north/frame_001.png",
+      "raw_sha256": "c4381f25690ce29daf323e5f58d290e29654afec6c4b6785dac1df5ff9705296",
+      "source_xy": [
+        40,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "44e27a6f47b5dfc51625d8dc0aa3196f52c02407a4affd67d5ca29a2ea689859"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_north_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/north/frame_002.png",
+      "raw_sha256": "ea2645ade5c8afc8712b5ee9e5145d8125f4536c65aad072fd4645d9c80184be",
+      "source_xy": [
+        80,
+        80
+      ],
+      "duration_ms": 160,
+      "sha256": "8a8e4b610d922a2880fe786454614c4249801bd08be5f702f6c1ab046fb6c69a"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_south_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/south/frame_000.png",
+      "raw_sha256": "7ce1228eef26726a9de769a9857f6de6775e6d8c38d7c94548a0163d5a34acf4",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "5f62d1fe927706885137bd013f13089729802b1f2ce4b446af5ab3c93aa5c1b3"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_south_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/south/frame_001.png",
+      "raw_sha256": "f1f96ddcd4e2b835be75a04af6c13405cb25785c806769b28a5463a233fa8a1a",
+      "source_xy": [
+        40,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "1117e3f321d330b31a6ed007921d6d63f98c5ee116eabf67690d4253ae90433e"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_south_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/south/frame_002.png",
+      "raw_sha256": "a7684863a373f00d08a27293c905a898ded0fb3dca9f682baded2de6e3379b50",
+      "source_xy": [
+        80,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "383c21052f960632c52c754cec43a1c81276035765570657b9eccb26a2466b99"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_west_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/west/frame_000.png",
+      "raw_sha256": "973548cf963d6587111543edc2baf6128d6e02b02a2d3357bfe31e65fd60ab04",
+      "source_xy": [
+        0,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "8b30fe96c9531f0ed8e19c4b4125381a5a070aee3ad2b1fd59242763b09cc7b7"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_west_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/west/frame_001.png",
+      "raw_sha256": "44cacba7fcc634e6c7f38a07a14499d221fd43628ba00b62d5457bb4aa712650",
+      "source_xy": [
+        40,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "865d5bc5497dd3eeee75ff6e4b8636fdd61bdb96bb820b57e70a859daf090d9c"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/idle_west_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/idle/west/frame_002.png",
+      "raw_sha256": "c0db6929dea1c2306e631d287241de5bd682f20785d294b47f1090583f580098",
+      "source_xy": [
+        80,
+        40
+      ],
+      "duration_ms": 160,
+      "sha256": "49d2b821acaa698f4abd0d2e7e35a474ca3e2f1f88edda86ecdfe5371de16f0d"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_east_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/east/frame_000.png",
+      "raw_sha256": "655dee6a78fb6684763f825791740ab4b100c0f5adcb98cf1fbf9ea50d1d2c8f",
+      "source_xy": [
+        0,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "81027efdcd75e52b29d58b8f1c38171f66421f8258d5b8354b5cfb1e2fcd9302"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_east_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/east/frame_001.png",
+      "raw_sha256": "7936a92ec5d11908307fd878ba677180614277777652638d3dfe62dda60dcff8",
+      "source_xy": [
+        40,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "86c20a1efcde50c77f1c5bc9a37ea608b165cd27dca8638a4ad5119629071361"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_east_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/east/frame_002.png",
+      "raw_sha256": "32a9676101d7af17ca4f67a0ec9c2ea9e6a09160b79182e9852f3342a5eb0e79",
+      "source_xy": [
+        80,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "332e79709df38d37f873f04707e0a0cddb125b00a03f0e923912e9b7964efaf5"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_east_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/east/frame_003.png",
+      "raw_sha256": "96862a1b05fa7a61d7e3ae5c721fb95b5ef5b9591b222ed946089136bd24e0c9",
+      "source_xy": [
+        120,
+        600
+      ],
+      "duration_ms": 90,
+      "sha256": "014753b848afb6b5dadce82d17812aa007a86e9ea968d3fee5ab376818a54d92"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_north_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/north/frame_000.png",
+      "raw_sha256": "4de98635739fd17eb76b127d877fad73f7a8ad9df849334b6d8ffdd15d230532",
+      "source_xy": [
+        0,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "4ea540c054c97d2b65d6696bfca460c6596823dff71d15a859b93c21be8783e4"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_north_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/north/frame_001.png",
+      "raw_sha256": "34f6da5de5d73122813a5fba385ef45400cad72725b226ee347464a609f2c83f",
+      "source_xy": [
+        40,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "a0193c25afed22d91626f0fde0c093dafeecde548dc3beb273a9e41d797fcef8"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_north_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/north/frame_002.png",
+      "raw_sha256": "7e30a07210ec1d6a2859adb181e6c96221af4cd63504a5882cef9f66bb36fbf4",
+      "source_xy": [
+        80,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "ba51b18597cc3ca46249fe3b2cf330f020c4abfe68ba43aa03c0cf4fa5b31444"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_north_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/north/frame_003.png",
+      "raw_sha256": "03a68258dc990febd6086d3bb3914ce63eddcc73bdb1ac2186169d752ec9053a",
+      "source_xy": [
+        120,
+        560
+      ],
+      "duration_ms": 90,
+      "sha256": "bddf6aae4050507d596d07172d007776443e0c959297b03d633afbdf05c329ac"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_south_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/south/frame_000.png",
+      "raw_sha256": "a19dc323cb02589c42e434bbe1493e489ccf4606c7f8633a1ef67dbdd8822228",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "d2dcd36b864c5cc73f43e97b73cef93c354c23a4811e6d810e7c41985b062ea2"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_south_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/south/frame_001.png",
+      "raw_sha256": "902cb9706a6b6bef154efaf6e945133aa2919f28de619c9659d32d52f0b004c7",
+      "source_xy": [
+        40,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "bcaf50174ddbf7ff79745c34d9ba5a5da74b8f5262e90ed4502d62951b69569a"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_south_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/south/frame_002.png",
+      "raw_sha256": "b98cc09465f213dbdd289399906809b57a3cffd5f6f778e2be523a6908ba33d1",
+      "source_xy": [
+        80,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "27858b2cb2b214e5e1808704ce81a7b65ce639b550adc57182eafb62ef637d26"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_south_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/south/frame_003.png",
+      "raw_sha256": "138fef4b492692f68c9b291cdb9db300cc0a87544fc06af9426236edec9b41b6",
+      "source_xy": [
+        120,
+        480
+      ],
+      "duration_ms": 90,
+      "sha256": "e4b97b5d80272a3fb3f7af3f3c3eef2f4d30e080c6ea73f690087503d2fcc63b"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_west_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/west/frame_000.png",
+      "raw_sha256": "8edcc1db3b16a25bf0971680ea2cdb9c9d9df737252923e6564e7fbddfb9b8c5",
+      "source_xy": [
+        0,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "a2c88d07a20259a65f70cc62ccb82fc30d7ca3f95408476a4af80a6bb6e20d82"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_west_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/west/frame_001.png",
+      "raw_sha256": "3d320cf20d4f70e2329e4542f088a0ca25db25dbc9031115aa5155b749273cf3",
+      "source_xy": [
+        40,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "63d665b673dab065a712cffbd537a9d52e6e9a61f69ba84ef6def63d66736c55"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_west_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/west/frame_002.png",
+      "raw_sha256": "4b9babb86b8d2e8992307210747ed5384943fffba0830ab03a493c0c0a3072ef",
+      "source_xy": [
+        80,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "4bc1f9e30b34cc23eed8cade9e3137bb4a6895773d2942353da88034379b82a1"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/strike_west_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/strike_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/strike/west/frame_003.png",
+      "raw_sha256": "b2b6954b07b98269f0599273bd937af9e2bc2c9d144f845f5b976fbdd423559e",
+      "source_xy": [
+        120,
+        520
+      ],
+      "duration_ms": 90,
+      "sha256": "20eacab4fde008c5edb8220c68204084f9613123a2097c2d57992eb50cee9237"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_east_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/east/frame_000.png",
+      "raw_sha256": "1f3a59d6e5f07e966a90a291eefebfbc448dd30fc55145403ee42a9f9976d85a",
+      "source_xy": [
+        0,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "ecc230cedd4db368084c79aaee91d8e0a403ea0c758abea8018b2066932bdc1f"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_east_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/east/frame_001.png",
+      "raw_sha256": "9799a5b77362c8f2f9d54a23f73aaa63cb361d051cc6380998f6c01f71b339d3",
+      "source_xy": [
+        40,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "b2f2f3523d20e19fc6593f1ef9a904df2f62b1cee871571b4afb14fb2bb76b1d"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_east_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/east/frame_002.png",
+      "raw_sha256": "694f0e849f0d93d03e9802ae1cd7169d3cab0c81810a738eb8b0b06f1c0fcc68",
+      "source_xy": [
+        80,
+        440
+      ],
+      "duration_ms": 160,
+      "sha256": "59a6cc35e12ea05002d1ceeb07fd44f7a8a6982300c8a42735933f20376b973d"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_north_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/north/frame_000.png",
+      "raw_sha256": "b59d3b82f9bee63b7754da06c672d47f1474e358d1c40795b0111cbefd9f1185",
+      "source_xy": [
+        0,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "3b6a5de6fd62a5fc772e2bad67ebec92be32da39384a966f1e039d82241630a9"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_north_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/north/frame_001.png",
+      "raw_sha256": "931dc4d833c2334189964c07c47d5e2be4d2eeba41b19979b4106a8fb0d8bd6d",
+      "source_xy": [
+        40,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "793f50641c12efbf687ae37cf970c04d41d27478db2ac2a391b1e2cfc26ca087"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_north_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/north/frame_002.png",
+      "raw_sha256": "46f080f9dd6d40a6464c81ebe3d48320eaf6f49cd900048ddbafff54f618638a",
+      "source_xy": [
+        80,
+        400
+      ],
+      "duration_ms": 160,
+      "sha256": "c6e3027560d792802679501771caba33bb88247ceb41d4755fe0ed650b1b48d6"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_south_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/south/frame_000.png",
+      "raw_sha256": "10f65b3f8295c59575c53b10efd0942eaaa2124762d8be9cd555d211a02f1514",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "273b8df6b9252d83c95213e7331e63ac79ed31dc3d4dd71f362a346b1de30b1d"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_south_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/south/frame_001.png",
+      "raw_sha256": "f000e255295026de604d2a6f0a7689928d624280e3837620188263b0224ba2d3",
+      "source_xy": [
+        40,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "a5298d5cb95894aacc13bea78a8bfd61ff13b2436a0b7746cd13a450e69ae69a"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_south_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/south/frame_002.png",
+      "raw_sha256": "96cc9d5ef30e9c9502f8b468a7258457fec5d79a5d7994d7b3c336a70459c832",
+      "source_xy": [
+        80,
+        320
+      ],
+      "duration_ms": 160,
+      "sha256": "3ecbcff47e2676b05fefc1a681439b73f3e05c91ff2731fd2954e1b64c4d2e80"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_west_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/west/frame_000.png",
+      "raw_sha256": "aba07cc760d48d01c2d0623de948000c2c90accd557fefce5b0bd858abc81098",
+      "source_xy": [
+        0,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "e694fe435b445ad334f3b6ac8c43cbec4db47e18659456879e6f9ab9e4fc24b2"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_west_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/west/frame_001.png",
+      "raw_sha256": "252e515d834e2e601189c24a50609c5fb20bd2af8e037f0133ffe72efc79259e",
+      "source_xy": [
+        40,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "3116838587a62c072fee99088a37138afac690f4dc806fa705bcff2d25efbb9b"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/telegraph_west_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/telegraph_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/telegraph/west/frame_002.png",
+      "raw_sha256": "72967054d278cbb0d9e879969e3dbc0b1de4af413c8d33644b4960d53826f3aa",
+      "source_xy": [
+        80,
+        360
+      ],
+      "duration_ms": 160,
+      "sha256": "f6c0f30d2d6acff6cdc0c00d3c391cbac207be33f03d0362f99dbe705007150e"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_east_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/east/frame_000.png",
+      "raw_sha256": "298ce32505d493138c3692c591f2fc496a4c1075a40ef2dd1ca2aa4a9fec92d7",
+      "source_xy": [
+        0,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "b9bc4ab63136ae833023101c9e8f933ddb4e873ea67b81b4d2116f3f28145ec8"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_east_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/east/frame_001.png",
+      "raw_sha256": "6c57de1b012da817efe3065ba3b0eacd62054aceb20ae2d8092632dd424f28d9",
+      "source_xy": [
+        40,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "dc7070b80e30e8cdcf65f186fdc1156421fad8ce12158c7205cde9ecc1303e51"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_east_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/east/frame_002.png",
+      "raw_sha256": "aae463aead4e906c681a0f718212415fdc7075cc5821304aa156d7ee2f1ab21c",
+      "source_xy": [
+        80,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "451a4f4dc1d2f81361d1b7976468ceba29c6447f133bec3be82ec99ab269cdac"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_east_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/east/frame_003.png",
+      "raw_sha256": "ccd23a6e11170398452549a837d5f056b8cf48aec696d371ea8aff0bb0914450",
+      "source_xy": [
+        120,
+        280
+      ],
+      "duration_ms": 120,
+      "sha256": "17c3faae25ba638f71168853800d278e95c7376d44791cc991cd9d1f8632cd5e"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_north_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/north/frame_000.png",
+      "raw_sha256": "b3dab7cebafaa24542f4c6fe2c7bdfd66511a95b510852ba2d2178b70bf7d28b",
+      "source_xy": [
+        0,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "633028cb2f451446f342300920d94992ada904e13a6825a65ea35a8e1d3f6d9d"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_north_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/north/frame_001.png",
+      "raw_sha256": "3ed12f19cb338eb490d7d1e77c598878e92da4977fb5fc3d81a346e50478a909",
+      "source_xy": [
+        40,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "e018d25510961d54bb35796f806af13f8e6eab4529f5fe4270998276e399b5eb"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_north_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/north/frame_002.png",
+      "raw_sha256": "d76dfbd03e736f142727e0f7329b0e6b3d61670787289b5c7eb151823910b06b",
+      "source_xy": [
+        80,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "56e476948a0e6a88df0d18c5c07003bdbb76eaf86682982803a93292ef2fc5e9"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_north_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/north/frame_003.png",
+      "raw_sha256": "7ad5c95aed932702309bd07faf1502121b07213e1b96d33815f61195959cec5f",
+      "source_xy": [
+        120,
+        240
+      ],
+      "duration_ms": 120,
+      "sha256": "feb57db45dc2f243ead1480d328764e988c2cd017e3ecf398c3913150b95e9d7"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_south_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/south/frame_000.png",
+      "raw_sha256": "861533bf804917bf6d818c0c9b4e4212c01b2c845d6bacba94652ffe3fb12e79",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "fa1e3b5c10a7bef946132385634fc9f88c2f66e65ac634ee0724619420e42c64"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_south_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/south/frame_001.png",
+      "raw_sha256": "1abd7fd0ac9f6915daa7ade4a37554aa44d1aab23957726c63f735270ed23fbf",
+      "source_xy": [
+        40,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "9d75f2b635c8d340d71dbf64a2835b875c5208f1232d8bd8a750b6fb9b6b5b7b"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_south_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/south/frame_002.png",
+      "raw_sha256": "f27ca676c3d59bbadf1618dafed0a79fc5527b66eb46d974a13ef999c98e1b26",
+      "source_xy": [
+        80,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "a48acdcc08b80fc1a1831e109e80744929d7dc02dfa057d0df361fa6b0143b78"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_south_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/south/frame_003.png",
+      "raw_sha256": "2db46bc9198297e6c8b65b74d9bb889a2fe508794c7e1080dc1c581e62afb58c",
+      "source_xy": [
+        120,
+        160
+      ],
+      "duration_ms": 120,
+      "sha256": "e6e1bf22bfde488722c2e172108bf5353bddff2921e4f19ac9a02757197da0f9"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_west_0",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/west/frame_000.png",
+      "raw_sha256": "933477e1a769540660ce6ec4082df5c81a884ed6f609f95a45a0a461db27028a",
+      "source_xy": [
+        0,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "e3a440d6e315058a4f6ef7a48e71f61bc844b5b91b1bcafbe37db29663c12d11"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_west_1",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/west/frame_001.png",
+      "raw_sha256": "2590a6899900c7747970ae01f5996999944f08b277befc1167869f4e576dac24",
+      "source_xy": [
+        40,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "902077576d78c6601ea9db259cb6a6301d0f21f64c9136d5140b1a63361241d6"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_west_2",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/west/frame_002.png",
+      "raw_sha256": "8d65e78dab3c08da9c6159274d05c04021afebe4797e8d892ce20a24a7180aeb",
+      "source_xy": [
+        80,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "69b8c0f94565c663d69c46bf68071f71a487e9dd93411ad578d4cfef0a4237d9"
+    },
+    {
+      "key": "longtime/lt_orbit_wasp/walk_west_3",
+      "path": "assets/processed_longtime/lt_orbit_wasp/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_orbit_wasp/walk/west/frame_003.png",
+      "raw_sha256": "6019ab6734a11b0e7e53509842574390241e8b657cf0804687e41868fec21a83",
+      "source_xy": [
+        120,
+        200
+      ],
+      "duration_ms": 120,
+      "sha256": "536f5ba20cbb8d4b50d75dc2634f4ff3d8bdf45420b31cb96a66a9bd7b13a1fb"
+    }
+  ]
+}

@@ -1,20 +1,21 @@
 {
   "asset_ids": [
     "lt_hollow_astrolabe",
+    "lt_orbit_wasp",
     "lt_star_quarry"
   ],
   "chunk_group": "star_quarry",
-  "frame_count": 96,
+  "frame_count": 152,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 96,
+      "frames": 152,
       "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "b01867635e15ebe103d540c372ec84267e14b3acb7f43b0b99163103751459ca",
-      "png_sha256": "a7566ea346c85db0a9f6d656ba35bab193e37fdf83882dbbac7ffcbe42193255",
+      "json_sha256": "99875a05e2fef5d4fb54cb4a56045588220321d07512f6658d4bff5b0b4f2c65",
+      "png_sha256": "5a75eab9b32b4ea0510335bed45ea4c052d10c0019332f0373d92e3fa8c46448",
       "rgba8_bytes": 4194304,
       "width": 2048
     }
