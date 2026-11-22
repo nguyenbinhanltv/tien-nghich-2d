@@ -114,3 +114,59 @@ test('shapeJob drops results and bounds text', () => {
   assert.equal(j.log.length, 20);
   assert.equal(j.wallMs, 5);
 });
+
+// A fake MCP server: whatever /mcp/activity and /mcp/jobs should answer, so the tab is tested against the
+// documented route shape without needing the route in the real handler.
+async function fake({activity = {events: [], next: 0}, jobs}) {
+  const server = http.createServer((req, res) => {
+    const path = new URL(req.url, 'http://127.0.0.1').pathname;
+    const body = path === '/mcp/activity' ? activity : path === '/mcp/jobs' && jobs !== undefined ? jobs : null;
+    res.writeHead(body ? 200 : 404, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(body ?? {error: 'no'}));
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const project = makeProject();
+  const address = server.address();
+  const feed = async () => { let out; await handle({method: 'GET'}, {writeHead() {}, end(s) { out = JSON.parse(s); }}, new URL('http://127.0.0.1/api/tabs/jobs/feed'), {root: project.root, address, prefix: '/api/tabs/jobs/', libraryDir: fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'jobs-lib-'))}); return out; };
+  return {feed, close: async () => { server.close(); await project.cleanup(); }};
+}
+
+test('the documented /mcp/jobs shape: tool, state, agent, session, assetId, endedAt, durationMs, error; unknown fields ignored', async () => {
+  const f = await fake({jobs: {jobs: [
+    {id: 'job-aaaa1111', tool: 'qa_run', state: 'succeeded', agent: 'codex', session: 'h-3e05b7aa', assetId: 'lt_kiln_keeper', createdAt: '2026-11-22T10:00:00.000Z', startedAt: '2026-11-22T10:00:01.000Z', endedAt: '2026-11-22T10:00:03.500Z', durationMs: 2500, extra: {secret: 1}},
+    {id: 'job-bbbb2222', tool: 'diff', state: 'failed', agent: 'antigravity', session: 'h-e48fe6bb', createdAt: '2026-11-22T10:00:00.000Z', startedAt: '2026-11-22T10:00:01.000Z', endedAt: '2026-11-22T10:00:02.000Z', durationMs: 1000, error: 'revision 3 does not exist'},
+    {id: 'job-cccc3333', tool: 'preview_render', state: 'running', agent: 'codex', session: 'h-3e05b7aa', assetId: 'not_in_catalog', createdAt: '2026-11-22T10:00:00.000Z', startedAt: '2026-11-22T10:00:01.000Z'},
+    {id: 'job-dddd4444', tool: 'qa_run', state: 'mystery', createdAt: '2026-11-22T10:00:00.000Z'}]}});
+  try {
+    const {jobs, jobAssets} = await f.feed();
+    assert.equal(jobs.available, true);
+    const by = Object.fromEntries(jobs.items.map(j => [j.id, j]));
+    assert.deepEqual([by['job-aaaa1111'].name, by['job-aaaa1111'].status, by['job-aaaa1111'].owner, by['job-aaaa1111'].assetId, by['job-aaaa1111'].wallMs, by['job-aaaa1111'].finishedAt], ['qa_run', 'succeeded', {agent: 'codex', session: 'h-3e05b7aa'}, 'lt_kiln_keeper', 2500, '2026-11-22T10:00:03.500Z']);
+    assert.deepEqual([by['job-bbbb2222'].status, by['job-bbbb2222'].error.message], ['failed', 'revision 3 does not exist']);
+    assert.deepEqual([by['job-cccc3333'].status, by['job-cccc3333'].finishedAt], ['running', null]);
+    assert.equal(by['job-dddd4444'].status, 'queued');            // unknown state, no timestamps: inferred, not trusted
+    assert.ok(!('extra' in by['job-aaaa1111']));
+    assert.ok(typeof jobAssets.lt_kiln_keeper === 'string' && !('not_in_catalog' in jobAssets), 'only assets the catalog knows get a link');
+  } finally { await f.close(); }
+});
+
+test('missing or junk /mcp/jobs content: rows without an id are dropped, a non-list means unavailable, the feed still answers', async () => {
+  const junk = await fake({jobs: {jobs: [null, 7, 'x', {tool: 'x'}, {id: 'job-eeee5555'}, {id: 'job-ffff6666', startedAt: 'not a date', durationMs: -5, state: 42}]}});
+  try {
+    const {jobs} = await junk.feed();
+    assert.deepEqual(jobs.items.map(j => [j.id, j.status, j.name, j.wallMs]), [['job-eeee5555', 'queued', '?', null], ['job-ffff6666', 'queued', '?', null]]);
+  } finally { await junk.close(); }
+  const notAList = await fake({jobs: {jobs: 'nope'}});
+  try { assert.deepEqual((await notAList.feed()).jobs, {available: false, status: 200, items: []}); } finally { await notAList.close(); }
+  const absent = await fake({activity: {events: [{seq: 1, ts: '2026-11-22T10:00:00.000Z', agent: 'codex', session: 'h-1', tool: 'x', ok: true, ms: 3}], next: 1}});
+  try {
+    const out = await absent.feed();
+    assert.deepEqual([out.jobs.available, out.jobs.status, out.activity.events.length], [false, 404, 1]);
+  } finally { await absent.close(); }
+});
+
+test('shapeJob keeps the runner view working too (name, status, owner, cost.wallMs, finishedAt)', () => {
+  const j = shapeJob({id: 'job-1', name: 'qa_run', status: 'succeeded', owner: {agent: 'a', session: 's'}, createdAt: '2026-11-22T10:00:00.000Z', finishedAt: '2026-11-22T10:00:01.000Z', cost: {wallMs: 40}, log: ['x'], logLines: 1});
+  assert.deepEqual([j.name, j.status, j.owner, j.wallMs, j.logLines], ['qa_run', 'succeeded', {agent: 'a', session: 's'}, 40, 1]);
+  assert.equal(shapeJob(null), null);
+});

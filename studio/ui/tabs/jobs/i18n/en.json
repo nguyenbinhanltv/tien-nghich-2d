@@ -59,7 +59,10 @@
   "detail.error": "Failed: {message}",
   "detail.touched": "Assets and review items of this session",
   "detail.noLinks": "Nothing recorded for this session yet.",
-  "detail.linksNote": "Linked by agent and session from submission logs, QA records and review comments. A job does not record its asset, so these are the session's, not proof for this one job.",
+  "detail.linksNote": "Where a job records its asset it is shown above. The chips below are the session's, linked by agent and session from submission logs, QA records and review comments.",
   "detail.log": "Log, last {shown} of {total} lines",
-  "detail.noLog": "The job wrote no log lines."
+  "detail.noLog": "The job wrote no log lines.",
+  "col.asset": "Asset",
+  "detail.asset": "Asset",
+  "detail.noAsset": "not recorded for this job"
 }

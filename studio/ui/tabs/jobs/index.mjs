@@ -11,7 +11,7 @@ let app;
 
 function makeApp(ctx, state) {
   return {
-    ctx, state, events: [], since: 0, jobs: [], jobsAvailable: true, jobsStatus: 200, links: {}, now: Date.now(), skew: 0, signature: '', timer: null, ticker: null, failed: null,
+    ctx, state, events: [], since: 0, jobs: [], jobsAvailable: true, jobsStatus: 200, links: {}, jobAssets: {}, now: Date.now(), skew: 0, signature: '', timer: null, ticker: null, failed: null,
     route(patch = {}, opts = {}) {
       const next = {...this.state, ...patch};
       const job = 'job' in opts ? opts.job : this.state.job;
@@ -36,7 +36,7 @@ async function poll() {
     const restarted = data.activity.next < mine.since;
     mine.events = mergeEvents(mine.events, mine.since, data.activity);
     mine.since = restarted ? 0 : data.activity.next;
-    mine.jobs = data.jobs.items; mine.jobsAvailable = data.jobs.available; mine.jobsStatus = data.jobs.status; mine.links = data.links;
+    mine.jobs = data.jobs.items; mine.jobsAvailable = data.jobs.available; mine.jobsStatus = data.jobs.status; mine.links = data.links; mine.jobAssets = data.jobAssets ?? {};
     mine.skew = data.now - Date.now(); mine.failed = null;
     const signature = JSON.stringify([mine.jobs.map(j => [j.id, j.status, j.finishedAt, j.logLines]), mine.events.at(-1)?.seq, mine.jobsAvailable, Object.keys(mine.links).length]);
     if (signature !== mine.signature || restarted) { mine.signature = signature; render(mine); }
@@ -55,6 +55,11 @@ function schedule() {
 
 function chip(app, group, value, label, on, count) {
   return h('a', {class: 'chip' + (on ? ' on' : ''), 'aria-current': on ? 'true' : null, href: app.ctx.href(app.route({[group]: value}))}, label, count != null ? h('span', 'n', String(count)) : null);
+}
+
+function assetLink(app, j) {
+  const category = app.jobAssets[j.assetId];
+  return j.assetId ? (category ? h('a', {class: 'tagl', href: app.ctx.href({tab: app.ctx.categoryTab(category), asset: j.assetId, params: {}})}, j.assetId) : h('code', 'muted', j.assetId)) : h('span', 'muted', '–');
 }
 
 function badge(ctx, phase) { return h('span', 'badge p-' + phase, ctx.t('phase.' + phase)); }
@@ -93,12 +98,13 @@ function render(app) {
     h('p', 'toolsline', ...Object.entries(g.tools).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t, n]) => h('span', 'tool', `${t} ×${n}`))),
     linkChips(ctx, app.links[g.id]))) : [h('p', 'muted pad', ctx.t('sessions.none'))]));
   fill(ui.jobs, jobs.length ? h('table', 'tbl', h('caption', 'sr-only', ctx.t('jobs.title')),
-    h('thead', '', h('tr', '', ...['col.state', 'col.tool', 'col.agent', 'col.started', 'col.duration'].map(k => h('th', {scope: 'col'}, ctx.t(k))))),
+    h('thead', '', h('tr', '', ...['col.state', 'col.tool', 'col.asset', 'col.agent', 'col.started', 'col.duration'].map(k => h('th', {scope: 'col'}, ctx.t(k))))),
     h('tbody', '', ...jobs.map(j => {
       const phase = jobPhase(j), live = !j.finishedAt;
       const dur = h('td', 'num', h('span', live ? {'data-live': j.startedAt ?? j.createdAt} : {}, fmtDuration(durationMs(j, now))), phase === 'queued' ? h('small', 'muted', ' ' + ctx.t('job.waiting')) : null);
       return h('tr', {class: state.job === j.id ? 'on' : ''}, h('td', '', badge(ctx, phase)),
         h('td', '', h('a', {href: ctx.href(app.route({}, {job: j.id})), 'aria-current': state.job === j.id ? 'true' : null}, h('code', '', j.name))),
+        h('td', '', assetLink(app, j)),
         h('td', '', h('a', {href: ctx.href(app.route({session: sessionId(j.owner)}, {job: state.job}))}, who(j.owner))),
         h('td', 'muted', j.startedAt ? ago(ctx, j.startedAt, now) : ago(ctx, j.createdAt, now)), dur);
     }))) : h('p', 'muted pad', app.jobsAvailable ? ctx.t('jobs.none') : ctx.t('jobs.noneUnavailable')));
@@ -119,7 +125,7 @@ function renderDetail(app, now) {
   fill(ui.detail, 
     h('header', 'dhead', h('div', '', h('h2', '', j.name), h('code', '', j.id)), badge(ctx, phase),
       h('a', {class: 'x', href: ctx.href(app.route({}, {job: null})), 'aria-label': ctx.t('detail.close')}, '×')),
-    h('dl', 'kv', h('dt', '', ctx.t('detail.agent')), h('dd', '', h('a', {href: ctx.href(app.route({session: sessionId(j.owner)}, {job: j.id}))}, who(j.owner))),
+    h('dl', 'kv', h('dt', '', ctx.t('detail.asset')), h('dd', '', j.assetId ? assetLink(app, j) : h('span', 'muted', ctx.t('detail.noAsset'))), h('dt', '', ctx.t('detail.agent')), h('dd', '', h('a', {href: ctx.href(app.route({session: sessionId(j.owner)}, {job: j.id}))}, who(j.owner))),
       h('dt', '', ctx.t('detail.created')), h('dd', '', j.createdAt.replace('T', ' ').slice(0, 19)),
       h('dt', '', ctx.t('detail.started')), h('dd', '', j.startedAt ? j.startedAt.replace('T', ' ').slice(0, 19) : '–'),
       h('dt', '', ctx.t('detail.finished')), h('dd', '', j.finishedAt ? j.finishedAt.replace('T', ' ').slice(0, 19) : '–'),

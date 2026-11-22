@@ -18,7 +18,7 @@ test('every literal ctx.t key exists in the tab or shell strings, in both langua
 test('dynamic key families are complete', () => {
   const families = {phase: ['queued', 'running', 'failed', 'done'], state: ['all', 'running', 'failed', 'done'], 'link.asset': ['submitted', 'checked'], time: ['now', 'seconds', 'minutes', 'hours'], outcome: ['ok', 'failed']};
   for (const [family, names] of Object.entries(families)) for (const n of names) assert.ok(`${family}.${n}` in en, `${family}.${n}`);
-  for (const k of ['col.state', 'col.tool', 'col.agent', 'col.started', 'col.duration', 'col.time', 'col.outcome']) assert.ok(k in en, k);
+  for (const k of ['col.state', 'col.tool', 'col.agent', 'col.started', 'col.duration', 'col.time', 'col.outcome', 'col.asset']) assert.ok(k in en, k);
 });
 
 test('modules never call replaceChildren directly: it would print "null" for an empty slot (use fill)', () => {

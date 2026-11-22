@@ -59,7 +59,10 @@
   "detail.error": "Lỗi: {message}",
   "detail.touched": "Asset và mục duyệt của phiên này",
   "detail.noLinks": "Phiên này chưa có gì được ghi.",
-  "detail.linksNote": "Nối theo agent và phiên từ nhật ký nộp, bản ghi QA và nhận xét duyệt. Job không ghi asset của nó nên đây là của cả phiên, không phải bằng chứng riêng cho job này.",
+  "detail.linksNote": "Nếu job có ghi asset thì hiện ở trên. Các thẻ dưới đây là của cả phiên, nối theo agent và phiên từ nhật ký nộp, bản ghi QA và nhận xét duyệt.",
   "detail.log": "Log, {shown} / {total} dòng cuối",
-  "detail.noLog": "Job không ghi dòng log nào."
+  "detail.noLog": "Job không ghi dòng log nào.",
+  "col.asset": "Asset",
+  "detail.asset": "Asset",
+  "detail.noAsset": "job này không ghi asset"
 }

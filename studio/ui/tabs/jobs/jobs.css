@@ -32,3 +32,5 @@
 .dsec { padding: .2rem .9rem .8rem; border-top: 2px dashed var(--line); margin-top: .4rem; } .dsec h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin: .6rem 0 .35rem; } .note { font-size: .78rem; }
 .log { margin: 0; padding: .5rem; background: var(--ink); border: 1px solid var(--line); font: .75rem/1.4 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 16rem; overflow: auto; }
 .pad { padding: 1rem; }
+.main { grid-template-columns: minmax(0, 1fr); }
+.tbl th, .tbl td { padding: .35rem .5rem; }
