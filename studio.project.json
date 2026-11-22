@@ -311,6 +311,42 @@
       "guide": {"headWidth": 0.42, "bodyWidth": 0.58, "legWidth": 0.14, "legGap": 0.07}
     }
   },
+  "lineup": {
+    "humanoid": {
+      "measured": "Standing pose (idle, south, median of its frames) of the 41 shipped 32x32 player, npc and mob assets that have frames (22 Longtime, 19 core), against the locked kiln_keeper (30 px high, head share 0.40, limbs 4 px, outline weight 1.10). Measured spread: heightRatio 0.60 to 1.00 (Longtime 0.67 to 1.00); headShareDelta 0 to 0.24 where a neck shows (26 of 41); limbWidthRatio 0.25 to 3.75; outlineWeightDelta 0 to 4.33 (core mob_demonic_talisman, an ink-heavy design; Longtime at most 0.37). tolerance is the widest of these plus a margin (height 0.5 to 1.15, head share 0.30, limbs 0.15 to 5, outline 5), so none of the 41 is blocked (head share can only warn in practice: the neck search of the measurement ends at 55% of the height, so a measurable share never differs from the reference by the 0.30 limit); typical is the band the Longtime figures sit in (height 0.6 to 1.05, head share 0.15, limbs 0.5 to 3.5, outline 0.8): 4 of the 41 are outside it and only warned (mob_demonic_talisman, lt_chart_reader, lt_scroll_moth, lt_cinder_heron).",
+      "profiles": ["player", "npc", "mob"],
+      "references": ["kiln_keeper"],
+      "pose": {"clip": "idle", "direction": "south"},
+      "tolerance": {
+        "heightRatio": {"min": 0.5, "max": 1.15},
+        "headShareDelta": {"max": 0.3},
+        "limbWidthRatio": {"min": 0.15, "max": 5},
+        "outlineWeightDelta": {"max": 5}
+      },
+      "typical": {
+        "heightRatio": {"min": 0.6, "max": 1.05},
+        "headShareDelta": {"max": 0.15},
+        "limbWidthRatio": {"min": 0.5, "max": 3.5},
+        "outlineWeightDelta": {"max": 0.8}
+      }
+    },
+    "beast": {
+      "measured": "Standing pose (idle, south) of the 6 Longtime pets against the locked ink_marten (25 px high, limbs 5 px, outline weight 1.00; no neck, so head share is not compared). Measured spread: heightRatio 0.92 to 1.24, limbWidthRatio 0.20 to 3.60, outlineWeightDelta 0 to 0.59. Six figures are a small sample, so tolerance is wide (height 0.6 to 1.6, limbs 0.1 to 6, outline 3) and nothing is blocked; typical (height 0.8 to 1.3, limbs 0.3 to 4, outline 0.8) warns on 1 of 6 (lt_reed_crane, a crane with 2 px legs).",
+      "profiles": ["pet"],
+      "references": ["ink_marten"],
+      "pose": {"clip": "idle", "direction": "south"},
+      "tolerance": {
+        "heightRatio": {"min": 0.6, "max": 1.6},
+        "limbWidthRatio": {"min": 0.1, "max": 6},
+        "outlineWeightDelta": {"max": 3}
+      },
+      "typical": {
+        "heightRatio": {"min": 0.8, "max": 1.3},
+        "limbWidthRatio": {"min": 0.3, "max": 4},
+        "outlineWeightDelta": {"max": 0.8}
+      }
+    }
+  },
   "review": {
     "baseline": {"file": "assets/review/baseline_frames.json", "roots": ["assets/processed"]}
   },

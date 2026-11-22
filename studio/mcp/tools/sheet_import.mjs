@@ -9,7 +9,31 @@ import { ToolError } from '../registry.mjs';
 import { MAX_SHEET_BYTES, checkStoredSheet, forgeCall, forgeDir, importName, readDoc, readImports, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
 import { referenceFor, referenceRecord } from '../workflow/reference.mjs';
 import { carriesVerbatim } from '../workflow/prompt.mjs';
+import { judgeLineup, lineupMessages, measureFigure, referenceMeasure } from '../../forge/index.mjs';
+import { inkOf, lineupGroup, loadReferences } from '../workflow/lineup.mjs';
 import { dryRunProp, loadAsset, jsonResult, proposal, requireFrames } from './_shared.mjs';
+
+/**
+ * The newcomer against the approved references, measured on the cleaned crops of the facing the pack measures (before pixelising, so the
+ * numbers are estimates at native size: height and limb width are the crop's times the cell's scale; the outline weight cannot be known yet).
+ * Advisory here; studio_process and studio_qa_run are the gate. Returns null when no lineup group covers the asset.
+ */
+async function lineupAdvice(ws, snap, asset, layout, result) {
+  const group = lineupGroup(snap.pack, asset);
+  if (!group) return null;
+  const refs = await loadReferences(ws, snap, group, inkOf(snap));
+  if (!refs.reference) return { applies: false, group: group.name, why: refs.missing.join('; ') };
+  const pose = group.spec.pose;
+  const mine = result.record.cells.filter((c) => c.facing === pose.direction && c.scale);
+  if (!mine.length) return { applies: false, group: group.name, why: `the sheet has no ${pose.direction} cell, which is the facing the lineup measures` };
+  const each = mine.map((c) => { const m = measureFigure(result.cells.get(c.id)); return { height: m.height * c.scale, headShare: m.headShare, limbWidth: m.limbWidth === null ? null : m.limbWidth * c.scale, outlineWeight: null }; });
+  const figure = referenceMeasure(each);
+  const verdict = judgeLineup({ figure, reference: refs.reference, spec: group.spec });
+  const names = refs.references.map((r) => r.name).join(' and ');
+  return { applies: true, advisory: true, group: group.name, references: refs.references.map((r) => ({ name: r.name, asset: r.asset })), pose, figure, reference: refs.reference, status: verdict.status, rows: verdict.rows, messages: lineupMessages(verdict, names),
+    notProven: [...verdict.notProven, { what: 'lineup outline weight', why: 'the outline is rebuilt at native size by studio_process; it is measured there' }],
+    note: verdict.status === 'fail' ? 'this build is outside the pack\'s tolerance: studio_process will block it. Redraw it nearer the reference (see studio_template_get lineup=true) before going on.' : 'estimates from the sheet; studio_process measures the final pixels.' };
+}
 
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
@@ -27,6 +51,7 @@ export default {
     'Give the layout (inline, or the layoutId when you used write=true). The top layout.labelBand.fraction of every cell (0.13 in the shipped templates) is treated as the label area and never as drawing: if your sheet has NO labels, set it to 0 in the layout you pass, or crowns get cut. warnings say where a crop may cut the drawing and what to do. ' +
     'A character can have BOTH a turnaround sheet (slot rig: idle and small motions) and a pose sheet (slot pose: locomotion): each kind of sheet keeps its own import, chosen by the layout, so importing one never replaces the other. Importing the same kind again replaces that slot (the old sheet stays stored). ' +
     'If the asset has a locked reference in the pack, your prompt must carry its description paragraph verbatim (studio_template_get gives it in prompt.text); the check and the reference hash are recorded in provenance, and the result says when it is missing. ' +
+    'When the pack has a lineup group for the asset\'s profile, the result carries lineup: the figure of the pose the pack measures, against the approved reference characters (height, head-to-body share, limb width as estimates at native size); advisory here, the gate is studio_process. ' +
     'Next: studio_process to pixelise. dryRun runs the import and lists the files it would write, storing nothing.',
   scope: 'author',
   inputSchema: {
@@ -104,7 +129,7 @@ export default {
         const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
         return proposal({ asset: asset.id, slot, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
           wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists,
-          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings });
+          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings, lineup: await lineupAdvice(ws, snap, asset, layout, result) });
       }
       const stored = await storeSheet(ws, asset, bytes);
       // A style-locked entity: the prompt must carry the pack's description paragraph verbatim; the check is recorded either way.
@@ -116,11 +141,13 @@ export default {
       const previous = await writeImport(ws, asset, doc, slot);
       await appendFile(containedPath(ws.root, `${forgeDir(asset)}/imports.jsonl`), JSON.stringify({ ...doc, layout: undefined, layoutId: layout.id }) + '\n');
 
+      const lineup = await lineupAdvice(ws, snap, asset, layout, result);
       const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
       return jsonResult({
         ok: true, asset: asset.id, slot, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
         cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, ground: c.ground, scale: c.scale ?? null, limit: c.limit ?? null, warnings: c.warnings })),
         warnings,
+        ...(lineup ? { lineup } : {}),
         ...(reference ? { reference: { ...reference, message: reference.verbatim ? `The prompt carries the locked description of ${lock.name} verbatim; recorded in provenance.` : `Your prompt does NOT carry the locked description of ${lock.name} verbatim. Recorded as verbatim:false in provenance. Paste this paragraph unchanged into the sheet prompt, redraw, and import again: ${lock.description}` } } : {}),
         next: warnings.length ? 'Fix the warnings (move a seam in the layout, redraw) and import again, or go on if the crops are whole.' : 'studio_process to pixelise and look at the native sprites.',
       });

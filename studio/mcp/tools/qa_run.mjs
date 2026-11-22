@@ -1,4 +1,5 @@
 import { runQa, pickStage } from '../../core/qa.mjs';
+import { lineupFor, lineupGroup, standingFrames } from '../workflow/lineup.mjs';
 import { latestVersion } from '../../core/audio-candidates.mjs';
 import { auditCandidate } from '../workflow/audio.mjs';
 import { authorsOf, contentHash, readSubmissions } from '../../core/submissions.mjs';
@@ -19,6 +20,7 @@ export default {
     'summary.rawStage is true when the frames checked are the raw (submitted) ones: expected frames that are not there yet are then warnings, not errors; it never means a check was skipped. ' +
     'Every result carries qa, the one QA envelope all tools share: status (fail, partial when nothing failed but something was NOT proven, pass), method, each check with its measured value and threshold, notProven (what was not checked and why) and the hashes of the inputs; read notProven before trusting a pass. ' +
     'When the pack has a stop policy, a whole-asset run also reports stopPolicy: the fix round, whether it made progress, and whether the work must stop and ask the human. ' +
+    'When the pack has a lineup group for the asset\'s profile it also measures the standing pose against the approved reference characters (height, head-to-body share, limb width, outline weight; check lineup in the envelope): a build outside the pack\'s tolerance FAILS the run (pass is false, an independent check recorded on it does not pass, and studio_review_request refuses), with the numbers in lineup.messages; outside the typical band it is a warning. ' +
     'record=true writes the result as a check (needs scope author); independent=true also claims it is an independent check, which the server accepts only from a session OTHER than the one that submitted the frames. ' +
     'For an AUDIO cue it checks the newest candidate: reproducible from its source, no clipping, not silent, endpoints at digital zero (patches), notes in the key (scores); never listening. ' +
     'A human is asked to review (studio_review_request) only after such an independent check has passed on exactly the current frames (or candidate). ' +
@@ -86,18 +88,26 @@ export default {
           'Start another session (a new connection) and run studio_qa_run with independent=true there. A plain run without independent=true is fine for your own checking.');
       }
       const narrowed = Object.keys(select).length > 0;
+      const lg = lineupGroup(snap.pack, asset);
+      const lineup = lg ? await lineupFor(ws, snap, asset, (await standingFrames(ws.root, asset, stage, lg.spec.pose)).map((f) => f.image)) : null;
+      const lineupFail = Boolean(lineup?.applies && lineup.verdict.status === 'fail');
+      const pass = qa.pass && !lineupFail;
       const animated = Object.values(asset.clips ?? {}).some((c) => c.frames > 1);
       const envelopeOf = envelope({
         method: `static pixel gates over ${qa.summary.frames} ${stage} frame(s)${narrowed ? ` (narrowed to ${JSON.stringify(select)})` : ''}`,
-        checks: Object.entries(qa.checks).map(([name, v]) => check(name, { ok: v.errors === 0, warn: v.warnings > 0, measured: { errors: v.errors, warnings: v.warnings }, threshold: { errors: 0 } })),
+        checks: [...Object.entries(qa.checks).map(([name, v]) => check(name, { ok: v.errors === 0, warn: v.warnings > 0, measured: { errors: v.errors, warnings: v.warnings }, threshold: { errors: 0 } })),
+          ...(lineup?.applies ? [check('lineup', { ok: !lineupFail, warn: lineup.verdict.status === 'warn', measured: Object.fromEntries(lineup.verdict.rows.map((r) => [r.metric, r.measured])), threshold: lineup.group.spec.tolerance, detail: lineup.messages.join(' | ') || undefined })] : [])],
         notProven: [
           ...(qa.summary.rawStage && qa.missing.length ? [{ what: `${qa.missing.length} expected frame(s) are not there yet`, why: 'raw stage: only the frames submitted so far were judged (missing frames are warnings until processed frames exist)' }] : []),
+          ...(lineup && !lineup.applies ? [{ what: 'lineup against the approved references', why: lineup.why }] : []),
+          ...(lineup?.applies ? lineup.notProven : []),
           ...(narrowed ? [{ what: 'the frames outside the selection', why: 'the run was narrowed with clip, direction or frame' }] : []),
           ...(animated ? [{ what: 'motion: foot slide, pivot drift, flicker, loop seam', why: 'this tool judges single frames; the animation gates run in studio_rig_bake', turnOn: 'studio_rig_bake' }] : []),
         ],
         inputs: { frames: (await contentHash(ws.root, asset, stage)) ?? sha('no frames') } });
       const out = {
-        asset: asset.id, stage, pass: qa.pass, summary: qa.summary, qa: envelopeOf,
+        asset: asset.id, stage, pass, summary: qa.summary, qa: envelopeOf,
+        ...(lineup?.applies ? { lineup: { group: lineup.group.name, references: lineup.references.map((r) => ({ name: r.name, asset: r.asset })), pose: lineup.group.spec.pose, figure: lineup.figure, reference: lineup.reference, status: lineup.verdict.status, rows: lineup.verdict.rows, messages: lineup.messages } } : {}),
         checks: Object.fromEntries(Object.entries(qa.checks).map(([k, v]) => [k, { pass: v.pass, errors: v.errors, warnings: v.warnings, ...(v.details.length ? { details: v.details } : {}) }])),
         ...(qa.summary.rawStage ? { stageNote: 'raw stage: this checks the frames submitted so far, so frames the spec still expects are warnings (not errors). It does not mean the run skipped anything. Once processed frames exist the same gaps are errors.' } : {}),
         ...(qa.missing.length ? { missing: qa.missing.slice(0, 40), missingCount: qa.missing.length } : {}),
@@ -108,11 +118,11 @@ export default {
       if (record) {
         const content = await contentHash(ws.root, asset, stage);
         const independent = !authoredByThisSession;
-        if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass: qa.pass, errors: qa.summary.errors, warnings: qa.summary.warnings, evidence: await gather(ws, asset, { stage, content: content ?? '', session: ctx.caller.session }) });
-        out[args.dryRun ? 'wouldRecord' : 'recorded'] = { independent, pass: qa.pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
+        if (!args.dryRun) (await ws.db()).recordCheck({ asset: asset.id, stage, content: content ?? '', session: ctx.caller.session, agent: ctx.caller.agent, independent, pass, errors: qa.summary.errors + (lineupFail ? 1 : 0), warnings: qa.summary.warnings, evidence: await gather(ws, asset, { stage, content: content ?? '', session: ctx.caller.session }) });
+        out[args.dryRun ? 'wouldRecord' : 'recorded'] = { independent, pass, session: ctx.caller.session.slice(0, 8), note: independent ? 'counts as an independent check on exactly these frames' : 'recorded, but not independent: this session authored the asset' };
       }
       if (!narrowed) {
-        const sp = await measure(ws, asset, snap.pack, { stage, content: envelopeOf.inputs.frames, errors: qa.summary.pixelErrors + qa.summary.assetErrors, warnings: qa.summary.pixelWarnings + qa.summary.assetWarnings, caller: ctx.caller, record: !args.dryRun && scopeAllows(ctx.scope, 'author') });
+        const sp = await measure(ws, asset, snap.pack, { stage, content: envelopeOf.inputs.frames, errors: qa.summary.pixelErrors + qa.summary.assetErrors + (lineupFail ? 1 : 0), warnings: qa.summary.pixelWarnings + qa.summary.assetWarnings, caller: ctx.caller, record: !args.dryRun && scopeAllows(ctx.scope, 'author') });
         if (sp) out.stopPolicy = sp;
       }
       return jsonResult(args.dryRun ? { ...out, dryRun: true, wrote: 'nothing' } : out);

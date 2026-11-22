@@ -572,6 +572,23 @@
         }
       }
     },
+    "lineup": {
+      "description": "The character lineup ruler: a new character is measured against approved reference characters standing on one ground line. Keyed by group name; each group names the manifest profiles it covers, the pack references (style-locked, approved characters) that are the ruler, the standing pose that is measured, a tolerance (outside it a figure is blocked, with numbers) and a typical band (outside it a figure is warned about). Every metric is against the reference: heightRatio and limbWidthRatio are ratios of its height and limb width, headShareDelta and outlineWeightDelta absolute differences. Optional.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profiles", "references", "pose", "tolerance"],
+        "properties": {
+          "measured": {"type": "string", "description": "Where the numbers come from."},
+          "profiles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "references": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "description": "Names of entries of the pack's references block."},
+          "pose": {"type": "object", "additionalProperties": false, "required": ["clip", "direction"], "properties": {"clip": {"type": "string", "minLength": 1}, "direction": {"enum": ["south", "west", "north", "east"]}}},
+          "tolerance": {"type": "object", "additionalProperties": false, "properties": {"heightRatio": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "headShareDelta": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "limbWidthRatio": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "outlineWeightDelta": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}}},
+          "typical": {"type": "object", "additionalProperties": false, "properties": {"heightRatio": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "headShareDelta": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "limbWidthRatio": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}, "outlineWeightDelta": {"type": "object", "additionalProperties": false, "properties": {"min": {"type": "number", "exclusiveMinimum": 0}, "max": {"type": "number", "exclusiveMinimum": 0}}}}}
+        }
+      }
+    },
     "review": {
       "type": "object",
       "additionalProperties": false,

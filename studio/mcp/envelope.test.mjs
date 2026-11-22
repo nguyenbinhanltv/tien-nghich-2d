@@ -34,7 +34,7 @@ test('every tool that checks something returns the same envelope: qa_run (frames
   assert.equal(qa.status, 'partial', 'raw work with frames still missing is partial, never a plain pass');
   assert.ok(qa.notProven.some((n) => /expected frame\(s\) are not there yet/.test(n.what) && /raw stage/.test(n.why)));
   assert.ok(qa.notProven.some((n) => /foot slide/.test(n.what) && n.turnOn === 'studio_rig_bake'));
-  assert.deepEqual(qa.checks.map((c) => c.name), ['palette', 'alpha', 'outline', 'size', 'frameCount', 'naming']);
+  assert.deepEqual(qa.checks.map((c) => c.name), ['palette', 'alpha', 'outline', 'size', 'frameCount', 'naming', 'lineup']);
   assert.match(qa.inputs.frames, /^[0-9a-f]{64}$/);
   const narrowed = (await a.ok('studio_qa_run', { assetId: 'lt_seed_broker', clip: 'idle' })).qa;
   assert.ok(narrowed.notProven.some((n) => /outside the selection/.test(n.what)));
