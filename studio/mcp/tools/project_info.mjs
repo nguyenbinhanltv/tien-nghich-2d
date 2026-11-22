@@ -4,7 +4,7 @@ export default {
   description:
     'Read-only orientation for the Tien Nghich 2D asset studio: the 40-colour palette (ids and hex), ' +
     'sprite size classes and clip layouts, outline and alpha rules, frame-key templates, and asset counts ' +
-    'by category from the manifests. Call this first in any session.',
+    'by category from the manifests, the fixed review rubric (rubric) and the motion lint thresholds (motion). Call this first in any session.',
   scope: 'read',
   inputSchema: {
     type: 'object',
@@ -12,7 +12,7 @@ export default {
       sections: {
         type: 'array',
         description: 'Limit the response to these sections. Omit for everything.',
-        items: { type: 'string', enum: ['palette', 'sizeClasses', 'rules', 'frameKeys', 'assetCounts', 'manifests'] },
+        items: { type: 'string', enum: ['palette', 'sizeClasses', 'rules', 'frameKeys', 'assetCounts', 'manifests', 'rubric', 'motion'] },
       },
     },
     additionalProperties: false,
@@ -27,6 +27,8 @@ export default {
       frameKeys: () => p.frameKeys(),
       assetCounts: () => p.assetCounts(),
       manifests: () => p.manifests(),
+      rubric: () => p.rubric(),
+      motion: () => p.motion(),
     };
     const wanted = sections?.length ? sections : Object.keys(all);
     return {

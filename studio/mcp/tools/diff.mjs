@@ -5,6 +5,10 @@ import { readInside } from '../../core/files.mjs';
 import { yieldToLoop } from '../../core/fsutil.mjs';
 import { diffPng } from '../../core/pixdiff.mjs';
 import { pickStage } from '../../core/qa.mjs';
+import { clipGroups, loadGroup, runMotion } from '../../core/motion-qa.mjs';
+import { clipContract } from '../../core/clips.mjs';
+import { readMetadata } from '../../core/metadata.mjs';
+import { onionStrip } from '../../core/motion.mjs';
 import { bareFrame } from '../../core/review.mjs';
 import { ToolError } from '../registry.mjs';
 import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames, selectionOf, selectionProps } from './_shared.mjs';
@@ -30,6 +34,8 @@ export default {
     'against="main" compares the frame files in this worktree with the same files on main (added, changed, unchanged). ' +
     'Per frame: changed pixel count, bounding box, a few before/after colours, and the two hashes. ' +
     'A frame with nothing to compare is still listed, with a status: single_revision (only revision 0 exists, so it has not changed since it was submitted) or no_history (no revision store entry yet). ' +
+    'motion=true adds MEASUREMENTS of the animation to the result: per clip and direction the opaque bounds of every frame, the changed-pixel count and bounding box of each neighbouring pair (and the loop seam), and the lint findings (lone pixels, detached fragments, near-duplicate held frames, uneven cadence, a telegraph too short to read; thresholds from the project pack, each finding carries its measured value and limit). ' +
+    'onion=true (needs clip and direction) also returns one picture of that clip: a panel per frame with its neighbours as faint ghosts (earlier red, later blue). Neither needs frames to have a history. ' +
     'Revisions come from studio_frame_patch target "revision" or a human edit. A patch stored for the bake (target "bake") is not a revision: it lives in the asset\'s forge/patch.json and changes frames at the next studio_rig_bake.',
   scope: 'read',
   inputSchema: {
@@ -39,6 +45,8 @@ export default {
       against: { type: 'string', enum: ['previous', 'main'], description: 'previous: the revision before the newest one (default). main: the frame files on main.' },
       stage: { type: 'string', enum: ['processed', 'raw'], description: 'Which frames. Default: processed if any exist, else raw.' },
       ...selectionProps,
+      motion: { type: 'boolean', description: 'Add motion measures: frame bounds, pair changes, lint findings per clip (frames of the current stage; the against comparison still runs).' },
+      onion: { type: 'boolean', description: 'Also return an onion-skin picture of the clip (needs clip and direction). Implies motion.' },
       background: backgroundProp,
     },
     required: ['assetId'],
@@ -46,9 +54,11 @@ export default {
   },
   annotations: { readOnlyHint: true, idempotentHint: true },
   async handler(args, ctx) {
-    const { ws, asset } = await loadAsset(ctx, args.assetId);
+    const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
     const against = args.against ?? 'previous';
+    if (args.onion && (args.clip === undefined || args.direction === undefined)) throw new ToolError('onion needs clip and direction: it draws one clip.');
+    if (args.onion && args.frame !== undefined) throw new ToolError('onion draws a whole clip: leave out frame.');
     return inlineOrJob(ctx, 'diff', args, async (log) => {
       const stage = await pickStage(ws.root, asset, args.stage);
       const sel = selectionOf(args);
@@ -77,13 +87,30 @@ export default {
         }
       }
       const changed = results.filter((r) => r.changedPixels > 0 || r.sizeChanged || r.status === 'added').length;
-      return jsonResult({
+      let motion = null, picture = null;
+      if (args.motion || args.onion) {
+        const r = await runMotion({ root: ws.root, pack: snap.pack, asset, stage, select: sel });
+        motion = { thresholds: r.thresholds, byCode: r.byCode, notProven: r.notProven, skippedSingleFrame: r.skipped,
+          clips: r.clips.map((c) => ({ clip: c.clip, direction: c.direction, frames: c.frames, loopPolicy: c.loopPolicy, events: c.events, bounds: c.bounds, pairs: c.pairs, findings: c.findings.slice(0, 20), findingCount: c.findings.length })) };
+        if (args.onion) {
+          const group = (await clipGroups(ws.root, asset, stage, { clip: args.clip, direction: args.direction }))[0];
+          if (!group || group.frames.length < 2) throw new ToolError(`${args.clip}/${args.direction} has fewer than two ${stage} frames, so there is no motion to draw.`);
+          const { images } = await loadGroup(ws.root, group);
+          const meta = (await readMetadata(ws.root, asset))?.data?.clips?.[args.clip];
+          const strip = onionStrip(images, { loop: clipContract({ asset, clip: args.clip, declared: meta, pack: snap.pack }).loopPolicy === 'loop' });
+          picture = strip; motion.onion = { clip: args.clip, direction: args.direction, panels: strip.panels, size: [strip.width, strip.height] };
+        }
+      }
+      const out = {
         asset: asset.id, against, stage, ...(base ? { main: base } : {}),
         summary: { frames: results.length, changed, unchanged: results.filter((r) => r.identical).length, added: results.filter((r) => r.status === 'added').length,
           noHistory: results.filter((r) => ['no_history', 'single_revision'].includes(r.status)).length },
         frames: results.length <= 40 ? results : results.filter((r) => !r.identical).slice(0, 40),
         ...(results.length > 40 ? { note: 'more than 40 frames: only changed ones are listed' } : {}),
-      });
+        ...(motion ? { motion } : {}),
+      };
+      if (!picture) return jsonResult(out);
+      return { content: [{ type: 'text', text: `Onion skin of ${args.clip}/${args.direction} (${stage}): panels are frames ${picture.panels.join(', ')}; earlier neighbours red, later blue. Measures are in the structured result.` }, { type: 'image', data: picture.png.toString('base64'), mimeType: 'image/png' }], structuredContent: out };
     });
   },
 };
