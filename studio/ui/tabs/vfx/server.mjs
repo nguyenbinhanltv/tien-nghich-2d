@@ -1,0 +1,181 @@
+// VFX tab server routes, read-only, under /api/tabs/vfx/:
+//   GET effects                list of every effect (core index + design-manifest effects), card-sized
+//   GET effect?id=             one effect with frame paths, sections, events and the pack's floors
+//   GET evidence?id=           spec summaries, provenance and recorded + freshly computed audits, spec rounds
+//   GET floors                 the three floor colours, from the pack palette
+// Building or re-rendering is a job (studio_vfx_build) and is not reachable from here.
+import fs from 'node:fs/promises';
+import { loadPack, buildCatalog } from '../../../core/index.mjs';
+import { readJson, readJsonIfExists, readInside } from '../../../core/files.mjs';
+import { decodeRgba } from '../../../core/png.mjs';
+import { problem } from '../../../server/editor-catalog.mjs';
+import { coreEffect, longtimeEffect, cardOf, specSummary, frameMetrics, checkAcceptance, parseCoreRubric, parseLongtimeSelfScores, diffSummaries, sha256, sha256Lf } from './data.mjs';
+
+// Where this project keeps the spec history and the two write-ups that record audits. A project pack that
+// grows a `ui.vfx` block can override any of these; the defaults are this repository's layout.
+const defaults = {
+  coreSpecDir: 'tools/generators/vfx_specs', roundsDir: 'tools/generators/vfx_specs/history', rounds: [1, 2, 3, 4],
+  longtimeRawDir: 'assets/raw/longtime', longtimeProcessedDir: 'assets/processed_longtime',
+  rubricDoc: 'docs/LESSONS_vfx_spritefx.md', longtimeDoc: 'docs/LONGTIME_VFX.md',
+  floors: [
+    {id: 'grey', color: 'ink_04'},
+    {id: 'court', color: 'ink_03', joint: 'ink_02'},
+    {id: 'dark', color: 'ink_02'}
+  ]
+};
+
+const ttlMs = 2000;
+const cache = new Map();
+
+async function library(root) {
+  const hit = cache.get(root);
+  if (hit && Date.now() - hit.at < ttlMs) return hit.value;
+  const value = build(root);
+  cache.set(root, {at: Date.now(), value});
+  value.catch(() => cache.delete(root));
+  return value;
+}
+
+async function listDir(root, rel) {
+  try { return new Set((await fs.readdir(root + '/' + rel)).map(n => rel + '/' + n)); } catch { return new Set(); }
+}
+
+async function build(root) {
+  const pack = await loadPack(root);
+  const catalog = await buildCatalog(pack, root);
+  const cfg = {...defaults, ...(pack.ui?.vfx ?? {})};
+  const ready = new Map(catalog.assets.filter(a => a.category === 'vfx').map(a => [a.id, a.readiness]));
+  const effects = [];
+  for (const source of pack.catalog.sources) {
+    const label = source.label?.en ?? source.id;
+    if (source.kind === 'vfx-index') {
+      const index = await readJson(root, source.file);
+      for (const entry of index.effects ?? []) {
+        const descriptor = await readJsonIfExists(root, entry.descriptor);
+        effects.push(coreEffect(entry, descriptor, label, ready.get(entry.id) ?? 'authored'));
+      }
+    } else if (source.kind === 'design-manifest' && source.effects) {
+      const manifest = await readJson(root, source.file);
+      const entries = source.effects.split('.').reduce((n, k) => n?.[k], manifest) ?? [];
+      const template = (manifest.vfx?.paths?.processed ?? cfg.longtimeProcessedDir + '/{id}/{clip}_{palette}_{n}.png');
+      for (const entry of entries) {
+        const dir = template.replace('{id}', entry.id).replace(/\/[^/]*$/, '');
+        const existing = await listDir(root, dir);
+        const pathTemplate = template.replace('{id}', entry.id);
+        effects.push(longtimeEffect(entry, {sourceLabel: label, readiness: ready.get(entry.id) ?? entry.status ?? 'planned', pathTemplate, existing}));
+      }
+    }
+  }
+  effects.sort((a, b) => (a.group === b.group ? 0 : a.group === 'core' ? -1 : 1));
+  const palette = await readJson(root, pack.palette.file);
+  const byId = new Map(palette.colors.map(c => [c.id, c.hex]));
+  const hexToId = new Map(palette.colors.map(c => [c.hex.toLowerCase(), c.id]));
+  const floors = cfg.floors.map(f => ({id: f.id, color: byId.get(f.color) ?? '#6e6877', joint: f.joint ? byId.get(f.joint) ?? null : null, paletteId: f.color, jointId: f.joint ?? null}));
+  return {pack, cfg, effects, floors, hexToId, outline: palette.outline};
+}
+
+const sheetOf = (e, clip, variant) => clip.paths[variant] ?? clip.paths[Object.keys(clip.paths)[0]] ?? [];
+
+async function readPng(root, rel) {
+  try { return decodeRgba(await readInside(root, rel)); } catch { return null; }
+}
+
+async function evidence(root, lib, effect) {
+  const {cfg, hexToId} = lib;
+  const out = {id: effect.id, group: effect.group, specs: [], provenance: null, recorded: {}, computed: [], rounds: null};
+  const specFile = (variant, clipId) => effect.group === 'core' ? `${cfg.coreSpecDir}/${effect.id}.json`
+    : `${cfg.longtimeRawDir}/${effect.id}/specs/${clipId}_${variant}.json`;
+  const prov = effect.group === 'longtime' ? await readJsonIfExists(root, `${cfg.longtimeRawDir}/${effect.id}/provenance.json`) : undefined;
+  const recordedHash = (prov?.specs) ?? {};
+  const seen = new Set();
+  for (const clip of effect.clips) for (const v of (effect.variants.length ? effect.variants.map(x => x.id) : [''])) {
+    const file = specFile(v, clip.id);
+    if (seen.has(file)) continue;
+    seen.add(file);
+    let bytes = null, spec = null;
+    try { bytes = await readInside(root, file); spec = JSON.parse(bytes); } catch { /* absent */ }
+    const rel = file.split('/specs/')[1];
+    const recorded = rel ? recordedHash['specs/' + rel] : undefined;
+    out.specs.push({variant: v || null, clip: clip.id, path: file, exists: Boolean(spec),
+      sha256: bytes ? sha256(bytes) : null, sha256Lf: bytes ? sha256Lf(bytes) : null, recordedSha256: recorded ?? null,
+      hashMatches: recorded && bytes ? [sha256(bytes), sha256Lf(bytes)].includes(recorded) : null,
+      summary: spec ? specSummary(spec, hexToId) : null});
+  }
+  // Provenance
+  if (prov) {
+    const frames = new Map((prov.frames ?? []).map(f => [f.path, f]));
+    let match = 0, mismatch = 0, missing = 0;
+    for (const f of frames.values()) {
+      try { sha256(await readInside(root, f.path)) === f.sha256 ? match++ : mismatch++; } catch { missing++; }
+    }
+    out.provenance = {path: `${cfg.longtimeRawDir}/${effect.id}/provenance.json`, recorded: true,
+      fields: Object.fromEntries(['producer', 'tool', 'tool_pin', 'tool_license', 'method', 'rights', 'palette', 'generator', 'generator_sha256', 'effects_sha256',
+        'source_sha256', 'environment', 'review'].filter(k => prov[k] !== undefined).map(k => [k, prov[k]])),
+      sheets: prov.render_sheets_sha256 ?? {}, frames: {recorded: frames.size, match, mismatch, missing}};
+  } else {
+    const hashes = {};
+    if (effect.sheet) try { hashes.sheet = sha256(await readInside(root, effect.sheet)); } catch { /* absent */ }
+    if (effect.descriptor) try { hashes.descriptor = sha256(await readInside(root, effect.descriptor)); } catch { /* absent */ }
+    out.provenance = {recorded: false, computedNow: hashes};
+  }
+  // Recorded audits
+  if (effect.group === 'core') {
+    const text = (await readInside(root, cfg.rubricDoc).catch(() => Buffer.alloc(0))).toString();
+    const row = parseCoreRubric(text, lib.effects.filter(e => e.group === 'core').map(e => e.id)).get(effect.id);
+    out.recorded = {source: cfg.rubricDoc, selfScore: row ?? null, note: row ? null : 'none'};
+  } else {
+    const text = (await readInside(root, cfg.longtimeDoc).catch(() => Buffer.alloc(0))).toString();
+    const row = parseLongtimeSelfScores(text, lib.effects.filter(e => e.group === 'longtime').map(e => e.id)).get(effect.id);
+    out.recorded = {source: cfg.longtimeDoc, selfScore: row ?? null, acceptance: effect.acceptance, review: prov?.review ?? null};
+  }
+  // Computed now from the frames on disk
+  for (const clip of effect.clips) for (const v of (effect.variants.length ? effect.variants.map(x => x.id) : [''])) {
+    const paths = sheetOf(effect, clip, v);
+    const decoded = (await Promise.all(paths.map(p => (p ? readPng(root, p) : null)))).filter(Boolean);
+    if (decoded.length !== paths.length) { out.computed.push({clip: clip.id, variant: v || null, missing: paths.length - decoded.length}); continue; }
+    const metrics = frameMetrics(decoded);
+    out.computed.push({clip: clip.id, variant: v || null, ...metrics, checks: checkAcceptance(metrics, effect.acceptance)});
+  }
+  // Rounds (core only)
+  if (effect.group === 'core') {
+    const rounds = [];
+    const final = out.specs[0]?.summary ?? null;
+    for (const n of cfg.rounds) {
+      const file = `${cfg.roundsDir}/round${n}/${effect.id}.json`;
+      let spec = null, bytes = null;
+      try { bytes = await readInside(root, file); spec = JSON.parse(bytes); } catch { /* absent */ }
+      const summary = spec ? specSummary(spec, hexToId) : null;
+      rounds.push({round: n, path: file, exists: Boolean(spec), sha256: bytes ? sha256(bytes) : null, summary, diffFromCurrent: summary && final ? diffSummaries(summary, final) : null});
+    }
+    // Frames or sheets per round: only a path that actually exists counts.
+    const frameDirs = [];
+    for (const n of cfg.rounds) {
+      const names = [`${cfg.roundsDir}/round${n}/${effect.id}_sheet.png`, `${cfg.roundsDir}/round${n}/${effect.id}_0.png`];
+      const found = [];
+      for (const p of names) { try { await fs.access(root + '/' + p); found.push(p); } catch { /* absent */ } }
+      frameDirs.push({round: n, sheet: found.find(p => p.endsWith('_sheet.png')) ?? null});
+    }
+    out.rounds = {rounds, sheets: frameDirs};
+  }
+  return out;
+}
+
+export async function handle(req, res, url, {root, prefix}) {
+  function send(status, data) {
+    res.writeHead(status, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
+    res.end(JSON.stringify(data));
+  }
+  if (!['GET', 'HEAD'].includes(req.method)) throw problem(405, 'method_not_allowed', 'The VFX tab API is read-only');
+  const name = url.pathname.slice(prefix.length);
+  const lib = await library(root);
+  if (name === 'effects') return send(200, {effects: lib.effects.map(cardOf), floors: lib.floors});
+  if (name === 'floors') return send(200, {floors: lib.floors});
+  const id = url.searchParams.get('id');
+  if (name === 'effect' || name === 'evidence') {
+    if (!id) throw problem(422, 'invalid_input', 'id is required');
+    const effect = lib.effects.find(e => e.id === id);
+    if (!effect) throw problem(404, 'unknown_effect', 'No effect with that id');
+    return send(200, name === 'effect' ? {effect, floors: lib.floors} : await evidence(root, lib, effect));
+  }
+  throw problem(404, 'unknown_route', 'Unknown VFX route');
+}
