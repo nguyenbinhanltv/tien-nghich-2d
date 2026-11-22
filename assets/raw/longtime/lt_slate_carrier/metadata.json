@@ -1,0 +1,141 @@
+{
+  "group_id": "ee25de82-7a11-45ad-9f6a-c828ab871b0c",
+  "states": [
+    {
+      "character": {
+        "id": "df171166-4fd1-4c5f-b638-3a8f66b109ed",
+        "name": "Idle",
+        "prompt": "Slate carrier, a small chibi stone-quarry porter: a stocky hunched worker with a big head in a rough grey cloth wrap, carrying a huge flat slab of dark slate stone strapped on its back with bronze straps, the slab taller than its head with a glowing cyan crack across it, thick short legs, bronze-banded wrists, small dark eyes under a stone brow. Clear silhouette dominated by the slate slab. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T08:33:23.936394+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "telegraph": {
+            "east": [
+              "Idle/animations/telegraph/east/frame_000.png",
+              "Idle/animations/telegraph/east/frame_001.png",
+              "Idle/animations/telegraph/east/frame_002.png",
+              "Idle/animations/telegraph/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/telegraph/north/frame_000.png",
+              "Idle/animations/telegraph/north/frame_001.png",
+              "Idle/animations/telegraph/north/frame_002.png",
+              "Idle/animations/telegraph/north/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/telegraph/south/frame_000.png",
+              "Idle/animations/telegraph/south/frame_001.png",
+              "Idle/animations/telegraph/south/frame_002.png",
+              "Idle/animations/telegraph/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/telegraph/west/frame_000.png",
+              "Idle/animations/telegraph/west/frame_001.png",
+              "Idle/animations/telegraph/west/frame_002.png",
+              "Idle/animations/telegraph/west/frame_003.png"
+            ]
+          },
+          "walk": {
+            "east": [
+              "Idle/animations/walk/east/frame_000.png",
+              "Idle/animations/walk/east/frame_001.png",
+              "Idle/animations/walk/east/frame_002.png",
+              "Idle/animations/walk/east/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/walk/west/frame_000.png",
+              "Idle/animations/walk/west/frame_001.png",
+              "Idle/animations/walk/west/frame_002.png",
+              "Idle/animations/walk/west/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/walk/south/frame_000.png",
+              "Idle/animations/walk/south/frame_001.png",
+              "Idle/animations/walk/south/frame_002.png",
+              "Idle/animations/walk/south/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/walk/north/frame_000.png",
+              "Idle/animations/walk/north/frame_001.png",
+              "Idle/animations/walk/north/frame_002.png",
+              "Idle/animations/walk/north/frame_003.png"
+            ]
+          },
+          "strike": {
+            "north": [
+              "Idle/animations/strike/north/frame_000.png",
+              "Idle/animations/strike/north/frame_001.png",
+              "Idle/animations/strike/north/frame_002.png",
+              "Idle/animations/strike/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/strike/west/frame_000.png",
+              "Idle/animations/strike/west/frame_001.png",
+              "Idle/animations/strike/west/frame_002.png",
+              "Idle/animations/strike/west/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/strike/east/frame_000.png",
+              "Idle/animations/strike/east/frame_001.png",
+              "Idle/animations/strike/east/frame_002.png",
+              "Idle/animations/strike/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/strike/south/frame_000.png",
+              "Idle/animations/strike/south/frame_001.png",
+              "Idle/animations/strike/south/frame_002.png",
+              "Idle/animations/strike/south/frame_003.png"
+            ]
+          },
+          "idle": {
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T08:39:39.325827"
+}

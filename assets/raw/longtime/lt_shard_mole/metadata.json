@@ -1,0 +1,141 @@
+{
+  "group_id": "cd73c64f-d6d8-47b9-a744-7819c00742a4",
+  "states": [
+    {
+      "character": {
+        "id": "6eea055e-2e26-411a-9892-a6127443988f",
+        "name": "Idle",
+        "prompt": "Shard mole, a small chibi stone-quarry burrowing mole: round plump body of rough grey-brown rock with a large head, a long pink-white snout, tiny dark eyes, big bronze digging claws on both front paws, a crown of jagged glowing cyan crystal shards growing on its back and head. Stocky, low, readable silhouette. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "custom",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-22T08:25:00.327855+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "walk": {
+            "south": [
+              "Idle/animations/walk/south/frame_000.png",
+              "Idle/animations/walk/south/frame_001.png",
+              "Idle/animations/walk/south/frame_002.png",
+              "Idle/animations/walk/south/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/walk/east/frame_000.png",
+              "Idle/animations/walk/east/frame_001.png",
+              "Idle/animations/walk/east/frame_002.png",
+              "Idle/animations/walk/east/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/walk/north/frame_000.png",
+              "Idle/animations/walk/north/frame_001.png",
+              "Idle/animations/walk/north/frame_002.png",
+              "Idle/animations/walk/north/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/walk/west/frame_000.png",
+              "Idle/animations/walk/west/frame_001.png",
+              "Idle/animations/walk/west/frame_002.png",
+              "Idle/animations/walk/west/frame_003.png"
+            ]
+          },
+          "telegraph": {
+            "east": [
+              "Idle/animations/telegraph/east/frame_000.png",
+              "Idle/animations/telegraph/east/frame_001.png",
+              "Idle/animations/telegraph/east/frame_002.png",
+              "Idle/animations/telegraph/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/telegraph/south/frame_000.png",
+              "Idle/animations/telegraph/south/frame_001.png",
+              "Idle/animations/telegraph/south/frame_002.png",
+              "Idle/animations/telegraph/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/telegraph/west/frame_000.png",
+              "Idle/animations/telegraph/west/frame_001.png",
+              "Idle/animations/telegraph/west/frame_002.png",
+              "Idle/animations/telegraph/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/telegraph/north/frame_000.png",
+              "Idle/animations/telegraph/north/frame_001.png",
+              "Idle/animations/telegraph/north/frame_002.png",
+              "Idle/animations/telegraph/north/frame_003.png"
+            ]
+          },
+          "idle": {
+            "south": [
+              "Idle/animations/idle/south/frame_000.png",
+              "Idle/animations/idle/south/frame_001.png",
+              "Idle/animations/idle/south/frame_002.png",
+              "Idle/animations/idle/south/frame_003.png"
+            ],
+            "west": [
+              "Idle/animations/idle/west/frame_000.png",
+              "Idle/animations/idle/west/frame_001.png",
+              "Idle/animations/idle/west/frame_002.png",
+              "Idle/animations/idle/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/idle/north/frame_000.png",
+              "Idle/animations/idle/north/frame_001.png",
+              "Idle/animations/idle/north/frame_002.png",
+              "Idle/animations/idle/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png"
+            ]
+          },
+          "strike": {
+            "west": [
+              "Idle/animations/strike/west/frame_000.png",
+              "Idle/animations/strike/west/frame_001.png",
+              "Idle/animations/strike/west/frame_002.png",
+              "Idle/animations/strike/west/frame_003.png"
+            ],
+            "north": [
+              "Idle/animations/strike/north/frame_000.png",
+              "Idle/animations/strike/north/frame_001.png",
+              "Idle/animations/strike/north/frame_002.png",
+              "Idle/animations/strike/north/frame_003.png"
+            ],
+            "east": [
+              "Idle/animations/strike/east/frame_000.png",
+              "Idle/animations/strike/east/frame_001.png",
+              "Idle/animations/strike/east/frame_002.png",
+              "Idle/animations/strike/east/frame_003.png"
+            ],
+            "south": [
+              "Idle/animations/strike/south/frame_000.png",
+              "Idle/animations/strike/south/frame_001.png",
+              "Idle/animations/strike/south/frame_002.png",
+              "Idle/animations/strike/south/frame_003.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-22T08:31:32.503383"
+}
