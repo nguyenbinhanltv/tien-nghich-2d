@@ -3,9 +3,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { Readable } from 'node:stream';
-import { bareFrame, addRegionRequest } from '../core/review.mjs';
+import { bareFrame } from '../core/review.mjs';
 import { saveRevision } from '../core/revisions.mjs';
-import { pickCandidate } from '../core/candidates.mjs';
 import { handle as reviewRoute } from '../ui/tabs/review/server.mjs';
 import { PROVENANCE, clipFrames, connect, makeFrame, makeProject } from './testkit.mjs';
 import { openProject } from './project.mjs';
@@ -76,7 +75,6 @@ test('REVIEW-008, REVIEW-007: candidates: broken ones are rejected, survivors be
   // nothing of this is reachable from MCP: no tool takes a pick, and every candidate is on one run
   const listed = await author.ok('studio_review_list', { assetId: 'lt_seed_broker', detail: 'full' });
   assert.equal(listed.items[0].takes.newest, 1);
-  assert.equal(typeof pickCandidate, 'function');
   // a run with every candidate broken writes nothing
   const none = await author.call('studio_frames_submit', { assetId: 'lt_seed_broker', provenance: PROVENANCE, candidates: [{ frames: variant(1, 2, [{ kind: 'color', x: 16, y: 12 }]) }], dryRun: true });
   assert.match(text(none), /survivor|rejected/);
@@ -123,5 +121,4 @@ test('REVIEW-009: a change request is pinned, append-only, and answered only by 
   assert.throws(() => raw.exec("UPDATE change_requests SET text='x'"), /append-only/);
   assert.throws(() => raw.exec('DELETE FROM change_requests'), /append-only/);
   raw.close();
-  assert.equal(typeof addRegionRequest, 'function');
 }));

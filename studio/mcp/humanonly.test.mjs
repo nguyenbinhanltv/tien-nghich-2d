@@ -162,6 +162,17 @@ function sources(dir, out = []) {
   return out;
 }
 
+test('REVIEW-007: static: nothing under studio/mcp or studio/core can reach the Review tab\'s human-only writes (pick, region request, select)', () => {
+  const files = [...sources(join(REPO, 'studio/mcp')), ...sources(join(REPO, 'studio/core'))];
+  for (const f of files) {
+    if (f.endsWith('humanonly.test.mjs')) continue;
+    const src = readFileSync(f, 'utf8');
+    const code = src.split('\n').filter((l) => !l.trim().startsWith('//')).join('\n');
+    assert.doesNotMatch(code, /tabs\/review\/(human|server)\.mjs|\bpickCandidate\b|\baddRegionRequest\b/, `${f.slice(REPO.length + 1)} reaches a human-only write`);
+    assert.doesNotMatch(code, /\.operate\([^;]*'select'/, `${f.slice(REPO.length + 1)} writes a selection`);
+  }
+});
+
 test('MCP-006: static: the only code that writes to the revision store is reviewed and cannot set a decision', () => {
   const files = [...sources(join(REPO, 'studio/mcp')), ...sources(join(REPO, 'studio/core'))];
   const calls = [];
@@ -172,8 +183,6 @@ test('MCP-006: static: the only code that writes to the revision store is review
   const expected = [
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text\}\)/ },            // request: text only
     { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: rev, text: body\}\)/ },                 // reply: text only
-    { file: 'studio/core/review.mjs', action: 'review', must: /\{revision: snap\.revision, text: clip\(`\[change request/ }, // a person's region request (Review tab route only): mirrored as a plain comment, text only
-    { file: 'studio/core/candidates.mjs', action: 'select', must: /'select', \{revision\}\)/ },                    // a person's pick (Review tab route only): records the selected take, writes no status
     { file: 'studio/core/submissions.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },      // new lineage starts pending
     { file: 'studio/core/audio-candidates.mjs', action: 'review', must: /\{revision: 0, status: 'pending'\}\)/ },  // a new audio candidate's pictures start pending
     { file: 'studio/core/revisions.mjs', action: 'save', must: /\{baseRevision: baseRevision \?\? heads\[i\], png\}\)/ },            // a pixel patch is a new revision: pending, never a decision

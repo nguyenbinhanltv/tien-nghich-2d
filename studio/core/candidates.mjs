@@ -1,7 +1,7 @@
 // Candidate runs: one request may yield several candidates for the same frames. Deterministic QA (the pixel gates) rejects the broken
 // ones first; the survivors are stored as TAKES (new revisions, see store.mjs) and laid on one contact sheet. A candidate run never
-// changes what is selected or in use: only a person picks one, in the Review tab (pickCandidate is called by that route alone;
-// no MCP tool imports it).
+// changes what is selected or in use. Picking is a person's act and lives with the Review route (ui/tabs/review/human.mjs), which no
+// file under studio/mcp or studio/core may import (a static test enforces it).
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -152,20 +152,4 @@ export async function runSheet(ws, run, {scale = 4} = {}) {
   }
   if (!cells.length) throw problem(409, 'no_survivors', 'This run has no surviving candidate');
   return {run: r, sheet: renderContactSheet(cells, {scale, overlay: false})};
-}
-
-/**
- * A person's pick: the chosen candidate's takes become the SELECTED take of each of its frames. Nothing is written to any game file,
- * so "in use" is unchanged; no status is written. Called by the Review tab's route only.
- */
-export async function pickCandidate(ws, run, label) {
-  const [r] = (await ws.db()).candidateRuns({run});
-  if (!r) throw problem(404, 'unknown_run', `No candidate run ${run}`);
-  const c = r.candidates.find(x => x.label === label);
-  if (!c) throw problem(404, 'unknown_candidate', `Run ${run} has no candidate ${label}`);
-  if (c.verdict !== 'survivor' || !c.revisions) throw problem(409, 'rejected_candidate', `Candidate ${label} failed the pixel gates and cannot be picked`);
-  const store = await ws.store();
-  store.transaction(() => { for (const [key, revision] of Object.entries(c.revisions)) store.operate(bareFrame(key), Buffer.alloc(0), 'select', {revision}); });
-  (await ws.db()).recordPick({run, label});
-  return {run, label, selected: c.revisions, note: 'Selected only. The files the project uses did not change; that is a separate step.'};
 }

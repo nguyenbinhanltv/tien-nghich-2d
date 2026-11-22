@@ -15,7 +15,6 @@ import { listFrames } from './assets.mjs';
 import { reviewFrames } from './audio-candidates.mjs';
 import { bareFrame } from './bareframe.mjs';
 import { readInside } from './files.mjs';
-import { createHash } from 'node:crypto';
 import { decodeRgba } from './png.mjs';
 
 export const AGENT_MARK = /^\[agent /;
@@ -201,8 +200,6 @@ export async function replyToReview({ws, key, revision, replyTo, text, resolves 
   return {key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, ...(regionNotes.length ? {answers: regionNotes, warning: regionNotes.some(n => !n.regionChanged) ? 'For a request marked regionChanged=false the pixels inside the box are identical on this revision; the person will see no change there.' : undefined} : {}), note: 'status is unchanged: only a human decides'};
 }
 
-const hashOfPng = base64 => createHash('sha256').update(Buffer.from(base64, 'base64')).digest('hex');
-
 /** True when the pixels inside `box` are identical in two PNGs (base64) of the same size. */
 function regionSame(aBase64, bBase64, box) {
   const [a, b] = [decodeRgba(Buffer.from(aBase64, 'base64')), decodeRgba(Buffer.from(bBase64, 'base64'))];
@@ -212,24 +209,4 @@ function regionSame(aBase64, bBase64, box) {
     for (let k = 0; k < 4; k++) if (a.pixels[i + k] !== b.pixels[i + k]) return false;
   }
   return true;
-}
-
-/**
- * A person's change request: a note pinned to ONE revision (its pixel hash), a frame (its key) and a box x/y/w/h. It is appended to the
- * studio database, which refuses updates and deletes of these rows, and mirrored as a plain comment so the thread shows it. Only the
- * Review tab's route calls this; no MCP tool does. `baseline` is the frame's file, used only when the frame has no history yet.
- */
-export async function addRegionRequest({ws, key, revision, box, text, baseline = null}) {
-  const store = await ws.store(), db = await ws.db();
-  if (typeof text !== 'string' || !text.trim() || text.length > 1500) invalid('text must be 1 to 1500 characters');
-  if (!box || !['x', 'y', 'w', 'h'].every(k => Number.isInteger(box[k]))) invalid('box needs whole numbers x, y, w and h');
-  if (store.needsBaseline(key) && !baseline) throw problem(409, 'no_history', `${key} has no revision history yet`);
-  const snap = store.operate(bareFrame(key), baseline ?? Buffer.alloc(0), 'frame', revision === undefined ? {} : {revision});
-  const image = decodeRgba(Buffer.from(snap.pngBase64, 'base64'));
-  if (box.x < 0 || box.y < 0 || box.w < 1 || box.h < 1 || box.x + box.w > image.width || box.y + box.h > image.height) invalid(`box must lie inside the ${image.width}x${image.height} frame`);
-  const id = 'cr-' + randomBytes(4).toString('hex');
-  const assetId = key.split('/')[1] ?? '';
-  db.addChangeRequest({id, asset: assetId, key, rev: snap.revision, hash: hashOfPng(snap.pngBase64), ...box, text: text.trim()});
-  store.operate(bareFrame(key), baseline ?? Buffer.alloc(0), 'review', {revision: snap.revision, text: clip(`[change request ${id} · region ${box.x},${box.y} ${box.w}×${box.h}] ${text.trim()}`, MAX_COMMENT)}); // text only: never a status
-  return {id, key, revision: snap.revision, hash: hashOfPng(snap.pngBase64), box};
 }
