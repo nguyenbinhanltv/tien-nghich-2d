@@ -1,6 +1,6 @@
 // The left filter column and the grid of real frames.
 import { h, humanize, imgUrl, fill } from './dom.mjs';
-import { applyFilters, facetCounts, coverFrame, framesOf, zoomRange } from './model.mjs';
+import { applyFilters, facetCounts, zoomRange } from './model.mjs';
 
 const readiness = ['packed', 'authored', 'planned'];
 
@@ -40,7 +40,10 @@ export function renderFilters(app, host) {
       select('src', Object.entries(counts.src).map(([id, n]) => [id, sourceLabel(id), n]), ctx.t('filter.source'))));
 }
 
-function card(app, asset, observer) {
+/** Cards that load their image at once, then the batch size and delay for the rest. Timers, not an observer or native `loading=lazy`: both wait for the page to paint. */
+export const eagerCards = 48, batchSize = 32, batchDelayMs = 40;
+
+function card(app, asset) {
   const {ctx, state} = app;
   const selected = state.asset === asset.id && (!state.source || state.source === asset.source);
   const frame = h('span', 'cover checker');
@@ -50,7 +53,7 @@ function card(app, asset, observer) {
     'aria-current': selected ? 'true' : null, 'data-id': asset.id},
     frame, h('span', 'card-id', asset.id), h('span', 'card-meta', kindLabel(ctx, asset.category)));
   a.title = `${asset.id}${asset.name && asset.name !== asset.id ? ' · ' + asset.name : ''} · ${ctx.t('ready.' + asset.readiness)}`;
-  if (!planned) { a._frame = frame; a._asset = asset; observer.observe(a); }
+  a._frame = frame; a._planned = planned;
   return a;
 }
 
@@ -58,32 +61,48 @@ export function renderGrid(app, host) {
   const {ctx, state} = app;
   const shown = applyFilters(app.assets, state);
   app.shown = shown;
-  const observer = new IntersectionObserver(entries => {
-    for (const e of entries) if (e.isIntersecting) { observer.unobserve(e.target); fillCover(app, e.target); }
-  }, {root: null, rootMargin: '300px'});
-  app.onCleanup(() => observer.disconnect());
   const zoom = h('div', 'zoombar', h('label', {for: 'ob-zoom'}, ctx.t('grid.zoom', {zoom: state.zoom})),
     Object.assign(h('input', {id: 'ob-zoom', type: 'range', min: zoomRange[0], max: zoomRange[1], step: 1, value: state.zoom}), {}));
   zoom.lastChild.addEventListener('input', e => app.go({zoom: Number(e.target.value)}, {replace: true, keepAsset: true}));
+  const cards = shown.map(a => card(app, a));
   fill(host, 
     h('div', 'gridhead', h('p', {class: 'muted', role: 'status'}, ctx.t('grid.count', {shown: shown.length, total: app.assets.length})), zoom),
-    shown.length ? h('div', {class: 'grid', style: `--zoom:${state.zoom}`}, ...shown.map(a => card(app, a, observer))) : h('p', 'muted empty', ctx.t('grid.empty')));
+    shown.length ? h('div', {class: 'grid', style: `--zoom:${state.zoom}`}, ...cards) : h('p', 'muted empty', ctx.t('grid.empty')));
+  fillCovers(app, shown, cards);
 }
 
-async function fillCover(app, a) {
-  try {
-    const detail = await app.detail(a._asset);
-    const cover = coverFrame(framesOf(detail), a._asset.category);
-    if (!cover) { a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); return; }
-    // No native lazy loading: the observer above already decides when a card is near the viewport, and a
-    // second lazy layer on a zero-size image can leave the cell on the checkerboard.
-    const img = h('img', {src: imgUrl(cover.path), alt: '', decoding: 'async', draggable: 'false'});
+/**
+ * One request gives every card its frame path, so a thumbnail never waits on a per-card detail fetch or on
+ * an observer callback (those only fire once the page paints, which left cells on the checkerboard).
+ */
+async function fillCovers(app, shown, cards) {
+  let covers;
+  try { covers = await (app.coversPromise ??= app.ctx.tabApi('covers').then(r => new Map(r.covers.map(c => [c.source + '/' + c.id, c.path])), e => { app.coversPromise = null; throw e; })); }
+  catch (error) {
+    if (error.name !== 'AbortError') for (const a of cards) if (!a._planned) a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames')));
+    return;
+  }
+  const put = i => {
+    const a = cards[i];
+    if (a._planned || !a.isConnected) return;
+    const path = covers.get(shown[i].source + '/' + shown[i].id);
+    if (!path) { a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); return; }
+    const img = h('img', {alt: '', decoding: 'async', draggable: 'false'});
     img.addEventListener('load', () => {
       const box = a._frame.clientWidth - 8, big = Math.max(img.naturalWidth, img.naturalHeight);
       // Whole-number zoom while it fits; a frame larger than the cell at 1x shrinks to fit instead of being cropped.
       const scale = big > box ? box / big : Math.max(1, Math.min(app.state.zoom, Math.floor(box / big)));
       img.style.width = Math.max(1, Math.round(img.naturalWidth * scale)) + 'px'; img.style.height = Math.max(1, Math.round(img.naturalHeight * scale)) + 'px';
     });
+    img.addEventListener('error', () => { img.remove(); a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); });
+    img.src = imgUrl(path);
     a._frame.append(img);
-  } catch (error) { if (error.name !== 'AbortError') a._frame.append(h('span', 'cover-empty', app.ctx.t('card.noFrames'))); }
+  };
+  for (let i = 0; i < Math.min(eagerCards, cards.length); i++) put(i);
+  let next = eagerCards;
+  const batch = () => {
+    for (const end = Math.min(next + batchSize, cards.length); next < end; next++) put(next);
+    if (next < cards.length && cards[next].isConnected) setTimeout(batch, batchDelayMs);
+  };
+  if (next < cards.length) setTimeout(batch, batchDelayMs);
 }
