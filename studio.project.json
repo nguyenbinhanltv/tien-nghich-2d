@@ -219,6 +219,9 @@
       "guide": {"headWidth": 0.42, "bodyWidth": 0.58, "legWidth": 0.14, "legGap": 0.07}
     }
   },
+  "review": {
+    "baseline": {"file": "assets/review/baseline_frames.json", "roots": ["assets/processed"]}
+  },
   "adapters": {
     "interpreter": {"command": "tools/.venvs/project/bin/python", "args": ["-I"]},
     "commands": {

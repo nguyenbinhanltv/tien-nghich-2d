@@ -47,9 +47,9 @@ function makeApp(ctx, state) {
     async refresh({keepSelection = false} = {}) {
       const data = await self.ctx.tabApi('inbox');
       const audio = data.audio;
-      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
+      const signature = JSON.stringify([data.items.map(i => [i.key, i.head, i.status, i.comments]), audio.map(a => [a.id, a.state, a.label]), data.artCounts ?? null, (data.artRecords ?? []).map(r => [r.assetId, r.approvalId, r.matching, r.changed, r.missing, r.rawChanged, r.added, r.unverified, r.current])]);
       const changed = signature !== self.signature;
-          self.items = data.items; self.audio = audio; self.artRecords = data.artRecords ?? []; self.signature = signature;
+          self.items = data.items; self.audio = audio; self.artRecords = data.artRecords ?? []; self.artCounts = data.artCounts ?? null; self.signature = signature;
       if (changed || keepSelection) {
         await paint(self.ui, {force: keepSelection, poll: !keepSelection});
         const waiting = (countsByState(self.items).waiting ?? 0) + audio.filter(a => a.state === 'waiting').length;
@@ -82,13 +82,21 @@ function renderList(app, host) {
   const shownAudio = showAudio ? audio.filter(a => state.state === 'all' || a.state === state.state) : [];
   const sel = app.selection();
   const agents = [...new Set(art.flatMap(i => i.requests.map(r => r.agent)))];
-  fill(host, 
+  fill(host, artCountsView(ctx, app.artCounts),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.state')}, ...states.map(s => chip('state', s, ctx.t('state.' + s), s === 'all' ? all.length : counts[s] ?? 0, state.state === s))),
     h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.kind')}, chip('kind', null, ctx.t('kind.both'), null, !state.kind), chip('kind', 'art', ctx.t('kind.art'), art.length, state.kind === 'art'), chip('kind', 'audio', ctx.t('kind.audio'), audio.length, state.kind === 'audio')),
     agents.length ? h('nav', {class: 'chips', 'aria-label': ctx.t('inbox.agent')}, chip('agent', null, ctx.t('agent.any'), null, !state.agent), ...agents.map(a => chip('agent', a, a, null, state.agent === a))) : null,
     shownArt.length || shownAudio.length ? h('ul', 'rows', ...shownArt.map(i => artRow(ctx, app, i, sel)), ...shownAudio.map(a => audioRow(ctx, app, a, sel)))
       : h('p', 'muted empty', ctx.t(all.length ? 'inbox.nothingHere' : 'inbox.empty')),
     showArt && ['decided', 'all'].includes(state.state) ? artRecordsView(ctx, app.artRecords) : null);
+}
+
+/** Every editable art frame counted once: approved (a human record for these bytes), baseline (no review record), awaiting review. */
+function artCountsView(ctx, counts) {
+  if (!counts) return null;
+  const one = key => h('span', '', h('span', 'badge s-' + (key === 'awaiting' ? 'pending' : key), String(counts[key] ?? 0)), ctx.t('artcount.' + key));
+  return h('section', {class: 'artcounts', 'aria-label': ctx.t('artcount.title'), title: ctx.t('artcount.intro')},
+    ...['approved', 'baseline', 'awaiting', 'changes_requested'].filter(k => k !== 'changes_requested' || counts[k]).map(one), h('span', 'muted', ctx.t('artcount.total', {total: counts.total})));
 }
 
 /** Art a human approved in chat and the project recorded, tied to the exact bytes; shows whether the files still match. */
