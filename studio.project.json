@@ -124,7 +124,8 @@
         "rigs": ["assets/experiments/forge_bakeoff/{id}/rig.json"],
         "experiments": ["assets/experiments/forge_bakeoff/{id}"],
         "bodyPlans": {"pet": "quadruped", "npc": "biped", "player": "biped", "mob": "biped", "boss": "biped", "boss_large": "biped"}
-      }
+      },
+      "sandbox": {"scenesDir": "assets/scenes"}
     },
     "vfx": {
       "floors": [

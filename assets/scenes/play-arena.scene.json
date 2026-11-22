@@ -1,0 +1,31 @@
+{
+  "schema": "studio.scene",
+  "version": 1,
+  "id": "play-arena",
+  "kind": "scripted",
+  "name": {
+    "en": "Play Arena",
+    "vi": "Đấu trường thử"
+  },
+  "room": {
+    "size": [
+      336,
+      240
+    ]
+  },
+  "host": {
+    "url": "/studio/previewer.html?tab=arena",
+    "size": [
+      336,
+      240
+    ],
+    "logic": [
+      "Procedural 3x3 dungeon room generation with N/S/E/W gate doors (arena.js regenerateFloor, goToRoom)",
+      "Blob-47 autotile mask computation and 2.5D wall rendering (blob47.js)",
+      "Player movement, dash and its cooldown (arena.js update, triggerDash)",
+      "Twelve Dharma Treasure projectile behaviours: pierce, wave, sticky, boomerang, heavy, burst, spread (arena.js tryFire, WEAPON_STYLE_CONFIG)",
+      "Skin, weapon and biome selection and the asset store (arena.js, assetLoader.js)"
+    ],
+    "note": "Hosted unchanged: the existing arena panel of the previewer runs inside the Sandbox frame."
+  }
+}

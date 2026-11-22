@@ -637,6 +637,20 @@
               "atlas"
             ]
           },
+          "properties": {
+            "sandbox": {
+              "type": "object",
+              "description": "The Sandbox tab: where this project keeps its scene documents.",
+              "properties": {
+                "scenesDir": {
+                  "$ref": "#/$defs/path",
+                  "description": "Project-relative directory holding <id>.scene.json files (studio.scene documents). The Sandbox lists, opens and saves scenes here and nowhere else."
+                }
+              },
+              "required": ["scenesDir"],
+              "additionalProperties": false
+            }
+          },
           "additionalProperties": {
             "type": "object"
           },
