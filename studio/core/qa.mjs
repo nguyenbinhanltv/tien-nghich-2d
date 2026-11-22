@@ -36,6 +36,7 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
   const detail = (check, text) => { if (checks[check].details.length < 20) checks[check].details.push(text); };
   const note = (check, severity, text, n = 1) => { count(check, severity, n); detail(check, text); };
   const frames = [];
+  let canvasMismatches = 0;
   const parts = [];
   let i = 0;
   for (const f of found.frames.filter(want)) {
@@ -46,7 +47,7 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
     try { image = decodeRgba(bytes); }
     catch (error) { note('size', 'error', `${f.name}: not a readable PNG (${error.message})`); frames.push({name: f.name, key: f.key, errors: 1, warnings: 0, unreadable: error.message}); continue; }
     if (asset.size && (image.width !== asset.size[0] || image.height !== asset.size[1]))
-      note('size', 'error', `${f.name}: canvas ${image.width}x${image.height} does not match ${asset.size[0]}x${asset.size[1]}`);
+      { canvasMismatches++; note('size', 'error', `${f.name}: canvas ${image.width}x${image.height} does not match ${asset.size[0]}x${asset.size[1]}`); }
     const r = findDefects(image, options);
     const perCode = {};
     for (const [code, n] of Object.entries(r.counts)) {
@@ -77,7 +78,11 @@ export async function runQa({root, pack, palette, asset, stage, select = {}, per
   return {
     stage, pass: totalErrors === 0 && frames.length > 0,
     summary: {frames: frames.length, expected: expected.length || null, errors: totalErrors, warnings: totalWarnings,
-      framesWithErrors: frames.filter(f => f.errors).length, rawStage},
+      framesWithErrors: frames.filter(f => f.errors).length, rawStage,
+      // For comparing two runs (the stop policy): error PIXELS over the frames, plus asset-level errors (frame count, naming, wrong canvas),
+      // never the per-code notes that `errors` counts. An unreadable frame counts as one pixel error in the frames' own total.
+      pixelErrors: frames.reduce((n, f) => n + f.errors, 0), pixelWarnings: frames.reduce((n, f) => n + f.warnings, 0),
+      assetErrors: checks.frameCount.errors + checks.naming.errors + canvasMismatches, assetWarnings: checks.frameCount.warnings},
     checks, frames, missing, unexpected, unnamed: found.unnamed,
     content: parts.length ? sha256(parts.join('\n')) : null,
   };

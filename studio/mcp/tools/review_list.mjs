@@ -1,5 +1,26 @@
-import { listReviews } from '../../core/review.mjs';
+import { lineageFrames, listReviews } from '../../core/review.mjs';
+import { contentHash } from '../../core/submissions.mjs';
+import { contentOf, latestVersion } from '../../core/audio-candidates.mjs';
+import { evidenceView, gather } from '../workflow/evidence.mjs';
 import { jsonResult, loadAsset, requireFrames, selectionOf, selectionProps } from './_shared.mjs';
+
+/** Each review request with its recorded evidence compared against the asset as it is now: current, or stale and why. */
+async function requestEvidence(ws, asset) {
+  const db = await ws.db();
+  const seen = new Map();
+  for (const key of (await lineageFrames(ws, asset, {})).map((f) => f.key)) for (const e of db.events(key)) if (e.kind === 'request' && !seen.has(e.request)) seen.set(e.request, e);
+  if (!seen.size) return { requests: [] };
+  const stages = new Map();
+  for (const e of seen.values()) {
+    const stage = e.evidence?.stage ?? 'raw';
+    if (!stages.has(stage)) {
+      const content = asset.audio ? await contentOf(ws.root, await latestVersion(ws.root, asset.audio.dir)).catch(() => null) : await contentHash(ws.root, asset, stage);
+      stages.set(stage, await gather(ws, asset, { stage, content: content ?? '' }));
+    }
+  }
+  return { requests: [...seen.values()].slice(-10).map((e) => ({ request: e.request, at: e.ts, agent: e.agent, session: e.session.slice(0, 8), escalation: e.evidence?.escalation ?? undefined, ...evidenceView(e.evidence, stages.get(e.evidence?.stage ?? 'raw')) })),
+    note: 'evidence.current is false when the frames, the source sheets or the contact sheet changed after the request: the human is looking at something that no longer exists; ask again.' };
+}
 
 export default {
   name: 'studio_review_list',
@@ -23,6 +44,8 @@ export default {
   async handler(args, ctx) {
     const { ws, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset, { audio: true });
-    return jsonResult(await listReviews({ ws, asset, select: selectionOf(args), detail: args.detail, limit: args.limit }));
+    const out = await listReviews({ ws, asset, select: selectionOf(args), detail: args.detail, limit: args.limit });
+    out.evidence = await requestEvidence(ws, asset);
+    return jsonResult(out);
   },
 };

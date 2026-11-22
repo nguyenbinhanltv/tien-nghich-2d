@@ -8,6 +8,8 @@ import { buildTwice, checkSpec, vfxAdapter } from '../workflow/vfx.mjs';
 export { checkSpec }; // kept here for callers that imported it from the tool
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 export default {
   name: 'studio_vfx_build',
@@ -36,6 +38,7 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
+    if (args.submit) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     const vfx = vfxAdapter(snap.pack);
     const specText = checkSpec(args.spec, vfx.palettes);
     const clip = args.clip ?? (Object.keys(asset.clips).length === 1 ? Object.keys(asset.clips)[0] : null);
@@ -67,6 +70,13 @@ export default {
       if (meta.frames.length !== asset.clips[clip].frames) problems.push(`SpriteFX rendered ${meta.frames.length} frames but clip ${clip} has ${asset.clips[clip].frames}; change the phase ticks, or plan the asset with ${meta.frames.length} frames`);
       if (meta.frame_size[0] !== w || meta.frame_size[1] !== h) problems.push(`frames are ${meta.frame_size.join('x')} but the asset is ${w}x${h}`);
       if (problems.length) out.problems = problems;
+      out.qa = envelope({ method: 'built the SpriteFX spec twice in scratch, read its audits and gated the frames',
+        checks: [check('spriteFxFaults', { ok: audit.faults === 0, measured: audit.faults, threshold: 0 }),
+          check('deterministic', { ok: deterministic, measured: deterministic, threshold: true }),
+          check('frameCount', { ok: meta.frames.length === asset.clips[clip].frames, measured: meta.frames.length, threshold: asset.clips[clip].frames }),
+          check('pixelGates', { ok: view.structured.defects.errors === 0, warn: view.structured.defects.warnings > 0, measured: view.structured.defects, threshold: { errors: 0 } })],
+        notProven: [{ what: 'that the effect reads well in play', why: 'a human reviews the art' }],
+        inputs: { spec: sha(specText), sheet: sheetHash } });
       if (args.submit) {
         if (problems.length || view.structured.defects.errors) {
           out.submit = { accepted: false, message: `Nothing was committed: ${[...problems, view.structured.defects.errors ? `${view.structured.defects.errors} pixel-gate error(s)` : null].filter(Boolean).join('; ')}.` };

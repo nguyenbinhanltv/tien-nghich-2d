@@ -32,7 +32,7 @@ export const GUIDES = [
       { tool: 'studio_scene_snapshot', params: ['assetId', 'clip', 'mode', 'background'], note: 'A walk strip on a floor tile, after the submit.' },
       { tool: 'studio_qa_run', params: ['assetId'], note: 'Then stop for the independent check.' },
     ],
-    gotchas: ['Drawn locomotion has no foot-slide check unless planted contacts are annotated in poseClips; flicker is off for drawn clips unless qa.pose.flicker is set. verdicts.animationGates.notRun says so; not run is not a pass.', 'Fix by editing (patches, a better rig), not by regenerating the sheet.', 'Sheets drawn separately can differ in colours; the stability gate reports colours one clip has and another lacks.'],
+    gotchas: ['Drawn locomotion has no foot-slide check unless planted contacts are annotated in poseClips; flicker is off for drawn clips unless qa.pose.flicker is set. verdicts.animationGates.notRun says so; not run is not a pass.', 'Fix by editing (patches, a better rig), not by regenerating the sheet. The stop policy (pack policy.stop) ends the work after too many fix rounds or two without progress: studio_qa_run then reports stopPolicy.decision "stop", the writing tools refuse, and studio_review_request becomes the escalation that asks the human.', 'Sheets drawn separately can differ in colours; the stability gate reports colours one clip has and another lacks.'],
   },
   {
     id: 'vfx', title: 'Make a VFX',

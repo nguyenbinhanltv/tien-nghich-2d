@@ -5,7 +5,9 @@ import { ToolError } from '../registry.mjs';
 import { forgeCall, pixelizedFor, readDoc, settingsFor, workDir, writeDoc, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { gateCoverage } from '../workflow/gates.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 const CAP = 40;
 
@@ -45,6 +47,7 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
+    if (args.submit) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     return inlineOrJob(ctx, 'rig_bake', args, (log) => forgeCall(async () => {
       const { settings, palette } = await settingsFor(snap, ws, asset);
       const save = args.save !== false;
@@ -95,7 +98,14 @@ export default {
       const ready = verdicts.animationGates.pass && verdicts.pixelGates.pass;
       const summary = `Animation gates: ${verdicts.animationGates.pass ? 'PASS' : `FAIL (${errors.length} error finding(s))`}${coverage.notRun.length ? `, not run: ${[...new Set(coverage.notRun.map((n) => n.gate))].join(', ')}` : ''}. Pixel gates: ${verdicts.pixelGates.pass ? 'PASS' : `FAIL (${pixelErrors} error pixel(s))`}.`;
       view.content[0].text += ` ${summary}`;
-      const out = { asset: asset.id, pass: ready, verdicts, clips: clipsOut, frames: Object.keys(baked.frames).length,
+      const gateNames = [...new Set([...coverage.ran.map((g) => g.gate), ...gates.findings.map((f) => f.gate)])];
+      const qa = envelope({ method: 'baked every clip from the stored sheets, rig and pose definitions, applied the stored patches, then ran the animation gates and the pixel gates',
+        checks: [...gateNames.map((g) => { const n = gates.findings.filter((f) => f.gate === g); const bad = n.some((f) => f.severity === 'error');
+          return check(g, { ok: !bad, warn: n.length > 0 && !bad, measured: { findings: n.length, errors: n.filter((f) => f.severity === 'error').length }, threshold: { errors: 0 } }); }),
+          check('pixelGates', { ok: pixelErrors === 0, warn: pixelWarnings > 0, measured: { errorPixels: pixelErrors, warningPixels: pixelWarnings }, threshold: { errorPixels: 0 } })],
+        notProven: coverage.notRun.map((n) => ({ what: `${n.gate} for ${n.clips.join(', ')}`, why: n.reason, turnOn: n.turnOn })),
+        inputs: { sheets: slots.map((x) => `${x.slot}:${x.doc.sheet.sha256.slice(0, 16)}`).join(' '), rig: rig ? sha(rig) : '-', poseClips: poseClips ? sha(poseClips) : '-', patch: patch ? sha(patch) : '-', frames: sha(Object.entries(baked.frames).map(([k, f]) => `${k}:${sha(f.pixels)}`).join(',')) } });
+      const out = { asset: asset.id, pass: ready, qa, verdicts, clips: clipsOut, frames: Object.keys(baked.frames).length,
         gates: { errors: errors.length, warnings: warnings.length, byGate, findings: listed, ...(gates.findings.length > CAP ? { truncated: gates.findings.length - CAP } : {}) },
         patched: Object.keys(patch?.frames ?? {}).length, bakeDir: shown(ws, dir), ...view.structured,
         stored: save ? Object.entries({ rig: args.rig, poseclips: args.poseClips, library: args.library }).filter(([, v]) => v).map(([k]) => k) : [] };
