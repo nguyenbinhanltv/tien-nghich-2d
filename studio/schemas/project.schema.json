@@ -621,6 +621,26 @@
               }
             }
           }
+        },
+        "tabs": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "overview",
+              "characters",
+              "objects",
+              "vfx",
+              "audio",
+              "review",
+              "jobs",
+              "sandbox",
+              "atlas"
+            ]
+          },
+          "additionalProperties": {
+            "type": "object"
+          },
+          "description": "Free-form per-destination configuration, one object per tab id. Each tab documents and validates its own object (see its README); the pack schema only fixes that it is an object."
         }
       }
     }

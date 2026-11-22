@@ -50,6 +50,8 @@ const broken = {
   'processed-frames on a source without processed dir': p => { p.editable.groups.at(-1).source = 'audio'; },
   'categories on a non processed-frames group': p => { p.editable.groups[0].categories = ['ui']; },
   'unknown publish mode': p => { p.editable.groups[0].publish = {mode: 'maybe'}; },
+  'ui.tabs for an unknown destination': p => { p.ui.tabs.nowhere = {}; },
+  'ui.tabs entry that is not an object': p => { p.ui.tabs.characters = 'x'; },
   'backslash path': p => { p.directories.revisions = 'a\\b'; },
   'size class with no size': p => { p.sizeClasses.tile = {}; },
   'size class with both forms': p => { p.sizeClasses.tile = {sizes: [[16, 16]], min: [1, 1], max: [2, 2]}; },

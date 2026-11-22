@@ -115,6 +115,17 @@
       "vfx": "vfx",
       "bgm": "audio", "combat": "audio", "progression_ui": "audio", "sfx": "audio"
     },
+    "tabs": {
+      "characters": {
+        "categories": ["player", "mob", "boss", "npc", "pet"],
+        "facings": ["south", "east", "north", "west"],
+        "defaultFrameMs": 100,
+        "rawRoots": ["assets/raw/characters", "assets/raw/longtime"],
+        "rigs": ["assets/experiments/forge_bakeoff/{id}/rig.json"],
+        "experiments": ["assets/experiments/forge_bakeoff/{id}"],
+        "bodyPlans": {"pet": "quadruped", "npc": "biped", "player": "biped", "mob": "biped", "boss": "biped", "boss_large": "biped"}
+      }
+    },
     "tools": [
       {"id": "arena", "href": "previewer.html?tab=arena", "tab": "sandbox",
        "label": {"en": "Play Arena", "vi": "Đấu trường thử"}, "note": {"en": "Playable arena with blob-47 rooms", "vi": "Đấu trường chơi được, phòng blob-47"}},

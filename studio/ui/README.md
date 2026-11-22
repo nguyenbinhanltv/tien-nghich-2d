@@ -26,7 +26,7 @@ Create `studio/ui/tabs/<id>/` and put these files in it. Nothing else changes: t
 | `i18n/en.json`, `i18n/vi.json` | yes | the tab's own strings, flat `key → text`; same keys and `{placeholders}` in both (tested) |
 | `*.css` | no | loaded with `ctx.loadCss(new URL('./x.css', import.meta.url))` |
 | `server.mjs` | no | server routes, reached at `/api/tabs/<id>/…` (see below) |
-| `*.test.mjs` | no | tests next to the code; `node --test studio/ui/tabs/<id>/` |
+| `*.test.mjs` | no | tests next to the code; `node --test 'studio/ui/tabs/<id>/*.test.mjs'` |
 | anything else | no | helper modules, fixtures; import them with relative paths |
 
 The other shared inputs are data, not code, and a tab does not need to change them: labels, colours and the category → tab mapping come from the project pack (`studio.project.json` → `ui`), and the catalog comes from `GET /api/studio/*`. If a tab needs a shared capability that does not exist (a new `ctx` helper, a new catalog field), ask the shell owner rather than editing the shell.
@@ -96,4 +96,4 @@ Readiness is `planned` (designed only), `authored` (frames or masters exist) or 
 
 ## Tests
 
-`node --test studio/ui/tests/ studio/server/catalog-api.test.mjs` covers routing, strings, the tab contract, the catalog API and the Overview numbers. `studio/tests/shell-browser.test.mjs` is a Playwright script for the shell in a real browser (needs `playwright-core` and a Chromium path, like the other `*-browser.test.mjs` files; it is not part of the baseline because Playwright is not installed here).
+`node --test 'studio/ui/tests/*.test.mjs' studio/server/catalog-api.test.mjs` covers routing, strings, the tab contract, the catalog API and the Overview numbers. `studio/tests/shell-browser.test.mjs` is a Playwright script for the shell in a real browser (needs `playwright-core` and a Chromium path, like the other `*-browser.test.mjs` files; it is not part of the baseline because Playwright is not installed here).
