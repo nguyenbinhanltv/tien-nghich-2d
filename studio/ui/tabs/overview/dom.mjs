@@ -1,6 +1,6 @@
 /**
  * Tiny element builder. The second argument is a class string or an attribute object
- * (`{scope: 'row', class: 'num', role: 'alert'}`); `null`, `false` and `undefined` children are skipped.
+ * (`{scope: 'row', class: 'num', role: 'alert'}`); a function under an `on…` key (`onclick`) is attached as a listener, never stored as text; `null`, `false` and `undefined` children are skipped.
  */
 export function h(tag, attrs, ...kids) {
   const el = document.createElement(tag);
@@ -8,6 +8,7 @@ export function h(tag, attrs, ...kids) {
   else if (attrs && typeof attrs === 'object') {
     for (const [name, value] of Object.entries(attrs)) {
       if (value === false || value == null) continue;
+      if (typeof value === 'function' && /^on[a-z]+$/.test(name)) { el.addEventListener(name.slice(2), value); continue; }
       el.setAttribute(name, value === true ? '' : String(value));
     }
   } else if (attrs != null && attrs !== false) throw new TypeError('h: attrs must be a class string or an attribute object');
