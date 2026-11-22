@@ -10,6 +10,7 @@
 
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { lintThresholds } from '../core/clips.mjs';
 import { loadPackSync, packFileName } from '../core/pack.mjs';
 import { openWorkspace } from '../core/workspace.mjs';
 import { loadAssetIndex } from './asset-index.mjs';
@@ -85,6 +86,16 @@ export function openProject(rootArg, { libraryDir } = {}) {
 
       pack() {
         return { path: packFileName, present: true, consumed: true, id: pack.id, name: pack.name, version: pack.version };
+      },
+
+      /** The fixed review rubric the pack defines (criteria and the confidence below which a pass counts as unknown), or null. */
+      rubric() {
+        return pack.rubric ? { criteria: pack.rubric.criteria, minConfidence: pack.rubric.minConfidence ?? 0.5, how: 'Fill one row per criterion for studio_qa_run or studio_review_request: {id, observation, result: pass|fail|unknown, confidence: 0-1, evidence: [{file or frame, region: {x,y,w,h}}]}. Unknown is never a pass; a failed mandatory criterion fails the rubric; it is evidence, never an approval.' } : null;
+      },
+
+      /** Clip roles and lint thresholds (pack.motion with the studio defaults filled in). */
+      motion() {
+        return { roles: pack.motion?.roles ?? {}, lint: lintThresholds(pack), measured: pack.motion?.measured ?? null };
       },
 
       palette() {

@@ -37,11 +37,12 @@ export default {
       },
       clips: {
         type: 'object',
-        description: 'Per clip: {frameMs: [ms per frame], events: [{frame, name}]}. null removes a clip entry.',
+        description: 'Per clip: {frameMs: [ms per frame], events: [{frame, name}], loopPolicy: loop|once|hold}. This is the clip contract that studio_qa_run and studio_diff (motion) lint against: name the beats tell, hit and step (a telegraph is the frames from the tell to the hit). null removes a clip entry.',
         additionalProperties: {
           type: ['object', 'null'],
           properties: {
             frameMs: { type: 'array', items: { type: 'integer', minimum: 1, maximum: 60000 }, maxItems: 64 },
+            loopPolicy: { type: 'string', enum: ['loop', 'once', 'hold'], description: 'How the clip plays: loop repeats, once plays through, hold stays on the last frame.' },
             events: { type: 'array', maxItems: 16, items: { type: 'object', properties: { frame: { type: 'integer', minimum: 0 }, name: { type: 'string', maxLength: 32 } }, required: ['frame', 'name'], additionalProperties: false } },
           },
           additionalProperties: false,
