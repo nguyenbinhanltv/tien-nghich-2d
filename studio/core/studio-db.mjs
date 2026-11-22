@@ -39,7 +39,21 @@ export function openStudioDb(dir) {
           progress INTEGER NOT NULL, decision TEXT NOT NULL, reason TEXT, cycle INTEGER NOT NULL DEFAULT 0);
         CREATE INDEX IF NOT EXISTS rounds_by_asset ON rounds(asset, seq);
         CREATE TABLE IF NOT EXISTS cycles(seq INTEGER PRIMARY KEY, ts TEXT NOT NULL, asset TEXT NOT NULL, kind TEXT NOT NULL, session TEXT NOT NULL, note TEXT);
-        CREATE INDEX IF NOT EXISTS cycles_by_asset ON cycles(asset, seq);`);
+        CREATE INDEX IF NOT EXISTS cycles_by_asset ON cycles(asset, seq);
+        CREATE TABLE IF NOT EXISTS cand_runs(run TEXT PRIMARY KEY, ts TEXT NOT NULL, asset TEXT NOT NULL, agent TEXT NOT NULL, session TEXT NOT NULL,
+          note TEXT, reference TEXT, generations INTEGER NOT NULL DEFAULT 0, tool TEXT);
+        CREATE TABLE IF NOT EXISTS cands(seq INTEGER PRIMARY KEY, run TEXT NOT NULL REFERENCES cand_runs(run), label TEXT NOT NULL,
+          verdict TEXT NOT NULL CHECK(verdict IN ('survivor','rejected')), reason TEXT, revisions TEXT, qa TEXT);
+        CREATE INDEX IF NOT EXISTS cands_by_run ON cands(run, seq);
+        CREATE TABLE IF NOT EXISTS cand_picks(seq INTEGER PRIMARY KEY, ts TEXT NOT NULL, run TEXT NOT NULL, label TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS change_requests(seq INTEGER PRIMARY KEY, id TEXT NOT NULL UNIQUE, ts TEXT NOT NULL, asset TEXT NOT NULL, key TEXT NOT NULL,
+          rev INTEGER NOT NULL, hash TEXT NOT NULL, x INTEGER NOT NULL, y INTEGER NOT NULL, w INTEGER NOT NULL, h INTEGER NOT NULL, text TEXT NOT NULL);
+        CREATE INDEX IF NOT EXISTS change_requests_by_frame ON change_requests(key, seq);
+        CREATE TRIGGER IF NOT EXISTS change_requests_no_update BEFORE UPDATE ON change_requests BEGIN SELECT RAISE(ABORT, 'change requests are append-only'); END;
+        CREATE TRIGGER IF NOT EXISTS change_requests_no_delete BEFORE DELETE ON change_requests BEGIN SELECT RAISE(ABORT, 'change requests are append-only'); END;
+        CREATE TABLE IF NOT EXISTS cr_answers(seq INTEGER PRIMARY KEY, ts TEXT NOT NULL, cr TEXT NOT NULL REFERENCES change_requests(id), key TEXT NOT NULL,
+          rev INTEGER NOT NULL, agent TEXT NOT NULL, session TEXT NOT NULL, text TEXT NOT NULL);
+        CREATE INDEX IF NOT EXISTS cr_answers_by_cr ON cr_answers(cr, seq);`);
       // Older databases lack the evidence columns: add them once.
       for (const table of ['checks', 'events']) {
         if (!connection.prepare(`PRAGMA table_info(${table})`).all().some(c => c.name === 'evidence')) connection.exec(`ALTER TABLE ${table} ADD COLUMN evidence TEXT`);
@@ -117,6 +131,46 @@ export function openStudioDb(dir) {
     lastCycle(asset) {
       const d = open(false);
       return d ? d.prepare('SELECT seq,ts,kind,note FROM cycles WHERE asset=? ORDER BY seq DESC LIMIT 1').get(asset) ?? null : null;
+    },
+    /** A candidate run: several candidates for one asset. Survivors carry {key: revision}; a rejected one carries the reason and its QA numbers. */
+    addCandidateRun({run, asset, agent, session, note = null, reference = null, generations = 0, tool = null, candidates}) {
+      const d = open(true);
+      d.exec('BEGIN IMMEDIATE');
+      try {
+        d.prepare('INSERT INTO cand_runs(run,ts,asset,agent,session,note,reference,generations,tool) VALUES(?,?,?,?,?,?,?,?,?)').run(run, now(), asset, agent, session, note, reference, generations, tool);
+        for (const c of candidates) d.prepare('INSERT INTO cands(run,label,verdict,reason,revisions,qa) VALUES(?,?,?,?,?,?)')
+          .run(run, c.label, c.verdict, c.reason ?? null, c.revisions ? JSON.stringify(c.revisions) : null, c.qa ? JSON.stringify(c.qa) : null);
+        d.exec('COMMIT');
+      } catch (error) { d.exec('ROLLBACK'); throw error; }
+    },
+    candidateRuns({asset, run, limit = 20} = {}) {
+      const d = open(false);
+      if (!d) return [];
+      const rows = run ? d.prepare('SELECT * FROM cand_runs WHERE run=?').all(run)
+        : asset ? d.prepare('SELECT * FROM cand_runs WHERE asset=? ORDER BY ts DESC, rowid DESC LIMIT ?').all(asset, limit)
+        : d.prepare('SELECT * FROM cand_runs ORDER BY ts DESC, rowid DESC LIMIT ?').all(limit);
+      return rows.map(r => {
+        const picks = d.prepare('SELECT ts,label FROM cand_picks WHERE run=? ORDER BY seq DESC').all(r.run);
+        return {run: r.run, at: r.ts, asset: r.asset, agent: r.agent, session: r.session, note: r.note, reference: r.reference, generations: r.generations, tool: r.tool,
+          picked: picks[0] ? {label: picks[0].label, at: picks[0].ts} : null,
+          candidates: d.prepare('SELECT label,verdict,reason,revisions,qa FROM cands WHERE run=? ORDER BY seq').all(r.run)
+            .map(c => ({label: c.label, verdict: c.verdict, reason: c.reason, revisions: c.revisions ? JSON.parse(c.revisions) : null, qa: c.qa ? JSON.parse(c.qa) : null}))};
+      });
+    },
+    recordPick({run, label}) { open(true).prepare('INSERT INTO cand_picks(ts,run,label) VALUES(?,?,?)').run(now(), run, label); },
+    /** A human's note pinned to a revision (by hash), a frame (key) and a box. Append-only: no update, no delete (triggers enforce it). */
+    addChangeRequest({id, asset, key, rev, hash, x, y, w, h, text}) {
+      open(true).prepare('INSERT INTO change_requests(id,ts,asset,key,rev,hash,x,y,w,h,text) VALUES(?,?,?,?,?,?,?,?,?,?,?)').run(id, now(), asset, key, rev, hash, x, y, w, h, text);
+    },
+    changeRequests(key) {
+      const d = open(false);
+      if (!d) return [];
+      return d.prepare('SELECT * FROM change_requests WHERE key=? ORDER BY seq').all(key).map(r => ({id: r.id, at: r.ts, asset: r.asset, key: r.key, revision: r.rev, hash: r.hash,
+        box: {x: r.x, y: r.y, w: r.w, h: r.h}, text: r.text,
+        answers: d.prepare('SELECT ts,rev,agent,session,text FROM cr_answers WHERE cr=? ORDER BY seq').all(r.id).map(a => ({at: a.ts, revision: a.rev, agent: a.agent, session: a.session, text: a.text}))}));
+    },
+    addAnswer({cr, key, rev, agent, session, text}) {
+      open(true).prepare('INSERT INTO cr_answers(ts,cr,key,rev,agent,session,text) VALUES(?,?,?,?,?,?,?)').run(now(), cr, key, rev, agent, session, text);
     },
     close() { db?.close(); db = undefined; },
   };

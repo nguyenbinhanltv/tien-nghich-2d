@@ -2,6 +2,7 @@
 // each revision, and the human-only decisions (sent to the existing editor review route).
 import { h, button, humanize, dataUrl, loadImg, pixelsOf, pixelCanvas, fill } from './dom.mjs';
 import { thread, diffPixels, beforeOf, draftKey } from './model.mjs';
+import { takeBadges, takeLegend, selectTakeButton, regionSection } from './takes.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 
 const api = new EditorApiClient();
@@ -89,6 +90,8 @@ export async function renderArt(app, host, item, token) {
   ]);
   if (token !== app.token) return;
 
+  const regions = await regionSection(app, item, snap, api, token).catch(() => null);
+  if (token !== app.token) return;
   const isHead = snap.revision === snap.head;
   const text = h('textarea', {id: 'rv-text', rows: 3, maxlength: 2000, placeholder: ctx.t('decide.placeholder'), 'aria-label': ctx.t('decide.comment')});
   const draft = draftKey('art', item.key, snap.revision);
@@ -116,11 +119,13 @@ export async function renderArt(app, host, item, token) {
       h('p', 'muted', diff?.error ? ctx.t('cmp.sizeDiffers') : diff ? (diff.count ? ctx.t('cmp.summary', {count: diff.count, x: diff.bbox.x, y: diff.bbox.y, w: diff.bbox.w, h: diff.bbox.h}) : ctx.t('cmp.identical')) : ctx.t('cmp.root')),
       h('div', 'cmpgrid', ...figs.filter(Boolean))),
     h('section', 'dsec', h('h3', '', ctx.t('rev.title')),
+      takeLegend(ctx, snap.takes),
       h('ol', 'revs', ...snap.history.map(r => h('li', '', h('a', {class: 'rev' + (r.revision === snap.revision ? ' on' : ''), 'aria-current': r.revision === snap.revision ? 'true' : null,
-        href: ctx.href(app.route({rev: r.revision}, {item}))}, 'r' + r.revision), badge(ctx, r.status), h('span', 'muted', authorLine(ctx, snap.history, r.revision, submission))))),
+        href: ctx.href(app.route({rev: r.revision}, {item}))}, 'r' + r.revision), badge(ctx, r.status), ...takeBadges(ctx, r), h('span', 'muted', authorLine(ctx, snap.history, r.revision, submission)), selectTakeButton(app, item.key, r)))),
       submission ? h('dl', 'kv', h('dt', '', ctx.t('author.submittedBy')), h('dd', '', ctx.t('thread.agent', {agent: submission.agent, session: submission.session})),
         h('dt', '', ctx.t('author.tool')), h('dd', '', submission.tool ?? '–'), h('dt', '', ctx.t('author.source')), h('dd', 'mono', submission.sourceHash ? submission.sourceHash.slice(0, 16) : '–'),
         h('dt', '', ctx.t('author.at')), h('dd', '', submission.at ?? '–'), submission.generator ? h('dt', '', ctx.t('author.generator')) : null, submission.generator ? h('dd', 'mono', submission.generator) : null) : null),
+    regions,
     readsSection(ctx, snap.comments),
     h('section', 'dsec', h('h3', '', ctx.t('thread.title', {revision: snap.revision})), threadView(ctx, snap.comments)),
     h('section', 'dsec decide', h('h3', '', ctx.t('decide.title')),

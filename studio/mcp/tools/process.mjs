@@ -4,6 +4,7 @@ import { forgeCall, forgeDir, pixelizedFor, settingsFor, updateDoc } from '../wo
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { figureFor, figureWarnings, measureFigure, resolveMarks } from '../../forge/index.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { lineupFor, lineupGroup } from '../workflow/lineup.mjs';
 import { backgroundProp, dryRunProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 
@@ -49,6 +50,7 @@ export default {
   description:
     'Turn the imported sheet into native-size sprites: scale each figure to the profile, snap to the project palette (40 colours), rebuild the 1px outline, align the feet to the pivot. ' +
     'Raw is untouched. Returns a contact sheet of the sprites (look at it) with defects boxed, the fit per cell (scale and what limited it), and warnings. ' +
+    'When the pack has a lineup group for this profile, it also measures the standing pose against the approved reference characters (height, head-to-body share, limb width, outline weight) and BLOCKS a build outside the pack\'s tolerance: the result is an error with the numbers and submit=true writes nothing; inside the tolerance but outside the typical band it is a warning (lineup in the result and the qa envelope). '+
     'It also checks the figure against the project\'s readability guide (pack figures, when one applies to this profile): warnings for limbs thinner than the minimum, a head far from the proportion range, and any accent colour you named in accents that drops below its minimum pixel count (warnings, never a refusal). ' +
     'marks keep an ASYMMETRIC colour through pixelisation (a coloured ear, a tool in one hand): they are stored and reused by every later step. ' +
     'For a single-frame asset, submit=true commits the sprites as its raw frames (cell "<pose>_<facing>" becomes frame "<pose>_<facing>_0" of the one-frame clip named like the pose; a plain facing cell becomes the asset\'s only clip). ' +
@@ -111,17 +113,31 @@ export default {
         summary.figure = { guide: guide.name, accents: accents.map((a) => a.id), warnings: found,
           means: `checked against figures.${guide.name} in the project pack: head ${Math.round(guide.headToBody.min * 100)}-${Math.round(guide.headToBody.max * 100)}% of the height (where a neck shows), legs at least ${guide.minLimbWidthPx} px, each named accent at least ${guide.accentMinPixels} px` };
       }
+      // The lineup gate: the standing pose of the pixelised figure against the approved references. Outside the pack's tolerance it is BLOCKED (no submit), with numbers.
+      const lineupGroupOf = lineupGroup(snap.pack, asset);
+      const lineup = lineupGroupOf ? await lineupFor(ws, snap, asset, pixelized.record.cells.filter((c) => c.facing === lineupGroupOf.spec.pose.direction && (!c.pose || c.pose === lineupGroupOf.spec.pose.clip)).map((c) => pixelized.cells.get(c.id).native)) : null;
+      if (lineup?.applies) summary.lineup = { group: lineup.group.name, references: lineup.references.map((r) => r.name), pose: lineup.group.spec.pose, figure: lineup.figure, reference: lineup.reference, status: lineup.verdict.status, rows: lineup.verdict.rows, messages: lineup.messages, blocked: lineup.verdict.status === 'fail',
+        means: `the figure's standing pose measured against ${lineup.references.map((r) => r.name).join(' and ')} (pack lineup.${lineup.group.name}): outside the tolerance it is blocked, outside the typical band it is a warning` };
       const pixelErrors = cells.reduce((n, c) => n + c.errors, 0);
       summary.qa = envelope({ method: `pixelised ${pixelized.cells.size} cell(s), then ran the pixel gates on every sprite${guide ? ` and the figure check of the pack guide "${guide.name}"` : ''}`,
         checks: [check('pixelGates', { ok: pixelErrors === 0, measured: { errorPixels: pixelErrors }, threshold: { errorPixels: 0 } }),
+          ...(summary.lineup ? [check('lineup', { ok: summary.lineup.status !== 'fail', warn: summary.lineup.status === 'warn', measured: Object.fromEntries(summary.lineup.rows.map((r) => [r.metric, r.measured])), threshold: lineup.group.spec.tolerance, detail: summary.lineup.messages.join(' | ') || undefined })] : []),
           ...(guide ? [check('figure', { ok: true, warn: summary.figure.warnings.length > 0, measured: { warnings: summary.figure.warnings.length }, threshold: { warnings: 0 }, detail: 'thin limbs, head proportion and named accents; warnings only' })] : [])],
         notProven: [
+          ...(lineup && !lineup.applies ? [{ what: 'lineup against the approved references', why: lineup.why }] : []),
+          ...(lineup?.applies ? lineup.notProven : []),
           ...(guide ? [] : [{ what: 'figure proportions', why: `no figure guide in the pack applies to profile ${asset.profile}` }]),
           ...(guide && !(processDoc.accents ?? []).length ? [{ what: 'accent colours surviving', why: 'none were named in accents', turnOn: 'pass accents: [palette ids]' }] : []),
           { what: 'motion', why: 'a pixelised sheet is still; the animation gates run in studio_rig_bake' }],
         inputs: { sheets: slots.map((x) => x.doc.sheet.sha256.slice(0, 16)).join(' ') || doc.sheet.sha256.slice(0, 16), marks: sha(processDoc.marks ?? []), accents: sha(processDoc.accents ?? []) } });
       const shown = sheetContent({ title: `Pixelised ${asset.id}`, cells, scale: args.scale ?? 4, extra: summary });
       if (summary.figure) shown.content[0].text += summary.figure.warnings.length ? ` Figure check: ${summary.figure.warnings.length} warning(s): ${[...new Set(summary.figure.warnings.map((w) => w.check))].join(', ')} (see figure.warnings).` : ` Figure check (${summary.figure.guide}): no warnings.`;
+      if (summary.lineup) shown.content[0].text += summary.lineup.blocked ? ` LINEUP BLOCKED: ${summary.lineup.messages.join(' ')}` : summary.lineup.status === 'warn' ? ` Lineup warning: ${summary.lineup.messages.join(' ')}` : ` Lineup against ${summary.lineup.references.join(' and ')}: within the typical band.`;
+      if (args.submit && summary.lineup?.blocked) {
+        shown.structured.submit = { accepted: false, blocked: 'lineup', message: `Not submitted: the build is outside the pack's lineup tolerance. ${summary.lineup.messages.join(' ')} Redraw nearer the reference (studio_template_get lineup=true) and import again.` };
+        shown.content[0].text += ' Nothing was submitted.';
+        return { content: shown.content, structuredContent: shown.structured, isError: true };
+      }
       let submitted;
       if (args.submit) {
         const map = staticMapping(asset, pixelized.record, args.clip);

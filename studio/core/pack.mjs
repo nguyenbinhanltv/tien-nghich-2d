@@ -115,7 +115,29 @@ export function validatePack(pack) {
   issues.push(...validateGenerators(pack.adapters));
   issues.push(...validateFigures(pack.figures));
   issues.push(...validateReferences(pack.references));
+  issues.push(...validateLineup(pack.lineup, pack.references));
   if (pack.rules.outline.mode === 'none' && pack.rules.outline.color !== 'palette') issues.push('rules.outline: color is meaningless when mode is "none"');
+  return issues;
+}
+
+/** Issues in a pack's `lineup` block: reference names must exist, a profile belongs to one group, every band is ordered. */
+function validateLineup(lineup = {}, references = {}) {
+  const issues = [], owner = new Map();
+  for (const [name, g] of Object.entries(lineup)) {
+    const at = `lineup.${name}`;
+    if (!/^[a-z][a-z0-9_]{0,30}$/.test(name)) issues.push(`${at}: name must be lowercase letters, digits and underscores`);
+    for (const r of g.references ?? []) if (!Object.hasOwn(references, r)) issues.push(`${at}.references: "${r}" is not an entry of the pack's references`);
+    for (const p of g.profiles ?? []) { if (owner.has(p)) issues.push(`${at}.profiles: "${p}" is already covered by lineup.${owner.get(p)}`); owner.set(p, name); }
+    for (const set of ['tolerance', 'typical']) for (const [metric, band] of Object.entries(g[set] ?? {})) {
+      if (band.min === undefined && band.max === undefined) issues.push(`${at}.${set}.${metric}: give min, max or both`);
+      if (band.min !== undefined && band.max !== undefined && band.min > band.max) issues.push(`${at}.${set}.${metric}: min exceeds max`);
+      const wide = g.tolerance?.[metric];
+      if (set === 'typical' && wide) {
+        if (band.min !== undefined && wide.min !== undefined && band.min < wide.min) issues.push(`${at}.typical.${metric}: min is looser than the tolerance's`);
+        if (band.max !== undefined && wide.max !== undefined && band.max > wide.max) issues.push(`${at}.typical.${metric}: max is looser than the tolerance's`);
+      }
+    }
+  }
   return issues;
 }
 

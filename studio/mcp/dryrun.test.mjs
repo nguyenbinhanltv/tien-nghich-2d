@@ -171,7 +171,7 @@ test('review_request and review_reply dryRun: the frames and the exact comment; 
   await checker.ok('studio_qa_run', { assetId: 'lt_seed_broker', independent: true });
   const d = await writesNothing(p, () => author.call('studio_review_request', { assetId: 'lt_seed_broker', note: 'Idle looks right.', questions: ['Is the pole too long?'], dryRun: true }));
   assert.equal(d.wouldAsk.length, 4);
-  assert.match(d.comment, /\[agent codex · .{8}\] REVIEW REQUEST rq-\(assigned when sent\): Idle looks right\.\nQuestions:\n1\. Is the pole too long\?/);
+  assert.match(d.comment, /\[agent codex · .{8}\] REVIEW REQUEST rq-\(assigned when sent\): Idle looks right\.\n(Lineup [^\n]*\n)?Questions:\n1\. Is the pole too long\?/);
   assert.equal((await author.ok('studio_review_list', { assetId: 'lt_seed_broker', detail: 'full' })).items.every((i) => i.requests === 0), true, 'no request exists');
   const real = await author.ok('studio_review_request', { assetId: 'lt_seed_broker', note: 'Idle looks right.', questions: ['Is the pole too long?'] });
   assert.equal(real.asked, 4);

@@ -1,4 +1,6 @@
 import { submitFrames } from '../../core/submissions.mjs';
+import { MAX_CANDIDATES, submitCandidates } from '../../core/candidates.mjs';
+import { ToolError } from '../registry.mjs';
 import { dryRunProp, jsonResult, loadAsset, recordImageSpend, requireFrames } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
@@ -24,13 +26,27 @@ export default {
     'The pixel gates run first: palette membership, binary alpha, the silhouette outline, exact canvas size. If any frame has an error, NOTHING is written and every defect comes back with x, y coordinates. ' +
     'Accepted frames are written once under the asset\'s raw frames directory and never overwritten; submitting different pixels for an existing frame is refused. ' +
     'Each frame gets a revision history that starts as pending: only a human approves. dryRun runs the gates and lists the files it would write (wouldWrite) and the ones already stored (unchanged), writing nothing. ' +
-    'Works only on Longtime assets that have no processed or packed frames yet.',
+    'Works only on Longtime assets that have no processed or packed frames yet. ' +
+    'Instead of frames you may give candidates (1 to 6, each the same frames): the pixel gates reject the broken ones first, the survivors are stored as takes (new revisions; nothing is replaced) and one candidate run is recorded for a person to compare on one contact sheet beside the reference. ' +
+    'Nothing is selected and nothing in use changes: only a person picks, in the Review tab, and no tool can.',
   scope: 'author',
   inputSchema: {
     type: 'object',
     properties: {
       assetId: { type: 'string', maxLength: 64, description: 'Longtime asset id (see studio_catalog_search source=longtime status=planned).' },
-      frames: { type: 'array', minItems: 1, maxItems: 128, items: frameItem, description: 'Frames to submit; each is addressed by clip, direction and n.' },
+      frames: { type: 'array', minItems: 1, maxItems: 128, items: frameItem, description: 'Frames to submit; each is addressed by clip, direction and n. Give this or candidates.' },
+      candidates: {
+        type: 'array', minItems: 1, maxItems: MAX_CANDIDATES,
+        description: 'Several candidates for the same frames. Give this or frames.',
+        items: { type: 'object', properties: {
+          label: { type: 'string', maxLength: 24, description: 'Short name (default A, B, C...).' },
+          frames: { type: 'array', minItems: 1, maxItems: 128, items: frameItem },
+          provenance: { type: 'object', description: 'Fields that differ for this candidate (its own prompt or sourceHash), merged over the shared provenance.',
+            properties: { prompt: { type: 'string', maxLength: 8000 }, sourceHash: { type: 'string', pattern: '^[0-9a-f]{64}$' }, notes: { type: 'string', maxLength: 2000 } }, additionalProperties: false },
+        }, required: ['frames'], additionalProperties: false },
+      },
+      note: { type: 'string', maxLength: 600, description: 'With candidates: what differs between them, for the person who picks.' },
+      reference: { type: 'string', maxLength: 300, description: 'With candidates: project-relative path of the reference picture shown beside the sheet (default: the asset\'s reference in the project pack).' },
       provenance: {
         type: 'object',
         properties: {
@@ -48,14 +64,25 @@ export default {
       generations: { type: 'integer', minimum: 1, maximum: 64, description: 'How many image-tool generations these frames came from (default 1). The studio records it for the quota; it cannot refuse an image tool that already ran.' },
       dryRun: dryRunProp,
     },
-    required: ['assetId', 'frames', 'provenance'],
+    required: ['assetId', 'provenance'],
     additionalProperties: false,
   },
-  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
-  async handler({ assetId, frames, provenance, generations, dryRun }, ctx) {
+  // Not idempotent: with candidates a repeated call stores the survivors again as new takes and records another run.
+  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
+  async handler({ assetId, frames, candidates, note, reference, provenance, generations, dryRun }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
+    if ((frames === undefined) === (candidates === undefined)) throw new ToolError('Give exactly one of frames or candidates.');
     if (!dryRun) await requireNotStopped(ws, asset, snap.pack);   // stop policy
+    if (candidates) {
+      const r = await submitCandidates({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, candidates, provenance, note, reference, caller: ctx.caller, dryRun });
+      const failed = r.candidates.filter((c) => c.verdict === 'rejected').length;
+      r.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${r.candidates.length} candidate(s)`,
+        checks: [check('pixelGates', { ok: failed === 0, warn: failed > 0 && failed < r.candidates.length, measured: { rejected: failed, survivors: r.candidates.length - failed }, threshold: { rejected: 0 } })],
+        notProven: [{ what: 'which candidate is best', why: 'only a person judges that, on the contact sheet, in the Review tab' }] });
+      if (!dryRun) r.quota = await recordImageSpend(ctx, { tool: provenance.tool, generations: generations ?? candidates.length, assetId });   // every candidate was a generation, kept or not
+      return jsonResult(dryRun ? { ...r, wrote: 'nothing' } : r, !r.accepted);
+    }
     const { accepted, report } = await submitFrames({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, frames, provenance, caller: ctx.caller, dryRun });
     const frameErrors = report.frames?.reduce((n, f) => n + (f.errors ?? 0), 0) ?? 0;
     report.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${report.frames?.length ?? 0} submitted frame(s)`,

@@ -13,3 +13,4 @@ export { openForgeProject, rigPalette, manifestProfile, bakeStage, qaStage, summ
   poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops } from './pipeline/index.mjs';
 export { compareSets, loadFrameSet } from './pipeline/compare.mjs';
 export { figureFor, guidanceText, guideShapes, drawGuide, measureFigure, figureWarnings } from './figure/figure.mjs';
+export { LINEUP_METRICS, outlineWeight, standingMeasure, medianMeasure, referenceMeasure, lineupNumbers, judgeLineup, lineupMessages, trimFigure, ghostFigure, renderLineup } from './figure/lineup.mjs';

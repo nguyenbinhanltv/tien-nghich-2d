@@ -75,7 +75,10 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         CREATE TABLE IF NOT EXISTS origins(key TEXT PRIMARY KEY, stamp TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS reviews(seq INTEGER PRIMARY KEY, key TEXT NOT NULL, rev INTEGER NOT NULL,
           status TEXT, text TEXT, FOREIGN KEY(key,rev) REFERENCES versions(key,rev));
-        CREATE INDEX IF NOT EXISTS reviews_by_revision ON reviews(key,rev,seq);`);
+        CREATE INDEX IF NOT EXISTS reviews_by_revision ON reviews(key,rev,seq);
+        CREATE TABLE IF NOT EXISTS selections(seq INTEGER PRIMARY KEY, key TEXT NOT NULL, rev INTEGER NOT NULL,
+          FOREIGN KEY(key,rev) REFERENCES versions(key,rev));
+        CREATE INDEX IF NOT EXISTS selections_by_frame ON selections(key,seq);`);
       db = connection;
     } catch (error) { connection.close(); throw error; }
   }
@@ -90,7 +93,7 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
           isDeepStrictEqual({...current.metadata,...args.metadata},current.metadata)) return current;
       // A concurrent writer can still advance the head before BEGIN IMMEDIATE below.
     }
-    const write = ['save','restore','review'].includes(action);
+    const write = ['save','restore','review','select'].includes(action);
     open(write);
     if (db) db.exec(depth ? 'SAVEPOINT op' : write ? 'BEGIN IMMEDIATE' : 'BEGIN');
     try {
@@ -136,6 +139,13 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         db.prepare('INSERT INTO reviews(key,rev,status,text) VALUES(?,?,?,?)')
           .run(key,selected,args.status ?? null,args.text ?? null);
       }
+      // A take is a revision. Three facts about it stay separate: it is the NEWEST (the head), it is SELECTED (a person picked it:
+      // the 'select' action, nothing else writes this) and it is IN USE (its pixels are the file the project uses now, when the caller
+      // passed that file's bytes as frame.standingPng). A new take moves only the first; selecting never edits a file.
+      if (action === 'select') {
+        if (!Number.isInteger(args.revision) || args.revision < 0 || args.revision > head) throw problem(404,'unknown_revision','Revision does not exist');
+        db.prepare('INSERT INTO selections(key,rev) VALUES(?,?)').run(key,args.revision);
+      }
       const standing = sameImage(version(0).png,frame.standingPng) ? frame.standing : undefined;
       let history = (db?.prepare('SELECT rev AS revision,parent,'+explicitSql+
         ' AS status FROM versions v WHERE key=? ORDER BY rev DESC').all(key) ?? [])
@@ -146,8 +156,17 @@ export function revisionStore(root, reservedName, dir = path.join(root, reserved
         order by p.seq desc limit 1) as status FROM reviews r
         WHERE key=? AND rev=? AND text IS NOT NULL ORDER BY seq`).all(key,selected) ?? [])
         .map(c => ({...c,status:c.status ?? unjudged(selected,standing)}));
+      const hasSelections = db && db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='selections'").get();
+      const picked = hasSelections ? db.prepare('SELECT rev FROM selections WHERE key=? ORDER BY seq DESC LIMIT 1').get(key)?.rev ?? null : null;
+      // The file the project uses now: the caller's filePng (the frame's file as it is), else the bytes a human record or the baseline judged.
+      // Compared by pixels (sameImage), not bytes: the same picture encoded twice is the same take. Unknown (null) when the caller gave no file.
+      const file = frame.filePng ?? frame.standingPng;
+      let inUse = null;
+      if (file) for (const item of [...history].reverse()) if (sameImage(version(item.revision).png, file)) { inUse = item.revision; break; }
+      history = history.map(item => ({...item,newest:item.revision===head,selected:item.revision===picked,inUse:item.revision===inUse}));
       const snapshot = {...frame.info,head,revision:selected,pngBase64:png.toString('base64'),metadata,
-        status:history.find(item=>item.revision===selected).status,comments,history};
+        status:history.find(item=>item.revision===selected).status,comments,history,
+        takes:{newest:head,selected:picked,inUse}};
       if (db) db.exec(depth ? 'RELEASE op' : 'COMMIT');
       return snapshot;
     } catch (error) {

@@ -15,6 +15,7 @@ import { listFrames } from './assets.mjs';
 import { reviewFrames } from './audio-candidates.mjs';
 import { bareFrame } from './bareframe.mjs';
 import { readInside } from './files.mjs';
+import { decodeRgba } from './png.mjs';
 
 export const AGENT_MARK = /^\[agent /;
 const MAX_COMMENT = 2000;
@@ -73,7 +74,9 @@ export async function snapshotOf(ws, f, revision) {
   const store = await ws.store();
   const baseline = await readInside(ws.root, f.rel);
   const {standing, png: standingPng} = f.stage === 'audio' ? {} : await (await ws.standing()).judged(f.rel);
-  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng}, baseline, 'frame', revision === undefined ? {} : {revision});
+  // Only a processed file is what the game uses; a raw frame is the studio's landing place, never "in the game".
+  const filePng = f.stage === 'processed' ? baseline : undefined;
+  return store.operate({...bareFrame(f.key, {assetId: f.assetId}), standing, standingPng, filePng}, baseline, 'frame', revision === undefined ? {} : {revision});
 }
 
 /**
@@ -96,6 +99,10 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
     else targets.push({f, snap});
   }
   if (!targets.length) throw problem(409, 'already_approved', 'Every selected frame is already approved by a human; a request cannot change that. Submit a new revision to ask again.');
+
+  // A person's region requests (see addRegionRequest) must be answered before the next ask: a request with no answer means the frame was not revised for it.
+  const unanswered = targets.flatMap(({f}) => db.changeRequests(f.key).filter(c => !c.answers.length).map(c => ({id: c.id, key: c.key, revision: c.revision, box: c.box, text: clip(c.text, 120)})));
+  if (!escalation && unanswered.length) throw problem(409, 'unanswered_change_requests', `${unanswered.length} change request(s) from a person have no answer: ${unanswered.slice(0, 6).map(c => `${c.id} on ${c.key} r${c.revision} at ${c.box.x},${c.box.y} ${c.box.w}x${c.box.h}`).join('; ')}. Save a new revision for each, then studio_review_reply with answers=[the ids] on that revision, then ask again.`);
 
   // An escalation (the stop policy has ended the work) is a request for help: it needs neither a passing check nor a fresh independent check.
   if (!escalation && !qa.pass) throw problem(409, 'gates_failed', `${qa.summary.errors} gate error(s) on the current frames; fix them (studio_qa_run lists each) before asking a human.`);
@@ -124,7 +131,7 @@ export async function requestReview({ws, asset, select, note, questions = [], ca
 export async function listReviews({ws, asset, select, detail = 'summary', limit = 50}) {
   const db = await ws.db();
   const frames = await reviewableFrames(ws, asset, select);
-  const byStatus = {}, open = [], items = [];
+  const byStatus = {}, open = [], items = [], openRegion = [], allRegion = [];
   for (const f of frames) {
     const snap = await snapshotOf(ws, f);
     byStatus[snap.status] = (byStatus[snap.status] ?? 0) + 1;
@@ -133,19 +140,26 @@ export async function listReviews({ws, asset, select, detail = 'summary', limit 
     const resolved = new Set(events.filter(e => e.kind === 'reply' && e.resolves && e.replyTo !== null).map(e => e.replyTo));
     const openHere = comments.filter(c => c.by === 'human' && !resolved.has(c.index));
     for (const c of openHere) open.push({key: f.key, revision: snap.revision, index: c.index, text: c.text});
+    const crs = db.changeRequests(f.key);
+    for (const c of crs) {
+      const row = {id: c.id, key: c.key, revision: c.revision, hash: c.hash, box: c.box, text: c.text, answeredBy: c.answers.map(a => a.revision)};
+      allRegion.push(row);
+      if (!c.answers.length) openRegion.push(row);
+    }
     if (detail === 'full' || snap.status !== 'pending' || openHere.length || comments.length) {
-      items.push({key: f.key, revision: snap.revision, head: snap.head, status: snap.status, comments, requests: events.filter(e => e.kind === 'request').length,
+      items.push({key: f.key, revision: snap.revision, head: snap.head, status: snap.status, takes: snap.takes, comments, requests: events.filter(e => e.kind === 'request').length,
         replies: events.filter(e => e.kind === 'reply').map(e => ({replyTo: e.replyTo, resolves: e.resolves, text: e.text, agent: e.agent}))});
     }
   }
   return {asset: asset.id, frames: frames.length, byStatus, openComments: open.slice(0, limit), openCommentCount: open.length,
+    openChangeRequests: openRegion.slice(0, limit), openChangeRequestCount: openRegion.length, changeRequestCount: allRegion.length,
     items: items.slice(0, limit), itemCount: items.length, truncated: items.length > limit || open.length > limit,
     approvedByHuman: byStatus.approved ?? 0, baselineNoRecord: byStatus.baseline ?? 0, awaitingReview: byStatus.pending ?? 0,
-    note: 'Statuses are set by a human in the review UI. approved = a human record covers exactly these bytes; baseline = shipped before the studio, no review record either way (not approved); pending = awaiting review. changes_requested means act on the comments, then submit a new revision.'};
+    note: 'Statuses are set by a human in the review UI. approved = a human record covers exactly these bytes; baseline = shipped before the studio, no review record either way (not approved); pending = awaiting review. changes_requested means act on the comments, then submit a new revision. openChangeRequests are a person\'s notes pinned to a revision (hash), a frame and a box: save a new revision, then studio_review_reply with answers=[the ids] on it. takes: newest, selected (a person picked it) and inUse (the file the project uses) are three separate facts.'};
 }
 
 /** Answer a human comment (and optionally mark it handled). Never touches the review status. */
-export async function replyToReview({ws, key, revision, replyTo, text, resolves = false, caller, dryRun = false}) {
+export async function replyToReview({ws, key, revision, replyTo, text, resolves = false, answers = [], caller, dryRun = false}) {
   const store = await ws.store(), db = await ws.db();
   if (typeof text !== 'string' || !text.trim() || text.length > 1500) invalid('text must be 1 to 1500 characters');
   if (store.needsBaseline(key)) throw problem(404, 'no_history', `${key} has no revision history, so there is nothing to reply to`);
@@ -164,11 +178,37 @@ export async function replyToReview({ws, key, revision, replyTo, text, resolves 
     if (!target) throw invalid(`revision ${rev} of ${key} has ${snap.comments.length} comment(s); replyTo must be 0 to ${snap.comments.length - 1}`);
     if (target.by !== 'human') throw invalid(`comment ${replyTo} is an agent's own; reply to a human comment`);
   } else if (resolves) invalid('resolves needs replyTo: say which comment you handled');
+  // A later revision lists the change requests it answers. Each must be on this frame, on an EARLIER revision, and not already answered here.
+  const requests = [];
+  if (!Array.isArray(answers) || answers.length > 16 || new Set(answers).size !== answers.length) throw invalid('answers: up to 16 distinct change request ids');
+  for (const id of answers) {
+    const cr = db.changeRequests(key).find(c => c.id === id);
+    if (!cr) throw invalid(`${id} is not a change request on ${key}`);
+    if (cr.revision >= rev) throw invalid(`${id} was made on revision ${cr.revision}; only a later revision answers it, and this reply is on revision ${rev}. Save a new revision first.`);
+    requests.push(cr);
+  }
+  const regionNotes = requests.map(cr => {
+    const was = store.operate(frame, Buffer.alloc(0), 'frame', {revision: cr.revision});
+    return {id: cr.id, regionChanged: !regionSame(was.pngBase64, snap.pngBase64, cr.box)};
+  });
+  const answerTag = requests.length ? ` (answers ${requests.map(c => c.id).join(', ')})` : '';
   const prefix = `${agentTag(caller)} ${replyTo === undefined ? 'NOTE' : `REPLY to #${replyTo}${resolves ? ' (handled)' : ''}`}: `;
-  const body = clip(prefix + text.trim(), MAX_COMMENT);
-  if (dryRun) return {dryRun: true, key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, wouldPost: body, note: 'status is unchanged: only a human decides'};
+  const body = clip(prefix.replace(/: $/, `${answerTag}: `) + text.trim(), MAX_COMMENT);
+  if (dryRun) return {dryRun: true, key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, answers: regionNotes, wouldPost: body, note: 'status is unchanged: only a human decides'};
   const png = Buffer.from(snap.pngBase64, 'base64');
   store.operate(bareFrame(key), png, 'review', {revision: rev, text: body}); // text only: never a status
   db.addEvent({request: 'reply', key, rev, kind: 'reply', agent: caller.agent, session: caller.session, text: text.trim(), replyTo: replyTo ?? null, resolves});
-  return {key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, note: 'status is unchanged: only a human decides'};
+  for (const cr of requests) db.addAnswer({cr: cr.id, key, rev, agent: caller.agent, session: caller.session, text: text.trim()});
+  return {key, revision: rev, status: snap.status, replyTo: replyTo ?? null, resolves, ...(regionNotes.length ? {answers: regionNotes, warning: regionNotes.some(n => !n.regionChanged) ? 'For a request marked regionChanged=false the pixels inside the box are identical on this revision; the person will see no change there.' : undefined} : {}), note: 'status is unchanged: only a human decides'};
+}
+
+/** True when the pixels inside `box` are identical in two PNGs (base64) of the same size. */
+function regionSame(aBase64, bBase64, box) {
+  const [a, b] = [decodeRgba(Buffer.from(aBase64, 'base64')), decodeRgba(Buffer.from(bBase64, 'base64'))];
+  if (a.width !== b.width || a.height !== b.height) return false;
+  for (let y = box.y; y < Math.min(box.y + box.h, a.height); y++) for (let x = box.x; x < Math.min(box.x + box.w, a.width); x++) {
+    const i = (y * a.width + x) * 4;
+    for (let k = 0; k < 4; k++) if (a.pixels[i + k] !== b.pixels[i + k]) return false;
+  }
+  return true;
 }
