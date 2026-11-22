@@ -7,7 +7,7 @@ This entry point adds two things the shared builder does not have:
   --clean-feet  clear 1-3 px specks in the feet rows after the 40-colour snap (used for lt_ash_skater; recorded in
                 provenance as processing.cleanup)
   and, for every asset it builds, the provenance records this entry point and its hash, and review.status =
-  awaiting_owner_review (no human has approved this art).
+  approved_by_owner (the owner approved this art in chat on 2026-11-22; assets/review/art_approvals.json is the record, entry owner_new_characters_2026-11-22).
 
   python -I tools/scripts/build_longtime_ember_delta.py build <id> [--clean-feet]
 """
@@ -93,8 +93,9 @@ def build_character(aid, raw_root=blc.RAW, out_root=blc.OUT, clean_feet=False):
     if clean_feet:
         proc["cleanup"] = {"rule": f"after the 40-colour snap, clear opaque 8-connected groups of <= {SPECK_MAX} px lying entirely in rows >= {FOOT_ROW}",
                            "removed_pixels": removed_total[0]}
-    prov["review"] = {"status": "awaiting_owner_review",
-                      "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it."}
+    prov["review"] = {"status": "approved_by_owner", "approved_by": "project owner", "approved_on": "2026-11-22",
+                      "approval_id": "owner_new_characters_2026-11-22",
+                      "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json."}
     path.write_text(json.dumps(prov, indent=2, ensure_ascii=False) + "\n", encoding="utf8")
 
 

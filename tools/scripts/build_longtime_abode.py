@@ -4,10 +4,10 @@
 Run isolated with the project venv:  python -I tools/scripts/build_longtime_abode.py build <id>
 
 The shared builder (build_longtime_characters.py) does all the image work and writes provenance.json. This entry
-point adds, for every asset it builds, the entry point and its hash and review.status = awaiting_owner_review (no
-human has approved this art; assets/review/art_approvals.json does not list it). The record is written by the
-build step, so a rebuild reproduces provenance.json byte for byte. lt_kiln_keeper and lt_ink_marten were approved
-by the owner and are built with the shared builder alone.
+point adds, for every asset it builds, the entry point and its hash and review.status = approved_by_owner (the owner
+approved this art in chat on 2026-11-22; assets/review/art_approvals.json holds the record, tied to each frame's
+sha256). The record is written by the build step, so a rebuild reproduces provenance.json byte for byte.
+lt_kiln_keeper and lt_ink_marten were approved earlier and are built with the shared builder alone.
 """
 from __future__ import annotations
 
@@ -31,13 +31,16 @@ def _load(name):
 blc = _load("build_longtime_characters")
 
 REVIEW = {
-    "status": "awaiting_owner_review",
-    "note": "PixelLab output integrated as a processed baseline. No human has approved this art; assets/review/art_approvals.json does not list it.",
+    "status": "approved_by_owner",
+    "approved_by": "project owner",
+    "approved_on": "2026-11-22",
+    "approval_id": "owner_new_characters_2026-11-22",
+    "note": "The project owner approved this art as it is, flaws in known_flaws included, in chat on 2026-11-22 (\"Duyệt 30 hình nhân vật mới\", confirmed by choosing \"30 nhân vật + asset Longtime đang chờ\"). The record, tied to each frame's sha256, is assets/review/art_approvals.json.",
 }
 
 
 def build_character(aid, raw_root=blc.RAW, out_root=blc.OUT):
-    """Run the shared builder, then record this entry point and the pending owner review in provenance.json."""
+    """Run the shared builder, then record this entry point and the owner approval in provenance.json."""
     blc.build(aid, raw_root=raw_root, out_root=out_root)
     path = Path(raw_root) / aid / "provenance.json"
     prov = json.loads(path.read_text(encoding="utf8"))
