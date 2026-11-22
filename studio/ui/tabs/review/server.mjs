@@ -137,8 +137,9 @@ export async function handle(req, res, url, context) {
   const dir = libraryOf(root, context);
 
   if (name === 'inbox' && ['GET', 'HEAD'].includes(req.method)) {
-    const frames = await artFrames(root);
-    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames.files.has(key) ? frames.standing.of(frames.files.get(key)) : 'awaiting'));
+    // If the editable catalog cannot be read (a trimmed project copy), nothing can claim a standing: every undecided frame stays awaiting review.
+    const frames = await artFrames(root).catch(() => null);
+    const items = await withStanding(readInbox(dir, {limitDecided: Infinity}), async key => (frames?.files.has(key) ? frames.standing.of(frames.files.get(key)) : 'awaiting'));
     const {list, masters, approvals, pack} = await audioAssets(root);
     const sign = signoffs(dir);
     const audio = [];
@@ -151,7 +152,7 @@ export async function handle(req, res, url, context) {
         signoff: history[0] ? {ts: history[0].ts, verdict: history[0].verdict, current: history[0].content === hash} : null,
         approval: approval ? {approvalId: approval.approvalId, approvedBy: approval.approvedBy, kind: approval.kind, recorded: approval.recorded, current: !approval.content || approval.content === hash} : null});
     }
-    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals), artCounts: await artCounts(root, dir)});
+    return send(200, {items, audio, artRecords: await readArtApprovals(root, pack.directories.approvals), artCounts: frames ? await artCounts(root, dir).catch(() => null) : null});
   }
   if (name === 'authors' && ['GET', 'HEAD'].includes(req.method)) {
     const key = url.searchParams.get('key') ?? '';

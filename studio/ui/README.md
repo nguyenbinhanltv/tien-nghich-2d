@@ -74,6 +74,10 @@ Rules: touch only `ctx.root` (and `document` listeners you remove in `unmount`/`
 
 If `mount` throws, the shell shows an error panel with a retry button and keeps the rest of the studio working.
 
+## Review standing: what a tab may say about a frame
+
+A frame's review state is never "approved" by default. The store reports revision 0 of a frame nobody judged in the studio by the project's records (`studio/core/standing.mjs`): **approved** only when `directories.approvals/art_approvals.json` holds the sha256 of exactly these bytes, **baseline, no review record** when the pack's `review.baseline` (a per-directory digest record written by `node studio/baseline.mjs --write`) still covers it, and **awaiting review** (`pending`) otherwise, which is also what a pack with no `review` block gives for everything. A human verdict in the revision store wins over all three; a later revision is always `pending`. A tab shows `snap.status` as the store returns it (`status.baseline` and `status.pending` strings exist in EN and VI) and must not derive an approval of its own.
+
 ## URLs and deep links
 
 ```
