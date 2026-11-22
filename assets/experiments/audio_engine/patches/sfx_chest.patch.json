@@ -1,0 +1,132 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_chest",
+  "title": "sfx_chest",
+  "design": "Dry hardwood catch, slow rasp of the lifting lid, then a hollow stop.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7481,
+  "durationMs": 743,
+  "trim": 0.89,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 43,
+      "gain": 1.2,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 540,
+          "highHz": 5800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 12,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 95,
+      "gain": 0.52,
+      "hz": 398,
+      "endHz": 255,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 26,
+        "releaseMs": 23
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 9,
+      "ms": 112,
+      "gain": 0.29,
+      "hz": 692,
+      "endHz": 524,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 31,
+        "releaseMs": 29
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 111,
+      "ms": 430,
+      "gain": 0.86,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 330,
+          "highHz": 2770
+        }
+      ],
+      "env": {
+        "attackMs": 65,
+        "decayMs": 900,
+        "releaseMs": 98
+      },
+      "am": {
+        "hz": 21,
+        "depth": 0.88
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 135,
+      "ms": 355,
+      "gain": 0.18,
+      "hz": 117,
+      "endHz": 180,
+      "fm": {
+        "ratio": 2.1,
+        "index": 1.5
+      },
+      "env": {
+        "attackMs": 58,
+        "decayMs": 790,
+        "releaseMs": 91
+      },
+      "am": {
+        "hz": 21,
+        "depth": 0.84
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 540,
+      "ms": 181,
+      "gain": 0.43,
+      "hz": 152,
+      "endHz": 79,
+      "env": {
+        "attackMs": 4,
+        "decayMs": 50,
+        "releaseMs": 49
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 539,
+      "ms": 70,
+      "gain": 0.52,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 140,
+          "highHz": 1870
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 22,
+        "releaseMs": 15
+      }
+    }
+  ]
+}

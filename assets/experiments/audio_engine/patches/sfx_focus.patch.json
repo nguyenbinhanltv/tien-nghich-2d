@@ -1,0 +1,45 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_focus",
+  "title": "sfx_focus",
+  "design": "A quiet paper-edge tick marks a single focus move; it has almost no pitched tail.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 8287,
+  "durationMs": 56,
+  "trim": 0.58,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 50,
+      "gain": 0.72,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1150,
+          "highHz": 5450
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 12,
+        "releaseMs": 15
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 1,
+      "ms": 35,
+      "gain": 0.16,
+      "hz": 1710,
+      "endHz": 1460,
+      "env": {
+        "attackMs": 1,
+        "decayMs": 8,
+        "releaseMs": 9
+      }
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_seal_lock",
+  "title": "sfx_seal_lock",
+  "design": "Two taut binding pulses pull upward, then a dry iron clasp closes.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7211,
+  "durationMs": 537,
+  "trim": 0.72,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 120,
+      "gain": 0.42,
+      "hz": 170,
+      "endHz": 295,
+      "fm": {
+        "ratio": 2.4,
+        "index": 1.5
+      },
+      "env": {
+        "attackMs": 6,
+        "decayMs": 62,
+        "releaseMs": 29
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 162,
+      "ms": 95,
+      "gain": 0.5,
+      "hz": 245,
+      "endHz": 455,
+      "fm": {
+        "ratio": 2.4,
+        "index": 1.7
+      },
+      "env": {
+        "attackMs": 4,
+        "decayMs": 49,
+        "releaseMs": 20
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 299,
+      "ms": 46,
+      "gain": 0.97,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 850,
+          "highHz": 6800
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 14,
+        "releaseMs": 10
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 299,
+      "ms": 217,
+      "gain": 0.54,
+      "hz": 548,
+      "endHz": 545,
+      "fm": {
+        "ratio": 2.73,
+        "index": 1.2
+      },
+      "env": {
+        "attackMs": 2,
+        "decayMs": 42,
+        "releaseMs": 54
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 304,
+      "ms": 115,
+      "gain": 0.21,
+      "hz": 163,
+      "endHz": 122,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 27,
+        "releaseMs": 25
+      }
+    }
+  ]
+}

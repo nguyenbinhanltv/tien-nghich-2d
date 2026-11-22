@@ -1,0 +1,88 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_harvest",
+  "title": "sfx_harvest",
+  "design": "A green stem snaps, leaves rustle past for a quarter second, and two small soft woody notes fall together as the herb drops into the hand: G4 then E4, a falling third, with no sparkle.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9311,
+  "durationMs": 700,
+  "trim": 0.96,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 16,
+      "gain": 1.1,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1500,
+          "highHz": 6500
+        }
+      ],
+      "env": {
+        "attackMs": 1,
+        "decayMs": 5,
+        "releaseMs": 6
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 25,
+      "ms": 300,
+      "gain": 0.9,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 1800,
+          "highHz": 7500
+        }
+      ],
+      "env": {
+        "attackMs": 60,
+        "decayMs": 160,
+        "releaseMs": 140
+      },
+      "am": {
+        "hz": 27,
+        "depth": 0.9
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 300,
+      "ms": 190,
+      "gain": 0.46,
+      "hz": 392,
+      "endHz": 390,
+      "fm": {
+        "ratio": 2,
+        "index": 0.45
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 60,
+        "releaseMs": 70
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 420,
+      "ms": 270,
+      "gain": 0.46,
+      "hz": 330,
+      "endHz": 328,
+      "fm": {
+        "ratio": 2,
+        "index": 0.4
+      },
+      "env": {
+        "attackMs": 3,
+        "decayMs": 85,
+        "releaseMs": 100
+      }
+    }
+  ]
+}

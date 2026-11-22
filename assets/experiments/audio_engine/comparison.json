@@ -1,0 +1,654 @@
+{
+  "effects": [
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 10672,
+        "b": 10672
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 0,
+        "maxAbsLsb": 0,
+        "sampleExact": true
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 22,
+        "floorDb": -60,
+        "correlation": 1,
+        "meanAbsDb": 0,
+        "maxAbsDb": 0
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 26,
+        "rmsDiffDb": 0,
+        "maxAbsDiffDb": 0,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -23.35,
+            "b": -23.35,
+            "diff": 0
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -15.37,
+            "b": -15.37,
+            "diff": 0
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -8.16,
+            "b": -8.16,
+            "diff": 0
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -5.29,
+            "b": -5.29,
+            "diff": 0
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -2.86,
+            "b": -2.86,
+            "diff": 0
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": 0,
+        "truePeakDbDiff": 0,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0,
+        "integratedLufsDiff": null,
+        "a": {
+          "samplePeakDbfs": -3.491,
+          "truePeakDbtp": -2.243,
+          "rmsDbfs": -17.813,
+          "ungatedLufs": -15,
+          "integratedLufs": null
+        },
+        "b": {
+          "samplePeakDbfs": -3.491,
+          "truePeakDbtp": -2.243,
+          "rmsDbfs": -17.813,
+          "ungatedLufs": -15,
+          "integratedLufs": null
+        }
+      },
+      "id": "sfx_dash",
+      "character": "broadband noise rush with a falling tone",
+      "master": "assets/audio/masters/pilot_sfx/sfx_dash.wav",
+      "byteIdenticalToMaster": true
+    },
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 13980,
+        "b": 13980
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 0,
+        "maxAbsLsb": 0,
+        "sampleExact": true
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 29,
+        "floorDb": -60,
+        "correlation": 1,
+        "meanAbsDb": 0,
+        "maxAbsDb": 0
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 24,
+        "rmsDiffDb": 0,
+        "maxAbsDiffDb": 0,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -60.73,
+            "b": -60.73,
+            "diff": 0
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -33.77,
+            "b": -33.77,
+            "diff": 0
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -3.38,
+            "b": -3.38,
+            "diff": 0
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -3.17,
+            "b": -3.17,
+            "diff": 0
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -12.34,
+            "b": -12.34,
+            "diff": 0
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": 0,
+        "truePeakDbDiff": 0,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0,
+        "integratedLufsDiff": null,
+        "a": {
+          "samplePeakDbfs": -8.802,
+          "truePeakDbtp": -8.296,
+          "rmsDbfs": -20.259,
+          "ungatedLufs": -18.46,
+          "integratedLufs": null
+        },
+        "b": {
+          "samplePeakDbfs": -8.802,
+          "truePeakDbtp": -8.296,
+          "rmsDbfs": -20.259,
+          "ungatedLufs": -18.46,
+          "integratedLufs": null
+        }
+      },
+      "id": "sfx_blade",
+      "character": "FM tone sweeps (whistle) over filtered noise",
+      "master": "assets/audio/masters/pilot_sfx/sfx_blade.wav",
+      "byteIdenticalToMaster": true
+    },
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 12348,
+        "b": 12348
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 0,
+        "maxAbsLsb": 0,
+        "sampleExact": true
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 16,
+        "floorDb": -60,
+        "correlation": 1,
+        "meanAbsDb": 0,
+        "maxAbsDb": 0
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 26,
+        "rmsDiffDb": 0,
+        "maxAbsDiffDb": 0,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -29.62,
+            "b": -29.62,
+            "diff": 0
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -1.78,
+            "b": -1.78,
+            "diff": 0
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -13.76,
+            "b": -13.76,
+            "diff": 0
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -7.01,
+            "b": -7.01,
+            "diff": 0
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -10.31,
+            "b": -10.31,
+            "diff": 0
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": 0,
+        "truePeakDbDiff": 0,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0,
+        "integratedLufsDiff": null,
+        "a": {
+          "samplePeakDbfs": -4.018,
+          "truePeakDbtp": -2.868,
+          "rmsDbfs": -22.713,
+          "ungatedLufs": -21.84,
+          "integratedLufs": null
+        },
+        "b": {
+          "samplePeakDbfs": -4.018,
+          "truePeakDbtp": -2.868,
+          "rmsDbfs": -22.713,
+          "ungatedLufs": -21.84,
+          "integratedLufs": null
+        }
+      },
+      "id": "sfx_hit_stone",
+      "character": "percussive impact, short and dry",
+      "master": "assets/audio/masters/wave2_second_sfx/sfx_hit_stone.wav",
+      "byteIdenticalToMaster": true
+    },
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 44100,
+        "b": 44100
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 0,
+        "maxAbsLsb": 0,
+        "sampleExact": true
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 88,
+        "floorDb": -60,
+        "correlation": 1,
+        "meanAbsDb": 0,
+        "maxAbsDb": 0
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 5,
+        "rmsDiffDb": 0,
+        "maxAbsDiffDb": 0,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -98.77,
+            "b": -98.77,
+            "diff": 0
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -89.58,
+            "b": -89.58,
+            "diff": 0
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -0.57,
+            "b": -0.57,
+            "diff": 0
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -9.4,
+            "b": -9.4,
+            "diff": 0
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -20.87,
+            "b": -20.87,
+            "diff": 0
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": 0,
+        "truePeakDbDiff": 0,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0,
+        "integratedLufsDiff": 0,
+        "a": {
+          "samplePeakDbfs": -5.524,
+          "truePeakDbtp": -5.055,
+          "rmsDbfs": -22.745,
+          "ungatedLufs": -21.15,
+          "integratedLufs": -22.23
+        },
+        "b": {
+          "samplePeakDbfs": -5.524,
+          "truePeakDbtp": -5.055,
+          "rmsDbfs": -22.745,
+          "ungatedLufs": -21.15,
+          "integratedLufs": -22.23
+        }
+      },
+      "id": "sfx_chime",
+      "character": "pitched, ringing tail",
+      "master": "assets/audio/masters/wave2_third_sfx/sfx_chime.wav",
+      "byteIdenticalToMaster": true
+    }
+  ],
+  "controls": [
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 10672,
+        "b": 10672
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 9731,
+        "maxAbsLsb": 37693,
+        "sampleExact": false
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 22,
+        "floorDb": -60,
+        "correlation": 0.998,
+        "meanAbsDb": 0.66,
+        "maxAbsDb": 1.76
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 26,
+        "rmsDiffDb": 1.48,
+        "maxAbsDiffDb": 3.83,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -23.35,
+            "b": -22.12,
+            "diff": 1.23
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -15.37,
+            "b": -13.32,
+            "diff": 2.05
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -8.16,
+            "b": -9,
+            "diff": -0.84
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -5.29,
+            "b": -5.19,
+            "diff": 0.1
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -2.86,
+            "b": -2.85,
+            "diff": 0.01
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": 0.11,
+        "truePeakDbDiff": -0.08,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0.02,
+        "integratedLufsDiff": null,
+        "a": {
+          "samplePeakDbfs": -3.491,
+          "truePeakDbtp": -2.243,
+          "rmsDbfs": -17.813,
+          "ungatedLufs": -15,
+          "integratedLufs": null
+        },
+        "b": {
+          "samplePeakDbfs": -3.377,
+          "truePeakDbtp": -2.328,
+          "rmsDbfs": -17.812,
+          "ungatedLufs": -14.98,
+          "integratedLufs": null
+        }
+      },
+      "id": "control: sfx_dash with seed + 1"
+    },
+    {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 10672,
+        "b": 10672
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 10671,
+        "maxAbsLsb": 26637,
+        "sampleExact": false
+      },
+      "envelope": {
+        "windowMs": 10,
+        "windows": 24,
+        "floorDb": -60,
+        "correlation": 0.834,
+        "meanAbsDb": 13.49,
+        "maxAbsDb": 69.72
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 26,
+        "rmsDiffDb": 21.43,
+        "maxAbsDiffDb": 43.2,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -23.35,
+            "b": -60.65,
+            "diff": -37.3
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -15.37,
+            "b": -42.3,
+            "diff": -26.93
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -8.16,
+            "b": -3.47,
+            "diff": 4.69
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -5.29,
+            "b": -3.09,
+            "diff": 2.2
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -2.86,
+            "b": -12.26,
+            "diff": -9.4
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": -5.31,
+        "truePeakDbDiff": -6.05,
+        "rmsDbDiff": -1.28,
+        "ungatedLufsDiff": -2.29,
+        "integratedLufsDiff": null,
+        "a": {
+          "samplePeakDbfs": -3.491,
+          "truePeakDbtp": -2.243,
+          "rmsDbfs": -17.813,
+          "ungatedLufs": -15,
+          "integratedLufs": null
+        },
+        "b": {
+          "samplePeakDbfs": -8.802,
+          "truePeakDbtp": -8.296,
+          "rmsDbfs": -19.098,
+          "ungatedLufs": -17.29,
+          "integratedLufs": null
+        }
+      },
+      "id": "control: sfx_dash vs sfx_blade (first 242 ms)"
+    }
+  ],
+  "bed": {
+    "id": "bgm_hengyue",
+    "master": "assets/audio/bgm_hengyue/master.wav",
+    "comparison": {
+      "sampleRate": 44100,
+      "frames": {
+        "a": 3087000,
+        "b": 3087000
+      },
+      "identical": {
+        "frames": true,
+        "differingSamples": 2124276,
+        "maxAbsLsb": 1078,
+        "sampleExact": false
+      },
+      "envelope": {
+        "windowMs": 50,
+        "windows": 892,
+        "floorDb": -60,
+        "correlation": 1,
+        "meanAbsDb": 0.01,
+        "maxAbsDb": 0.2
+      },
+      "spectrum": {
+        "thirdOctaveBandsUsed": 26,
+        "rmsDiffDb": 0.03,
+        "maxAbsDiffDb": 0.07,
+        "bandsDb": [
+          {
+            "fromHz": 0,
+            "toHz": 100,
+            "a": -38.32,
+            "b": -38.32,
+            "diff": 0
+          },
+          {
+            "fromHz": 100,
+            "toHz": 450,
+            "a": -1.84,
+            "b": -1.84,
+            "diff": 0
+          },
+          {
+            "fromHz": 450,
+            "toHz": 1600,
+            "a": -4.66,
+            "b": -4.67,
+            "diff": -0.01
+          },
+          {
+            "fromHz": 1600,
+            "toHz": 5000,
+            "a": -24.2,
+            "b": -24.19,
+            "diff": 0.01
+          },
+          {
+            "fromHz": 5000,
+            "toHz": 22050,
+            "a": -40.3,
+            "b": -40.3,
+            "diff": 0
+          }
+        ]
+      },
+      "levels": {
+        "samplePeakDbDiff": -0.02,
+        "truePeakDbDiff": -0.02,
+        "rmsDbDiff": 0,
+        "ungatedLufsDiff": 0,
+        "integratedLufsDiff": 0,
+        "a": {
+          "samplePeakDbfs": -7.057,
+          "truePeakDbtp": -7.057,
+          "rmsDbfs": -25.555,
+          "ungatedLufs": -23.27,
+          "integratedLufs": -21.59
+        },
+        "b": {
+          "samplePeakDbfs": -7.079,
+          "truePeakDbtp": -7.077,
+          "rmsDbfs": -25.556,
+          "ungatedLufs": -23.27,
+          "integratedLufs": -21.59
+        }
+      }
+    },
+    "recorded": {
+      "integratedLufs": -21.66,
+      "truePeakDbtp": -7.06,
+      "loudnessRangeLu": 6
+    },
+    "master_measured": {
+      "integratedLufs": -21.59,
+      "truePeakDbtp": -7.057,
+      "loudnessRangeLu": 5.79,
+      "seam": [
+        -56,
+        -60
+      ],
+      "seamMax10ms": [
+        510,
+        414
+      ]
+    },
+    "render_measured": {
+      "integratedLufs": -21.59,
+      "truePeakDbtp": -7.077,
+      "loudnessRangeLu": 5.78,
+      "sampleRate": 44100,
+      "seam": [
+        -49,
+        -52
+      ],
+      "seamMax10ms": [
+        495,
+        395
+      ],
+      "seamVerdict": "seam step is within the music's own step size"
+    },
+    "bytes": {
+      "render": 12348044,
+      "masterFrames": 3087000,
+      "renderFrames": 3087000
+    }
+  }
+}

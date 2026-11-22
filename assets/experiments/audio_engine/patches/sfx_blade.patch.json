@@ -1,0 +1,75 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_blade",
+  "title": "sfx_blade",
+  "design": "Passing steel, with a narrow rising whistle that turns down into a metallic tail.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 7079,
+  "durationMs": 317,
+  "trim": 0.72,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 164,
+      "gain": 0.53,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 2100,
+          "highHz": 7200
+        }
+      ],
+      "env": {
+        "attackMs": 9,
+        "decayMs": 90,
+        "releaseMs": 54
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 5,
+      "ms": 89,
+      "gain": 0.33,
+      "hz": 830,
+      "endHz": 2480,
+      "env": {
+        "attackMs": 26,
+        "decayMs": 500,
+        "releaseMs": 20
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 74,
+      "ms": 221,
+      "gain": 0.38,
+      "hz": 2410,
+      "endHz": 570,
+      "fm": {
+        "ratio": 1.491,
+        "index": 0.38
+      },
+      "env": {
+        "attackMs": 17,
+        "decayMs": 92,
+        "releaseMs": 66
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 83,
+      "ms": 115,
+      "gain": 0.1,
+      "hz": 3660,
+      "endHz": 2050,
+      "env": {
+        "attackMs": 8,
+        "decayMs": 52,
+        "releaseMs": 35
+      }
+    }
+  ]
+}

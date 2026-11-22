@@ -1,0 +1,75 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_player_hurt",
+  "title": "sfx_player_hurt",
+  "design": "A blunt body hit under a strained descending tone that drops a fifth: the player's own pain, clearly pitched and falling.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9239,
+  "durationMs": 360,
+  "trim": 0.51,
+  "layers": [
+    {
+      "type": "noise",
+      "startMs": 0,
+      "ms": 60,
+      "gain": 1.5,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 200,
+          "highHz": 2200
+        }
+      ],
+      "env": {
+        "attackMs": 2,
+        "decayMs": 16,
+        "releaseMs": 24
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 90,
+      "gain": 0.6,
+      "hz": 120,
+      "endHz": 70,
+      "env": {
+        "attackMs": 2,
+        "decayMs": 28,
+        "releaseMs": 30
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 6,
+      "ms": 330,
+      "gain": 0.5,
+      "hz": 262,
+      "endHz": 131,
+      "fm": {
+        "ratio": 1,
+        "index": 1.25
+      },
+      "env": {
+        "attackMs": 12,
+        "decayMs": 150,
+        "releaseMs": 120
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 6,
+      "ms": 280,
+      "gain": 0.18,
+      "hz": 524,
+      "endHz": 262,
+      "env": {
+        "attackMs": 12,
+        "decayMs": 100,
+        "releaseMs": 110
+      }
+    }
+  ]
+}

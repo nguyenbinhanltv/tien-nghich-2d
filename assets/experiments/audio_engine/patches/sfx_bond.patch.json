@@ -1,0 +1,125 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_bond",
+  "title": "sfx_bond",
+  "design": "A companion bond: two soft voices in parallel thirds rise a whole tone (G4 and B4, then A4 and C#5), settle with a low warm purr that flutters about twenty-six times a second. Gentle and close, with slow attacks and no transient.",
+  "sampleRate": 44100,
+  "channels": 1,
+  "seed": 9353,
+  "durationMs": 1100,
+  "trim": 0.62,
+  "layers": [
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 440,
+      "gain": 0.34,
+      "hz": 392,
+      "endHz": 392,
+      "fm": {
+        "ratio": 1,
+        "index": 0.25
+      },
+      "env": {
+        "attackMs": 45,
+        "decayMs": 420,
+        "releaseMs": 130
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 0,
+      "ms": 440,
+      "gain": 0.3,
+      "hz": 493.9,
+      "endHz": 493.9,
+      "fm": {
+        "ratio": 1,
+        "index": 0.22
+      },
+      "env": {
+        "attackMs": 45,
+        "decayMs": 420,
+        "releaseMs": 130
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 770,
+      "gain": 0.38,
+      "hz": 440,
+      "endHz": 440,
+      "fm": {
+        "ratio": 1,
+        "index": 0.25
+      },
+      "env": {
+        "attackMs": 55,
+        "decayMs": 520,
+        "releaseMs": 330
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 330,
+      "ms": 770,
+      "gain": 0.33,
+      "hz": 554.4,
+      "endHz": 554.4,
+      "fm": {
+        "ratio": 1,
+        "index": 0.22
+      },
+      "env": {
+        "attackMs": 55,
+        "decayMs": 520,
+        "releaseMs": 330
+      }
+    },
+    {
+      "type": "osc",
+      "startMs": 120,
+      "ms": 980,
+      "gain": 0.28,
+      "hz": 110,
+      "endHz": 112,
+      "fm": {
+        "ratio": 2,
+        "index": 0.9
+      },
+      "env": {
+        "attackMs": 260,
+        "decayMs": 800,
+        "releaseMs": 380
+      },
+      "am": {
+        "hz": 26,
+        "depth": 0.7
+      }
+    },
+    {
+      "type": "noise",
+      "startMs": 100,
+      "ms": 900,
+      "gain": 0.35,
+      "filters": [
+        {
+          "type": "band",
+          "lowHz": 120,
+          "highHz": 700
+        }
+      ],
+      "env": {
+        "attackMs": 280,
+        "decayMs": 650,
+        "releaseMs": 360
+      },
+      "am": {
+        "hz": 26,
+        "depth": 0.8
+      }
+    }
+  ]
+}
