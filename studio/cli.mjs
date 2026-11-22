@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The studio's single entry point. Works from a copy of the studio/ directory alone: no install, no npm.
+// Pixel Kiln's single entry point (command `pixel-kiln`, alias `studio`; or `node studio/cli.mjs`). Works from a copy of the studio/ directory alone: no install, no npm.
 //
 //   node studio/cli.mjs init <dir> [--name <text>] [--id <slug>]    create a new, empty project
 //   node studio/cli.mjs serve  [--project <dir>] [--port <n>] [--host <addr>] [--revision-dir <abs>]
@@ -14,11 +14,12 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const HELP = `Usage: node ${path.relative(process.cwd(), fileURLToPath(import.meta.url)) || 'cli.mjs'} <command> [options]
+const HELP = `Pixel Kiln: a local pixel-art asset studio.
+Usage: pixel-kiln <command> [options]   (alias: studio; or: node ${path.relative(process.cwd(), fileURLToPath(import.meta.url)) || 'cli.mjs'} <command> [options])
 
 Commands:
   init <dir>   create a project (pack, starter palette, folders, empty manifests, agent configs at read scope, README); never overwrites
-  serve        run the studio for a project in the browser (loopback only)
+  serve        run Pixel Kiln for a project in the browser (loopback only)
   mcp          run the MCP server for a project over stdio (one agent is enough)
   check        validate the pack and report what is missing (exit 1 on errors)
   doctor       Node version and the optional tools on this machine
@@ -44,14 +45,14 @@ if (!command || ['-h', '--help', 'help'].includes(command)) { console.log(HELP);
 
 function flags(options) {
   try { return parseArgs({args: rest, options: {project: {type: 'string'}, ...options}, allowPositionals: true}); }
-  catch (error) { console.error(`studio ${command}: ${error.message}`); process.exit(2); }
+  catch (error) { console.error(`pixel-kiln ${command}: ${error.message}`); process.exit(2); }
 }
 const projectOf = values => path.resolve(values.project ?? process.cwd());
 
 switch (command) {
   case 'init': {
     const {values, positionals} = flags({name: {type: 'string'}, id: {type: 'string'}});
-    if (positionals.length !== 1) { console.error('studio init: give one directory, e.g. `init my-game`'); process.exit(2); }
+    if (positionals.length !== 1) { console.error('pixel-kiln init: give one directory, e.g. `init my-game`'); process.exit(2); }
     const {scaffold} = await import('./core/scaffold.mjs');
     try {
       const r = await scaffold(positionals[0], here, values);
@@ -59,7 +60,7 @@ switch (command) {
       for (const f of r.created) console.log(`  created  ${f}`);
       for (const f of r.skipped) console.log(`  skipped  ${f} (already exists; not touched)`);
       console.log(`\nNext:\n  node ${path.join(here, 'cli.mjs')} check --project ${r.dir}\n  node ${path.join(here, 'cli.mjs')} serve --project ${r.dir}`);
-    } catch (error) { console.error(`studio init: ${error.message}`); process.exit(1); }
+    } catch (error) { console.error(`pixel-kiln init: ${error.message}`); process.exit(1); }
     break;
   }
   case 'serve': await run('serve.mjs', rest.includes('--project') ? rest : ['--project', process.cwd(), ...rest]); break;
@@ -82,6 +83,6 @@ switch (command) {
     break;
   }
   default:
-    console.error(`studio: unknown command "${command}"\n\n${HELP}`);
+    console.error(`pixel-kiln: unknown command "${command}"\n\n${HELP}`);
     process.exit(2);
 }

@@ -1,8 +1,8 @@
-# Studio
+# Pixel Kiln
 
-A local workshop for 2D pixel-art game assets. You describe your project once, in a file called the **pack**. After that, an AI agent (Claude Code, Codex or Antigravity) can plan, draw, check and pack sprites, animations, effects and sound cues through a small set of tools, and **you** look at the result in a browser and decide what is good.
+Pixel Kiln is a local workshop for 2D pixel-art game assets. You describe your project once, in a file called the **pack**. After that, an AI agent (Claude Code, Codex or Antigravity) can plan, draw, check and pack sprites, animations, effects and sound cues through a small set of tools, and **you** look at the result in a browser and decide what is good.
 
-- **One project, one file.** Palette, frame sizes, outline rule, frame names and folders live in `studio.project.json`. The studio has no game of its own; it reads yours.
+- **One project, one file.** Palette, frame sizes, outline rule, frame names and folders live in `studio.project.json`. Pixel Kiln has no game of its own; it reads yours. (A project, such as the one in your repo, has a name; the tool is Pixel Kiln.)
 - **Agents make, people decide.** The agent tools never approve art, sign off a listening test, publish or delete. Only you can, in the browser.
 - **Nothing to install.** Node 24 or newer is all it needs: no `npm install`, no build step, no dependencies, loopback only.
 - **Everything is checked.** Palette, binary alpha, outline, size, frame count and naming are tested on every frame, with pixel coordinates; sound is measured, never "listened to" by a tool.
@@ -29,7 +29,7 @@ node ~/tools/studio/cli.mjs serve --project ~/my-game   # then open http://127.0
 3. **Ask it to make something.** Start with `studio_guide`, which returns the shortest correct tool sequence for a task.
 4. **Review.** Open the Review tab. Look at what the agent asked about, approve or ask for changes.
 
-Every command takes `--project <dir>` (or `--project=<dir>`); with none it uses the current directory. A second, deliberately different project to learn from is in [`examples/moss-lantern/`](examples/moss-lantern/README.md).
+The command is `pixel-kiln` (declared as a `bin` in `package.json`; `studio` and `node studio/cli.mjs` keep working as aliases). Every command takes `--project <dir>` (or `--project=<dir>`); with none it uses the current directory. A second, deliberately different project to learn from is in [`examples/moss-lantern/`](examples/moss-lantern/README.md).
 
 ### Bắt đầu nhanh (tiếng Việt)
 
@@ -47,6 +47,7 @@ node ~/tools/studio/cli.mjs serve --project ~/my-game   # rồi mở http://127.
 - **Chỉ cần nối một agent** (Claude Code, Codex hoặc Antigravity). Ba file cấu hình do `init` viết chỉ cho agent **xem** (`read`); đổi `"read"` thành `"author"` trong file của agent bạn dùng để nó được tạo hình.
 - Agent không bao giờ duyệt hình, không ký bài nghe audio, không phát hành, không xóa. Chỉ bạn làm được, trong trình duyệt: tab **Review**.
 - Giao diện có tiếng Anh và tiếng Việt (nút ngôn ngữ trên thanh trên).
+- Tên công cụ là **Pixel Kiln**. "Tiên Nghịch 2D" (hay tên bất kỳ trong `studio.project.json`) chỉ là tên một **dự án**. Lệnh là `pixel-kiln`; `studio` và `node studio/cli.mjs` vẫn chạy như bí danh.
 
 ## The pack
 

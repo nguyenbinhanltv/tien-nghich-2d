@@ -1,6 +1,6 @@
 # MCP behaviours
 
-The Pixel Studio MCP server (`studio/mcp/`): tools at author scope, stdio and loopback HTTP.
+The Pixel Kiln MCP server (`studio/mcp/`): tools at author scope, stdio and loopback HTTP.
 
 - **MCP-001** (human-only) No tool is named for, or takes an argument that could, approve, reject, sign, publish, delete or run a command.
 - **MCP-002** (human-only) The human-only tools do not exist: asking for one is an unknown tool, whatever the arguments.

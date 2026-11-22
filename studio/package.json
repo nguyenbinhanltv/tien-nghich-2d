@@ -1,10 +1,10 @@
 {
-  "name": "pixel-studio",
+  "name": "pixel-kiln",
   "version": "0.1.0",
   "description": "A local pixel-art asset studio: one project pack, agent tools over MCP, a browser workshop. No dependencies, no install step.",
   "type": "module",
   "private": true,
   "license": "UNLICENSED",
   "engines": {"node": ">=24"},
-  "bin": {"studio": "cli.mjs"}
+  "bin": {"pixel-kiln": "cli.mjs", "studio": "cli.mjs"}
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Zero-dependency static dev server for a studio project.
+ * Pixel Kiln: zero-dependency dev server for a studio project.
  * The studio's own files answer under /studio/; every other URL is a file of the project (the
  * directory holding studio.project.json). The pack's `serve` block adds overlays, aliases,
  * page rewrites and project-side hooks.
@@ -193,7 +193,7 @@ export function runCli(argv = process.argv.slice(2)) {
   const server = createPreviewServer({ root, revisionDir });
   server.listen(port, host, () => {
     const addr = server.address();
-    console.log(`Studio serving ${PACKNAME(root)} at http://${host}:${addr.port}/studio/`);
+    console.log(`Pixel Kiln serving ${PACKNAME(root)} at http://${host}:${addr.port}/studio/`);
   });
   return server;
 }

@@ -197,7 +197,7 @@ test('CLI-003: --project=<dir> and --project <dir> select the same project for s
       setTimeout(() => reject(new Error('no server')), 20_000).unref();
     });
     server.kill('SIGTERM');
-    assert.match(said, /Studio serving Equals Form at /, form.join(' '));
+    assert.match(said, /Pixel Kiln serving Equals Form at /, form.join(' '));
     // mcp: the project info of the session names the project.
     const client = new StdioClient(path.join(studio, 'cli.mjs'), ['mcp', ...form, '--scope', 'read'], {cwd: other});
     const info = await client.request('i1', 'tools/call', {name: 'studio_project_info', arguments: {sections: ['palette']}, _meta: META}, 30_000);
@@ -205,4 +205,27 @@ test('CLI-003: --project=<dir> and --project <dir> select the same project for s
     assert.equal(info.result.structuredContent.palette.count, 8);
     assert.match(info.result._meta['io.modelcontextprotocol/serverInfo'].title, /Equals Form/, form.join(' '));
   }
+});
+
+test('CLI-009: the tool is named Pixel Kiln for people; pixel-kiln is the command and studio stays an alias', async () => {
+  const read = f => fs.readFileSync(path.join(STUDIO, f), 'utf8');
+  const pkg = JSON.parse(read('package.json'));
+  assert.equal(pkg.name, 'pixel-kiln');
+  assert.equal(pkg.bin['pixel-kiln'], 'cli.mjs');
+  assert.equal(pkg.bin.studio, 'cli.mjs', 'the old command keeps working');
+  assert.match(read('index.html'), /<title>Pixel Kiln<\/title>/);
+  for (const lang of ['en', 'vi']) assert.equal(JSON.parse(read(`ui/i18n/${lang}.json`))['app.title'], 'Pixel Kiln');
+  assert.match(read('README.md'), /^# Pixel Kiln/m);
+  const help = await cli(STUDIO, '--help');
+  assert.match(help.stdout, /Pixel Kiln/);
+  assert.match(help.stdout, /pixel-kiln <command>/);
+  // No place a person reads calls the tool by an old name (tool names studio_*, the studio/ directory and schema keys are contracts and stay).
+  const readable = ['README.md', 'index.html', 'ui/README.md', 'mcp/README.md', 'specs/mcp.md', 'ui/i18n/en.json', 'ui/i18n/vi.json', 'core/scaffold.mjs'];
+  for (const f of readable) assert.doesNotMatch(read(f), /pixel studio/i, f);
+  // The MCP handshake names the tool and, separately, the project.
+  const client = new StdioClient(path.join(STUDIO, 'cli.mjs'), ['mcp', '--project', SAMPLE, '--scope', 'read']);
+  const init = await client.request('i0', 'initialize', {protocolVersion: '2025-11-25', capabilities: {}, clientInfo: {name: 'cli-test', version: '1'}}, 30_000);
+  await client.close();
+  assert.match(init.result.serverInfo.title, /^Pixel Kiln · /);
+  assert.match(init.result.instructions, /^Pixel Kiln, the pixel-art asset studio, serving the project "/);
 });

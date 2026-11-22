@@ -71,7 +71,7 @@ function renderChrome() {
   document.documentElement.lang = state.lang;
   $('brand').replaceChildren(
     h('span', {class: 'brand-mark', 'aria-hidden': 'true'}, project.brand.mark),
-    h('span', {class: 'brand-text'}, h('strong', {}, project.name), h('small', {}, label(project.brand.subtitle) || t('app.title'))));
+    h('span', {class: 'brand-text'}, h('strong', {}, t('app.title')), h('small', {title: label(project.brand.subtitle) || project.name}, project.name)));
   const nav = $('nav');
   nav.setAttribute('aria-label', t('nav.label'));
   nav.replaceChildren(...destinations.map((d, i) => {
@@ -187,7 +187,7 @@ async function mountRoute(force = false) {
     root.replaceChildren(h('section', {class: 'tab-error', role: 'alert'}, h('p', {}, t('common.error', {message: error.message})),
       h('button', {type: 'button', onclick: () => mountRoute(true)}, t('common.retry'))));
   }
-  document.title = `${t('nav.' + id)} · ${state.project.name}`;
+  document.title = `${t('nav.' + id)} · ${state.project.name} — ${t('app.title')}`;
 }
 
 async function route() {

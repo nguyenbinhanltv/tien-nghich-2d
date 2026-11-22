@@ -200,7 +200,7 @@ test('startup failures are loud on stderr and silent on stdout', async () => {
     const { code } = await c.exited;
     assert.equal(code, 2);
     assert.equal(c.stdoutLines.length, 0);
-    assert.match(c.stderr, /studio-mcp:/);
+    assert.match(c.stderr, /pixel-kiln-mcp:/);
   }
 });
 

@@ -1,10 +1,10 @@
-# Pixel Studio: kế hoạch nâng cấp preview-app
+# Pixel Kiln: kế hoạch nâng cấp preview-app
 
 Phiên bản v4, đã được người dùng duyệt (tám quyết định ngày 2026-11-22, cộng một điều chỉnh cùng ngày: chỉ cần một agent). Từ khi tài liệu này vào `main`, đây là nguồn chuẩn; bản HTML v3 và v4 trong `/tmp` chỉ là bản nháp trình bày. Mục [Quyết định đã duyệt](#quyết-định-đã-duyệt-2026-11-22) ghi lại các lựa chọn, [Điều chỉnh](#điều-chỉnh-2026-11-22-một-agent-là-đủ) ghi thay đổi từ v3 sang v4, và [Điều chỉnh về animation nhân vật](#điều-chỉnh-2026-11-22-animation-nhân-vật-mặc-định-quyết-định-3) ghi thay đổi mặc định của quyết định 3 sau hai bài thử forge.
 
 ## Tổng quan
 
-**Pixel Studio** (tên tạm) biến `preview-app` từ trình xem asset của riêng Tiên Nghịch thành một xưởng asset pixel 2D chạy hoàn toàn trên máy bạn và dùng lại được cho dự án khác.
+**Pixel Kiln** (trước đây tạm gọi Pixel Studio; chủ dự án chọn tên Pixel Kiln ngày 2026-11-22) biến `preview-app` từ trình xem asset của riêng Tiên Nghịch thành một xưởng asset pixel 2D chạy hoàn toàn trên máy bạn và dùng lại được cho dự án khác.
 
 **Mục tiêu trung tâm:** chỉ cần một agent, Codex hoặc Antigravity, kết nối MCP của studio là tạo được cả bốn loại sản phẩm (asset, animation, VFX, audio); không bắt buộc có cả hai. Bạn là người duyệt cuối. Studio không phụ thuộc PixelLab hay dịch vụ tạo hình trả phí nào.
 

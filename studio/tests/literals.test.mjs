@@ -122,7 +122,6 @@ const FIXTURE_TESTS = new Set([
   'mcp/tools/frames_submit.mjs',
   'mcp/tools/metadata_set.mjs',
   'mcp/tools/pack.mjs',
-  'mcp/tools/project_info.mjs',
   'mcp/tools/review_reply.mjs',
   'mcp/tools/scene_snapshot.mjs',
   'mcp/tools/template_get.mjs',
