@@ -166,7 +166,7 @@ test('frame_patch rows target create: the whole frame from characters, no hash; 
   assert.equal(bad.isError, true);
   assert.match(JSON.stringify(bad.structuredContent.frames[0].defects), /outline_gap/);
   assert.equal(fs.existsSync(rawIcon(p)), false);
-  assert.match(text(await a.call('studio_frame_patch', { assetId: ICON, target: 'bake', edits: [{ frame: FRAME, rows, legend: { j: 'jade_03' } }] })), /no pixels to read/);
+  assert.match(text(await a.call('studio_frame_patch', { assetId: ICON, target: 'bake', edits: [{ frame: FRAME, rows, legend: { j: 'jade_03' } }] })), /cannot go into a stored bake patch/);
 }));
 
 test('frame_read: a delivered palette-variant VFX (clips null, breach_base_0) reads; unknown names do not crash', () => withProject2(async (p) => {
@@ -271,4 +271,19 @@ test('revision saves are one SQLite transaction: a failure on a later insert rol
   // Without the failure both save, in one go.
   const done = await saveRevisions(a.project.workspace, [item(0, 5), item(1, 6)]);
   assert.deepEqual(done.map((d) => d.revision), [1, 1]);
+}));
+
+test('frame_patch rows with target bake is refused, also on a submitted frame', () => withProject(async (p) => {
+  const a = connect(p.root);
+  await draw(a);
+  const read = await a.ok('studio_frame_read', { assetId: ICON, frame: FRAME });
+  const legend = { ...Object.fromEntries(read.legend.map((l) => [l.char, l.id])), b: 'bronze_04' };
+  const rows = read.rows.map((row, y) => (y === 7 ? row.slice(0, 7) + 'b' + row.slice(8) : row));
+  const r = await a.call('studio_frame_patch', { assetId: ICON, target: 'bake', edits: [{ frame: FRAME, rows, legend, hash: read.hash }] });
+  assert.equal(r.isError, true);
+  assert.match(text(r), /cannot go into a stored bake patch.*use ops/);
+  assert.equal(fs.existsSync(join(p.root, 'assets/raw/longtime', ICON, 'forge/patch.json')), false, 'nothing was stored');
+  // The same edit as ops (a grid op) is the supported way to store it for a bake.
+  const ok = await a.call('studio_frame_patch', { assetId: ICON, target: 'bake', edits: [{ frame: FRAME, ops: [{ op: 'grid', at: [7, 7], rows: ['b'], legend: { b: 'bronze_04' } }] }] });
+  assert.equal(ok.isError, undefined, text(ok));
 }));

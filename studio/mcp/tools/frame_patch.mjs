@@ -24,7 +24,7 @@ export default {
     'target "bake" stores the operations beside the asset so every studio_rig_bake applies them after baking (use this to keep an asymmetric mark or fix a stray pixel on a baked frame). ' +
     'Saving checks only that colours are palette ids and points are inside the canvas; the pixel gates (palette, outline, size) judge the patched frame at the NEXT studio_rig_bake, in verdicts.pixelGates, so look there. ' +
     'target "create" draws a frame that does not exist yet from a blank canvas and submits it as a raw frame (the code-free way to make a small static asset). ' +
-    'TEXT FORM, to edit a frame you read with studio_frame_read: give rows (the whole region as characters, "." transparent), legend {char: palette id}, at [x, y] and the frame\'s hash instead of ops. Only differing pixels are stored; unknown characters, colours outside the palette and a stale hash are refused. ' +
+    'TEXT FORM, to edit a frame you read with studio_frame_read: give rows (the whole region as characters, "." transparent), legend {char: palette id}, at [x, y] and the frame\'s hash instead of ops. Not for target bake (use ops). Only differing pixels are stored; unknown characters, colours outside the palette and a stale hash are refused. ' +
     'For "revision" and "create" the result must pass the pixel gates (palette, outline, size) or nothing is saved. Give an edit a short note to say what it is for (e.g. "scar over the left eye"); it is stored with the operations in forge/patch.json. dryRun lists every pixel it would change and saves nothing. Cannot approve or change a review status.',
   scope: 'author',
   inputSchema: {
@@ -87,6 +87,7 @@ export default {
         let ops, changes = null, snapshot = null;
         if (edit.rows !== undefined) {
           if (edit.ops !== undefined) throw new ToolError(`${edit.frame}: give rows (text form) or ops, not both.`);
+          if (target === 'bake') throw new ToolError(`${edit.frame}: rows edit the pixels you read, so they cannot go into a stored bake patch (it lands on freshly baked pixels, not on what you read). For target "bake" use ops, e.g. a grid op with at, rows and legend.`);
           let base;
           if (target === 'create') {
             if (edit.hash !== undefined) throw new ToolError(`${edit.frame} does not exist yet, so there is no hash to give; leave hash out for target create.`);
