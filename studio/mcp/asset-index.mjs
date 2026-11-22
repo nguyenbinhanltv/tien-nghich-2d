@@ -39,7 +39,7 @@ export async function loadAssetIndex(pack, root) {
   const info = {profiles: {}, chunks: {}, defaults: {}, sources: {}};
   // A source names the directory keys it uses: `processed` (and `raw`); atlases default to the processed key.
   const dirsOf = source => ({processed: source.processed ? pack.directories.processed[source.processed] : undefined, raw: source.raw ? pack.directories.raw[source.raw] : null,
-    atlas: atlasDirs(pack.directories.atlases[source.atlases ?? source.processed] ?? source.atlas?.dir ?? '')});
+    atlas: atlasDirs(pack.directories.atlases[source.atlases ?? source.processed ?? Object.keys(pack.directories.atlases)[0]] ?? '')});
   // Category conventions from the pack: processed group, atlas key prefix, outline, empty frames allowed.
   const categories = pack.catalog.categories ?? {};
   const outlineOf = category => categories[category]?.outline === true;

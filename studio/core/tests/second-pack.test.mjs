@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadPack } from '../pack.mjs';
 import { buildCatalog } from '../catalog.mjs';
 import { loadEditableCatalog } from '../editable.mjs';
@@ -72,4 +73,20 @@ test('a vfx-index source without "processed" keeps the legacy layout (the index 
   await write('out/vfx/index.json', JSON.stringify({effects: [{id: 'puff', frame_size: [2, 2], anchor: [1, 1], frame_count: 1, loop: false, fps: 10, total_ms: 100, descriptor: 'd.json'}]}));
   const index = await loadAssetIndex(await loadPack(dir), dir);
   assert.equal(index.assets.get('puff').layout.processedDir, 'out/vfx');
+});
+
+test('a legacy vfx-index source (no processed/atlases keys, atlas.dir = the web directory) finds the same web AND mobile atlases as the real project', async () => {
+  const { loadAssetIndex } = await import('../../mcp/asset-index.mjs');
+  const repo = fileURLToPath(new URL('../../../', import.meta.url));
+  const real = await loadPack(repo);
+  const legacy = structuredClone(real);
+  const src = legacy.catalog.sources.find(s => s.kind === 'vfx-index');
+  delete src.processed; delete src.processedSubdir; delete src.atlases;
+  const [a, b] = [await loadAssetIndex(real, repo), await loadAssetIndex(legacy, repo)];
+  const effect = [...a.assets.values()].find(x => x.source === src.id);
+  assert.ok(effect, 'the real project has packed VFX');
+  const twin = b.assets.get(effect.id);
+  assert.deepEqual(twin.layout.atlas, effect.layout.atlas);
+  assert.equal(twin.layout.atlas.mobile.endsWith('/mobile') && !twin.layout.atlas.mobile.includes('/web/'), true);
+  assert.equal(twin.layout.processedDir, effect.layout.processedDir);
 });
