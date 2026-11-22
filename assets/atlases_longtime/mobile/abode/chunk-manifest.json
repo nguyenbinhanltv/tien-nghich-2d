@@ -1,6 +1,7 @@
 {
   "asset_ids": [
     "lt_abode_stone",
+    "lt_coal_toad",
     "lt_fx_gate_unseal",
     "lt_herb_bed",
     "lt_ink_marten",
@@ -11,17 +12,17 @@
     "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 174,
+  "frame_count": 206,
   "mobile_page_budget": 1,
   "page_count": 1,
   "pages": [
     {
-      "frames": 174,
+      "frames": 206,
       "height": 512,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "7c5fd57be9a1f50b1edda1421539732c68631f4f69a43d6407928cfc4bdff1c7",
-      "png_sha256": "ed2d460ac844450dbb31adf44d79059432fc065338ba67ee5bafc22afd60e3ca",
+      "json_sha256": "29d7efc23985a11a3c8ad76a3f9b0afa20ac91084f45f9858a2fe348c4df9a99",
+      "png_sha256": "d03c0ebb75789bb36001059bb0dc887acafa9342c023e060a4345c1d2c9a56c7",
       "rgba8_bytes": 2097152,
       "width": 1024
     }

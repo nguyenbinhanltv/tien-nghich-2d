@@ -1,6 +1,7 @@
 {
   "asset_ids": [
     "lt_abode_stone",
+    "lt_coal_toad",
     "lt_fx_gate_unseal",
     "lt_herb_bed",
     "lt_ink_marten",
@@ -11,24 +12,24 @@
     "lt_star_hare"
   ],
   "chunk_group": "abode",
-  "frame_count": 174,
+  "frame_count": 206,
   "mobile_page_budget": null,
   "page_count": 1,
   "pages": [
     {
-      "frames": 174,
-      "height": 128,
+      "frames": 206,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "169ad7eee7368bdde6426aecf4665a0ec0b49c85315241534d97d89eca555354",
-      "png_sha256": "7734c4c0a44b1ae0aa666dd5f9d4608744753a9fe3842470b9d1b00aa2b1632b",
-      "rgba8_bytes": 1048576,
+      "json_sha256": "8c9bd879a0a2cef8a9aa85689a85ab5ebe04814e4150d9ebb59ad1506bcbb827",
+      "png_sha256": "565b1c2de238bae04624f6a9ca168d22858d533b6d5689adb574d905c594b6d8",
+      "rgba8_bytes": 2097152,
       "width": 2048
     }
   ],
   "platform": "web",
   "readiness": "packed",
-  "rgba8_bytes": 1048576,
-  "rgba8_mib": 1.0,
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }
