@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { writeFileAtomic } from '../../core/fsutil.mjs';
 import { bodyPlans } from '../../forge/motion/library.mjs';
-import { encodePng, figureFor, guidanceText, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
+import { accentsInBrief, encodePng, figureChoice, guidanceText, loadLibrary, renderTemplate, turnaroundLayout } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
 import { defaultPoseNames, formatsGuide, forgeCall, routeFor, settingsFor, shown, workDir } from '../workflow/forge.mjs';
 import { referenceFor, referenceImage } from '../workflow/reference.mjs';
@@ -37,7 +37,9 @@ export default {
       facings: { type: 'array', maxItems: 4, items: { type: 'string', enum: FACINGS }, description: 'Facings to draw (default: the profile\'s directions).' },
       poses: { type: 'array', minItems: 1, maxItems: 12, items: { type: 'string', pattern: '^[a-z][a-z0-9_]{0,23}$' }, description: 'Pose names for a pose sheet (default: contact/passing names matching the clip\'s frame count).' },
       size: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 512, maximum: 2048 }, description: 'Template size in pixels (default [1024, 1024]); the drawn sheet may be any size.' },
-      figure: { type: 'string', maxLength: 31, description: 'Name of the pack figure guide to use (default: the one that lists this asset\'s profile); "none" for no guide and no proportion text.' },
+      figure: { type: 'string', maxLength: 31, description: 'Name of the pack figure guide to use (default: the one that lists this asset\'s profile, or, for an asset planned with an inline custom spec, the one that lists its category); "none" for no guide and no proportion text. The result says which guide was used and why.' },
+      contacts: { type: 'array', maxItems: 4, items: { type: 'string', pattern: '^[a-z][a-z0-9_]{0,23}$' }, description: 'For a pose sheet: names of the ground contacts you will annotate per pose at import (default left_foot and right_foot). They go into the layout cells as slots.' },
+      landmarks: { type: 'array', maxItems: 4, items: { type: 'object', properties: { id: { type: 'string', pattern: '^[a-z][a-z0-9_]{0,23}$' }, color: { type: 'string', maxLength: 20 } }, required: ['id', 'color'], additionalProperties: false }, description: 'For a pose sheet: asymmetric marks (id and palette colour id) you will box per pose at import, to turn the mark-side gate on. They go into the layout cells as slots.' },
       heightPx: { type: 'integer', minimum: 4, maximum: 200, description: 'Wanted figure height at native size, ground to crown (default about 65% of the canvas).' },
       lineup: { type: 'boolean', description: 'Draw the pack\'s approved reference characters into the template and return the lineup picture (needs a lineup group for this profile in the pack).' },
       write: { type: 'boolean', description: 'Save the template PNG and layout under the work directory and return their paths (needs scope author).' },
@@ -77,8 +79,15 @@ export default {
       }
       const [w, h] = args.size ?? [1024, 1024];
       const layoutId = `${asset.id}-${kind}${args.clip ? `-${args.clip}` : ''}`.replace(/_/g, '-');
-      const layout = turnaroundLayout({ id: layoutId, facings, poses, size: [w, h], heightPx: args.heightPx ?? Math.round(profile.nativePx[1] * 0.65) });
-      const named = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
+      for (const l of args.landmarks ?? []) if (!settings.palette.colors.some((c) => c.id === l.color)) throw new ToolError(`landmarks: "${l.color}" is not a palette colour id (see studio_project_info).`);
+      // Contact and landmark slots: a pose sheet can say where a foot is planted and where a mark sits, which turns the foot-slide and mark-side gates on.
+      const slots = kind === 'pose-sheet' ? { contacts: args.contacts ?? ['left_foot', 'right_foot'], ...(args.landmarks?.length ? { landmarks: args.landmarks } : {}) } : undefined;
+      const layout = turnaroundLayout({ id: layoutId, facings, poses, size: [w, h], heightPx: args.heightPx ?? Math.round(profile.nativePx[1] * 0.65), slots });
+      const choice = args.figure === 'none' ? null : figureChoice(snap.pack.figures, asset.profile, args.figure, asset.category);
+      const named = choice?.figure ?? null;
+      const figureUsed = args.figure === 'none' ? { used: null, why: 'figure "none" was asked for: no guide and no proportion text' }
+        : choice ? { used: named.name, source: choice.source, why: choice.source === 'explicit' ? 'you named it' : choice.source === 'profile' ? `the guide lists profile ${asset.profile}` : `the asset has no manifest profile (${asset.profile}); the guide lists its category ${asset.category}` }
+          : { used: null, why: `no pack figure guide lists profile ${asset.profile}${asset.category ? ` or category ${asset.category}` : ''}${Object.keys(snap.pack.figures ?? {}).length ? `; pass figure: one of ${Object.keys(snap.pack.figures).join(', ')} to use one anyway` : ' (the pack defines no figure guides)'}, so there is no proportion guide or silhouette` };
       if (args.figure && args.figure !== 'none' && !named) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
       let lineup = null, ghostByFacing = null;
       if (args.lineup) {
@@ -130,20 +139,23 @@ export default {
           drawing: `Draw on a pure green (0,255,0) background, one figure per cell, feet on the grey guide line, nothing in the label band at the top of a cell, ${profile.nativePx.join('x')} native pixels will be a small fraction of the drawing so keep shapes bold. Do not draw the labels.${named ? ` ${guidanceText(named, profile)}` : ''}` },
         prompt: { ...prompt, ...(ref ? { reference: { name: ref.name, image: ref.image, sha256: ref.sha256, approved: ref.approved, description: ref.description } } : {}) },
         layout,
+        figureChoice: figureUsed,
+        accents: accentsInBrief(asset.brief, settings.palette.colors),
+        ...(slots ? { annotations: { slots, how: 'Optional, turns gates on. At studio_sheet_import pass annotations: {<cell id>: {contacts: [{id, at: [fx, fy], planted: true}], landmarks: [{id, color, box: [fx0, fy0, fx1, fy1]}]}} with every number a FRACTION (0 to 1) of that template cell, from its top left corner. A planted foot turns on foot slide, a landmark box turns on mark side; studio_rig_bake then fills them into poseClips that declare none. Gates with no annotation stay reported as not run.' } } : {}),
         ...(named ? { figure: { name: named.name, description: named.description, headToBody: named.headToBody, minLimbWidthPx: named.minLimbWidthPx, accentMinPixels: named.accentMinPixels, guideDrawn: Boolean(named.guide), measured: named.measured, guidance: guidanceText(named, profile) } } : {}),
         ...(poseClips ? { poseClips } : {}),
         ...(lineup ? { lineup: { group: lineup.group.name, references: lineup.references.map((r) => ({ name: r.name, asset: r.asset, nativePx: r.size, measure: r.measure })), reference: lineup.reference, pose: lineup.group.spec.pose, tolerance: lineup.group.spec.tolerance, typical: lineup.group.spec.typical ?? null,
           guidance: `Each template cell shows ${lineup.references.map((r) => r.name).join(' and ')} (the approved reference) as a green ghost on the left, on the same ground line. Draw your figure beside it at the same scale: its height should be ${Math.round((lineup.group.spec.typical?.heightRatio?.min ?? lineup.group.spec.tolerance.heightRatio?.min ?? 0) * 100)}% to ${Math.round((lineup.group.spec.typical?.heightRatio?.max ?? lineup.group.spec.tolerance.heightRatio?.max ?? 1) * 100)}% of the reference's, the same build (head, limbs, outline weight). A build outside the tolerance is blocked by studio_process and studio_qa_run.`,
           picture: 'the last image: the references on one ground line, dashed lines mark the allowed height range' } } : {}),
         formats: formatsGuide(bodyPlans(), profile),
-        motion: { bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
+        motion: { archetypes: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.archetypes)])), bodyPlans: Object.fromEntries(Object.entries(libraries).map(([plan, lib]) => [plan, Object.keys(lib.templates).filter((k) => k.startsWith(`${asset.profile}/`)).map((k) => ({ template: k, archetype: lib.templates[k].use }))])) },
         next: ['Draw the sheet with your own image tool.', 'studio_sheet_import with the sheet, this layout, and the verbatim prompt.', 'studio_process to pixelise and look at the native sprites.',
           kind === 'pose-sheet' ? 'studio_rig_bake with poseClips (above) to build the clip from your key poses.' : 'For a clip that moves: studio_rig_bake with a rig; for a single frame: studio_process with submit=true.'],
       };
       return {
         content: [
           { type: 'text', text: `Template ${layoutId} for ${asset.id} (${asset.profile}, ${profile.nativePx.join('x')} native): ${layout.cells.length} cells, ${w}x${h}px. ` +
-            `Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}${lineupPng ? ' The LAST picture is the lineup: the approved references on one ground line (dashed lines: the allowed height range); each template cell has the reference as a green ghost.' : ''}` },
+            `${figureUsed.used ? `Figure guide: ${figureUsed.used} (${figureUsed.why}). ` : `No figure guide: ${figureUsed.why}. `}${out.accents.length ? `Accents in the brief: ${out.accents.map((a) => `${a.word}${a.survives ? ` -> ${a.nearest[0].id}` : ` has NO close palette colour (nearest ${a.nearest[0].id} ${a.nearest[0].hex})`}`).join('; ')}. ` : ''}Routes: ${clips.map((c) => `${c.name}=${c.route}`).join(', ')}. ${files ? (args.dryRun ? `DRY RUN, nothing was written; would save ${files.png}. ` : `Saved: ${files.png}. `) : 'Pass write=true (scope author) to save the PNG for your image tool. '}Layout and details are in the structured result. ${ref ? `Picture 2 is the locked reference of ${ref.name}; its description is in prompt.text.` : ''}${lineupPng ? ' The LAST picture is the lineup: the approved references on one ground line (dashed lines: the allowed height range); each template cell has the reference as a green ghost.' : ''}` },
           { type: 'image', data: png.toString('base64'), mimeType: 'image/png' },
           ...(refBytes ? [{ type: 'image', data: refBytes.toString('base64'), mimeType: 'image/png' }] : []),
           ...(lineupPng ? [{ type: 'image', data: lineupPng.toString('base64'), mimeType: 'image/png' }] : []),

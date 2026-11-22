@@ -4,10 +4,10 @@
 import { gateFacing } from '../../forge/index.mjs';
 
 const TURN_ON = {
-  foot_slide: 'plant contacts: rig clips mark feet as planted contacts in the rig; drawn pose clips add `contacts` to the poseClips entry (per facing, one list per key, each {id, xy:[x,y], planted:true})',
+  foot_slide: 'plant contacts: rig clips mark feet as planted contacts in the rig; drawn pose clips add `contacts` to the poseClips entry (per facing, one list per key, each {id, xy:[x,y], planted:true}), or annotate planted feet per pose cell at studio_sheet_import (annotations.<cell>.contacts, fractions of the cell; studio_template_get lists the slots)',
   flicker: 'for drawn pose clips pass qa:{pose:{flicker:{maxPixels:N}}} (or a clip `qa`); rig clips run it by default',
-  mark_side: 'declare landmarks: rig facings carry `landmarks`, drawn pose clips add `landmarks` per facing (id, palette colour, box) in the poseClips entry',
-  weight_transfer: 'only rig clips have per-part poses to measure; drawn pose clips are judged by identity drift instead',
+  mark_side: 'declare landmarks: rig facings carry `landmarks`, drawn pose clips add `landmarks` per facing (id, palette colour, box) in the poseClips entry, or box the mark per pose cell at studio_sheet_import (annotations.<cell>.landmarks, fractions of the cell)',
+  weight_transfer: 'needs per-part poses: rig clips have them, and a drawn pose clip gets them only with secondary rig motion (clip `secondary`, plus a rig); a plain drawn pose clip is judged by identity drift instead',
   identity_drift: 'only drawn pose clips are measured; rig clips are judged by flicker and weight transfer',
   loop_seam: 'needs a looping clip of at least 3 frames',
   pivot_drift: 'remove qa.pivotDrift:false to run it',

@@ -653,6 +653,15 @@
               "minLength": 1
             }
           },
+          "categories": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Asset categories this guide also applies to when an asset has no manifest profile (an asset planned with an inline custom spec), so a custom humanoid mob gets the same proportion guide without naming the figure.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
           "headToBody": {
             "type": "object",
             "additionalProperties": false,

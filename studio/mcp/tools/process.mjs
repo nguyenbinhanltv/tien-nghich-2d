@@ -85,7 +85,7 @@ export default {
       // Validate every input first, then store once: a refused call changes nothing, and a marks-only call keeps the stored accents and hold.
       if (args.marks !== undefined) resolveMarks(args.marks, settings.palette);
       if (args.accents !== undefined) for (const id of args.accents) if (!settings.palette.colors.some((c) => c.id === id)) throw new ToolError(`accents: "${id}" is not a palette colour id (see studio_project_info).`);
-      if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
+      if (args.figure && args.figure !== 'none' && !figureFor(snap.pack.figures, asset.profile, args.figure, asset.category)) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
       if (!args.dryRun && (args.marks !== undefined || args.accents !== undefined || args.hold !== undefined)) {
         await updateDoc(ws, asset, 'process', (current) => ({ ...(current ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}), ...(args.accents !== undefined ? { accents: args.accents } : {}),
           ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
@@ -104,7 +104,7 @@ export default {
         warnings: pixelized.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings })),
       };
       // The figure check: only warnings, judged against the pack's guide for this profile.
-      const guide = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure);
+      const guide = args.figure === 'none' ? null : figureFor(snap.pack.figures, asset.profile, args.figure, asset.category);
       if (args.figure && args.figure !== 'none' && !guide) throw new ToolError(`No figure guide "${args.figure}" in the project pack. Guides: ${Object.keys(snap.pack.figures ?? {}).join(', ') || 'none are defined'}.`);
       if (guide) {
         const accents = (processDoc.accents ?? []).map((id) => settings.palette.colors.find((c) => c.id === id)).filter(Boolean).map((c) => ({ id: c.id, hex: c.hex }));

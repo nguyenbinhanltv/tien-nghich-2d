@@ -105,7 +105,7 @@ export default {
         if (!accepted) return { content: view.content, structuredContent: out, isError: true };
         view.content[0].text += args.dryRun ? ` DRY RUN: would commit ${report.wouldWrite.length} raw frame(s); nothing was written.` : ` Committed ${report.written.length} raw frame(s) (status pending).`;
       }
-      out.next = args.dryRun ? 'Nothing was written. Run again without dryRun to write.' : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : problems.length ? 'Fix the problems above and build again.' : 'Look at the sheet; change the spec, or build again with submit=true.';
+      out.next = args.dryRun ? (problems.length ? 'Nothing was written. Fix the problems above and build again before writing or submitting.' : 'Nothing was written. Run again without dryRun to write.') : out.submit?.accepted ? 'studio_qa_run from a different session (independent=true), then studio_review_request.' : problems.length ? 'Fix the problems above and build again.' : 'Look at the sheet; change the spec, or build again with submit=true.';
       return { content: view.content, structuredContent: out };
       } finally { if (args.dryRun) await fs.rm(base, { recursive: true, force: true }); }
     });

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { appendFile } from 'node:fs/promises';
 import { containedPath } from '../../core/fsutil.mjs';
 import { readInside } from '../../core/files.mjs';
-import { decodePng, importSheet, normalizeLayout } from '../../forge/index.mjs';
+import { decodePng, importSheet, nativeAnnotations, normalizeLayout, pixelizeImport, validateAnnotations } from '../../forge/index.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { ToolError } from '../registry.mjs';
 import { MAX_SHEET_BYTES, checkStoredSheet, forgeCall, forgeDir, importName, readDoc, readImports, settingsFor, slotOfLayout, storeSheet, workDir, writeImport } from '../workflow/forge.mjs';
@@ -35,6 +35,16 @@ async function lineupAdvice(ws, snap, asset, layout, result) {
     note: verdict.status === 'fail' ? 'this build is outside the pack\'s tolerance: studio_process will block it. Redraw it nearer the reference (see studio_template_get lineup=true) before going on.' : 'estimates from the sheet; studio_process measures the final pixels.' };
 }
 
+/** The annotations in native pixels, as the figure will be drawn (the same fit studio_process uses), for the caller to check. */
+function annotationReport(annotations, result, settings) {
+  if (!annotations) return null;
+  const pix = pixelizeImport({ record: result.record, cells: result.cells }, settings);
+  const native = nativeAnnotations(annotations, result.record.cells, pix.record.cells, { nativePx: settings.profile.nativePx });
+  const count = (k) => Object.values(annotations).reduce((n, a) => n + (a[k]?.length ?? 0), 0);
+  return { cells: Object.keys(annotations).length, contacts: count('contacts'), landmarks: count('landmarks'), native,
+    note: 'native pixels of the processed figure; studio_rig_bake fills them into pose clips that declare no contacts or landmarks of their own.' };
+}
+
 const ADVICE = {
   left_edge: 'the drawing touches the left edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
   right_edge: 'the drawing touches the right edge of its cell crop and may be cut: move the seam in the layout, or redraw with room',
@@ -52,6 +62,7 @@ export default {
     'A character can have BOTH a turnaround sheet (slot rig: idle and small motions) and a pose sheet (slot pose: locomotion): each kind of sheet keeps its own import, chosen by the layout, so importing one never replaces the other. Importing the same kind again replaces that slot (the old sheet stays stored). ' +
     'If the asset has a locked reference in the pack, your prompt must carry its description paragraph verbatim (studio_template_get gives it in prompt.text); the check and the reference hash are recorded in provenance, and the result says when it is missing. ' +
     'When the pack has a lineup group for the asset\'s profile, the result carries lineup: the figure of the pose the pack measures, against the approved reference characters (height, head-to-body share, limb width as estimates at native size); advisory here, the gate is studio_process. ' +
+    'annotations (pose sheets, optional) turn gates on: say where a foot is planted and where an asymmetric mark sits, per cell, as fractions (0 to 1) of that template cell; studio_template_get lists each cell\'s slots. The studio converts them to native pixels with the figure\'s own fit, returns them (annotations.native) so you can check them, and studio_rig_bake fills them into pose clips that declare none (foot slide needs planted contacts, mark side needs landmarks). A gate with no annotation stays reported as not run. ' +
     'Next: studio_process to pixelise. dryRun runs the import and lists the files it would write, storing nothing.',
   scope: 'author',
   inputSchema: {
@@ -70,6 +81,7 @@ export default {
       layoutId: { type: 'string', pattern: '^[a-z0-9][a-z0-9-]{0,80}$', description: 'Id of a layout saved by studio_template_get with write=true, instead of layout.' },
       prompt: { type: 'string', minLength: 1, maxLength: 8000, description: 'What you asked the image tool, verbatim. Recorded with the sheet hash.' },
       tool: { type: 'string', minLength: 1, maxLength: 120, description: 'The image tool that drew the sheet (e.g. "Codex built-in image generation").' },
+      annotations: { type: 'object', description: 'Pose sheets: {<cell id>: {contacts: [{id, at: [fx, fy], planted: true}], landmarks: [{id, color: <palette id>, box: [fx0, fy0, fx1, fy1]}]}}, fractions 0..1 of the cell from its top left. Stored with the import.' },
       dryRun: dryRunProp,
       scaleOptions: {
         type: 'object',
@@ -118,6 +130,11 @@ export default {
       try { image = decodePng(bytes); } catch (error) { throw new ToolError(`the sheet is not a readable PNG (8-bit): ${error.message}`); }
       if (image.width > 8192 || image.height > 8192) throw new ToolError(`the sheet is ${image.width}x${image.height}; the limit is 8192 on a side.`);
 
+      if (args.annotations !== undefined) {
+        if (slotOfLayout(layout) !== 'pose') throw new ToolError('annotations apply to pose sheets only (a layout whose cells carry poses): studio_rig_bake reads contacts and landmarks from the pose sheet, so on a turnaround they would be stored and never used. Import the pose sheet with annotations, or leave annotations out.');
+        const issues = validateAnnotations(args.annotations, layout, { paletteIds: new Set(settings.palette.colors.map((c) => c.id)) });
+        if (issues.length) throw new ToolError(`annotations are invalid:\n  ${issues.join('\n  ')}`);
+      }
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
       if (args.dryRun) {
@@ -128,7 +145,7 @@ export default {
         const legacyMove = slot === 'rig' && current.pose && !(await readDoc(ws, asset, 'import.pose'));
         const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
         return proposal({ asset: asset.id, slot, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
-          wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists,
+          wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists, annotations: annotationReport(args.annotations, result, settings),
           cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings, lineup: await lineupAdvice(ws, snap, asset, layout, result) });
       }
       const stored = await storeSheet(ws, asset, bytes);
@@ -136,7 +153,7 @@ export default {
       const lock = referenceFor(snap.pack, asset.id);
       const reference = lock ? referenceRecord(lock, carriesVerbatim(args.prompt, lock.description)) : null;
       const doc = { ...(reference ? { reference } : {}), sheet: { file: stored.rel, sha256: stored.sha256, width: image.width, height: image.height }, layout, prompt: args.prompt, tool: args.tool,
-        agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), ...(args.scaleOptions ? { scaleOptions: args.scaleOptions } : {}) };
+        agent: ctx.caller.agent, session: ctx.caller.session, at: new Date().toISOString(), ...(args.scaleOptions ? { scaleOptions: args.scaleOptions } : {}), ...(args.annotations ? { annotations: args.annotations } : {}) };
       const slot = slotOfLayout(layout);
       const previous = await writeImport(ws, asset, doc, slot);
       await appendFile(containedPath(ws.root, `${forgeDir(asset)}/imports.jsonl`), JSON.stringify({ ...doc, layout: undefined, layoutId: layout.id }) + '\n');
@@ -147,6 +164,7 @@ export default {
         ok: true, asset: asset.id, slot, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
         cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, ground: c.ground, scale: c.scale ?? null, limit: c.limit ?? null, warnings: c.warnings })),
         warnings,
+        ...(args.annotations ? { annotations: annotationReport(args.annotations, result, settings) } : {}),
         ...(lineup ? { lineup } : {}),
         ...(reference ? { reference: { ...reference, message: reference.verbatim ? `The prompt carries the locked description of ${lock.name} verbatim; recorded in provenance.` : `Your prompt does NOT carry the locked description of ${lock.name} verbatim. Recorded as verbatim:false in provenance. Paste this paragraph unchanged into the sheet prompt, redraw, and import again: ${lock.description}` } } : {}),
         next: warnings.length ? 'Fix the warnings (move a seam in the layout, redraw) and import again, or go on if the crops are whole.' : 'studio_process to pixelise and look at the native sprites.',
