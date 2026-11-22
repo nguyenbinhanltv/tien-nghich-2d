@@ -13,6 +13,7 @@ All routes below start with `/api/editor/`. GET parameters are URL query fields.
 | POST `save` | Send `key`, `baseRevision` and at least one of `pngBase64` or `metadata`. Returns a snapshot. |
 | POST `restore` | Send `key`, `baseRevision` and `targetRevision`. Copies the target pixels and metadata into a new pending head. |
 | POST `review` | Send `key`, exact `revision`, and `status`, `text` or both. Returns the selected revision snapshot. |
+| POST `apply` | Send `key`, `baseRevision`, `ops` (1 to 16 of `shade`, `dither`, `pattern`, `gradient`, the palette-bound drawing helpers) and optionally `dryRun`. Applies them to the head pixels; a dry run returns `{changedPixels, changes}` and saves nothing, otherwise a snapshot of the new pending head. Colours can only be palette ids. |
 | GET `export?key=…&revision=N` | Deterministic single-frame export containing `key`, `revision`, `pngBase64`, `metadata` and `atlas`. |
 | GET `image?key=…&revision=N` | Native PNG bytes for that revision. The atlas references this URL in `meta.image`. |
 

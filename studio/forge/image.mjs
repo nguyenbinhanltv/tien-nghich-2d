@@ -295,7 +295,9 @@ export function makePalette(data) {
   };
   const idOf = ([r, g, b]) => byInt.get((r << 16) | (g << 8) | b) ?? null;
   const outlineId = data.outline_id ?? null;
-  return {ids: [...byId.keys()], rgb, idOf, has: id => byId.has(id), outlineId, outline: outlineId ? rgb(outlineId) : null};
+  // `colors` keeps each entry's group (when the palette file has one): the palette-bound drawing helpers build ramps from it.
+  return {ids: [...byId.keys()], rgb, idOf, has: id => byId.has(id), outlineId, outline: outlineId ? rgb(outlineId) : null,
+    colors: data.colors.map(({id, hex, group}) => ({id, hex, group: group ?? null}))};
 }
 
 export const sameRgb = (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2];

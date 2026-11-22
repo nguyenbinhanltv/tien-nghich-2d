@@ -1,7 +1,15 @@
-import { loadCatalog, loadStanding, problem } from './editor-catalog.mjs';
+import { loadCatalog, loadStanding, packRoot, problem } from './editor-catalog.mjs';
 import { normalizePng } from './editor-png.mjs';
 import { revisionStore } from './editor-store.mjs';
 import { assertLoopback } from './loopback.mjs';
+import { loadPack } from '../core/pack.mjs';
+import { readJson } from '../core/files.mjs';
+import { applyPatch, decodePng, encodePng, makePalette, validatePatch } from '../forge/index.mjs';
+
+// The palette-bound drawing helpers offered in the editor (A6): the same operations as studio_frame_patch's shade, dither,
+// pattern and gradient, applied to the frame's newest pixels and saved through the ordinary save path as a new pending head.
+const EDITOR_OPS = ['shade', 'dither', 'pattern', 'gradient'];
+const MAX_EDITOR_OPS = 16;
 
 function invalid(message) { throw problem(422,'invalid_input',message); }
 function fields(obj, allowed) {
@@ -31,10 +39,16 @@ async function body(req) {
 const actions = {
   frames:['assetId','category'], frame:['key','revision'],image:['key','revision'],export:['key','revision'],
   save:['key','baseRevision','pngBase64','metadata'],restore:['key','baseRevision','targetRevision'],
-  review:['key','revision','status','text']
+  review:['key','revision','status','text'],
+  apply:['key','baseRevision','ops','dryRun']
 };
 function validate(action,args,frame,palette) {
-  if (['save','restore'].includes(action)) integer(args.baseRevision);
+  if (['save','restore','apply'].includes(action)) integer(args.baseRevision);
+  if (action === 'apply') {
+    if (!Array.isArray(args.ops) || !args.ops.length || args.ops.length > MAX_EDITOR_OPS) invalid(`ops must list 1 to ${MAX_EDITOR_OPS} operations`);
+    if (args.ops.some(o => !o || typeof o !== 'object' || !EDITOR_OPS.includes(o.op))) invalid(`each operation must be one of ${EDITOR_OPS.join(', ')}`);
+    if ('dryRun' in args && typeof args.dryRun !== 'boolean') invalid('dryRun must be true or false');
+  }
   if (action === 'restore') integer(args.targetRevision);
   if (action === 'review') {
     integer(args.revision);
@@ -87,7 +101,7 @@ export function editorApi(root,dir,packDir) {
       assertLoopback(req,address);
       const action=url.pathname.slice('/api/editor/'.length);
       if (!Object.hasOwn(actions,action)) throw problem(404,'unknown_route','Unknown editor route');
-      const write=['save','restore','review'].includes(action);
+      const write=['save','restore','review','apply'].includes(action);
       if (req.method!==(write?'POST':'GET')) throw problem(405,'method_not_allowed','Unsupported method');
       if (write && url.search) invalid('Unexpected query');
       const params=[...url.searchParams.keys()];
@@ -115,7 +129,27 @@ export function editorApi(root,dir,packDir) {
         const {standing:state,png:standingPng}=await (await standing).judged(frame.processed);
         // The frame's file as it is now, so a snapshot can say which take is in the game (pixels compared, see store.mjs).
         const filePng=action==='frame'?(baseline??await library.baseline(frame).catch(()=>null)):undefined;
-        const snap=store.operate({...frame,standing:state,standingPng,filePng},baseline,action,args);
+        let opAction=action;
+        if (action==='apply') {
+          const current=store.operate({...frame,standing:state,standingPng},baseline,'frame',{key:args.key});
+          const {width,height}=frame.info;
+          const pack=await loadPack(packDir ?? packRoot,undefined,{verifyFiles:false});
+          const file=await readJson(root,pack.palette.file);
+          const palette=makePalette({colors:file.colors,outline_id:file.outline_id});
+          const issues=validatePatch({schema:'studio.patch',version:1,frames:{[args.key.replace(/[^a-z0-9_]/gi,'_')+'_south_0']:args.ops}},{palette,width,height});
+          if (issues.length) invalid(issues[0].replace(/^frames\.[^:]*:\s*/,''));
+          const before=decodePng(Buffer.from(current.pngBase64,'base64'));
+          const after=applyPatch(before,args.ops,palette);
+          const changed=[];
+          for (let i=0;i<before.pixels.length;i+=4) if (Buffer.compare(before.pixels.subarray(i,i+4),after.pixels.subarray(i,i+4))) changed.push(i/4);
+          if (!changed.length) invalid('These operations would not change any pixel');
+          if (args.dryRun) { send(200,{dryRun:true,wrote:'nothing',key:args.key,revision:current.head,changedPixels:changed.length,
+            changes:changed.slice(0,400).map(n=>({x:n%width,y:Math.floor(n/width)}))}); return true; }
+          args.pngBase64=Buffer.from(encodePng(after)).toString('base64');
+          validate('save',args,frame,library.palette);
+          opAction='save';
+        }
+        const snap=store.operate({...frame,standing:state,standingPng,filePng},baseline,opAction,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
         else send(200,action==='export'?exportFrame(snap):snap);
       }

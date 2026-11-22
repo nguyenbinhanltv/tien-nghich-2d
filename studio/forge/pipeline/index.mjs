@@ -34,7 +34,7 @@ export function rigPalette(settings) {
   const {palette, outline} = settings;
   const outlineId = outline.mode === 'none' ? null : palette.colors.find(c => c.hex === outline.hex)?.id ?? null;
   if (outline.mode !== 'none' && !outlineId) throw new Error('the rig baker needs the outline colour to be a palette entry with an id');
-  return makePalette({colors: palette.colors.map(({id, hex}) => ({id, hex})), outline_id: outlineId});
+  return makePalette({colors: palette.colors.map(({id, hex, group}) => ({id, hex, group})), outline_id: outlineId});
 }
 
 /** A manifest-style profile object for the rig lane, from the settings' profile. */
