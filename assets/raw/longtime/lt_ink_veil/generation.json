@@ -1,0 +1,82 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "62e95006-1e73-4757-b7dd-aca5f160dcd7",
+  "character_job_id": "d870165b-9102-40a8-b9a6-a373cebbe1f9",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A long INK-BLACK VEIL (dark violet-black translucent cloth) drapes over his LEFT shoulder only, hanging down his left side to the hip, clearly asymmetric; the right shoulder is bare grey robe. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "cbacbf7a-6897-4f71-ba29-4fa516111b31",
+      "job_ids": {
+        "south": "91ac8cfc-c68a-4be9-8975-aacba89824b5",
+        "west": "228c3e9d-27f6-4fa2-9b8b-716635d8d531",
+        "north": "f25f7136-1e90-422b-9df4-9a64bd7a78d4",
+        "east": "dd7102a9-4638-493a-a2b1-341f272bdecd"
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "d3097523-d653-4206-987c-044de68f4c51",
+      "job_ids": {
+        "south": "b00c24fe-35e9-49c0-848d-8a220d6b670d",
+        "west": "b1c20f7f-d7a5-49cf-bfe1-6851f94d1812",
+        "north": "9d1b8432-a0fb-41aa-b50b-03c69504693d",
+        "east": "470055c5-bffc-4e08-b119-e961cff4d292"
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+      "job_ids": {
+        "south": "0fd076e3-e80f-4691-8140-204ecef56b15",
+        "west": "eff4dfc8-fdd5-4e4b-a747-366d5964fae9",
+        "north": "eff3981e-6cb8-48ed-978d-b061a8ec0d91",
+        "east": "6f1d0df7-b7cd-49a5-b892-ed1515d08a32"
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+      "job_ids": {
+        "south": "96470595-cc8e-4b87-991b-27fd4c95d43d",
+        "west": "46896237-e6b4-4f50-a020-f1560b40d5cf",
+        "north": "ac3918a8-8d20-4070-8a8e-f2c36ac8193b",
+        "east": "3dc75693-94e7-45bc-a147-d3fd4bf53cfb"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
+      "credits": 22,
+      "result": "accepted for integration with flags"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "robe tone differs between directions (light grey in south/north, darker in west/east): the veil is a dark mass on the left shoulder in all four but the base robe is not perfectly stable",
+    "needs a human decision: the retry budget did not allow a second regeneration of this form"
+  ]
+}

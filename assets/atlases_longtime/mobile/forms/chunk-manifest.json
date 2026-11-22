@@ -1,26 +1,27 @@
 {
   "asset_ids": [
-    "lt_ashen_crown"
+    "lt_ashen_crown",
+    "lt_ink_veil"
   ],
   "chunk_group": "forms",
-  "frame_count": 72,
+  "frame_count": 144,
   "mobile_page_budget": 2,
   "page_count": 1,
   "pages": [
     {
-      "frames": 72,
-      "height": 128,
+      "frames": 144,
+      "height": 256,
       "image": "atlas-0.png",
       "json": "atlas-0.json",
-      "json_sha256": "ccbd32435644569abf82ee8c9b810821e6dd970c5a84b14d1ce9048565db728d",
-      "png_sha256": "ee9c1615774794c96af4b772d384c1990d0a1e96ff7959ad7e14852f11e7f0eb",
-      "rgba8_bytes": 524288,
+      "json_sha256": "01aeae3133aefc55fd1262c796bfc3cd65fa4dd84445541419829778d93b5de1",
+      "png_sha256": "8bb9b3cb051103104578b5746f3e15667045da9b59ad86786593ee22fbee6fea",
+      "rgba8_bytes": 1048576,
       "width": 1024
     }
   ],
   "platform": "mobile",
   "readiness": "packed",
-  "rgba8_bytes": 524288,
-  "rgba8_mib": 0.5,
+  "rgba8_bytes": 1048576,
+  "rgba8_mib": 1.0,
   "schema": "tien-nghich-2d.longtime-chunk-atlas"
 }

@@ -1,0 +1,987 @@
+{
+  "id": "lt_ink_veil",
+  "producer": "Claude Code worker driving the PixelLab MCP",
+  "rights": "Generated with the project's PixelLab subscription for this project; processed with tools/scripts/build_longtime_characters.py.",
+  "brief": "Veil covers the left shoulder",
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-25, 2026-11-22",
+  "operator": "tien-nghich-2d-25",
+  "method": "create_character_pro_flash (32x32 native, low top-down, mannequin template, 8 views, 40-colour palette, seed 7, style_image = south rotation of the shipped core hero wl_outer_disciple) then animate_character in template mode per clip (1 credit per direction). East and west are separate PixelLab generations; nothing is mirrored.",
+  "pixellab_character_id": "62e95006-1e73-4757-b7dd-aca5f160dcd7",
+  "character_job_id": "d870165b-9102-40a8-b9a6-a373cebbe1f9",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "style_anchor": "wl_outer_disciple south rotation (character 2c4b170e-1956-4abc-8e55-20d1ea42ccad)",
+  "prompt": "Young xianxia disciple hero, chibi with a large head, plain grey robe, black topknot hair, pale skin, calm face. A long INK-BLACK VEIL (dark violet-black translucent cloth) drapes over his LEFT shoulder only, hanging down his left side to the hip, clearly asymmetric; the right shoulder is bare grey robe. Front-facing 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "template",
+      "template_animation_id": "breathing-idle",
+      "frame_count": 4,
+      "animation_group_id": "cbacbf7a-6897-4f71-ba29-4fa516111b31",
+      "job_ids": {
+        "south": "91ac8cfc-c68a-4be9-8975-aacba89824b5",
+        "west": "228c3e9d-27f6-4fa2-9b8b-716635d8d531",
+        "north": "f25f7136-1e90-422b-9df4-9a64bd7a78d4",
+        "east": "dd7102a9-4638-493a-a2b1-341f272bdecd"
+      }
+    },
+    "walk": {
+      "mode": "template",
+      "template_animation_id": "walking-6-frames",
+      "frame_count": 6,
+      "animation_group_id": "d3097523-d653-4206-987c-044de68f4c51",
+      "job_ids": {
+        "south": "b00c24fe-35e9-49c0-848d-8a220d6b670d",
+        "west": "b1c20f7f-d7a5-49cf-bfe1-6851f94d1812",
+        "north": "9d1b8432-a0fb-41aa-b50b-03c69504693d",
+        "east": "470055c5-bffc-4e08-b119-e961cff4d292"
+      }
+    },
+    "cast": {
+      "mode": "template",
+      "template_animation_id": "fireball",
+      "frame_count": 6,
+      "animation_group_id": "e9a09c64-a4dd-463d-aaa0-0ea5d59b8c13",
+      "job_ids": {
+        "south": "0fd076e3-e80f-4691-8140-204ecef56b15",
+        "west": "eff4dfc8-fdd5-4e4b-a747-366d5964fae9",
+        "north": "eff3981e-6cb8-48ed-978d-b061a8ec0d91",
+        "east": "6f1d0df7-b7cd-49a5-b892-ed1515d08a32"
+      }
+    },
+    "hurt": {
+      "mode": "template",
+      "template_animation_id": "taking-punch",
+      "frame_count": 6,
+      "animation_group_id": "34930b8c-ca71-42fd-addc-90b87c5a0bf8",
+      "job_ids": {
+        "south": "96470595-cc8e-4b87-991b-27fd4c95d43d",
+        "west": "46896237-e6b4-4f50-a020-f1560b40d5cf",
+        "north": "ac3918a8-8d20-4070-8a8e-f2c36ac8193b",
+        "east": "3dc75693-94e7-45bc-a147-d3fd4bf53cfb"
+      },
+      "kept_frames": "template frames 2 and 3 of 6 stored as raw frames 0 and 1 (manifest wants 2 frames)"
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "what": "character creation plus idle, walk, cast, hurt as template clips, 4 directions each; no regeneration",
+      "credits": 22,
+      "result": "accepted for integration with flags"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "idle": 4,
+    "walk": 4,
+    "cast": 4,
+    "hurt": 4,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "robe tone differs between directions (light grey in south/north, darker in west/east): the veil is a dark mass on the left shoulder in all four but the base robe is not perfectly stable",
+    "needs a human decision: the retry budget did not allow a second regeneration of this form"
+  ],
+  "native_px": [
+    32,
+    32
+  ],
+  "pivot_px": [
+    16,
+    29
+  ],
+  "processing": {
+    "script": "tools/scripts/build_longtime_characters.py",
+    "script_sha256": "a02edf08535bb7c4a55541f2f15bc62afc8f1280c710cbeed520fd67ef685187",
+    "palette": "tools/generators/palette.json",
+    "steps": [
+      "centre native canvas on manifest canvas (no scaling, no vertical shift)",
+      "#020105 -> #14101a",
+      "binary alpha",
+      "snap to 40 colours with ink_01 reserved for outline",
+      "silhouette edge repaint with #14101a",
+      "outline thinning of 2x2 blocks"
+    ],
+    "pixels_changed": {
+      "alpha_snapped": 0,
+      "outline_repainted": 2888,
+      "outline_thinned": 548,
+      "quantized": 6855,
+      "speckle_removed": 0,
+      "transparent_cleaned": 0
+    }
+  },
+  "source": "source.png",
+  "source_sha256": "9255c599156dfa60f6f0dfd9ca719d3736b8ed99b0699eafefcc2f1e69dc9df8",
+  "contact_sheets": {
+    "assets/raw/longtime/lt_ink_veil/contact_1x.png": "aaaacf8246a9be6128b2387619327f79eaf30c1cbe0bc597b34814f4637476ea",
+    "assets/raw/longtime/lt_ink_veil/contact_4x.png": "e3b83bd6490bf51069fa8cba2795c83c89375249a055addf2108f7d6b994b100"
+  },
+  "frames": [
+    {
+      "key": "longtime/lt_ink_veil/cast_east_0",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_000.png",
+      "raw_sha256": "b3c43c4466c2bf66d438c7b5e491c4bb0dba72bbb721e7d3d7c533a97f22b7a9",
+      "source_xy": [
+        0,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "5073392e8cc4ec956d5c440a9059a526a68cb6cee630e0fb1621f8432e61868d"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_east_1",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_001.png",
+      "raw_sha256": "ab634365c93279d9aeaee18384acadaadbfcb7ab634500d568d5cf5262c70eed",
+      "source_xy": [
+        32,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "7c3da805a87bca60acc4b4cc384083642c316bfee3eab9a3182ee519d97c25ca"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_east_2",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_002.png",
+      "raw_sha256": "8f81cc2ef5459e13cec4c10fdc9ca0492412e1c8b366eda5d0efff34a72ac38e",
+      "source_xy": [
+        64,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "17c153458ae95715310211ae0aa54ea6759c200b9329d284b2d2c2db8b3953f6"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_east_3",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_003.png",
+      "raw_sha256": "64479de594be154826db76eeda4d659ccd6f475822944f386eb01b789ca3a45a",
+      "source_xy": [
+        96,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "54d8a426448d61d8fc31db1420f8c4942a55c163e1ea010144af26332bdc5515"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_east_4",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_004.png",
+      "raw_sha256": "44aaaadada4607d8c78ed60a2bf81b49912f96917de0218c0bb9fad7f3e26af9",
+      "source_xy": [
+        128,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "938c205849e879291a67cb75cd1617847c13fd370083a1716e020bca71cedd33"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_east_5",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/east/frame_005.png",
+      "raw_sha256": "1f3265af4485df6bbe9234377eb905efdef2d64fb1bc1971cc95056c95023c5b",
+      "source_xy": [
+        160,
+        352
+      ],
+      "duration_ms": 90,
+      "sha256": "b6bd303bd17fe16d0a3a6d1c435a399826dec66f8297247c4668b8ec0c4ae3a8"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_0",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_000.png",
+      "raw_sha256": "fc18f5c24e7b9770c81a003c6c99bf60921bac73a1dcd80d302b9ad02398020d",
+      "source_xy": [
+        0,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "629dbb684038371e46adc2c78fb6cb5396aa0ee7821081ae2e90c560766b5cbb"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_1",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_001.png",
+      "raw_sha256": "4a5292ef7eb360198373ef1d11741b6db90bd274fc545cb555fcda71023ed8b2",
+      "source_xy": [
+        32,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "b3919124da4d17eb85f34b010f15c15d15b0560579000468c5192a6a98b46347"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_2",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_002.png",
+      "raw_sha256": "c228905418fc9746804d4ea3338ef842c1f716f26a58c8511bf0071c6d8b981b",
+      "source_xy": [
+        64,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "f461a6943ea939058e05e0929b68a4974a708140d16204184457a25895909498"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_3",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_003.png",
+      "raw_sha256": "7e8219bd871cf183d4d616b88d1ccbdb7595e4f9b16aabf7131d7cf53a41af4c",
+      "source_xy": [
+        96,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "33c11a207d342ee2e8ea5587323def5529ea43440ba430a84b8638bd56c790bd"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_4",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_004.png",
+      "raw_sha256": "8dc1209dbfaf854174b7ff518c5fd72908d007eac587d97c28c809f7165da38a",
+      "source_xy": [
+        128,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "715f7b7266b7a12f26b3b9f335f81f23a26a4937a8a5806d5f5e8c29bc7d25f4"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_north_5",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/north/frame_005.png",
+      "raw_sha256": "bf502f4f1bd8de2728427bd997d3c67f187150e2f0803b63a5c3741510925a25",
+      "source_xy": [
+        160,
+        320
+      ],
+      "duration_ms": 90,
+      "sha256": "fe526f41781f870ee7aa9da76a3f9da9234bae7232236db4f42ee48a7227b956"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_0",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_000.png",
+      "raw_sha256": "e986bb91a6b6728333f219c1b9a338fb74a70391009b3dbcea33f8c0bb0efdb2",
+      "source_xy": [
+        0,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "36ad27aec35879e4834ee8875107c29bfe06fdff2f822eccd84f111539c0f9bd"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_1",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_001.png",
+      "raw_sha256": "4fcce9e8c829bbf572203cc9b68708b531a77624f68ceda20938e548ec641649",
+      "source_xy": [
+        32,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "c9cb1e423f00e6204bbee3a9635a6cc8c2d2c04e37f3694d32d751c106456296"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_2",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_002.png",
+      "raw_sha256": "a057006c6771f957f3a8e926af17f21a5411859fc9251ba4270cce6b910420f0",
+      "source_xy": [
+        64,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "986b465b3b44207d5e12dd1e5fdc171b37b25d73d7d7bdb23e6e8ba4eb4e91d5"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_3",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_003.png",
+      "raw_sha256": "40cdedf215f37c9e7f8f7aec8d72ceda3c16c8fc83a5393cb8b713ce50f75b1c",
+      "source_xy": [
+        96,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "d187cd53e0c1d3172dc8320e79199257529992061735876eaa65131d3a3cf3ad"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_4",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_004.png",
+      "raw_sha256": "325587e28835d3624a808df5c5782cf5aac68dcad37eda456c1150213df82f47",
+      "source_xy": [
+        128,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "07249c728451605cafa93bddaccdba9806d600debf08259b79a53551e69b3ed4"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_south_5",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/south/frame_005.png",
+      "raw_sha256": "49cb39696d7c5dd5926b6bd83f349bd095027787632b070ef0ecc7671778dea7",
+      "source_xy": [
+        160,
+        256
+      ],
+      "duration_ms": 90,
+      "sha256": "402b97602756d44c5cc60ae228e8acaade8922275373a8544fc239f23b7cf66b"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_0",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_000.png",
+      "raw_sha256": "0cce203a647cb9a6f104b2c7144cadb58125d7bf0ef126506de10516de63c247",
+      "source_xy": [
+        0,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "ddb56a5cac1957d0996850373f5db13f1ac7d8048b2dbc8a5e2fdd8ab97d781e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_1",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_001.png",
+      "raw_sha256": "7ade415e879e555649095b8937bf90b87cde6dbd70fe3a898e8a4f6c8c8d31ad",
+      "source_xy": [
+        32,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "23df77f88ca5132d41c1618b65190e61ae4cc66f0e757b6daa84ae1c68b15fb1"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_2",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_002.png",
+      "raw_sha256": "fc79d1837aa29e77e277f5a900d85278855333b77cea419d5e0ae7a419f394dc",
+      "source_xy": [
+        64,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "9c2dd0a59156fe38c1274081c420635c5309303021445a23a507895cfbd18854"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_3",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_003.png",
+      "raw_sha256": "12e3a28f24508d838a9fe7954274ae6366c3f803baa698a3cf7bc1bf91368c41",
+      "source_xy": [
+        96,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "a088783bfaec50b431ccb605f57d66051c69d093bf7278999cd02b87c2debbc5"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_4",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_004.png",
+      "raw_sha256": "a2439a23555b81ac745f34a723ba36b18bf0c7fb001bc3c63d59aac63e224fbe",
+      "source_xy": [
+        128,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "0bae34a9290c38912c29ca67ff869c90e3fc2cebd21aa022ad44b0f47402aa6e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/cast_west_5",
+      "path": "assets/processed_longtime/lt_ink_veil/cast_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/cast/west/frame_005.png",
+      "raw_sha256": "bca7ab55c997a427836d2d9966eb272693ecee9dd7d9d3f1aac4026f66b2f0c1",
+      "source_xy": [
+        160,
+        288
+      ],
+      "duration_ms": 90,
+      "sha256": "79e61256e43d6ba7ccdb30eb1db7ae35574693ba6f8b25a923c5a41f0188d23e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_east_0",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/east/frame_000.png",
+      "raw_sha256": "d78456ed2f59823b0e535e4ae84557056d4a155b1b5e459d4ed81bc6db185833",
+      "source_xy": [
+        0,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "165a54737c6b6feb1df19ec7d0660dc824305004c7060682d0fc97e75d99cb21"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_east_1",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/east/frame_001.png",
+      "raw_sha256": "928042339cea805a987834439fed0b5069a0c176e6fa6d6e98633c04a1ef7dba",
+      "source_xy": [
+        32,
+        480
+      ],
+      "duration_ms": 130,
+      "sha256": "06f4df9d1f7d0773a92488fae5fe44ddf6615a27029023823df28788b3b7144c"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_north_0",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/north/frame_000.png",
+      "raw_sha256": "0b3c839b5a6cd9d4a1d45f9f10515f4db748dfd534b625e1facc069a2a26b936",
+      "source_xy": [
+        0,
+        448
+      ],
+      "duration_ms": 130,
+      "sha256": "5d31cdc0231fbd9b697e291555e73e34b709e4fc969cc91ff7d89b76bb960b99"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_north_1",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/north/frame_001.png",
+      "raw_sha256": "89878aa0d965b402f730350846fee35234e1ab5e68e819446249c8fc3ceb2fa1",
+      "source_xy": [
+        32,
+        448
+      ],
+      "duration_ms": 130,
+      "sha256": "a42edf20e977ee5665375f0da56321bdb31b62fc403f200c6d140c6f63b0300e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_south_0",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/south/frame_000.png",
+      "raw_sha256": "34c4a1a52b00201ae683a0eba45c02ee3e0fc3783ccc0ee824cf78052da74836",
+      "source_xy": [
+        0,
+        384
+      ],
+      "duration_ms": 130,
+      "sha256": "04502fab3cfbd17406ef83f741b4e4bec3ba6ab4901436ad81de9a20879585e6"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_south_1",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/south/frame_001.png",
+      "raw_sha256": "fd88ac9b0ac9e8ce72a59646b008b70830991cf561e0403e293cc2da0f86804f",
+      "source_xy": [
+        32,
+        384
+      ],
+      "duration_ms": 130,
+      "sha256": "1d6feff7c5c3fcf8706da4bec7d1221f16cdbfbab8865953aa756edb8afb5303"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_west_0",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/west/frame_000.png",
+      "raw_sha256": "972bc9a01c24239f54c7d3beee93e55144da2b6413155f0b266f91eeaf2ea1b0",
+      "source_xy": [
+        0,
+        416
+      ],
+      "duration_ms": 130,
+      "sha256": "ee591b7f2251714a3558332ec8c0906af7a431144662bf869a647ccd253506d0"
+    },
+    {
+      "key": "longtime/lt_ink_veil/hurt_west_1",
+      "path": "assets/processed_longtime/lt_ink_veil/hurt_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/hurt/west/frame_001.png",
+      "raw_sha256": "5748f06ecb86d1ad748844a4cdbce3a23b91dc67deddb498d477994cc8dcee27",
+      "source_xy": [
+        32,
+        416
+      ],
+      "duration_ms": 130,
+      "sha256": "0a75f13a816dc5238a235ad6042f8ee2ebd8ddea3b03916bb43db6103e192a03"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_east_0",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/east/frame_000.png",
+      "raw_sha256": "499d7079d5e14a60fe48622d669112b0cf1ee7cdde210490cd49104d1849d2f5",
+      "source_xy": [
+        0,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "58d7ca09fd5227acee590ca846dae9eb8424ee561f0f048806980b96a3d79017"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_east_1",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/east/frame_001.png",
+      "raw_sha256": "381fefe9e27d2aaca77c17acad31eafe350b5a5335e0a9365788e9cc5fbb42cc",
+      "source_xy": [
+        32,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "56fea8542d3a8a5b042566796d0ad4c3d12babe6254bf93b9aa839f0f3242873"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_east_2",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/east/frame_002.png",
+      "raw_sha256": "01dea34106c5fc67310d3251da159a9664ae9478c15af8b8e2a9f7386f27c28c",
+      "source_xy": [
+        64,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "119606d947976607610127c55b50f014a49703972944ed736d3baf17f32735fb"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_east_3",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/east/frame_003.png",
+      "raw_sha256": "c06023322957df4767c4d9881ca6897b061283f94826b9b330b5a729eba470c0",
+      "source_xy": [
+        96,
+        96
+      ],
+      "duration_ms": 160,
+      "sha256": "16e7ca5d8369f4f363534aefd5bcf81fa31dec958ef36ccd2c2e55197b2c943d"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_north_0",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/north/frame_000.png",
+      "raw_sha256": "98d82143cc2f2735f7f0dc2fb3fc52ac0b67eedd76304d2ddc67f02337d49cea",
+      "source_xy": [
+        0,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "89216aa12840c52be68a255e3b0af7cd9cc6c9dd90f2c356edf536f1d45f3839"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_north_1",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/north/frame_001.png",
+      "raw_sha256": "5ede33f133f734795f4b303a1b59ae8cd1fcbe1c3aec4dc0c1c12a06bf09e214",
+      "source_xy": [
+        32,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "6fad250a63a42668f7547d23208640ab891e758d9d7a197f3f8b1d298069c66a"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_north_2",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/north/frame_002.png",
+      "raw_sha256": "0bc673ee2b2da5fa0209824d9906103a8eae3b9fc3a2bdb4af0799f537b2ec47",
+      "source_xy": [
+        64,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "c53f455050a8ae993fa5c3b68f8488106e25596bd29c94659e20adb4615d5648"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_north_3",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/north/frame_003.png",
+      "raw_sha256": "153cddd5b72808dd7200faf8312035c9cf03b9ca07cc2c60f3665ea1f1fac5c8",
+      "source_xy": [
+        96,
+        64
+      ],
+      "duration_ms": 160,
+      "sha256": "8cbeb2354c053a7341f7567d649a898d5a4ddfe7198425bcb93f9d97cfda5446"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_south_0",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/south/frame_000.png",
+      "raw_sha256": "121e54ba1172b7653bc2e9c50a184a032aab0a0f25b622a891069a8c59738dba",
+      "source_xy": [
+        0,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "709766f999b828911aef06fd3743deeae23b19cd7a22e620ea01dc06aebc1b58"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_south_1",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/south/frame_001.png",
+      "raw_sha256": "7225a646bee727ce4e94a4fb1b61b7e46140dcf863e505473117d8b659f21255",
+      "source_xy": [
+        32,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "dd7edd76656afc0ea03d2f442ef3a5df45ad1e82684503dffcf88db3418f988a"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_south_2",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/south/frame_002.png",
+      "raw_sha256": "8967ade2f3a5a67363561649502cadc3774bfa58dff04c1e3ca9b653755d75db",
+      "source_xy": [
+        64,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "03363963546c4cc3bb54fd7bdf25405a7c4646f3b18d0e7f8c92e035871001cf"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_south_3",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/south/frame_003.png",
+      "raw_sha256": "8b4ba50e1e83844d629cb6805523d712356f35125cda8298025e257d51c90e46",
+      "source_xy": [
+        96,
+        0
+      ],
+      "duration_ms": 160,
+      "sha256": "1448b3b319fd199d97ab8a77edb2c1efce1c9663c8774cb2764859e13c4c5e38"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_west_0",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/west/frame_000.png",
+      "raw_sha256": "1e6a15df3698d378c0450d47df1761bf88f3ce25d86ab92adbf01ba2ad7cdc41",
+      "source_xy": [
+        0,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "9f316feb1e0f358bff3a62147086ee2c12627a8ed023c3e33489c54d00a569c2"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_west_1",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/west/frame_001.png",
+      "raw_sha256": "7c2b412211087639c6050b02c1400b106f9dcf13717dda4d7675c72e37ea175e",
+      "source_xy": [
+        32,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "dc83d31fd2ccd5dc97cbce94b9d656c352eb1467a8e45f42b6fa2328a015b2d7"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_west_2",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/west/frame_002.png",
+      "raw_sha256": "90c11fdfd4aaaa380e086e7fb15b6640a6291ed71b09f3f9e088c51e6eef883b",
+      "source_xy": [
+        64,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "2cbc4b2be4c28a4733d26ed88102834a0364c2c797c4f1e59fcc726a33edb52f"
+    },
+    {
+      "key": "longtime/lt_ink_veil/idle_west_3",
+      "path": "assets/processed_longtime/lt_ink_veil/idle_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/idle/west/frame_003.png",
+      "raw_sha256": "d13c4a2d1e89af756619a9cf956b12d648e93dc59bc484b5abab26e539dbf324",
+      "source_xy": [
+        96,
+        32
+      ],
+      "duration_ms": 160,
+      "sha256": "14b1c1d868cdfe822dbb3866ff9ea8da8329ea74842d4f012d280ff24baa546e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_0",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_000.png",
+      "raw_sha256": "723b51e77fd999f6b403ac491137bd05129609c16fbf503a395f0b95ec917b70",
+      "source_xy": [
+        0,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "2cc78ea47e717768bbf46d458b3e32f02847510408c6afb2638285e80d05713f"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_1",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_001.png",
+      "raw_sha256": "92d92591cbe34c3bc9a2223b67868d6f081f3e3e32a81796f175b63bd34f1313",
+      "source_xy": [
+        32,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "4fb26a764f60710bc4e0bcd252ad243cc4cf55da3c08988fda44d9c81ae2cd6a"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_2",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_002.png",
+      "raw_sha256": "2efe949e5b8aa420dc1c8fe16f2e3dcaa325dc45bcb2e081cd9ba5c5f1100574",
+      "source_xy": [
+        64,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "e339e5c4d20571a8342b63ff3e05be0732126cc9e32024ea617efaead1e90951"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_3",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_003.png",
+      "raw_sha256": "ca8b873d919c5151dda0feb64917c983f550f8040d4b1627367d1bdae1cd1028",
+      "source_xy": [
+        96,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "17d6306e6b4f32fbaaf072179403091c8ae38fc3a1ff17bd6948d13e4ec816c1"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_4",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_004.png",
+      "raw_sha256": "f10ee4f00b01da9d311cd3bf1fa72edb1dc2fb07ab0334c1c5759c7c03da3a77",
+      "source_xy": [
+        128,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "4698ec327c65d77f2e876993d64f7dc8aa7ffdb1b3fa75586847be4807c282c2"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_east_5",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_east_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/east/frame_005.png",
+      "raw_sha256": "db1b2343eadd613e419d130a08a5e064ad7425cd2f380c7b2c93a6333cc91c28",
+      "source_xy": [
+        160,
+        224
+      ],
+      "duration_ms": 100,
+      "sha256": "5f4f33692eb7ede7e96cc0033ba74db50dbcf3a4f27cbfffff02537ffc05b575"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_0",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_000.png",
+      "raw_sha256": "f219245e60a2f2139b5b1bde7fac963d6f568defaa9ca09739a34172af7473f8",
+      "source_xy": [
+        0,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "d866a467dafd8b9d0cf44a14db19674d5c0b48e59a597e658c13002507177b71"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_1",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_001.png",
+      "raw_sha256": "d4aad2c25af55739e87af5a8903066e0a946b9b569ce32e43b59b6d0c492d9e3",
+      "source_xy": [
+        32,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "ab6844ffdf8c7b3d42ffa29476dffb161e4154226e0325974abe93f704bddb48"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_2",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_002.png",
+      "raw_sha256": "0be91a80bc8e8072ceadb5cef47f14ad15d92121f3f14f0cf37cd7d60adfd2b6",
+      "source_xy": [
+        64,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "1b8961c1c6d67f20f6b8a226b997724033f825faa076fbf4034bc20ce6593658"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_3",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_003.png",
+      "raw_sha256": "f6d002cb81d0b3770eb0571565f0c82db6902c3fa813d24919cc77b0f08e243a",
+      "source_xy": [
+        96,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "360164dbba82fc4321d80414c973debebf371b0b31447a0d5b83602677ecd068"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_4",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_004.png",
+      "raw_sha256": "860f269a14fc3cb0c9a794cc273f812fa7b120a215d71ee9a9ecc27e52b5647c",
+      "source_xy": [
+        128,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "b4122bbee128b0bfc840d26a51479fbd225c445e3e8f8762128ffb16ace63a13"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_north_5",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_north_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/north/frame_005.png",
+      "raw_sha256": "cab53063ace1b57c49f963fb94206726287bb413dc300cb30ad0104eb16a5109",
+      "source_xy": [
+        160,
+        192
+      ],
+      "duration_ms": 100,
+      "sha256": "d01fa1deaf13769b0c709dfbce364776c1d74692c2c8912489751de80314fed7"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_0",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_000.png",
+      "raw_sha256": "a6f37e4cf134a4a388c2d84afa5740722e4ee64bdf74a38a5e50ab4d26096b48",
+      "source_xy": [
+        0,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "12f92d3a5904b595920d504872a910ba69a773f1eb4943f70572bf1ea6d5749f"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_1",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_001.png",
+      "raw_sha256": "b651534cf398dad0476abe8bf094cb293ac283a24054e8d69f1f7b9a856b0493",
+      "source_xy": [
+        32,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "4a4f121be8d6c7de7fda6e363060fa75f7921759a051d8666dafbae0bb0878d7"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_2",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_002.png",
+      "raw_sha256": "d8deaac761edc45f1605abdfd2cfee7aa71044d533c88c90994e814969acad3d",
+      "source_xy": [
+        64,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "8bfb2f05fa457464a000103a1768cae61b8d38780f8fa50cf21ad040136ba583"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_3",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_003.png",
+      "raw_sha256": "060286a5c8db5b01daf95708b4578462b2997284b38148348d90732b4f7a7d2a",
+      "source_xy": [
+        96,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "33d8034253fbd04d7c6b22b82d59a5e61cbbade7a0986caaa0611e206fea5b02"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_4",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_004.png",
+      "raw_sha256": "e270bc45ee5d1bc2b488da6fef53012818209215e88c3dbdda6b86f0257ef40d",
+      "source_xy": [
+        128,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "d59c52cad9a425f1b680e07177ef2459da2839d5934485b15d7995d03ebaf7e7"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_south_5",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_south_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/south/frame_005.png",
+      "raw_sha256": "2ae4719bded518f0313ad3ab9cb6fa687e52e1b7c139a74bd7a6e1cf465a3e17",
+      "source_xy": [
+        160,
+        128
+      ],
+      "duration_ms": 100,
+      "sha256": "c05e8176580430f7e0d08ad8d1949684d353f1f16ff275edad716e4d00a1bf46"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_0",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_0.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_000.png",
+      "raw_sha256": "9c81be6b57bac651522538b69a5d5be3abcc23f5b677f2c0ed41fa83da2d67e6",
+      "source_xy": [
+        0,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "2c9e795cf774f590dc001df8a72a7857664306a8f63a4bb7fc24add85510e97b"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_1",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_1.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_001.png",
+      "raw_sha256": "61e55e40f2ab4d1a73b7b5d3920ed86e2e2143614f5a442d935bd63c5cf7865a",
+      "source_xy": [
+        32,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "af0fb0618d7304d9c3ba3a1de5ba5acbe11659c4aad7391e4af75ff3c8b1fd4e"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_2",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_2.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_002.png",
+      "raw_sha256": "ed507fdfbea1a4cbf02a79adb1ea317bb39c1c14fd3e3969d4924de662a05dc6",
+      "source_xy": [
+        64,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "c3377c47fa3757c95618d7822371641d7e54950a69be22a9933a4f5cbd105439"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_3",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_3.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_003.png",
+      "raw_sha256": "b693e7efa80cec90e7ce469cdfe39805842fc9f374a96b80db0ffcb3b10c7f30",
+      "source_xy": [
+        96,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "4a73331e01ac94a0151b605cd618703f1cfa2dddf2b1ce07fbcf1c0c51a852ee"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_4",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_4.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_004.png",
+      "raw_sha256": "d82372945e2a8ae881f13e1b1cbea98fc290afe3524758c0cdc344a2b67deaa1",
+      "source_xy": [
+        128,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "b4bf25ebba4911c5ec03d8a9c5f7295ba48bf807764a58ad7f244ef72f0d9146"
+    },
+    {
+      "key": "longtime/lt_ink_veil/walk_west_5",
+      "path": "assets/processed_longtime/lt_ink_veil/walk_west_5.png",
+      "raw_path": "assets/raw/longtime/lt_ink_veil/walk/west/frame_005.png",
+      "raw_sha256": "fa42ad5aac3686e6250fc5852a60f9097081739cf52bcd941b8c8c83f5c4e4b3",
+      "source_xy": [
+        160,
+        160
+      ],
+      "duration_ms": 100,
+      "sha256": "2fa5c3120b0faa86877d4e0fe2519e9b87269fbcd2838756d51c6dca7f2bde93"
+    }
+  ]
+}
