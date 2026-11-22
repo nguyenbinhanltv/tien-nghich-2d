@@ -137,7 +137,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "9a487b717a8e6907a92571bb3a362eff9f1d7765191d3da2a22d51491b29a6d3",
+    "script_sha256": "46984eaf579b341af483035ba8e8261bd1ad5c92736819d33016e5d692c76a64",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
@@ -522,7 +522,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_east_1",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_east_1.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/east/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/east/frame_002.png",
       "raw_sha256": "a196fe54ef4150aa1142c43194366e7e27b9b81a91a10bee035b72fa8fb2d5b8",
       "source_xy": [
         40,
@@ -534,7 +534,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_east_2",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_east_2.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/east/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/east/frame_003.png",
       "raw_sha256": "6ce375cb4420050f6c32adb8587eaf5894d2d844991ef731495b0b9c5f231253",
       "source_xy": [
         80,
@@ -558,7 +558,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_north_1",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_north_1.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/north/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/north/frame_002.png",
       "raw_sha256": "47b2c2c89630f631de8648b8cb11e4a775b0fbd2648e05d1c5d02f38f96d999c",
       "source_xy": [
         40,
@@ -570,7 +570,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_north_2",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_north_2.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/north/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/north/frame_003.png",
       "raw_sha256": "099fb65d136c9a5680957078e2531eddbd773422e8a40e58b916a798097c5b9d",
       "source_xy": [
         80,
@@ -594,7 +594,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_south_1",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_south_1.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/south/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/south/frame_002.png",
       "raw_sha256": "10d31fd79d9944ba201e51910cfe8a3a101f2c713b891e99e3a0ed54df5eaa84",
       "source_xy": [
         40,
@@ -606,7 +606,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_south_2",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_south_2.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/south/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/south/frame_003.png",
       "raw_sha256": "2220471b9fb7c771827eab15af969546c039b36a33ee3321cf684080dbdde540",
       "source_xy": [
         80,
@@ -630,7 +630,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_west_1",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_west_1.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/west/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/west/frame_002.png",
       "raw_sha256": "bcc9ec64076be66ccb484a9b7f66a44d258cc63a3ae4a921c873ad80669cb56c",
       "source_xy": [
         40,
@@ -642,7 +642,7 @@
     {
       "key": "longtime/lt_slate_carrier/telegraph_west_2",
       "path": "assets/processed_longtime/lt_slate_carrier/telegraph_west_2.png",
-      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/west/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_slate_carrier/telegraph/west/frame_003.png",
       "raw_sha256": "fc009337ae3b2a173875a29011fdcbf22ee79847fe2f1e1d819cad5ff4443663",
       "source_xy": [
         80,

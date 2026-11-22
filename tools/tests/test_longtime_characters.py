@@ -67,6 +67,24 @@ class LongtimeCharacters(unittest.TestCase):
                 self.assertTrue(prov["pixellab_character_id"])
                 self.assertTrue(prov["prompt"])
 
+    def test_remapped_frames_name_their_selected_raw_source(self):
+        """Assets with generation.json frame_select: raw_path and raw_sha256 must both describe the selected input."""
+        remapped = 0
+        for gen in sorted(RAW.glob("*/generation.json")):
+            sel = json.loads(gen.read_text(encoding="utf-8")).get("frame_select")
+            if not sel:
+                continue
+            aid = gen.parent.name
+            prov = json.loads((gen.parent / "provenance.json").read_text(encoding="utf-8"))
+            for f in prov["frames"]:
+                clip, direction, n = f["key"].split("/")[-1].rsplit("_", 2)
+                src = sel[clip][int(n)] if clip in sel else int(n)
+                with self.subTest(frame=f["key"]):
+                    self.assertTrue(f["raw_path"].endswith(f"/{clip}/{direction}/frame_{src:03d}.png"), f["raw_path"])
+                    self.assertEqual(f["raw_sha256"], sha(ROOT / f["raw_path"]))
+                    remapped += src != int(n)
+        self.assertGreater(remapped, 0)
+
     def test_profile_counts_and_qa(self):
         manifest = json.loads(ql.DEFAULT_MANIFEST.read_text(encoding="utf-8"))
         palette, outline = ql.load_palette(ql.DEFAULT_PALETTE)

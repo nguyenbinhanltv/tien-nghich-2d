@@ -138,7 +138,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "9a487b717a8e6907a92571bb3a362eff9f1d7765191d3da2a22d51491b29a6d3",
+    "script_sha256": "46984eaf579b341af483035ba8e8261bd1ad5c92736819d33016e5d692c76a64",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
@@ -528,7 +528,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_east_1",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_east_1.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/east/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/east/frame_002.png",
       "raw_sha256": "286b2bf75ea9dec948886834d7d77ca0e51126459a2f383c1d16814a96f9b170",
       "source_xy": [
         40,
@@ -540,7 +540,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_east_2",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_east_2.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/east/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/east/frame_003.png",
       "raw_sha256": "5ab761b75ec2d46b941fd3ec1d005f6886a65e204473ec2f9815e3ad97521818",
       "source_xy": [
         80,
@@ -564,7 +564,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_north_1",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_north_1.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/north/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/north/frame_002.png",
       "raw_sha256": "d62e48c761eadb089a694acaea93fcb378779e1f3e1f9f7f1c3b67e080020057",
       "source_xy": [
         40,
@@ -576,7 +576,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_north_2",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_north_2.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/north/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/north/frame_003.png",
       "raw_sha256": "0aa94f1a7974254d95691432cdc3caa0ac8a35c6700d884a856c66348046a05f",
       "source_xy": [
         80,
@@ -600,7 +600,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_south_1",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_south_1.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/south/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/south/frame_002.png",
       "raw_sha256": "c428a51d5caae472f5ba08ba384728b08931c42ce5062f8fe435007946a4bf47",
       "source_xy": [
         40,
@@ -612,7 +612,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_south_2",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_south_2.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/south/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/south/frame_003.png",
       "raw_sha256": "326905d25e6ffbd72b6c9927390607ebc70853d0d6971e9e2cf71765f5948a47",
       "source_xy": [
         80,
@@ -636,7 +636,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_west_1",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_west_1.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/west/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/west/frame_002.png",
       "raw_sha256": "7c9d7cdf60206f7e5f20600f3381d763bcfa309f6f7eee7c8380e560f25aac01",
       "source_xy": [
         40,
@@ -648,7 +648,7 @@
     {
       "key": "longtime/lt_seam_stalker/telegraph_west_2",
       "path": "assets/processed_longtime/lt_seam_stalker/telegraph_west_2.png",
-      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/west/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_seam_stalker/telegraph/west/frame_003.png",
       "raw_sha256": "3dd6de883661e0dd7f785e40e3fe70649baa025327269889e4de6073493db32a",
       "source_xy": [
         80,

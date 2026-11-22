@@ -247,7 +247,7 @@ def build(aid, raw_root=RAW, out_root=OUT):
         frames.append({
             "key": f"longtime/{aid}/{c}_{d}_{n}",
             "path": f"assets/processed_longtime/{aid}/{c}_{d}_{n}.png",
-            "raw_path": f"assets/raw/longtime/{aid}/{c}/{d}/frame_{n:03d}.png",
+            "raw_path": f"assets/raw/longtime/{aid}/{c}/{d}/{raw_paths[(c, d, n)].name}",  # the selected source, not the output index
             "raw_sha256": sha(raw_paths[(c, d, n)]),
             "source_xy": src_xy[(c, d, n)],
             "duration_ms": prof["clips"][c][1],

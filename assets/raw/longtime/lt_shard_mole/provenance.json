@@ -138,7 +138,7 @@
   ],
   "processing": {
     "script": "tools/scripts/build_longtime_characters.py",
-    "script_sha256": "9a487b717a8e6907a92571bb3a362eff9f1d7765191d3da2a22d51491b29a6d3",
+    "script_sha256": "46984eaf579b341af483035ba8e8261bd1ad5c92736819d33016e5d692c76a64",
     "palette": "tools/generators/palette.json",
     "steps": [
       "centre native canvas on manifest canvas (no scaling, no vertical shift)",
@@ -523,7 +523,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_east_1",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_east_1.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_002.png",
       "raw_sha256": "7cc1e15c837b525acffa3247b8ed0973081578c6f23ee2f5b33bd25ffd540bbe",
       "source_xy": [
         40,
@@ -535,7 +535,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_east_2",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_east_2.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/east/frame_003.png",
       "raw_sha256": "7ba6037a6a55ed3c78042a5341d08c1d86a1e1de43a4c36a0a5cb48a35cd81a9",
       "source_xy": [
         80,
@@ -559,7 +559,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_north_1",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_north_1.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_002.png",
       "raw_sha256": "53592f6b411045f684e77ddc7e9e9f2d1b2b825d8ca53585fc66be1da7ec8b09",
       "source_xy": [
         40,
@@ -571,7 +571,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_north_2",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_north_2.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/north/frame_003.png",
       "raw_sha256": "5f68b18a26219a59c9d2862bcb3d2cfb61ad7aea1a55756f1a845ffc8105fdfd",
       "source_xy": [
         80,
@@ -595,7 +595,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_south_1",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_south_1.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_002.png",
       "raw_sha256": "bdef6558ddeee43edf2183bb0a7c16869901bb0dd8c61473af17226266310ebb",
       "source_xy": [
         40,
@@ -607,7 +607,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_south_2",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_south_2.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/south/frame_003.png",
       "raw_sha256": "89ba3a53153d436c58ed169a000f9f7e0acf354506bf8a73b8dafc66769ef058",
       "source_xy": [
         80,
@@ -631,7 +631,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_west_1",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_west_1.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_001.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_002.png",
       "raw_sha256": "9c5b3c1091849705279dcf2f799d07861f9761390c89b25342342cdbedbdd52f",
       "source_xy": [
         40,
@@ -643,7 +643,7 @@
     {
       "key": "longtime/lt_shard_mole/telegraph_west_2",
       "path": "assets/processed_longtime/lt_shard_mole/telegraph_west_2.png",
-      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_002.png",
+      "raw_path": "assets/raw/longtime/lt_shard_mole/telegraph/west/frame_003.png",
       "raw_sha256": "5dd5555d0562b62826560ef84e9ea3a11d2a7cf8ad979db32e546451c37ec86f",
       "source_xy": [
         80,
