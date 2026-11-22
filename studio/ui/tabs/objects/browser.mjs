@@ -1,5 +1,5 @@
 // The left filter column and the grid of real frames.
-import { h, humanize, imgUrl } from './dom.mjs';
+import { h, humanize, imgUrl, fill } from './dom.mjs';
 import { applyFilters, facetCounts, coverFrame, framesOf, zoomRange } from './model.mjs';
 
 const readiness = ['packed', 'authored', 'planned'];
@@ -27,7 +27,7 @@ export function renderFilters(app, host) {
     return h('label', 'field', h('span', '', label), sel);
   };
   const sourceLabel = id => { const s = ctx.project.sources.find(x => x.id === id); return s ? ctx.label(s.label) : humanize(id); };
-  host.replaceChildren(
+  fill(host, 
     h('section', 'fgroup', h('h2', '', ctx.t('filter.kind')),
       h('nav', {'aria-label': ctx.t('filter.kind')},
         h('a', {class: 'facet' + (!state.kind ? ' on' : ''), href: ctx.href(app.route({kind: null}, {keepAsset: true})), 'aria-current': !state.kind ? 'true' : null},
@@ -65,7 +65,7 @@ export function renderGrid(app, host) {
   const zoom = h('div', 'zoombar', h('label', {for: 'ob-zoom'}, ctx.t('grid.zoom', {zoom: state.zoom})),
     Object.assign(h('input', {id: 'ob-zoom', type: 'range', min: zoomRange[0], max: zoomRange[1], step: 1, value: state.zoom}), {}));
   zoom.lastChild.addEventListener('input', e => app.go({zoom: Number(e.target.value)}, {replace: true, keepAsset: true}));
-  host.replaceChildren(
+  fill(host, 
     h('div', 'gridhead', h('p', {class: 'muted', role: 'status'}, ctx.t('grid.count', {shown: shown.length, total: app.assets.length})), zoom),
     shown.length ? h('div', {class: 'grid', style: `--zoom:${state.zoom}`}, ...shown.map(a => card(app, a, observer))) : h('p', 'muted empty', ctx.t('grid.empty')));
 }

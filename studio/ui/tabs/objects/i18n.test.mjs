@@ -27,3 +27,10 @@ test('dynamic key families are complete', () => {
 test('no hard-coded user-visible text in the modules', () => {
   for (const [file, text] of sources) assert.ok(!/textContent\s*=\s*'[A-Za-z]/.test(text), file);
 });
+
+test('modules never call replaceChildren directly: it would print "null" for an empty slot (use fill)', () => {
+  for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.mjs') && !f.endsWith('.test.mjs') && f !== 'server.mjs')) {
+    const lines = fs.readFileSync(new URL(f, dir), 'utf8').split('\n').filter(l => !l.trim().startsWith('//') && !l.includes('replaceChildren that') && !l.includes('el.replaceChildren(...kids'));
+    assert.ok(!lines.some(l => /\.replaceChildren\(/.test(l)), f);
+  }
+});
