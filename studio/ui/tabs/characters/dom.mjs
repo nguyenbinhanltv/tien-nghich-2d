@@ -14,3 +14,15 @@ export function h(tag, attrs, ...kids) {
 }
 
 export const humanize = id => String(id).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
+
+const tone = {packed: 'ok', approved: 'ok', authored: 'warn', pending: 'warn', changes_requested: 'danger'};
+/** A status label as a shared .chip: `kind` is 'readiness' or 'status', `value` the state; the tone follows the state. */
+export const badge = (kind, value, label) => h('span', {class: `chip ${tone[value] ?? ''} ${kind}-${value}`.replace(/ +/g, ' ')}, label);
+
+/** The empty / error state: a title line, a body and an optional retry button. */
+export const notice = (ctx, {title, body, retry, alert}) => h('div', {class: 'empty', ...(alert ? {role: 'alert'} : {})},
+  title ? h('p', 'empty-title', title) : null, body ? h('p', 'empty-body', body) : null,
+  retry ? h('button', {type: 'button', class: 'btn', onclick: retry}, ctx.t('common.retry')) : null);
+
+/** Placeholder lines while a request is out. */
+export const skeleton = (lines = 4) => h('div', {'aria-hidden': 'true'}, ...Array.from({length: lines}, () => h('span', 'skeleton line')));

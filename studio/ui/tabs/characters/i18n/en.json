@@ -158,5 +158,12 @@
   "export.limit": "Sheets are limited to {mp} megapixels, so this character can be exported at up to {max}×. Pick one clip to go higher.",
   "export.tooLarge": "Even at 1× all clips together exceed the {mp} megapixel limit. Pick one clip.",
   "import.open": "Import a spritesheet…",
-  "timeline.open": "Timeline and drawing tools…"
+  "timeline.open": "Timeline and drawing tools…",
+  "common.retry": "Try again",
+  "roster.filters": "Filters",
+  "roster.back": "All characters",
+  "roster.errorTitle": "The roster did not load",
+  "stage.pickTitle": "No character selected",
+  "stage.errorTitle": "This character did not load",
+  "panel.errorTitle": "This panel did not load"
 }

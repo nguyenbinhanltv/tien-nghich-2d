@@ -1,7 +1,7 @@
 // Characters tab: roster, four-facing turnaround, clip timeline with playback, onion skin, overlays,
 // raw/processed comparison, cross-facing check, card/rig/motion, contact sheet and review controls.
 // Contract: see studio/ui/README.md. Everything this tab owns lives in this directory.
-import { h } from './dom.mjs';
+import { h, notice } from './dom.mjs';
 import { parseRoute as parseState, toRoute, resolveSelection } from './state.mjs';
 import { createImageStore } from './images.mjs';
 import { renderRoster } from './roster.mjs';
@@ -30,6 +30,12 @@ function makeApp(ctx) {
     },
     renderPanel: () => renderPanel(app),
     reload: () => loadDetail(app),
+    async loadRoster() {
+      app.rosterError = null; renderRoster(app);
+      try { app.roster = await ctx.tabApi('roster'); }
+      catch (error) { if (error.name === 'AbortError') return; app.rosterError = error.message; }
+      renderRoster(app);
+    },
     setDraft(pivot) { app.draft = pivot; renderPanel(app); drawCells(app); },
     async savePivot() {
       const {snapshot} = app.editor;
@@ -66,8 +72,9 @@ function makeApp(ctx) {
 async function loadDetail(app) {
   const {ctx, state} = app;
   app.detail = null; app.raw = null; app.draft = null; app.editor.frames = new Map(); app.editor.snapshot = null; app.editor.editable = false;
-  if (!state.id) return;
+  app.stageError = null;
   renderStage(app); renderPanel(app);
+  if (!state.id) return;
   try {
     const query = new URLSearchParams({id: state.id, ...(state.source ? {source: state.source} : {})});
     const [detail, editor] = await Promise.all([ctx.tabApi('asset?' + query),
@@ -79,7 +86,10 @@ async function loadDetail(app) {
     ctx.announce(ctx.t('stage.loaded', {id: detail.id}));
   } catch (error) {
     if (error.name === 'AbortError') return;
-    app.els.stage.replaceChildren(h('p', {class: 'error', role: 'alert'}, error.status === 404 ? ctx.t('stage.unknown', {id: state.id}) : ctx.t('common.error', {message: error.message})));
+    app.stageError = true;
+    app.els.stage.replaceChildren(error.status === 404 ? notice(ctx, {title: ctx.t('stage.errorTitle'), body: ctx.t('stage.unknown', {id: state.id}), alert: true})
+      : notice(ctx, {title: ctx.t('stage.errorTitle'), body: ctx.t('common.error', {message: error.message}), retry: () => loadDetail(app), alert: true}));
+    renderPanel(app);
     return;
   }
   settle(app);
@@ -103,6 +113,13 @@ function settle(app) {
   app.loadSnapshot();
 }
 
+/** Below 900 px the roster and the detail are two views of one column: a selected character shows the detail, none shows the roster. */
+function syncView(app) {
+  const view = app.state.id ? 'detail' : 'list';
+  if (app.els.host.dataset.view !== view && view === 'detail' && matchMedia('(max-width: 900px)').matches) app.els.host.scrollIntoView({block: 'start'});
+  app.els.host.dataset.view = view;
+}
+
 export async function mount(ctx, state) {
   ctx.loadCss(new URL('./characters.css', import.meta.url));
   const app = makeApp(ctx);
@@ -111,13 +128,13 @@ export async function mount(ctx, state) {
   app.els.roster = h('aside', {class: 'roster', 'aria-label': ctx.t('roster.title')});
   app.els.stage = h('section', {class: 'stage', 'aria-label': ctx.t('stage.title')});
   app.els.panel = h('aside', {class: 'panel', 'aria-label': ctx.t('panel.label')});
-  ctx.root.replaceChildren(h('div', 'characters', app.els.roster, app.els.stage, app.els.panel));
+  app.els.back = h('div', 'back-bar', h('button', {type: 'button', class: 'btn quiet', onclick: () => app.navigate({id: null, source: null, clip: null, direction: null, frame: null})}, '← ' + ctx.t('roster.back')));
+  app.els.host = h('div', {class: 'characters ui-kit'}, app.els.roster, app.els.back, app.els.stage, app.els.panel);
+  ctx.root.replaceChildren(app.els.host);
+  syncView(app);
   renderRoster(app); renderStage(app); renderPanel(app);
   ctx.onUnmount(() => { cancelPlayback(app); clearTimeout(app.searchTimer); app.store.forget(); });
-  const loadingRoster = ctx.tabApi('roster').then(roster => { app.roster = roster; renderRoster(app); });
-  await Promise.all([loadingRoster, loadDetail(app)]).catch(error => {
-    if (error.name !== 'AbortError') ctx.root.replaceChildren(h('p', {class: 'error', role: 'alert'}, ctx.t('common.error', {message: error.message})));
-  });
+  await Promise.all([app.loadRoster(), loadDetail(app)]);
 }
 
 export async function update(ctx, state) {
@@ -127,6 +144,7 @@ export async function update(ctx, state) {
   const sameFrame = sameAsset && [state.clip, state.direction, state.frame].join() === [app.state.clip, app.state.direction, app.state.frame].join();
   if (app.play.on && sameAsset) { app.state = state; return; }
   app.state = state;
+  syncView(app);
   renderRoster(app);
   if (!sameAsset) { await loadDetail(app); return; }
   if (!sameFrame) app.draft = null;

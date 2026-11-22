@@ -158,5 +158,12 @@
   "export.limit": "Sheet giới hạn {mp} megapixel nên nhân vật này xuất được tối đa {max}×. Chọn một clip để phóng lớn hơn.",
   "export.tooLarge": "Ngay cả ở 1×, mọi clip gộp lại vẫn vượt giới hạn {mp} megapixel. Hãy chọn một clip.",
   "import.open": "Nhập bảng sprite…",
-  "timeline.open": "Dòng thời gian và trình vẽ ngoài…"
+  "timeline.open": "Dòng thời gian và trình vẽ ngoài…",
+  "common.retry": "Thử lại",
+  "roster.filters": "Bộ lọc",
+  "roster.back": "Tất cả nhân vật",
+  "roster.errorTitle": "Không tải được danh sách",
+  "stage.pickTitle": "Chưa chọn nhân vật",
+  "stage.errorTitle": "Không tải được nhân vật này",
+  "panel.errorTitle": "Không tải được bảng này"
 }

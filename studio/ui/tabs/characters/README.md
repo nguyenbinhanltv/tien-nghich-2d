@@ -48,3 +48,11 @@ Colours, labels and the project name come from the shell (the pack's `ui` sectio
 ## Tests
 
 `node --test 'studio/ui/tabs/characters/*.test.mjs'` (route state, roster filter, selection, durations, playback, cross-facing maths, server and contact sheet). `characters-browser.mjs` (not named `*.test.mjs`, so the command above skips it) is a Playwright script (needs `playwright-core` and Chromium; not part of the baseline).
+
+## Layout and shared components (wave 3B)
+
+The tab's root carries `ui-kit`, so its buttons (`.btn`), segmented controls (`.seg`: raw/processed, frame source, panel tabs), chips (`.chip`: filters, clips, readiness and review status), fields (`.field`), empty and loading states (`.empty`, `.skeleton`) and notices (`.toast`) are the shared components from `studio/ui/components.css`; `characters.css` only lays them out. Status labels come from `badge(kind, value, label)` in `dom.mjs` (class `chip ok|warn|danger readiness-… | status-…`).
+
+Below 900 px the roster and the detail are one column shown one at a time: `.characters[data-view="list"|"detail"]` follows whether a character is selected, and a back button (`.back-bar`) in the detail view returns to the roster (a normal history entry, so the browser's Back does the same). The category chips and the readiness filter collapse behind a "Filters" button. Names and ids are cut with an ellipsis and carry a `title` tooltip. The roster and the detail each show a skeleton while loading; a failed request shows an error state with a retry button.
+
+The review block is `section.block.human.decision[data-slot="decision"]`: the place the fixed decision bar (wave 5A) will take over. Its behaviour (human only, revision-checked) is unchanged.

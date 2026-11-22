@@ -34,21 +34,21 @@ export async function openImporter(ctx, {assetId, onDone}) {
 
   const st = {bytes: null, image: null, sheet: null, zoom: 2, result: null, busy: false, error: null, checked: '', timer: 0, done: null};
   const vals = {w: nw, h: nh, ox: 0, oy: 0, sx: 0, sy: 0, skip: 0, count: '', clip: clips[0], direction: info.directions[0], mode: 'replace'};
-  const dlg = h('dialog', {class: 'imp', 'aria-labelledby': 'imp-title'});
+  const dlg = h('dialog', {class: 'imp ui-kit', 'aria-labelledby': 'imp-title'});
   const canvas = h('canvas', {class: 'imp-canvas', 'aria-label': tr('canvas')});
   const status = h('p', {class: 'imp-status', role: 'status'});
   const report = h('div', 'imp-report');
   const grid = {};
 
   const num = (key, label, min = 0) => {
-    const input = h('input', {type: 'number', id: 'imp-' + key, min, step: 1, value: vals[key], inputmode: 'numeric'});
+    const input = h('input', {type: 'number', class: 'field', id: 'imp-' + key, min, step: 1, value: vals[key], inputmode: 'numeric'});
     input.addEventListener('input', () => { vals[key] = input.value === '' ? '' : Number(input.value); changed(); });
-    return h('label', {for: 'imp-' + key, class: 'imp-field'}, h('span', '', label), input);
+    return h('label', {for: 'imp-' + key, class: 'imp-field'}, h('span', 'field-label', label), input);
   };
   const select = (key, label, options, show = o => o) => {
-    const sel = h('select', {id: 'imp-' + key}, ...options.map(o => h('option', {value: o, ...(o === vals[key] ? {selected: true} : {})}, show(o))));
+    const sel = h('select', {class: 'field', id: 'imp-' + key}, ...options.map(o => h('option', {value: o, ...(o === vals[key] ? {selected: true} : {})}, show(o))));
     sel.addEventListener('change', () => { vals[key] = sel.value; changed(); });
-    return h('label', {for: 'imp-' + key, class: 'imp-field'}, h('span', '', label), sel);
+    return h('label', {for: 'imp-' + key, class: 'imp-field'}, h('span', 'field-label', label), sel);
   };
 
   const spec = () => ({sheetW: st.image?.width, sheetH: st.image?.height, cellW: vals.w, cellH: vals.h, offsetX: vals.ox, offsetY: vals.oy, spacingX: vals.sx, spacingY: vals.sy});
@@ -130,10 +130,10 @@ export async function openImporter(ctx, {assetId, onDone}) {
   function renderReport() {
     const kids = [];
     const r = st.result && st.checked === keyOf() ? st.result : null;
-    if (st.error) kids.push(h('p', {role: 'alert', class: 'imp-error'}, st.error));
-    if (st.done) kids.push(h('p', {role: 'status', class: 'imp-done'}, tr('done', {n: st.done.frames.filter(f => f.action === 'new' || f.action === 'revision').length})), h('p', 'muted', tr('doneNote')));
+    if (st.error) kids.push(h('p', {role: 'alert', class: 'toast danger imp-error'}, st.error));
+    if (st.done) kids.push(h('p', {role: 'status', class: 'toast ok imp-done'}, tr('done', {n: st.done.frames.filter(f => f.action === 'new' || f.action === 'revision').length})), h('p', 'muted', tr('doneNote')));
     else if (r) {
-      for (const reason of r.refused) kids.push(h('p', {role: 'alert', class: 'imp-error'}, reason.message));
+      for (const reason of r.refused) kids.push(h('p', {role: 'alert', class: 'toast danger imp-error'}, reason.message));
       if (r.offer) kids.push(h('p', 'imp-offer', tr('offer'), ' ', h('span', 'muted', r.offer.pixelise)));
       if (r.frames.length) kids.push(h('ul', 'imp-frames', ...r.frames.map(f => h('li', {class: 'imp-' + f.action},
         thumb(f), h('div', '', h('code', '', f.name), h('span', {class: 'imp-badge'}, tr('action.' + f.action)),
@@ -152,7 +152,7 @@ export async function openImporter(ctx, {assetId, onDone}) {
     if (st.sheet && !grid.error) st.timer = setTimeout(check, 350);
   }
 
-  const file = h('input', {type: 'file', id: 'imp-file', accept: 'image/png'});
+  const file = h('input', {type: 'file', class: 'field', id: 'imp-file', accept: 'image/png'});
   file.addEventListener('change', async () => {
     const f = file.files[0];
     if (!f) return;
@@ -165,9 +165,9 @@ export async function openImporter(ctx, {assetId, onDone}) {
     if (st.image) fit();
     changed();
   });
-  const zoomInput = h('input', {type: 'number', id: 'imp-zoom', min: 1, max: 8, step: 1, value: st.zoom});
+  const zoomInput = h('input', {type: 'number', class: 'field', id: 'imp-zoom', min: 1, max: 8, step: 1, value: st.zoom});
   zoomInput.addEventListener('input', () => { st.zoom = Math.max(1, Math.min(8, Math.round(Number(zoomInput.value)) || 1)); draw(); });
-  const importBtn = h('button', {type: 'button', class: 'plain primary', disabled: true}, tr('import'));
+  const importBtn = h('button', {type: 'button', class: 'btn primary', disabled: true}, tr('import'));
   importBtn.addEventListener('click', doImport);
   const modes = h('fieldset', 'imp-modes', h('legend', '', tr('mode')), ...['replace', 'append'].map(m => {
     const input = h('input', {type: 'radio', name: 'imp-mode', id: 'imp-mode-' + m, value: m, ...(vals.mode === m ? {checked: true} : {})});
@@ -182,7 +182,7 @@ export async function openImporter(ctx, {assetId, onDone}) {
   updateExisting();
 
   dlg.append(
-    h('header', 'imp-head', h('h2', {id: 'imp-title'}, tr('title', {id: assetId})), h('button', {type: 'button', class: 'plain', onclick: () => dlg.close(), 'aria-label': tr('close')}, '×')),
+    h('header', 'imp-head', h('h2', {id: 'imp-title'}, tr('title', {id: assetId})), h('button', {type: 'button', class: 'btn quiet', onclick: () => dlg.close(), 'aria-label': tr('close')}, '×')),
     h('div', 'imp-body',
       h('div', 'imp-left', h('div', 'imp-pick', h('label', {for: 'imp-file'}, tr('file')), file,
         h('label', {for: 'imp-zoom', class: 'imp-zoomlabel'}, tr('zoom'), zoomInput)), h('div', 'imp-stage', canvas), status),
@@ -190,7 +190,7 @@ export async function openImporter(ctx, {assetId, onDone}) {
         h('fieldset', 'imp-cells', h('legend', '', tr('cells', {w: nw, h: nh})), h('div', 'imp-grid', num('w', tr('cellW'), 1), num('h', tr('cellH'), 1), num('ox', tr('offsetX')), num('oy', tr('offsetY')), num('sx', tr('spacingX')), num('sy', tr('spacingY')),
           num('skip', tr('skip')), num('count', tr('count'), 1))),
         h('fieldset', 'imp-target', h('legend', '', tr('target')), h('div', 'imp-grid', clipSel, dirSel), existing), modes, report)),
-    h('footer', 'imp-foot', h('button', {type: 'button', class: 'plain', onclick: () => check()}, tr('check')), importBtn, h('button', {type: 'button', class: 'plain', onclick: () => dlg.close()}, tr('close'))));
+    h('footer', 'imp-foot', h('button', {type: 'button', class: 'btn', onclick: () => check()}, tr('check')), importBtn, h('button', {type: 'button', class: 'btn', onclick: () => dlg.close()}, tr('close'))));
   dlg.addEventListener('close', () => { clearTimeout(st.timer); dlg.remove(); });
   ctx.root.append(dlg); // inside the tab's own element, which the shell empties when the tab goes away
   layoutGrid(); renderStatus(); renderReport();
@@ -202,13 +202,13 @@ export async function openImporter(ctx, {assetId, onDone}) {
 /** The tab's entry point: a button that opens the dialog for one asset. `label` is the tab's own translated text. */
 export function importButton(ctx, {assetId, label, onDone}) {
   const message = h('span', {class: 'imp-open-error', role: 'alert'});
-  const button = h('button', {type: 'button', class: 'plain imp-open'}, label);
+  const button = h('button', {type: 'button', class: 'btn imp-open'}, label);
   button.addEventListener('click', async () => {
-    message.textContent = '';
+    message.textContent = ''; message.className = 'imp-open-error';
     button.disabled = true;
     try { const dlg = await openImporter(ctx, {assetId, onDone}); dlg.addEventListener('close', () => button.focus()); }
-    catch (error) { if (error.name !== 'AbortError') message.textContent = error.message; }
+    catch (error) { if (error.name !== 'AbortError') { message.textContent = error.message; message.className = 'toast danger imp-open-error'; } }
     button.disabled = false;
   });
-  return h('span', 'imp-entry', button, message);
+  return h('span', 'imp-entry ui-kit', button, message);
 }
