@@ -1,0 +1,136 @@
+{
+  "tool": "PixelLab MCP (character tools only)",
+  "creator": "Claude Code (claude-sonnet-5-5) worker session tien-nghich-2d-26 (lane B, mist_archive), 2026-11-22; operator tien-nghich-2d-26",
+  "method": "create_character_pro_flash (32x32 native, low top-down, custom template, 8 views, 40-colour palette, seed 7) then animate_character v3 per direction (keep_first_frame=false, palette passed; canvases come back 36-44 px and are centred on 32 by the build script). All four facings are separate PixelLab generations; nothing is mirrored. Diagonal direction_prompts keys are required by the tool and were filled with 'unused diagonal: ...' placeholders; no diagonal was generated.",
+  "pixellab_character_id": "36c0c170-ebe5-4049-a5ea-fdabfb5eacf3",
+  "character_job_id": "37aee9a1-0371-418b-a321-a05dc30c50b5",
+  "palette_passed": "tools/generators/palette.json (40 hex, via palette argument)",
+  "prompt": "Small ink leech, a fat slug-like segmented worm creeping low on the ground, glossy ink-black body with pale cream-white ring bands across its back, a round toothed sucker mouth at the front with a few small cream fangs, a bright vermilion dot on its head, a dripping ink-blot puddle at its tail end. 3/4 top-down, chunky pixel art, 1px dark outline, light from top-left.",
+  "animations": {
+    "idle": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2
+      ],
+      "animation_group_id": "645b8576-7d4e-4a44-ab57-fc9466b1ed91",
+      "job_ids": {
+        "south": "8eb0abf3-b351-4872-ad37-24a35a90cef1",
+        "west": "79e1f9e2-168e-4589-8ab2-591abe231900",
+        "north": "b217ad3c-a0d8-4e9a-9f88-4d47a1661d3e",
+        "east": "0fec2e39-82ed-4f05-8c72-32e25d18c49c"
+      },
+      "action_description": "rests low on the ground, the segmented body pulses slowly with a gentle swell and shrink, the sucker mouth opens slightly, the red dot on the head stays visible",
+      "direction_prompts": {
+        "south": "head toward the viewer, body pulses slowly, mouth opens slightly",
+        "west": "head toward the left, body pulses slowly, mouth opens slightly, tail on the right",
+        "north": "seen from behind, body pulses slowly",
+        "east": "head toward the right, body pulses slowly, mouth opens slightly, tail on the left"
+      }
+    },
+    "walk": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "0baaa4e6-3f60-4b17-8f67-27bf3213bfbc",
+      "job_ids": {
+        "south": "3775c8ba-fffb-4105-af22-56c31e9d910a",
+        "west": "8d41e51f-e942-4e11-8602-9f1dacec5cf7",
+        "north": "dddc12bf-81a9-42a4-a2ee-f8aae208269c",
+        "east": "9beeb82b-fc85-4fc6-9cc5-d72434cd371f"
+      },
+      "action_description": "inches forward in a looping crawl, the body bunches up then stretches out segment by segment, head leads, red dot stays visible, no effects",
+      "direction_prompts": {
+        "south": "crawls toward the viewer, body bunches then stretches, stays compact",
+        "west": "crawls to the left, body bunches then stretches, tail trails on the right",
+        "north": "crawls away from the viewer, seen from behind, body bunches then stretches",
+        "east": "crawls to the right, body bunches then stretches, tail trails on the left"
+      }
+    },
+    "telegraph": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        2,
+        3
+      ],
+      "animation_group_id": "033bdb1d-0572-4bad-bb33-db3e164553d2",
+      "job_ids": {
+        "south": "1398413b-346a-4f7a-80c2-c71c1b4d133d",
+        "west": "3f1f8528-3937-4037-bf9b-8887e9d4bf3b",
+        "north": "dd63b458-5d1b-488a-b3f3-2e678ab59f01",
+        "east": "afcd617e-baa2-4e00-9191-d67e561092d5"
+      },
+      "action_description": "rears its front third up off the ground and swells, the sucker mouth opens wide showing small fangs, the body coils back ready to lunge, no effects",
+      "direction_prompts": {
+        "south": "head toward the viewer, rears up and swells, mouth opens wide, coils back",
+        "west": "head toward the left, rears up and swells, mouth opens wide, coils back, tail on the right",
+        "north": "seen from behind, rears up and swells, coils back",
+        "east": "head toward the right, rears up and swells, mouth opens wide, coils back, tail on the left"
+      }
+    },
+    "strike": {
+      "mode": "v3",
+      "frame_count": 4,
+      "keep_first_frame": false,
+      "frames_kept": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "animation_group_id": "016301c0-584c-48ef-9876-ee2d62150721",
+      "job_ids": {
+        "south": "e5fc348c-d159-4777-8790-72b154015851",
+        "west": "e5164d91-e946-4427-ae45-aecc81668e96",
+        "north": "d65a0285-f6fe-4067-a307-07f146156d5a",
+        "east": "faaf52d6-6623-4beb-bf9e-dfc7aa1eb3e7"
+      },
+      "action_description": "lunges forward with its whole body stretched long and bites with the open sucker mouth, then recoils and contracts back, no effects",
+      "direction_prompts": {
+        "south": "head toward the viewer, lunges toward the viewer and bites, then recoils, stays compact",
+        "west": "head toward the left, lunges to the left and bites, then recoils, tail on the right",
+        "north": "seen from behind, lunges forward away from the viewer, then recoils",
+        "east": "head toward the right, lunges to the right and bites, then recoils, tail on the left"
+      }
+    }
+  },
+  "frame_count_note": "The mob profile wants 3 frames for idle and telegraph but PixelLab v3 only returns even counts (min 4). Idle: 4 generated, last dropped. Telegraph: 4 generated, frame 1 dropped (kept 0, 2, 3, renumbered 0-2). The raw folder holds the kept frames only.",
+  "attempts": [
+    {
+      "n": 1,
+      "what": "create_character_pro_flash 32x32, custom template (no limbs, no skeleton), seed 7, palette locked",
+      "credits": 6,
+      "result": "accepted: banded ink leech with red dot and sucker mouth reads on all four facings"
+    },
+    {
+      "n": 2,
+      "what": "idle, walk, telegraph, strike x 4 directions, first take",
+      "credits": 16,
+      "result": "all accepted; no clip-direction needed a regeneration"
+    }
+  ],
+  "credits_spent": {
+    "character": 6,
+    "animations_first_take": 16,
+    "regenerations": 0,
+    "total_generations": 22
+  },
+  "known_flaws": [
+    "a very dark ink body on the dark outline gives low internal contrast at 1x; the cream ring bands and the teal head carry the read",
+    "the south and north views are near-symmetric blobs; the red dot is visible only from the front and sides",
+    "the custom template has no skeleton, so walk is a v3 bunch-and-stretch, not a template gait",
+    "the spec's ink-blot puddle at the tail was not preserved as a separate shape; the tail curls into a dark hook instead"
+  ]
+}
