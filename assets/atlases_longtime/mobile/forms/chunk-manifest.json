@@ -1,0 +1,29 @@
+{
+  "asset_ids": [
+    "lt_ashen_crown",
+    "lt_ink_veil",
+    "lt_river_oath",
+    "lt_star_vessel"
+  ],
+  "chunk_group": "forms",
+  "frame_count": 288,
+  "mobile_page_budget": 2,
+  "page_count": 1,
+  "pages": [
+    {
+      "frames": 288,
+      "height": 512,
+      "image": "atlas-0.png",
+      "json": "atlas-0.json",
+      "json_sha256": "392e89b068b6b2b8ba62a3e13a6a0543aafe1e7f9381ce00cb918250038e255e",
+      "png_sha256": "b42ac2dcd5b19b6151aa2c27a03ed4a9da7f9a5247fe25617b9bfe6a19f8cee3",
+      "rgba8_bytes": 2097152,
+      "width": 1024
+    }
+  ],
+  "platform": "mobile",
+  "readiness": "packed",
+  "rgba8_bytes": 2097152,
+  "rgba8_mib": 2.0,
+  "schema": "tien-nghich-2d.longtime-chunk-atlas"
+}

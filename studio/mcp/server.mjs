@@ -18,8 +18,13 @@ import { validate } from './schema.mjs';
 
 export const SERVER_INFO = Object.freeze({ name: 'tien-nghich-2d-studio', title: 'Tien Nghich 2D Studio', version: '0.1.0' });
 const INSTRUCTIONS =
-  'Asset studio for Tien Nghich 2D. Call studio_project_info first for the palette, size classes, rules and frame-key templates. ' +
+  'Asset studio for Tien Nghich 2D. Call studio_project_info first for the palette, size classes, rules and frame-key templates, and studio_guide for the shortest correct tool sequence of a task. ' +
   'Only a human approves art or signs audio listening; no tool here can do either.';
+/** The server's own text plus the project's pixel-art rules, which live in the project pack (agentGuidance.rules), not in this code. */
+const instructionsFor = (project) => {
+  const rules = project?.agentGuidance?.()?.rules;
+  return rules?.length ? `${INSTRUCTIONS}\n\nProject rules:\n${rules.map((r) => `- ${r}`).join('\n')}` : INSTRUCTIONS;
+};
 
 const cleanName = (v) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 64) : '');
 
@@ -128,7 +133,7 @@ export class McpServer {
       protocolVersion,
       capabilities: { tools: { listChanged: false } },
       serverInfo: SERVER_INFO,
-      instructions: INSTRUCTIONS,
+      instructions: instructionsFor(this.project),
     };
   }
 
@@ -139,7 +144,7 @@ export class McpServer {
       resultType: 'complete',
       supportedVersions: [...MODERN_VERSIONS],
       capabilities: { tools: {} },
-      instructions: INSTRUCTIONS,
+      instructions: instructionsFor(this.project),
       ttlMs: 60_000,
       cacheScope: 'private',
       _meta: { [META_SERVER_INFO]: SERVER_INFO },
