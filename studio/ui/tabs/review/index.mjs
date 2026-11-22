@@ -97,7 +97,7 @@ function artRecordsView(ctx, records) {
   return h('section', {class: 'artrec', 'aria-label': ctx.t('artrec.title')}, h('h3', '', ctx.t('artrec.title')), h('p', 'muted', ctx.t('artrec.intro')),
     h('ul', 'rows', ...records.map(r => h('li', '', h('div', 'row artrow',
       h('span', 'rtext', h('b', '', r.assetId), h('small', 'muted', ctx.t('artrec.line', {by: r.approvedBy, date: r.recorded ? r.recorded.slice(0, 10) : ctx.t('approval.noDate'), id: r.approvalId})),
-        h('small', r.current ? 'muted' : 'note', r.current ? ctx.t('artrec.current', {n: r.frames}) : ctx.t('artrec.changed', {changed: r.changed + r.missing + r.rawChanged, n: r.frames}))),
+        h('small', r.current ? 'muted' : 'note', r.current ? ctx.t('artrec.current', {n: r.frames}) : ctx.t('artrec.changed', {changed: r.changed + r.missing + r.rawChanged + (r.added ?? 0), n: r.frames}))),
       h('span', 'badge s-' + (r.current ? 'approved' : 'pending'), ctx.t(r.current ? 'artrec.badge' : 'artrec.badgeStale')))))));
 }
 

@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { createHasher } from './hashes.mjs';
 import { parseArtApprovals, evaluateArtApproval, readArtApprovals, artApprovalsFile } from './art-approvals.mjs';
 
 const repo = fileURLToPath(new URL('../../../../', import.meta.url));
@@ -42,4 +43,26 @@ test('the project record covers the six effects and the two characters, byte for
   assert.equal(records.filter(r => r.assetId.startsWith('lt_fx_')).reduce((n, r) => n + r.frames, 0), 188, 'all 188 effect frames');
   assert.equal(byAsset.lt_kiln_keeper.frames, 32);
   assert.ok(fs.existsSync(path.join(repo, 'assets/review', artApprovalsFile)));
+});
+
+test('a frame ADDED to an approved asset breaks coverage even though every recorded hash still matches', async () => {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'artrec-'));
+  fs.mkdirSync(path.join(root, 'f')); fs.writeFileSync(path.join(root, 'f/a_0.png'), 'one'); fs.writeFileSync(path.join(root, 'f/notes.txt'), 'ignored');
+  const rec = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {a: {frame_dir: 'f', frames: {'g/a/a_0': sha('one')}}}}]})[0];
+  assert.equal((await evaluateArtApproval(root, rec)).current, true);
+  fs.writeFileSync(path.join(root, 'f/a_1.png'), 'new');
+  const e = await evaluateArtApproval(root, rec);
+  assert.deepEqual([e.current, e.matching, e.changed, e.added, e.addedFiles], [false, 1, 0, 1, ['a_1.png']]);
+});
+
+test('a hasher keeps its own entries: a big scan on one cannot evict another', async () => {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'hasher-'));
+  for (let i = 0; i < 12; i++) fs.writeFileSync(path.join(root, i + '.bin'), String(i));
+  const audio = createHasher(4), art = createHasher(1024);
+  await audio(root, '0.bin');
+  for (let i = 0; i < 12; i++) await art(root, i + '.bin');
+  assert.equal(audio.size(), 1, 'the audio hasher still holds its master');
+  assert.equal(art.size(), 12);
+  for (let i = 1; i < 12; i++) await audio(root, i + '.bin');
+  assert.equal(audio.size(), 4, 'and each is still bounded');
 });

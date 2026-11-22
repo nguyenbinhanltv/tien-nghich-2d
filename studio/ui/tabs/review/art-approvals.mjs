@@ -8,7 +8,12 @@
 //
 // A frame is covered only while its file still hashes to the recorded sha256; anything else is `changed` or `missing`.
 import { readJsonIfExists } from '../../../core/files.mjs';
-import { hashOf } from './hashes.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createHasher } from './hashes.mjs';
+
+// its own cache: the record covers hundreds of frames and must not push the audio masters out of theirs
+const hashOf = createHasher(1024);
 
 export const artApprovalsFile = 'art_approvals.json';
 const str = (v, n) => (typeof v === 'string' ? v.slice(0, n) : undefined);
@@ -44,11 +49,15 @@ export async function evaluateArtApproval(root, rec) {
     const now = await hashOf(root, file).catch(() => null);
     if (now === null) { missing++; changedKeys.push(key); } else if (now === expected) ok++; else { changed++; changedKeys.push(key); }
   }
+  // a frame added to the asset's directory is not covered either: compare the inventory with the record
+  const known = new Set(rec.frames.map(([k]) => `${k.split('/').at(-1)}.png`));
+  const added = (await fs.readdir(path.join(root, rec.frameDir)).catch(() => [])).filter(f => f.endsWith('.png') && !known.has(f)).sort();
   let rawChanged = 0;
   for (const [file, expected] of rec.rawFiles) if ((await hashOf(root, file).catch(() => null)) !== expected) rawChanged++;
   return {assetId: rec.assetId, approvalId: rec.approvalId, approvedBy: rec.approvedBy, kind: rec.kind, scope: rec.scope, covers: rec.covers, recorded: rec.recorded,
     recordedBy: rec.recordedBy, evidence: rec.evidence, frames: rec.frames.length, matching: ok, changed, missing, rawFiles: rec.rawFiles.length, rawChanged,
-    current: changed === 0 && missing === 0 && rawChanged === 0, changedKeys: changedKeys.slice(0, 20)};
+    added: added.length, addedFiles: added.slice(0, 20),
+    current: changed === 0 && missing === 0 && rawChanged === 0 && added.length === 0, changedKeys: changedKeys.slice(0, 20)};
 }
 
 export async function readArtApprovals(root, dir) {

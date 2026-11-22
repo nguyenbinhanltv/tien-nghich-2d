@@ -110,7 +110,7 @@
   "artrec.intro": "Một người đã duyệt trong chat, rồi được ghi vào assets/review/art_approvals.json theo đúng từng byte. Khung nào đổi thì không còn được phủ.",
   "artrec.line": "{by} · {date} · {id}",
   "artrec.current": "cả {n} khung khớp với bản đã duyệt",
-  "artrec.changed": "{changed} trên {n} khung (hoặc tệp thô) đã đổi sau khi duyệt: không còn được phủ, cần xem lại",
+  "artrec.changed": "{changed} trên {n} khung (hoặc tệp thô) đã đổi hoặc được thêm sau khi duyệt: không còn được phủ, cần xem lại",
   "artrec.badge": "đã duyệt theo ghi chép",
   "artrec.badgeStale": "đã đổi sau khi duyệt"
 }
