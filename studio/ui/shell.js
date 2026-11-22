@@ -3,7 +3,7 @@
 import { destinations } from './destinations.mjs';
 import { parseHash, formatHash, hubTab } from './router.mjs';
 import { translator, localize, pickLanguage, storageKey, loadTable } from './i18n.mjs';
-import { createPalette } from './palette.mjs';
+import { createPalette, createCheatSheet, isTyping, loadRecents, saveRecents, pushRecent, loadZoom, nextZoom, zoomKey, nextPending } from './palette.mjs';
 import { crumbParts } from './crumbs.mjs';
 import * as placeholder from './tabs/_placeholder/index.mjs';
 
@@ -52,7 +52,7 @@ const closeGlyph = ['##....##', '###..###', '.######.', '..####..', '..####..', 
 
 // With no project open (the server was started without one) the shell has only the Projects screen: this stands in for the project info.
 const noProject = () => ({id: null, name: '', brand: {mark: 'PK'}, languages: ['en', 'vi'], theme: {}, categoryTabs: {}, tools: [], tabConfig: {}, sources: [], tabs: [], palette: {name: '', colors: 0}});
-const state = {hubOnly: false, project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null};
+const state = {hubOnly: false, project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null, cheat: null, recents: [], zoom: null};
 const loadedCss = new Set();
 const projectsGlyph = ['########', '#......#', '#.####.#', '#.#..#.#', '#.####.#', '#.#..#.#', '#......#', '########'];
 
@@ -87,8 +87,9 @@ function renderChrome() {
   nav.setAttribute('aria-label', t('nav.label'));
   nav.replaceChildren(...(state.hubOnly ? [] : destinations).map((d, i) => {
     const built = project.tabs.find(x => x.id === d.id)?.built;
-    return h('a', {href: formatHash({tab: d.id}), class: 'rail-link', 'data-tab': d.id, 'data-built': String(Boolean(built)), title: t('nav.' + d.id) + ' (' + (i + 1) + ')'},
+    return h('a', {href: formatHash({tab: d.id}), class: 'rail-link', 'data-tab': d.id, 'data-built': String(Boolean(built)), title: t('nav.' + d.id) + ' (g ' + (i + 1) + ')'},
       h('span', {class: 'rail-glyph'}, glyphSvg(d.glyph)), h('span', {class: 'rail-label'}, t('nav.' + d.id)),
+      h('kbd', {class: 'rail-key', 'aria-hidden': 'true'}, 'g ' + (i + 1)),
       built ? '' : h('span', {class: 'rail-soon', 'aria-hidden': 'true'}));
   }));
   if (state.hubOnly) nav.append(h('a', {href: formatHash({tab: hubTab}), class: 'rail-link', 'data-tab': hubTab, 'data-built': 'true'}, h('span', {class: 'rail-glyph'}, glyphSvg(projectsGlyph)), h('span', {class: 'rail-label'}, t('nav.projects'))));
@@ -179,7 +180,7 @@ function makeContext(id, root, tabTable, controller, cleanups) {
     tabApi: (path, options) => fetchJson(`/api/tabs/${id}/` + path, {signal: controller.signal, ...options}),
     href: partial => formatHash(partial), navigate, loadCss, announce,
     categoryTab: category => state.project.categoryTabs[category] ?? 'overview',
-    hasProject: !state.hubOnly, reloadProject,
+    hasProject: !state.hubOnly, reloadProject, defaultZoom: state.zoom,
     onUnmount: fn => cleanups.push(fn)
   };
 }
@@ -234,7 +235,12 @@ async function route() {
   // A new address ends whatever overlay the old one had open: the command palette never survives a route change.
   const paletteWasOpen = Boolean(state.palette?.isOpen());
   state.palette?.close(false);
+  state.cheat?.close(false);
   state.route = parsed;
+  if (!state.hubOnly && parsed.asset && parsed.tab !== hubTab) {
+    state.recents = pushRecent(state.recents, {tab: parsed.tab, asset: parsed.asset, source: parsed.params.source});
+    saveRecents(state.project.id, state.recents);
+  }
   markActive();
   renderCrumbs();
   await mountRoute();
@@ -255,6 +261,58 @@ function railKeys(event) {
   links[to].focus();
 }
 
+// ---- Command-palette actions and the keyboard cheat-sheet. Everything here navigates or sets a preference: nothing decides or approves. ----
+const isMac = () => /Mac|iPhone|iPad/.test(navigator.platform);
+
+function paletteActions() {
+  const langs = state.project.languages, next = langs[(langs.indexOf(state.lang) + 1) % langs.length];
+  const zoom = nextZoom(state.zoom);
+  const list = [
+    {id: 'next-pending', title: t('actions.nextPending'), hint: t('actions.nextPendingHint'), run: openNextPending},
+    {id: 'zoom', title: t('actions.zoom', {zoom}), hint: t('actions.zoomNow', {zoom: state.zoom ? state.zoom + '×' : t('actions.zoomUnset')}), run: () => setZoom(zoom)}
+  ];
+  if (langs.length > 1) list.push({id: 'language', title: t('actions.language', {lang: next.toUpperCase()}), hint: t('actions.languageNow', {lang: state.lang.toUpperCase()}), run: () => setLanguage(next)});
+  if (state.route?.asset) list.push({id: 'copy-id', title: t('actions.copyId'), hint: state.route.asset, run: () => copyAssetId(state.route.asset)});
+  list.push({id: 'projects', title: t('actions.projects'), hint: t('actions.projectsHint'), run: () => navigate({tab: hubTab})});
+  list.push({id: 'shortcuts', title: t('actions.shortcuts'), hint: '?', run: () => setTimeout(() => state.cheat.open(), 0)});   // after the palette's own focus hand-off, so Esc returns to the content
+  return list;
+}
+
+/** Opens the next inbox item that waits for a human. It only navigates: the decision is made by a person, in the Review tab. */
+async function openNextPending() {
+  try {
+    const {items} = await fetchJson('/api/tabs/review/inbox');
+    const item = nextPending(items, state.route?.tab === 'review' ? state.route.params.key : null);
+    if (!item) { announce(t('actions.noPending')); return; }
+    navigate({tab: 'review', asset: item.assetId, params: {key: item.key}});
+  } catch { announce(t('actions.pendingError')); }
+}
+
+function setZoom(zoom) {
+  state.zoom = zoom;
+  try { localStorage.setItem(zoomKey, String(zoom)); } catch { /* private mode: the choice just is not remembered */ }
+  announce(t('actions.zoomSet', {zoom}));
+}
+
+async function copyAssetId(id) {
+  try { await navigator.clipboard.writeText(id); announce(t('actions.copied', {id})); }
+  catch { announce(t('actions.copyFailed')); }
+}
+
+/** A tab may export `shortcuts = [{keys: ['['], label: 'its.i18n.key'}]` to list its own keys here; see README. */
+function cheatSections() {
+  const mac = isMac();
+  const general = {title: t('keys.general'), rows: [
+    {keys: [mac ? '⌘' : 'Ctrl', 'K'], label: t('keys.palette')},
+    {keys: ['?'], label: t('keys.sheet')},
+    ...(state.hubOnly ? [] : [{keys: ['g', '1–' + destinations.length], label: t('keys.go')}]),
+    {keys: ['Esc'], label: t('keys.esc')}]};
+  const active = state.active, declared = Array.isArray(active?.mod.shortcuts) ? active.mod.shortcuts : [];
+  const rows = declared.filter(x => x && Array.isArray(x.keys) && x.keys.length && typeof x.label === 'string')
+    .map(x => ({keys: x.keys.map(String), label: active.ctx.t(x.label)}));
+  return [general, {title: t('nav.' + (state.route?.tab ?? 'overview')), rows, empty: t('keys.noTab')}];
+}
+
 async function boot() {
   try { state.project = await fetchJson('/api/studio/project'); }
   catch (error) {
@@ -270,7 +328,10 @@ async function boot() {
   try { stored = localStorage.getItem(storageKey); } catch { stored = null; }
   state.lang = pickLanguage(project.languages, stored, navigator.languages ?? []);
   state.shell = await loadTable(fetchJson, './ui/i18n', project.languages);
-  if (!state.hubOnly) state.palette = createPalette({project, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }, afterChoose: () => $('main').focus({preventScroll: true})});
+  state.zoom = loadZoom();
+  state.recents = loadRecents(project.id);
+  state.cheat = createCheatSheet({t, getSections: cheatSections, fallbackFocus: () => $('main')});
+  if (!state.hubOnly) state.palette = createPalette({project, actions: paletteActions, getRecents: () => state.recents, getLang: () => state.lang, t, fetchJson, navigate: (r) => navigate(r), goTool: tool => { location.href = tool.href; }, afterChoose: () => $('main').focus({preventScroll: true})});
   renderChrome();
   $('nav').addEventListener('keydown', railKeys);
   $('rail-scrim').addEventListener('click', () => setRail(false));
@@ -278,8 +339,15 @@ async function boot() {
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && railOpen() && !state.palette?.isOpen()) { event.preventDefault(); setRail(false); } });
   narrow.addEventListener('change', () => { if (!narrow.matches) setRail(false, {restoreFocus: false}); });
   window.addEventListener('hashchange', route);
+  // `?` opens the cheat-sheet from anywhere that is not a text field; the palette and the sheet have their own keys while open.
+  document.addEventListener('keydown', event => {
+    if (event.key === '?' && !event.metaKey && !event.ctrlKey && !event.altKey && !isTyping(document.activeElement) && !state.palette?.isOpen() && !state.cheat.isOpen()) {
+      event.preventDefault();
+      state.cheat.open();
+    }
+  });
   if (!state.hubOnly) document.addEventListener('keydown', event => {
-    if (event.key === 'g' && !event.metaKey && !event.ctrlKey && !event.altKey && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName ?? '')) {
+    if (event.key === 'g' && !event.metaKey && !event.ctrlKey && !event.altKey && !isTyping(document.activeElement) && !state.palette?.isOpen() && !state.cheat.isOpen()) {
       const once = e => { const n = Number(e.key); if (n >= 1 && n <= destinations.length) { e.preventDefault(); navigate({tab: destinations[n - 1].id}); } document.removeEventListener('keydown', once, true); };
       document.addEventListener('keydown', once, true);
       setTimeout(() => document.removeEventListener('keydown', once, true), 1200);

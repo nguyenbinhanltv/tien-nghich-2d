@@ -74,6 +74,22 @@ Rules: touch only `ctx.root` (and `document` listeners you remove in `unmount`/`
 
 If `mount` throws, the shell shows an error panel with a retry button and keeps the rest of the studio working.
 
+## Keyboard shortcuts and the cheat-sheet (lane 4D)
+
+The shell owns the global keys: `⌘K` / `Ctrl K` opens the command palette, `?` opens the cheat-sheet (Esc closes it and focus goes back to where it was), and `g` then `1`–`9` jumps to a destination (the hint is shown beside each rail item). All of them are ignored while focus is in an `input`, `textarea`, `select` or `contenteditable` element, so a tab never has to guard against typing. The palette also has an Actions group (open the next item awaiting review, recent assets, default zoom, language, copy the open asset's id, open another project). None of them decides or approves anything: "next item" only navigates, and a person decides in the Review tab.
+
+A tab lists its own keys in the cheat-sheet by exporting a plain array from `index.mjs`. The tab still handles the keys itself (use `isTyping` from `../../palette.mjs`, or the same rule: skip input, textarea, select, contenteditable and any modifier key); the list is documentation shown to the person.
+
+```js
+// Optional. `keys` are shown one <kbd> each; `label` is a key in the tab's own i18n files (EN and VI).
+export const shortcuts = [
+  {keys: ['['], label: 'keys.prev'},
+  {keys: [']'], label: 'keys.next'}
+];
+```
+
+The default zoom chosen in the palette is stored in `localStorage` (`studio.zoom`, one of 1, 2, 3, 4, 6, 8) and passed to a tab as `ctx.defaultZoom` (a number, or `null` when never set). A tab may use it as the starting zoom when the URL has no `zoom`; none does yet.
+
 ## Review standing: what a tab may say about a frame
 
 A frame's review state is never "approved" by default. The store reports revision 0 of a frame nobody judged in the studio by the project's records (`studio/core/standing.mjs`): **approved** only when `directories.approvals/art_approvals.json` holds the sha256 of exactly these bytes, **baseline, no review record** when the pack's `review.baseline` (a per-directory digest record written by `node studio/baseline.mjs --write`) still covers it, and **awaiting review** (`pending`) otherwise, which is also what a pack with no `review` block gives for everything. A human verdict in the revision store wins over all three; a later revision is always `pending`. A tab shows `snap.status` as the store returns it (`status.baseline` and `status.pending` strings exist in EN and VI) and must not derive an approval of its own.
