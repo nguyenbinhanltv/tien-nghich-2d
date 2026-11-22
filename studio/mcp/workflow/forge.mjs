@@ -50,6 +50,19 @@ export async function writeDoc(ws, asset, name, doc) {
   return { rel, sha256: sha256(text) };
 }
 
+/** Read, change and write a tracked document under its lock, so concurrent edits of different fields both survive. */
+export async function updateDoc(ws, asset, name, change) {
+  const rel = docRel(asset, name);
+  await ensureDirInside(ws.root, forgeDir(asset));
+  return withLock(path.join(ws.root, rel), async () => {
+    const next = change(await readDoc(ws, asset, name));
+    const text = JSON.stringify(next, null, 2) + '\n';
+    if (text.length > MAX_DOC_BYTES) throw new ToolError(`${name} document is ${text.length} bytes; the limit is ${MAX_DOC_BYTES}`);
+    await writeFileAtomic(path.join(ws.root, rel), text);
+    return { rel, sha256: sha256(text) };
+  });
+}
+
 /** Store a drawn sheet by content hash. Written once; identical content is a no-op. */
 export async function storeSheet(ws, asset, bytes) {
   const hash = sha256(bytes);
@@ -86,11 +99,11 @@ export async function importedFor(ws, asset, settings) {
 }
 
 /** Import, then pixelise with the stored marks. */
-export async function pixelizedFor(ws, asset, settings) {
+export async function pixelizedFor(ws, asset, settings, { poseClips } = {}) {
   const base = await importedFor(ws, asset, settings);
   if (!base) throw new ToolError(`${asset.id} has no imported sheet. Call studio_sheet_import first.`);
   const processDoc = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
-  const pixelized = pixelizeImport(base.imported, settings, { marks: resolveMarks(processDoc.marks ?? [], settings.palette), hold: processDoc.hold });
+  const pixelized = pixelizeImport(base.imported, settings, { marks: resolveMarks(processDoc.marks ?? [], settings.palette), hold: processDoc.hold, poseClips: poseClips ?? (await readDoc(ws, asset, 'poseclips')) ?? undefined });
   return { ...base, processDoc, pixelized };
 }
 

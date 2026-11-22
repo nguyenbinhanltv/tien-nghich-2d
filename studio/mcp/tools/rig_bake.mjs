@@ -51,7 +51,7 @@ export default {
       if (!rig && !poseClips) throw new ToolError('Give rig (for rig clips) and/or poseClips (for clips built from drawn key poses). studio_template_get shows which fits each clip.');
       if (rig) { const issues = validateRig(rig, { palette }); if (issues.length) throw new ToolError(`the rig is invalid:\n  ${issues.join('\n  ')}`); }
 
-      const { doc, pixelized } = await pixelizedFor(ws, asset, settings);
+      const { doc, pixelized } = await pixelizedFor(ws, asset, settings, { poseClips });
       if (poseClips) {
         const table = clipTable({ clips: settings.profile.clips });
         const issues = validatePoseClips(poseClips, { table, layerIds: new Set(pixelized.cells.keys()), palette });

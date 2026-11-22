@@ -17,7 +17,7 @@ const help = {
   import: ['cut a drawn sheet into cleaned cells with landmarks, prompt and SHA-256',
     '--layout layout.json --sheet sheet.png --out dir [--prompt file | --prompt-text s] [--project root --profile name] [--scale-mode cell|facing|sheet] [--ground-lift n] [--margin n] [--fixed-scale scales.json]'],
   pixelise: ['reduce cells to native size on the project palette (alias: pixelize); writes <cell>.png, indexed/<cell>.png, pixelize.json',
-    '--import dir --out dir --project root --profile name [--marks marks.json] [--hold on|off] [--hold-margin n] [--hold-metric rgb|redmean] [--hold-search n] [--pose-order a,b,c]'],
+    '--import dir --out dir --project root --profile name [--marks marks.json] [--hold on|off] [--hold-margin n] [--hold-metric rgb|redmean] [--hold-search n] [--poses poseclips.json | --pose-order a,b,c]'],
   bake: ['rig bake and pose-sheet clips, patches, then the gates; exit 2 on a gate error',
     '--pixelize dir --out dir --project root --profile name [--rig rig.json] [--poses poseclips.json] [--pose-rig rig.json] [--patch patch.json] [--library lib.json] [--clips a,b] [--qa gates.json]'],
   gates: ['run the animation gates again on a bake directory (alias: qa)',
@@ -118,7 +118,7 @@ const commands = {
     if (!settings) throw new Error('missing --profile');
     const imported = await readImport(need(opts, 'import'));
     const marks = resolveMarks(opts.marks ? await readJson(opts.marks) : [], settings.palette);
-    const result = pixelizeImport(imported, settings, {marks, hold: holdOf(opts), order: opts['pose-order']?.split(',')});
+    const result = pixelizeImport(imported, settings, {marks, hold: holdOf(opts), order: opts['pose-order']?.split(','), poseClips: await optionalJson(opts.poses)});
     await writePixelized(need(opts, 'out'), result, {protect: [path.join(opts.import, 'import.json')]});
     const warned = result.record.cells.filter(c => c.warnings.length);
     console.log(`pixelise ${result.record.profile.name}: ${result.cells.size} sprites at ${result.record.profile.nativePx.join('x')} -> ${opts.out}`);
@@ -170,7 +170,7 @@ const commands = {
       project: {root: path.resolve(opts.project ?? '.'), profile: opts.profile},
       layout: await readJson(need(opts, 'layout')), sheet: {bytes, source: sheetFile},
       prompt: opts.prompt ? await fs.readFile(opts.prompt, 'utf8') : opts['prompt-text'] ?? '',
-      marks: await optionalJson(opts.marks), scaleOptions: scaleOptionsOf(opts), hold: holdOf(opts),
+      marks: await optionalJson(opts.marks), scaleOptions: scaleOptionsOf(opts), hold: holdOf(opts), poseOrder: opts['pose-order']?.split(','),
       rig: await optionalJson(opts.rig), poseRig: await optionalJson(opts['pose-rig']), poseClips: await optionalJson(opts.poses),
       patch: await optionalJson(opts.patch), library: await optionalJson(opts.library), clips: opts.clips?.split(','),
       qa: await optionalJson(opts.qa), out: need(opts, 'out'),

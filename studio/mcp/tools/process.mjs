@@ -1,6 +1,6 @@
 import { sha256 } from '../../core/fsutil.mjs';
 import { ToolError } from '../registry.mjs';
-import { readDoc, forgeCall, pixelizedFor, settingsFor, writeDoc } from '../workflow/forge.mjs';
+import { forgeCall, pixelizedFor, settingsFor, updateDoc } from '../workflow/forge.mjs';
 import { cellsOfPixelized, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { resolveMarks } from '../../forge/index.mjs';
 import { backgroundProp, inlineOrJob, loadAsset, requireFrames } from './_shared.mjs';
@@ -73,9 +73,8 @@ export default {
       const { settings } = await settingsFor(snap, ws, asset);
       if (args.marks !== undefined || args.hold !== undefined) {
         if (args.marks !== undefined) resolveMarks(args.marks, settings.palette); // refuse bad marks before storing them
-        const stored = (await readDoc(ws, asset, 'process')) ?? { marks: [] };
-        await writeDoc(ws, asset, 'process', { ...stored, ...(args.marks !== undefined ? { marks: args.marks } : {}),
-          ...(args.hold !== undefined ? { hold: args.hold ? true : false } : {}), by: ctx.caller.agent, at: new Date().toISOString() });
+        await updateDoc(ws, asset, 'process', (stored) => ({ ...(stored ?? { marks: [] }), ...(args.marks !== undefined ? { marks: args.marks } : {}),
+          ...(args.hold !== undefined ? { hold: Boolean(args.hold) } : {}), by: ctx.caller.agent, at: new Date().toISOString() }));
       }
       const { doc, pixelized, processDoc } = await pixelizedFor(ws, asset, settings);
       log(`pixelised ${pixelized.cells.size} cell(s) of ${doc.layout.id}`);

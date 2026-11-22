@@ -165,7 +165,7 @@ export async function readBakeDir(dir) {
 
 /**
  * Import a drawn sheet and run the rest of the pipeline on it.
- * input: {project: {root, profile} | {settings, palette}, layout, sheet: {bytes} | {image, bytes?}, prompt, marks, hold (false = off; an object overlays the pack's forge.pixelize.hold), poseOrder,
+ * input: {project: {root, profile} | {settings, palette}, layout, sheet: {bytes} | {image, bytes?}, prompt, marks, hold (false = off; an object overlays the pack's forge.pixelize.hold; held across each pose clip's own keys and loop flag), poseOrder (only when no poseClips),
  *   scaleOptions, rig, poseRig, poseClips, library, patch, clips, edgeSafe, qa (gate options), out}
  * Nothing here throws for a bad input: project loading ("project"), "import", "pixelize", "bake", "gates" and the output
  * step ("write") are stages, and a failing one ends the run with {ok: false, failed: <stage>, error}. A finished run is
@@ -218,7 +218,7 @@ async function execute(input, summary, artifacts, fail) {
   const importWarnings = imported.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));
   summary.stages.import = {ok: true, record: imported.value.record, warnings: importWarnings};
 
-  const pixelized = run('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette), hold: input.hold, order: input.poseOrder}));
+  const pixelized = run('pixelize', () => pixelizeImport(imported.value, settings, {marks: resolveMarks(input.marks ?? [], settings.palette), hold: input.hold, order: input.poseOrder, poseClips: input.poseClips}));
   if (!pixelized.ok) return;
   artifacts.pixelized = pixelized.value;
   const warnings = pixelized.value.record.cells.filter(c => c.warnings.length).map(c => ({cell: c.id, warnings: c.warnings}));

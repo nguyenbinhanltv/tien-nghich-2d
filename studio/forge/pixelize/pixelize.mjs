@@ -4,7 +4,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { blit, boundsOf, boxDownscale, createImage, decodePng, encodePng, rebuildOutline, resizeBox, roundHalfEven, sha256, snapPalette, thresholdAlpha } from '../image.mjs';
-import { resolveHold, snapHeld } from './hold.mjs';
+import { resolveHold, sequencesOf, snapHeld } from './hold.mjs';
 import { assertCellId, assertNoOverwrite, defaultScaleOptions, normalizeEntries, normalizeScale } from '../sheet/import.mjs';
 
 export const pixelizeSchema = 'forge.pixelize';
@@ -30,7 +30,7 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions,
   const reserved = [...(outline.color ? [outline.color] : []), ...marks.map(m => m.rgb)];
   const ordinary = palette.colors.map(c => c.rgb).filter(rgb => !reserved.some(r => sameRgb(r, rgb)));
   // `hold` (a resolved spec) and `previous` (the earlier frame's indexed layer) make the snap sequence-aware; without them it is the plain nearest colour.
-  const held = hold && previous ? snapHeld(sampled, ordinary, previous, hold) : null;
+  const held = hold ? snapHeld(sampled, ordinary, previous, hold) : null;
   const indexed = held ? held.image : snapPalette(sampled, ordinary);
   const markPixels = marks.map(() => 0);
   const d = sampled.pixels;
@@ -79,7 +79,7 @@ export function pixelizeCell(entry, figure, settings, {marks = [], scaleOptions,
 }
 
 /** Pixelise every cell of an import ({record, cells}); returns {record, cells: Map id -> {indexed, native}}. */
-export function pixelizeImport(imported, settings, {marks = [], scaleOptions, hold, order} = {}) {
+export function pixelizeImport(imported, settings, {marks = [], scaleOptions, hold, order, sequences, poseClips} = {}) {
   const cells = new Map(), infos = [];
   // A recorded fit belongs to the profile and scale options the import ran with. It is reused only when both
   // match (options given here overlay the recorded ones key by key); otherwise every cell is fitted again for this profile.
@@ -91,24 +91,43 @@ export function pixelizeImport(imported, settings, {marks = [], scaleOptions, ho
   const spec = resolveHold(hold, settings.hold);
   const done = new Map();
   const run = (entry, previous, sequence = true) => pixelizeCell(entry, imported.cells.get(entry.id), settings, {marks, scaleOptions: wanted, hold: sequence ? spec : null, previous});
-  if (!spec) for (const entry of fitted) done.set(entry.id, run(entry, null, false));
-  else {
-    // A sequence is the poses of one facing, in the layout's order (or `order`). Cells without a pose, and facings with one pose, are not sequences.
-    const groups = new Map();
-    for (const entry of fitted) if (entry.pose !== undefined && entry.pose !== null) groups.set(entry.facing ?? '', [...(groups.get(entry.facing ?? '') ?? []), entry]);
-    for (const entry of fitted) if (!groups.has(entry.facing ?? '') || entry.pose == null || groups.get(entry.facing ?? '').length < 2) done.set(entry.id, run(entry, null, false));
-    for (const list of groups.values()) {
-      if (list.length < 2) continue;
-      if (order) list.sort((a, b) => order.indexOf(a.pose) - order.indexOf(b.pose));
-      // Laps: the loop closes, so the first frame is snapped again with the last as its predecessor; only the final lap is kept.
-      let previous = null;
-      for (let lap = 0; lap < spec.laps; lap++) for (const entry of list) {
-        const r = run(entry, previous);
-        previous = r.indexed;
-        done.set(entry.id, r);
+  if (spec) {
+    // Units to hold across: [{ids: cell ids in playing order, loop}]. Explicit `sequences` (or `poseClips`, which carry each clip's
+    // keys and loop flag) win; else `order` names one looping sequence; else the poses of each facing in layout order, looping.
+    const byId = new Map(fitted.map(e => [e.id, e]));
+    const units = [];
+    const given = sequences ?? (poseClips ? sequencesOf(poseClips) : null);
+    if (given) {
+      const facingsOf = new Set(fitted.map(e => e.facing).filter(f => f != null));
+      for (const q of given) for (const f of q.facings ?? [...facingsOf]) {
+        const ids = q.keys.map(k => `${k}_${f}`);
+        if (ids.length > 1 && ids.every(id => byId.has(id))) units.push({ids, loop: q.loop !== false});
+      }
+    } else {
+      const groups = new Map();
+      for (const e of fitted) if (e.pose != null) groups.set(e.facing ?? '', [...(groups.get(e.facing ?? '') ?? []), e]);
+      for (const list of groups.values()) {
+        if (order) list.sort((a, b) => order.indexOf(a.pose) - order.indexOf(b.pose));
+        if (list.length > 1) units.push({ids: list.map(e => e.id), loop: true});
       }
     }
+    // A cell belongs to the first unit that names it. A unit's later cells that an earlier unit already fixed are skipped.
+    const taken = new Set();
+    for (const {ids, loop} of units) {
+      const mine = ids.filter(id => !taken.has(id));
+      if (mine.length < 2) continue;
+      // Laps: a loop closes, so the first frame is snapped again with the last as its predecessor; only the final lap is kept.
+      let previous = null;
+      for (let lap = 0; lap < (loop ? spec.laps : 1); lap++) for (const id of ids) {
+        if (taken.has(id)) { previous = done.get(id).indexed; continue; }
+        const r = run(byId.get(id), previous);
+        previous = r.indexed;
+        done.set(id, r);
+      }
+      mine.forEach(id => taken.add(id));
+    }
   }
+  for (const entry of fitted) if (!done.has(entry.id)) done.set(entry.id, run(entry, null, false));
   for (const entry of fitted) {
     const {indexed, native, info} = done.get(entry.id);
     cells.set(entry.id, {indexed, native});

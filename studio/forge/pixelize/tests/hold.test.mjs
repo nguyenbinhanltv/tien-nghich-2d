@@ -78,14 +78,14 @@ test('resolveHold: off, defaults from the pack, overrides, and nothing assumed i
 // A pose sheet: two facings, three poses whose body colour wanders across the midpoint of two palette entries.
 const poses = ['a', 'b', 'c'], facings = ['front', 'side'];
 const hexRgb = id => { const hex = palette.colors.find(c => c.id === id).hex; return [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)); };
-async function build() {
+async function build(ts = [0.42, 0.58, 0.46]) {
   const dir = await makeProject({clips: {walk: [3, 100]}});
   const pack = await loadPack(dir), settings = await settingsFromPack(pack, dir, 'critter');
   const layout = turnaroundLayout({id: 'hold', facings, poses, size: [900, 1200], heightPx: 26});
   const sheet = renderTemplate(layout);
   layout.cells.forEach((cell, i) => {
     // The body colour sits near the midpoint of two palette entries and wanders across it from pose to pose.
-    const t = [0.42, 0.58, 0.46][poses.indexOf(cell.pose)], from = hexRgb('clay'), to = hexRgb('moss');
+    const t = ts[poses.indexOf(cell.pose)], from = hexRgb('clay'), to = hexRgb('moss');
     drawFigure(sheet, layout, cell.id, {width: 120, height: 160, body: from.map((v, k) => Math.round(v + (to[k] - v) * t)), head: hexRgb('rose')});
   });
   const bytes = Buffer.from(encodePng(sheet));
@@ -148,4 +148,41 @@ test('runPipeline reports the hold per frame, and hold: false switches it off', 
   assert.deepEqual(Object.keys(on.hold.heldPerFrame).sort(), tpl.cells.map(c => c.id).sort());
   assert.ok(Object.values(on.hold.heldPerFrame).some(n => n > 0));
   assert.equal(off.hold, undefined);
+});
+
+test('redmean picks the nearest entry by redmean, on the first frame too, and rgb output is unchanged', () => {
+  // Source [100,100,100]: rgb prefers [100,113,100]; redmean prefers [115,100,100].
+  const G = [100, 113, 100], R = [115, 100, 100], src = frame([100, 100, 100]);
+  assert.deepEqual(px(snapHeld(src, [G, R], null, {margin: 0, metric: 'rgb'}).image), [...G, 255]);
+  assert.deepEqual(px(snapHeld(src, [G, R], null, {margin: 0, metric: 'redmean'}).image), [...R, 255]);
+  assert.deepEqual(px(snapHeld(src, [G, R], frame(G), {margin: 0, metric: 'redmean'}).image), [...R, 255], 'margin 0 never holds a farther entry');
+  assert.deepEqual(px(snapHeld(src, [G, R], null, {margin: 0}).image), px(snapPalette(src, [G, R])), 'rgb is the plain snap');
+});
+
+test('the hold follows each clip: unrelated poses are untouched and a one-shot does not wrap', async t => {
+  // Body colour between clay and moss: a is just on the clay side, b just on the moss side, c clearly moss.
+  const {dir, settings, imported} = await build([0.45, 0.55, 0.7]);
+  t.after(() => fs.rm(dir, {recursive: true, force: true}));
+  const D = Math.hypot(...hexRgb('clay').map((v, k) => v - hexRgb('moss')[k]));
+  const withHold = {...settings, hold: {margin: 0.15 * D, laps: 2}};
+  const clip = (keys, loop) => ({schema: 'forge.poseclips', version: 1, clips: {walk: {keys, facings, loop}}});
+  const sig = (r, id) => Buffer.from(encodePng(r.cells.get(id).native)).toString('base64');
+  const ab = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b'], true)});
+  assert.equal(ab.record.cells.find(c => c.id === 'c_front').held, undefined, 'a pose outside every clip is not held');
+  const plain = pixelizeImport(imported, withHold, {hold: false});
+  assert.equal(sig(ab, 'c_front'), sig(plain, 'c_front'), 'and is snapped exactly as before');
+  // a and b do not depend on c unless the clip plays it.
+  const abc = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b', 'c'], true)});
+  const abcOnce = pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b', 'c'], false)});
+  assert.notEqual(sig(abc, 'a_front'), sig(abcOnce, 'a_front'), 'a loop closes onto its first key; a one-shot does not');
+  assert.equal(sig(abcOnce, 'a_front'), sig(pixelizeImport(imported, withHold, {poseClips: clip(['a', 'b'], false)}), 'a_front'), 'the first key of a one-shot ignores later keys');
+  assert.equal(abcOnce.record.cells.find(c => c.id === 'a_front').held, 0);
+  // Playing order: c first.
+  assert.equal(pixelizeImport(imported, withHold, {poseClips: clip(['c', 'b', 'a'], false)}).record.cells.find(c => c.id === 'c_front').held, 0);
+});
+
+test('run forwards --pose-order and pixelise forwards --poses', async () => {
+  const src = await fs.readFile(new URL('../../cli.mjs', import.meta.url), 'utf8');
+  assert.match(src, /poseOrder: opts\['pose-order'\]/);
+  assert.match(src, /order: opts\['pose-order'\]\?\.split\(','\), poseClips: await optionalJson\(opts\.poses\)/);
 });

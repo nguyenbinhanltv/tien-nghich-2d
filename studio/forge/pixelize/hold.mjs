@@ -34,6 +34,31 @@ export function resolveHold(spec, defaults) {
 }
 
 const chroma = c => Math.max(c[0], c[1], c[2]) - Math.min(c[0], c[1], c[2]);
+/** Nearest palette entry per opaque pixel under an arbitrary distance (first entry wins ties); alpha untouched. */
+function snapNearest(img, colors, dist) {
+  const out = cloneImage(img), d = out.pixels, cache = new Map();
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue;
+    const key = (d[i] << 16) | (d[i + 1] << 8) | d[i + 2];
+    let hit = cache.get(key);
+    if (!hit) {
+      let best = Infinity;
+      for (const c of colors) { const e = dist([d[i], d[i + 1], d[i + 2]], c); if (e < best) { best = e; hit = c; } }
+      cache.set(key, hit);
+    }
+    d[i] = hit[0]; d[i + 1] = hit[1]; d[i + 2] = hit[2];
+  }
+  return out;
+}
+
+/**
+ * The hold sequences of a forge.poseclips document: [{clip, keys, facings|null, loop}]. `facings` null means every facing that
+ * has a cell for every key. `loop` follows the clip's own setting (default true).
+ */
+export function sequencesOf(poseClips) {
+  return Object.entries(poseClips?.clips ?? {}).map(([clip, spec]) => ({clip, keys: Array.isArray(spec.keys) ? spec.keys : [], facings: spec.facings ?? null, loop: spec.loop ?? true}));
+}
+
 const keyOf = (r, g, b) => (r << 16) | (g << 8) | b;
 
 /**
@@ -43,7 +68,7 @@ const keyOf = (r, g, b) => (r << 16) | (g << 8) | b;
  * Returns {image, held, offset}: `held` counts pixels whose entry differs from the plain nearest-colour choice.
  */
 export function snapHeld(img, colors, previous, {margin, metric = 'rgb', search = 0, maxChromaGain = null} = {}) {
-  const plain = snapPalette(img, colors);
+  const plain = metric === 'rgb' ? snapPalette(img, colors) : snapNearest(img, colors, metrics[metric]);
   if (!previous || previous.width !== img.width || previous.height !== img.height) return {image: plain, held: 0, offset: [0, 0]};
   const dist = metrics[metric], {width, height} = img;
   const inPalette = new Set(colors.map(c => keyOf(c[0], c[1], c[2])));
