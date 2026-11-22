@@ -31,8 +31,8 @@ export function coreEffect(entry, descriptor, sourceLabel, readiness) {
 }
 
 const clipExt = '.png';
-/** One Longtime effect (manifest entry) as the tab's effect shape; frame paths follow `pathTemplate`. */
-export function longtimeEffect(entry, {sourceLabel, readiness, pathTemplate, existing}) {
+/** One design-manifest effect (manifest entry) as the tab's effect shape; frame paths follow `pathTemplate`. */
+export function designEffect(entry, {sourceLabel, readiness, pathTemplate, existing}) {
   const variants = Object.entries(entry.palettes ?? {}).map(([id, v]) => ({id, ramps: v.ramps ?? [], uses: v.uses ?? []}));
   const clips = Object.entries(entry.clips ?? {}).map(([id, c]) => {
     const paths = {};
@@ -45,7 +45,7 @@ export function longtimeEffect(entry, {sourceLabel, readiness, pathTemplate, exi
       events: (entry.events ?? []).filter(e => e[1] === id).map(e => ({name: e[0], frame: e[2]}))};
   });
   return {
-    id: entry.id, source: 'longtime', sourceLabel, group: 'longtime', readiness, chunk: entry.chunk_group ?? null,
+    id: entry.id, source: 'design', sourceLabel, group: 'design', readiness, chunk: entry.chunk_group ?? null,
     size: entry.native_px, anchor: entry.pivot_px, loop: entry.loop === 'loop', fps: null, sheet: null, descriptor: null,
     variants, clips, related: entry.related ?? [], event: entry.event ?? null, reads: entry.reads ?? null,
     acceptance: entry.acceptance ?? null, modes: entry.modes ?? []
@@ -93,7 +93,7 @@ export function frameMetrics(frames) {
   return {opaquePct: pct, colors: colors.size};
 }
 
-/** Check a clip's measured series against a Longtime `acceptance` block. Each check says measured, limit and pass. */
+/** Check a clip's measured series against a design-manifest `acceptance` block. Each check says measured, limit and pass. */
 export function checkAcceptance(metrics, acceptance) {
   if (!acceptance || !metrics.opaquePct.length) return [];
   const s = metrics.opaquePct, first = s[0], last = s[s.length - 1], peak = Math.max(...s);
@@ -125,7 +125,7 @@ const tableRows = (text, heading) => {
 
 /**
  * The self-scoring tables the generators' authors recorded. Core: "| id | v1 | v4 | audit v1 → v4 |" with scores
- * "originality/read/consistency/wow". Longtime: "| id | read | total | weakness |". Returns Map id → record.
+ * "originality/read/consistency/wow". Design effects: "| id | read | total | weakness |". Returns Map id → record.
  * Aura rows are written for a family ("breakthrough_aura ×4") and fanned out to its members.
  */
 export function parseCoreRubric(text, ids) {
@@ -141,7 +141,7 @@ export function parseCoreRubric(text, ids) {
   return out;
 }
 
-export function parseLongtimeSelfScores(text, ids) {
+export function parseDesignSelfScores(text, ids) {
   const out = new Map();
   const rows = tableRows(String(text), /^### 8\.4/).slice(1);
   for (const r of rows) {

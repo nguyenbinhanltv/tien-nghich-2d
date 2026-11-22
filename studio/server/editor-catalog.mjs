@@ -7,14 +7,14 @@ import { loadPack, loadEditableCatalog, createStanding, problem } from '../../st
 
 export { problem };
 
-const packRoot = fileURLToPath(new URL('../../', import.meta.url));
+export const packRoot = fileURLToPath(new URL('../../', import.meta.url));
 
-export async function loadCatalog(root) {
-  return loadEditableCatalog(await loadPack(packRoot, undefined, {verifyFiles: false}), root);
+export async function loadCatalog(root, packDir = packRoot) {
+  return loadEditableCatalog(await loadPack(packDir, undefined, {verifyFiles: false}), root);
 }
 
 /** Review standing resolver for the project data directory: which frames a human record or the pack's baseline covers. */
-export async function loadStanding(root) {
-  const pack = await loadPack(packRoot, undefined, {verifyFiles: false});
+export async function loadStanding(root, packDir = packRoot) {
+  const pack = await loadPack(packDir, undefined, {verifyFiles: false});
   return createStanding(await fs.realpath(root), {review: pack.review, approvalsDir: pack.directories.approvals});
 }

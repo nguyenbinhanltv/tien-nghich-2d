@@ -65,7 +65,7 @@ export function auditPanel(ctx, ev, clip, variant) {
       h('tbody', '', ...c.checks.map(k => h('tr', {class: k.pass ? 'pass' : 'fail'}, h('td', '', ctx.t('audit.check.' + k.id)), h('td', '', k.measured), h('td', '', k.limit), h('td', '', k.pass ? ctx.t('audit.pass') : ctx.t('audit.fail')))))));
     else computed.append(h('p', 'vx-note', ctx.t('audit.noThresholds')));
   }
-  const checks = ev.group === 'longtime' && ev.recorded.acceptance?.readability_1x;
+  const checks = ev.group === 'design' && ev.recorded.acceptance?.readability_1x;
   return h('div', 'vx-sec', recorded, computed,
     checks && h('div', 'vx-block', h('h4', '', ctx.t('audit.criteria')), h('ul', '', ...checks.map(t => h('li', '', t)))));
 }

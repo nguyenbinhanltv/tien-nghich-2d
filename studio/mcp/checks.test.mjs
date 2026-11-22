@@ -19,7 +19,7 @@ test('qa_run: shipped frames pass every check; partial raw work passes with warn
   const kk = await ok('studio_qa_run', { assetId: 'lt_kiln_keeper' });
   assert.equal(kk.stage, 'processed');
   assert.equal(kk.pass, true);
-  assert.deepEqual(kk.summary, { frames: 32, expected: 32, errors: 0, warnings: 0, framesWithErrors: 0, rawStage: false });
+  assert.deepEqual(kk.summary, { frames: 32, expected: 32, errors: 0, warnings: 0, framesWithErrors: 0, rawStage: false, pixelErrors: 0, pixelWarnings: 0, assetErrors: 0, assetWarnings: 0 });
   assert.deepEqual(Object.values(kk.checks).map((c) => c.pass), [true, true, true, true, true, true]);
   assert.deepEqual(Object.keys(kk.checks), ['palette', 'alpha', 'outline', 'size', 'frameCount', 'naming']);
 

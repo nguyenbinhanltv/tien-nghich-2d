@@ -7,6 +7,8 @@ import { callDir, shown } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
 import { framesOf, harvestPngs, sameOutput } from '../workflow/toolchain.mjs';
 import { backgroundProp, inlineOrJob, jsonResult, loadAsset, requireFrames } from './_shared.mjs';
+import { check, envelope, sha } from '../workflow/envelope.mjs';
+import { requireNotStopped } from '../workflow/stop.mjs';
 
 export default {
   name: 'studio_generator_run',
@@ -38,6 +40,7 @@ export default {
   async handler(args, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, args.assetId);
     requireFrames(asset);
+    if (args.submit) await requireNotStopped(ws, asset, snap.pack);   // stop policy
     const spec = generatorOf(snap.pack, args.generator);
     const { values, seed } = resolveParams(spec, args.params ?? {}, args.seed);
     const adapters = snap.pack.adapters;
@@ -72,6 +75,12 @@ export default {
         files: first.harvest.files.map((f) => ({ name: f.name, sha256: f.sha256, bytes: f.bytes.length })), unmapped, skipped: first.harvest.skipped,
         defects: view.structured.defects, ms: first.ms, workDir: shown(ws, base), ...view.structured,
       };
+      out.qa = envelope({ method: `ran the registered generator ${args.generator} twice in scratch and gated the frames`,
+        checks: [check('deterministic', { ok: deterministic, measured: deterministic, threshold: true, detail: 'two runs, byte-identical output' }),
+          check('pixelGates', { ok: view.structured.defects.errors === 0, warn: view.structured.defects.warnings > 0, measured: view.structured.defects, threshold: { errors: 0 } }),
+          check('namedAsFrames', { ok: unmapped.length === 0, measured: unmapped.length, threshold: 0, detail: 'every output PNG is named <clip>_<direction>_<n>' })],
+        notProven: [{ what: 'that the picture is good', why: 'a human reviews the art' }],
+        inputs: { script: scriptHash, params: sha({ values, seed }), output: sha(first.harvest.files.map((f) => f.sha256).join(',')) } });
       if (!deterministic) out.warning = 'Two runs with the same arguments gave different bytes: the generator is not deterministic, so its frames cannot be committed.';
       if (args.submit) {
         if (!deterministic) return { content: view.content, structuredContent: { ...out, submit: { accepted: false, message: out.warning } }, isError: true };

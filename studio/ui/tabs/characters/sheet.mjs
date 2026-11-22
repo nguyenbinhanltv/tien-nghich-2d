@@ -9,7 +9,7 @@ export { layoutSheet, largestScale, maxSheetPixels };
 
 const upper = text => [...text.toUpperCase()].map(ch => canDraw(ch) ? ch : '-').join('');
 
-export async function contactSheet({root, frames, facings, scale, clip, title, background = '#14101a', foreground = '#d4d0d8'}) {
+export async function contactSheet({root, frames, facings, scale, clip, title, background = '#202020', foreground = '#d0d0d0'}) {
   // Size the sheet from the first frame and refuse before decoding or allocating anything large.
   const first = decodePng(await readInside(root, frames[0].path));
   const size = [first.width, first.height];

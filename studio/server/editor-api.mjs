@@ -74,8 +74,8 @@ function exportFrame({key,revision,pngBase64,metadata,width:w,height:h}) {
   const image='/api/editor/image?'+new URLSearchParams({key,revision});
   return {key,revision,pngBase64,metadata,atlas:{frames:{[key]:entry},meta:{image,format:'RGBA8888',size:{w,h},scale:'1'}}};
 }
-export function editorApi(root,dir) {
-  const store=revisionStore(root,dir);
+export function editorApi(root,dir,packDir) {
+  const store=revisionStore(root,dir,packDir);
   let catalog, standing;
   return {close:store.close,async handle(req,res,url,address) {
     if (!url.pathname.startsWith('/api/editor/')) return false;
@@ -94,7 +94,7 @@ export function editorApi(root,dir) {
       if (params.length!==new Set(params).size) invalid('Repeated query field');
       const args=write?await body(req):Object.fromEntries(url.searchParams);
       fields(args,actions[action]);
-      catalog ??= loadCatalog(root).catch(error=>{catalog=undefined;throw error;});
+      catalog ??= loadCatalog(root,packDir).catch(error=>{catalog=undefined;throw error;});
       const library=await catalog;
       if (action==='frames') send(200,{frames:[...library.frames.values()].map(f=>f.info)
         .filter(f=>(args.assetId===undefined||f.assetId===args.assetId)&&(args.category===undefined||f.category===args.category))});
@@ -111,7 +111,7 @@ export function editorApi(root,dir) {
         const needsOrigin = action === 'review' && args.status === 'approved';
         const baseline=store.needsBaseline(args.key) || needsOrigin ? await library.baseline(frame) : null;
         // How revision 0 reads when nobody judged it here: approved by a hash-tied record, baseline, or awaiting review.
-        standing ??= loadStanding(root).catch(error=>{standing=undefined;throw error;});
+        standing ??= loadStanding(root,packDir).catch(error=>{standing=undefined;throw error;});
         const {standing:state,png:standingPng}=await (await standing).judged(frame.processed);
         const snap=store.operate({...frame,standing:state,standingPng},baseline,action,args);
         if (action==='image') send(200,Buffer.from(snap.pngBase64,'base64'),'image/png');
