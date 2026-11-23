@@ -13,7 +13,7 @@ import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
-import { attachRun } from '../../meta/flow.ts';
+import { attachRun, canRestartRun } from '../../meta/flow.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
@@ -81,10 +81,14 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** Run mode: the fight reached a result (or its run ended), so Restart must not be offered. */
+  resultShown(): boolean { return !canRestartRun(this.fight.world); }
+
   /** Menu: start the fight again from the beginning. */
   restartFight(): void {
     // in run mode the same seed and run id stay: a restart never rerolls the fight or skips the result handling
     const r = this.host.run;
+    if (r && !canRestartRun(this.fight.world)) return; // a finished run leaves only through onFinished
     this.fight.restart(r?.seed);
     if (r) attachRun(this.fight.world, r.runId);
     this.endedAt = -1; this.finished = false;

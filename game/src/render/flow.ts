@@ -26,7 +26,7 @@ export interface FlowDeps {
   panelRoot: HTMLElement;
 }
 
-export interface Flow { first(): Phaser.Scene; attach(game: Phaser.Game): void; /** The fight scene on screen, if any (settings changes reach it). */ activeFight(): BloodSeaScene | null; /** True in the hub, where Restart means nothing. */ inAbode(): boolean; debug(): { where: 'abode' | 'fight'; profile: SaveProfile } }
+export interface Flow { first(): Phaser.Scene; attach(game: Phaser.Game): void; /** The fight scene on screen, if any (settings changes reach it). */ activeFight(): BloodSeaScene | null; /** True in the hub, where Restart means nothing. */ inAbode(): boolean; /** True while the fight on screen shows its result: Restart must stay hidden. */ resultShown(): boolean; debug(): { where: 'abode' | 'fight'; profile: SaveProfile } }
 
 export function createFlow(d: FlowDeps): Flow {
   const loaded = readProfile(d.store, Date.now() >>> 0);
@@ -106,6 +106,7 @@ export function createFlow(d: FlowDeps): Flow {
     attach: (g) => { game = g; },
     activeFight: () => fight,
     inAbode: () => where === 'abode',
+    resultShown: () => fight?.resultShown() ?? false,
     debug: () => ({ where, profile }),
   };
 }

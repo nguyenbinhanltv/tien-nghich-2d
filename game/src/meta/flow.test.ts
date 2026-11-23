@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { attachRun, BOSS_CLEAR_REWARDS, beginSliceRun, finishSliceRun } from './flow.ts';
+import { attachRun, BOSS_CLEAR_REWARDS, beginSliceRun, canRestartRun, finishSliceRun } from './flow.ts';
 import { countOf } from './abode.ts';
 import { createProfile } from '../sim/save/profile.ts';
 import { createWorld, startGhostKingFight } from '../sim/loop.ts';
@@ -41,5 +41,15 @@ describe('slice flow', () => {
     let p = finishSliceRun(createProfile(1), fight('won')).profile;
     p = interact(p, 'kiln').profile; expect(p.furnaceOre).toBe(0); expect(countOf(p.inventory, 'blank')).toBe(1);
     p = interact(p, 'bed0').profile; expect(p.plots[0]!.seed).toBe('seed');
+  });
+  it('a finished run cannot be restarted: not on a result screen, not once the run has ended', () => {
+    const w = createWorld(1), ev: GameEvent[] = [];
+    startGhostKingFight(w, ev); attachRun(w, 1);
+    expect(canRestartRun(w)).toBe(true); // mid-fight
+    w.mode = 'won'; expect(canRestartRun(w)).toBe(false); // result screen
+    w.mode = 'lost'; expect(canRestartRun(w)).toBe(false);
+    w.mode = 'playing'; endRun(w, 'died', ev); expect(canRestartRun(w)).toBe(false); // run ended, whatever the mode says
+    const plain = createWorld(2); startGhostKingFight(plain, ev);
+    expect(canRestartRun(plain)).toBe(true); // no run: the single-fight route is unchanged
   });
 });

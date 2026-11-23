@@ -35,3 +35,11 @@ export function finishSliceRun(p: SaveProfile, run: RunState): SliceResult {
   const r = receiveRun(p, done);
   return { profile: r.profile, delivered: r.delivered, outcome: done.outcome };
 }
+
+/**
+ * Restart is allowed only while the run is still being fought. Once the world is in a result mode the sim has already ended the
+ * run (`settleRun`), so a restart would replace a won run (losing its rewards if the replay is lost) or wipe a recorded death.
+ * The player then leaves only through `onFinished`.
+ */
+export const canRestartRun = (world: Pick<WorldState, 'mode' | 'run'>): boolean =>
+  world.mode !== 'won' && world.mode !== 'lost' && (world.run?.outcome ?? 'active') === 'active';

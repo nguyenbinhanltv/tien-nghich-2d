@@ -91,7 +91,7 @@ const menus = (ui.menus = new Menus(document.body, {
   i18n, settings, hub,
   onChange: (s, reload) => { saveSettings(typeof localStorage === 'undefined' ? null : localStorage, s); applySettings(); if (reload) location.reload(); },
   onRestart: () => { (flow ? flow.activeFight() : scene instanceof BloodSeaScene ? scene : null)?.restartFight(); },
-  canRestart: () => (flow ? !flow.inAbode() : scene instanceof BloodSeaScene),
+  canRestart: () => (flow ? !flow.inAbode() && !flow.resultShown() : scene instanceof BloodSeaScene),
   onOpenChange: () => {},
 }));
 hub.onPause = () => menus.toggle();
