@@ -9,6 +9,11 @@ import { projectileSystem } from './systems/projectile.ts';
 import { setMode, sweepDead } from './systems/combat.ts';
 import { BOSS_SCRIPT, ghostKingStep } from './systems/ghost-king.ts';
 import { settleRun } from './run/run.ts';
+import type { BossRow } from '../contracts/content.ts';
+import { aiSystem } from './ai/index.ts';
+import { bossStep, type Encounter } from './ai/boss.ts';
+import type { SimContext } from './context.ts';
+import { mobMovement } from './systems/mob-move.ts';
 
 export const NO_INPUT: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
 
@@ -29,8 +34,10 @@ export function spawn(world: WorldState, kind: string, x: number, y: number, hp:
 /**
  * One fixed step: (world, input) -> mutated world. Order matches the original: timers and player control, shots and their hits,
  * then the enemy scripts; the mode machine ('falling' and 'releasing' play out, 'ready'/'won'/'lost' freeze the world).
+ * With a `ctx` the enemies run from content: mob AI (sim/ai) and the data-driven boss encounter. Without one, the legacy
+ * reference fight (systems/ghost-king.ts) runs and there are no mobs.
  */
-export function step(world: WorldState, input: InputFrame, events: GameEvent[]): void {
+export function step(world: WorldState, input: InputFrame, events: GameEvent[], ctx?: SimContext): void {
   world.tick++;
   settleRun(world, events);
   const player = findPlayer(world);
@@ -48,7 +55,15 @@ export function step(world: WorldState, input: InputFrame, events: GameEvent[]):
   if (player) { tickTimers(player); playerControl(world, player, input, events); }
   projectileSystem(world, events);
   if (world.mode !== 'playing') return;
-  for (const a of world.actors) if (a.role === 'boss' && a.kind === BOSS_SCRIPT) ghostKingStep(world, a, events);
+  if (ctx) {
+    aiSystem(world, ctx.content, events);
+    mobMovement(world);
+    for (const a of world.actors) {
+      if (a.role !== 'boss' || !ctx.content.has('bosses', a.kind)) continue;
+      const row = ctx.content.get<BossRow>('bosses', a.kind);
+      bossStep(world, a, ctx.content.get<Encounter>('encounters', row.encounter), row.speed, events);
+    }
+  } else for (const a of world.actors) if (a.role === 'boss' && a.kind === BOSS_SCRIPT) ghostKingStep(world, a, events);
   sweepDead(world, events);
 }
 
