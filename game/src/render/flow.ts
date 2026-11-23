@@ -12,17 +12,21 @@ import { isResult, statusText } from '../ui/status.ts';
 import { beginSliceRun, finishSliceRun } from '../meta/flow.ts';
 import { readProfile, writeProfile } from '../meta/profile-store.ts';
 import type { KeyValueStore } from '../meta/profile-store.ts';
+import type { JuiceSettings } from './juice.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
 import { DongPhuScene } from './scenes/DongPhuScene.ts';
 
 export interface FlowDeps {
   hub: InputHub; i18n: I18n; audio: AudioDirector; store: KeyValueStore; frozen: boolean;
-  portrait(): boolean;
+  /** True while the scenes must not advance: portrait gate or an open menu. */
+  paused(): boolean;
+  /** Current shake/flash settings, applied to every fight scene built here. */
+  juice(): JuiceSettings;
   setStatus(text: string, result: boolean): void;
   panelRoot: HTMLElement;
 }
 
-export interface Flow { first(): Phaser.Scene; attach(game: Phaser.Game): void; debug(): { where: 'abode' | 'fight'; profile: SaveProfile } }
+export interface Flow { first(): Phaser.Scene; attach(game: Phaser.Game): void; /** The fight scene on screen, if any (settings changes reach it). */ activeFight(): BloodSeaScene | null; /** True in the hub, where Restart means nothing. */ inAbode(): boolean; debug(): { where: 'abode' | 'fight'; profile: SaveProfile } }
 
 export function createFlow(d: FlowDeps): Flow {
   const loaded = readProfile(d.store, Date.now() >>> 0);
@@ -43,22 +47,23 @@ export function createFlow(d: FlowDeps): Flow {
   panel.stock(profile);
 
   const abodeScene = (): DongPhuScene => new DongPhuScene({
-    sample: () => d.hub.sample(), paused: d.portrait, frozen: d.frozen,
+    sample: () => d.hub.sample(), paused: d.paused, frozen: d.frozen,
     get profile() { return profile; },
     commit: (p) => { profile = p; persist(); },
     enterRun: () => later(toFight),
     onPrompt: (s, o) => panel.update(s, o),
   });
 
-  const fightScene = (seed: number, runId: number): BloodSeaScene => new BloodSeaScene({
-    sample: () => d.hub.sample(), paused: d.portrait, frozen: d.frozen, run: { seed, runId },
+  let fight: BloodSeaScene | null = null;
+  const fightScene = (seed: number, runId: number): BloodSeaScene => (fight = new BloodSeaScene({
+    sample: () => d.hub.sample(), paused: d.paused, frozen: d.frozen, run: { seed, runId },
     onEvents: (ev, w) => d.audio.handle(ev, w),
     status: (w) => {
       const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss');
       d.setStatus(statusText(d.i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode, returning: true }), isResult(w.mode));
     },
     onFinished: (w: WorldState) => later(() => toAbode(w)),
-  });
+  }));
 
   /** Scene swaps happen outside Phaser's update loop. */
   const later = (fn: () => void): void => { setTimeout(fn, 0); };
@@ -77,7 +82,9 @@ export function createFlow(d: FlowDeps): Flow {
     persist(); // before the fight, so closing the game mid-fight cannot reroll the seed
     panel.show(false);
     void d.audio.engine.playBgm('bgm_blood_sea');
-    swap(current(), fightScene(start.seed, start.runId), 'fight');
+    const f = fightScene(start.seed, start.runId);
+    f.juice.settings = { ...d.juice() };
+    swap(current(), f, 'fight');
   }
 
   function toAbode(world: WorldState): void {
@@ -90,12 +97,15 @@ export function createFlow(d: FlowDeps): Flow {
     panel.show(true);
     panel.flash(d.i18n.t(res.outcome === 'won' ? 'abode.delivered' : 'abode.run.lost'));
     void d.audio.engine.playBgm('bgm_dong_phu');
+    fight = null;
     swap(current(), abodeScene(), 'abode');
   }
 
   return {
     first: abodeScene,
     attach: (g) => { game = g; },
+    activeFight: () => fight,
+    inAbode: () => where === 'abode',
     debug: () => ({ where, profile }),
   };
 }

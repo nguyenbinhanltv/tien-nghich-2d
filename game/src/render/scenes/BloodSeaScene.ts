@@ -81,6 +81,15 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** Menu: start the fight again from the beginning. */
+  restartFight(): void {
+    // in run mode the same seed and run id stay: a restart never rerolls the fight or skips the result handling
+    const r = this.host.run;
+    this.fight.restart(r?.seed);
+    if (r) attachRun(this.fight.world, r.runId);
+    this.endedAt = -1; this.finished = false;
+  }
+
   private put(name: string, x: number, y: number, depth: number): void {
     this.add.image(x, y, this.frames.pageOf(name), name).setOrigin(0, 0).setDepth(depth);
   }
