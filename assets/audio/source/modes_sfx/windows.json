@@ -1,0 +1,94 @@
+{
+  "sfx_floor_mark": {
+    "kind": "ms",
+    "windowMs": 650,
+    "tailMs": 600,
+    "totalMs": 1250,
+    "scale": 1,
+    "baseDurationMs": 1250,
+    "source": "650 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 650,
+        "tailMs": 600
+      },
+      "windowMs": 650,
+      "tailMs": 600,
+      "totalMs": 1250,
+      "scale": 1,
+      "baseDurationMs": 1250,
+      "source": "650 ms given"
+    },
+    "configSha256": "274a8d3eb7468cb0ccb940248186c7c0b426b5839bde1b1db191b770b8016fdd"
+  },
+  "sfx_oath": {
+    "kind": "ms",
+    "windowMs": 650,
+    "tailMs": 800,
+    "totalMs": 1450,
+    "scale": 1,
+    "baseDurationMs": 1450,
+    "source": "650 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 650,
+        "tailMs": 800
+      },
+      "windowMs": 650,
+      "tailMs": 800,
+      "totalMs": 1450,
+      "scale": 1,
+      "baseDurationMs": 1450,
+      "source": "650 ms given"
+    },
+    "configSha256": "43eb8fc684bdd7715a7cf40facf12672ae3ca197f7eb63df8b7917fdef82a347"
+  },
+  "sfx_wave_call": {
+    "kind": "ms",
+    "windowMs": 900,
+    "tailMs": 500,
+    "totalMs": 1400,
+    "scale": 1,
+    "baseDurationMs": 1400,
+    "source": "900 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 900,
+        "tailMs": 500
+      },
+      "windowMs": 900,
+      "tailMs": 500,
+      "totalMs": 1400,
+      "scale": 1,
+      "baseDurationMs": 1400,
+      "source": "900 ms given"
+    },
+    "configSha256": "63464a4c9356d4998853a4f7be612aaf69102a3b978afafb49f89bd57714b147"
+  },
+  "sfx_core_crack": {
+    "kind": "ms",
+    "windowMs": 770,
+    "tailMs": 480,
+    "totalMs": 1250,
+    "scale": 1,
+    "baseDurationMs": 1250,
+    "source": "770 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 770,
+        "tailMs": 480
+      },
+      "windowMs": 770,
+      "tailMs": 480,
+      "totalMs": 1250,
+      "scale": 1,
+      "baseDurationMs": 1250,
+      "source": "770 ms given"
+    },
+    "configSha256": "0b8107d69c8d2215d6e8cadbc04c04e68bd16a57d531a18d02f5582a871614f3"
+  }
+}

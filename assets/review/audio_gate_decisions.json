@@ -19,6 +19,25 @@
       ],
       "covers": "Opens the production of bgm_mist_archive, bgm_ember_delta, bgm_star_quarry, sfx_paper_rustle, sfx_slag_shift and sfx_crystal_ring. The Modes and Characters waves keep their own gates.",
       "does_not_cover": "Any listening sign-off, any art approval, and the numbers the author proposes."
+    },
+    {
+      "id": "modes_gate_2026-11-23",
+      "kind": "owner_statement",
+      "decided_by": "user",
+      "recorded": "2026-11-23T12:00:23+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-74 (an agent; it transcribed the orchestrator's relay of the owner's choice and approved nothing)",
+      "wave": "extensions.modes",
+      "gate": "Branch wave accepted; trial round and defense wave milestones signed off.",
+      "statement": "Coi như đã ký, làm luôn",
+      "statement_note": "The owner's choice, relayed by the orchestrator (session tien-nghich-2d-1) on 2026-11-23, selected among the options of the orchestrator's question about the trial round (Trảm Tiên Đài) and defense wave (Hộ Tông Đại Trận) milestones. The option label is quoted verbatim. The time of the choice was not passed on; `recorded` is the time this record was written, not the time of the choice.",
+      "decision": [
+        "The trial round and defense wave milestones named in the gate are treated as signed off, and the Modes audio production starts: bgm_aftermath, bgm_defense, sfx_floor_mark, sfx_oath, sfx_wave_call, sfx_core_crack.",
+        "The Branch wave part of the gate is a listening matter: the owner's listening statement about the Branch cues is recorded by a separate change in assets/audio/listening_approvals.json, the only place a listening is recorded. This record neither repeats nor depends on it.",
+        "The sound direction is the existing sentence of each mode in docs/AUDIO_DESIGN.md (Musical and event coverage: Tầm Đạo Chi Lộ / Core, Vô Tận Luân Hồi, Trảm Tiên Đài, Hộ Tông Đại Trận). The author proposes tempo, length, loop point and the gameplay windows, in the manner of the core beds and the Branches wave; the proposal is recorded as a proposal in docs/AUDIO_DESIGN.md ('Modes proposal') and in assets/audio/source/modes_sfx/VERIFICATION.md. The owner has not set these numbers.",
+        "Produce the six cues with the Studio audio engine: no samples, recordings, soundfonts, generative model or PixelLab. Record no listening approval."
+      ],
+      "covers": "Opens the production of bgm_aftermath, bgm_defense, sfx_floor_mark, sfx_oath, sfx_wave_call and sfx_core_crack. The Characters wave keeps its own gate.",
+      "does_not_cover": "Any listening sign-off, any art approval, any listening statement about the Branch cues, and the numbers the author proposes."
     }
   ]
 }

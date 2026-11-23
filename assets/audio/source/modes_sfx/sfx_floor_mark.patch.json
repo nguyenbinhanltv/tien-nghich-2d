@@ -1,0 +1,18 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_floor_mark",
+  "title": "Floor mark (Endless five-floor marker)",
+  "design": "A bronze seal is pressed into the floor. A short dry scrape leans in, the seal lands about 120 ms in as a dull thud, and a bronze bell body rings out of it: a fundamental near E4 with two inharmonic partials that die faster. Low and committed, a stamp rather than a chime.",
+  "sampleRate": 44100, "channels": 1, "seed": 9801,
+  "durationMs": 1250, "trim": 0.308,
+  "window": {"ms": 650, "tailMs": 600},
+  "layers": [
+    {"type": "noise", "startMs": 0, "ms": 125, "gain": 0.3, "filters": [{"type": "band", "lowHz": 300, "highHz": 1700}], "env": {"attackMs": 70, "decayMs": 40, "releaseMs": 40}},
+    {"type": "osc", "startMs": 120, "ms": 320, "gain": 0.95, "hz": 150, "endHz": 60, "env": {"attackMs": 2, "decayMs": 90, "releaseMs": 150}},
+    {"type": "noise", "startMs": 120, "ms": 70, "gain": 0.55, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 520}], "env": {"attackMs": 1, "decayMs": 18, "releaseMs": 35}},
+    {"type": "osc", "startMs": 120, "ms": 1100, "gain": 0.5, "hz": 329.6, "fm": {"ratio": 1.41, "index": 0.7}, "env": {"attackMs": 2, "decayMs": 380, "releaseMs": 420}},
+    {"type": "osc", "startMs": 120, "ms": 800, "gain": 0.22, "hz": 910, "env": {"attackMs": 2, "decayMs": 230, "releaseMs": 300}},
+    {"type": "osc", "startMs": 120, "ms": 500, "gain": 0.09, "hz": 1780, "env": {"attackMs": 1, "decayMs": 130, "releaseMs": 200}}
+  ]
+}

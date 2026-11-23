@@ -1,0 +1,19 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_oath",
+  "title": "Oath (Trial vow)",
+  "design": "A vow is taken and held. A soft sawtooth voice swells from a low A through a perfect fifth, a small seal tick locks it at 120 ms, and a clear partial near E5 settles above it with a slow beat. Sustained and pitched, with no strike: the opposite of the floor mark.",
+  "sampleRate": 44100, "channels": 1, "seed": 9802,
+  "durationMs": 1450, "trim": 0.713,
+  "window": {"ms": 650, "tailMs": 800},
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 1250, "gain": 0.6, "wave": "saw", "hz": 220, "vibrato": {"hz": 4.6, "depth": 0.004, "riseMs": 320}, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 780, "q": 1.1}], "env": {"attackMs": 380, "decayMs": 700, "releaseMs": 480}},
+    {"type": "osc", "startMs": 90, "ms": 1200, "gain": 0.42, "wave": "saw", "hz": 330, "vibrato": {"hz": 4.6, "depth": 0.004, "riseMs": 320}, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 950, "q": 1.1}], "env": {"attackMs": 420, "decayMs": 650, "releaseMs": 480}},
+    {"type": "osc", "startMs": 0, "ms": 1200, "gain": 0.35, "hz": 110, "env": {"attackMs": 300, "decayMs": 800, "releaseMs": 450}},
+    {"type": "osc", "startMs": 118, "ms": 30, "gain": 0.16, "hz": 1850, "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 14}},
+    {"type": "noise", "startMs": 118, "ms": 40, "gain": 0.2, "filters": [{"type": "band", "lowHz": 600, "highHz": 2500}], "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 20}},
+    {"type": "osc", "startMs": 520, "ms": 900, "gain": 0.2, "hz": 659.3, "env": {"attackMs": 40, "decayMs": 420, "releaseMs": 380}},
+    {"type": "osc", "startMs": 520, "ms": 900, "gain": 0.12, "hz": 662.1, "env": {"attackMs": 40, "decayMs": 500, "releaseMs": 380}}
+  ]
+}
