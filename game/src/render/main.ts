@@ -20,7 +20,7 @@ const i18n = createUiI18n(settings.locale === 'auto' ? navigator.language : sett
 document.title = i18n.t('game.title');
 document.documentElement.lang = i18n.locale;
 
-const hub = new InputHub(window, settings.bindings);
+const hub = new InputHub(window, settings.bindings, settings.padBindings);
 const setStatus = mountStatus(document.body);
 const audio = new AudioDirector();
 // the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
@@ -40,7 +40,7 @@ const scene: Phaser.Scene = flow
   ? flow.first()
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
+  : new BloodSeaScene({ sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 
@@ -93,7 +93,10 @@ const menus = (ui.menus = new Menus(document.body, {
   onRestart: () => { (flow ? flow.activeFight() : scene instanceof BloodSeaScene ? scene : null)?.restartFight(); },
   canRestart: () => (flow ? !flow.inAbode() && !flow.resultShown() : scene instanceof BloodSeaScene),
   onOpenChange: () => {},
+  onTitle: () => { (flow ? flow.activeFight() : scene instanceof BloodSeaScene ? scene : null)?.restartFight(); },
 }));
+// the title screen first (not in golden or viewer mode); Start unlocks audio like any first gesture
+if (!params.has('golden') && params.get('view') !== 'clips') menus.openTitle();
 hub.onPause = () => menus.toggle();
 game.events.on(Phaser.Core.Events.PRE_STEP, () => menus.update());
 

@@ -1,14 +1,15 @@
 // Keyboard + gamepad + touch reduced to one InputFrame per render frame (plan E8.3 starts here; rebinding comes later).
 // Touch is the primary device: a floating joystick on the left, Dodge and Counter on the right (touch-controls.ts).
 import type { InputFrame } from '../contracts/world.ts';
-import { ACTIONS, DEFAULT_BINDINGS } from './settings.ts';
-import type { Action, Bindings } from './settings.ts';
+import { ACTIONS, DEFAULT_BINDINGS, DEFAULT_PAD } from './settings.ts';
+import type { Action, Bindings, PadBindings } from './settings.ts';
 
 const DEAD = 0.18;
 
 export class InputHub {
   private readonly keys = new Set<string>();
   private codeToAction = new Map<string, Action>();
+  private padBindings: PadBindings = DEFAULT_PAD;
   /** false while a menu is open: the game sees no input and pending presses are dropped. */
   enabled = true;
   /** Pause requested (Esc/P by default, pad Start, or the on-screen button). */
@@ -22,8 +23,9 @@ export class InputHub {
   /** First user gesture of any kind (audio unlock, E7.1). */
   onGesture: () => void = () => {};
 
-  constructor(target: Window, bindings: Bindings = DEFAULT_BINDINGS) {
+  constructor(target: Window, bindings: Bindings = DEFAULT_BINDINGS, padBindings: PadBindings = DEFAULT_PAD) {
     this.setBindings(bindings);
+    this.padBindings = padBindings;
     target.addEventListener('keydown', (e) => {
       if (e.repeat) return;
       this.onGesture();
@@ -44,6 +46,7 @@ export class InputHub {
     this.codeToAction = new Map();
     for (const a of ACTIONS) for (const c of b[a]) this.codeToAction.set(c, a);
   }
+  setPadBindings(b: PadBindings): void { this.padBindings = b; }
   /** Drop held keys and pending presses (menu opened or closed). */
   reset(): void {
     this.keys.clear(); this.dashLatch = this.fireLatch = false; this.touchMove = { x: 0, y: 0 };
@@ -70,8 +73,8 @@ export class InputHub {
       if (p.buttons[15]?.pressed) x = 1;
       if (p.buttons[12]?.pressed) y = -1;
       if (p.buttons[13]?.pressed) y = 1;
-      const dash = !!(p.buttons[0]?.pressed || p.buttons[6]?.pressed); // A / LT
-      const fire = !!(p.buttons[2]?.pressed || p.buttons[1]?.pressed || p.buttons[7]?.pressed); // X / B / RT
+      const dash = this.padBindings.dash.some((n) => p.buttons[n]?.pressed);
+      const fire = this.padBindings.counter.some((n) => p.buttons[n]?.pressed);
       return { x, y, dash, fire, start: !!p.buttons[9]?.pressed };
     }
     return { x: 0, y: 0, dash: false, fire: false, start: false };

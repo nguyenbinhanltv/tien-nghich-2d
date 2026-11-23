@@ -41,6 +41,7 @@
   "abode.save.damaged": "The save is damaged and no copy could be made: it is left untouched and progress will not be saved.",
   "result.return": "Dodge/Counter: back to the Abode",
   "abode.run.lost": "The run failed: nothing was brought home.",
+
   "menu.pause": "Paused",
   "menu.resume": "Resume",
   "menu.restart": "Restart",
@@ -73,5 +74,14 @@
   "action.right": "Right",
   "action.dash": "Dodge",
   "action.counter": "Counter",
-  "action.pause": "Pause"
+  "action.pause": "Pause",
+  "menu.start": "Start",
+  "menu.title": "Title screen",
+  "settings.pad": "Gamepad buttons",
+  "pad.press": "Press a gamepad button…",
+  "pad.cancel": "Tap or Esc to cancel",
+  "pad.refused": "That button cannot be used",
+  "pad.none": "No gamepad found. Press a button on the gamepad to connect it.",
+  "pad.fixed": "Fixed: stick/D-pad move, Start pauses.",
+  "title.hint": "Tap Start, or press Enter / the A button"
 }

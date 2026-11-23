@@ -3,8 +3,8 @@
 // close). Opening a menu pauses the game; settings apply immediately and are saved by the caller.
 import type { I18n } from '../i18n/i18n.ts';
 import type { InputHub } from './input-hub.ts';
-import { ACTIONS, DEFAULT_SETTINGS, keyLabel, rebind } from './settings.ts';
-import type { Action, LocalePref, Settings } from './settings.ts';
+import { ACTIONS, DEFAULT_SETTINGS, keyLabel, PAD_ACTIONS, padLabel, rebind, rebindPad } from './settings.ts';
+import type { Action, LocalePref, PadAction, Settings } from './settings.ts';
 import './controls.css';
 
 export interface MenuDeps {
@@ -16,9 +16,11 @@ export interface MenuDeps {
   onRestart(): void;
   /** Hide the Restart item when there is nothing to restart (the hub). Default: shown. */
   canRestart?(): boolean;
+  /** Pause menu "title screen": the caller restarts the fight; the menu shows the title again. */
+  onTitle?(): void;
   onOpenChange(open: boolean): void;
 }
-type View = 'pause' | 'settings' | 'keys';
+type View = 'title' | 'pause' | 'settings' | 'keys' | 'pad';
 
 export class Menus {
   private readonly root: HTMLElement;
@@ -27,6 +29,9 @@ export class Menus {
   private readonly button: HTMLButtonElement;
   private view: View = 'pause';
   private listening: Action | null = null;
+  private listeningPad: PadAction | null = null;
+  /** Where Back from the settings returns to: the title screen or the pause menu. */
+  private origin: 'title' | 'pause' = 'pause';
   private note = '';
   private padHeld = new Set<number>();
   private open_ = false;
@@ -55,16 +60,21 @@ export class Menus {
 
   open(): void {
     if (this.open_) return;
-    this.open_ = true; this.view = 'pause'; this.note = '';
+    this.open_ = true; this.view = 'pause'; this.origin = 'pause'; this.note = '';
     this.deps.hub.enabled = false; this.deps.hub.reset();
     this.overlay.classList.add('show'); this.button.classList.add('hidden');
     this.snapshotPad();
     this.render();
     this.deps.onOpenChange(true);
   }
+  /** The title screen: the game waits behind it until Start. */
+  openTitle(): void {
+    if (this.open_) return;
+    this.open(); this.view = 'title'; this.origin = 'title'; this.render();
+  }
   close(): void {
     if (!this.open_) return;
-    this.open_ = false; this.listening = null;
+    this.open_ = false; this.listening = null; this.listeningPad = null;
     this.overlay.classList.remove('show'); this.button.classList.remove('hidden');
     this.deps.hub.enabled = true; this.deps.hub.reset();
     this.deps.onOpenChange(false);
@@ -72,11 +82,14 @@ export class Menus {
   /** Pause key or pad Start: open, or step back one level, or close from the top level. */
   toggle(): void { if (!this.open_) this.open(); else this.back(); }
   private back(): void {
-    if (this.listening) { this.listening = null; this.note = ''; this.render(); return; }
-    if (this.view === 'pause') this.close(); else { this.view = this.view === 'keys' ? 'settings' : 'pause'; this.note = ''; this.render(); }
+    if (this.listening || this.listeningPad) { this.listening = null; this.listeningPad = null; this.note = ''; this.render(); return; }
+    if (this.view === 'title') return; // only Start leaves the title screen
+    if (this.view === 'pause') this.close();
+    else { this.view = this.view === 'keys' || this.view === 'pad' ? 'settings' : this.origin; this.note = ''; this.render(); }
   }
 
   private captureKey(e: KeyboardEvent): void {
+    if (this.listeningPad && e.code === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); this.back(); return; }
     if (!this.listening) return;
     e.preventDefault(); e.stopImmediatePropagation();
     const action = this.listening;
@@ -109,11 +122,15 @@ export class Menus {
   private render(): void {
     const s = this.deps.settings;
     const box = this.el('div', 'menu-panel');
-    const title = this.el('h2', '', this.t(this.view === 'pause' ? 'menu.pause' : this.view === 'settings' ? 'menu.settings' : 'settings.keys'));
+    const heading = { title: 'game.title', pause: 'menu.pause', settings: 'menu.settings', keys: 'settings.keys', pad: 'settings.pad' }[this.view];
+    const title = this.el('h2', this.view === 'title' ? 'menu-title' : '', this.t(heading));
     this.overlay.setAttribute('aria-label', title.textContent ?? '');
     box.appendChild(title);
-    if (this.view === 'pause') {
-      box.append(this.btn(this.t('menu.resume'), () => this.close()), ...(this.deps.canRestart?.() ?? true ? [this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); })] : []), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }));
+    if (this.view === 'title') {
+      box.append(this.btn(this.t('menu.start'), () => this.close()), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }), this.el('p', 'menu-note', this.t('title.hint')));
+    } else if (this.view === 'pause') {
+      box.append(this.btn(this.t('menu.resume'), () => this.close()), ...(this.deps.canRestart?.() ?? true ? [this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); })] : []), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }),
+        ...(this.deps.onTitle ? [this.btn(this.t('menu.title'), () => { this.deps.onTitle?.(); this.view = 'title'; this.origin = 'title'; this.render(); })] : []));
     } else if (this.view === 'settings') {
       const emit = (reload = false) => this.deps.onChange(s, reload);
       box.append(this.el('h3', '', this.t('settings.audio')),
@@ -129,9 +146,18 @@ export class Menus {
       for (const v of ['auto', 'vi', 'en'] as const) { const o = this.el('option', '', this.t(`settings.lang.${v}`)); o.value = v; o.selected = s.locale === v; sel.appendChild(o); }
       sel.addEventListener('change', () => { s.locale = sel.value as LocalePref; this.deps.onChange(s, true); });
       lang.append(sel);
-      box.append(flash, lang, this.el('p', 'menu-note', this.t('settings.reload_note')), this.btn(this.t('settings.keys'), () => { this.view = 'keys'; this.render(); }),
-        this.btn(this.t('settings.reset'), () => { Object.assign(s, structuredClone(DEFAULT_SETTINGS)); this.deps.hub.setBindings(s.bindings); this.deps.onChange(s, true); this.render(); }),
+      box.append(flash, lang, this.el('p', 'menu-note', this.t('settings.reload_note')), this.btn(this.t('settings.keys'), () => { this.view = 'keys'; this.render(); }), this.btn(this.t('settings.pad'), () => { this.view = 'pad'; this.note = ''; this.render(); }),
+        this.btn(this.t('settings.reset'), () => { Object.assign(s, structuredClone(DEFAULT_SETTINGS)); this.deps.hub.setBindings(s.bindings); this.deps.hub.setPadBindings(s.padBindings); this.deps.onChange(s, true); this.render(); }),
         this.btn(this.t('menu.back'), () => this.back()));
+    } else if (this.view === 'pad') {
+      for (const a of PAD_ACTIONS) {
+        const row = this.el('div', 'menu-row');
+        row.append(this.el('span', '', this.t(`action.${a}`)));
+        const label = this.listeningPad === a ? this.t('pad.press') : s.padBindings[a].map(padLabel).join(' / ');
+        row.append(this.btn(label, () => { if (this.listeningPad === a) { this.back(); return; } this.listeningPad = a; this.snapshotPad(); this.note = this.hasPad() ? this.t('pad.cancel') : this.t('pad.none'); this.render(); this.focusIndex(PAD_ACTIONS.indexOf(a)); }, 'menu-key'));
+        box.append(row);
+      }
+      box.append(this.el('p', 'menu-note', this.note || this.t('pad.fixed')), this.btn(this.t('menu.back'), () => this.back()));
     } else {
       for (const a of ACTIONS) {
         const row = this.el('div', 'menu-row');
@@ -145,6 +171,8 @@ export class Menus {
     this.overlay.replaceChildren(box);
     if (!this.root.contains(document.activeElement) || document.activeElement === document.body) this.focusIndex(0);
   }
+
+  private hasPad(): boolean { return typeof navigator.getGamepads === 'function' && [...navigator.getGamepads()].some((g) => g?.connected); }
 
   private focusables(): HTMLElement[] { return [...this.overlay.querySelectorAll<HTMLElement>('button, input, select')]; }
   private focusIndex(i: number): void { const f = this.focusables(); f[Math.max(0, Math.min(f.length - 1, i))]?.focus(); }
@@ -168,6 +196,20 @@ export class Menus {
     const p = [...navigator.getGamepads()].find((g) => g?.connected);
     if (!p) return;
     const down = this.padDown(p);
+    if (this.listeningPad) {
+      // the next NEW button press is the binding (axis-derived D-pad presses never bind: rebindPad refuses 12-15)
+      const fresh = [...down].find((i) => !this.padHeld.has(i) && i < 12 + 5);
+      this.padHeld = down;
+      if (fresh === undefined) return;
+      const next = rebindPad(this.deps.settings.padBindings, this.listeningPad, fresh);
+      if (!next) { this.note = this.t('pad.refused'); this.render(); return; }
+      this.deps.settings.padBindings = next;
+      this.deps.hub.setPadBindings(next);
+      this.listeningPad = null; this.note = '';
+      this.deps.onChange(this.deps.settings, false);
+      this.render();
+      return;
+    }
     const edge = (i: number) => down.has(i) && !this.padHeld.has(i);
     const f = this.focusables();
     const cur = f.indexOf(document.activeElement as HTMLElement);

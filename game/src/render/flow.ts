@@ -56,7 +56,7 @@ export function createFlow(d: FlowDeps): Flow {
 
   let fight: BloodSeaScene | null = null;
   const fightScene = (seed: number, runId: number): BloodSeaScene => (fight = new BloodSeaScene({
-    sample: () => d.hub.sample(), paused: d.paused, frozen: d.frozen, run: { seed, runId },
+    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, run: { seed, runId },
     onEvents: (ev, w) => d.audio.handle(ev, w),
     status: (w) => {
       const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss');
