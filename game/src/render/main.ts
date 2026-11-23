@@ -6,17 +6,20 @@ import { AudioDirector } from '../audio/director.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
 import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
+import { Menus } from '../ui/menus.ts';
+import { loadSettings, saveSettings } from '../ui/settings.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
 import { createUiI18n } from '../ui/strings.ts';
 import { isResult, mountStatus, statusText } from '../ui/status.ts';
 import { mountTouchControls } from '../ui/touch-controls.ts';
 
 const root = document.getElementById('game')!;
-const i18n = createUiI18n(navigator.language);
+const settings = loadSettings(typeof localStorage === 'undefined' ? null : localStorage);
+const i18n = createUiI18n(settings.locale === 'auto' ? navigator.language : settings.locale);
 document.title = i18n.t('game.title');
 document.documentElement.lang = i18n.locale;
 
-const hub = new InputHub(window);
+const hub = new InputHub(window, settings.bindings);
 const setStatus = mountStatus(document.body);
 const audio = new AudioDirector();
 // the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
@@ -24,11 +27,12 @@ hub.onGesture = () => audio.unlock();
 window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
 void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
 let portrait = false;
+const ui: { menus?: Menus } = {}; // the menus need the scene and the scene needs to ask whether they are open
 const params = new URLSearchParams(location.search);
 if (params.has('golden')) document.body.classList.add('golden');
 const scene: Phaser.Scene = params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w),
+  : new BloodSeaScene({ sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 
@@ -66,6 +70,22 @@ const coarse = window.matchMedia('(pointer: coarse)').matches || new URLSearchPa
 controls.setVisible(coarse);
 window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') controls.setVisible(true); }, { passive: true });
 mountOrientationGate(document.body, i18n, (p) => { portrait = p; });
+
+function applySettings(): void {
+  audio.engine.setVolume('master', settings.master);
+  audio.engine.setVolume('music', settings.music);
+  audio.engine.setVolume('sfx', settings.sfx);
+  if (scene instanceof BloodSeaScene) scene.juice.settings = { shake: settings.shake, flash: settings.flash };
+}
+applySettings();
+const menus = (ui.menus = new Menus(document.body, {
+  i18n, settings, hub,
+  onChange: (s, reload) => { saveSettings(typeof localStorage === 'undefined' ? null : localStorage, s); applySettings(); if (reload) location.reload(); },
+  onRestart: () => { if (scene instanceof BloodSeaScene) scene.restartFight(); },
+  onOpenChange: () => {},
+}));
+hub.onPause = () => menus.toggle();
+game.events.on(Phaser.Core.Events.PRE_STEP, () => menus.update());
 
 // Offline cache: needs a secure context (https or localhost). Plain http on the LAN skips it, the game still runs.
 if ('serviceWorker' in navigator && import.meta.env.PROD && window.isSecureContext) {
