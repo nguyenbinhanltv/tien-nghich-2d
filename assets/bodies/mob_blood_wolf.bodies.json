@@ -14,9 +14,10 @@
   "h": 19
  },
  "review": {
-  "status": "draft-unreviewed",
+  "status": "owner-approved",
   "source": "alpha-auto",
-  "note": "alpha >= 128 bbox of idle_east_0, inset 1 px; attack hitboxes guessed from east attack frames (reach), no clip events exist yet"
+  "note": "alpha >= 128 bbox of idle_east_0, inset 1 px; attack hitboxes guessed from east attack frames (reach), no clip events exist yet",
+  "approvalRef": "owner_hitbox_draft_vs51_2026-11-23"
  },
  "clips": {
   "attack": {

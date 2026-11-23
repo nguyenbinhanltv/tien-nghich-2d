@@ -38,10 +38,15 @@ class CharactersTests(unittest.TestCase):
         self.assertEqual(found[0]["decided_by"], "user")
         self.assertEqual(found[0]["gate"], plan["gate"])
 
-    def test_no_listening_is_signed(self):
+    def test_owner_listening_is_recorded_by_hash_and_only_for_these_masters(self):
         approvals = json.loads((ROOT / "assets/audio/listening_approvals.json").read_text())["approvals"]
-        signed = {cue for record in approvals for cue in record["assets"]}
-        self.assertFalse(signed & (set(BEDS) | set(IDS)))
+        found = [r for r in approvals if r["id"] == "characters_v1"]
+        self.assertEqual(len(found), 1)
+        record = found[0]
+        self.assertEqual((record["kind"], record["approved_by"], record["evidence"]["quote"]), ("owner_statement", "user", "Tôi đã nghe thử và duyệt"))
+        self.assertEqual(set(record["assets"]), set(BEDS) | set(IDS))
+        for cue in IDS:
+            self.assertEqual(record["assets"][cue]["master_sha256"], hashlib.sha256((SFX_OUT / f"{cue}.wav").read_bytes()).hexdigest())
 
     def test_sfx_masters_match_ledger_and_window(self):
         ledger = json.loads((SFX_SRC / "provenance.json").read_text())

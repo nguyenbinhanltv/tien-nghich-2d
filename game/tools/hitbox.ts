@@ -33,14 +33,14 @@ export function run(args: string[]): { out: string[]; code: number } {
       case 'unlock': unlock(dir, id!); out.push(`${id}: unlocked`); break;
       case 'status': {
         const locks = Object.keys(readLocks(dir).locks);
-        const files = fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json')).map((n) => n.replace('.bodies.json', ''));
+        const files = (fs.existsSync(dir) ? fs.readdirSync(dir) : []).filter((n) => n.endsWith('.bodies.json')).map((n) => n.replace('.bodies.json', ''));
         out.push(`${files.length} draft bodies, ${locks.length} locked, 0 approved here (approval lives in assets/review/body_approvals.json)`, ...files.map((f) => `  ${f}${locks.includes(f) ? '  [locked]' : ''}`));
         break;
       }
       case 'check': {
         const assets = loadAssets('mobile');
         const problems = verifyLocks(dir), warnings: string[] = [];
-        for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json'))) {
+        for (const f of (fs.existsSync(dir) ? fs.readdirSync(dir) : []).filter((n) => n.endsWith('.bodies.json'))) {
           const bid = f.replace('.bodies.json', '');
           const l = lintBody(bid, readBody(dir, bid), attackClips(assets.get(bid)), assets.get(bid)?.clips);
           problems.push(...l.errors); warnings.push(...l.warnings);

@@ -101,6 +101,7 @@ if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.a
     if ('skip' in r) { skipped++; console.log(`${id}: no body (${r.skip})`); continue; }
     const file = path.join(out, `${id}.bodies.json`);
     if (write && isLocked(out, id)) { kept++; console.log(`${id}: locked, left alone (unlock it first)`); continue; }
+    if (write && fs.existsSync(path.join(ASSETS, 'bodies', `${id}.bodies.json`))) { kept++; console.log(`${id}: already in assets/bodies (the approved store wins), no draft written`); continue; }
     if (write && fs.existsSync(file) && !force) { kept++; console.log(`${id}: kept existing ${rel(file)}`); continue; }
     fs.writeFileSync(file, `${JSON.stringify(r.body, null, 1)}\n`);
     wrote++;

@@ -51,21 +51,23 @@ describe('VS draft bodies (real assets)', () => {
       expect(d.body.hurtbox.w).toBeGreaterThan(0);
     }
   }, 60_000);
-  it('the tracked drafts under content/hitbox compile, verify as unreviewed and equal a fresh draft run', async () => {
+  it('the 24 bodies the owner approved on 2026-11-23 sit in assets/bodies, verify against the ledger and equal a fresh draft run (boxes unchanged)', async () => {
     const c = compileBodies(assets, new Map());
     expect(c.problems).toEqual([]);
     const v = verifyApprovals(c.data.bodies);
     expect(v.problems).toEqual([]);
-    expect(v.approved).toBe(0);
-    const dir = path.join(GAME, 'content/hitbox');
+    expect(v.approved).toBe(24);
+    expect(v.unreviewed).toEqual([]);
+    const dir = path.join(GAME, '../assets/bodies');
     const files = fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json'));
     expect(files.length).toBeGreaterThanOrEqual(24);
     for (const f of files) {
       const id = f.replace('.bodies.json', '');
       const fresh = await draftFor(id, assets.get(id));
-      const tracked = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) as { review: { source: string } };
-      // a hand-edited body is allowed to differ; an untouched alpha-auto one must match the tool's output
-      if (tracked.review.source === 'alpha-auto') expect('body' in fresh ? fresh.body : null).toEqual(tracked);
+      const tracked = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) as { review: { source: string; status: string; approvalRef?: string } };
+      expect(tracked.review).toMatchObject({ status: 'owner-approved', approvalRef: 'owner_hitbox_draft_vs51_2026-11-23' });
+      // a hand-edited body is allowed to differ; an untouched alpha-auto one must match the tool's boxes (the review block is the approval)
+      if (tracked.review.source === 'alpha-auto') expect('body' in fresh ? { ...fresh.body, review: undefined } : null).toEqual({ ...tracked, review: undefined });
     }
   }, 60_000);
 });

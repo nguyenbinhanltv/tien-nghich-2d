@@ -4,13 +4,20 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { GAME } from '../tools/lib/repo.ts';
-import { HITBOX_DIR, lintBody, readBody, verifyLocks, writeBody } from '../tools/lib/hitbox-edit.ts';
+import { lintBody, readBody, verifyLocks, writeBody } from '../tools/lib/hitbox-edit.ts';
 import { run } from '../tools/hitbox.ts';
+
+// The wolf is owner-approved in assets/bodies; the edit tool works on drafts, so the test copies it back to a draft (boxes unchanged).
+function copyWolfDraft(to: string): void {
+  const b = JSON.parse(fs.readFileSync(path.join(GAME, '../assets/bodies/mob_blood_wolf.bodies.json'), 'utf8')) as { review: Record<string, unknown> };
+  b.review = { status: 'draft-unreviewed', source: b.review['source'], note: b.review['note'] };
+  fs.writeFileSync(path.join(to, 'mob_blood_wolf.bodies.json'), `${JSON.stringify(b, null, 1)}\n`);
+}
 
 let dir = '';
 beforeEach(() => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), 'hb-'));
-  fs.copyFileSync(path.join(HITBOX_DIR, 'mob_blood_wolf.bodies.json'), path.join(dir, 'mob_blood_wolf.bodies.json'));
+  copyWolfDraft(dir);
 });
 const cli = (...a: string[]): { out: string[]; code: number } => run([...a, '--dir', dir]);
 
@@ -85,7 +92,7 @@ describe('hitbox edit tool (E2.2)', () => {
   });
   it('drafting with --write leaves a locked body alone', () => {
     fs.rmSync(path.join(dir, 'mob_blood_wolf.bodies.json'));
-    fs.copyFileSync(path.join(HITBOX_DIR, 'mob_blood_wolf.bodies.json'), path.join(dir, 'mob_blood_wolf.bodies.json'));
+    copyWolfDraft(dir);
     cli('set-pivot', 'mob_blood_wolf', '15', '31'); cli('lock', 'mob_blood_wolf');
     const out = execFileSync('node', [path.join(GAME, 'tools/draft-bodies.ts'), '--write', '--force', '--assets', 'mob_blood_wolf', '--out', dir], { encoding: 'utf8' });
     expect(out).toMatch(/locked, left alone/);
