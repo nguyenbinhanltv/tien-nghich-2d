@@ -1,0 +1,23 @@
+{
+  "schema": "studio.audio.patch", "version": 1,
+  "id": "sfx_crystal_ring",
+  "title": "Crystal ring (Star Quarry landmark)",
+  "design": "A stone tap strikes a crystal vein. The crystal rings around E6 with an inharmonic bell partial and a slightly detuned twin whose slow beat shimmers, and it fades over about two seconds. The strike is stone, the ring is glass, and the ring is the event.",
+  "sampleRate": 44100, "channels": 1, "seed": 9701,
+  "durationMs": 2400, "trim": 0.41,
+  "window": {"ms": 1400, "tailMs": 1000},
+  "layers": [
+    {"type": "noise", "startMs": 0, "ms": 30, "gain": 0.9,
+     "filters": [{"type": "band", "lowHz": 300, "highHz": 1800}], "env": {"attackMs": 1, "decayMs": 9, "releaseMs": 12}},
+    {"type": "osc", "startMs": 0, "ms": 140, "gain": 0.4, "hz": 140, "endHz": 110,
+     "env": {"attackMs": 2, "decayMs": 38, "releaseMs": 60}},
+    {"type": "osc", "startMs": 5, "ms": 2300, "gain": 0.5, "hz": 1318.5, "fm": {"ratio": 3.5, "index": 0.9},
+     "env": {"attackMs": 2, "decayMs": 700, "releaseMs": 500}},
+    {"type": "osc", "startMs": 5, "ms": 2300, "gain": 0.3, "hz": 1323.1,
+     "env": {"attackMs": 2, "decayMs": 900, "releaseMs": 500}},
+    {"type": "osc", "startMs": 5, "ms": 1400, "gain": 0.18, "hz": 3639,
+     "env": {"attackMs": 2, "decayMs": 260, "releaseMs": 300}},
+    {"type": "osc", "startMs": 5, "ms": 700, "gain": 0.06, "hz": 7120,
+     "env": {"attackMs": 1, "decayMs": 120, "releaseMs": 200}}
+  ]
+}

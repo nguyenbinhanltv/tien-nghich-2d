@@ -1,0 +1,107 @@
+{
+  "id": "bgm_mist_archive",
+  "revision": 1,
+  "base": "3f34dd6c33c79a124f966e189fdc5aa69b19a4d3",
+  "creator": "Claude Code (Anthropic, claude-sonnet-5-5) for Tien Nghich 2D",
+  "rights": "Original note score, voice synthesis and arrangement created for the project. All audible input is generated from the supplied score and additive-oscillator/noise patch. No recordings, samples, soundfont or generative-audio model.",
+  "inputs": {
+    "score.json": "e456e99c929a96fa37e8d37559bbe2ee02c5695f93ee98f0bb3c7a9ff857271d",
+    "render.py": "7508e0092ab7af96d5826cfb28f89ee8eaee3cf40222af9dad9211df741e67ea"
+  },
+  "input_hash_convention": "SHA-256, text normalized to LF",
+  "engine_sha256_lf": {
+    "studio/audio/analyze.mjs": "8e9a32cad315495f3c32c1f736ccecc1dbba9438142f12d58e6603c79d1bb59f",
+    "studio/audio/cli.mjs": "5745da83c986172d958aefa62259f7c662bde5847e8870fd01ffb0883b0a8b7c",
+    "studio/audio/compare.mjs": "26a57bdb2491a560aee70b7574275c890cb491454b1489dd838be9de3eb640d3",
+    "studio/audio/fft.mjs": "058f671ef44219a19fb146799309071c4351c9a7a615b1b60eb30e73cf5e0af7",
+    "studio/audio/images.mjs": "769da13891b96488a2d478c797c034504308fed265b86990b07522afb21de2df",
+    "studio/audio/index.mjs": "5ceeaba47cab31b8deb2ea8d936d6d1917718a2099ae1297ced33dc17fbbf585",
+    "studio/audio/layer.mjs": "65640db749e9bcea0c6fc5128f713278ffbfa836f24ef0ea83dd4c120e2bfdb2",
+    "studio/audio/measure.mjs": "dbfa31f729b357d302be760585ed08adb249314cfcdab3b1a0ec600c5bb72861",
+    "studio/audio/patch.mjs": "83130263874205b2e93b2083f8e88c87c39597c1395ee71afa1e36956ec7f3b0",
+    "studio/audio/pitch.mjs": "4924dcd3ea43379dcefa7e24833a05f55cbde71515224870d8abc28928b29b70",
+    "studio/audio/project.mjs": "f32001e055b4b7a5bbfb9868174834a5aee2f577f4a346e94cbc461ea6dcc547",
+    "studio/audio/render.mjs": "84f26d653fa86cd155e4b51d80db4fd04dc1f27710306973320c8691a6fcbe6c",
+    "studio/audio/reverb.mjs": "bc1eb8eec9106f65e32a2004191a78bf7b0c88bb2f89b58435a285ec11c79dee",
+    "studio/audio/rng.mjs": "b6324f3a1f29f182adc3b494fb5acff9e04ae7186d6b44c3b39289b29c6fe5f8",
+    "studio/audio/score.mjs": "6adb467f29a61f8d106b11c8b2f8c6f27b006645e815a39a2fa2a46f9ce49be4",
+    "studio/audio/util.mjs": "2d8996e01d9548b0318717e201fffa8d33246f1009f2b646a03dcbfa173a9a4d",
+    "studio/audio/validate.mjs": "46f02144fe8fe0af696eb2e5110787df6f2757d961606398d9ad12eda17627e3",
+    "studio/audio/wav.mjs": "1e2ddd20d73e5e7cb51b1ec5da7d29ee2850459b902fedfe63a92f6b44980c05",
+    "studio/audio/window.mjs": "a2f2eb5d8e1a69419c2235a54e98188ff5af0ed10db6ff0db6f0aee574d55753"
+  },
+  "render": "From the checkout root, run python -I -B assets/audio/bgm_mist_archive/render.py <output.wav> with CPython 3.14.5 (tools/.venvs/project/bin/python) and Node 24 (v24.12.0 used). render.py runs studio/audio/cli.mjs on score.json; the output parent directory must exist.",
+  "patch": "Studio audio score, MT19937 seed 6101 (per note [seed, event, layer]). Voices: soft additive pluck (five partials, pick position 0.28) calling E3-E4; paper voice answering each phrase: band-passed noise sweeping 4.2-7.6 kHz with 19 Hz amplitude flutter plus short 5.2-9.5 kHz flicks; triangle drone E2+B2, then A2+E3 from bar 17. Seeded-noise impulse reverb 2.4 s, wet 0.36, folded across the loop boundary.",
+  "tempo_bpm": 72,
+  "meter": "4/4",
+  "bars": 24,
+  "tuning": "E minor pentatonic (E G A B D), tonal center E; A4 = 440 Hz",
+  "register_note": "Pluck fundamentals E3-E4 (below about 330 Hz); the paper voice lives above 4 kHz and is short, so the 1.6-5 kHz tell register stays at -24.4 dB of total energy. Measured mono energy share (engine bands): 0-100 Hz -9.02 dB, 100-450 Hz -0.81 dB, 450-1600 Hz -14.51 dB, 1600-5000 Hz -24.4 dB, 5000-22050 Hz -22.81 dB.",
+  "structure": "Six four-bar groups. Bars 1-2 of each group are the plucked call (a, b, a, c, b, c-down-an-octave), bars 3-4 hold the paper answer (a, b, c, a, b, c); bar 4 of each group carries only the drone and the reverb tail, so the enemy tell has rests to cut through. The drone changes from E2+B2 to A2+E3 at bar 17. Bar 24 carries only the drone.",
+  "proposal": "Tempo, length, loop point and structure are the author's proposal (docs/AUDIO_DESIGN.md, 'Branches proposal'); the project owner chose only the one-sentence brief.",
+  "master": "master.wav",
+  "format": "44100 Hz stereo PCM signed 16-bit little-endian",
+  "loop_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+  "loopStart": 0,
+  "loopEnd": 3528000,
+  "frames": 3528000,
+  "duration_seconds": 80.0,
+  "onset_tail": "Notes, drone and reverb tails wrap modulo the loop; frame 0 continues from frame loopEnd - 1.",
+  "wav_sha256": "81e8b50b2cbdf505184abebf975c6761889922565f77160c2be82c767db2153c",
+  "pcm_sha256": "afb825f7b79412c628eea0b381f3403314857aab7003800fd571c50b1c0eb075",
+  "verification": {
+    "rebuild": "Rendered by the Studio audio engine; render twice gives byte-identical WAV (tools/tests/test_audio_branches.py rebuilds into a scratch directory and compares).",
+    "meter": "Studio audio engine measure (BS.1770 K-weighted LUFS, 4x oversampled true-peak estimate); pack evidence re-measures with the pinned FFmpeg 6.1.1 ebur128.",
+    "integrated_lufs": -23.55,
+    "true_peak_dbtp": -6.61,
+    "loudness_range_lu": 7.7,
+    "reference_beds": {
+      "bgm_dong_phu": {
+        "integrated_lufs": -23.2,
+        "true_peak_dbtp": -7.4
+      },
+      "bgm_hengyue": {
+        "integrated_lufs": -21.66,
+        "true_peak_dbtp": -7.06
+      },
+      "bgm_blood_sea": {
+        "integrated_lufs": -22.0,
+        "true_peak_dbtp": -7.5
+      },
+      "bgm_ancient_god": {
+        "integrated_lufs": -22.5,
+        "true_peak_dbtp": -7.2
+      },
+      "bgm_endless": {
+        "integrated_lufs": -22.0,
+        "true_peak_dbtp": -9.9
+      }
+    },
+    "sample_peak_abs_lr": [
+      15307,
+      12927
+    ],
+    "last_pcm_lr": [
+      177,
+      -224
+    ],
+    "first_pcm_lr": [
+      187,
+      -216
+    ],
+    "signed_seam_step_lr": [
+      10,
+      8
+    ],
+    "max_abs_step_within_10ms_either_side_lr": [
+      415,
+      284
+    ],
+    "interior_p99_abs_step_lr": [
+      781,
+      579
+    ],
+    "scale_check": "Every pitched note is inside the declared pentatonic (key.enforce true; the engine raises out_of_scale otherwise).",
+    "human_listening": "Pending. No agent listened to this audio."
+  }
+}

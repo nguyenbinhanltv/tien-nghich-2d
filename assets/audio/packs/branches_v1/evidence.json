@@ -1,0 +1,327 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "automated": {
+    "bgm": {
+      "bgm_ember_delta": {
+        "m4a": {
+          "loop_region_sample_peak_dbfs": -6.55
+        },
+        "master_loudness_remeasure": {
+          "recorded_in_provenance_ffmpeg_8_1_2": {
+            "integrated_lufs": -22.89,
+            "loudness_range_lu": 9.54,
+            "true_peak_dbtp": -6.555
+          },
+          "this_toolchain": {
+            "integrated_lufs": -22.9,
+            "loudness_range_lu": 9.5,
+            "true_peak_dbtp": -6.6
+          }
+        },
+        "ogg": {
+          "loop_region_sample_peak_dbfs": -6.534
+        }
+      },
+      "bgm_mist_archive": {
+        "m4a": {
+          "loop_region_sample_peak_dbfs": -6.665
+        },
+        "master_loudness_remeasure": {
+          "recorded_in_provenance_ffmpeg_8_1_2": {
+            "integrated_lufs": -23.55,
+            "loudness_range_lu": 7.7,
+            "true_peak_dbtp": -6.61
+          },
+          "this_toolchain": {
+            "integrated_lufs": -23.5,
+            "loudness_range_lu": 7.7,
+            "true_peak_dbtp": -6.6
+          }
+        },
+        "ogg": {
+          "loop_region_sample_peak_dbfs": -6.505
+        }
+      },
+      "bgm_star_quarry": {
+        "m4a": {
+          "loop_region_sample_peak_dbfs": -8.259
+        },
+        "master_loudness_remeasure": {
+          "recorded_in_provenance_ffmpeg_8_1_2": {
+            "integrated_lufs": -22.61,
+            "loudness_range_lu": 6.94,
+            "true_peak_dbtp": -8.272
+          },
+          "this_toolchain": {
+            "integrated_lufs": -22.6,
+            "loudness_range_lu": 7.0,
+            "true_peak_dbtp": -8.3
+          }
+        },
+        "ogg": {
+          "loop_region_sample_peak_dbfs": -8.089
+        }
+      }
+    },
+    "mix_comparison": {
+      "bgm_ember_delta": {
+        "bgm_master_integrated_lufs": -22.9,
+        "bgm_master_rms_dbfs": -25.397,
+        "bgm_master_true_peak_dbtp": -6.6,
+        "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+        "derived_mastering": null,
+        "reference_targets": {
+          "ebu_r128_programme_-23_lufs": {
+            "gain_db_needed": -0.1,
+            "peak_headroom_to_-1_dbtp_db": 5.7,
+            "target_lufs": -23.0,
+            "true_peak_after_gain_dbtp": -6.7,
+            "within_peak_ceiling": true
+          },
+          "mobile_loud_-16_lufs": {
+            "gain_db_needed": 6.9,
+            "peak_headroom_to_-1_dbtp_db": -1.3,
+            "target_lufs": -16.0,
+            "true_peak_after_gain_dbtp": 0.3,
+            "within_peak_ceiling": false
+          }
+        },
+        "sfx_levels": [
+          {
+            "active_rms_dbfs": -23.095,
+            "active_rms_minus_bgm_rms_db": 2.3,
+            "id": "sfx_crystal_ring",
+            "sample_peak_dbfs": -5.953
+          },
+          {
+            "active_rms_dbfs": -26.89,
+            "active_rms_minus_bgm_rms_db": -1.49,
+            "id": "sfx_paper_rustle",
+            "sample_peak_dbfs": -6.463
+          },
+          {
+            "active_rms_dbfs": -21.646,
+            "active_rms_minus_bgm_rms_db": 3.75,
+            "id": "sfx_slag_shift",
+            "sample_peak_dbfs": -6.03
+          }
+        ]
+      },
+      "bgm_mist_archive": {
+        "bgm_master_integrated_lufs": -23.5,
+        "bgm_master_rms_dbfs": -25.333,
+        "bgm_master_true_peak_dbtp": -6.6,
+        "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+        "derived_mastering": null,
+        "reference_targets": {
+          "ebu_r128_programme_-23_lufs": {
+            "gain_db_needed": 0.5,
+            "peak_headroom_to_-1_dbtp_db": 5.1,
+            "target_lufs": -23.0,
+            "true_peak_after_gain_dbtp": -6.1,
+            "within_peak_ceiling": true
+          },
+          "mobile_loud_-16_lufs": {
+            "gain_db_needed": 7.5,
+            "peak_headroom_to_-1_dbtp_db": -1.9,
+            "target_lufs": -16.0,
+            "true_peak_after_gain_dbtp": 0.9,
+            "within_peak_ceiling": false
+          }
+        },
+        "sfx_levels": [
+          {
+            "active_rms_dbfs": -23.095,
+            "active_rms_minus_bgm_rms_db": 2.24,
+            "id": "sfx_crystal_ring",
+            "sample_peak_dbfs": -5.953
+          },
+          {
+            "active_rms_dbfs": -26.89,
+            "active_rms_minus_bgm_rms_db": -1.56,
+            "id": "sfx_paper_rustle",
+            "sample_peak_dbfs": -6.463
+          },
+          {
+            "active_rms_dbfs": -21.646,
+            "active_rms_minus_bgm_rms_db": 3.69,
+            "id": "sfx_slag_shift",
+            "sample_peak_dbfs": -6.03
+          }
+        ]
+      },
+      "bgm_star_quarry": {
+        "bgm_master_integrated_lufs": -22.6,
+        "bgm_master_rms_dbfs": -24.225,
+        "bgm_master_true_peak_dbtp": -8.3,
+        "decision": "No derived mastering applied. All shipped derivatives encode the unmodified masters. Runtime gain is the proposed mix lever; any later mastered variant must record its gain recipe and measured peak headroom.",
+        "derived_mastering": null,
+        "reference_targets": {
+          "ebu_r128_programme_-23_lufs": {
+            "gain_db_needed": -0.4,
+            "peak_headroom_to_-1_dbtp_db": 7.7,
+            "target_lufs": -23.0,
+            "true_peak_after_gain_dbtp": -8.7,
+            "within_peak_ceiling": true
+          },
+          "mobile_loud_-16_lufs": {
+            "gain_db_needed": 6.6,
+            "peak_headroom_to_-1_dbtp_db": 0.7,
+            "target_lufs": -16.0,
+            "true_peak_after_gain_dbtp": -1.7,
+            "within_peak_ceiling": true
+          }
+        },
+        "sfx_levels": [
+          {
+            "active_rms_dbfs": -23.095,
+            "active_rms_minus_bgm_rms_db": 1.13,
+            "id": "sfx_crystal_ring",
+            "sample_peak_dbfs": -5.953
+          },
+          {
+            "active_rms_dbfs": -26.89,
+            "active_rms_minus_bgm_rms_db": -2.66,
+            "id": "sfx_paper_rustle",
+            "sample_peak_dbfs": -6.463
+          },
+          {
+            "active_rms_dbfs": -21.646,
+            "active_rms_minus_bgm_rms_db": 2.58,
+            "id": "sfx_slag_shift",
+            "sample_peak_dbfs": -6.03
+          }
+        ]
+      }
+    },
+    "sfx": {
+      "m4a": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              6,
+              96138
+            ],
+            "decoded_peak_dbfs": -5.926,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -51.128,
+            "id": "sfx_crystal_ring",
+            "master_active_start_end": [
+              7,
+              96071
+            ],
+            "master_peak_dbfs": -5.953,
+            "snr_db": 45.08,
+            "threshold_pcm": 165
+          },
+          {
+            "decoded_active_start_end": [
+              127,
+              46066
+            ],
+            "decoded_peak_dbfs": -7.107,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -80.767,
+            "id": "sfx_paper_rustle",
+            "master_active_start_end": [
+              127,
+              46067
+            ],
+            "master_peak_dbfs": -6.463,
+            "snr_db": 13.19,
+            "threshold_pcm": 155
+          },
+          {
+            "decoded_active_start_end": [
+              385,
+              59273
+            ],
+            "decoded_peak_dbfs": -6.024,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -84.288,
+            "id": "sfx_slag_shift",
+            "master_active_start_end": [
+              385,
+              59274
+            ],
+            "master_peak_dbfs": -6.03,
+            "snr_db": 25.05,
+            "threshold_pcm": 163
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      },
+      "ogg": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              1,
+              96205
+            ],
+            "decoded_peak_dbfs": -6.146,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -37.64,
+            "id": "sfx_crystal_ring",
+            "master_active_start_end": [
+              7,
+              96071
+            ],
+            "master_peak_dbfs": -5.953,
+            "snr_db": 32.62,
+            "threshold_pcm": 165
+          },
+          {
+            "decoded_active_start_end": [
+              127,
+              46244
+            ],
+            "decoded_peak_dbfs": -6.341,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -72.247,
+            "id": "sfx_paper_rustle",
+            "master_active_start_end": [
+              127,
+              46067
+            ],
+            "master_peak_dbfs": -6.463,
+            "snr_db": 10.16,
+            "threshold_pcm": 155
+          },
+          {
+            "decoded_active_start_end": [
+              384,
+              59278
+            ],
+            "decoded_peak_dbfs": -5.988,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -71.224,
+            "id": "sfx_slag_shift",
+            "master_active_start_end": [
+              385,
+              59274
+            ],
+            "master_peak_dbfs": -6.03,
+            "snr_db": 22.63,
+            "threshold_pcm": 163
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      }
+    }
+  },
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack-evidence"
+}

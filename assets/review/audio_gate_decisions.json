@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "description": "Decisions the project owner took about an AUDIO production gate in chat, transcribed by an agent. A gate decision opens a production wave; it is not a listening approval and signs no audio (assets/audio/listening_approvals.json is the only place a human listening is recorded), and it approves no art.",
+  "decisions": [
+    {
+      "id": "branches_gate_brief_2026-11-23",
+      "kind": "owner_statement",
+      "decided_by": "user",
+      "recorded": "2026-11-23T11:15:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-73 (an agent; it transcribed the orchestrator's relay of the owner's choice and approved nothing)",
+      "wave": "extensions.branches",
+      "gate": "Core masters accepted; three branch art briefs and encounter rhythms locked.",
+      "statement": "Dùng câu định hướng làm brief",
+      "statement_note": "The owner's choice, relayed by the orchestrator (session tien-nghich-2d-1) on 2026-11-23 at about 11:15 Asia/Saigon, selected among the options of the orchestrator's question about the gate. The option label is quoted verbatim.",
+      "decision": [
+        "The sentence at docs/AUDIO_DESIGN.md line 41 is the settled brief for the three Longtime branches: Mist Archive answers each phrase with paper friction; Ember Delta uses a soft furnace pulse and shifting slag; Star Quarry uses widely spaced stone harmonics and crystal ring.",
+        "The author proposes tempo/BPM, length, loop point and the gameplay windows of sfx_paper_rustle, sfx_slag_shift and sfx_crystal_ring, in the manner of the core beds: BGM 60 to 90 seconds, seamless loop, room left for the enemy tell, with bgm_dong_phu (AUDIO_DESIGN line 19) as the reference. The proposal is recorded as a proposal in docs/AUDIO_DESIGN.md ('Branches proposal') and in assets/audio/source/branches_sfx/VERIFICATION.md; the owner has not set these numbers.",
+        "Then produce the six cues (3 beds, 3 effects) with the Studio audio engine: no samples and no generative model. Record no listening approval."
+      ],
+      "covers": "Opens the production of bgm_mist_archive, bgm_ember_delta, bgm_star_quarry, sfx_paper_rustle, sfx_slag_shift and sfx_crystal_ring. The Modes and Characters waves keep their own gates.",
+      "does_not_cover": "Any listening sign-off, any art approval, and the numbers the author proposes."
+    }
+  ]
+}

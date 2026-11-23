@@ -37,15 +37,15 @@ test('the library lists every cue with a stage that follows the packs', async ()
   assert.equal(r.status, 200);
   const count = f => lib.entries.filter(f).length;
   assert.ok(count(e => e.kind === 'bed') >= 11 && count(e => e.kind === 'effect') >= 50, 'core 6+40 plus the later allocations');
-  assert.equal(count(e => e.kind === 'bed' && e.stage === 'packed'), 6, 'all six beds are in a pack, including the packs that list several beds');
-  assert.equal(count(e => e.kind === 'effect' && e.stage === 'packed'), 40);
-  assert.ok(count(e => e.stage === 'planned') >= 15);
+  assert.equal(count(e => e.kind === 'bed' && e.stage === 'packed'), 9, 'all nine beds are in a pack, including the packs that list several beds');
+  assert.equal(count(e => e.kind === 'effect' && e.stage === 'packed'), 43);
+  assert.ok(count(e => e.stage === 'planned') >= 9, 'the Modes and Characters waves are still planned');
   const blade = lib.entries.find(e => e.id === 'sfx_blade');
   assert.deepEqual(blade.packs.length, 1);
   assert.ok(blade.families.some(f => f.family === 'arm_blade' && f.role === 'release'));
   assert.match(blade.masterSha, /^[0-9a-f]{64}$/);
   assert.ok(lib.entries.find(e => e.id === 'bgm_hengyue').modes.some(m => m.mode === 'core' && m.event === 'entry'));
-  assert.equal(lib.packs.length, 5);
+  assert.equal(lib.packs.length, 6);
 });
 
 test('a bed carries its loop, recorded figures and pack evidence', async () => {

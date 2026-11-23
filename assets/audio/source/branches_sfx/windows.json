@@ -1,0 +1,71 @@
+{
+  "sfx_paper_rustle": {
+    "kind": "ms",
+    "windowMs": 800,
+    "tailMs": 300,
+    "totalMs": 1100,
+    "scale": 1,
+    "baseDurationMs": 1100,
+    "source": "800 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 800,
+        "tailMs": 300
+      },
+      "windowMs": 800,
+      "tailMs": 300,
+      "totalMs": 1100,
+      "scale": 1,
+      "baseDurationMs": 1100,
+      "source": "800 ms given"
+    },
+    "configSha256": "7a5c06b5a365fc5bf370285012ac2d30100bccc7645d5d7c14315983540e583e"
+  },
+  "sfx_slag_shift": {
+    "kind": "ms",
+    "windowMs": 1100,
+    "tailMs": 400,
+    "totalMs": 1500,
+    "scale": 1,
+    "baseDurationMs": 1500,
+    "source": "1100 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 1100,
+        "tailMs": 400
+      },
+      "windowMs": 1100,
+      "tailMs": 400,
+      "totalMs": 1500,
+      "scale": 1,
+      "baseDurationMs": 1500,
+      "source": "1100 ms given"
+    },
+    "configSha256": "a2a026d034b6805e17a07839d9ba9db387ba1aa5380692278c13164be0733276"
+  },
+  "sfx_crystal_ring": {
+    "kind": "ms",
+    "windowMs": 1400,
+    "tailMs": 1000,
+    "totalMs": 2400,
+    "scale": 1,
+    "baseDurationMs": 2400,
+    "source": "1400 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 1400,
+        "tailMs": 1000
+      },
+      "windowMs": 1400,
+      "tailMs": 1000,
+      "totalMs": 2400,
+      "scale": 1,
+      "baseDurationMs": 2400,
+      "source": "1400 ms given"
+    },
+    "configSha256": "8eeba22ae684fafabad2e8a676d5d512b4da1651d2346b1162624f9ada304885"
+  }
+}

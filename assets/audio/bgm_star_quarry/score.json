@@ -1,0 +1,49 @@
+{
+  "schema": "studio.audio.score", "version": 1,
+  "id": "bgm_star_quarry",
+  "title": "Star Quarry: stone harmonics and crystal ring",
+  "sampleRate": 44100, "seed": 6303,
+  "tempoBpm": 60, "beatsPerBar": 4, "tuningA4Hz": 440,
+  "key": {"tonic": "C", "scale": "major-pentatonic", "enforce": true},
+  "loop": {"bars": 20},
+  "instruments": {
+    "stone": {"gains": [0.3, 0.25], "tailMs": 3200, "fadeOutMs": 10,
+      "layers": [
+        {"type": "osc", "wave": "additive", "ratio": 1,
+         "harmonics": [{"n": 1, "gain": 1, "decay": 0.9}, {"n": 2, "gain": 0.4, "decay": 1.4}, {"n": 3, "gain": 0.28, "decay": 2.1}, {"n": 5, "gain": 0.1, "decay": 3.2}],
+         "env": {"attackMs": 6, "attackShape": "exp", "releaseMs": 200, "releaseShape": "exp"}},
+        {"type": "noise", "gain": 0.06, "filters": [{"type": "band", "lowHz": 200, "highHz": 900}], "env": {"attackMs": 2, "decayMs": 40, "releaseMs": 30}}]},
+    "crystal": {"gains": [0.065, 0.095], "tailMs": 3800, "fadeOutMs": 10,
+      "layers": [
+        {"type": "osc", "wave": "sine", "ratio": 1, "fm": {"ratio": 3.5, "index": 0.9},
+         "env": {"attackMs": 3, "attackShape": "exp", "decayMs": 1500, "releaseMs": 300, "releaseShape": "exp"}},
+        {"type": "osc", "wave": "sine", "ratio": 2.76, "gain": 0.3,
+         "env": {"attackMs": 3, "attackShape": "exp", "decayMs": 600, "releaseMs": 200, "releaseShape": "exp"}}]},
+    "air": {"gains": [0.06, 0.06], "tailMs": 3000, "fadeOutMs": 10,
+      "layers": [
+        {"type": "osc", "wave": "sine", "ratio": 1,
+         "env": {"attackMs": 2200, "attackShape": "exp", "releaseMs": 2200, "releaseShape": "exp"}},
+        {"type": "osc", "wave": "sine", "ratio": 1.5, "gain": 0.7,
+         "env": {"attackMs": 2600, "attackShape": "exp", "releaseMs": 2200, "releaseShape": "exp"}}]}
+  },
+  "patterns": {
+    "stone_a": [[0,"C3",4,0.9],[4,"G3",4,0.6]],
+    "stone_b": [[0,"C3",4,0.9],[5,"D3",4,0.55]],
+    "stone_c": [[0,"G2",4,0.85],[4,"E3",4,0.6]],
+    "ring_a": [[2,"E5",1,0.6],[9,"G5",1,0.5]],
+    "ring_b": [[3,"A5",1,0.55],[11,"E5",1,0.5]],
+    "ring_c": [[1,"C6",1,0.45],[6,"G5",1,0.5],[13,"E5",1,0.45]],
+    "floor": [[0,"C2",79.5,0.9],[0,"G2",79.5,0.6]]
+  },
+  "tracks": [
+    {"name": "stone", "instrument": "stone", "sequence": [
+      {"bar":0,"pattern":"stone_a"},{"bar":2,"pattern":"stone_b"},{"bar":4,"pattern":"stone_a"},{"bar":6,"pattern":"stone_c"},
+      {"bar":8,"pattern":"stone_a"},{"bar":10,"pattern":"stone_b"},{"bar":12,"pattern":"stone_c"},{"bar":14,"pattern":"stone_a"},
+      {"bar":16,"pattern":"stone_b"},{"bar":18,"pattern":"stone_c"}]},
+    {"name": "crystal", "instrument": "crystal", "sequence": [
+      {"bar":1,"pattern":"ring_a"},{"bar":5,"pattern":"ring_b"},{"bar":9,"pattern":"ring_c"},{"bar":13,"pattern":"ring_a"},{"bar":17,"pattern":"ring_b"}]},
+    {"name": "air", "instrument": "air", "sequence": [{"bar":0,"pattern":"floor"}]}
+  ],
+  "reverb": {"type": "impulse", "seconds": 3.4, "decayPerSecond": 1.9, "seeds": [811, 822], "attackMs": 20, "smoothTaps": 3, "wet": 0.45, "dry": 1},
+  "masterGain": 0.7
+}
