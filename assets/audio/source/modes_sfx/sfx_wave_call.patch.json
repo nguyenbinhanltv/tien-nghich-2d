@@ -1,0 +1,17 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_wave_call",
+  "title": "Wave call (Defense, before each wave)",
+  "design": "A low horn calls twice, a rising fifth: a soft sawtooth near E3 then B3 through a low-pass, each with a sine octave, so it carries without a bright edge. The call swells, then the second note holds and fades. It sits below the bronze warning register so it announces the wave without reading as an enemy tell.",
+  "sampleRate": 44100, "channels": 1, "seed": 9803,
+  "durationMs": 1400, "trim": 0.73,
+  "window": {"ms": 900, "tailMs": 500},
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 440, "gain": 0.75, "wave": "saw", "hz": 164.8, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 720, "q": 0.9}], "env": {"attackMs": 70, "decayMs": 500, "releaseMs": 160}},
+    {"type": "osc", "startMs": 0, "ms": 440, "gain": 0.25, "hz": 329.6, "env": {"attackMs": 90, "releaseMs": 160}},
+    {"type": "osc", "startMs": 450, "ms": 850, "gain": 0.85, "wave": "saw", "hz": 246.9, "vibrato": {"hz": 5.2, "depth": 0.003, "riseMs": 400}, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 950, "endHz": 650, "q": 0.9}], "env": {"attackMs": 80, "decayMs": 650, "releaseMs": 420}},
+    {"type": "osc", "startMs": 450, "ms": 850, "gain": 0.22, "hz": 493.9, "env": {"attackMs": 110, "decayMs": 600, "releaseMs": 420}},
+    {"type": "noise", "startMs": 0, "ms": 1250, "gain": 0.12, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 520, "q": 0.7}], "env": {"attackMs": 200, "decayMs": 800, "releaseMs": 400}}
+  ]
+}

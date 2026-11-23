@@ -17,6 +17,7 @@
     },
     "modes": {
       "gate": "Branch wave accepted; trial round and defense wave milestones signed off.",
+      "gate_decision": "assets/review/audio_gate_decisions.json#modes_gate_2026-11-23",
       "bgm": ["bgm_aftermath", "bgm_defense"],
       "sfx": ["sfx_floor_mark", "sfx_oath", "sfx_wave_call", "sfx_core_crack"]
     },

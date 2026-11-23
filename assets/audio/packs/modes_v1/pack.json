@@ -1,0 +1,638 @@
+{
+  "batch": 6,
+  "bgms": [
+    {
+      "channels": 2,
+      "codecs": {
+        "m4a": {
+          "bytes": 1641690,
+          "container": {
+            "edit_list": [
+              {
+                "media_time": 1024,
+                "segment_duration_movie_units": 80743
+              }
+            ],
+            "itunsmpb_present": false,
+            "media_duration_units": 3561792,
+            "media_timescale": 44100
+          },
+          "decoded_frames": 3561472,
+          "decoded_loop_frames": {
+            "loopEnd": 3544384,
+            "loopStart": 16384
+          },
+          "decoded_sample_peak_dbfs": -10.888,
+          "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+          "encoded_layout": {
+            "body_frames": 3528000,
+            "lead_in_frames": 16384,
+            "lead_out_frames": 16384
+          },
+          "expected_frames": 3560768,
+          "ffmpeg_args": [
+            "ffmpeg",
+            "-y",
+            "-i",
+            "<wrapped loop wav>",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+            "-map_metadata",
+            "-1",
+            "-fflags",
+            "+bitexact",
+            "-flags:a",
+            "+bitexact",
+            "bgm_aftermath.m4a"
+          ],
+          "file": "bgm_aftermath.m4a",
+          "loop_source_frames": {
+            "loopEnd": 3528000,
+            "loopStart": 0
+          },
+          "loudness": {
+            "integrated_lufs": -23.5,
+            "loudness_range_lu": 15.5,
+            "true_peak_dbtp": -10.9
+          },
+          "measured_head_offset_frames": 0,
+          "raw_head_offset_frames_if_edit_list_ignored": 1024,
+          "seam_three_repeats": {
+            "body_max_error_pcm": 725.0,
+            "body_rms_error_dbfs": -67.107,
+            "decoded_body_step_max_pcm": 583.0,
+            "decoded_body_step_p9999_pcm": 489.0,
+            "decoded_join_step_pcm": [
+              7.0,
+              7.0
+            ],
+            "frames_added_or_removed": 0,
+            "joins_loop_relative_frames": [
+              3528000,
+              7056000
+            ],
+            "loop_snr_db": 41.06,
+            "master_join_step_pcm": [
+              13.0,
+              13.0
+            ],
+            "pass": true,
+            "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+            "repeat_frames_each": 3528000,
+            "seam_window_max_error_pcm": [
+              13.0,
+              13.0
+            ]
+          },
+          "sha256": "913821a6169ac166cbd1ee8619ba53c74d213dc6147b8aec8e529232d0dbba24",
+          "trailing_extra_frames": 704
+        },
+        "ogg": {
+          "bytes": 1024352,
+          "container": {
+            "final_granule_position": 3560768,
+            "pages": 82,
+            "serial_number": 0
+          },
+          "decoded_frames": 3560768,
+          "decoded_loop_frames": {
+            "loopEnd": 3544384,
+            "loopStart": 16384
+          },
+          "decoded_sample_peak_dbfs": -10.857,
+          "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+          "encoded_layout": {
+            "body_frames": 3528000,
+            "lead_in_frames": 16384,
+            "lead_out_frames": 16384
+          },
+          "expected_frames": 3560768,
+          "ffmpeg_args": [
+            "ffmpeg",
+            "-y",
+            "-i",
+            "<wrapped loop wav>",
+            "-c:a",
+            "libvorbis",
+            "-q:a",
+            "5",
+            "-map_metadata",
+            "-1",
+            "-fflags",
+            "+bitexact",
+            "-flags:a",
+            "+bitexact",
+            "bgm_aftermath.ogg"
+          ],
+          "file": "bgm_aftermath.ogg",
+          "loop_source_frames": {
+            "loopEnd": 3528000,
+            "loopStart": 0
+          },
+          "loudness": {
+            "integrated_lufs": -23.5,
+            "loudness_range_lu": 15.5,
+            "true_peak_dbtp": -10.9
+          },
+          "measured_head_offset_frames": 0,
+          "raw_head_offset_frames_if_edit_list_ignored": 0,
+          "seam_three_repeats": {
+            "body_max_error_pcm": 229.0,
+            "body_rms_error_dbfs": -61.011,
+            "decoded_body_step_max_pcm": 586.0,
+            "decoded_body_step_p9999_pcm": 493.0,
+            "decoded_join_step_pcm": [
+              25.0,
+              25.0
+            ],
+            "frames_added_or_removed": 0,
+            "joins_loop_relative_frames": [
+              3528000,
+              7056000
+            ],
+            "loop_snr_db": 34.96,
+            "master_join_step_pcm": [
+              13.0,
+              13.0
+            ],
+            "pass": true,
+            "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+            "repeat_frames_each": 3528000,
+            "seam_window_max_error_pcm": [
+              79.0,
+              79.0
+            ]
+          },
+          "sha256": "1e752ac757cb132c6785ca2f6d9e24a32597e8ee58542e8b51f82fb64ad0e7db",
+          "trailing_extra_frames": 0
+        }
+      },
+      "id": "bgm_aftermath",
+      "master": {
+        "file": "assets/audio/bgm_aftermath/master.wav",
+        "frames": 3528000,
+        "loopEnd": 3528000,
+        "loopStart": 0,
+        "loudness": {
+          "integrated_lufs": -23.5,
+          "loudness_range_lu": 15.5,
+          "true_peak_dbtp": -10.9
+        },
+        "marker_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+        "rms_dbfs": -26.047,
+        "sample_peak_dbfs": -10.89,
+        "sha256": "44c49eec850cb91bdfb216b52bdad1b40fdd5c144ce2d9b8300135b53b653058"
+      },
+      "sample_rate_hz": 44100
+    },
+    {
+      "channels": 2,
+      "codecs": {
+        "m4a": {
+          "bytes": 1720261,
+          "container": {
+            "edit_list": [
+              {
+                "media_time": 1024,
+                "segment_duration_movie_units": 80743
+              }
+            ],
+            "itunsmpb_present": false,
+            "media_duration_units": 3561792,
+            "media_timescale": 44100
+          },
+          "decoded_frames": 3561472,
+          "decoded_loop_frames": {
+            "loopEnd": 3544384,
+            "loopStart": 16384
+          },
+          "decoded_sample_peak_dbfs": -6.033,
+          "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+          "encoded_layout": {
+            "body_frames": 3528000,
+            "lead_in_frames": 16384,
+            "lead_out_frames": 16384
+          },
+          "expected_frames": 3560768,
+          "ffmpeg_args": [
+            "ffmpeg",
+            "-y",
+            "-i",
+            "<wrapped loop wav>",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+            "-map_metadata",
+            "-1",
+            "-fflags",
+            "+bitexact",
+            "-flags:a",
+            "+bitexact",
+            "bgm_defense.m4a"
+          ],
+          "file": "bgm_defense.m4a",
+          "loop_source_frames": {
+            "loopEnd": 3528000,
+            "loopStart": 0
+          },
+          "loudness": {
+            "integrated_lufs": -23.4,
+            "loudness_range_lu": 2.0,
+            "true_peak_dbtp": -6.0
+          },
+          "measured_head_offset_frames": 0,
+          "raw_head_offset_frames_if_edit_list_ignored": 1024,
+          "seam_three_repeats": {
+            "body_max_error_pcm": 1527.0,
+            "body_rms_error_dbfs": -60.739,
+            "decoded_body_step_max_pcm": 620.0,
+            "decoded_body_step_p9999_pcm": 427.0,
+            "decoded_join_step_pcm": [
+              125.0,
+              125.0
+            ],
+            "frames_added_or_removed": 0,
+            "joins_loop_relative_frames": [
+              3528000,
+              7056000
+            ],
+            "loop_snr_db": 36.27,
+            "master_join_step_pcm": [
+              119.0,
+              119.0
+            ],
+            "pass": true,
+            "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+            "repeat_frames_each": 3528000,
+            "seam_window_max_error_pcm": [
+              34.0,
+              34.0
+            ]
+          },
+          "sha256": "6b61bb000a98e5979526bf9244209acc158ce09b29ec88d2e814e537bc5a808e",
+          "trailing_extra_frames": 704
+        },
+        "ogg": {
+          "bytes": 1068104,
+          "container": {
+            "final_granule_position": 3560768,
+            "pages": 82,
+            "serial_number": 0
+          },
+          "decoded_frames": 3560768,
+          "decoded_loop_frames": {
+            "loopEnd": 3544384,
+            "loopStart": 16384
+          },
+          "decoded_sample_peak_dbfs": -6.079,
+          "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+          "encoded_layout": {
+            "body_frames": 3528000,
+            "lead_in_frames": 16384,
+            "lead_out_frames": 16384
+          },
+          "expected_frames": 3560768,
+          "ffmpeg_args": [
+            "ffmpeg",
+            "-y",
+            "-i",
+            "<wrapped loop wav>",
+            "-c:a",
+            "libvorbis",
+            "-q:a",
+            "5",
+            "-map_metadata",
+            "-1",
+            "-fflags",
+            "+bitexact",
+            "-flags:a",
+            "+bitexact",
+            "bgm_defense.ogg"
+          ],
+          "file": "bgm_defense.ogg",
+          "loop_source_frames": {
+            "loopEnd": 3528000,
+            "loopStart": 0
+          },
+          "loudness": {
+            "integrated_lufs": -23.4,
+            "loudness_range_lu": 2.0,
+            "true_peak_dbtp": -6.1
+          },
+          "measured_head_offset_frames": 0,
+          "raw_head_offset_frames_if_edit_list_ignored": 0,
+          "seam_three_repeats": {
+            "body_max_error_pcm": 842.0,
+            "body_rms_error_dbfs": -54.468,
+            "decoded_body_step_max_pcm": 692.0,
+            "decoded_body_step_p9999_pcm": 447.0,
+            "decoded_join_step_pcm": [
+              151.0,
+              151.0
+            ],
+            "frames_added_or_removed": 0,
+            "joins_loop_relative_frames": [
+              3528000,
+              7056000
+            ],
+            "loop_snr_db": 30.0,
+            "master_join_step_pcm": [
+              119.0,
+              119.0
+            ],
+            "pass": true,
+            "pass_rule": "decoded join step <= decoded body step p99.99 and seam-window max error <= body max error",
+            "repeat_frames_each": 3528000,
+            "seam_window_max_error_pcm": [
+              53.0,
+              53.0
+            ]
+          },
+          "sha256": "d21dabee312d5caa2e2d42e940f42bca39ac7d79d0b50bd9b58e3c98e5fd8d87",
+          "trailing_extra_frames": 0
+        }
+      },
+      "id": "bgm_defense",
+      "master": {
+        "file": "assets/audio/bgm_defense/master.wav",
+        "frames": 3528000,
+        "loopEnd": 3528000,
+        "loopStart": 0,
+        "loudness": {
+          "integrated_lufs": -23.4,
+          "loudness_range_lu": 1.9,
+          "true_peak_dbtp": -6.1
+        },
+        "marker_units": "sample frames per channel, half-open [loopStart, loopEnd)",
+        "rms_dbfs": -24.469,
+        "sample_peak_dbfs": -6.143,
+        "sha256": "fd7d3d1c23145132899f89b78a959534c8919601b3fb6ac5d9d809202fffd969"
+      },
+      "sample_rate_hz": 44100
+    }
+  ],
+  "inputs": {
+    "base": "c72f601fad4874c672c0bba110788b068db9c186",
+    "bgm_source_commit": "same pull request as this pack; the source hashes are in each assets/audio/<bed>/provenance.json",
+    "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/modes_sfx/provenance.json"
+  },
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack",
+  "sfx": {
+    "aac_frame_alignment": 1024,
+    "channels": 1,
+    "codecs": {
+      "m4a": {
+        "bytes": 73110,
+        "container": {
+          "edit_list": [
+            {
+              "media_time": 1024,
+              "segment_duration_movie_units": 6316
+            }
+          ],
+          "itunsmpb_present": false,
+          "media_duration_units": 279552,
+          "media_timescale": 44100
+        },
+        "decoded_frames": 278528,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8193,
+              "sprite_end_exclusive": 63317,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 60376
+            },
+            "id": "sfx_core_crack"
+          },
+          {
+            "decoded": {
+              "onset": 71685,
+              "sprite_end_exclusive": 126805,
+              "sprite_start": 71680,
+              "tail_end_exclusive": 125386
+            },
+            "id": "sfx_floor_mark"
+          },
+          {
+            "decoded": {
+              "onset": 135175,
+              "sprite_end_exclusive": 199113,
+              "sprite_start": 135168,
+              "tail_end_exclusive": 197692
+            },
+            "id": "sfx_oath"
+          },
+          {
+            "decoded": {
+              "onset": 207877,
+              "sprite_end_exclusive": 269612,
+              "sprite_start": 207872,
+              "tail_end_exclusive": 265196
+            },
+            "id": "sfx_wave_call"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -5.504,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 278528,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "aac",
+          "-b:a",
+          "96k",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.m4a"
+        ],
+        "file": "sfx_sprite.m4a",
+        "loudness": {
+          "integrated_lufs": -18.6,
+          "loudness_range_lu": 9.1,
+          "true_peak_dbtp": -5.5
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 1024,
+        "sha256": "84bc6973d998e754951a0e0532fb5a64dc037cfdb9d8496ebe455afdb4125abf",
+        "trailing_extra_frames": 0
+      },
+      "ogg": {
+        "bytes": 45262,
+        "container": {
+          "final_granule_position": 278528,
+          "pages": 9,
+          "serial_number": 0
+        },
+        "decoded_frames": 278528,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8193,
+              "sprite_end_exclusive": 63317,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 60376
+            },
+            "id": "sfx_core_crack"
+          },
+          {
+            "decoded": {
+              "onset": 71685,
+              "sprite_end_exclusive": 126805,
+              "sprite_start": 71680,
+              "tail_end_exclusive": 125386
+            },
+            "id": "sfx_floor_mark"
+          },
+          {
+            "decoded": {
+              "onset": 135175,
+              "sprite_end_exclusive": 199113,
+              "sprite_start": 135168,
+              "tail_end_exclusive": 197692
+            },
+            "id": "sfx_oath"
+          },
+          {
+            "decoded": {
+              "onset": 207877,
+              "sprite_end_exclusive": 269612,
+              "sprite_start": 207872,
+              "tail_end_exclusive": 265196
+            },
+            "id": "sfx_wave_call"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -5.919,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 278528,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "libvorbis",
+          "-q:a",
+          "5",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.ogg"
+        ],
+        "file": "sfx_sprite.ogg",
+        "loudness": {
+          "integrated_lufs": -18.6,
+          "loudness_range_lu": 9.1,
+          "true_peak_dbtp": -5.4
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 0,
+        "sha256": "6d5ae58fc4739341b43e2ac2e4689aba5667300f12d46c8c32e8fb2b1bc5142c",
+        "trailing_extra_frames": 0
+      }
+    },
+    "cues": [
+      {
+        "id": "sfx_core_crack",
+        "master_file": "assets/audio/masters/modes_sfx/sfx_core_crack.wav",
+        "master_frames": 55125,
+        "master_onset_frame": 1,
+        "master_sha256": "cb41a68e34c5e0e0bc0e11a374213f44350026168ed8fae1c3bab98c9ede6dd7",
+        "master_tail_end_exclusive": 52184,
+        "source": {
+          "onset": 8193,
+          "sprite_end_exclusive": 63317,
+          "sprite_start": 8192,
+          "tail_end_exclusive": 60376
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_floor_mark",
+        "master_file": "assets/audio/masters/modes_sfx/sfx_floor_mark.wav",
+        "master_frames": 55125,
+        "master_onset_frame": 5,
+        "master_sha256": "0ba5e9785e4e10d25bd9f9c96cfa50ecd51657052c7e39d0b865c42314518556",
+        "master_tail_end_exclusive": 53706,
+        "source": {
+          "onset": 71685,
+          "sprite_end_exclusive": 126805,
+          "sprite_start": 71680,
+          "tail_end_exclusive": 125386
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_oath",
+        "master_file": "assets/audio/masters/modes_sfx/sfx_oath.wav",
+        "master_frames": 63945,
+        "master_onset_frame": 7,
+        "master_sha256": "3c1d5e1018be957478c3c9430b51f9f7517e4791eddf57183f25b3d4477e90b5",
+        "master_tail_end_exclusive": 62524,
+        "source": {
+          "onset": 135175,
+          "sprite_end_exclusive": 199113,
+          "sprite_start": 135168,
+          "tail_end_exclusive": 197692
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_wave_call",
+        "master_file": "assets/audio/masters/modes_sfx/sfx_wave_call.wav",
+        "master_frames": 61740,
+        "master_onset_frame": 5,
+        "master_sha256": "650791708ef825db7136a1b23c1e32621bcd07621668d9ecccdd14fa00441817",
+        "master_tail_end_exclusive": 57324,
+        "source": {
+          "onset": 207877,
+          "sprite_end_exclusive": 269612,
+          "sprite_start": 207872,
+          "tail_end_exclusive": 265196
+        },
+        "variant": "default"
+      }
+    ],
+    "guard_frames": 8192,
+    "id": "sfx_sprite",
+    "sample_rate_hz": 44100,
+    "sprite_master": {
+      "file": "sfx_sprite_master.wav",
+      "frames": 278528,
+      "sha256": "a895301e6554ae5d90556fba376455640858ab4611594ca5f047a879fb57da42"
+    }
+  },
+  "toolchain": {
+    "aac_encoder": "FFmpeg native aac (AAC-LC) 96k mono SFX / 160k stereo BGM",
+    "binary_sha256": "468833134308b22bc67dde18016cc3a9fae1d93d839f54581dab5fa4cd5c1744",
+    "build_script": "tools/scripts/build_ffmpeg_611_mac.sh",
+    "configure": "--prefix=<prefix> --cc=clang --disable-autodetect --disable-doc --disable-ffplay --disable-ffprobe --enable-libvorbis --enable-static --disable-shared --pkg-config-flags=--static --extra-cflags='-O2 -I<prefix>/include' --extra-ldflags=' -L<prefix>/lib'",
+    "ffmpeg": "ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers",
+    "libvorbis_build_note": "sed removes -force_cpusubtype_ALL (patched configure sha256 c1991118ed159631298a5ce620afe7f1fb059854473ca12774e3f224fb864130)",
+    "numpy": "2.5.5",
+    "python": "3.14.5",
+    "rebuild": "tools/.venvs/project/bin/python -I -B tools/scripts/build_audio_wave2_pack.py --batch 6 --ffmpeg <native ffmpeg>",
+    "source_tarball_sha256": {
+      "ffmpeg-6.1.1.tar.xz": "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968",
+      "libogg-1.3.5.tar.xz": "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705",
+      "libvorbis-1.3.7.tar.xz": "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
+    },
+    "variant": "native",
+    "vorbis_encoder": "libvorbis -q:a 5"
+  }
+}

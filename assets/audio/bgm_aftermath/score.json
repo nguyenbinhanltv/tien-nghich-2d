@@ -1,0 +1,33 @@
+{
+  "schema": "studio.audio.score",
+  "version": 1,
+  "id": "bgm_aftermath",
+  "title": "Aftermath: a quiet exit after the trial",
+  "sampleRate": 44100,
+  "seed": 6301,
+  "tempoBpm": 48,
+  "beatsPerBar": 4,
+  "tuningA4Hz": 440,
+  "key": {"tonic": "D", "scale": "major-pentatonic", "enforce": true},
+  "loop": {"bars": 16},
+  "instruments": {
+    "bell": {"gains": [0.5, 0.42], "tailMs": 3200, "fadeOutMs": 10, "layers": [{"type": "osc", "wave": "sine", "ratio": 1, "fm": {"ratio": 2, "index": 0.35}, "env": {"attackMs": 9, "attackShape": "exp", "decayMs": 1700, "releaseMs": 220, "releaseShape": "exp"}}, {"type": "osc", "wave": "sine", "ratio": 2.003, "gain": 0.14, "env": {"attackMs": 14, "attackShape": "exp", "decayMs": 900, "releaseMs": 200, "releaseShape": "exp"}}]},
+    "breath": {"gains": [0.85, 0.7], "tailMs": 900, "fadeOutMs": 10, "pitched": false, "layers": [{"type": "noise", "gain": 0.4, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 700, "endHz": 260, "q": 0.7}], "am": {"hz": 0.4, "depth": 0.5}, "env": {"attackMs": 1900, "decayMs": 3600, "releaseMs": 1400}}]},
+    "pad": {"gains": [0.05, 0.05], "tailMs": 2600, "fadeOutMs": 10, "layers": [{"type": "osc", "wave": "triangle", "ratio": 1, "vibrato": {"hz": 0.09, "depth": 0.0012, "riseMs": 2400}, "env": {"attackMs": 1800, "attackShape": "exp", "releaseMs": 1800, "releaseShape": "exp"}}, {"type": "osc", "wave": "sine", "ratio": 2.002, "gain": 0.25, "env": {"attackMs": 2200, "attackShape": "exp", "releaseMs": 1800, "releaseShape": "exp"}}]}
+  },
+  "patterns": {
+    "fall_a": [[0, "A4", 2, 0.62], [2.5, "F#4", 1.5, 0.5], [5, "D4", 3, 0.55]],
+    "fall_b": [[0, "B3", 2, 0.55], [2, "D4", 1, 0.48], [4, "E4", 2, 0.5], [6.5, "A3", 3, 0.5]],
+    "fall_c": [[0, "F#4", 2, 0.58], [2.5, "E4", 1.5, 0.5], [4.5, "D4", 1, 0.45], [6, "A3", 4, 0.5]],
+    "exhale": [[0, "D3", 6, 0.6]],
+    "root": [[0, "D2", 31.5, 0.9], [0, "A2", 31.5, 0.62]],
+    "turn": [[0, "B2", 31.5, 0.8], [0, "F#3", 31.5, 0.55]]
+  },
+  "tracks": [
+    {"name": "voice", "instrument": "bell", "sequence": [{"bar": 0, "pattern": "fall_a"}, {"bar": 4, "pattern": "fall_b"}, {"bar": 8, "pattern": "fall_a", "transpose": -12}, {"bar": 12, "pattern": "fall_c"}]},
+    {"name": "breath", "instrument": "breath", "sequence": [{"bar": 2, "pattern": "exhale"}, {"bar": 6, "pattern": "exhale"}, {"bar": 10, "pattern": "exhale"}, {"bar": 14, "pattern": "exhale"}]},
+    {"name": "bed", "instrument": "pad", "sequence": [{"bar": 0, "pattern": "root"}, {"bar": 8, "pattern": "turn"}]}
+  ],
+  "reverb": {"type": "impulse", "seconds": 3.0, "decayPerSecond": 2.3, "seeds": [811, 822], "attackMs": 16, "smoothTaps": 5, "wet": 0.42, "dry": 1},
+  "masterGain": 0.45
+}

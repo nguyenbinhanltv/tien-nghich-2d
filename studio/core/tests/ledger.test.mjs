@@ -44,7 +44,7 @@ test('origins come from the recorded files: generator script, tool render, retir
 
 test('an asset with no record is "not recorded", and planned ones are counted as such', () => {
   const none = ledger.assets.filter(a => a.origin.kind === 'not-recorded');
-  assert.ok(none.length >= 9, 'the nine cues of the Modes and Characters waves are still planned');
+  assert.ok(none.length >= 3, 'the three cues of the Characters wave are still planned');
   assert.ok(none.every(a => !a.recorded && a.evidence.length === 0 && a.origin.script === null));
   assert.ok(ledger.summary.planned > 0 && ledger.summary.planned <= none.length);
   const md = ledgerMarkdown(ledger);
@@ -224,8 +224,8 @@ test('real project: a source hash the supplement adds is the hash of the files i
   assert.equal(byId('mob_blood_corpse').origin.promptHash, sha(meta.states[0].character.prompt));
 });
 
-test('real project: the 9 planned audio cues stay unproduced, with the plan\'s intent shown as intent', () => {
-  const ids = ['bgm_aftermath', 'bgm_defense', 'sfx_core_crack', 'sfx_floor_mark', 'sfx_form_shift', 'sfx_keeper_call', 'sfx_oath', 'sfx_pet_reply', 'sfx_wave_call'];
+test('real project: the 3 planned audio cues stay unproduced, with the plan\'s intent shown as intent', () => {
+  const ids = ['sfx_form_shift', 'sfx_keeper_call', 'sfx_pet_reply'];
   for (const id of ids) {
     const a = byId(id);
     assert.deepEqual([a.origin.kind, a.planned, a.recorded, a.rights, a.evidence, a.filled], ['not-recorded', true, false, null, [], []], id);
@@ -233,13 +233,22 @@ test('real project: the 9 planned audio cues stay unproduced, with the plan\'s i
     assert.match(a.intent.en, /intention, not a provenance record/);
     assert.match(a.intent.vi, /ý định, không phải bản ghi/);
   }
-  assert.equal(ledger.assets.filter(a => a.planned).length, 9);
-  assert.match(ledgerMarkdown(ledger), /\| sfx_oath \|[^\n]*planned, not produced/);
-  assert.match(ledgerMarkdown(ledger, 'vi'), /\| sfx_oath \|[^\n]*dự kiến, chưa sản xuất/);
+  assert.equal(ledger.assets.filter(a => a.planned).length, 3);
+  assert.match(ledgerMarkdown(ledger), /\| sfx_pet_reply \|[^\n]*planned, not produced/);
+  assert.match(ledgerMarkdown(ledger, 'vi'), /\| sfx_pet_reply \|[^\n]*dự kiến, chưa sản xuất/);
 });
 
 test('real project: the six Branches cues carry an audio-script origin and an accepted rights string, and no listening', () => {
   for (const id of ['bgm_mist_archive', 'bgm_ember_delta', 'bgm_star_quarry', 'sfx_paper_rustle', 'sfx_slag_shift', 'sfx_crystal_ring']) {
+    const a = byId(id);
+    assert.deepEqual([a.origin.kind, a.planned, a.recorded], ['audio-script', false, true], id);
+    assert.ok(a.origin.script && a.origin.seed !== null && a.rights, id);
+    assert.deepEqual([a.origin.tool, a.origin.toolPin], ['Node + Studio audio engine (CPython wrapper)', 'Node v24.12.0, CPython 3.14.5'], `${id}: rendered by the Node engine, not by CPython`);
+  }
+});
+
+test('real project: the six Modes cues carry an audio-script origin, an accepted rights string and the Node engine as tool, and no listening', () => {
+  for (const id of ['bgm_aftermath', 'bgm_defense', 'sfx_floor_mark', 'sfx_oath', 'sfx_wave_call', 'sfx_core_crack']) {
     const a = byId(id);
     assert.deepEqual([a.origin.kind, a.planned, a.recorded], ['audio-script', false, true], id);
     assert.ok(a.origin.script && a.origin.seed !== null && a.rights, id);

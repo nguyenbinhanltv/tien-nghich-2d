@@ -18,6 +18,7 @@ PACKS = {
     "wave2_batch3_v1": ("wave2_third_sfx", ["bgm_ancient_god"]),
     "wave2_batch4_v1": ("wave2_fourth_sfx", ["bgm_boss_trial", "bgm_endless"]),
     "branches_v1": ("branches_sfx", ["bgm_mist_archive", "bgm_ember_delta", "bgm_star_quarry"]),
+    "modes_v1": ("modes_sfx", ["bgm_aftermath", "bgm_defense"]),
 }
 
 
