@@ -28,3 +28,7 @@ export const FLOOR_LABEL_MAX_W = 64;
 export const FLOOR_COLUMN_LEFT = VIEW_W - MARGIN.x - mapSize(99).w - 6 - FLOOR_LABEL_MAX_W;
 /** The boss name may use the space between the boss bar's left edge and the floor column (4 px clear). */
 export const BOSS_NAME_MAX_W = FLOOR_COLUMN_LEFT - 4 - HUD_POS.bossBar.x;
+
+/** Free wall band between the player's HUD and the boss bar: the realm and cluster lines (ui/floor-status.ts) are drawn here. */
+export const RUN_LINES_X = HUD_POS.playerBar.x + BAR_W + 8;
+export const RUN_LINES_MAX_W = HUD_POS.bossBar.x - 4 - RUN_LINES_X;

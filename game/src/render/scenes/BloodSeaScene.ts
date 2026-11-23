@@ -34,6 +34,10 @@ export interface SceneHost {
   run?: { seed: number; runId: number };
   /** Called once, on the first Dodge/Counter press after the result beat, when `run` is set. The run in `world.run` has ended. */
   onFinished?(world: WorldState): void;
+  /** The realm gate: the run waits at the door until `choose` is called with the player's pick. Shown once per gate. */
+  onGate?(choose: (choice: 'breakthrough' | 'pill') => void): void;
+  /** The realm and cluster lines of the floor HUD (built from the run state and the player's language). */
+  runLines?(run: WorldState['run']): string[];
   /** Compiled content (tables, room layouts, encounters). With it the scene plays the real floor, room by room; without it the old boss arena. */
   content?: ContentApi | null;
   /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
@@ -72,6 +76,7 @@ export class BloodSeaScene extends Phaser.Scene {
   private hud!: Hud;
   private floor!: FloorHud;
   private room!: RoomView;
+  private gateAsked = false;
 
   constructor(host: SceneHost) {
     super('blood-sea');
@@ -150,6 +155,10 @@ export class BloodSeaScene extends Phaser.Scene {
         this.fight.tick(first ? inp : { ...inp, dash: false, fire: false });
         first = false;
       });
+      // the realm gate: ask once, and stay 'asked' until the sim has moved past it (it may not tick this very frame)
+      if (w.stage?.gatePending) {
+        if (!this.gateAsked) { this.gateAsked = true; this.host.onGate?.((c) => this.fight.takeGate(c)); }
+      } else this.gateAsked = false;
       const ev = this.fight.drain();
       if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
@@ -184,6 +193,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
     this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
+    this.floor.setRunLines(this.host.runLines?.(w.run) ?? []);
     this.host.status?.(w);
   }
 

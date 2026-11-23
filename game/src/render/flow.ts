@@ -21,6 +21,9 @@ export interface FlowDeps {
   hub: InputHub; i18n: I18n; audio: AudioDirector; store: KeyValueStore; frozen: boolean;
   /** Compiled content: with it every run walks the real floor; null = the boss arena only. */
   content: ContentApi | null;
+  /** The realm gate prompt (cluster 2) and the floor HUD's realm and cluster lines. */
+  onGate?(choose: (choice: 'breakthrough' | 'pill') => void): void;
+  runLines?(run: WorldState['run']): string[];
   /** True while the scenes must not advance: portrait gate or an open menu. */
   paused(): boolean;
   /** Current shake/flash settings, applied to every fight scene built here. */
@@ -59,7 +62,7 @@ export function createFlow(d: FlowDeps): Flow {
 
   let fight: BloodSeaScene | null = null;
   const fightScene = (seed: number, runId: number): BloodSeaScene => (fight = new BloodSeaScene({
-    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, content: d.content, run: { seed, runId },
+    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, content: d.content, ...(d.onGate ? { onGate: d.onGate } : {}), ...(d.runLines ? { runLines: d.runLines } : {}), run: { seed, runId },
     onEvents: (ev, w) => d.audio.handle(ev, w),
     status: (w) => {
       const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss');

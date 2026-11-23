@@ -41,7 +41,6 @@
   "abode.save.damaged": "Bản lưu bị hỏng và không tạo được bản sao: giữ nguyên, tiến trình sẽ không được lưu.",
   "result.return": "Né/Phản đòn để về Động Phủ",
   "abode.run.lost": "Lượt thất bại: không mang được gì về.",
-
   "menu.pause": "Tạm dừng",
   "menu.resume": "Tiếp tục",
   "menu.restart": "Chơi lại",
@@ -83,5 +82,16 @@
   "pad.refused": "Nút này không dùng được",
   "pad.none": "Chưa thấy tay cầm. Nhấn một nút trên tay cầm để kết nối.",
   "pad.fixed": "Cố định: cần/D-pad di chuyển, Start tạm dừng.",
-  "title.hint": "Chạm Bắt đầu, hoặc nhấn Enter / nút A"
+  "title.hint": "Chạm Bắt đầu, hoặc nhấn Enter / nút A",
+  "gate.title": "Cổng cảnh giới",
+  "gate.hint": "Chọn một lần cho lượt này.",
+  "gate.breakthrough": "Đột phá Tụ Khí II",
+  "gate.breakthrough.desc": "Máu tối đa +2 và hồi 2 máu.",
+  "gate.pill": "Dùng đan",
+  "gate.pill.desc": "Nhận 1 đan mang về Động Phủ, giữ nguyên Tụ Khí I.",
+  "realm.1": "Tụ Khí I",
+  "realm.2": "Tụ Khí II",
+  "realm.3": "Tụ Khí III",
+  "hud.cluster": "Cụm",
+  "hud.pressure": "Áp lực"
 }
