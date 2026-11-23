@@ -243,6 +243,7 @@ test('real project: the six Branches cues carry an audio-script origin and an ac
     const a = byId(id);
     assert.deepEqual([a.origin.kind, a.planned, a.recorded], ['audio-script', false, true], id);
     assert.ok(a.origin.script && a.origin.seed !== null && a.rights, id);
+    assert.deepEqual([a.origin.tool, a.origin.toolPin], ['Node + Studio audio engine (CPython wrapper)', 'Node v24.12.0, CPython 3.14.5'], `${id}: rendered by the Node engine, not by CPython`);
   }
 });
 

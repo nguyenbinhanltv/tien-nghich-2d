@@ -180,7 +180,12 @@ def main(ledger_path, index_path):
                 if need('sourceHash') and isinstance(prov.get('master'), dict): fields['sourceHash'] = prov['master']['file_sha256']
             pyver = re.search(r'CPython ([\d.]+)', text) or re.search(r'"python": "([\d.]+)"', text)
             npver = re.search(r'NumPy ([\d.]+)', text)
-            if pyver:
+            nodever = re.search(r'"node": "v?([\d.]+)"', text) or re.search(r'Node[^"]*?\(v([\d.]+) used\)', text)
+            if nodever and 'studio/audio' in text:
+                # rendered by the Node Studio audio engine; the Python script only wraps it
+                fields['tool'] = 'Node + Studio audio engine' + (' (CPython wrapper)' if pyver else '')
+                fields['toolPin'] = f"Node v{nodever.group(1)}" + (f", CPython {pyver.group(1)}" if pyver else '')
+            elif pyver:
                 fields['tool'] = 'CPython' + (' + NumPy' if npver else '')
                 fields['toolPin'] = f"CPython {pyver.group(1)}" + (f", NumPy {npver.group(1)}" if npver else '')
             else:
