@@ -170,10 +170,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_outer_disciple/",
    "palette_refs": [
     "ink_04",
@@ -229,10 +233,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_qi_condensation/",
    "palette_refs": [
     "thunder_01",
@@ -288,10 +296,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_blood_foundation/",
    "palette_refs": [
     "blood_02",
@@ -348,10 +360,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_extreme_jing/",
    "palette_refs": [
     "ink_01",
@@ -662,10 +678,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_blood_wolf/",
    "palette_refs": [
     "blood_02",
@@ -714,10 +734,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_blood_crow/",
    "palette_refs": [
     "ink_01",
@@ -766,10 +790,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_blood_corpse/",
    "palette_refs": [
     "blood_02",
@@ -818,10 +846,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_vengeful_soul/",
    "palette_refs": [
     "soul_07",
@@ -870,10 +902,14 @@
     "death": {
      "frames": 6,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_blood_pool_lurker/",
    "palette_refs": [
     "blood_02",
@@ -1292,10 +1328,14 @@
     "death": {
      "frames": 10,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 50,
-   "total_frames": 100,
+   "frames_per_direction": 53,
+   "total_frames": 106,
    "output_path": "assets/raw/characters/bosses/boss_ghost_king/",
    "palette_refs": [
     "soul_07",

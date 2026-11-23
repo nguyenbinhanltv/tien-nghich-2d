@@ -5,6 +5,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from px1_hurt import strip_hurt  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "assets/manifest_longtime.json"
@@ -180,6 +182,9 @@ def validate(m):
             # original 40). Hash the manifest as it was: the first 40 palette ids; the three new ids are checked
             # against palette.json by check_manifest.py.
             source["palette"]["ids"] = source["palette"]["ids"][:40]
+            # Likewise the PX-1 `hurt` clip (2026-11-24), scoped to the ten ids and exactly {frames: 3, loop: false}:
+            # anything else leaves the digest mismatch to surface (tools/scripts/px1_hurt.py).
+            strip_hurt(source)
         normalized = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
         require(hashlib.sha256(normalized).hexdigest() == digest, "Base contract drift: " + name)
         ids = [a["id"] for a in source[field]]

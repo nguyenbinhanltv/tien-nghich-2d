@@ -16,6 +16,17 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "tools/scripts"))
 
 import qa_blood_sea_mobs as qa  # noqa: E402
+from px1_hurt import strip_hurt  # noqa: E402
+
+def _manifest_without_hurt(directory: Path) -> Path:
+    """The synthetic Blood Sea package is the original delivery (no `hurt` clip); the repo manifest now lists it
+    (PX-1, 2026-11-24), so audit the package against the manifest as it was delivered."""
+    manifest = json.loads((REPO / "assets/manifest.json").read_text(encoding="utf-8"))
+    strip_hurt(manifest)
+    path = directory / "manifest_original.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    return path
+
 
 INK = (20, 16, 26, 255)
 CRIMSON = (165, 29, 53, 255)
@@ -169,7 +180,7 @@ class TestBloodSeaMobQA(unittest.TestCase):
 
             report, strips = qa.audit_blood_sea_mobs(
                 zpath,
-                REPO / "assets/manifest.json",
+                _manifest_without_hurt(tdp),
                 REPO / "tools/generators/palette.json",
                 run_repo_compat=True,
                 expected_sha256=zsha,
