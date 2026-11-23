@@ -39,10 +39,10 @@ AGY auditions all eight effects alone and over the bed at matched monitoring gai
 | Huyết Hải | Bowed low pulse and unstable upper partial. Leave the bronze warning register open. Applies to `ts_blood_valley` and the Blood Sea reference scene. |
 | Cổ Thần Chi Địa | Slow displaced stone percussion and a low open fifth. Break the pulse at the boss transition. |
 | Thư Khố Sương / Bến Tro / Mỏ Tinh Thạch | Mist Archive answers each phrase with paper friction. Ember Delta uses a soft furnace pulse and shifting slag. Star Quarry uses widely spaced stone harmonics and crystal ring. The three beds and landmark effects are delivered (`branches_v1`) and the owner listened to and approved all six on 2026-11-23. |
-| Tầm Đạo Chi Lộ / Core | Current biome bed → boss trial → quiet exit. Wave 4 introduces aftermath music for the exit. Chest opening, choosing a card and banking a reward have different cues. Leaving early uses the same bank confirmation. |
-| Vô Tận Luân Hồi / Endless | Core music slot six supplies the dedicated Endless Samsara bed. Keep room for the five-floor marker; silence during the bank-or-continue decision lets the confirmation read. |
-| Trảm Tiên Đài / Boss Rush (`trial`) | Reuse the boss bed across three rounds. Oath selection, the adjudicator's tell and the defeat cadence are separate events. |
-| Hộ Tông Đại Trận / Defense | Reuse the local biome until the dedicated wave ostinato arrives. A wave call precedes each wave, a brittle crack marks core breach and a craft confirmation marks repair. |
+| Tầm Đạo Chi Lộ / Core | Current biome bed → boss trial → quiet exit. Wave 4 introduces aftermath music for the exit: `bgm_aftermath` is authored and packed (`modes_v1`, listening pending). Chest opening, choosing a card and banking a reward have different cues. Leaving early uses the same bank confirmation. |
+| Vô Tận Luân Hồi / Endless | Core music slot six supplies the dedicated Endless Samsara bed. Keep room for the five-floor marker (`sfx_floor_mark`, authored and packed, listening pending); silence during the bank-or-continue decision lets the confirmation read. |
+| Trảm Tiên Đài / Boss Rush (`trial`) | Reuse the boss bed across three rounds. Oath selection (`sfx_oath`, authored and packed, listening pending), the adjudicator's tell and the defeat cadence are separate events. |
+| Hộ Tông Đại Trận / Defense | Reuse the local biome until the dedicated wave ostinato arrives (`bgm_defense`, authored and packed, listening pending). A wave call precedes each wave (`sfx_wave_call`), a brittle crack marks core breach (`sfx_core_crack`) and a craft confirmation marks repair. The call and the crack are authored and packed, listening pending. |
 | Động Phủ | Anchor return, kiln, planting/harvest, companion bond, NPC handoff and gate in the pilot palette. Use gesture/pitched responses for future character lanes. No dialogue recording is budgeted. |
 
 **How to read the manifest.** Each canonical asset, Longtime asset and indexed VFX belongs to one asset group or one fusion pair. Resolve its group in `families` and select the cue for the semantic event. The `silent` group covers static icons, scenery and passive HUD readouts. Opening a card, collecting a stone or triggering a breakthrough supplies the audible event; painting an icon or looping an aura adds no trigger. `modes` uses the authoritative mode keys and anchor IDs. `scenes` names tracked preview entry points for audition references. These bindings are production intentions.
@@ -70,6 +70,28 @@ Each bed follows the `bgm_dong_phu` reference (60 to 90 s, original pentatonic f
 The windows are set by `window` blocks in the patches (`resolveWindow`, [studio/audio/README.md](../studio/audio/README.md)) with `ms` and `tailMs`, not from a clip contract, because no landmark animation clip exists yet. When one does, replace the block with `{clip: ...}` and re-render. Each effect is mono PCM16 at 44.1 kHz with digital zero at both ends, peak near -6 dBFS like the delivered core effects. They are one landmark sound per biome, one per branch, as the wave table says.
 
 **Rights and tools.** The score and patches are project data, rendered by the project's own Studio audio engine (`studio/audio`: oscillators, additive and FM voices, filtered noise, seeded MT19937, impulse reverb). No sample, recording, soundfont, generative-audio model or PixelLab was used. [Sources and the listening list](../assets/audio/source/branches_sfx/VERIFICATION.md) · [Pack report](../assets/audio/packs/branches_v1/PACK_REPORT.md)
+
+## Modes proposal (wave 4, authored 2026-11-23, listening pending)
+
+**Owner decision.** On 2026-11-23 the owner answered the orchestrator's question about the trial round (Trảm Tiên Đài) and defense wave (Hộ Tông Đại Trận) milestones with "Coi như đã ký, làm luôn": the milestones count as signed and the Modes wave is produced. The direction is the existing sentence of each mode in [Musical and event coverage](#musical-and-event-coverage). The decision is recorded in [`assets/review/audio_gate_decisions.json`](../assets/review/audio_gate_decisions.json) (`modes_gate_2026-11-23`). **Everything in the tables below is the author's proposal, not an owner decision**; the owner may change any of it after listening. The decision signs no audio and approves no art; nothing here is a listening approval.
+
+| Bed | Tempo, meter, length | Tonal center and scale | Loop `[0, end)` frames | Arrangement |
+|---|---|---|---:|---|
+| `bgm_aftermath` | 48 BPM, 4/4, 16 bars, 80 s | D major pentatonic | 3,528,000 | Mostly rests, the quiet exit after the trial. A soft FM bell states a falling phrase every four bars (bars 1, 5, 9 an octave lower, 13); a low-passed breath answers in the empty bars; triangle drone D2+A2, then B2+F#3 from bar 9. |
+| `bgm_defense` | 96 BPM, 4/4, 32 bars, 80 s | A minor pentatonic | 3,528,000 | A low drum on beats 1 and 3 and a four-partial stone ostinato in eighth notes with rests, a wave bell at the end of each eight-bar group, off-beat shaker in bars 17 to 28, saw-and-sub drone A1+E2 then D2+A2. Every voice except the drones enters an eighth note after the loop start (a bed that began on an onset failed the Ogg seam rule). |
+
+Both beds follow the `bgm_dong_phu` reference (60 to 90 s, original pentatonic figure, A4 = 440 Hz, reverb carried across the loop boundary, no crossfade). The ostinato rests in the last bar of every group, so a wave call and an enemy tell have room; the 1.6 to 5 kHz tell register holds almost nothing in either bed (the engine's band report: -40 dB or less). `bgm_defense` is bass-heavy for that reason, which is where its risk on small speakers lies.
+
+| Effect | Window proposed (F9) | Tail | Total | Reasoning |
+|---|---:|---:|---:|---|
+| `sfx_floor_mark` | 650 ms | 600 ms | 1,250 ms | The five-floor mark is a bronze seal pressed into the floor: the documented `press` clip of `lt_fx_stamp` lasts 650 ms and its `land` event falls at 120 ms, where the thud and the bell body start. |
+| `sfx_oath` | 650 ms | 800 ms | 1,450 ms | The vow shares that `press` clip and its 120 ms landing, but is a held, pitched swell (a fifth rising from A) with a settling partial: not a strike. |
+| `sfx_wave_call` | 900 ms | 500 ms | 1,400 ms | Two horn notes, a rising fifth (E3, B3), below the bronze warning register so the call does not read as an enemy tell. There is no clip (the wave clock is an icon), so 900 ms is a stated length. |
+| `sfx_core_crack` | 770 ms | 480 ms | 1,250 ms | The documented `breach` clip of `lt_fx_core_breach` lasts 769 ms with `breach` and `shake:3` on frame 0: the snap and the low thump open at 0 ms, shards fall, a dull settle closes it. |
+
+The windows are set by `window` blocks in the patches (`resolveWindow`, [studio/audio/README.md](../studio/audio/README.md)) with `ms` and `tailMs`, not read from the clip contract by the render tool; the clip lengths above are copied by hand from [LONGTIME_VFX.md](LONGTIME_VFX.md). Each effect is mono PCM16 at 44.1 kHz with digital zero at both ends and a peak of -6 dBFS like the delivered core effects.
+
+**Rights and tools.** The scores and patches are project data, rendered by the project's own Studio audio engine (`studio/audio`: oscillators, additive and FM voices, filtered noise, seeded MT19937, impulse reverb). No sample, recording, soundfont, generative-audio model or PixelLab was used. [Sources and the listening list](../assets/audio/source/modes_sfx/VERIFICATION.md) · [Pack report](../assets/audio/packs/modes_v1/PACK_REPORT.md)
 
 ## Source, rights and delivery
 
