@@ -1,5 +1,5 @@
 {
-  "when": "2026-11-23T05:43:23.143Z",
+  "when": "2026-11-23T06:25:28.994Z",
   "reloads": [
     {
       "color": [
@@ -7,9 +7,9 @@
         255,
         0
       ],
-      "writeToApplied": 56,
-      "writeToVisible": 59,
-      "reloadMs": 20,
+      "writeToApplied": 55,
+      "writeToVisible": 58,
+      "reloadMs": 19,
       "pixelBefore": [
         20,
         16,
@@ -23,8 +23,8 @@
         255
       ],
       "changed": true,
-      "tickBefore": 1,
-      "tickAfter": 10
+      "tickBefore": 2,
+      "tickAfter": 12
     },
     {
       "color": [
@@ -32,36 +32,36 @@
         128,
         255
       ],
-      "writeToApplied": 52,
-      "writeToVisible": 55,
+      "writeToApplied": 53,
+      "writeToVisible": 53,
+      "reloadMs": 19,
+      "pixelBefore": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        128,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 36,
+      "tickAfter": 45
+    },
+    {
+      "color": [
+        255,
+        0,
+        255
+      ],
+      "writeToApplied": 53,
+      "writeToVisible": 57,
       "reloadMs": 18,
       "pixelBefore": [
         0,
-        255,
-        0,
-        255
-      ],
-      "pixelAfter": [
-        0,
-        128,
-        255,
-        255
-      ],
-      "changed": true,
-      "tickBefore": 34,
-      "tickAfter": 42
-    },
-    {
-      "color": [
-        255,
-        0,
-        255
-      ],
-      "writeToApplied": 52,
-      "writeToVisible": 52,
-      "reloadMs": 16,
-      "pixelBefore": [
-        0,
         128,
         255,
         255
@@ -73,8 +73,8 @@
         255
       ],
       "changed": true,
-      "tickBefore": 67,
-      "tickAfter": 74
+      "tickBefore": 69,
+      "tickAfter": 77
     },
     {
       "color": [
@@ -82,8 +82,8 @@
         255,
         0
       ],
-      "writeToApplied": 52,
-      "writeToVisible": 55,
+      "writeToApplied": 53,
+      "writeToVisible": 53,
       "reloadMs": 16,
       "pixelBefore": [
         255,
@@ -98,8 +98,8 @@
         255
       ],
       "changed": true,
-      "tickBefore": 98,
-      "tickAfter": 107
+      "tickBefore": 101,
+      "tickAfter": 109
     },
     {
       "color": [
@@ -107,9 +107,9 @@
         255,
         255
       ],
-      "writeToApplied": 52,
-      "writeToVisible": 52,
-      "reloadMs": 17,
+      "writeToApplied": 53,
+      "writeToVisible": 56,
+      "reloadMs": 16,
       "pixelBefore": [
         255,
         255,
@@ -123,13 +123,13 @@
         255
       ],
       "changed": true,
-      "tickBefore": 131,
-      "tickAfter": 138
+      "tickBefore": 133,
+      "tickAfter": 141
     }
   ],
   "writeToVisibleMs": {
-    "p50": 55,
-    "max": 59
+    "p50": 56,
+    "max": 58
   },
   "allPixelsChanged": true,
   "simStateKept": {

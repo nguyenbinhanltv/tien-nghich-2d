@@ -17,19 +17,32 @@ const game = new Phaser.Game({
   banner: false,
 });
 
-/** Integer CSS scale of the 195x422 logical canvas (x2 = 390x844). Nearest-neighbour. */
+/** Largest INTEGER scale in physical pixels of the 384x216 frame; letterbox the rest. Nearest-neighbour. */
 function fit(): void {
-  const s = Math.max(1, Math.floor(Math.min(innerWidth / VIEW_W, innerHeight / VIEW_H)));
+  const dpr = window.devicePixelRatio || 1;
+  const phys = Math.max(1, Math.floor(Math.min((innerWidth * dpr) / VIEW_W, (innerHeight * dpr) / VIEW_H)));
+  const css = phys / dpr; // CSS px per logical px
   const c = game.canvas;
-  c.style.width = `${VIEW_W * s}px`;
-  c.style.height = `${VIEW_H * s}px`;
+  c.style.width = `${VIEW_W * css}px`;
+  c.style.height = `${VIEW_H * css}px`;
   c.style.imageRendering = "pixelated";
   const root = document.getElementById("game")!;
   root.style.width = c.style.width;
   root.style.height = c.style.height;
+  root.dataset.scale = String(phys);
 }
 game.events.once(Phaser.Core.Events.READY, fit);
 addEventListener("resize", fit);
+// Portrait handheld: show the rotate screen (CSS) and freeze the sim until the device is turned.
+const portrait = matchMedia("(orientation: portrait) and (pointer: coarse)");
+const applyOrientation = () => {
+  const scene = game.scene.getScene("spike") as SpikeScene | undefined;
+  if (scene) scene.paused = portrait.matches;
+};
+portrait.addEventListener("change", applyOrientation);
+game.events.once(Phaser.Core.Events.READY, () => setTimeout(applyOrientation, 0));
+// Try to lock landscape (works in installed PWAs / fullscreen; ignored elsewhere).
+addEventListener("pointerdown", () => void (screen.orientation as unknown as { lock?: (o: string) => Promise<void> }).lock?.("landscape").catch(() => {}), { once: true });
 addEventListener("orientationchange", fit);
 
 // ---- HUD (DOM, updated twice a second so it does not distort the measurement) ----

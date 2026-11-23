@@ -1,5 +1,5 @@
 {
-  "when": "2026-11-23T05:41:53.889Z",
+  "when": "2026-11-23T06:23:58.524Z",
   "chromium": "156.0.8078.4",
   "runs": [
     {
@@ -8,14 +8,14 @@
         "contextCreated": false
       },
       "audioUnlock": {
-        "unlockMs": 31.3,
+        "unlockMs": 46.3,
         "baseLatencyMs": 5.33,
         "outputLatencyMs": 0,
         "state": "running"
       },
       "audio": {
         "codec": "ogg",
-        "loadMs": 24.1,
+        "loadMs": 22.3,
         "cues": 43,
         "missingFamilyCues": [
           "bgm_ancient_god",
@@ -32,10 +32,10 @@
         ],
         "sfxBytes": 291161,
         "emitToStartUs": {
-          "n": 1121,
+          "n": 1140,
           "p50": 0,
           "p95": 100,
-          "max": 400
+          "max": 200
         },
         "ok": [
           [
@@ -59,13 +59,13 @@
             true
           ]
         ],
-        "bgmStartMs": 126.60000002384186,
+        "bgmStartMs": 128.30000001192093,
         "state": "running",
         "sampleRate": 48000,
         "buffers": 6
       },
       "joystick": {
-        "moved": 31.05
+        "moved": 37.06
       },
       "gamepad": {
         "movedLeft": 36,
@@ -75,14 +75,14 @@
         "touch": {
           "n": 31,
           "simMs": {
-            "p50": 37.7,
-            "p95": 39.2,
-            "max": 46
+            "p50": 54.4,
+            "p95": 65.9,
+            "max": 66.5
           },
           "frameMs": {
-            "p50": 53.4,
-            "p95": 54.8,
-            "max": 62.1
+            "p50": 70.2,
+            "p95": 81.5,
+            "max": 82
           }
         }
       },
@@ -90,14 +90,14 @@
         "key": {
           "n": 15,
           "simMs": {
-            "p50": 10.7,
-            "p95": 16.6,
-            "max": 16.6
+            "p50": 6,
+            "p95": 15,
+            "max": 15
           },
           "frameMs": {
-            "p50": 26.8,
-            "p95": 32.5,
-            "max": 32.5
+            "p50": 22.3,
+            "p95": 30.5,
+            "max": 30.5
           }
         }
       },
@@ -105,14 +105,14 @@
         "mouse": {
           "n": 15,
           "simMs": {
-            "p50": 10,
-            "p95": 16.5,
-            "max": 16.5
+            "p50": 10.2,
+            "p95": 16.6,
+            "max": 16.6
           },
           "frameMs": {
-            "p50": 26,
-            "p95": 32.5,
-            "max": 32.5
+            "p50": 25.8,
+            "p95": 32.1,
+            "max": 32.1
           }
         }
       },
@@ -126,8 +126,8 @@
           },
           "frameMs": {
             "p50": 15.7,
-            "p95": 16.2,
-            "max": 16.2
+            "p95": 16.5,
+            "max": 16.5
           }
         }
       },
@@ -139,14 +139,14 @@
         "contextCreated": false
       },
       "audioUnlock": {
-        "unlockMs": 27.7,
+        "unlockMs": 35.3,
         "baseLatencyMs": 5.33,
         "outputLatencyMs": 0,
         "state": "running"
       },
       "audio": {
         "codec": "ogg",
-        "loadMs": 45.5,
+        "loadMs": 44.6,
         "cues": 43,
         "missingFamilyCues": [
           "bgm_ancient_god",
@@ -163,10 +163,10 @@
         ],
         "sfxBytes": 291161,
         "emitToStartUs": {
-          "n": 1113,
+          "n": 1114,
           "p50": 0,
-          "p95": 400,
-          "max": 900
+          "p95": 300,
+          "max": 800
         },
         "ok": [
           [
@@ -190,30 +190,30 @@
             true
           ]
         ],
-        "bgmStartMs": 127.30000001192093,
+        "bgmStartMs": 123.09999996423721,
         "state": "running",
         "sampleRate": 48000,
         "buffers": 6
       },
       "joystick": {
-        "moved": 31.05
+        "moved": 30.05
       },
       "gamepad": {
-        "movedLeft": 37.2,
+        "movedLeft": 36,
         "padSeen": true
       },
       "touch": {
         "touch": {
           "n": 31,
           "simMs": {
-            "p50": 37.7,
-            "p95": 40,
+            "p50": 36,
+            "p95": 39.5,
             "max": 47.1
           },
           "frameMs": {
-            "p50": 53.6,
-            "p95": 55.5,
-            "max": 63.1
+            "p50": 51.9,
+            "p95": 55,
+            "max": 62.9
           }
         }
       },
@@ -221,14 +221,14 @@
         "key": {
           "n": 15,
           "simMs": {
-            "p50": 10.4,
-            "p95": 17.1,
-            "max": 17.1
+            "p50": 8.6,
+            "p95": 16,
+            "max": 16
           },
           "frameMs": {
-            "p50": 25.8,
-            "p95": 32.5,
-            "max": 32.5
+            "p50": 24.7,
+            "p95": 31.8,
+            "max": 31.8
           }
         }
       },
@@ -236,14 +236,14 @@
         "mouse": {
           "n": 15,
           "simMs": {
-            "p50": 9.2,
-            "p95": 16,
-            "max": 16
+            "p50": 7.8,
+            "p95": 14.9,
+            "max": 14.9
           },
           "frameMs": {
-            "p50": 25.2,
-            "p95": 31.7,
-            "max": 31.7
+            "p50": 23.5,
+            "p95": 30.6,
+            "max": 30.6
           }
         }
       },
@@ -256,7 +256,7 @@
             "max": 0
           },
           "frameMs": {
-            "p50": 15.8,
+            "p50": 15.3,
             "p95": 16.4,
             "max": 16.4
           }

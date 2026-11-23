@@ -9,8 +9,8 @@ import {
 } from "../sim/world.ts";
 import { Stats } from "./stats.ts";
 
-export const VIEW_W = 195;
-export const VIEW_H = 422; // 390x844 CSS px at an integer x2 scale
+export const VIEW_W = 384;
+export const VIEW_H = 216; // 16:9 logical frame (plan), landscape; integer-scaled to the device in main.ts
 
 const ATLAS_PAGES = 7;
 const MOB_BASE = ["mob_blood_corpse", "mob_blood_wolf", "mob_blood_crow", "mob_blood_pool_lurker"];
@@ -74,9 +74,7 @@ export class SpikeScene extends Phaser.Scene {
     this.buildEntities();
     const cam = this.cameras.main;
     cam.setBackgroundColor(0x14101a);
-    cam.scrollY = -(VIEW_H - ARENA) / 2;
-    const root = document.getElementById("game")!;
-    this.hub = new InputHub(root, this.game.canvas);
+    this.hub = new InputHub(document.body);
     this.hub.onGesture = (t) => {
       this.audio.unlock(t);
     };
@@ -224,6 +222,7 @@ export class SpikeScene extends Phaser.Scene {
     const w = this.world;
     const cam = this.cameras.main;
     cam.scrollX = Math.round(Math.min(ARENA - VIEW_W, Math.max(0, w.px - VIEW_W / 2)));
+    cam.scrollY = Math.round(Math.min(ARENA - VIEW_H, Math.max(0, w.py - VIEW_H / 2)));
     const t = w.tick;
     // player
     {

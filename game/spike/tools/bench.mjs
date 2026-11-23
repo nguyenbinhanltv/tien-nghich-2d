@@ -10,12 +10,12 @@ const { chromium } = loadPlaywright();
 const srv = await startVite("preview");
 const browser = await chromium.launch({ executablePath: chromiumPath(), headless: true });
 const matrix = [
-  { name: "desktop 1280x800 (no throttle)", viewport: { width: 1280, height: 800 }, dpr: 2, mobile: false, cpu: 1 },
-  { name: "mobile 390x844 dpr3, CPU x1", viewport: { width: 390, height: 844 }, dpr: 3, mobile: true, cpu: 1 },
-  { name: "mobile 390x844 dpr3, CPU x4", viewport: { width: 390, height: 844 }, dpr: 3, mobile: true, cpu: 4 },
-  { name: "mobile 390x844 dpr3, CPU x6", viewport: { width: 390, height: 844 }, dpr: 3, mobile: true, cpu: 6 },
+  { name: "desktop 1280x720 DPR1 (no throttle)", viewport: { width: 1280, height: 720 }, dpr: 1, mobile: false, cpu: 1 },
+  { name: "mobile landscape 844x390 DPR3, CPU x1", viewport: { width: 844, height: 390 }, dpr: 3, mobile: true, cpu: 1 },
+  { name: "mobile landscape 844x390 DPR3, CPU x4", viewport: { width: 844, height: 390 }, dpr: 3, mobile: true, cpu: 4 },
+  { name: "mobile landscape 844x390 DPR3, CPU x6", viewport: { width: 844, height: 390 }, dpr: 3, mobile: true, cpu: 6 },
 ];
-const out = { when: new Date().toISOString(), chromium: browser.version(), seconds: secs, runs: [] };
+const out = { orientation: "landscape", logicalFrame: "384x216", when: new Date().toISOString(), chromium: browser.version(), seconds: secs, runs: [] };
 for (const m of matrix) {
   const ctx = await browser.newContext({ viewport: m.viewport, deviceScaleFactor: m.dpr, isMobile: m.mobile, hasTouch: m.mobile });
   const page = await ctx.newPage();

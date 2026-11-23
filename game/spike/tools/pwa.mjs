@@ -19,7 +19,7 @@ for (const f of walk(dist)) {
 const { chromium } = loadPlaywright();
 const srv = await startVite("preview");
 const browser = await chromium.launch({ executablePath: chromiumPath(), headless: true });
-const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+const ctx = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
 const page = await ctx.newPage();
 const cdp = await ctx.newCDPSession(page);
 await cdp.send("Network.enable");

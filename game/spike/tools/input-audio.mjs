@@ -10,7 +10,7 @@ const result = { when: new Date().toISOString(), chromium: browser.version(), ru
 const r2 = (n) => Math.round(n * 100) / 100;
 
 for (const cpu of [1, 4]) {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+  const ctx = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
   await ctx.addInitScript(() => {
     // Mock gamepad: no physical controller was available. window.__pad drives it.
     window.__pad = { connected: true, id: "mock", index: 0, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, () => ({ pressed: false, value: 0 })), timestamp: 0 };
@@ -42,13 +42,13 @@ for (const cpu of [1, 4]) {
   const audioAfterUnlock = await page.evaluate(() => __spike.audioStats());
   // joystick: drag right 40 px, verify the player moves
   const p0 = await page.evaluate(() => __spike.player());
-  await touch("touchStart", [{ x: zone.x + 80, y: zone.y + 300, id: 2 }]);
-  await touch("touchMove", [{ x: zone.x + 80 + 40, y: zone.y + 300, id: 2 }]);
+  await touch("touchStart", [{ x: zone.x + 80, y: zone.y + zone.height * 0.6, id: 2 }]);
+  await touch("touchMove", [{ x: zone.x + 80 + 40, y: zone.y + zone.height * 0.6, id: 2 }]);
   await page.waitForTimeout(600);
   const p1 = await page.evaluate(() => __spike.player());
   for (let i = 0; i < 30; i++) {
     const b = i % 2 ? dodge : counter;
-    await touch("touchStart", [{ x: cx(zone) - 100 + 140, y: zone.y + 300, id: 2 }, { x: cx(b), y: cy(b), id: 3 }]);
+    await touch("touchStart", [{ x: zone.x + 120, y: zone.y + zone.height * 0.6, id: 2 }, { x: cx(b), y: cy(b), id: 3 }]);
     await page.waitForTimeout(40);
     await touch("touchEnd", [{ x: cx(b), y: cy(b), id: 3 }]); // CDP touchEnd: touchPoints = the points being lifted
     await page.waitForTimeout(260); // exceed the cooldowns
@@ -66,7 +66,7 @@ for (const cpu of [1, 4]) {
   const keyStats = await page.evaluate(() => __spike.stats(true));
   const cvs = await box("#game");
   for (let i = 0; i < 20; i++) {
-    await page.mouse.click(cvs.x + 100, cvs.y + 300, { button: i % 2 ? "right" : "left" });
+    await page.mouse.click(cvs.x + cvs.width * 0.5, cvs.y + cvs.height * 0.5, { button: i % 2 ? "right" : "left" });
     await page.waitForTimeout(300);
   }
   const mouseStats = await page.evaluate(() => __spike.stats(true));

@@ -11,6 +11,16 @@ cp -R "$SPIKE/dist" www
 npx cap init "TN2D Spike" com.example.tn2dspike --web-dir www
 npx cap add ios
 npx cap add android
+# lock landscape in the native shells
+PL=ios/App/App/Info.plist
+/usr/libexec/PlistBuddy -c "Delete :UISupportedInterfaceOrientations" -c "Add :UISupportedInterfaceOrientations array" \
+  -c "Add :UISupportedInterfaceOrientations:0 string UIInterfaceOrientationLandscapeLeft" \
+  -c "Add :UISupportedInterfaceOrientations:1 string UIInterfaceOrientationLandscapeRight" \
+  -c "Delete :UISupportedInterfaceOrientations~ipad" -c "Add :UISupportedInterfaceOrientations~ipad array" \
+  -c "Add :UISupportedInterfaceOrientations~ipad:0 string UIInterfaceOrientationLandscapeLeft" \
+  -c "Add :UISupportedInterfaceOrientations~ipad:1 string UIInterfaceOrientationLandscapeRight" "$PL"
+AM=android/app/src/main/AndroidManifest.xml
+sed -i '' 's#<activity#<activity android:screenOrientation="sensorLandscape"#' "$AM"
 npx cap sync
 (cd ios/App && xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug \
   -destination 'generic/platform=iOS Simulator' -derivedDataPath "$T/dd" CODE_SIGNING_ALLOWED=NO build | tail -3)

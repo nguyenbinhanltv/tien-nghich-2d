@@ -1,5 +1,5 @@
 {
-  "when": "2026-11-23T05:43:06.657Z",
+  "when": "2026-11-23T06:25:12.598Z",
   "chromium": "156.0.8078.4",
   "distOnDisk": {
     "atlas": {
@@ -14,27 +14,27 @@
     },
     "shell": {
       "files": 5,
-      "raw": 20361,
-      "gzip": 8098
+      "raw": 21133,
+      "gzip": 8456
     },
     "js": {
       "files": 2,
-      "raw": 1418843,
-      "gzip": 379455
+      "raw": 1419529,
+      "gzip": 379730
     }
   },
   "coldLoadBytes": {
     "atlas": 1847017,
     "audio": 415393,
-    "js": 381214,
-    "shell": 16700,
-    "total": 2660324,
+    "js": 381494,
+    "shell": 18268,
+    "total": 2662172,
     "requests": 42
   },
-  "coldReadyMs": 401,
+  "coldReadyMs": 333,
   "serviceWorkerCache": {
     "names": [
-      "tn2d-spike-ac4816e585"
+      "tn2d-spike-ef57b10934"
     ],
     "entries": 39,
     "audio": 18,
@@ -42,10 +42,10 @@
   },
   "display": "fullscreen",
   "offline": {
-    "readyMs": 143,
+    "readyMs": 129,
     "requests": 42,
     "servedBySW": 30,
-    "fps": 60.31,
+    "fps": 60.55,
     "audioCues": 43
   }
 }

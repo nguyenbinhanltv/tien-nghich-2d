@@ -29,7 +29,7 @@ export class InputHub {
   onGesture: (t: number) => void = () => {};
 
   private root: HTMLElement;
-  constructor(root: HTMLElement, _canvasEl: HTMLElement) {
+  constructor(root: HTMLElement) {
     this.root = root;
     addEventListener("keydown", (e) => {
       if (e.repeat) return;
@@ -52,7 +52,7 @@ export class InputHub {
     root.addEventListener("contextmenu", (e) => e.preventDefault());
     // Desktop mouse: left = counter, right = dodge. Touch pointers are handled by the on-screen controls.
     root.addEventListener("pointerdown", (e) => {
-      if (e.pointerType !== "mouse") return;
+      if (e.pointerType !== "mouse" || (e.target as Element).closest?.(".btn")) return;
       this.press(e.button === 2 ? BTN_DODGE : BTN_COUNTER, e.timeStamp, "mouse");
       this.lastSource = "mouse";
       this.onGesture(e.timeStamp);
@@ -77,13 +77,15 @@ export class InputHub {
   private buildTouchUi(): void {
     const css = document.createElement("style");
     css.textContent = `
-      .tc{position:absolute;inset:0;touch-action:none;user-select:none;-webkit-user-select:none;pointer-events:none}
-      .tc .zone{position:absolute;left:0;top:30%;width:58%;bottom:0;pointer-events:auto;touch-action:none}
+      .tc{position:fixed;inset:0;touch-action:none;user-select:none;-webkit-user-select:none;pointer-events:none;z-index:3}
+      .tc .zone{position:absolute;left:0;top:0;width:50%;bottom:0;pointer-events:auto;touch-action:none}
       .tc .base{position:absolute;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;border:2px solid #d7c9a3aa;background:#14101a66;display:none}
       .tc .knob{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#d7c9a3cc}
-      .tc .btn{position:absolute;width:76px;height:76px;border-radius:50%;border:2px solid #d7c9a3;background:#14101acc;color:#d7c9a3;font:600 14px system-ui;display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none}
+      .tc .btn{position:absolute;width:72px;height:72px;border-radius:50%;border:2px solid #d7c9a3;background:#14101acc;color:#d7c9a3;font:600 14px system-ui;display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none}
       .tc .btn.on{background:#a8322acc}
-      .tc .dodge{right:100px;bottom:44px}.tc .counter{right:14px;bottom:96px;width:88px;height:88px}`;
+      /* landscape: buttons on the right, clear of the notch (safe-area insets) and the home indicator */
+      .tc .counter{right:calc(env(safe-area-inset-right,0px) + 20px);bottom:calc(env(safe-area-inset-bottom,0px) + 56px);width:84px;height:84px}
+      .tc .dodge{right:calc(env(safe-area-inset-right,0px) + 116px);bottom:calc(env(safe-area-inset-bottom,0px) + 22px)}`;
     document.head.appendChild(css);
     const tc = document.createElement("div");
     tc.className = "tc";
