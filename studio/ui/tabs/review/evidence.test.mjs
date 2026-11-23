@@ -57,7 +57,9 @@ test('a lineup without a hash has no picture, and out-of-range numbers never bec
   const v = lineupView([ev('request', 0, lineupEvidence('nope'))], 0);
   assert.equal(v.hasImage, false);
   assert.deepEqual(v.blocking, ['heightRatio']);
-  assert.equal(lineupView([ev('request', 0, {lineup: {status: 'bogus', rows: [{metric: 'heightRatio', status: 'bogus'}]}})], 0).status, 'warn');
+  const bogus = lineupView([ev('request', 0, {lineup: {status: 'bogus', rows: [{metric: 'heightRatio', status: 'bogus'}, {metric: 'limbWidthRatio'}]}})], 0);
+  assert.equal(bogus.status, 'warn');
+  assert.deepEqual(bogus.rows.map(r => r.status), ['warn', 'warn'], 'an unknown or missing row status is never a pass');
   assert.equal(lineupZoom(100, 1000), 10);
   assert.equal(lineupZoom(100, 40), 1);
   assert.equal(lineupZoom(0, 40), 1);

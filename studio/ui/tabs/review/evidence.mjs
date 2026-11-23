@@ -47,7 +47,7 @@ export function lineupView(events, revision) {
   if (!event) return null;
   const l = event.evidence.lineup;
   const rows = (Array.isArray(l.rows) ? l.rows : []).filter(isObject).map(r => ({metric: String(r.metric), measured: r.measured ?? null, figure: r.figure ?? null, reference: r.reference ?? null,
-    block: isObject(r.block) ? r.block : null, typical: isObject(r.typical) ? r.typical : null, status: ['pass', 'warn', 'fail'].includes(r.status) ? r.status : 'pass'}));
+    block: isObject(r.block) ? r.block : null, typical: isObject(r.typical) ? r.typical : null, status: ['pass', 'warn', 'fail'].includes(r.status) ? r.status : 'warn'}));
   return {...meta(event, revision), status: ['pass', 'warn', 'fail'].includes(l.status) ? l.status : 'warn', group: typeof l.group === 'string' ? l.group : null,
     references: (Array.isArray(l.references) ? l.references : []).map(String).slice(0, 8), rows, blocking: rows.filter(r => r.status === 'fail').map(r => r.metric),
     hasImage: typeof l.image === 'string' && Boolean(sha(l.sha256)), sha256: sha(l.sha256)};
