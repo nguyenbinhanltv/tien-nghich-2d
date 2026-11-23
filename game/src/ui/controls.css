@@ -23,3 +23,8 @@
 
 /* ?golden: only the canvas is part of the pixel contract */
 .golden .tc, .golden .status, .golden .rotate-gate { display: none !important; }
+
+/* status: hidden to the eye while playing (the pixel HUD shows hp), read aloud always; a centred banner on a result */
+.status { position: fixed; z-index: 6; pointer-events: none; white-space: pre-line; text-align: center; font-family: var(--font-sharp); color: #d7c9a3; text-shadow: 0 2px 4px #14101a; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+.status.result { clip-path: none; width: auto; height: auto; overflow: visible; left: 50%; top: 38%; transform: translate(-50%, -50%); font-size: 30px; font-weight: 600; line-height: 1.35; }
+.status.result::first-line { font-size: 44px; }
