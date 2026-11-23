@@ -94,7 +94,7 @@ export function bossStep(world: WorldState, b: ActorState, enc: Encounter, speed
     ai.state = 'impact'; ai.timer = COMBAT.bossImpact;
     resolveHazard(world, h, p, events);
   } else if (ai.state === 'impact' && ai.timer <= 0) {
-    world.hazards.length = 0;
+    world.hazards = world.hazards.filter((x) => x.owner !== b.id); // only the boss's own telegraph
     ai.state = 'recover'; ai.timer = COMBAT.bossRecovery;
   } else if (ai.state === 'recover' && ai.timer <= 0) {
     const phase = enc.phases[phaseIndex(enc, b.hp, b.hpMax)] as EncounterPhase;
