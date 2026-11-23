@@ -5,7 +5,7 @@
   "type": "module",
   "description": "G0-A engine spike (Phaser 4). Throw-away measurement code, not the game scaffold.",
   "scripts": {
-    "dev": "node tools/dev-server.mjs",
+    "dev": "vite",
     "build": "vite build",
     "test": "node --test test/*.test.ts",
     "typecheck": "tsc --noEmit"
