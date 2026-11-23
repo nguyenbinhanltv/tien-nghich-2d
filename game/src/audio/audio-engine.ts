@@ -73,6 +73,11 @@ export class AudioEngine {
     if (this.wantedBed) void this.playBgm(this.wantedBed);
   }
 
+  /** App went to the background: stop the sound card so nothing plays (and the battery rests). */
+  suspend(): void { if (this.ctx && this.ctx.state === 'running') void this.ctx.suspend(); }
+  /** App is back (or a call ended): wake the sound card if it was started before. No-op before the first gesture. */
+  resume(): void { if (this.ctx && this.ctx.state !== 'running') void this.ctx.resume().catch(() => { /* needs a gesture: the next touch unlocks */ }); }
+
   setVolume(bus: Bus, v: number): void { this.volume[bus] = Math.min(1, Math.max(0, v)); this.applyVolumes(); }
   private applyVolumes(): void { if (this.buses) for (const k of ['master', 'music', 'sfx'] as const) this.buses[k].gain.value = this.volume[k]; }
 
