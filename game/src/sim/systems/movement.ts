@@ -51,8 +51,8 @@ export function playerControl(world: WorldState, p: ActorState, input: InputFram
       c.slash = c.action + COMBAT.strikeRecovery;
       c.counterCast = c.counterWindow > 0;
       c.counterWindow = 0;
-      if (input.aim) { c.aim.x = input.aim.x; c.aim.y = input.aim.y; }
-      else {
+      // External input: normalise, and treat a zero or non-finite aim (released stick, bad data) as "no aim" -> auto-aim.
+      if (!input.aim || (unitInto(c.aim, input.aim.x, input.aim.y), c.aim.x === 0 && c.aim.y === 0)) {
         const t = nearestHostile(world, p.pos.x, p.pos.y);
         if (t) unitInto(c.aim, t.pos.x - p.pos.x, t.pos.y - p.pos.y);
         else { c.aim.x = c.motion.x; c.aim.y = c.motion.y; }
