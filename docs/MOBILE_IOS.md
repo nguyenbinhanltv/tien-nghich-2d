@@ -5,7 +5,7 @@
 ## Có gì
 - `game/capacitor.config.ts` — appId **tạm** `com.tiennghich.game` (chủ dự án chốt sau), tên hiển thị "Tiên Nghịch", `webDir: dist`, tắt bounce (`scrollEnabled: false`), nội dung tràn viền (trang tự xử lý `env(safe-area-inset-*)`).
 - `game/ios/` — dự án Xcode do Capacitor 8 sinh, dùng Swift Package Manager (không CocoaPods). Thư mục web copy vào `ios/App/App/public` và `capacitor.config.json` được gitignore.
-- `Info.plist`: chỉ landscape (Left/Right), ẩn status bar, `UIRequiresFullScreen`. `GameViewController.swift` ẩn status bar và đòi vuốt hai lần ở cạnh (để né sát mép không thoát game).
+- `Info.plist`: chỉ landscape (Left/Right), ẩn status bar, `UIRequiresFullScreen`. `GameViewController.swift` ẩn status bar và đòi vuốt hai lần ở cạnh (để né sát mép không thoát game). `SceneDelegate` dựng cửa sổ bằng code và phải dùng `GameViewController()` (storyboard Main không được nạp trong mô hình scene, nên class đặt ở storyboard không có tác dụng); chưa kiểm trên máy iOS.
 - `AppDelegate.swift`: giữ màn hình sáng (`isIdleTimerDisabled`).
 - `src/platform/lifecycle.ts`: khi trang vào nền (`visibilitychange`/`pagehide`) game tạm dừng và `AudioContext` bị suspend; quay lại thì resume. Âm thanh mở khóa bằng lần chạm đầu (có sẵn từ web); nếu cuộc gọi làm context `interrupted`, lần chạm kế tiếp mở lại. Có test Vitest.
 - Tắt zoom/bounce: viewport `user-scalable=no`, `overscroll-behavior: none` (có sẵn ở `index.html`).
