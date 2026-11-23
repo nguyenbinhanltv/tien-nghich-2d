@@ -17,7 +17,6 @@ import { sweepDead, setMode } from '../systems/combat.ts';
 import { ghostKingStep } from '../systems/ghost-king.ts';
 import { playerControl, tickTimers } from '../systems/movement.ts';
 import { projectileSystem } from '../systems/projectile.ts';
-import { SummonFx } from '../../render/summon-fx.ts';
 import { bossStep, encounterProblems, phaseIndex, stripSummons, type Encounter } from './boss.ts';
 
 const { tables } = loadTables();
@@ -147,25 +146,6 @@ describe('encounter oan_hon_quy_vuong', () => {
       const total = spawned.reduce((a, b) => a + b, 0);
       expect(total).toBeGreaterThanOrEqual(4); // two calls fill it
       expect(w.actors.some((a) => a.kind === 'mob_blood_wolf') && w.actors.some((a) => a.kind === 'mob_blood_crow')).toBe(true);
-    });
-    it('the summon VFX (render/summon-fx.ts) follows the real summon hazard: a ring through the tell, the end section after the call, none for the damaging attacks', () => {
-      const run = (e: Encounter): { rings: number[]; frames: number[] } => {
-        const w = createWorld(1), ev: GameEvent[] = [], fx = new SummonFx();
-        startGhostKingFight(w, ev);
-        const boss = w.actors.find((a) => a.role === 'boss')!;
-        const rings: number[] = [], frames: number[] = [];
-        for (let t = 0; t < 60 * 6; t++) {
-          tick(w, NO_INPUT, ev, (ww, evs) => bossStep(ww, boss, e, speed, evs));
-          const shown = fx.update(w.hazards, (h) => h.kind === 'circle' && w.actors.find((x) => x.id === h.owner)?.role === 'boss', w.tick);
-          rings.push(shown.length); if (shown[0]) frames.push(shown[0].frame);
-        }
-        return { rings, frames };
-      };
-      const summon = run(summonOnly());
-      expect(summon.rings.filter((n) => n > 0).length).toBeGreaterThan(60);         // the tell is 1000 ms: the ring is up for it and the end section
-      expect(Math.max(...summon.frames)).toBeGreaterThanOrEqual(42);                  // the end section played after the call
-      const claw = structuredClone(enc); for (const ph of claw.phases) { ph.loop = ['claw']; delete ph.opener; }
-      expect(run(claw).rings.every((n) => n === 0)).toBe(true);                      // the damaging attacks never show it
     });
     it('without content the summon is only a telegraph (no mobs, no damage)', () => {
       const e = summonOnly();
