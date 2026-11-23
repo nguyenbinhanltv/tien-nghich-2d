@@ -2,12 +2,13 @@
 // No DOM and no fetch, so node:test can drive all of it.
 import { computeBlob47Mask, createDefaultBitmaskMap, parseWorkerBitmaskJson, CANONICAL_47_MASKS } from '../../../src/blob47.js';
 
-import { snapZoom } from '../../pixelview.mjs';
+import { ZOOMS, snapZoom } from '../../pixelview.mjs';
 
 export const tools = ['blob', 'nine', 'hud'];
-/** The range of the card-size slider in the grid; the detail viewer goes up to the viewer's own top zoom (16×). */
-export const zoomRange = [1, 8];
-const maxZoom = 16;
+const maxZoom = ZOOMS.at(-1);
+/** The grid slider indexes the viewer's zoom levels, so it, the stage toolbar and the + / − keys all share one list and one range. */
+export const zoomIndex = zoom => Math.max(0, ZOOMS.indexOf(snapZoom(zoom)));
+export const zoomAt = index => ZOOMS[Math.max(0, Math.min(ZOOMS.length - 1, Math.round(Number(index)) || 0))];
 export const defaultZoom = 3;
 const idPattern = /^[A-Za-z0-9_.-]+$/;
 const pick = (value, ok) => (typeof value === 'string' && ok.test(value) ? value : null);
