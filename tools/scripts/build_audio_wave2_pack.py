@@ -57,8 +57,7 @@ BATCHES = {
         "bgm_source_commit": "same pull request as this pack; the source hashes are in each assets/audio/<bed>/provenance.json",
         "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/branches_sfx/provenance.json"},
     6: {"pack": "modes_v1", "label": "Modes", "base": "c72f601fad4874c672c0bba110788b068db9c186", "bgms": ["bgm_aftermath", "bgm_defense"], "sfx": "modes_sfx", "sfx_count": 4,
-        "bgm_source_commit": "same pull request as this pack; the source hashes are in each assets/audio/<bed>/provenance.json",
-        "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/modes_sfx/provenance.json"},
+        "bgm_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58", "sfx_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58"},
 }
 
 
