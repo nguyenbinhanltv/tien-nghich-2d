@@ -1,0 +1,31 @@
+# Room layout (lane B, placeholder design for the Huyết Hải vertical slice). Semantic grid: # wall, . floor, ~ blood pool, D door cell.
+id: room_bs_boss
+size: [24, 14]
+player_start: [3, 7]
+grid:
+  - "########################"
+  - "########################"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "D......................D"
+  - "D......................D"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "########################"
+doors:
+  - { side: west, role: entry, to: room_bs_8 }
+  - { side: east, role: exit, to: room_bs_reward }
+props:
+  - { id: prop_restriction_pillar, at: [7, 4] }
+  - { id: prop_restriction_pillar, at: [7, 10] }
+  - { id: prop_restriction_pillar, at: [16, 4] }
+  - { id: prop_restriction_pillar, at: [16, 10] }
+  - { id: prop_blood_pool_decor, at: [12, 12] }
+waves:
+  - spawns:
+      - { mob: boss_ghost_king, at: [17, 7] }
