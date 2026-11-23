@@ -10,7 +10,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const GAME = resolve(here, '..');
 /** Pixel Kiln output root. TN2D_ASSETS_DIR overrides it (tests). */
 const ASSETS = resolve(process.env['TN2D_ASSETS_DIR'] ?? join(GAME, '../assets'));
-const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'application/json' };
+const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'application/json', '.ogg': 'audio/ogg', '.m4a': 'audio/mp4' };
+/** Audio packs: the sprite, music beds and pack tables only (masters and evidence stay out of the build). */
+export const AUDIO_RE = /^audio\/packs\/[a-z0-9_]+\/(pack\.json|sfx_sprite\.(ogg|m4a)|bgm_[a-z0-9_]+\.(ogg|m4a))$/;
+/** Compiled content the game reads at run time (npm run content:build writes dist-content/). */
+export const CONTENT_FILES = ['audio_events.json'];
 export const ATLAS_RE = /^atlases\/mobile\/atlas-\d+\.(png|json)$/;
 
 /** IPv4/IPv6 loopback and private (RFC 1918, link-local, unique-local) addresses. */
@@ -34,9 +38,17 @@ export function pwa(): Plugin {
       if (!isLocalAddress(req.socket.remoteAddress)) { res.statusCode = 403; res.end('local network only'); return; }
       next();
     });
+    server.middlewares.use('/content', (req, res, next) => {
+      const name = decodeURIComponent((req.url ?? '').split('?')[0] ?? '').replace(/^\//, '');
+      const file = join(GAME, 'dist-content', name);
+      if (!CONTENT_FILES.includes(name) || !existsSync(file)) return next();
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.end(readFileSync(file));
+    });
     server.middlewares.use('/assets', (req, res, next) => {
       const rel = decodeURIComponent((req.url ?? '').split('?')[0] ?? '').replace(/^\//, '');
-      if (!ATLAS_RE.test(rel)) return next();
+      if (!ATLAS_RE.test(rel) && !AUDIO_RE.test(rel)) return next();
       const file = join(ASSETS, rel);
       if (!existsSync(file)) return next();
       res.setHeader('Content-Type', MIME[file.slice(file.lastIndexOf('.'))] ?? 'application/octet-stream');
@@ -58,7 +70,23 @@ export function pwa(): Plugin {
         mkdirSync(dirname(dst), { recursive: true });
         copyFileSync(join(src, f), dst);
       }
-      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map'));
+      const packs = join(ASSETS, 'audio/packs');
+      if (existsSync(packs)) {
+        for (const f of listFiles(packs)) {
+          const rel = relative(ASSETS, f).split(sep).join('/');
+          if (!AUDIO_RE.test(rel)) continue;
+          const dst = join(dist, 'assets', rel);
+          mkdirSync(dirname(dst), { recursive: true });
+          copyFileSync(f, dst);
+        }
+      }
+      for (const name of CONTENT_FILES) {
+        const src = join(GAME, 'dist-content', name);
+        if (!existsSync(src)) throw new Error(`dist-content/${name} missing: run npm run content:build before vite build`);
+        mkdirSync(join(dist, 'content'), { recursive: true });
+        copyFileSync(src, join(dist, 'content', name));
+      }
+      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map') && !f.startsWith('assets/audio/'));
       const version = createHash('sha1').update(all.map((f) => `${f}:${statSync(join(dist, f)).size}`).join('|')).digest('hex').slice(0, 10);
       const sw = readFileSync(join(here, 'sw.template.js'), 'utf8').replace('__VERSION__', version).replace('__PRECACHE__', JSON.stringify(['./', ...all.map((f) => `./${f}`)]));
       writeFileSync(join(dist, 'sw.js'), sw);

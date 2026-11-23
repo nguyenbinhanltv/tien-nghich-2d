@@ -3,7 +3,7 @@
 // picture is identical on every run (golden images later).
 import Phaser from 'phaser';
 import { FixedLoop } from '../../sim/loop.ts';
-import type { ActorState, InputFrame } from '../../contracts/world.ts';
+import type { ActorState, GameEvent, InputFrame, WorldState } from '../../contracts/world.ts';
 import { VIEW_H, VIEW_W } from '../../contracts/world.ts';
 import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
@@ -13,6 +13,8 @@ export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
   sample(): InputFrame;
   paused(): boolean;
+  /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
+  onEvents?(events: readonly GameEvent[], world: WorldState): void;
 }
 
 const T = 'tilesets/ts_blood_valley/';
@@ -71,6 +73,7 @@ export class BloodSeaScene extends Phaser.Scene {
         this.stub.tick(first ? inp : { ...inp, dash: false, fire: false });
         first = false;
       });
+      if (this.stub.events.length) { this.host.onEvents?.(this.stub.events, this.stub.world); this.stub.events.length = 0; }
     }
     this.draw();
   }

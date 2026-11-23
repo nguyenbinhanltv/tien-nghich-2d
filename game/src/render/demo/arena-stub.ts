@@ -40,11 +40,12 @@ export class ArenaStub {
       const m = Math.hypot(input.move.x, input.move.y);
       this.dashDir = m > 0.1 ? { x: input.move.x / m, y: input.move.y / m } : faceVec(p.facing);
       this.dashLeft = DASH_TICKS;
+      this.events.push({ type: 'dash', tick: this.world.tick, actor: p.id, facing: p.facing });
     }
-    if (input.fire && this.counterLeft === 0 && this.dashLeft === 0) this.counterLeft = COUNTER_TICKS;
+    if (input.fire && this.counterLeft === 0 && this.dashLeft === 0) { this.counterLeft = COUNTER_TICKS; this.events.push({ type: 'strike', tick: this.world.tick, actor: p.id, counter: true }); }
     const moving = Math.hypot(input.move.x, input.move.y) > 0.1;
     // the counter plants the feet
-    this.sim.step(this.counterLeft > 0 ? { ...input, move: { x: 0, y: 0 } } : input);
+    for (const e of this.sim.step(this.counterLeft > 0 ? { ...input, move: { x: 0, y: 0 } } : input)) this.events.push(e);
     if (this.dashLeft > 0) {
       p.pos.x += this.dashDir.x * DASH_SPEED;
       p.pos.y += this.dashDir.y * DASH_SPEED;
