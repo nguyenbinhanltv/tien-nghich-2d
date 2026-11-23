@@ -25,3 +25,34 @@ describe('layout', () => {
     expect(HUD_POS.bossBar.x).toBeGreaterThan(HUD_POS.playerBar.x + BAR_W);
   });
 });
+
+import { readFileSync as readLocale } from 'node:fs';
+import { join as joinPath, dirname as dirOf } from 'node:path';
+import { fileURLToPath as toPath } from 'node:url';
+import { measure } from './pixel-font.ts';
+import { wrapText as wrapName } from './pixel-text.ts';
+import { FLOOR_LABEL_MAX_W as FLOOR_W, RUN_LINES_MAX_W as RUN_W, BOSS_NAME_MAX_W as NAME_W } from './hud-layout.ts';
+
+describe('long names fit the pixel HUD in both languages (no cut, no overflow)', () => {
+  const root = joinPath(dirOf(toPath(import.meta.url)), '../..');
+  const load = (f: string) => JSON.parse(readLocale(joinPath(root, f), 'utf8')) as Record<string, string>;
+  for (const lang of ['en', 'vi']) {
+    const names = load(`content/locale/${lang}.json`), ui = load(`locale/${lang}.json`);
+    it(`${lang}: every mob and boss name wraps into the boss-name column in at most 2 lines, never truncated`, () => {
+      for (const [k, v] of Object.entries(names)) {
+        if (!/^(mob_|boss_)/.test(k)) continue;
+        const lines = wrapName(v, NAME_W, 2);
+        expect(lines.join(' '), k).toBe(v);
+        for (const l of lines) expect(measure(l), `${k}: ${l}`).toBeLessThanOrEqual(NAME_W);
+      }
+    });
+    it(`${lang}: place names fit the floor label and realm/cluster lines fit the run band on one line`, () => {
+      for (const k of Object.keys(names).concat(Object.keys(ui))) {
+        const v = names[k] ?? ui[k]!;
+        if (k.startsWith('place.')) expect(measure(v), k).toBeLessThanOrEqual(FLOOR_W);
+        if (/^realm\.\d$/.test(k)) expect(measure(v), k).toBeLessThanOrEqual(RUN_W);
+      }
+      expect(measure(`${ui['hud.cluster']} 3/3`)).toBeLessThanOrEqual(RUN_W);
+    });
+  }
+});
