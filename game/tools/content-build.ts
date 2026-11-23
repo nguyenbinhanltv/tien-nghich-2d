@@ -37,7 +37,7 @@ for (const k of ['mob_blood_wolf', 'boss_ghost_king']) { // names are canon: the
   if (n && (locale.vi[k] !== n.vi || locale.en[k] !== n.en)) problems.push(`locale: ${k} differs from the manifest name`);
 }
 problems.push(...crossCheck(tables, assets, locale));
-for (const [id, e] of Object.entries(tables.encounters)) problems.push(...encounterProblems(e as Encounter).map((m) => `encounters/${id}.yaml: ${m}`));
+for (const [id, e] of Object.entries(tables.encounters)) problems.push(...encounterProblems(e as Encounter, new Set(tables.mobs.map((m) => String(m.id)))).map((m) => `encounters/${id}.yaml: ${m}`));
 problems.push(...validateAll(tables.rooms as unknown as RoomRow[]));
 
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);

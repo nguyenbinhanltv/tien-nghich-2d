@@ -5,7 +5,7 @@ import type { BossRow, MobRow, RoomRow } from '../contracts/content.ts';
 import type { GameEvent, InputFrame, WorldState } from '../contracts/world.ts';
 import { hashState } from './hash.ts';
 import { spawnMob } from './ai/index.ts';
-import type { Encounter } from './ai/boss.ts';
+import { stripSummons, type Encounter } from './ai/boss.ts';
 import { contentFromTables } from './context.ts';
 import { createWorld, NO_INPUT, startGhostKingFight, step } from './loop.ts';
 import { createSim } from './sim.ts';
@@ -16,6 +16,8 @@ import { Rng } from './rng.ts';
 const { tables } = loadTables();
 const content = contentFromTables({ mobs: tables.mobs as unknown as MobRow[], bosses: tables.bosses as unknown as BossRow[], rooms: tables.rooms as unknown as RoomRow[], encounters: tables.encounters as Record<string, Encounter> });
 const ctx = { content };
+/** The reference port has no summon: the parity test uses the three-attack core of the encounter. */
+const coreContent = contentFromTables({ mobs: tables.mobs as unknown as MobRow[], bosses: tables.bosses as unknown as BossRow[], rooms: tables.rooms as unknown as RoomRow[], encounters: { oan_hon_quy_vuong: stripSummons(tables.encounters['oan_hon_quy_vuong'] as Encounter) } });
 
 /** The world without the clip names (the data-driven boss plays the file's real clips, the reference invents `attack_seal`). */
 const projection = (w: WorldState): string => hashState({ ...w, actors: w.actors.map((a) => ({ ...a, clip: '', clipStartTick: 0 })), projectiles: { count: w.projectiles.count } });
@@ -27,7 +29,7 @@ describe('step() with content', () => {
     startGhostKingFight(a, ea); startGhostKingFight(b, eb);
     const ra = new Rng(5), rb = new Rng(5);
     for (let t = 0; t < 60 * 25; t++) {
-      step(a, script(t, ra), ea); step(b, script(t, rb), eb, ctx);
+      step(a, script(t, ra), ea); step(b, script(t, rb), eb, { content: coreContent });
       expect(projection(b)).toBe(projection(a));
     }
   });

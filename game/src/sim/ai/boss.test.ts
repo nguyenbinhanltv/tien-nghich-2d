@@ -9,19 +9,25 @@ import { findPlayer } from '../actors.ts';
 import { hashState } from '../hash.ts';
 import { createWorld, NO_INPUT, startGhostKingFight } from '../loop.ts';
 import { Rng } from '../rng.ts';
+import { contentFromTables } from '../context.ts';
+import { mobMovement } from '../systems/mob-move.ts';
+import { aiSystem } from './index.ts';
+import type { BossRow, MobRow } from '../../contracts/content.ts';
 import { sweepDead, setMode } from '../systems/combat.ts';
 import { ghostKingStep } from '../systems/ghost-king.ts';
 import { playerControl, tickTimers } from '../systems/movement.ts';
 import { projectileSystem } from '../systems/projectile.ts';
-import { bossStep, encounterProblems, phaseIndex, type Encounter } from './boss.ts';
+import { bossStep, encounterProblems, phaseIndex, stripSummons, type Encounter } from './boss.ts';
 
 const { tables } = loadTables();
 const enc = tables.encounters['oan_hon_quy_vuong'] as Encounter;
+/** Parity is against the reference port, which has no summon: compare the three-attack core. */
+const core = stripSummons(enc);
 const speed = Number(tables.bosses.find((b) => b.id === 'boss_ghost_king')!.speed);
 
 type BossFn = (w: WorldState, ev: GameEvent[]) => void;
 const reference: BossFn = (w, ev) => { for (const a of w.actors) if (a.role === 'boss') ghostKingStep(w, a, ev); };
-const dataDriven: BossFn = (w, ev) => { for (const a of w.actors) if (a.role === 'boss') bossStep(w, a, enc, speed, ev); };
+const dataDriven: BossFn = (w, ev) => { for (const a of w.actors) if (a.role === 'boss') bossStep(w, a, core, speed, ev); };
 
 /** The playing branch of loop.ts `step`, with the boss system injected. */
 function tick(w: WorldState, input: InputFrame, ev: GameEvent[], boss: BossFn): void {
@@ -112,6 +118,44 @@ describe('encounter oan_hon_quy_vuong', () => {
     for (let i = 0; i < 3; i++) bossStep(w, boss, noOpener, speed, ev);
     expect(ev.filter((e) => e.type === 'phase-changed')).toHaveLength(1);
     expect(boss.clip).toBe(noOpener.attacks[noOpener.phases[1]!.loop[0]!]!.clip);
+  });
+  describe('summon (the fourth attack)', () => {
+    it('is in the second phase only, deals no damage and names mobs that exist', () => {
+      expect(enc.phases[0]!.loop).not.toContain('summon'); expect(enc.phases[1]!.loop).toContain('summon');
+      const a = enc.attacks['summon']!;
+      expect(a.hit.damage).toBe(0); expect(a.summon!.mobs.map((m) => m.mob)).toEqual(['mob_blood_wolf', 'mob_blood_crow']);
+      expect(encounterProblems(enc, new Set(tables.mobs.map((m) => String(m.id))))).toEqual([]);
+      const bad = structuredClone(enc); bad.attacks['summon']!.summon!.mobs[0]!.mob = 'mob_blood_dragon'; bad.attacks['summon']!.hit.damage = 2;
+      const p = encounterProblems(bad, new Set(tables.mobs.map((m) => String(m.id)))).join('\n');
+      expect(p).toMatch(/unknown mob mob_blood_dragon/); expect(p).toMatch(/summon deals no damage/);
+    });
+    /** A fight in which the boss only ever summons (so the test is about the summon and nothing else). */
+    const summonOnly = (): Encounter => { const e = structuredClone(enc); for (const ph of e.phases) { ph.loop = ['summon']; delete ph.opener; } return e; };
+    it('calls its mobs at the end of the tell, never above max_alive, and does not hurt the player', () => {
+      const e = summonOnly(), cont = contentFromTables({ mobs: tables.mobs as unknown as MobRow[], bosses: tables.bosses as unknown as BossRow[], rooms: [], encounters: { oan_hon_quy_vuong: e } });
+      const w = createWorld(1), ev: GameEvent[] = [];
+      startGhostKingFight(w, ev);
+      const boss = w.actors.find((a) => a.role === 'boss')!;
+      const spawned: number[] = [];
+      for (let t = 0; t < 60 * 20; t++) {
+        ev.length = 0;
+        tick(w, NO_INPUT, ev, (ww, evs) => { bossStep(ww, boss, e, speed, evs, cont); aiSystem(ww, cont, evs); mobMovement(ww); });
+        spawned.push(ev.filter((x) => x.type === 'actor-spawned').length);
+        expect(w.actors.filter((a) => a.role === 'mob' && a.hp > 0).length).toBeLessThanOrEqual(4);
+      }
+      const total = spawned.reduce((a, b) => a + b, 0);
+      expect(total).toBeGreaterThanOrEqual(4); // two calls fill it
+      expect(w.actors.some((a) => a.kind === 'mob_blood_wolf') && w.actors.some((a) => a.kind === 'mob_blood_crow')).toBe(true);
+    });
+    it('without content the summon is only a telegraph (no mobs, no damage)', () => {
+      const e = summonOnly();
+      const w = createWorld(1), ev: GameEvent[] = [];
+      startGhostKingFight(w, ev);
+      const boss = w.actors.find((a) => a.role === 'boss')!;
+      for (let t = 0; t < 60 * 6; t++) tick(w, NO_INPUT, ev, (ww, evs) => bossStep(ww, boss, e, speed, evs));
+      expect(w.actors.filter((a) => a.role === 'mob')).toHaveLength(0);
+      expect(w.stats.hitsTaken).toBe(0);
+    });
   });
   it('is deterministic: the same fight twice gives the same hash', () => {
     const a = fight(SCRIPTS['random walk, dodge and strike']!, 9, 1500), b = fight(SCRIPTS['random walk, dodge and strike']!, 9, 1500);
