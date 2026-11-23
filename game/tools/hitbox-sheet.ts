@@ -1,6 +1,6 @@
 // Static review page for the draft boxes: every frame of every body drawn at x4 with the boxes on top, one section per id.
 // For the owner to look at; it approves nothing and writes nothing into the repository unless --out points there.
-//   node tools/hitbox-sheet.ts --out <file.html> [--assets id,id] [--bodies dir]     default bodies dir: game/content/hitbox
+//   node tools/hitbox-sheet.ts --out <file.html> [--assets id,id] [--bodies dir]     default bodies dir: assets/bodies (approved store)
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -38,7 +38,7 @@ export async function buildSheet(ids: string[], bodiesDir: string): Promise<stri
     let inner = '', badge: string, facts: string;
     if (body) {
       withBody++;
-      badge = '<span class="badge draft">NHÁP, chờ duyệt</span>';
+      badge = (body.review.status as string) === 'owner-approved' ? '<span class="badge draft">đã duyệt (chủ dự án)</span>' : '<span class="badge draft">NHÁP, chờ duyệt</span>';
       const hits = Object.entries(body.clips ?? {}).flatMap(([c, v]) => Object.entries(v.frames).flatMap(([n, f]) => f.hitboxes.map((h) => `${c}[${n}] ${h.id} ${h.x},${h.y} ${h.w}×${h.h}`)));
       facts = `<p>hurtbox ${body.hurtbox.x},${body.hurtbox.y} ${body.hurtbox.w}×${body.hurtbox.h} · pivot ${body.pivot.join(',')} · khung ${body.frameSize.join('×')}</p><p class="note">${esc(body.review.note)}</p>${hits.length ? `<p>hitbox nháp: ${hits.map(esc).join(' · ')}</p>` : '<p>hitbox tấn công: không đề xuất</p>'}`;
       const clips = info?.clips ?? {};
@@ -85,7 +85,7 @@ if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.a
   const flag = (n: string): string | undefined => { const i = argv.indexOf(n); return i < 0 ? undefined : argv[i + 1]; };
   const out = flag('--out');
   if (!out) throw new Error('--out <file.html> is required');
-  const html = await buildSheet(flag('--assets')?.split(',') ?? vsIds(), path.resolve(flag('--bodies') ?? path.join(GAME, 'content/hitbox')));
+  const html = await buildSheet(flag('--assets')?.split(',') ?? vsIds(), path.resolve(flag('--bodies') ?? path.join(GAME, '../assets/bodies')));
   fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
   fs.writeFileSync(out, html);
   console.log(`wrote ${out} (${(html.length / 1048576).toFixed(1)} MiB)`);

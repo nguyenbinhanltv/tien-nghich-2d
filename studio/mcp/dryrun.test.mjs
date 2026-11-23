@@ -15,7 +15,19 @@ import { JobRunner } from '../core/jobs.mjs';
 
 const text = (r) => r.content?.[0]?.text ?? '';
 const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
-const withProject = async (fn, opts = {}) => { const p = makeProject({ git: false, toolchain: true, ...opts }); try { return await fn(p); } finally { await p.cleanup(); } };
+// Every case gets a private TMPDIR (cases of one file run one after another, so setting the variable is safe; os.tmpdir()
+// reads it on every call). The scratch check below then looks at THIS case's directory only: other test files running in
+// parallel, other workers on the machine and the leftovers of earlier cases all share the system tmp and must not count.
+const withProject = async (fn, opts = {}) => {
+  const p = makeProject({ git: false, toolchain: true, ...opts });
+  const priorTmp = process.env.TMPDIR, privateTmp = fs.mkdtempSync(join(os.tmpdir(), 'studio-case-tmp-'));
+  process.env.TMPDIR = privateTmp;
+  try { return await fn(p); } finally {
+    if (priorTmp === undefined) delete process.env.TMPDIR; else process.env.TMPDIR = priorTmp;
+    fs.rmSync(privateTmp, { recursive: true, force: true });
+    await p.cleanup();
+  }
+};
 const ICON = 'lt_icon_realm_step'; // planned 16x16 icon, one frame
 const square = [{ op: 'fill', box: [4, 4, 12, 12], color: 'jade_03' }, { op: 'outline' }];
 const skipPy = HAVE_PYTHON ? false : 'the project Python environment is not available';
@@ -35,6 +47,7 @@ function fingerprint(root) {
   walk(root);
   return hash.digest('hex');
 }
+// os.tmpdir() is this case's private directory (see withProject), so any entry in it is a scratch the case left behind.
 const scratchDirs = () => fs.readdirSync(os.tmpdir()).filter((n) => n.startsWith('studio-dry-'));
 
 /** Run `call` (a dryRun call) and prove the project is byte-identical afterwards; returns the result. */

@@ -14,11 +14,12 @@ export function mountStatus(root: HTMLElement): (text: string, result: boolean) 
   };
 }
 
-export interface StatusInput { playerHp: number; playerMax: number; bossHp: number; bossMax: number; mode: string }
+export interface StatusInput { playerHp: number; playerMax: number; bossHp: number; bossMax: number; mode: string; /** In the Động Phủ loop the press leaves for the abode instead of retrying. */ returning?: boolean }
 export function statusText(i18n: I18n, s: StatusInput): string {
   const hp = `${i18n.t('hud.you')} ${s.playerHp}/${s.playerMax} · ${i18n.t('hud.boss')} ${s.bossHp}/${s.bossMax}`;
-  if (s.mode === 'won') return `${i18n.t('result.won')}\n${i18n.t('result.restart')}`;
-  if (s.mode === 'lost') return `${i18n.t('result.lost')}\n${i18n.t('result.restart')}`;
+  const hint = i18n.t(s.returning ? 'result.return' : 'result.restart');
+  if (s.mode === 'won') return `${i18n.t('result.won')}\n${hint}`;
+  if (s.mode === 'lost') return `${i18n.t('result.lost')}\n${hint}`;
   return hp;
 }
 export const isResult = (mode: string): boolean => mode === 'won' || mode === 'lost';

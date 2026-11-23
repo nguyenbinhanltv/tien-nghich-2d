@@ -1,7 +1,8 @@
-// Pixel HUD maths (E8.1), pure so it is unit-tested: bar crop width, safe positions at 384x216, and a 3x5 pixel digit font.
+// Pixel HUD maths (E8.1), pure so it is unit-tested: bar crop width and safe positions at 384x216 (text itself comes from the pixel font, ui/pixel-text.ts).
 // The HUD is drawn at the logical resolution and scaled by the integer camera scale like everything else; sharp text (menus,
 // result banner) lives in the DOM layer instead (owner decision 2026-11-23: pixel HUD, sharp menus).
 import { VIEW_W } from '../contracts/world.ts';
+import { mapSize } from './minimap-layout.ts';
 
 export const BAR_W = 64;
 export const BAR_H = 8;
@@ -22,33 +23,12 @@ export const HUD_POS = {
   bossBar: { x: Math.round((VIEW_W - BAR_W) / 2), y: MARGIN.y },
 } as const;
 
-// 3 wide x 5 high; '#' is a lit pixel.
-const GLYPHS: Record<string, readonly string[]> = {
-  '0': ['###', '#.#', '#.#', '#.#', '###'],
-  '1': ['.#.', '##.', '.#.', '.#.', '###'],
-  '2': ['###', '..#', '###', '#..', '###'],
-  '3': ['###', '..#', '###', '..#', '###'],
-  '4': ['#.#', '#.#', '###', '..#', '..#'],
-  '5': ['###', '#..', '###', '..#', '###'],
-  '6': ['###', '#..', '###', '#.#', '###'],
-  '7': ['###', '..#', '.#.', '.#.', '.#.'],
-  '8': ['###', '#.#', '###', '#.#', '###'],
-  '9': ['###', '#.#', '###', '..#', '###'],
-  '/': ['..#', '..#', '.#.', '#..', '#..'],
-  ' ': ['...', '...', '...', '...', '...'],
-};
-export const GLYPH_W = 3;
-export const GLYPH_H = 5;
+/** The minimap column in the top-right: the map (up to 3 cells wide), a 6-px gap and the floor label (reserved 64 px). */
+export const FLOOR_LABEL_MAX_W = 64;
+export const FLOOR_COLUMN_LEFT = VIEW_W - MARGIN.x - mapSize(99).w - 6 - FLOOR_LABEL_MAX_W;
+/** The boss name may use the space between the boss bar's left edge and the floor column (4 px clear). */
+export const BOSS_NAME_MAX_W = FLOOR_COLUMN_LEFT - 4 - HUD_POS.bossBar.x;
 
-/** Lit pixels [x, y] of `text` laid out left to right with a 1 px gap. Unknown characters are skipped (digits and "/" only). */
-export function digitPixels(text: string): { w: number; h: number; pixels: [number, number][] } {
-  const pixels: [number, number][] = [];
-  let x = 0;
-  for (const ch of text) {
-    const g = GLYPHS[ch];
-    if (!g) continue;
-    g.forEach((row, y) => { for (let i = 0; i < GLYPH_W; i++) if (row[i] === '#') pixels.push([x + i, y]); });
-    x += GLYPH_W + 1;
-  }
-  return { w: Math.max(0, x - 1), h: GLYPH_H, pixels };
-}
+/** Free wall band between the player's HUD and the boss bar: the realm and cluster lines (ui/floor-status.ts) are drawn here. */
+export const RUN_LINES_X = HUD_POS.playerBar.x + BAR_W + 8;
+export const RUN_LINES_MAX_W = HUD_POS.bossBar.x - 4 - RUN_LINES_X;

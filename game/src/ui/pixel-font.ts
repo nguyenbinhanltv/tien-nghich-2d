@@ -1,7 +1,8 @@
 // Pixel font with full Vietnamese diacritics for the pixel HUD (plan E8.2). Code-drawn: no image file, the glyphs are bit rows
 // in this file and are composed at run time, so every precomposed Vietnamese letter (base + circumflex/breve/horn + tone mark
 // + dot below) exists without hand-drawing 134 variants. Sharp menus use HTML text instead (owner decision); this is for the HUD.
-// STATUS: placeholder art, pending a human look. It draws white pixels only; the caller tints them from the 43-colour palette.
+// STATUS: art approved by the project owner on 2026-11-23 22:47 (+07:00), "Duyệt" (item 3 of the four review questions; see game/public/fonts/README.md).
+// The approval covers the glyph art as it is on main, not the HUD layout. It draws white pixels only; the caller tints them from the 43-colour palette.
 //
 // Cell: 14 rows. Rows 0-3 are the accent zone, rows 4-10 hold capitals/ascenders (baseline at row 10), rows 11-12 descenders,
 // row 11 or 13 the dot-below. Advance is 6 px (7 for letters with a horn, 4 for a space).

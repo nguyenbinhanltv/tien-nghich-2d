@@ -4,9 +4,10 @@
 import Phaser from 'phaser';
 import { VIEW_W } from '../contracts/world.ts';
 import { canDraw, rasterize } from '../ui/pixel-font.ts';
+import { textPixels, wrapText } from '../ui/pixel-text.ts';
 import { cellOrigin, chainFrom, CELL, connector, floorCounter, iconFrame, mapSize, roomStates, snakeLayout } from '../ui/minimap-layout.ts';
 import type { MiniRoom, RoomRow } from '../ui/minimap-layout.ts';
-import { MARGIN } from '../ui/hud-layout.ts';
+import { FLOOR_LABEL_MAX_W, MARGIN, RUN_LINES_MAX_W, RUN_LINES_X } from '../ui/hud-layout.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
 // palette ids ink_01 (outline), ink_06 (text), bronze_02 (connector), bronze_05 (visited connector)
@@ -20,6 +21,8 @@ export class FloorHud {
   private icons: Phaser.GameObjects.Image[] = [];
   private readonly lines: Phaser.GameObjects.Graphics;
   private readonly text: Phaser.GameObjects.Graphics;
+  private readonly runText: Phaser.GameObjects.Graphics;
+  private runLineShown = '';
   private origin = { x: 0, y: 0 };
   private current = -1;
   private label = '';
@@ -29,6 +32,7 @@ export class FloorHud {
     this.scene = scene; this.frames = frames;
     this.lines = scene.add.graphics().setScrollFactor(0).setDepth(100);
     this.text = scene.add.graphics().setScrollFactor(0).setDepth(102);
+    this.runText = scene.add.graphics().setScrollFactor(0).setDepth(102);
   }
 
   /** The rooms of the floor, in play order, and the name shown next to the map. */
@@ -51,7 +55,7 @@ export class FloorHud {
   update(current: number, now: number): void {
     this.current = current;
     const show = this.rooms.length > 0 && current >= 0;
-    this.lines.setVisible(show); this.text.setVisible(show);
+    this.lines.setVisible(show); this.text.setVisible(show); this.runText.setVisible(show);
     for (const i of this.icons) i.setVisible(show);
     if (!show) return;
     const blink = (Math.floor(now / BLINK_MS) % 2) as 0 | 1;
@@ -73,10 +77,29 @@ export class FloorHud {
     this.drawText();
   }
 
+  /** Realm and cluster lines in the free wall band left of the boss bar (floor-status.ts builds the text; each line is cut to fit). */
+  setRunLines(lines: readonly string[]): void {
+    const key = lines.join('\n');
+    if (key === this.runLineShown || this.rooms.length === 0) return;
+    this.runLineShown = key;
+    const g = this.runText;
+    g.clear();
+    let y = MARGIN.y;
+    for (const line of lines) {
+      const t = textPixels(wrapText(line, RUN_LINES_MAX_W, 1)[0] ?? '');
+      g.fillStyle(INK, 1);
+      for (const [px, py] of t.pixels) for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]] as const) g.fillRect(RUN_LINES_X + px + dx, y + py + dy, 1, 1);
+      g.fillStyle(TEXT, 1);
+      for (const [px, py] of t.pixels) g.fillRect(RUN_LINES_X + px, y + py, 1, 1);
+      y += t.h + 4;
+    }
+  }
+
   private drawText(): void {
     const g = this.text;
     g.clear();
-    const label = [...this.label].every(canDraw) ? this.label : '';
+    // one line, never wider than the column the boss name leaves free
+    const label = [...this.label].every(canDraw) ? (wrapText(this.label, FLOOR_LABEL_MAX_W, 1)[0] ?? '') : '';
     const lines = [label, floorCounter(this.current, this.rooms.length)].filter(Boolean);
     // right-aligned to the left of the map, one line under the other
     let y = MARGIN.y;

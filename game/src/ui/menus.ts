@@ -14,11 +14,13 @@ export interface MenuDeps {
   /** Called after every change (apply to audio/juice and save). `reload` is true when the language changed. */
   onChange(s: Settings, reload: boolean): void;
   onRestart(): void;
+  /** Hide the Restart item when there is nothing to restart (the hub). Default: shown. */
+  canRestart?(): boolean;
   /** Pause menu "title screen": the caller restarts the fight; the menu shows the title again. */
   onTitle?(): void;
   onOpenChange(open: boolean): void;
 }
-type View = 'title' | 'pause' | 'settings' | 'keys' | 'pad';
+type View = 'title' | 'gate' | 'pause' | 'settings' | 'keys' | 'pad';
 
 export class Menus {
   private readonly root: HTMLElement;
@@ -30,6 +32,7 @@ export class Menus {
   private listeningPad: PadAction | null = null;
   /** Where Back from the settings returns to: the title screen or the pause menu. */
   private origin: 'title' | 'pause' = 'pause';
+  private onGate: ((choice: 'breakthrough' | 'pill') => void) | null = null;
   private note = '';
   private padHeld = new Set<number>();
   private open_ = false;
@@ -70,6 +73,13 @@ export class Menus {
     if (this.open_) return;
     this.open(); this.view = 'title'; this.origin = 'title'; this.render();
   }
+  /** The realm gate (cluster 2): a choice the run waits for. Only the two buttons leave it (no Esc, no pause menu). */
+  openGate(choose: (choice: 'breakthrough' | 'pill') => void): void {
+    if (this.open_) return;
+    this.onGate = choose;
+    this.open(); this.view = 'gate'; this.render();
+  }
+  get gateOpen(): boolean { return this.open_ && this.view === 'gate'; }
   close(): void {
     if (!this.open_) return;
     this.open_ = false; this.listening = null; this.listeningPad = null;
@@ -81,7 +91,7 @@ export class Menus {
   toggle(): void { if (!this.open_) this.open(); else this.back(); }
   private back(): void {
     if (this.listening || this.listeningPad) { this.listening = null; this.listeningPad = null; this.note = ''; this.render(); return; }
-    if (this.view === 'title') return; // only Start leaves the title screen
+    if (this.view === 'title' || this.view === 'gate') return; // only Start / a gate button leaves these
     if (this.view === 'pause') this.close();
     else { this.view = this.view === 'keys' || this.view === 'pad' ? 'settings' : this.origin; this.note = ''; this.render(); }
   }
@@ -120,14 +130,18 @@ export class Menus {
   private render(): void {
     const s = this.deps.settings;
     const box = this.el('div', 'menu-panel');
-    const heading = { title: 'game.title', pause: 'menu.pause', settings: 'menu.settings', keys: 'settings.keys', pad: 'settings.pad' }[this.view];
+    const heading = { title: 'game.title', gate: 'gate.title', pause: 'menu.pause', settings: 'menu.settings', keys: 'settings.keys', pad: 'settings.pad' }[this.view];
     const title = this.el('h2', this.view === 'title' ? 'menu-title' : '', this.t(heading));
     this.overlay.setAttribute('aria-label', title.textContent ?? '');
     box.appendChild(title);
-    if (this.view === 'title') {
+    if (this.view === 'gate') {
+      const pick = (c: 'breakthrough' | 'pill') => () => { const f = this.onGate; this.onGate = null; this.close(); f?.(c); };
+      const option = (key: string, c: 'breakthrough' | 'pill'): HTMLElement[] => [this.btn(this.t(key), pick(c)), this.el('p', 'menu-note', this.t(`${key}.desc`))];
+      box.append(...option('gate.breakthrough', 'breakthrough'), ...option('gate.pill', 'pill'), this.el('p', 'menu-note', this.t('gate.hint')));
+    } else if (this.view === 'title') {
       box.append(this.btn(this.t('menu.start'), () => this.close()), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }), this.el('p', 'menu-note', this.t('title.hint')));
     } else if (this.view === 'pause') {
-      box.append(this.btn(this.t('menu.resume'), () => this.close()), this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); }), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }),
+      box.append(this.btn(this.t('menu.resume'), () => this.close()), ...(this.deps.canRestart?.() ?? true ? [this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); })] : []), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }),
         ...(this.deps.onTitle ? [this.btn(this.t('menu.title'), () => { this.deps.onTitle?.(); this.view = 'title'; this.origin = 'title'; this.render(); })] : []));
     } else if (this.view === 'settings') {
       const emit = (reload = false) => this.deps.onChange(s, reload);

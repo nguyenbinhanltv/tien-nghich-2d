@@ -1,0 +1,61 @@
+{
+ "frameSize": [
+  32,
+  32
+ ],
+ "pivot": [
+  16,
+  31
+ ],
+ "hurtbox": {
+  "x": 11,
+  "y": 9,
+  "w": 14,
+  "h": 22
+ },
+ "review": {
+  "status": "owner-approved",
+  "source": "alpha-auto",
+  "note": "alpha >= 128 bbox of idle_east_0, inset 1 px; attack hitboxes guessed from east attack frames (reach), no clip events exist yet",
+  "approvalRef": "owner_hitbox_draft_vs51_2026-11-23"
+ },
+ "clips": {
+  "attack": {
+   "frames": {
+    "2": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 7,
+       "y": 15,
+       "w": 23,
+       "h": 17
+      }
+     ]
+    },
+    "3": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 7,
+       "y": 15,
+       "w": 23,
+       "h": 17
+      }
+     ]
+    },
+    "4": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 7,
+       "y": 17,
+       "w": 21,
+       "h": 9
+      }
+     ]
+    }
+   }
+  }
+ }
+}

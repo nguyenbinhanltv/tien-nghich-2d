@@ -1,6 +1,6 @@
 # Characters wave (wave 5): three effects
 
-**Listening status: no agent listened to any of this audio. Human listening approval is pending, and `assets/audio/listening_approvals.json` is untouched by this change.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
+**Listening status: no agent listened to any of this audio. The project owner listened to and approved all three cues on 2026-11-23 ("Tôi đã nghe thử và duyệt"), recorded by an agent as `characters_v1` in `assets/audio/listening_approvals.json`, pinned to the master hashes below. The listening list at the end is kept as the record of what was to be judged.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
 
 Creator: Claude Code (Anthropic, `claude-sonnet-5-5`). The gate was opened by the owner's choice of 2026-11-23, recorded in `assets/review/audio_gate_decisions.json` (`characters_gate_2026-11-23`, statement "Coi như đã đủ, làm luôn", about the NPC handoff milestones, the pet bond and the form silhouettes). The art of the NPCs, pets and forms was approved on 2026-11-22. The owner settled no musical number: the sound direction is the Động Phủ row of `docs/AUDIO_DESIGN.md` (gesture and pitched responses, no dialogue recording). This wave has no beds.
 
@@ -34,9 +34,9 @@ With the project's own Studio audio engine (`studio/audio`, Node 24): `tools/gen
 
 Mono PCM16, 44,100 Hz, digital zero on the first and last frame, peaks at -6.0 dBFS (like the core effects). In the pack (FFmpeg 6.1.1) the sprite loudness is -17.6 LUFS-I (Ogg) and -17.7 (AAC), true peak -5.8 and -6.0 dBTP. Guard silence around every cue is digital zero. Per-cue codec SNR: Ogg 31.0 to 39.5 dB, AAC 34.3 to 56.6 dB; **`sfx_form_shift` is the lowest on both codecs (31.0 dB Ogg, 34.3 dB AAC)** (a noise band and a bright bell are the hard case for a perceptual codec), and `sfx_pet_reply` is next on Ogg (31.6 dB), so those two need listening in their codec versions rather than trust.
 
-## What needs a human listening
+## Listening list (done by the owner on 2026-11-23; see the status line)
 
-Nobody listened. Open questions, all of them for ears:
+The questions below were the ones for ears; the owner's statement does not answer them one by one:
 
 1. Does `sfx_keeper_call` read as a greeting, in mono, and stay distinct from `sfx_confirm` (the NPC handoff)? Is the tock at 0 ms useful or fussy?
 2. Does `sfx_pet_reply` read as a small animal answering, not a UI blip, and is the purr audible on small speakers (it sits under 400 Hz)? Do the same chirps suit all six pets, or does each species want a variant under the same ID?

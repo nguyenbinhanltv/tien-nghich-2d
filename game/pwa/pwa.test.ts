@@ -63,3 +63,11 @@ describe('audio allow-list', () => {
     for (const bad of ['audio/packs/pilot_v1/sfx_sprite_master.wav', 'audio/packs/pilot_v1/evidence.json', 'audio/packs/../../manifest.json', 'audio/masters/x.wav']) expect(AUDIO_RE.test(bad), bad).toBe(false);
   });
 });
+
+import { isContentFile } from './vite-plugin.ts';
+describe('content allow-list', () => {
+  it('serves the tables, room layouts and encounters only', () => {
+    for (const ok of ['tables.json', 'audio_events.json', 'rooms/room_bs_1.json', 'encounters/oan_hon_quy_vuong.json']) expect(isContentFile(ok), ok).toBe(true);
+    for (const bad of ['rooms/../tables.json', 'rooms/room_bs_1.yaml', 'locale/vi.json', 'content.manifest.json', 'rooms/', 'rooms/A.json']) expect(isContentFile(bad), bad).toBe(false);
+  });
+});

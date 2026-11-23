@@ -14,17 +14,32 @@ import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
+import { attachRun, canRestartRun } from '../../meta/flow.ts';
+import type { ContentApi, RoomLayout } from '../../contracts/content.ts';
+import { RoomView } from '../room-view.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
   sample(): InputFrame;
   paused(): boolean;
+  /** Display name of a content id (a boss or mob) in the player's language. */
+  nameOf?(kind: string): string;
   /** Floor name shown by the minimap (e.g. "Huyết Hải"). */
   floorLabel?: string;
   /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
   onEvents?(events: readonly GameEvent[], world: WorldState): void;
   /** Status line (hp, result). */
   status?(world: WorldState): void;
+  /** Run mode (the Động Phủ loop): fight on this seed under a run, and leave through `onFinished` instead of retrying. */
+  run?: { seed: number; runId: number };
+  /** Called once, on the first Dodge/Counter press after the result beat, when `run` is set. The run in `world.run` has ended. */
+  onFinished?(world: WorldState): void;
+  /** The realm gate: the run waits at the door until `choose` is called with the player's pick. Shown once per gate. */
+  onGate?(choose: (choice: 'breakthrough' | 'pill') => void): void;
+  /** The realm and cluster lines of the floor HUD (built from the run state and the player's language). */
+  runLines?(run: WorldState['run']): string[];
+  /** Compiled content (tables, room layouts, encounters). With it the scene plays the real floor, room by room; without it the old boss arena. */
+  content?: ContentApi | null;
   /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
   frozen?: boolean;
 }
@@ -49,20 +64,26 @@ const HAZARD_FILL = 0xd03a4a, HAZARD_EDGE = 0xee7a80, SAFE_EDGE = 0x8f62cf;
 export class BloodSeaScene extends Phaser.Scene {
   private readonly host: SceneHost;
   private frames!: KilnFrames;
-  private readonly fight = new FightRunner();
+  private readonly fight: FightRunner;
   private readonly loop = new FixedLoop();
   private readonly sprites = new Map<number, Phaser.GameObjects.Image>();
   private shots: Phaser.GameObjects.Image[] = [];
   private hazards!: Phaser.GameObjects.Graphics;
   private input0: InputFrame | null = null;
   private endedAt = -1;
+  private finished = false;
   readonly juice = new Juice();
   private hud!: Hud;
   private floor!: FloorHud;
+  private room!: RoomView;
+  private gateAsked = false;
 
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
+    this.fight = new FightRunner(host.run?.seed, host.content ?? null, host.run?.runId);
+    // the boss-only fallback attaches its own run; on the real floor the sim started the run in the first room
+    if (host.run && !this.fight.hasFloor) attachRun(this.fight.world, host.run.runId);
   }
 
   preload(): void { preloadKiln(this); this.load.json('content-tables', 'content/tables.json'); }
@@ -70,9 +91,10 @@ export class BloodSeaScene extends Phaser.Scene {
   create(): void {
     this.frames = new KilnFrames(this);
     this.cameras.main.setBackgroundColor('#14101a');
-    this.buildRoom();
+    this.room = new RoomView(this, this.frames);
+    if (!this.fight.hasFloor) this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
-    this.hud = new Hud(this, this.frames);
+    this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
     if (this.cache.json.exists('content-tables')) {
@@ -83,8 +105,18 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** Run mode: the fight reached a result (or its run ended), so Restart must not be offered. */
+  resultShown(): boolean { return !canRestartRun(this.fight.world); }
+
   /** Menu: start the fight again from the beginning. */
-  restartFight(): void { this.fight.restart(); this.endedAt = -1; }
+  restartFight(): void {
+    // in run mode the same seed and run id stay: a restart never rerolls the fight or skips the result handling
+    const r = this.host.run;
+    if (r && !canRestartRun(this.fight.world)) return; // a finished run leaves only through onFinished
+    this.fight.restart(r?.seed);
+    if (r && !this.fight.hasFloor) attachRun(this.fight.world, r.runId);
+    this.endedAt = -1; this.finished = false;
+  }
 
   private put(name: string, x: number, y: number, depth: number): void {
     this.add.image(x, y, this.frames.pageOf(name), name).setOrigin(0, 0).setDepth(depth);
@@ -113,7 +145,9 @@ export class BloodSeaScene extends Phaser.Scene {
       // after a result, a fresh Dodge or Counter press (after a short beat) starts the fight again
       if (w.mode === 'won' || w.mode === 'lost') {
         if (this.endedAt < 0) this.endedAt = w.tick;
-        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) { this.fight.restart(); this.endedAt = -1; }
+        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) {
+          if (this.host.run) { if (!this.finished) { this.finished = true; this.host.onFinished?.(w); } } else { this.fight.restart(); this.endedAt = -1; }
+        }
       }
       let first = true;
       this.loop.advance(deltaMs, () => {
@@ -121,14 +155,31 @@ export class BloodSeaScene extends Phaser.Scene {
         this.fight.tick(first ? inp : { ...inp, dash: false, fire: false });
         first = false;
       });
+      // the realm gate: ask once, and stay 'asked' until the sim has moved past it (it may not tick this very frame)
+      if (w.stage?.gatePending) {
+        if (!this.gateAsked) { this.gateAsked = true; this.host.onGate?.((c) => this.fight.takeGate(c)); }
+      } else this.gateAsked = false;
       const ev = this.fight.drain();
       if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
     this.draw();
   }
 
+  /** The room the sim is in: rebuild the view when it changes, keep the doors in step with the grid. */
+  private syncRoom(w: WorldState): void {
+    const st = w.stage, grid = w.grid;
+    if (!st || !grid || !this.host.content) return;
+    if (this.room.roomId !== st.room) {
+      const layout = this.host.content.get<RoomLayout>('room_layouts', st.room);
+      this.room.show(st.room, grid.rows, layout.props);
+      if (this.room.roomId && this.fight.world.tick > 0) this.cameras.main.fadeIn(180, 20, 16, 26);
+    }
+    this.room.update(grid.rows, w.tick);
+  }
+
   private draw(): void {
     const w = this.fight.world;
+    this.syncRoom(w);
     const seen = new Set<number>();
     for (const a of w.actors) {
       seen.add(a.id);
@@ -142,6 +193,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
     this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
+    this.floor.setRunLines(this.host.runLines?.(w.run) ?? []);
     this.host.status?.(w);
   }
 

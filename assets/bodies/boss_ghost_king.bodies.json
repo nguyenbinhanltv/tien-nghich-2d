@@ -1,0 +1,146 @@
+{
+ "frameSize": [
+  80,
+  80
+ ],
+ "pivot": [
+  40,
+  79
+ ],
+ "hurtbox": {
+  "x": 26,
+  "y": 3,
+  "w": 26,
+  "h": 74
+ },
+ "review": {
+  "status": "owner-approved",
+  "source": "alpha-auto",
+  "note": "alpha >= 128 bbox of idle_east_0, inset 1 px; attack hitboxes guessed from east attack frames (reach), no clip events exist yet",
+  "approvalRef": "owner_hitbox_draft_vs51_2026-11-23"
+ },
+ "clips": {
+  "attack_claw": {
+   "frames": {
+    "2": {
+     "hitboxes": [
+      {
+       "id": "claw",
+       "x": 9,
+       "y": 38,
+       "w": 49,
+       "h": 12
+      }
+     ]
+    },
+    "4": {
+     "hitboxes": [
+      {
+       "id": "claw",
+       "x": 20,
+       "y": 37,
+       "w": 53,
+       "h": 11
+      }
+     ]
+    },
+    "5": {
+     "hitboxes": [
+      {
+       "id": "claw",
+       "x": 20,
+       "y": 36,
+       "w": 51,
+       "h": 11
+      }
+     ]
+    }
+   }
+  },
+  "attack_wail": {
+   "frames": {
+    "1": {
+     "hitboxes": [
+      {
+       "id": "wail",
+       "x": 7,
+       "y": 8,
+       "w": 69,
+       "h": 71
+      }
+     ]
+    },
+    "2": {
+     "hitboxes": [
+      {
+       "id": "wail",
+       "x": 8,
+       "y": 1,
+       "w": 62,
+       "h": 74
+      }
+     ]
+    },
+    "3": {
+     "hitboxes": [
+      {
+       "id": "wail",
+       "x": 2,
+       "y": 1,
+       "w": 70,
+       "h": 65
+      }
+     ]
+    },
+    "4": {
+     "hitboxes": [
+      {
+       "id": "wail",
+       "x": 2,
+       "y": 1,
+       "w": 71,
+       "h": 68
+      }
+     ]
+    }
+   }
+  },
+  "soul_devour": {
+   "frames": {
+    "3": {
+     "hitboxes": [
+      {
+       "id": "soul_devour",
+       "x": 5,
+       "y": 15,
+       "w": 69,
+       "h": 40
+      }
+     ]
+    },
+    "4": {
+     "hitboxes": [
+      {
+       "id": "soul_devour",
+       "x": 1,
+       "y": 16,
+       "w": 76,
+       "h": 46
+      }
+     ]
+    },
+    "5": {
+     "hitboxes": [
+      {
+       "id": "soul_devour",
+       "x": 1,
+       "y": 16,
+       "w": 78,
+       "h": 39
+      }
+     ]
+    }
+   }
+  }
+ }
+}
