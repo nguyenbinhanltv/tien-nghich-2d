@@ -31,7 +31,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      assetId: { type: 'string', maxLength: 64, description: 'Design asset id, e.g. lt_reed_crane.' },
+      assetId: { type: 'string', maxLength: 64, description: 'Design asset id (from studio_catalog_search).' },
       kind: { type: 'string', enum: ['turnaround', 'pose-sheet'], description: 'turnaround (default): one cell per facing. pose-sheet: one cell per key pose and facing (needs clip).' },
       clip: { type: 'string', maxLength: 40, description: 'For a pose sheet: the clip whose key poses you will draw (one pose per frame of the clip).' },
       facings: { type: 'array', maxItems: 4, items: { type: 'string', enum: FACINGS }, description: 'Facings to draw (default: the profile\'s directions).' },

@@ -7,9 +7,9 @@ export default {
   name: 'studio_asset_plan',
   title: 'Create or edit a planned asset',
   description:
-    'Create a new planned Longtime asset (id, profile, chunk, brief, dependencies) or edit one you created. ' +
-    'Plans are stored in assets/studio_plans.json, beside the locked design manifest, so a human can promote them later. ' +
-    'op "create" needs id (lt_...), chunk, brief and a profile OR a custom spec. op "edit" needs id and the etag from studio_asset_get, plus the fields to change. ' +
+    'Create a new planned asset (id, profile, chunk, brief, dependencies) or edit one you created. ' +
+    'Plans are stored in the studio plans file of the project, beside the locked design manifest, so a human can promote them later. ' +
+    'op "create" needs id (matching the idPattern of its source), chunk, brief and a profile OR a custom spec. op "edit" needs id and the etag from studio_asset_get, plus the fields to change. ' +
     'Entries in the design manifest itself cannot be edited here, and nothing can be deleted. Once an asset has processed or packed frames it is no longer planned and cannot be edited. ' +
     'dryRun returns the entry field by field and writes nothing.',
   scope: 'author',
@@ -17,11 +17,11 @@ export default {
     type: 'object',
     properties: {
       op: { type: 'string', enum: ['create', 'edit'], description: 'create a new entry, or edit one you created.' },
-      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, starting with lt_ (e.g. lt_lantern_monk).' },
-      profile: { type: 'string', maxLength: 40, description: 'Longtime profile: sets size, directions and clips (e.g. npc, mob, boss, relic). See studio_project_info sizeClasses.longtimeProfiles. Give this OR custom.' },
+      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, matching the idPattern of the target source (studio_project_info catalog.sources).' },
+      profile: { type: 'string', maxLength: 40, description: 'Profile: sets size, directions and clips. See studio_project_info sizeClasses for the names. Give this OR custom.' },
       custom: {
         type: 'object',
-        description: 'Instead of a profile, an inline spec for an asset that fits none (a VFX, a one-off): {category, size: [w, h], pivot: [x, y], directions?: ["none"], clips: {name: {frames, frameMs}}}. Category is an existing one (e.g. vfx, icon, prop, projectile).',
+        description: 'Instead of a profile, an inline spec for an asset that fits none (a VFX, a one-off): {category, size: [w, h], pivot: [x, y], directions?: ["none"], clips: {name: {frames, frameMs}}}. Category is one the project already has.',
         properties: {
           category: { type: 'string', maxLength: 24 },
           size: { type: 'array', minItems: 2, maxItems: 2, items: { type: 'integer', minimum: 4, maximum: 256 } },
@@ -32,7 +32,7 @@ export default {
         required: ['category', 'size', 'pivot', 'clips'],
         additionalProperties: false,
       },
-      chunk: { type: 'string', maxLength: 40, description: 'Chunk group the asset ships with (e.g. abode, mist_archive).' },
+      chunk: { type: 'string', maxLength: 40, description: 'Chunk group the asset ships with (a chunk name the project already uses).' },
       phase: { type: 'string', maxLength: 20, description: 'wave_1 or later (default later).' },
       method: { type: 'string', maxLength: 30, description: 'new_source or palette_variant (default new_source).' },
       brief: { type: 'string', maxLength: 400, description: 'What it is and how it reads on screen, 1 to 400 characters.' },
