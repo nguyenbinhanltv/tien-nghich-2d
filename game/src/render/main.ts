@@ -11,7 +11,7 @@ import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
 import { createUiI18n } from '../ui/strings.ts';
-import { mountStatus, statusText } from '../ui/status.ts';
+import { isResult, mountStatus, statusText } from '../ui/status.ts';
 import { mountTouchControls } from '../ui/touch-controls.ts';
 
 const root = document.getElementById('game')!;
@@ -36,7 +36,7 @@ const scene: Phaser.Scene = params.get('view') === 'dong-phu'
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
   : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w),
-    status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode })); },
+    status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 
 /** Hub scene on a saved profile. Entering the gate only announces `tn2d:enter-run`: the Blood Sea scene is wired in after the arena PR. */
