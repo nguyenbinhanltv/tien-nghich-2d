@@ -22,4 +22,4 @@ export interface RoomLayout {
 }
 
 /** Props that stop movement (they occupy their base tile). The sim (sim/run/floor.ts) and the content validator (tools/lib/rooms.ts) both read this one list, so "every cell is reachable" means the same in both. */
-export const BLOCKING_PROPS: ReadonlySet<string> = new Set(['prop_restriction_pillar', 'prop_mist_ravine_rock', 'prop_bone_altar', 'prop_alchemy_jar', 'prop_shrine_altar', 'prop_spirit_chest']);
+export const BLOCKING_PROPS: ReadonlySet<string> = new Set(['prop_restriction_pillar', 'prop_mist_ravine_rock', 'prop_bone_altar', 'prop_alchemy_jar', 'prop_shrine_altar', 'prop_spirit_chest', 'prop_courtyard_pillar', 'prop_stone_lantern', 'prop_bamboo_cluster']);

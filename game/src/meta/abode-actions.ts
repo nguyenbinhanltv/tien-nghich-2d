@@ -6,7 +6,7 @@ import { advanceMilestone, applyRunResult, brewPill, countOf, feedFurnace, harve
 import type { AbodeResult } from './abode.ts';
 import type { StationId } from './abode-layout.ts';
 
-export interface ActionOutcome { profile: SaveProfile; msg: string; vars?: Record<string, number>; changed: boolean; enterRun?: boolean }
+export interface ActionOutcome { profile: SaveProfile; msg: string; vars?: Record<string, number>; changed: boolean; enterRun?: boolean; /** Biome the run starts in (with enterRun); absent = the default one. */ biome?: string }
 
 const unchanged = (p: SaveProfile, msg: string, vars?: Record<string, number>): ActionOutcome => ({ profile: p, msg, ...(vars ? { vars } : {}), changed: false });
 const apply = (p: SaveProfile, r: AbodeResult, ok: string, fail: Record<string, string>, vars?: Record<string, number>): ActionOutcome =>
@@ -33,7 +33,8 @@ export function interact(p: SaveProfile, station: StationId): ActionOutcome {
     }
     case 'altar': return unchanged(p, `abode.altar.${p.realm}`);
     case 'chest': return unchanged(p, 'abode.chest.count', { stone: countOf(p.inventory, 'spirit_stone'), pill: countOf(p.inventory, ITEM.pill), blank: countOf(p.inventory, ITEM.blank) });
-    case 'gate': return { profile: p, msg: 'abode.gate.enter', changed: false, enterRun: true };
+    case 'gate': return { profile: p, msg: 'abode.gate.enter', changed: false, enterRun: true, biome: 'blood_sea' };
+    case 'gate_hengyue': return { profile: p, msg: 'abode.gate_hengyue.enter', changed: false, enterRun: true, biome: 'hengyue' };
   }
 }
 

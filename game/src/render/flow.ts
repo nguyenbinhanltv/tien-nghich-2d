@@ -56,13 +56,13 @@ export function createFlow(d: FlowDeps): Flow {
     sample: () => d.hub.sample(), paused: d.paused, frozen: d.frozen,
     get profile() { return profile; },
     commit: (p) => { profile = p; persist(); },
-    enterRun: () => later(toFight),
+    enterRun: (_p, biome) => later(() => toFight(biome)),
     onPrompt: (s, o) => panel.update(s, o),
   });
 
   let fight: BloodSeaScene | null = null;
-  const fightScene = (seed: number, runId: number): BloodSeaScene => (fight = new BloodSeaScene({
-    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, content: d.content, ...(d.onGate ? { onGate: d.onGate } : {}), ...(d.runLines ? { runLines: d.runLines } : {}), run: { seed, runId },
+  const fightScene = (seed: number, runId: number, biome = 'blood_sea'): BloodSeaScene => (fight = new BloodSeaScene({
+    sample: () => d.hub.sample(), biome, floorLabel: d.i18n.t(`place.${biome}`), paused: d.paused, frozen: d.frozen, content: d.content, ...(d.onGate ? { onGate: d.onGate } : {}), ...(d.runLines ? { runLines: d.runLines } : {}), run: { seed, runId },
     onEvents: (ev, w) => d.audio.handle(ev, w),
     status: (w) => {
       const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss');
@@ -80,15 +80,15 @@ export function createFlow(d: FlowDeps): Flow {
   };
   const current = (): string => game!.scene.getScenes(true)[0]?.scene.key ?? '';
 
-  function toFight(): void {
+  function toFight(biome = 'blood_sea'): void {
     if (where !== 'abode') return;
     where = 'fight';
     const start = beginSliceRun(profile);
     profile = start.profile;
     persist(); // before the fight, so closing the game mid-fight cannot reroll the seed
     panel.show(false);
-    void d.audio.engine.playBgm('bgm_blood_sea');
-    const f = fightScene(start.seed, start.runId);
+    void d.audio.engine.playBgm(biome === 'hengyue' ? 'bgm_hengyue' : 'bgm_blood_sea');
+    const f = fightScene(start.seed, start.runId, biome);
     f.juice.settings = { ...d.juice() };
     swap(current(), f, 'fight');
   }

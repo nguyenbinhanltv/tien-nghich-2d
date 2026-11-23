@@ -21,7 +21,7 @@ export interface DongPhuHost {
   profile: SaveProfile;
   commit(profile: SaveProfile): void;
   /** Counter pressed at the gate: start a run. */
-  enterRun(profile: SaveProfile): void;
+  enterRun(profile: SaveProfile, biome?: string): void;
   /** Text layer (HTML, sharp): what is in reach and the last message. */
   onPrompt?(station: StationId | null, outcome: ActionOutcome | null): void;
   /** Golden-image mode: no wall-clock motion. */
@@ -87,6 +87,7 @@ export class DongPhuScene extends Phaser.Scene {
     this.put('props/prop_spirit_chest/closed_none_0', at('chest').x, at('chest').y, at('chest').y, 'feet');
     for (const id of ['bed0', 'bed1', 'bed2'] as const) this.beds.push(this.put('longtime/lt_herb_bed/bare_none_0', at(id).x, at(id).y, at(id).y, 'feet'));
     this.cycle('props/prop_teleport_array/idle_none', at('gate').x, at('gate').y, 3);
+    this.cycle('props/prop_teleport_array/idle_none', at('gate_hengyue').x, at('gate_hengyue').y, 3);
     this.cycle('longtime/lt_ink_marten/idle_south', 238, 168, CLIP_FPS.idle ?? 6);
     this.player = this.put(this.playerFrame(), this.px, this.py, this.py, 'feet');
   }
@@ -143,7 +144,7 @@ export class DongPhuScene extends Phaser.Scene {
     const out = interact(this.profile, id);
     if (out.changed) { this.profile = out.profile; this.host.commit(out.profile); this.refresh(); }
     this.host.onPrompt?.(id, out);
-    if (out.enterRun) this.host.enterRun(this.profile);
+    if (out.enterRun) this.host.enterRun(this.profile, out.biome);
     return out;
   }
 

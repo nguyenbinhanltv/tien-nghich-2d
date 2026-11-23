@@ -38,7 +38,7 @@ for (const k of ['mob_blood_wolf', 'boss_ghost_king']) { // names are canon: the
 }
 problems.push(...crossCheck(tables, assets, locale));
 for (const [id, e] of Object.entries(tables.encounters)) problems.push(...encounterProblems(e as Encounter, new Set(tables.mobs.map((m) => String(m.id)))).map((m) => `encounters/${id}.yaml: ${m}`));
-problems.push(...validateAll(tables.rooms as unknown as RoomRow[]));
+problems.push(...validateAll(tables.rooms as unknown as RoomRow[], warnings));
 
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);
 for (const c of [bodies, events, shapes, audio]) { problems.push(...c.problems); warnings.push(...c.warnings); }

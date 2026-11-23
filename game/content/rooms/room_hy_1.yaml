@@ -1,0 +1,31 @@
+# Room layout (G2-HN, placeholder design for the Hằng Nhạc biome). Semantic grid: # wall, . floor, D door cell.
+id: room_hy_1
+size: [24, 14]
+player_start: [2, 7]
+grid:
+  - "########################"
+  - "########################"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "D......................D"
+  - "D......................D"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "########################"
+doors:
+  - { side: west, role: entry, to: room_abode_hub }
+  - { side: east, role: exit, to: room_hy_2 }
+props:
+  - { id: prop_courtyard_pillar, at: [8, 5] }
+  - { id: prop_courtyard_pillar, at: [8, 10] }
+  - { id: prop_stone_lantern, at: [12, 3] }
+  - { id: prop_spirit_herb, at: [19, 11] }
+waves:
+  - spawns:
+      - { mob: mob_rogue_disciple, at: [17, 4] }
+      - { mob: mob_rogue_disciple, at: [18, 10] }

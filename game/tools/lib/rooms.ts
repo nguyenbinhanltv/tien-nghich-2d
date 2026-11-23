@@ -34,12 +34,23 @@ export function approvedArtIds(): Set<string> {
   return new Set(Object.keys(a?.assets ?? {}));
 }
 
+/** Ids on the temporary allow-list (content/art_provisional.json): usable in layouts, never approved, always warned about. */
+export function provisionalArtIds(): Set<string> {
+  return new Set(readJson<{ ids: string[] }>(path.join(GAME, 'content/art_provisional.json')).ids);
+}
+
 const key = (c: number, r: number): string => `${c},${r}`;
 
-export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], approved: Set<string>): string[] {
+export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], approved: Set<string>, provisional: ReadonlySet<string> = new Set(), warnings: string[] = []): string[] {
   const p: string[] = [];
   const at = `rooms/${file}.yaml`;
   const bad = (m: string): void => { p.push(`${at}: ${m}`); };
+  const warned = new Set<string>();
+  const art = (id: string): void => {
+    if (approved.has(id) || warned.has(id)) return;
+    if (provisional.has(id)) { warned.add(id); warnings.push(`${at}: ${id} is not yet approved (provisional use allowed by content/art_provisional.json)`); }
+    else bad(`${id} is not an approved art id`);
+  };
   p.push(...check('room-layout.schema.json', L, at));
   if (p.length) return p;
   if (L.id !== file) bad(`id ${L.id} must equal the file name`);
@@ -81,7 +92,7 @@ export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], ap
   };
   const walkable = (c: number, r: number): boolean => c > 0 && r > 0 && c < W - 1 && r < H - 1 && (ch(c, r) === '.' || ch(c, r) === '~');
   for (const pr of L.props) {
-    if (!approved.has(pr.id)) bad(`${pr.id} is not an approved art id`);
+    art(pr.id);
     const [c, r] = pr.at;
     if (!walkable(c, r)) { bad(`${pr.id} at ${c},${r} is not on a floor cell`); continue; }
     if (!place(pr.id, c, r)) continue;
@@ -96,7 +107,7 @@ export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], ap
   L.waves.forEach((w, wi) => w.spawns.forEach((s) => {
     const [c, r] = s.at;
     counts.set(s.mob, (counts.get(s.mob) ?? 0) + 1);
-    if (!approved.has(s.mob)) bad(`${s.mob} is not an approved art id`);
+    art(s.mob);
     if (!walkable(c, r)) { bad(`wave ${wi + 1} ${s.mob} at ${c},${r} is not on a floor cell`); return; }
     place(s.mob, c, r);
     if (blocked.has(key(c, r))) bad(`${s.mob} at ${c},${r} is under a prop`);
@@ -127,9 +138,9 @@ export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], ap
   return p;
 }
 
-export function validateAll(rooms: RoomRow[]): string[] {
-  const layouts = loadLayouts(), approved = approvedArtIds(), p: string[] = [];
-  for (const [file, L] of layouts) p.push(...validateLayout(file, L, rooms, approved));
+export function validateAll(rooms: RoomRow[], warnings: string[] = []): string[] {
+  const layouts = loadLayouts(), approved = approvedArtIds(), provisional = provisionalArtIds(), p: string[] = [];
+  for (const [file, L] of layouts) p.push(...validateLayout(file, L, rooms, approved, provisional, warnings));
   for (const r of rooms) if ((r.kind === 'combat' || r.kind === 'boss' || r.kind === 'reward') && !layouts.has(r.id)) p.push(`rooms.csv ${r.id}: no content/rooms/${r.id}.yaml`);
   return p;
 }

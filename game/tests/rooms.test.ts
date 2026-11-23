@@ -1,16 +1,19 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { GAME } from '../tools/lib/repo.ts';
 import { loadTables } from '../tools/lib/tables.ts';
-import { approvedArtIds, loadLayouts, validateAll, validateLayout, type RoomLayout, type RoomRow } from '../tools/lib/rooms.ts';
+import { approvedArtIds, loadLayouts, provisionalArtIds, validateAll, validateLayout, type RoomLayout, type RoomRow } from '../tools/lib/rooms.ts';
 
 const rooms = loadTables().tables.rooms as unknown as RoomRow[];
 const layouts = loadLayouts();
-const approved = approvedArtIds();
+const approved = approvedArtIds(), provisional = provisionalArtIds();
 const clone = (id: string): RoomLayout => structuredClone(layouts.get(id)!);
-const problems = (id: string, L: RoomLayout): string => validateLayout(id, L, rooms, approved).join('\n');
+const problems = (id: string, L: RoomLayout): string => validateLayout(id, L, rooms, approved, provisional).join('\n');
 
 describe('Huyết Hải room layouts (E3.2)', () => {
-  it('cover the 9 combat rooms (3 clusters of 3) + the boss room + the reward room and all pass validation', () => {
-    expect(rooms.filter((r) => r.kind === 'combat')).toHaveLength(9); expect(rooms.filter((r) => r.kind === 'boss')).toHaveLength(1);
+  it('cover the 9 combat rooms (3 clusters of 3) + the boss room + the reward room of each biome and all pass validation', () => {
+    expect(rooms.filter((r) => r.kind === 'combat')).toHaveLength(18); expect(rooms.filter((r) => r.kind === 'boss')).toHaveLength(2);
     expect(validateAll(rooms)).toEqual([]);
   });
   it('chain by their doors: abode -> 1 ... 9 -> boss -> reward, every exit locked room leads to the next row', () => {
@@ -20,7 +23,7 @@ describe('Huyết Hải room layouts (E3.2)', () => {
     expect(seen).toEqual([...Array.from({ length: 9 }, (_, i) => `room_bs_${i + 1}`), 'room_bs_boss', 'room_bs_reward']);
   });
   it('use only approved art ids, and the reward room leads home by the teleport array', () => {
-    for (const L of layouts.values()) for (const id of [...L.props.map((p) => p.id), ...L.waves.flatMap((w) => w.spawns.map((s) => s.mob))]) expect(approved.has(id)).toBe(true);
+    for (const L of layouts.values()) for (const id of [...L.props.map((p) => p.id), ...L.waves.flatMap((w) => w.spawns.map((s) => s.mob))]) expect(approved.has(id) || provisional.has(id), id).toBe(true);
     expect(layouts.get('room_bs_reward')!.props.find((p) => p.id === 'prop_teleport_array')!.to).toBe('room_abode_hub');
   });
   it('use every one of the five Huyết Hải mobs and the boss somewhere', () => {
@@ -58,5 +61,35 @@ describe('Huyết Hải room layouts (E3.2)', () => {
       L.size = [24, 13];
       expect(problems('room_bs_2', L)).toMatch(/size 24x13 differs/);
     });
+  });
+});
+
+describe('provisional art (content/art_provisional.json): allowed before approval, never silent, never an approval', () => {
+  const hy = (): RoomLayout => structuredClone(layouts.get('room_hy_1')!);
+  it('a layout using provisional ids passes, with a "not yet approved" warning for each id and no error', () => {
+    const w: string[] = [];
+    expect(validateLayout('room_hy_1', hy(), rooms, approved, provisional, w)).toEqual([]);
+    expect(w.length).toBeGreaterThan(0);
+    for (const x of w) expect(x).toMatch(/is not yet approved/);
+    expect(w.some((x) => x.includes('mob_rogue_disciple'))).toBe(true);
+    expect(new Set(w).size).toBe(w.length);
+  });
+  it('without the list the same layout is an error (the list is the only thing that lets it through)', () => {
+    expect(validateLayout('room_hy_1', hy(), rooms, approved).join('\n')).toMatch(/mob_rogue_disciple is not an approved art id/);
+  });
+  it('an id that is on neither list is still an error', () => {
+    const L = hy(); L.props.push({ id: 'prop_fake_thing', at: [4, 4] });
+    expect(validateLayout('room_hy_1', L, rooms, approved, provisional).join('\n')).toMatch(/prop_fake_thing is not an approved art id/);
+  });
+  it('validateAll reports the warnings into the array it is given', () => {
+    const w: string[] = []; validateAll(rooms, w);
+    expect(w.some((x) => /room_hy_boss.*boss_teng_huayuan is not yet approved/.test(x))).toBe(true);
+  });
+  it('keeps no id the owner has approved: remove an id from the list when it is approved', () => {
+    for (const id of provisional) expect(approved.has(id), `${id} is approved now: delete it from content/art_provisional.json`).toBe(false);
+  });
+  it('records the owner decision and its date', () => {
+    const j = JSON.parse(fs.readFileSync(path.join(GAME, 'content/art_provisional.json'), 'utf8')) as { decision: { date: string; quote: string } };
+    expect(j.decision.date).toBe('2026-11-24'); expect(j.decision.quote.length).toBeGreaterThan(0);
   });
 });

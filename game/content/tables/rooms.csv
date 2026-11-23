@@ -11,3 +11,14 @@ room_bs_8,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:3;mob_blood_cr
 room_bs_9,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:2;mob_blood_crow:2;mob_vengeful_soul:2;mob_blood_pool_lurker:1,,room_bs_boss
 room_bs_boss,blood_sea,boss,24,14,ts_blood_valley,,boss_ghost_king,room_bs_reward
 room_bs_reward,blood_sea,reward,24,14,ts_blood_valley,,,
+room_hy_1,hengyue,combat,24,14,ts_hengyue,mob_rogue_disciple:2,,room_hy_2
+room_hy_2,hengyue,combat,24,14,ts_hengyue,mob_rogue_disciple:2;mob_courtyard_guard:1,,room_hy_3
+room_hy_3,hengyue,combat,24,14,ts_hengyue,mob_herb_viper:2;mob_rogue_disciple:1,,room_hy_4
+room_hy_4,hengyue,combat,24,14,ts_hengyue,mob_sword_acolyte:2;mob_courtyard_guard:1,,room_hy_5
+room_hy_5,hengyue,combat,24,14,ts_hengyue,mob_demonic_talisman:1;mob_rogue_disciple:2,,room_hy_6
+room_hy_6,hengyue,combat,24,14,ts_hengyue,mob_herb_viper:2;mob_sword_acolyte:1;mob_courtyard_guard:1,,room_hy_7
+room_hy_7,hengyue,combat,24,14,ts_hengyue,mob_demonic_talisman:2;mob_courtyard_guard:1;mob_rogue_disciple:2,,room_hy_8
+room_hy_8,hengyue,combat,24,14,ts_hengyue,mob_herb_viper:2;mob_sword_acolyte:2;mob_courtyard_guard:1;mob_demonic_talisman:1,,room_hy_9
+room_hy_9,hengyue,combat,24,14,ts_hengyue,mob_courtyard_guard:2;mob_sword_acolyte:1;mob_herb_viper:2;mob_demonic_talisman:1,,room_hy_boss
+room_hy_boss,hengyue,boss,24,14,ts_hengyue,,boss_teng_huayuan,room_hy_reward
+room_hy_reward,hengyue,reward,24,14,ts_hengyue,,,

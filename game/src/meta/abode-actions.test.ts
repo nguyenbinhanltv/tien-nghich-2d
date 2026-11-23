@@ -31,7 +31,7 @@ describe('hub interactions', () => {
     p = go(p, 'bed0'); p = go(p, 'bed1'); // harvest both
     p = go(p, 'jar');
     expect(countOf(p.inventory, ITEM.pill)).toBe(1);
-    for (const s of ['altar', 'chest', 'gate', 'kiln'] as const) keys.add(interact(p, s).msg);
+    for (const s of ['altar', 'chest', 'gate', 'gate_hengyue', 'kiln'] as const) keys.add(interact(p, s).msg);
     keys.add(interact(createProfile(2), 'kiln').msg); keys.add(interact(createProfile(2), 'bed0').msg);
     for (const k of keys) { expect(uiTables.vi[k as keyof typeof uiTables.vi], k).toBeTruthy(); expect(uiTables.en[k as keyof typeof uiTables.en], k).toBeTruthy(); }
   });
@@ -39,6 +39,12 @@ describe('hub interactions', () => {
     const p = createProfile(1);
     const o = interact(p, 'gate');
     expect(o.enterRun).toBe(true); expect(o.profile).toBe(p);
+  });
+  it('each gate starts a run in its own biome: Huyết Hải at the old gate, Hằng Nhạc at the new one', () => {
+    const p = createProfile(1);
+    expect(interact(p, 'gate').biome).toBe('blood_sea');
+    const o = interact(p, 'gate_hengyue');
+    expect(o.enterRun).toBe(true); expect(o.biome).toBe('hengyue'); expect(o.profile).toBe(p);
   });
   it('receiveRun banks rewards and recipes (also after a death), passes a milestone and reports what was sent home', () => {
     const p = createProfile(1);

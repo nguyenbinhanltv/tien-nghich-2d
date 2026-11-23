@@ -2,7 +2,7 @@
 // Pure data + one query, so the layout is testable without Phaser and the scene only draws it.
 import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 
-export type StationId = 'kiln' | 'jar' | 'altar' | 'chest' | 'bed0' | 'bed1' | 'bed2' | 'gate';
+export type StationId = 'kiln' | 'jar' | 'altar' | 'chest' | 'bed0' | 'bed1' | 'bed2' | 'gate' | 'gate_hengyue';
 export interface Station { id: StationId; x: number; y: number; /** Reach in px from the feet position. */ reach: number }
 
 export const STATIONS: readonly Station[] = [
@@ -14,6 +14,8 @@ export const STATIONS: readonly Station[] = [
   { id: 'bed1', x: 112, y: 156, reach: 24 },
   { id: 'bed2', x: 152, y: 156, reach: 24 },
   { id: 'gate', x: 328, y: 168, reach: 28 },
+  /** Second teleport array: the Hằng Nhạc biome (the one at 'gate' leads to Huyết Hải). */
+  { id: 'gate_hengyue', x: 328, y: 112, reach: 28 },
 ];
 
 /** Walkable rectangle for the player's feet: below the back wall, inside the side walls. */

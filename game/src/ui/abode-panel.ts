@@ -7,7 +7,7 @@ import type { ActionOutcome } from '../meta/abode-actions.ts';
 import { countOf, ITEM } from '../meta/abode.ts';
 import './abode-panel.css';
 
-const ACTION: Record<StationId, string> = { kiln: 'station.kiln', jar: 'station.jar', altar: 'station.altar', chest: 'station.chest', bed0: 'station.bed', bed1: 'station.bed', bed2: 'station.bed', gate: 'station.gate' };
+const ACTION: Record<StationId, string> = { kiln: 'station.kiln', jar: 'station.jar', altar: 'station.altar', chest: 'station.chest', bed0: 'station.bed', bed1: 'station.bed', bed2: 'station.bed', gate: 'station.gate', gate_hengyue: 'station.gate_hengyue' };
 
 export function mountAbodePanel(root: HTMLElement, i18n: I18n): { update(station: StationId | null, outcome: ActionOutcome | null): void; stock(p: SaveProfile): void; flash(text: string): void; /** Persistent save warning on its own line: actions never overwrite it, `null` clears it. */ warn(text: string | null): void; /** Hide while another scene (the fight) has the screen. */ show(visible: boolean): void } {
   const el = document.createElement('div');
