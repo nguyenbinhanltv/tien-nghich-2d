@@ -19,6 +19,7 @@
     "contract:check": "node tools/kiln-contract-check.ts",
     "hitbox": "node tools/hitbox.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
+    "qa:golden": "node tools/qa-golden.ts",
     "qa:replay": "node tools/qa-replay.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
     "dev:lan": "node tools/content-build.ts && node pwa/lan.ts dev",
