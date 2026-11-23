@@ -11,6 +11,7 @@
   "extensions": {
     "branches": {
       "gate": "Core masters accepted; three branch art briefs and encounter rhythms locked.",
+      "gate_decision": "assets/review/audio_gate_decisions.json#branches_gate_brief_2026-11-23",
       "bgm": ["bgm_mist_archive", "bgm_ember_delta", "bgm_star_quarry"],
       "sfx": ["sfx_paper_rustle", "sfx_slag_shift", "sfx_crystal_ring"]
     },

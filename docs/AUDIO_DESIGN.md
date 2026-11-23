@@ -38,7 +38,7 @@ AGY auditions all eight effects alone and over the bed at matched monitoring gai
 | Hằng Nhạc Phái | Sparse bamboo-like breath and alternating dry plucks. Let the light enemy tell cut through the rests. Applies to `ts_hengyue` and the courtyard reference scene. |
 | Huyết Hải | Bowed low pulse and unstable upper partial. Leave the bronze warning register open. Applies to `ts_blood_valley` and the Blood Sea reference scene. |
 | Cổ Thần Chi Địa | Slow displaced stone percussion and a low open fifth. Break the pulse at the boss transition. |
-| Thư Khố Sương / Bến Tro / Mỏ Tinh Thạch | Mist Archive answers each phrase with paper friction. Ember Delta uses a soft furnace pulse and shifting slag. Star Quarry uses widely spaced stone harmonics and crystal ring. Until those beds are delivered, audition Hengyue, Blood Sea and Ancient God respectively as temporary references. |
+| Thư Khố Sương / Bến Tro / Mỏ Tinh Thạch | Mist Archive answers each phrase with paper friction. Ember Delta uses a soft furnace pulse and shifting slag. Star Quarry uses widely spaced stone harmonics and crystal ring. The three beds and landmark effects are authored and packed (`branches_v1`, listening pending); until a human signs them, audition Hengyue, Blood Sea and Ancient God respectively as the references. |
 | Tầm Đạo Chi Lộ / Core | Current biome bed → boss trial → quiet exit. Wave 4 introduces aftermath music for the exit. Chest opening, choosing a card and banking a reward have different cues. Leaving early uses the same bank confirmation. |
 | Vô Tận Luân Hồi / Endless | Core music slot six supplies the dedicated Endless Samsara bed. Keep room for the five-floor marker; silence during the bank-or-continue decision lets the confirmation read. |
 | Trảm Tiên Đài / Boss Rush (`trial`) | Reuse the boss bed across three rounds. Oath selection, the adjudicator's tell and the defeat cadence are separate events. |
@@ -48,6 +48,28 @@ AGY auditions all eight effects alone and over the bed at matched monitoring gai
 **How to read the manifest.** Each canonical asset, Longtime asset and indexed VFX belongs to one asset group or one fusion pair. Resolve its group in `families` and select the cue for the semantic event. The `silent` group covers static icons, scenery and passive HUD readouts. Opening a card, collecting a stone or triggering a breakthrough supplies the audible event; painting an icon or looping an aura adds no trigger. `modes` uses the authoritative mode keys and anchor IDs. `scenes` names tracked preview entry points for audition references. These bindings are production intentions.
 
 The twelve canonical weapons and shots, fourteen Longtime base treasures and shots, and ten two-parent fusions and shots reuse attack and material families. Play the release once on launch and the impact once on contact. For a fusion, use the first parent's release and the second parent's impact. For example, Reed Verdict inherits Reed Blade's blade release and Seal Chisel's spirit impact. Keep a common timing envelope if a family gains a pitched or seeded variant. Each of the six wards reuses placement and break, with a distinct pulse family where appropriate. A cast, shot, hit spark and enemy reaction can depict the same contact: choose the receiver's material impact once, then play a distinct outcome only on stagger or defeat. Grant the boss tell priority over dense volleys. Seeded takes, aliases, alternate mixes, stems and encoded packs consume zero additional cue slots.
+
+## Branches proposal (wave 3, authored 2026-11-23, listening pending)
+
+**Owner decision.** On 2026-11-23 the owner chose "Dùng câu định hướng làm brief": the one-sentence brief for each branch in [Musical and event coverage](#musical-and-event-coverage) is the settled brief, and the author proposes the numbers. The decision is recorded in [`assets/review/audio_gate_decisions.json`](../assets/review/audio_gate_decisions.json). **Everything in the tables below is the author's proposal, not an owner decision**; the owner may change any of it after listening. Nothing here is a listening approval.
+
+| Bed | Tempo, meter, length | Tonal center and scale | Loop `[0, end)` frames | Arrangement |
+|---|---|---|---:|---|
+| `bgm_mist_archive` | 72 BPM, 4/4, 24 bars, 80 s | E minor pentatonic | 3,528,000 | A soft pluck states a two-bar phrase; a band-passed noise "page" scrape and short flicks answer it in the next two bars. Triangle drone E2+B2, then A2+E3 from bar 17. |
+| `bgm_ember_delta` | 66 BPM, 4/4, 22 bars, 80 s | G minor pentatonic | 3,528,000 | A soft furnace pulse on beats 1 and 3, a banked drone, sparse FM lantern notes, slow low-passed slag slides and crumble grit. |
+| `bgm_star_quarry` | 60 BPM, 4/4, 20 bars, 80 s | C major pentatonic | 3,528,000 | Struck-stone harmonics four seconds apart over a quiet open fifth C2+G2; five short crystal-ring phrases (FM, inharmonic partial) in 3.4 s of room. |
+
+Each bed follows the `bgm_dong_phu` reference (60 to 90 s, original pentatonic figure, A4 = 440 Hz, a plucked phrase against a sustained low fifth, reverb carried across the loop boundary). Notes, tails and reverb wrap modulo the loop, so there is no crossfade. The enemy tell keeps rests: the pluck and the paper answers alternate with empty bars, and no voice plays a continuous melody. The Star Quarry crystal rings reach into the 1.6 to 5 kHz band (about -21.7 dB of total energy, against -24.4 dB for Mist Archive and -36.0 dB for Ember Delta), so that bed is where a tell is most likely to be masked: it is first on the listening list.
+
+| Effect | Window proposed (F9) | Tail | Total | Reasoning |
+|---|---:|---:|---:|---|
+| `sfx_paper_rustle` | 800 ms | 300 ms | 1,100 ms | A page lifts and settles when the player passes a Mist Archive shelf landmark. |
+| `sfx_slag_shift` | 1,100 ms | 400 ms | 1,500 ms | A slag bank gives way over about a second and settles. |
+| `sfx_crystal_ring` | 1,400 ms | 1,000 ms | 2,400 ms | A struck crystal vein rings, then fades; the ring is the event. |
+
+The windows are set by `window` blocks in the patches (`resolveWindow`, [studio/audio/README.md](../studio/audio/README.md)) with `ms` and `tailMs`, not from a clip contract, because no landmark animation clip exists yet. When one does, replace the block with `{clip: ...}` and re-render. Each effect is mono PCM16 at 44.1 kHz with digital zero at both ends, peak near -6 dBFS like the delivered core effects. They are one landmark sound per biome, one per branch, as the wave table says.
+
+**Rights and tools.** The score and patches are project data, rendered by the project's own Studio audio engine (`studio/audio`: oscillators, additive and FM voices, filtered noise, seeded MT19937, impulse reverb). No sample, recording, soundfont, generative-audio model or PixelLab was used. [Sources and the listening list](../assets/audio/source/branches_sfx/VERIFICATION.md) · [Pack report](../assets/audio/packs/branches_v1/PACK_REPORT.md)
 
 ## Source, rights and delivery
 

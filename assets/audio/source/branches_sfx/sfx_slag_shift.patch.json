@@ -1,0 +1,24 @@
+{
+  "schema": "studio.audio.patch", "version": 1,
+  "id": "sfx_slag_shift",
+  "title": "Slag shift (Ember Delta landmark)",
+  "design": "A bank of cooled slag gives way: a low rumble that sinks in pitch, a gritty crumble, three tiny glassy ticks as cinders break, and a dull settling thump. Low and granular, with nothing ringing.",
+  "sampleRate": 44100, "channels": 1, "seed": 9601,
+  "durationMs": 1500, "trim": 0.97,
+  "window": {"ms": 1100, "tailMs": 400},
+  "layers": [
+    {"type": "noise", "startMs": 0, "ms": 900, "gain": 1.2,
+     "filters": [{"type": "biquad", "mode": "lowpass", "hz": 600, "endHz": 180, "q": 0.8}],
+     "am": {"hz": 6, "depth": 0.55}, "env": {"attackMs": 160, "decayMs": 500, "releaseMs": 300}},
+    {"type": "noise", "startMs": 100, "ms": 700, "gain": 0.55,
+     "filters": [{"type": "band", "lowHz": 900, "highHz": 3200}],
+     "am": {"hz": 31, "depth": 0.9}, "env": {"attackMs": 60, "decayMs": 300, "releaseMs": 250}},
+    {"type": "osc", "startMs": 380, "ms": 40, "gain": 0.1, "hz": 2300, "env": {"attackMs": 1, "decayMs": 9, "releaseMs": 14}},
+    {"type": "osc", "startMs": 640, "ms": 40, "gain": 0.08, "hz": 3100, "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 14}},
+    {"type": "osc", "startMs": 910, "ms": 40, "gain": 0.09, "hz": 1750, "env": {"attackMs": 1, "decayMs": 9, "releaseMs": 14}},
+    {"type": "osc", "startMs": 1000, "ms": 380, "gain": 0.55, "hz": 96, "endHz": 52,
+     "env": {"attackMs": 4, "decayMs": 120, "releaseMs": 180}},
+    {"type": "noise", "startMs": 1000, "ms": 200, "gain": 0.5,
+     "filters": [{"type": "biquad", "mode": "lowpass", "hz": 400}], "env": {"attackMs": 4, "decayMs": 50, "releaseMs": 90}}
+  ]
+}

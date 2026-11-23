@@ -1,0 +1,25 @@
+{
+  "schema": "studio.audio.patch", "version": 1,
+  "id": "sfx_paper_rustle",
+  "title": "Paper rustle (Mist Archive landmark)",
+  "design": "A loose leaf lifts and drags across a shelf: a first dry slide that rises in pitch, a second slide, three small flicks of the page edge and a soft settle. Hushed and high in the spectrum with no pitched tone, so it reads as paper and not as the leafy harvest rustle.",
+  "sampleRate": 44100, "channels": 1, "seed": 9501,
+  "durationMs": 1100, "trim": 1.02,
+  "window": {"ms": 800, "tailMs": 300},
+  "layers": [
+    {"type": "noise", "startMs": 0, "ms": 300, "gain": 0.95,
+     "filters": [{"type": "biquad", "mode": "bandpass", "hz": 3000, "endHz": 6500, "q": 0.9}],
+     "am": {"hz": 17, "depth": 0.7}, "env": {"attackMs": 80, "decayMs": 130, "releaseMs": 90}},
+    {"type": "noise", "startMs": 300, "ms": 320, "gain": 0.85,
+     "filters": [{"type": "biquad", "mode": "bandpass", "hz": 3800, "endHz": 7800, "q": 0.9}],
+     "am": {"hz": 21, "depth": 0.8}, "env": {"attackMs": 60, "decayMs": 150, "releaseMs": 110}},
+    {"type": "noise", "startMs": 640, "ms": 40, "gain": 0.5,
+     "filters": [{"type": "band", "lowHz": 5200, "highHz": 9500}], "env": {"attackMs": 3, "decayMs": 12, "releaseMs": 14}},
+    {"type": "noise", "startMs": 720, "ms": 40, "gain": 0.4,
+     "filters": [{"type": "band", "lowHz": 5200, "highHz": 9500}], "env": {"attackMs": 3, "decayMs": 12, "releaseMs": 14}},
+    {"type": "noise", "startMs": 800, "ms": 40, "gain": 0.32,
+     "filters": [{"type": "band", "lowHz": 5200, "highHz": 9500}], "env": {"attackMs": 3, "decayMs": 12, "releaseMs": 14}},
+    {"type": "noise", "startMs": 860, "ms": 220, "gain": 0.3,
+     "filters": [{"type": "band", "lowHz": 800, "highHz": 2200}], "env": {"attackMs": 20, "decayMs": 90, "releaseMs": 90}}
+  ]
+}

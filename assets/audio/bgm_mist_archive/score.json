@@ -1,0 +1,51 @@
+{
+  "schema": "studio.audio.score", "version": 1,
+  "id": "bgm_mist_archive",
+  "title": "Mist Archive: the shelves answer in paper",
+  "sampleRate": 44100, "seed": 6101,
+  "tempoBpm": 72, "beatsPerBar": 4, "tuningA4Hz": 440,
+  "key": {"tonic": "E", "scale": "minor-pentatonic", "enforce": true},
+  "loop": {"bars": 24},
+  "instruments": {
+    "pluck": {"gains": [0.55, 0.4], "tailMs": 1400, "fadeOutMs": 10,
+      "layers": [{"type": "osc", "wave": "additive", "ratio": 1,
+        "harmonics": {"count": 5, "rolloff": 1.5, "pickPosition": 0.28, "decayBase": 3.4, "decayStep": 1.5},
+        "env": {"attackMs": 3, "attackShape": "exp", "releaseMs": 80, "releaseShape": "exp"}}]},
+    "pad": {"gains": [0.045, 0.045], "tailMs": 2500, "fadeOutMs": 10,
+      "layers": [
+        {"type": "osc", "wave": "triangle", "ratio": 1, "vibrato": {"hz": 0.11, "depth": 0.0015, "riseMs": 2000},
+         "env": {"attackMs": 1400, "attackShape": "exp", "releaseMs": 1500, "releaseShape": "exp"}},
+        {"type": "osc", "wave": "sine", "ratio": 2.003, "gain": 0.3,
+         "env": {"attackMs": 1800, "attackShape": "exp", "releaseMs": 1500, "releaseShape": "exp"}}]},
+    "scrape": {"gains": [0.9, 0.6], "tailMs": 200, "fadeOutMs": 10, "pitched": false,
+      "layers": [{"type": "noise", "gain": 0.5,
+        "filters": [{"type": "biquad", "mode": "bandpass", "hz": 4200, "endHz": 7600, "q": 0.9}],
+        "am": {"hz": 19, "depth": 0.75},
+        "env": {"attackMs": 90, "decayMs": 240, "releaseMs": 60}}]},
+    "flick": {"gains": [0.55, 0.85], "tailMs": 120, "fadeOutMs": 5, "pitched": false,
+      "layers": [{"type": "noise", "gain": 0.4,
+        "filters": [{"type": "band", "lowHz": 5200, "highHz": 9500}],
+        "env": {"attackMs": 4, "decayMs": 42, "releaseMs": 30}}]}
+  },
+  "patterns": {
+    "call_a": [[0,"E3",1,0.8],[1.5,"G3",0.5,0.6],[2.5,"B3",1,0.7],[4,"A3",1,0.7],[5.5,"G3",0.5,0.55],[6,"E3",1.5,0.7]],
+    "call_b": [[0,"G3",1,0.8],[1,"A3",0.5,0.6],[2,"B3",1,0.75],[3.5,"D4",0.5,0.55],[4,"B3",1,0.7],[6,"G3",1.5,0.65]],
+    "call_c": [[0,"B3",1,0.7],[1.5,"D4",0.5,0.55],[2.5,"E4",1,0.6],[4,"D4",1,0.6],[5.5,"B3",0.5,0.5],[6,"A3",1.5,0.6]],
+    "ans_a": [[0.5,"A3",0.8,0.8,"scrape"],[2.25,"A3",0.3,0.5,"flick"],[2.75,"A3",0.3,0.4,"flick"]],
+    "ans_b": [[0,"A3",1,0.7,"scrape"],[1.5,"A3",0.3,0.45,"flick"],[2.5,"A3",0.8,0.8,"scrape"],[3.75,"A3",0.3,0.4,"flick"]],
+    "ans_c": [[1,"A3",0.8,0.75,"scrape"],[2,"A3",0.3,0.45,"flick"],[3,"A3",0.3,0.5,"flick"],[3.5,"A3",0.3,0.35,"flick"]],
+    "root": [[0,"E2",63.5,0.9],[0,"B2",63.5,0.65]],
+    "turn": [[0,"A2",31.5,0.85],[0,"E3",31.5,0.6]]
+  },
+  "tracks": [
+    {"name": "voice", "instrument": "pluck", "sequence": [
+      {"bar":0,"pattern":"call_a"},{"bar":4,"pattern":"call_b"},{"bar":8,"pattern":"call_a"},
+      {"bar":12,"pattern":"call_c"},{"bar":16,"pattern":"call_b"},{"bar":20,"pattern":"call_c","transpose":-12}]},
+    {"name": "paper", "instrument": "scrape", "sequence": [
+      {"bar":2,"pattern":"ans_a"},{"bar":6,"pattern":"ans_b"},{"bar":10,"pattern":"ans_c"},
+      {"bar":14,"pattern":"ans_a"},{"bar":18,"pattern":"ans_b"},{"bar":22,"pattern":"ans_c"}]},
+    {"name": "bed", "instrument": "pad", "sequence": [{"bar":0,"pattern":"root"},{"bar":16,"pattern":"turn"}]}
+  ],
+  "reverb": {"type": "impulse", "seconds": 2.4, "decayPerSecond": 2.5, "seeds": [611, 622], "attackMs": 12, "smoothTaps": 4, "wet": 0.36, "dry": 1},
+  "masterGain": 0.88
+}
