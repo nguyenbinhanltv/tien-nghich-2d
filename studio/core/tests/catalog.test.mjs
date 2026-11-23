@@ -5,12 +5,12 @@ import { buildCatalog } from '../catalog.mjs';
 import { loadEditableCatalog } from '../editable.mjs';
 import { root } from './helpers.mjs';
 
-test('catalog lists every asset: 97 core, 126 Longtime, 12 VFX, plus planned effects and audio', async () => {
+test('catalog lists every asset: 97 core, 126 Longtime, 13 VFX, plus planned effects and audio', async () => {
   const pack = await loadPack(root);
   const {assets, totals} = await buildCatalog(pack, root);
   assert.equal(totals.bySource.core, 97);
   assert.equal(totals.bySource.longtime, 126);
-  assert.equal(totals.bySource.vfx, 12);
+  assert.equal(totals.bySource.vfx, 13);
   assert.equal(totals.bySource.longtime_effects, 6);
   assert.ok(totals.bySource.audio > 50);
   assert.equal(totals.total, assets.length);
@@ -28,7 +28,7 @@ test('the editable set covers every category that has processed frames, and stil
   for (const f of frames.values()) byCategory[f.info.category] = (byCategory[f.info.category] ?? 0) + 1;
   // Pinned: today's frame counts per category (core processed frames, VFX frames, Longtime processed frames).
   assert.equal(byCategory.ui, 30);
-  assert.equal(byCategory.vfx, 579);
+  assert.equal(byCategory.vfx, 654);
   for (const category of ['player', 'mob', 'boss', 'tileset', 'weapon', 'projectile', 'prop', 'icon', 'npc', 'pet', 'facility', 'tower'])
     assert.ok(byCategory[category] > 0, category);
   assert.equal(keys.indexOf('ui/ui_minimap/room_none_0') >= 0, true);

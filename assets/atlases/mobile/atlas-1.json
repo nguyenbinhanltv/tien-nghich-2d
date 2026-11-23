@@ -2580,529 +2580,9 @@
         "h": 64
       }
     },
-    "characters/mob_blood_corpse/attack_east_0": {
-      "frame": {
-        "x": 231,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_east_1": {
-      "frame": {
-        "x": 269,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_east_2": {
-      "frame": {
-        "x": 307,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_east_3": {
-      "frame": {
-        "x": 345,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_east_4": {
-      "frame": {
-        "x": 383,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_east_5": {
-      "frame": {
-        "x": 421,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_0": {
-      "frame": {
-        "x": 459,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_1": {
-      "frame": {
-        "x": 497,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_2": {
-      "frame": {
-        "x": 535,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_3": {
-      "frame": {
-        "x": 573,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_4": {
-      "frame": {
-        "x": 611,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/attack_south_5": {
-      "frame": {
-        "x": 649,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_east_0": {
-      "frame": {
-        "x": 687,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_east_1": {
-      "frame": {
-        "x": 725,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_east_2": {
-      "frame": {
-        "x": 763,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_east_3": {
-      "frame": {
-        "x": 801,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_south_0": {
-      "frame": {
-        "x": 839,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_south_1": {
-      "frame": {
-        "x": 877,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_south_2": {
-      "frame": {
-        "x": 915,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "characters/mob_blood_corpse/death_south_3": {
-      "frame": {
-        "x": 953,
-        "y": 981,
-        "w": 32,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      }
-    },
-    "props/prop_mist_ravine_rock/idle_none_0": {
-      "frame": {
-        "x": 991,
-        "y": 981,
-        "w": 24,
-        "h": 32
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 24,
-        "h": 32
-      },
-      "sourceSize": {
-        "w": 24,
-        "h": 32
-      }
-    },
     "ui/ui_card_frame/common_none_0": {
       "frame": {
-        "x": 3,
-        "y": 981,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_0": {
-      "frame": {
-        "x": 41,
-        "y": 981,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_1": {
-      "frame": {
-        "x": 79,
-        "y": 981,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_2": {
-      "frame": {
-        "x": 117,
-        "y": 981,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_3": {
-      "frame": {
-        "x": 155,
-        "y": 981,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/rare_none_0": {
-      "frame": {
-        "x": 193,
+        "x": 987,
         "y": 981,
         "w": 32,
         "h": 40
@@ -3138,6 +2618,246 @@
       "sourceSize": {
         "w": 8,
         "h": 8
+      }
+    },
+    "vfx/ghost_summon_call_0": {
+      "frame": {
+        "x": 3,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_1": {
+      "frame": {
+        "x": 85,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_10": {
+      "frame": {
+        "x": 167,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_11": {
+      "frame": {
+        "x": 249,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_12": {
+      "frame": {
+        "x": 331,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_13": {
+      "frame": {
+        "x": 413,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_14": {
+      "frame": {
+        "x": 495,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_15": {
+      "frame": {
+        "x": 577,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_16": {
+      "frame": {
+        "x": 659,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_17": {
+      "frame": {
+        "x": 741,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_18": {
+      "frame": {
+        "x": 823,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_19": {
+      "frame": {
+        "x": 905,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
       }
     }
   },

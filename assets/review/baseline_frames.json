@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "description": "Accepted baseline: shipped art that predates the studio and has no review record either way. Per frame directory, a digest of its PNG names and sha256s; a directory whose digest no longer matches (a frame added, removed or changed) is awaiting review. This is NOT an approval. Written by `node studio/baseline.mjs --write`.",
+ "description": "Accepted baseline: shipped art that predates the studio and has no review record either way. Per frame directory, a digest of its PNG names and sha256s; a directory whose digest no longer matches (a frame added, removed or changed) is awaiting review. `set_aside`: name prefixes of files added to a shared directory after the freeze; they are outside its digest and always awaiting. This is NOT an approval. Written by `node studio/baseline.mjs --write`.",
  "roots": [
   "assets/processed"
  ],
@@ -96,5 +96,10 @@
   "assets/processed/weapons/wp_soul_lamp": "73d566fecd794b1d0fa204fe99214670e66d2abdbcbeff6240d6427023ec959b",
   "assets/processed/weapons/wp_spirit_stone_beads": "41a74c3950bf088b1a3556cfc77e0bfaae41e7a282609a203a72935c5b33e3ac",
   "assets/processed/weapons/wp_thunder_seal": "f2766f5650eb346cf67c931f329b079081dfcb020e32193bb1256465decc89dd"
+ },
+ "set_aside": {
+  "assets/processed/vfx": [
+   "ghost_summon_call"
+  ]
  }
 }

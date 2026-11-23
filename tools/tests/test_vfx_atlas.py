@@ -37,9 +37,9 @@ class VfxAtlasTests(unittest.TestCase):
         cls.expected = {f"vfx/{e['id']}_{n}": e for e in CATALOG for n in range(e["frame_count"])}
         cls.atlas = {p: atlas_frames(p) for p in ("web", "mobile")}
 
-    def test_exactly_391_frames_and_no_contact_sheets(self):
-        self.assertEqual(len(CATALOG), 12)
-        self.assertEqual(len(self.expected), 391)
+    def test_exactly_466_frames_and_no_contact_sheets(self):
+        self.assertEqual(len(CATALOG), 13)
+        self.assertEqual(len(self.expected), 466)
         for profile, frames in self.atlas.items():
             vfx = {k for k in frames if k.startswith("vfx/")}
             self.assertEqual(vfx, set(self.expected), profile)
@@ -93,7 +93,7 @@ class VfxAtlasTests(unittest.TestCase):
 
     def test_packing_is_deterministic_and_contract_is_enforced(self):
         sprites = pack.read_sprites(ROOT / "assets/processed")
-        self.assertEqual(pack.check_vfx_contract(sprites, ROOT / "assets/processed"), 391)
+        self.assertEqual(pack.check_vfx_contract(sprites, ROOT / "assets/processed"), 466)
         for profile in pack.PROFILES.values():
             layout = lambda: [[(p.sprite.key, p.x, p.y) for p in page] for page in pack.pack(sprites, profile)]
             self.assertEqual(layout(), layout())

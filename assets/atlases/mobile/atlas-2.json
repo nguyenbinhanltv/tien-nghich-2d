@@ -1700,7 +1700,7 @@
         "h": 64
       }
     },
-    "characters/mob_blood_corpse/hurt_east_0": {
+    "characters/mob_blood_corpse/attack_east_0": {
       "frame": {
         "x": 3,
         "y": 983,
@@ -1720,7 +1720,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/hurt_east_1": {
+    "characters/mob_blood_corpse/attack_east_1": {
       "frame": {
         "x": 41,
         "y": 983,
@@ -1740,7 +1740,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/hurt_east_2": {
+    "characters/mob_blood_corpse/attack_east_2": {
       "frame": {
         "x": 79,
         "y": 983,
@@ -1760,7 +1760,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/hurt_south_0": {
+    "characters/mob_blood_corpse/attack_east_3": {
       "frame": {
         "x": 117,
         "y": 983,
@@ -1780,7 +1780,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/hurt_south_1": {
+    "characters/mob_blood_corpse/attack_east_4": {
       "frame": {
         "x": 155,
         "y": 983,
@@ -1800,7 +1800,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/hurt_south_2": {
+    "characters/mob_blood_corpse/attack_east_5": {
       "frame": {
         "x": 193,
         "y": 983,
@@ -1820,7 +1820,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_east_0": {
+    "characters/mob_blood_corpse/attack_south_0": {
       "frame": {
         "x": 231,
         "y": 983,
@@ -1840,7 +1840,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_east_1": {
+    "characters/mob_blood_corpse/attack_south_1": {
       "frame": {
         "x": 269,
         "y": 983,
@@ -1860,7 +1860,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_east_2": {
+    "characters/mob_blood_corpse/attack_south_2": {
       "frame": {
         "x": 307,
         "y": 983,
@@ -1880,7 +1880,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_east_3": {
+    "characters/mob_blood_corpse/attack_south_3": {
       "frame": {
         "x": 345,
         "y": 983,
@@ -1900,7 +1900,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_south_0": {
+    "characters/mob_blood_corpse/attack_south_4": {
       "frame": {
         "x": 383,
         "y": 983,
@@ -1920,7 +1920,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_south_1": {
+    "characters/mob_blood_corpse/attack_south_5": {
       "frame": {
         "x": 421,
         "y": 983,
@@ -1940,7 +1940,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_south_2": {
+    "characters/mob_blood_corpse/death_east_0": {
       "frame": {
         "x": 459,
         "y": 983,
@@ -1960,7 +1960,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/idle_south_3": {
+    "characters/mob_blood_corpse/death_east_1": {
       "frame": {
         "x": 497,
         "y": 983,
@@ -1980,7 +1980,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_0": {
+    "characters/mob_blood_corpse/death_east_2": {
       "frame": {
         "x": 535,
         "y": 983,
@@ -2000,7 +2000,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_1": {
+    "characters/mob_blood_corpse/death_east_3": {
       "frame": {
         "x": 573,
         "y": 983,
@@ -2020,7 +2020,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_2": {
+    "characters/mob_blood_corpse/death_south_0": {
       "frame": {
         "x": 611,
         "y": 983,
@@ -2040,7 +2040,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_3": {
+    "characters/mob_blood_corpse/death_south_1": {
       "frame": {
         "x": 649,
         "y": 983,
@@ -2060,7 +2060,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_4": {
+    "characters/mob_blood_corpse/death_south_2": {
       "frame": {
         "x": 687,
         "y": 983,
@@ -2080,7 +2080,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_east_5": {
+    "characters/mob_blood_corpse/death_south_3": {
       "frame": {
         "x": 725,
         "y": 983,
@@ -2100,7 +2100,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_0": {
+    "characters/mob_blood_corpse/hurt_east_0": {
       "frame": {
         "x": 763,
         "y": 983,
@@ -2120,7 +2120,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_1": {
+    "characters/mob_blood_corpse/hurt_east_1": {
       "frame": {
         "x": 801,
         "y": 983,
@@ -2140,7 +2140,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_2": {
+    "characters/mob_blood_corpse/hurt_east_2": {
       "frame": {
         "x": 839,
         "y": 983,
@@ -2160,7 +2160,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_3": {
+    "characters/mob_blood_corpse/hurt_south_0": {
       "frame": {
         "x": 877,
         "y": 983,
@@ -2180,7 +2180,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_4": {
+    "characters/mob_blood_corpse/hurt_south_1": {
       "frame": {
         "x": 915,
         "y": 983,
@@ -2200,7 +2200,7 @@
         "h": 32
       }
     },
-    "characters/mob_blood_corpse/move_south_5": {
+    "characters/mob_blood_corpse/hurt_south_2": {
       "frame": {
         "x": 953,
         "y": 983,
@@ -2400,11 +2400,11 @@
         "h": 48
       }
     },
-    "props/prop_courtyard_pillar/broken_none_0": {
+    "props/prop_mist_ravine_rock/idle_none_0": {
       "frame": {
         "x": 991,
         "y": 983,
-        "w": 16,
+        "w": 24,
         "h": 32
       },
       "rotated": false,
@@ -2412,11 +2412,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 16,
+        "w": 24,
         "h": 32
       },
       "sourceSize": {
-        "w": 16,
+        "w": 24,
         "h": 32
       }
     },
@@ -2618,26 +2618,6 @@
       "sourceSize": {
         "w": 16,
         "h": 48
-      }
-    },
-    "ui/ui_minimap/boss_none_1": {
-      "frame": {
-        "x": 1013,
-        "y": 983,
-        "w": 8,
-        "h": 8
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 8,
-        "h": 8
-      },
-      "sourceSize": {
-        "w": 8,
-        "h": 8
       }
     },
     "vfx/breakthrough_aura_kim_dan_0": {

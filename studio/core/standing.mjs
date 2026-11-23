@@ -70,6 +70,21 @@ export function baselineDirectories(data) {
   return out;
 }
 
+/**
+ * {directory: [name prefix]} from a baseline record's optional `set_aside`: files of a directory whose name starts with one of the
+ * prefixes were added AFTER the baseline was frozen. They are left out of the directory's digest (so the older frames in that shared
+ * directory stay baseline) and they are never baseline themselves: awaiting review unless a human record approves them.
+ */
+export function baselineSetAside(data) {
+  const out = new Map();
+  if (data && typeof data === 'object' && data.set_aside && typeof data.set_aside === 'object') {
+    for (const [dir, prefixes] of Object.entries(data.set_aside)) {
+      if (safeRel(dir) && Array.isArray(prefixes) && prefixes.length && prefixes.every(p => typeof p === 'string' && /^[A-Za-z0-9_.-]+$/.test(p))) out.set(dir, prefixes);
+    }
+  }
+  return out;
+}
+
 /** Project-relative directories that hold at least one PNG, under the given roots (symlinks are not followed). */
 export async function pngDirectories(root, roots) {
   const out = [];
@@ -106,23 +121,25 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
   async function record(rel, parse) {
     let stamp = 'none';
     try { const s = await fs.stat(path.join(root, rel)); stamp = `${s.size}:${s.mtimeMs}`; } catch { /* no record */ }
-    const hit = records.get(rel);
+    const key = `${rel}\0${parse.name}`;   // one file can be read by two parsers (the baseline directories and its set_aside)
+    const hit = records.get(key);
     if (hit && hit.stamp === stamp) return hit.value;
     const value = stamp === 'none' ? parse(null) : parse(await readJsonIfExists(root, rel).catch(() => null));
-    records.set(rel, {stamp, value});
+    records.set(key, {stamp, value});
     return value;
   }
 
   const approvals = () => (approvalsDir ? record(`${approvalsDir.replace(/\/+$/, '')}/${ART_APPROVALS_FILE}`, approvedPaths) : new Map());
   const baseline = () => (review?.baseline?.file ? record(review.baseline.file, baselineDirectories) : new Map());
+  const setAside = () => (review?.baseline?.file ? record(review.baseline.file, baselineSetAside) : new Map());
 
   /** Digest of a directory's PNGs now, or null when the directory cannot be read. */
-  async function digestOf(dir) {
+  async function digestOf(dir, aside = []) {
     let names;
-    try { names = (await fs.readdir(path.join(root, dir), {withFileTypes: true})).filter(e => e.isFile() && e.name.endsWith('.png')).map(e => e.name).sort(); }
+    try { names = (await fs.readdir(path.join(root, dir), {withFileTypes: true})).filter(e => e.isFile() && e.name.endsWith('.png') && !aside.some(p => e.name.startsWith(p))).map(e => e.name).sort(); }
     catch { return null; }
     const stats = await Promise.all(names.map(n => fs.stat(path.join(root, dir, n))));
-    const signature = names.map((n, i) => `${n}:${stats[i].size}:${stats[i].mtimeMs}`).join('|');
+    const signature = names.map((n, i) => `${n}:${stats[i].size}:${stats[i].mtimeMs}`).join('|') + `#${aside.join(',')}`;
     const hit = dirCache.get(dir);
     if (hit && hit.signature === signature) return hit.digest;
     const digest = directoryDigest(await Promise.all(names.map(async n => [n, await sha(`${dir}/${n}`)])));
@@ -144,8 +161,10 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
     const dir = path.posix.dirname(rel);
     const recorded = (bulk?.recorded ?? await baseline()).get(dir);
     if (!recorded) return 'awaiting';
+    const aside = (bulk?.aside ?? await setAside()).get(dir) ?? [];
+    if (aside.some(p => path.posix.basename(rel).startsWith(p))) return 'awaiting';
     let pending = bulk?.digests.get(dir);
-    if (pending === undefined) { pending = digestOf(dir); bulk?.digests.set(dir, pending); }
+    if (pending === undefined) { pending = digestOf(dir, aside); bulk?.digests.set(dir, pending); }
     return (await pending) === recorded ? 'baseline' : 'awaiting';
   }
 
@@ -158,7 +177,7 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
 
   /** Standing of many files at once: [rel, standing] pairs, in the order given. Each directory is digested once and files are read a few at a time, so counting a whole project stays cheap. */
   async function ofMany(rels, {concurrency = 24} = {}) {
-    const bulk = {digests: new Map(), approved: await approvals(), recorded: await baseline()};
+    const bulk = {digests: new Map(), approved: await approvals(), recorded: await baseline(), aside: await setAside()};
     const out = new Array(rels.length);
     let next = 0;
     await Promise.all(Array.from({length: Math.min(concurrency, rels.length)}, async () => {
@@ -173,15 +192,17 @@ export function createStanding(rootArg, {review, approvalsDir} = {}) {
 /** The record the pack's `review.baseline.file` should hold today: every PNG directory under the pack's roots. */
 export async function buildBaselineRecord(rootArg, review) {
   const root = realpathSync(rootArg);
+  const aside = review?.baseline?.file ? baselineSetAside(await readJsonIfExists(root, review.baseline.file).catch(() => null)) : new Map();
   const dirs = await pngDirectories(root, review?.baseline?.roots ?? []);
   const directories = {};
   for (const dir of dirs) {
-    const names = (await fs.readdir(path.join(root, dir), {withFileTypes: true})).filter(e => e.isFile() && e.name.endsWith('.png')).map(e => e.name);
+    const skip = aside.get(dir) ?? [];
+    const names = (await fs.readdir(path.join(root, dir), {withFileTypes: true})).filter(e => e.isFile() && e.name.endsWith('.png') && !skip.some(p => e.name.startsWith(p))).map(e => e.name);
     const entries = [];
     for (const n of names) entries.push([n, createHash('sha256').update(await readInside(root, `${dir}/${n}`)).digest('hex')]);
     directories[dir] = directoryDigest(entries);
   }
-  return {directories};
+  return {directories, set_aside: Object.fromEntries(aside)};
 }
 
 /** Count standings of a list of {rel} frames: {approved, baseline, awaiting, total}. */

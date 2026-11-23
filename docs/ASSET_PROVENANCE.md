@@ -37,6 +37,9 @@ CLI `assetcat` chưa cài, chưa có thư viện được index -> hiện **chư
 - Khung `hurt_*` không thuộc gói phát hành ghim ở `assets/mob-releases.json`: băm ghim bỏ qua tiền tố `hurt_`.
 - Trạng thái: **chờ duyệt** (không ghi bản duyệt). Băm baseline gắn theo thư mục asset, nên 6 asset này đọc là `awaiting` (276 khung cũ + 36 mới). Chưa đi qua `studio_rig_bake`, các cổng animation chưa chạy.
 
+## Hiệu ứng triệu hồi của Quỷ Vương (PX-1 nhóm 4, 2026-11-24)
+`ghost_summon_call` (76×40, 75 khung @30 fps, start 0-17 / loop 18-41 / end 42-74, sự kiện `summon` ở khung 42): vòng pháp trận tím hồn, nút ngọc lục, hoa văn xoay. Spec SpriteFX `tools/generators/vfx_specs/ghost_summon_call.json` (chỉnh từ ví dụ `summon` của spritefx, đổi sang ramp `soul`/`jade` của dự án, seed 11), dựng bằng `vfx_pipeline.py build/export` (0 lỗi audit). Không sinh ảnh, không PixelLab. **Bản quyền**: chủ dự án trả lời orchestrator 2026-11-24 "Dự án sở hữu, như các VFX cũ", ghi trong `assets/review/licence_decisions.json` (chỉ bản quyền). **Art CHƯA duyệt.**
+
 ## Clip `hurt` của quái và boss Cổ Thần Chi Địa (G2-B, 2026-11-24)
 36 khung (3 khung × 2 hướng S, E; W lật lúc chạy) cho `mob_stone_puppet`, `mob_stone_archer_puppet`, `mob_chain_warden`, `mob_void_eater`, `mob_rune_sentinel` và `boss_ancient_god_remnant` (96×96), ghi vào `assets/processed/<mobs|bosses>/<id>/hurt_<dir>_<n>.png`.
 - **Tuyến**: sửa pixel bằng mã (tuyến "direct pixel edits"), cùng `tools/scripts/build_hurt_clips.py` và `tools/scripts/px1_hurt.py` với lô PX-1 và Hằng Nhạc: đẩy lùi và nghiêng giữ chân (shove/shear), khung 0 chớp trắng `thunder_04`, viền `ink_01` dựng lại; đơn vị đẩy = cạnh khung/32 (boss 96 dùng 3 px). Dẫn xuất từ `idle_<dir>_0` đã có (nguồn PixelLab, giữ provenance cũ). **Không sinh ảnh, không dùng PixelLab/Codex/AGY cho phần này.** Rig không dùng vì 6 asset này chưa có rig trong Studio catalog.
