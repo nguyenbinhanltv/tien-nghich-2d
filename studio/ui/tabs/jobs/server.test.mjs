@@ -129,6 +129,22 @@ test('JOBS-001: refuses writes, unknown routes, non-loopback listeners; reports 
   } finally { await t.close(); }
 });
 
+test('JOBS-003: with an in-process MCP handler the feed makes no HTTP call, so a port undici blocks (4190) still works', async () => {
+  const t = await start();
+  const realFetch = globalThis.fetch;
+  try {
+    await t.callTool('studio_project_info');
+    const job = t.mcp.jobs.submit({name: 'qa_run', owner: {agent: 'codex', session: '3fa9c120'}, run: async () => ({})});
+    await t.mcp.jobs.wait(job.id, 5000);
+    globalThis.fetch = () => { throw new Error('the feed must not call fetch'); };
+    const {status, body} = await t.feed(0, {address: {address: '127.0.0.1', port: 4190}, mcp: async () => t.mcp});
+    assert.equal(status, 200);
+    assert.equal(body.jobs.available, true);
+    assert.ok(body.jobs.items.some(j => j.id === job.id));
+    assert.ok(body.activity.events.some(e => e.tool === 'studio_project_info'));
+  } finally { globalThis.fetch = realFetch; await t.close(); }
+});
+
 test('JOBS-002: shapeJob drops results and bounds text', () => {
   const j = shapeJob({id: 'job-1', name: 'x', status: 'failed', owner: {agent: 'a', session: 's'}, createdAt: 'c', result: {secret: 1}, error: {message: 'e'.repeat(900)}, log: Array.from({length: 40}, (_, i) => 'l' + i), logLines: 40, cost: {wallMs: 5}});
   assert.ok(!('result' in j));

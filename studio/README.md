@@ -220,6 +220,16 @@ Every frame has one of three standings: **approved** (a person decided, recorded
 
 Labels, colours and which category goes to which tab come from the pack (`ui`); strings are in English and Vietnamese. The contract a tab follows is in [`ui/README.md`](ui/README.md).
 
+## The interface
+
+- **Language.** EN and VI, switched at the top right; every string exists in both.
+- **Keys.** `⌘K` / `Ctrl K` opens the command palette (tabs, assets, and actions such as "Approve"), `?` opens the cheat-sheet (Esc closes it and focus goes back), `g` then `1`–`9` jumps to a tab. Keys pause while you type in a field. The first Tab press shows a "Skip to content" link.
+- **Narrow screens.** Under 900 px the navigation becomes a drawer and each list/detail tab shows one pane at a time with a Back button; filters collapse into one "Filters" button.
+- **Approval seal.** When the server confirms *your* approval in Review, a seal is stamped for about a second. It never blocks the next action, is off under `prefers-reduced-motion`, and the "Seal effect" button in Review turns it off. The effect is cosmetic: only a person can approve, and nothing about approval changes.
+- **The Abode.** Overview opens on a small scene of the project (drawn in CSS from the pack's `ui.voice.scene`); the sentences it shows come from `ui.voice`, so a project without them still gets a plain overview.
+- **Motion.** All of it is stepped (pixel style) and stops entirely with `prefers-reduced-motion: reduce`.
+- **Checking it by eye.** See "Viewport screenshots" in [`ui/README.md`](ui/README.md): `node studio/serve.mjs --port 4173`, then open `/studio/ui/tests/viewport-harness.html?tab=review&w=420&lang=vi`.
+
 ## Register a generator and a toolchain
 
 A generator is a program that draws frames. The studio will run **only** programs the pack registers; there is no way to name another, add an argument or pass free text. Each registration is under `adapters.generators`:

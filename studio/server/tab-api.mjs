@@ -9,7 +9,8 @@ import { destinations } from './catalog-api.mjs';
 
 const tabsDir = fileURLToPath(new URL('../ui/tabs/', import.meta.url));
 
-export function tabApi(root) {
+// `mcp` (optional): () => Promise of the in-process MCP handler, so a tab can read the feed without calling its own server over HTTP.
+export function tabApi(root, {mcp} = {}) {
   const modules = new Map();
   return {async handle(req, res, url, address) {
     if (!url.pathname.startsWith('/api/tabs/')) return false;
@@ -20,7 +21,7 @@ export function tabApi(root) {
       if (!destinations.includes(id) || !fs.existsSync(file)) throw problem(404, 'unknown_route', 'No server routes for that tab');
       if (!modules.has(id)) modules.set(id, import(pathToFileURL(file).href));
       const mod = await modules.get(id);
-      await mod.handle(req, res, url, {root, address, prefix: '/api/tabs/' + id + '/'});
+      await mod.handle(req, res, url, {root, address, mcp, prefix: '/api/tabs/' + id + '/'});
     } catch (error) {
       const known = Number.isInteger(error.status);
       if (!known) console.error('tab api:', error);
