@@ -1,0 +1,103 @@
+{
+ "schema": "tien-nghich-2d.image-golden",
+ "version": 1,
+ "note": "SHA-256 of RGBA pixels of software-rendered scenes at several viewports. Recorded by `npm run qa:golden -- --record`; a mismatch means the view, frames or fit changed: look at the PNGs (--out) before re-recording.",
+ "images": {
+  "arena_start@logical": {
+   "size": [
+    384,
+    216
+   ],
+   "scale": 1,
+   "sha256": "a85b034690bbaf4a7f06f13e9ae013288e01e4c8c785edf4948c8c28fda2427d"
+  },
+  "arena_start@1280x720": {
+   "size": [
+    1280,
+    720
+   ],
+   "scale": 3,
+   "sha256": "6f09d8eaba324040c7ebc576ace830be64b39f35e396c28561d8e96f8699a5a2"
+  },
+  "arena_start@phone-844x390@3": {
+   "size": [
+    2532,
+    1170
+   ],
+   "scale": 5,
+   "sha256": "e12f71b84ce583eccc3fbb78af24932fca2e06c45d3eba687b13a52cb993db34"
+  },
+  "arena_start@1920x1080@2": {
+   "size": [
+    3840,
+    2160
+   ],
+   "scale": 10,
+   "sha256": "f51d069f03c3e096c32fe1e3c3351582fd38a5093f18fbf6d970ea7e0e655320"
+  },
+  "arena_t300_fight@logical": {
+   "size": [
+    384,
+    216
+   ],
+   "scale": 1,
+   "sha256": "978470550323390c294fab04abbd13d47c79277f9ed2d43a22c8fe0fa5f8b01e"
+  },
+  "arena_t300_fight@1280x720": {
+   "size": [
+    1280,
+    720
+   ],
+   "scale": 3,
+   "sha256": "48256fabea4c6423a885935c439d477add425b83c56f1fa4bfdc4815dcb36961"
+  },
+  "arena_t300_fight@phone-844x390@3": {
+   "size": [
+    2532,
+    1170
+   ],
+   "scale": 5,
+   "sha256": "89819f26e50242d456e4cc6093323c2379860c2265ec4997c535c45f844676b2"
+  },
+  "arena_t300_fight@1920x1080@2": {
+   "size": [
+    3840,
+    2160
+   ],
+   "scale": 10,
+   "sha256": "91c78e11f4f2cec2e0f7e74c1152541bbc29514f1078c5e71d60d5bed7a30e1b"
+  },
+  "arena_t900_fight@logical": {
+   "size": [
+    384,
+    216
+   ],
+   "scale": 1,
+   "sha256": "809c058a6626b81decf95b4234bc0e3af4a3bb9d6e48f138de911c37e1ed2a48"
+  },
+  "arena_t900_fight@1280x720": {
+   "size": [
+    1280,
+    720
+   ],
+   "scale": 3,
+   "sha256": "91cae2702094a8f6136137d1190d5930a559e79cd8b55ca9c3928514e4a5b5e1"
+  },
+  "arena_t900_fight@phone-844x390@3": {
+   "size": [
+    2532,
+    1170
+   ],
+   "scale": 5,
+   "sha256": "1ad957d50ac7c1c1d3533931827b310c703cf46f423cdbc7db0cbab9e8d75680"
+  },
+  "arena_t900_fight@1920x1080@2": {
+   "size": [
+    3840,
+    2160
+   ],
+   "scale": 10,
+   "sha256": "77ed3e84a2286d16b6768d45f80deeb666fdcf7d2c7624876ce0cf3025e82903"
+  }
+ }
+}

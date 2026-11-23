@@ -22,6 +22,7 @@ npm run dev:lan   # cho điện thoại cùng Wi-Fi: docs/PLAYTEST_LAN.md
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
 | `schemas/` | JSON Schema: bảng, encounter, bốn bảng hợp đồng Kiln, manifest gói |
 | `tools/` | `content-build.ts`, `kiln-contract-check.ts`, `draft-bodies.ts` (chạy trực tiếp bằng Node 24, không cần bước build) |
+| `tests/golden/images.json` | SHA-256 của ảnh dựng bằng phần mềm (E9.2) ở 4 cỡ: 384×216, 1280×720, điện thoại 844×390@3, 1920×1080@2. `npm run qa:golden -- --out <thư mục>` xem ảnh; `--record` ghi lại sau thay đổi có chủ ý |
 | `tests/golden/` | `replay.json`: hash đã ghi của 6 kịch bản tất định (E9.1). `npm run qa:replay` so sánh; đổi hành vi sim thì `npm run qa:replay -- --record` rồi xem diff |
 | `spike/` | spike engine G0-A (Phaser 4, màn ngang), cấu hình riêng, xem `spike/REPORT.md`; không thuộc `check` của khung này |
 
