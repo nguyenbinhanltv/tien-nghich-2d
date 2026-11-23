@@ -14,7 +14,8 @@ const BOSS_CLIP: Record<string, string> = { attack_claw: 'attack_claw', attack_w
 /** Tick at which the 3-frame `hurt` clip began: `combat.hurt` counts down from COMBAT.hurtPose when the hit lands. */
 const hurtStart = (world: Pick<WorldState, 'tick'>, a: ActorState): number => world.tick - (COMBAT.hurtPose - a.combat.hurt);
 
-export function artOf(world: Pick<WorldState, 'mode' | 'tick'>, a: ActorState): ArtClip {
+/** `mobHurtAt`: tick a counter-struck mob's flinch began (render/hurt-poses.ts), because its AI consumes `combat.hurt` at once. */
+export function artOf(world: Pick<WorldState, 'mode' | 'tick'>, a: ActorState, mobHurtAt?: number): ArtClip {
   if (a.role === 'player') {
     let clip = 'idle';
     if (a.diedTick >= 0 || a.combat.down > 0 || world.mode === 'falling' || world.mode === 'lost') clip = 'death';
@@ -30,8 +31,8 @@ export function artOf(world: Pick<WorldState, 'mode' | 'tick'>, a: ActorState): 
     if (a.ai.state === 'warn' || a.ai.state === 'impact') return { kind: a.kind, clip: BOSS_CLIP[a.clip] ?? 'attack_claw', startTick: a.clipStartTick };
     return { kind: a.kind, clip: a.ai.state === 'stalk' ? 'move' : 'idle', startTick: 0 };
   }
-  // mobs: dead -> death, a counter-struck mob flinches (hurt), otherwise move (their AI sets finer clips later)
+  // mobs: dead -> death, a counter-struck mob flinches (hurt, from the recorded hit tick), otherwise move (their AI sets finer clips later)
   if (a.diedTick >= 0 || a.hp <= 0) return { kind: a.kind, clip: 'death', startTick: a.clipStartTick };
-  if (a.combat.hurt > 0 && a.clip !== 'attack') return { kind: a.kind, clip: 'hurt', startTick: hurtStart(world, a) };
+  if (mobHurtAt !== undefined && a.clip !== 'attack') return { kind: a.kind, clip: 'hurt', startTick: mobHurtAt };
   return { kind: a.kind, clip: a.clip === 'attack' ? 'attack' : 'move', startTick: a.clip === 'attack' ? a.clipStartTick : 0 };
 }
