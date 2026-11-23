@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node tools/content-build.ts && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
@@ -20,10 +20,13 @@
     "hitbox": "node tools/hitbox.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
     "perf": "node tools/perf-budget.ts",
+    "qa:golden": "node tools/qa-golden.ts",
+    "qa:replay": "node tools/qa-replay.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
-    "dev:lan": "node pwa/lan.ts dev",
-    "preview:lan": "vite build && node pwa/lan.ts preview",
+    "dev:lan": "node tools/content-build.ts && node pwa/lan.ts dev",
+    "preview:lan": "npm run build && node pwa/lan.ts preview",
     "preview": "vite preview",
+    "audio:check": "node audio-check/check.mjs",
     "golden": "node golden/check.mjs"
   },
   "devDependencies": {

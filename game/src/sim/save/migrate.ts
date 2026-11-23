@@ -1,6 +1,7 @@
-// Save migration. `SAVE_VERSION` is 1 today, so the only real step is from the unversioned "version 0" prototype blob
-// ({ realm: 0|1|2, inventory: { id: amount }, recipes, runs }) that early dev builds kept. It is defined here so the chain is
-// exercised; each future bump appends one function to STEPS and a test with a frozen fixture of the old version.
+// Save migration. `SAVE_VERSION` is 2. Steps: 0 -> 1 from the unversioned "version 0" prototype blob
+// ({ realm: 0|1|2, inventory: { id: amount }, recipes, runs }) that early dev builds kept; 1 -> 2 is a pure version stamp (the
+// profile shape of 1 and 2 is the same: main carried version 2 briefly before this chain existed, so both must load).
+// Each future bump appends one function to STEPS and a test with a frozen fixture of the old version.
 import type { ProfileRealm, SaveProfile } from '../../contracts/save.ts';
 import { SAVE_VERSION } from '../../contracts/save.ts';
 import { createProfile } from './profile.ts';
@@ -19,6 +20,7 @@ const STEPS: Record<number, (raw: Raw) => Raw> = {
     const realm = REALMS[Number.isInteger(raw.realm) ? Math.min(2, Math.max(0, raw.realm as number)) : 0];
     return { ...base, version: 1, realm, recipes: Array.isArray(raw.recipes) ? raw.recipes.filter((x) => typeof x === 'string') : [], inventory: inv, runsStarted: runs, runsDied: 0, runsWon: 0 };
   },
+  1: (raw) => ({ ...raw, version: 2 }),
 };
 
 /** Strict shape check of the current version; anything that survives is safe for the rest of the game to read. */

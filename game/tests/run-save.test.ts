@@ -137,6 +137,18 @@ describe('E6.2 profile, codec, migration', () => {
     expect(migrateProfile([])).toEqual({ ok: false, reason: 'not-an-object' });
     expect(migrateProfile({ ...createProfile(1), realm: 'god' })).toEqual({ ok: false, reason: 'invalid' });
   });
+  it('loads a version 1 and a version 2 profile unchanged apart from the stamp; every older save ends at the current shape', () => {
+    const cur = createProfile(3);
+    for (const v of [1, 2]) {
+      const r = migrateProfile({ ...cur, version: v });
+      expect(r.ok && r.from).toBe(v);
+      expect(r.ok && r.profile).toEqual({ ...cur, version: SAVE_VERSION });
+      const viaText = loadProfile(JSON.stringify({ ...cur, version: v }));
+      expect(viaText.ok && viaText.profile.version).toBe(SAVE_VERSION);
+    }
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(2);
+    expect(migrateProfile({ ...cur, version: 0.5 })).toEqual({ ok: false, reason: 'bad-version' });
+  });
   it('fuzz: random damage to a saved file never throws and never yields an invalid profile', () => {
     const text = serializeProfile(beginRun(createProfile(5)).profile), rng = new Rng(8);
     for (let n = 0; n < 500; n++) {
