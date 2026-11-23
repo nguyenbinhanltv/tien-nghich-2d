@@ -26,13 +26,21 @@ const PACKS = ['pilot_v1', 'wave2_batch1_v1', 'wave2_batch2_v1', 'wave2_batch3_v
 const out = await page.evaluate(async (packs) => {
   const rows = [];
   const dec = async (url) => new OfflineAudioContext(2, 44100, 44100).decodeAudioData(await (await fetch(url)).arrayBuffer());
-  // Offset (in frames) of buffer b relative to a, found by minimising the summed absolute difference of 8192 samples.
-  const lag = (a, b, at) => {
+  // Offset (in frames) of buffer b relative to a, found by minimising the summed absolute difference of 2048 samples.
+  const lag = (a, b, from) => {
     const x = a.getChannelData(0), y = b.getChannelData(0);
+    // probe where the signal is loudest: a quiet window has no unique alignment
+    let at = from, loud = -1;
+    for (let k = 0; k < 24; k++) {
+      const w = from + k * 40000;
+      let en = 0;
+      for (let i = 0; i < 2048; i++) en += Math.abs(x[w + i] ?? 0);
+      if (en > loud) { loud = en; at = w; }
+    }
     let best = 0, bestErr = Infinity;
-    for (let l = -2048; l <= 2048; l++) {
+    for (let l = -1100; l <= 1100; l++) {
       let e = 0;
-      for (let i = 0; i < 8192; i++) e += Math.abs(x[at + i] - (y[at + i + l] ?? 0));
+      for (let i = 0; i < 2048; i++) e += Math.abs(x[at + i] - (y[at + i + l] ?? 0));
       if (e < bestErr) { bestErr = e; best = l; }
     }
     return best;
