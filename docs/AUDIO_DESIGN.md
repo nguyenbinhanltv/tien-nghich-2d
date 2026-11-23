@@ -12,7 +12,7 @@ The [audio manifest](../assets/audio_manifest.json) reserves **6 music and 40 ef
 | 2 · Core | 5 / 32 | After pilot master and both codec auditions pass, finish three chapter beds, boss and Endless Samsara music. Finish the remaining 21 combat and 11 progression/UI effects. Core totals are 25 combat and 15 progression/UI. |
 | 3 · Branches | 3 / 3 | After core acceptance and branch encounter briefs, write one bed and one landmark sound per Longtime biome. |
 | 4 · Modes | 2 / 4 | After branch acceptance and mode milestone sign-off, score aftermath and Defense. Add five-floor, oath, wave and core-breach messages. Boss Rush retains the boss score. |
-| 5 · Character lanes | 0 / 3 | After mode acceptance and approved character action sheets, add an NPC greeting, companion reply and form-change accent. Variants share these IDs across the six NPCs, six pets and four future forms. |
+| 5 · Character lanes | 0 / 3 (authored and packed as `characters_v1`, listening pending) | After mode acceptance and approved character action sheets, add an NPC greeting, companion reply and form-change accent. Variants share these IDs across the six NPCs, six pets and four future forms. |
 
 ### Wave 1 listening brief
 
@@ -43,7 +43,7 @@ AGY auditions all eight effects alone and over the bed at matched monitoring gai
 | Vô Tận Luân Hồi / Endless | Core music slot six supplies the dedicated Endless Samsara bed. Keep room for the five-floor marker (`sfx_floor_mark`, authored and packed, listening pending); silence during the bank-or-continue decision lets the confirmation read. |
 | Trảm Tiên Đài / Boss Rush (`trial`) | Reuse the boss bed across three rounds. Oath selection (`sfx_oath`, authored and packed, listening pending), the adjudicator's tell and the defeat cadence are separate events. |
 | Hộ Tông Đại Trận / Defense | Reuse the local biome until the dedicated wave ostinato arrives (`bgm_defense`, authored and packed, listening pending). A wave call precedes each wave (`sfx_wave_call`), a brittle crack marks core breach (`sfx_core_crack`) and a craft confirmation marks repair. The call and the crack are authored and packed, listening pending. |
-| Động Phủ | Anchor return, kiln, planting/harvest, companion bond, NPC handoff and gate in the pilot palette. Use gesture/pitched responses for future character lanes. No dialogue recording is budgeted. |
+| Động Phủ | Anchor return, kiln, planting/harvest, companion bond, NPC handoff and gate in the pilot palette. Use gesture/pitched responses for future character lanes. No dialogue recording is budgeted. The three character-lane effects are authored and packed (`sfx_keeper_call`, `sfx_pet_reply`, `sfx_form_shift`; `characters_v1`, listening pending). |
 
 **How to read the manifest.** Each canonical asset, Longtime asset and indexed VFX belongs to one asset group or one fusion pair. Resolve its group in `families` and select the cue for the semantic event. The `silent` group covers static icons, scenery and passive HUD readouts. Opening a card, collecting a stone or triggering a breakthrough supplies the audible event; painting an icon or looping an aura adds no trigger. `modes` uses the authoritative mode keys and anchor IDs. `scenes` names tracked preview entry points for audition references. These bindings are production intentions.
 
@@ -92,6 +92,20 @@ Both beds follow the `bgm_dong_phu` reference (60 to 90 s, original pentatonic f
 The windows are set by `window` blocks in the patches (`resolveWindow`, [studio/audio/README.md](../studio/audio/README.md)) with `ms` and `tailMs`, not read from the clip contract by the render tool; the clip lengths above are copied by hand from [LONGTIME_VFX.md](LONGTIME_VFX.md). Each effect is mono PCM16 at 44.1 kHz with digital zero at both ends and a peak of -6 dBFS like the delivered core effects.
 
 **Rights and tools.** The scores and patches are project data, rendered by the project's own Studio audio engine (`studio/audio`: oscillators, additive and FM voices, filtered noise, seeded MT19937, impulse reverb). No sample, recording, soundfont, generative-audio model or PixelLab was used. [Sources and the listening list](../assets/audio/source/modes_sfx/VERIFICATION.md) · [Pack report](../assets/audio/packs/modes_v1/PACK_REPORT.md)
+
+## Characters proposal (wave 5, authored 2026-11-23, listening pending)
+
+**Owner decision.** On 2026-11-23 the owner answered the orchestrator's question about the NPC handoff milestones, the pet bond and the form silhouettes with "Coi như đã đủ, làm luôn": they count as sufficient (the art of the NPCs, pets and forms was approved on 2026-11-22) and the Characters wave is produced. The direction is the Động Phủ row of [Musical and event coverage](#musical-and-event-coverage): gesture and pitched responses, no dialogue recording. The decision is recorded in [`assets/review/audio_gate_decisions.json`](../assets/review/audio_gate_decisions.json) (`characters_gate_2026-11-23`). **Everything in the table below is the author's proposal, not an owner decision**; the owner may change any of it after listening. The decision signs no audio and approves no art; nothing here is a listening approval. This wave has no beds.
+
+| Effect | Where it plays | Window proposed (F9) | Tail | Total | Reasoning |
+|---|---|---:|---:|---:|---|
+| `sfx_keeper_call` | `npc.first_contact`; shared by the six NPCs | 560 ms | 540 ms | 1,100 ms | The NPC profile's `interact` clip is 4 frames at 140 ms = 560 ms. The call opens with a wooden tock at frame 0 and states two soft triangle notes, D4 then F#4 (a rising major third), low enough to read as a greeting, not a warning or the `sfx_confirm` handoff. |
+| `sfx_pet_reply` | `pet.reply`; shared by the six pets | 480 ms (4 × 120 ms) | 420 ms | 900 ms | The pet profile's `follow` clip is 4 frames at 120 ms. Two quick rising chirps (A5 to D6, C6 to F6, FM sines with fundamentals at or below 1.4 kHz) and a short low purr; pitched and playful, unlike a pickup or a hit. |
+| `sfx_form_shift` | `future_form.change`; shared by the four future forms | 900 ms | 700 ms | 1,600 ms | No clip exists for a form change (the player profile has idle, walk, cast and hurt only), so 900 ms is a stated length. A low saw glides up an octave through an opening low-pass with a rising band of air, gathers into a seal tick and an FM bell on E5 at 560 ms, then an open D4, A4, E5 chord settles. Rising and pitched, with no strike and no fanfare, so it does not read as `sfx_breakthrough`. |
+
+The windows are set by `window` blocks in the patches (`resolveWindow`, [studio/audio/README.md](../studio/audio/README.md)): explicit `ms` for the keeper call and the form shift, and `{frames, frameMs}` for the pet reply. The clip lengths above are copied by hand from [`assets/manifest_longtime.json`](../assets/manifest_longtime.json) (profiles `npc` and `pet`), not read through the clip contract by the render tool. Each effect is mono PCM16 at 44.1 kHz with digital zero at both ends and a peak of -6 dBFS like the delivered core effects. One variant per ID: the same cue serves every NPC, pet and form.
+
+**Rights and tools.** The patches are project data, rendered by the project's own Studio audio engine (`studio/audio`: oscillators, FM voices, filtered noise, seeded MT19937). No sample, recording, voice, soundfont, generative-audio model or PixelLab was used. [Sources and the listening list](../assets/audio/source/characters_sfx/VERIFICATION.md) · [Pack report](../assets/audio/packs/characters_v1/PACK_REPORT.md)
 
 ## Source, rights and delivery
 
