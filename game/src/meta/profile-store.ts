@@ -7,17 +7,23 @@ import { loadProfile, serializeProfile } from '../sim/save/codec.ts';
 
 export interface KeyValueStore { getItem(key: string): string | null; setItem(key: string, value: string): void }
 export const PROFILE_KEY = 'tn2d.profile';
-/** `unavailable`: the storage itself threw (blocked in a private or embedded webview); the profile then lives in memory only. */
-export type LoadOutcome = { profile: SaveProfile; source: 'stored' | 'fresh' | 'recovered' | 'unavailable'; reason?: string };
+/**
+ * `recovered`: the stored save was bad and its copy is under `.bad`; the fresh profile may be saved.
+ * `unavailable`: the storage threw on read; `damaged`: the save was bad and the copy could NOT be kept.
+ * For those two `memoryOnly` is true: the caller must not write over the stored key (it may hold the only copy of the player's
+ * profile), so the session lives in memory.
+ */
+export type LoadOutcome = { profile: SaveProfile; source: 'stored' | 'fresh' | 'recovered' | 'unavailable' | 'damaged'; memoryOnly: boolean; reason?: string };
 
 export function readProfile(store: KeyValueStore, freshSeed: number): LoadOutcome {
   let text: string | null;
-  try { text = store.getItem(PROFILE_KEY); } catch { return { profile: createProfile(freshSeed), source: 'unavailable', reason: 'storage' }; }
-  if (text === null) return { profile: createProfile(freshSeed), source: 'fresh' };
+  try { text = store.getItem(PROFILE_KEY); } catch { return { profile: createProfile(freshSeed), source: 'unavailable', memoryOnly: true, reason: 'storage' }; }
+  if (text === null) return { profile: createProfile(freshSeed), source: 'fresh', memoryOnly: false };
   const r = loadProfile(text);
-  if (r.ok) return { profile: r.profile, source: 'stored' };
-  try { store.setItem(`${PROFILE_KEY}.bad`, text); } catch { /* keeping the copy is best effort */ }
-  return { profile: createProfile(freshSeed), source: 'recovered', reason: r.reason };
+  if (r.ok) return { profile: r.profile, source: 'stored', memoryOnly: false };
+  let kept = true;
+  try { store.setItem(`${PROFILE_KEY}.bad`, text); } catch { kept = false; }
+  return { profile: createProfile(freshSeed), source: kept ? 'recovered' : 'damaged', memoryOnly: !kept, reason: r.reason };
 }
 
 /** Never throws: returns false when the storage refused (blocked, or quota exceeded) so the caller can tell the player. */

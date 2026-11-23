@@ -46,13 +46,19 @@ function makeAbode(): Phaser.Scene {
   const host = {
     sample: () => hub.sample(), paused: () => portrait, frozen: params.has('golden'),
     get profile() { return profile; },
-    commit: (p: typeof profile) => { profile = p; abodePanel?.warn(writeProfile(store, p) ? null : i18n.t('abode.save.unavailable')); abodePanel?.stock(p); },
+    commit: (p: typeof profile) => {
+      profile = p;
+      // memory-only sessions never write: the stored key may hold the only copy of a profile we could not read or back up
+      if (!loaded.memoryOnly) abodePanel?.warn(writeProfile(store, p) ? null : i18n.t('abode.save.unavailable'));
+      abodePanel?.stock(p);
+    },
     enterRun: (p: typeof profile) => { window.dispatchEvent(new CustomEvent('tn2d:enter-run', { detail: p })); },
     onPrompt: (s: Parameters<NonNullable<typeof abodePanel>['update']>[0], o: Parameters<NonNullable<typeof abodePanel>['update']>[1]) => abodePanel?.update(s, o),
   };
   abodePanel?.stock(profile);
   if (loaded.source === 'recovered') abodePanel?.warn(i18n.t('abode.save.recovered'));
   if (loaded.source === 'unavailable') abodePanel?.warn(i18n.t('abode.save.unavailable'));
+  if (loaded.source === 'damaged') abodePanel?.warn(i18n.t('abode.save.damaged'));
   return new DongPhuScene(host);
 }
 

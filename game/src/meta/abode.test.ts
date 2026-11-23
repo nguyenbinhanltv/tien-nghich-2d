@@ -59,7 +59,7 @@ describe('profile store', () => {
     const damaged = (s.m.get(PROFILE_KEY) as string).replace('"nhap_mon"', '"khai_lo"');
     s.m.set(PROFILE_KEY, damaged);
     const r = readProfile(s, 9);
-    expect(r.source).toBe('recovered'); expect(r.reason).toBe('checksum'); expect(s.m.get(`${PROFILE_KEY}.bad`)).toBe(damaged);
+    expect(r.source).toBe('recovered'); expect(r.memoryOnly).toBe(false); expect(r.reason).toBe('checksum'); expect(s.m.get(`${PROFILE_KEY}.bad`)).toBe(damaged);
   });
 });
 
@@ -67,12 +67,15 @@ describe('profile store: storage that throws', () => {
   const blocked: KeyValueStore = { getItem: () => { throw new Error('SecurityError'); }, setItem: () => { throw new Error('QuotaExceededError'); } };
   it('read falls back to a fresh in-memory profile and says why; write returns false instead of throwing', () => {
     const r = readProfile(blocked, 5);
-    expect(r.source).toBe('unavailable'); expect(r.profile.version).toBeGreaterThan(0);
+    expect(r.source).toBe('unavailable'); expect(r.memoryOnly).toBe(true); expect(r.profile.version).toBeGreaterThan(0);
     expect(writeProfile(blocked, r.profile)).toBe(false);
   });
   it('a damaged save is still reported when the .bad copy cannot be written', () => {
     const m = new Map<string, string>([[PROFILE_KEY, '{not json']]);
     const s: KeyValueStore = { getItem: (k) => m.get(k) ?? null, setItem: (k) => { if (k.endsWith('.bad')) throw new Error('Quota'); } };
-    expect(readProfile(s, 5).source).toBe('recovered');
+    const r = readProfile(s, 5);
+    // no copy exists, so it must not claim one and must not allow the stored key to be overwritten
+    expect(r.source).toBe('damaged'); expect(r.memoryOnly).toBe(true);
+    expect(m.get(PROFILE_KEY)).toBe('{not json');
   });
 });
