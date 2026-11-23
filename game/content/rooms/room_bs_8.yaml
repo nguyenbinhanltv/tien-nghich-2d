@@ -1,0 +1,37 @@
+# Room layout (lane B, placeholder design for the Huyết Hải vertical slice). Semantic grid: # wall, . floor, ~ blood pool, D door cell.
+id: room_bs_8
+size: [24, 14]
+player_start: [2, 7]
+grid:
+  - "########################"
+  - "########################"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#..........~~~.........#"
+  - "D..........~~~.........D"
+  - "D..........~~~.........D"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "#......................#"
+  - "########################"
+doors:
+  - { side: west, role: entry, to: room_bs_7 }
+  - { side: east, role: exit, to: room_bs_boss }
+props:
+  - { id: prop_restriction_pillar, at: [8, 4] }
+  - { id: prop_restriction_pillar, at: [8, 10] }
+  - { id: prop_restriction_pillar, at: [16, 7] }
+  - { id: prop_alchemy_jar, at: [20, 12] }
+waves:
+  - spawns:
+      - { mob: mob_blood_corpse, at: [16, 4] }
+      - { mob: mob_blood_corpse, at: [16, 10] }
+      - { mob: mob_blood_corpse, at: [18, 7] }
+      - { mob: mob_blood_pool_lurker, at: [12, 7] }
+  - spawns:
+      - { mob: mob_blood_crow, at: [20, 3] }
+      - { mob: mob_blood_crow, at: [20, 11] }
+      - { mob: mob_vengeful_soul, at: [19, 6] }
