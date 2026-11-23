@@ -13,7 +13,7 @@ npm run dev:lan   # cho điện thoại cùng Wi-Fi: docs/PLAYTEST_LAN.md
 | Thư mục | Vai trò |
 |---|---|
 | `src/sim/` | lõi mô phỏng thuần TS: vòng cố định 60 Hz, RNG có seed, băm trạng thái. ESLint cấm import `render/`, engine, DOM, `Math.random`, `Date.now` |
-| `src/contracts/` | kiểu dùng chung giữa các lane (WorldState, GameEvent, ContentApi, Body) |
+| `src/contracts/` | kiểu dùng chung giữa các lane, Lane A giữ: `world` (WorldState, InputFrame, GameEvent), `combat` (mô hình DODGE/STRIKE, Hazard), `pool` (đạn SoA), `run` (cảnh giới, thưởng), `save` (hồ sơ), `content` (ContentApi), `host` (Sim), `bodies`. Đổi ở đây = PR nhỏ riêng |
 | `src/render/` | hiển thị Phaser 4; chỉ đọc state. `camera.ts` (×nguyên theo pixel thiết bị), `kiln-loader.ts`, `animator.ts`, `scenes/`, `demo/arena-stub.ts` (stub tạm, xóa khi sim phòng của làn A vào main) |
 | `src/ui/`, `locale/` | điều khiển cảm ứng, bàn phím, tay cầm, màn xoay ngang; chuỗi UI VI/EN |
 | `pwa/` | manifest/icon/service worker, plugin Vite phục vụ atlas, `lan.ts` (dev:lan) |
