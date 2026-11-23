@@ -17,11 +17,13 @@
     "content:build": "node tools/content-build.ts",
     "content:check": "node tools/content-build.ts --check",
     "contract:check": "node tools/kiln-contract-check.ts",
+    "hitbox": "node tools/hitbox.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
     "dev:lan": "node pwa/lan.ts dev",
     "preview:lan": "vite build && node pwa/lan.ts preview",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "golden": "node golden/check.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

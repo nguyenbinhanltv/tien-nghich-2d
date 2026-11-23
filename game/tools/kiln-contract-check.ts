@@ -3,6 +3,7 @@
 //              Never run in CI for the default branch: today the repository holds none, so --strict is expected to fail until M0.
 import { loadAssets } from './lib/assets.ts';
 import { loadTables, semanticCheck } from './lib/tables.ts';
+import { verifyLocks } from './lib/hitbox-edit.ts';
 import { compileAudioEvents, compileBodies, compileClipEvents, compileTileShapes, lintClips, readSidecars, verifyApprovals } from './lib/kiln-contract.ts';
 
 const strict = process.argv.includes('--strict');
@@ -24,7 +25,7 @@ const lint = lintClips(events.data, attackClips);
 
 const sliceIds = [...new Set(attackClips.map((a) => a.asset))];
 const missingBodies = sliceIds.filter((id) => !bodies.data.bodies[id]);
-const errors = [...bodies.problems, ...events.problems, ...shapes.problems, ...audio.problems, ...approvals.problems, ...semantic.errors, ...tableProblems, ...lint.errors];
+const errors = [...bodies.problems, ...events.problems, ...shapes.problems, ...audio.problems, ...approvals.problems, ...semantic.errors, ...verifyLocks(), ...tableProblems, ...lint.errors];
 const warnings = [...semantic.warnings, ...bodies.warnings, ...events.warnings, ...shapes.warnings, ...audio.warnings, ...lint.warnings];
 if (strict) {
   for (const id of missingBodies) errors.push(`strict: no bodies for slice asset ${id}`);

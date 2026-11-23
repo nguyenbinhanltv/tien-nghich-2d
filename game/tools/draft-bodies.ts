@@ -18,6 +18,7 @@ import type { Rgba } from './lib/repo.ts';
 import { loadAssets } from './lib/assets.ts';
 import type { AssetInfo } from './lib/assets.ts';
 import type { Box } from './lib/kiln-contract.ts';
+import { isLocked } from './lib/hitbox-edit.ts';
 import { ALPHA_THRESHOLD, alphaBox, ATTACK_CLIP, bodyClass, clampBox, draftClipHits, NO_BODY_REASON } from './lib/hitbox-draft.ts';
 
 export { ALPHA_THRESHOLD, alphaBox };
@@ -99,6 +100,7 @@ if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.a
     const r = await draftFor(id, assets.get(id));
     if ('skip' in r) { skipped++; console.log(`${id}: no body (${r.skip})`); continue; }
     const file = path.join(out, `${id}.bodies.json`);
+    if (write && isLocked(out, id)) { kept++; console.log(`${id}: locked, left alone (unlock it first)`); continue; }
     if (write && fs.existsSync(file) && !force) { kept++; console.log(`${id}: kept existing ${rel(file)}`); continue; }
     fs.writeFileSync(file, `${JSON.stringify(r.body, null, 1)}\n`);
     wrote++;
