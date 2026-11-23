@@ -24,9 +24,10 @@ export function damageEnemy(world: WorldState, target: ActorState, damage: numbe
   if (counter) world.stats.counterHits++;
   events.push({ type: 'hit', tick: world.tick, source, target: target.id, damage, counter });
   hitStop(world, COMBAT.freezeHit, events);
-  // Only a counter (a strike begun inside the window a perfect dodge opens) staggers a mob: its AI cancels the attack in progress (sim/ai stagger).
-  // Ordinary hits do not, so holding strike cannot stun-lock a mob out of ever attacking.
-  if (target.role === 'mob' && target.hp > 0 && counter) target.combat.hurt = COMBAT.hurtPose;
+  // Only a counter (a strike begun inside the window a perfect dodge opens) makes an enemy flinch. A mob's AI also cancels the attack in
+  // progress (sim/ai stagger); a boss only plays its hurt pose (`hurt` counts down in step()) and never loses its attack, so it cannot be
+  // stun-locked. Ordinary hits do not flinch anything, so holding strike cannot stun-lock a mob out of ever attacking.
+  if ((target.role === 'mob' || target.role === 'boss') && target.hp > 0 && counter) target.combat.hurt = COMBAT.hurtPose;
   if (target.hp === 0 && before > 0) killActor(world, target, events);
 }
 
