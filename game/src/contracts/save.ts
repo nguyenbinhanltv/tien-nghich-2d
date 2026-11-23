@@ -3,7 +3,7 @@
 import type { Reward } from './run.ts';
 
 /** Bump on every shape change and add a migration step in sim/save/migrate.ts. */
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 /** Profile realm (cultivation of the account, not of a run). Failure never takes it back. */
 export type ProfileRealm = 'nhap_mon' | 'khai_lo' | 'lap_tran';

@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 import { fitView } from './camera.ts';
+import { AudioDirector } from '../audio/director.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
 import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
@@ -17,12 +18,17 @@ document.documentElement.lang = i18n.locale;
 
 const hub = new InputHub(window);
 const setStatus = mountStatus(document.body);
+const audio = new AudioDirector();
+// the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
+hub.onGesture = () => audio.unlock();
+window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
+void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
 let portrait = false;
 const params = new URLSearchParams(location.search);
 if (params.has('golden')) document.body.classList.add('golden');
 const scene: Phaser.Scene = params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait,
+  : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode })); },
     frozen: params.has('golden') });
 
@@ -66,4 +72,4 @@ if ('serviceWorker' in navigator && import.meta.env.PROD && window.isSecureConte
   window.addEventListener('load', () => void navigator.serviceWorker.register('./sw.js'));
 }
 
-(window as unknown as { __tn2d: unknown }).__tn2d = { game, scene, hub };
+(window as unknown as { __tn2d: unknown }).__tn2d = { game, scene, hub, audio };
