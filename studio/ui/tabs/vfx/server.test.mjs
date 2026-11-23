@@ -26,10 +26,10 @@ test('VFX-001: read-only apart from build; unknown routes and ids are refused', 
   assert.equal((await call('effect?id=ghost')).error, 'unknown_effect');
 });
 
-test('real project: eighteen effects, core first, with readiness and variants', async () => {
+test('real project: nineteen effects, core first, with readiness and variants', async () => {
   const {body} = await call('effects');
-  assert.equal(body.effects.length, 18);
-  assert.equal(body.effects.filter(e => e.group === 'core').length, 12);
+  assert.equal(body.effects.length, 19);
+  assert.equal(body.effects.filter(e => e.group === 'core').length, 13);
   assert.equal(body.effects[0].group, 'core'); assert.equal(body.effects.at(-1).group, 'design');
   const ward = body.effects.find(e => e.id === 'lt_fx_ward_pulse');
   assert.deepEqual(ward.variants, ['anchor', 'mirror', 'thorn', 'tide', 'flare', 'bell']);

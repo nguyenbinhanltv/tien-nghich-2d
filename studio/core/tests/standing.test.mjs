@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { realpathSync, mkdtempSync, mkdirSync, rmSync } from 'node:fs';
+import { realpathSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -120,7 +120,7 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline except the 51 slice assets, only the 122 PX-1 frames (hurt clips, enemy projectiles, status icons) await', async () => {
+test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline except the 51 slice assets, only the 197 PX-1 frames (hurt clips, enemy projectiles, status icons, the summon VFX) await', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
   const catalog = await loadEditableCatalog(pack, repoRoot);
   const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
@@ -137,7 +137,7 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   let baseline = 0;
   for (const f of core) {
     // PX-1 (2026-11-24): the script-made `hurt` frames of ten slice assets and the four enemy projectiles await the owner; nothing else does.
-    const want = vs.has(f.processed) ? 'approved' : /^projectiles\/pj_mob_|^ui\/icon_status_|^characters\/(wl_outer_disciple|wl_qi_condensation|wl_blood_foundation|wl_extreme_jing|mob_blood_wolf|mob_blood_crow|mob_blood_corpse|mob_vengeful_soul|mob_blood_pool_lurker|boss_ghost_king)\/hurt_/.test(f.info.key) ? 'awaiting' : 'baseline';
+    const want = vs.has(f.processed) ? 'approved' : /^vfx\/ghost_summon_call_|^projectiles\/pj_mob_|^ui\/icon_status_|^characters\/(wl_outer_disciple|wl_qi_condensation|wl_blood_foundation|wl_extreme_jing|mob_blood_wolf|mob_blood_crow|mob_blood_corpse|mob_vengeful_soul|mob_blood_pool_lurker|boss_ghost_king)\/hurt_/.test(f.info.key) ? 'awaiting' : 'baseline';
     baseline += want === 'baseline';
     assert.equal(await standing.of(f.processed), want, f.info.key);
   }
@@ -150,4 +150,20 @@ test('a transparent pixel with colour does not break the match with the normaliz
   assert.equal(sameImage(stored, file), true);
   assert.equal(sameImage(encodePixels(2, 1, Buffer.from([0, 0, 0, 0, 1, 2, 4, 255])), file), false);
   assert.equal(sameImage(encodePixels(2, 1, Buffer.from([0, 0, 0, 255, 1, 2, 3, 255])), file), false);
+});
+
+test('set_aside: files added to a shared directory after the freeze are awaiting, and the older frames of that directory stay baseline', async () => {
+  const dir = mkdtempSync(path.join(realpathSync(os.tmpdir()), 'aside-'));
+  mkdirSync(path.join(dir, 'art/vfx'), {recursive: true}); mkdirSync(path.join(dir, 'rec'), {recursive: true});
+  writeFileSync(path.join(dir, 'art/vfx/old_0.png'), 'old');
+  const review = {baseline: {file: 'rec/baseline.json', roots: ['art']}};
+  const frozen = await buildBaselineRecord(dir, review);
+  writeFileSync(path.join(dir, 'rec/baseline.json'), JSON.stringify({directories: frozen.directories, set_aside: {'art/vfx': ['new_']}}));
+  writeFileSync(path.join(dir, 'art/vfx/new_0.png'), 'new');
+  const standing = createStanding(dir, {review});
+  assert.equal(await standing.of('art/vfx/old_0.png'), 'baseline');
+  assert.equal(await standing.of('art/vfx/new_0.png'), 'awaiting');
+  assert.equal((await buildBaselineRecord(dir, review)).directories['art/vfx'], frozen.directories['art/vfx'], 'rewriting the record keeps the set-aside files out of the digest');
+  writeFileSync(path.join(dir, 'art/vfx/old_1.png'), 'added later without a prefix');
+  assert.equal(await createStanding(dir, {review}).of('art/vfx/old_0.png'), 'awaiting', 'a file outside the set-aside prefixes still breaks the directory');
 });

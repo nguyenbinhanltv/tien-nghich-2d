@@ -7163,6 +7163,38 @@
      }
     }
    }
+  },
+  {
+   "id": "px1-vfx:ghost_summon_call",
+   "basis": [
+    "tools/generators/vfx_specs/ghost_summon_call.json",
+    "docs/LESSONS_vfx_spritefx.md",
+    "docs/SKILLS_INSTALLED.md"
+   ],
+   "defaults": {},
+   "assets": {
+    "ghost_summon_call": {
+     "fields": {
+      "toolPin": "e5867cc05f6e1dc6207b8e1c3c65cef75e6ba51a",
+      "seed": 11,
+      "sourceHash": "4af2e92a5d2e151c2071d3e313ee90b2a6bc83829baebf9124c121230831f54a",
+      "producer": "Claude Code (Anthropic), PX-1 worker session tien-nghich-2d-88, 2026-11-24",
+      "method": "Deterministic JSON effect spec rendered by SpriteFX (adapted from its summon example, recoloured to the project ramps), exported by tools/generators/vfx_pipeline.py; palette-locked; no AI image generation",
+      "document": "docs/ASSET_PROVENANCE.md",
+      "agent": "Claude Code, worker session tien-nghich-2d-88"
+     },
+     "reasons": {
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: rendered from a JSON spec."
+      },
+      "scriptSha256": {
+       "status": "unknown",
+       "reason": "Not recorded: the spec was not yet committed when this record was written; its hash is in sourceHash."
+      }
+     }
+    }
+   }
   }
  ]
 }

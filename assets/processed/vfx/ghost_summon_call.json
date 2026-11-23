@@ -1,0 +1,375 @@
+{
+ "id": "ghost_summon_call",
+ "frame_size": [
+  76,
+  40
+ ],
+ "anchor": [
+  38,
+  38
+ ],
+ "fps": 30,
+ "loop": true,
+ "frame_count": 75,
+ "total_ms": 2500,
+ "sheet": "assets/processed/vfx/ghost_summon_call_sheet.png",
+ "frames": [
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_0.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_1.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_2.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_3.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_4.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_5.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_6.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_7.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_8.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_9.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_10.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_11.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_12.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_13.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_14.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_15.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_16.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_17.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_18.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_19.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_20.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_21.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_22.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_23.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_24.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_25.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_26.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_27.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_28.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_29.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_30.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_31.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_32.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_33.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_34.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_35.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_36.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_37.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_38.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_39.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_40.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_41.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_42.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_43.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_44.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_45.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_46.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_47.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_48.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_49.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_50.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_51.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_52.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_53.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_54.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_55.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_56.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_57.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_58.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_59.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_60.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_61.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_62.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_63.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_64.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_65.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_66.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_67.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_68.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_69.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_70.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_71.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_72.png",
+   "duration_ms": 33
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_73.png",
+   "duration_ms": 34
+  },
+  {
+   "key": "assets/processed/vfx/ghost_summon_call_74.png",
+   "duration_ms": 33
+  }
+ ],
+ "tags": [
+  {
+   "name": "draw",
+   "from": 0,
+   "to": 17,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "channel",
+   "from": 18,
+   "to": 41,
+   "direction": "forward"
+  },
+  {
+   "name": "burst",
+   "from": 42,
+   "to": 44,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "release",
+   "from": 45,
+   "to": 74,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "start",
+   "from": 0,
+   "to": 17,
+   "direction": "forward",
+   "repeat": "1"
+  },
+  {
+   "name": "loop",
+   "from": 18,
+   "to": 41,
+   "direction": "forward"
+  },
+  {
+   "name": "end",
+   "from": 42,
+   "to": 74,
+   "direction": "forward",
+   "repeat": "1"
+  }
+ ],
+ "events": [
+  {
+   "frame": 42,
+   "name": "summon"
+  }
+ ],
+ "spec": "tools/generators/vfx_specs/ghost_summon_call.json",
+ "note": "frame keys are 0-based; durations in ms; a tag without 'repeat' loops; 'loop' sections play start -> loop (repeat) -> end."
+}

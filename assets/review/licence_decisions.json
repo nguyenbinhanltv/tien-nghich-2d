@@ -112,6 +112,21 @@
         "wp_spirit_stone_beads",
         "wp_thunder_seal"
       ]
+    },
+    {
+      "id": "owner_ghost_summon_call_rights_2026-11-24",
+      "kind": "owner_statement",
+      "decided_by": "user",
+      "recorded": "2026-11-24T02:10:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-88 (an agent; it transcribed the statement relayed by orchestrator session tien-nghich-2d-1, it did not review or approve anything)",
+      "statement": "Dự án sở hữu, như các VFX cũ",
+      "statement_note": "The owner's words in Vietnamese, their answer on 2026-11-24 to the orchestrator's question about the output rights of ghost_summon_call, relayed by the orchestrator (tien-nghich-2d-1) to the worker around 02:10 Asia/Saigon. Meaning: the project owns it, like the earlier SpriteFX VFX. Output rights only: this is not an art approval.",
+      "scope": "output_rights",
+      "rights": "Original artwork created for this project.",
+      "covers": "ghost_summon_call, the Oán Hồn Quỷ Vương summon-call VFX (SpriteFX spec rendered, PX-1, 2026-11-24). Its origin is unchanged; its art is NOT approved.",
+      "assets": [
+        "ghost_summon_call"
+      ]
     }
   ]
 }

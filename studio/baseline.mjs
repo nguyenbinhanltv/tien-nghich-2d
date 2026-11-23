@@ -11,7 +11,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPack } from './core/pack.mjs';
-import { buildBaselineRecord, baselineDirectories, createStanding } from './core/standing.mjs';
+import { buildBaselineRecord, baselineDirectories, baselineSetAside, createStanding } from './core/standing.mjs';
 
 const at = process.argv.indexOf('--project'), joined = process.argv.find(a => a.startsWith('--project='));
 const root = joined ? path.resolve(joined.slice('--project='.length)) : at > 0 ? path.resolve(process.argv[at + 1]) : path.resolve(fileURLToPath(new URL('../', import.meta.url)));
@@ -24,17 +24,18 @@ const file = path.join(root, declared.file);
 if (mode === '--write') {
   const record = await buildBaselineRecord(root, pack.review);
   const body = {schema_version: 1,
-    description: 'Accepted baseline: shipped art that predates the studio and has no review record either way. Per frame directory, a digest of its PNG names and sha256s; a directory whose digest no longer matches (a frame added, removed or changed) is awaiting review. This is NOT an approval. Written by `node studio/baseline.mjs --write`.',
-    roots: declared.roots, directories: record.directories};
+    description: 'Accepted baseline: shipped art that predates the studio and has no review record either way. Per frame directory, a digest of its PNG names and sha256s; a directory whose digest no longer matches (a frame added, removed or changed) is awaiting review. `set_aside`: name prefixes of files added to a shared directory after the freeze; they are outside its digest and always awaiting. This is NOT an approval. Written by `node studio/baseline.mjs --write`.',
+    roots: declared.roots, directories: record.directories, ...(Object.keys(record.set_aside).length ? {set_aside: record.set_aside} : {})};
   await fs.mkdir(path.dirname(file), {recursive: true});
   await fs.writeFile(file, JSON.stringify(body, null, 1) + '\n');
   console.log(`Wrote ${Object.keys(record.directories).length} baseline directories to ${declared.file}`);
 } else {
-  const recorded = baselineDirectories(JSON.parse(await fs.readFile(file, 'utf8')));
+  const data = JSON.parse(await fs.readFile(file, 'utf8'));
+  const recorded = baselineDirectories(data), aside = baselineSetAside(data);
   const standing = createStanding(root, {review: pack.review});
   let bad = 0;
   for (const [dir] of recorded) {
-    const names = (await fs.readdir(path.join(root, dir)).catch(() => [])).filter(n => n.endsWith('.png'));
+    const names = (await fs.readdir(path.join(root, dir)).catch(() => [])).filter(n => n.endsWith('.png') && !(aside.get(dir) ?? []).some(p => n.startsWith(p)));
     if (!names.length || (await standing.of(`${dir}/${names[0]}`)) !== 'baseline') { bad++; console.log('changed or gone: ' + dir); }
   }
   console.log(`${recorded.size - bad} of ${recorded.size} baseline directories still match`);
