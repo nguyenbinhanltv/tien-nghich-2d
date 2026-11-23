@@ -54,7 +54,9 @@ export function parseArtApprovals(data) {
       if (!frames.length) continue;
       const rawFiles = Object.entries(info.raw_files ?? {}).filter(([k, v]) => dirOk(k) && sha(v));
       const rawDir = dirOk(info.raw_dir) ? info.raw_dir : null;
-      out.push({approvalId: id, assetId, rawDir, approvedBy: by, kind: str(a.kind, 40) ?? 'owner_statement', scope: str(a.scope, 60) ?? null, covers: str(a.covers, 400) ?? null,
+      // optional: the asset owns only the files `<frame_prefix>_<n>.png` of a directory shared by several assets (the core effects)
+      const framePrefix = typeof info.frame_prefix === 'string' && /^[A-Za-z0-9_.-]{1,64}$/.test(info.frame_prefix) ? info.frame_prefix : null;
+      out.push({approvalId: id, assetId, rawDir, framePrefix, approvedBy: by, kind: str(a.kind, 40) ?? 'owner_statement', scope: str(a.scope, 60) ?? null, covers: str(a.covers, 400) ?? null,
         recorded: str(a.recorded, 40) ?? null, recordedBy: str(a.recorded_by, 200) ?? null,
         evidence: {quote: str(a.evidence?.quote, 400), source: str(a.evidence?.source, 200)}, frameDir: info.frame_dir, frames, rawFiles});
     }
@@ -74,7 +76,8 @@ export async function evaluateArtApproval(root, rec) {
   // a frame added to the asset's directory is not covered either: compare the inventory with the record
   const known = new Set(rec.frames.map(([k]) => `${k.split('/').at(-1)}.png`));
   const listed = await pngInventory(root, rec.frameDir);
-  const added = (listed ?? []).filter(f => !known.has(f)).map(f => `${rec.frameDir}/${f}`);
+  const mine = rec.framePrefix ? new RegExp(`^${rec.framePrefix.replace(/[.]/g, '\\.')}_\\d+\\.png$`) : null;
+  const added = (listed ?? []).filter(f => (!mine || mine.test(f)) && !known.has(f)).map(f => `${rec.frameDir}/${f}`);
   let unverified = listed === null;
   // the same for the raw files of a character: anything under its raw directory that the record does not list
   if (rec.rawDir) {

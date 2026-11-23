@@ -39,7 +39,7 @@ test('the project record covers the six effects and the two characters, byte for
   const records = await readArtApprovals(repo, 'assets/review');
   const byAsset = Object.fromEntries(records.map(r => [r.assetId, r]));
   for (const id of ['lt_fx_core_breach', 'lt_fx_craft', 'lt_fx_gate_unseal', 'lt_fx_impact', 'lt_fx_stamp', 'lt_fx_ward_pulse', 'lt_ink_marten', 'lt_kiln_keeper']) assert.ok(byAsset[id], id);
-  assert.equal(records.length, 132, 'eight earlier assets, the 30 new characters, 93 other Longtime assets and lt_ashen_crown_b');
+  assert.equal(records.length, 183, 'eight earlier assets, the 30 new characters, 93 other Longtime assets and lt_ashen_crown_b');
   for (const r of records) { assert.equal(r.current, true, `${r.assetId} changed since it was approved`); assert.equal(r.approvedBy, 'user'); assert.equal(r.kind, 'owner_statement'); }
   assert.equal(records.filter(r => r.assetId.startsWith('lt_fx_')).reduce((n, r) => n + r.frames, 0), 188, 'all 188 effect frames');
   assert.equal(byAsset.lt_kiln_keeper.frames, 32);
@@ -54,6 +54,20 @@ test('a frame ADDED to an approved asset breaks coverage even though every recor
   fs.writeFileSync(path.join(root, 'f/a_1.png'), 'new');
   const e = await evaluateArtApproval(root, rec);
   assert.deepEqual([e.current, e.matching, e.changed, e.added, e.addedFiles], [false, 1, 0, 1, ['f/a_1.png']]);
+});
+
+test('frame_prefix: an asset in a directory shared with other assets is judged only on its own files', async () => {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'artrec-'));
+  fs.mkdirSync(path.join(root, 'f'));
+  for (const n of ['a_0.png', 'ab_0.png', 'b_0.png', 'a_sheet.png']) fs.writeFileSync(path.join(root, 'f', n), n);
+  const rec = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {a: {frame_dir: 'f', frame_prefix: 'a', frames: {'g/a/a_0': sha('a_0.png')}}}}]})[0];
+  assert.equal(rec.framePrefix, 'a');
+  assert.equal((await evaluateArtApproval(root, rec)).current, true, 'other assets\' files and the sheet image are not "added"');
+  fs.writeFileSync(path.join(root, 'f/a_1.png'), 'new');
+  const e = await evaluateArtApproval(root, rec);
+  assert.deepEqual([e.current, e.added, e.addedFiles], [false, 1, ['f/a_1.png']]);
+  const bad = parseArtApprovals({approvals: [{id: 'r', approved_by: 'user', assets: {a: {frame_dir: 'f', frame_prefix: '../x', frames: {'g/a/a_0': A}}}}]})[0];
+  assert.equal(bad.framePrefix, null);
 });
 
 test('a hasher keeps its own entries: a big scan on one cannot evict another', async () => {
