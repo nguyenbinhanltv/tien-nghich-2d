@@ -180,6 +180,13 @@ def validate(m):
             # original 40). Hash the manifest as it was: the first 40 palette ids; the three new ids are checked
             # against palette.json by check_manifest.py.
             source["palette"]["ids"] = source["palette"]["ids"][:40]
+            # Likewise the `hurt` clip added to the vertical-slice characters on 2026-11-24 (PX-1): hash the entries
+            # as they were, without it.
+            for asset in source["assets"]:
+                hurt = asset.get("animations", {}).pop("hurt", None)
+                if hurt:
+                    asset["frames_per_direction"] -= hurt["frames"]
+                    asset["total_frames"] -= hurt["frames"] * len(asset["directions"])
         normalized = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
         require(hashlib.sha256(normalized).hexdigest() == digest, "Base contract drift: " + name)
         ids = [a["id"] for a in source[field]]

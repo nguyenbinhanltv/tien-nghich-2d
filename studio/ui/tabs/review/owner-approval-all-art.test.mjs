@@ -30,9 +30,9 @@ test('both entries carry the owner\'s own words, say the first statement was nar
   }
 });
 
-test('the real project: zero awaiting, the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
+test('the real project: only the 84 PX-1 hurt frames (2026-11-24, written by script, not yet seen by the owner) await; the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 0, changes_requested: 0, total: 5052});
+  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 84, changes_requested: 0, total: 5136});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -56,10 +56,12 @@ test('the 30 new PixelLab characters are one entry, every processed frame and ev
   }
 });
 
-test('every asset record in the project file is current: nothing changed, missing or added', async () => {
+// PX-1 (2026-11-24): a script-made `hurt` clip was added to ten approved slice assets; only those added frames await.
+const PX1_HURT = {wl_outer_disciple: 12, wl_qi_condensation: 12, wl_blood_foundation: 12, wl_extreme_jing: 12, mob_blood_wolf: 6, mob_blood_crow: 6, mob_blood_corpse: 6, mob_vengeful_soul: 6, mob_blood_pool_lurker: 6, boss_ghost_king: 6};
+test('every asset record in the project file is current: nothing changed or missing, and nothing added except the PX-1 hurt frames', async () => {
   const records = await readArtApprovals(repo, 'assets/review');
   assert.equal(records.length, 183);
-  assert.deepEqual(records.filter(r => !r.current).map(r => [r.assetId, r.changed, r.missing, r.added, r.rawChanged]), []);
+  assert.deepEqual(records.filter(r => !r.current).map(r => [r.assetId, r.changed, r.missing, r.added, r.rawChanged]), Object.entries(PX1_HURT).map(([id, n]) => [id, 0, 0, n, 0]).sort((a, b) => records.findIndex(r => r.assetId === a[0]) - records.findIndex(r => r.assetId === b[0])));
   const seen = new Map();
   for (const a of record.approvals) for (const info of Object.values(a.assets ?? {})) for (const key of Object.keys(info.frames)) {
     assert.ok(!seen.has(key), `${key} is in both ${seen.get(key)} and ${a.id}`);
@@ -128,11 +130,14 @@ test('the baseline record is kept untouched and never wins over an approval', as
   const baselineOnly = createStanding(repo, {review: pack.review});
   const tally = {};
   for (const [, s] of await baselineOnly.ofMany(frames)) tally[s] = (tally[s] ?? 0) + 1;
-  assert.equal(tally.baseline, 2854, 'baseline_frames.json still labels exactly the legacy art');
+  // PX-1 (2026-11-24): the baseline digest is per directory, so the ten directories that gained a hurt clip (644 older frames) no longer match it
+  // and read as awaiting here; the record itself is NOT rewritten (that would label the new frames as accepted). The owner's 51-asset approval
+  // below still covers the 644 older frames by hash.
+  assert.equal(tally.baseline, 2854 - 644, 'baseline_frames.json still labels the legacy art of every directory that was not touched');
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 3554, baseline: 1498});
+  assert.deepEqual(both, {approved: 3554, baseline: 1498, awaiting: 84});
 });
 
 const VS = 'owner_vs_baseline_2026-11-23';

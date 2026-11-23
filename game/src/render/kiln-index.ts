@@ -1,5 +1,5 @@
 // Pure (no Phaser) index of Kiln frame names: `${group}/${asset}/${clip}[_${direction}]_${n}` (vfx: `vfx/${clip}_${n}`, no asset level). A "clip" here is one
-// (asset, clip, direction) run of numbered frames; the shipped core atlas has 2854 frames and 425 such clips, the same
+// (asset, clip, direction) run of numbered frames; the shipped core atlas has 2938 frames and 453 such clips, the same
 // counts the Studio's Phaser export check reports (docs/STUDIO_EXPORT_VERIFICATION.md).
 export type Direction = 'south' | 'east' | 'north' | 'west';
 const DIRS: ReadonlySet<string> = new Set(['south', 'east', 'north', 'west']);
