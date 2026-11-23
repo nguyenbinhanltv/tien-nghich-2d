@@ -28,3 +28,25 @@
 .status { position: fixed; z-index: 6; pointer-events: none; white-space: pre-line; text-align: center; font-family: var(--font-sharp); color: #d7c9a3; text-shadow: 0 2px 4px #14101a; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
 .status.result { clip-path: none; width: auto; height: auto; overflow: visible; left: 50%; top: 38%; transform: translate(-50%, -50%); font-size: 30px; font-weight: 600; line-height: 1.35; }
 .status.result::first-line { font-size: 44px; }
+
+/* menus: sharp text, big touch targets, safe areas */
+.menu-btn { position: fixed; z-index: 7; top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(10px + env(safe-area-inset-right, 0px)); min-width: 44px; height: 44px; border-radius: 10px; border: 2px solid #d7c9a3; background: #14101acc; color: #d7c9a3; font: 700 16px var(--font-sharp); letter-spacing: 1px; touch-action: none; }
+.menu-btn.hidden { display: none; }
+.menu-overlay { position: fixed; inset: 0; z-index: 30; display: none; background: #14101ad9; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); overflow-y: auto; }
+.menu-overlay.show { display: flex; }
+.menu-panel { margin: auto; width: min(420px, 92vw); display: flex; flex-direction: column; gap: 10px; padding: 18px 20px; border: 2px solid #d7c9a3; border-radius: 12px; background: #1d1626; color: #d7c9a3; font-family: var(--font-sharp); }
+.menu-panel h2 { margin: 0 0 4px; font-size: 26px; text-align: center; }
+.menu-panel h3 { margin: 8px 0 0; font-size: 15px; opacity: 0.75; font-weight: 600; }
+.menu-item { min-height: 46px; border-radius: 8px; border: 2px solid #d7c9a3; background: #14101a; color: #d7c9a3; font: 600 18px var(--font-sharp); padding: 6px 12px; text-align: center; }
+.menu-item:focus-visible, .menu-panel input:focus-visible, .menu-panel select:focus-visible { outline: 3px solid #e0b030; outline-offset: 2px; }
+.menu-item:active { background: #a8322a; }
+.menu-row { display: flex; align-items: center; gap: 10px; font-size: 17px; }
+.menu-row > span:first-child { flex: 1; }
+.menu-row input[type=range] { flex: 1.4; min-width: 0; height: 28px; accent-color: #e0b030; }
+.menu-row output { width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.menu-row select { flex: 1.4; min-height: 40px; font: 16px var(--font-sharp); background: #14101a; color: #d7c9a3; border: 2px solid #d7c9a3; border-radius: 8px; }
+.menu-key { flex: 1.4; min-height: 40px; font-size: 16px; }
+.menu-note { margin: 0; font-size: 14px; opacity: 0.8; line-height: 1.35; }
+.golden .menu-btn, .golden .menu-overlay { display: none !important; }
+
+.menu-title { font-size: 40px !important; letter-spacing: 1px; margin: 6px 0 14px !important; }
