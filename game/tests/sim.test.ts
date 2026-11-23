@@ -44,3 +44,19 @@ describe('FixedLoop', () => {
     expect(new FixedLoop(5).advance(10_000, () => undefined)).toBe(5);
   });
 });
+
+describe('hashWorld', () => {
+  it('ignores stale slots past pool.count, sees live slots, and is bit-exact for -0', () => {
+    const w = createWorld(1), p = w.projectiles, base = hashWorld(w);
+    p.x[5] = 123; p.ttl[5] = 9; // stale: count is 0
+    expect(hashWorld(w)).toBe(base);
+    p.count = 1; p.x[0] = -0;
+    const negZero = hashWorld(w);
+    p.x[0] = 0;
+    expect(hashWorld(w)).not.toBe(negZero);
+    expect(hashWorld(w)).not.toBe(base);
+  });
+  it('hashState refuses typed arrays instead of walking their indices', () => {
+    expect(() => hashState({ a: new Float64Array(2) })).toThrow();
+  });
+});
