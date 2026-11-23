@@ -1,3 +1,4 @@
+import { STATUS_IDS, statusFrame } from '../ui/status-icons.ts';
 import { shotFrame } from './clip-map.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -20,6 +21,9 @@ describe('parseFrameName', () => {
 
 describe('core atlas (real mobile pages)', () => {
   const names = coreNames();
+  it('has the 16-px frame of every status icon (PX-1)', () => {
+    for (const id of STATUS_IDS) expect(names).toContain(statusFrame(id));
+  });
   it('has every flight frame of the four enemy shots (PX-1)', () => {
     for (const owner of ['mob_blood_crow', 'mob_blood_corpse', 'mob_blood_pool_lurker', 'mob_vengeful_soul']) {
       for (let t = 0; t < 60; t += 5) expect(names, `${owner}@${t}`).toContain(shotFrame(owner, t, 'missing'));
