@@ -4,6 +4,8 @@ import { ToolError } from '../registry.mjs';
 import { dryRunProp, jsonResult, loadAsset, recordImageSpend, requireFrames } from './_shared.mjs';
 import { check, envelope, sha } from '../workflow/envelope.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
+import { judgeFrames } from '../workflow/clipgates.mjs';
+import { settingsFor } from '../workflow/forge.mjs';
 
 const frameItem = {
   type: 'object',
@@ -24,6 +26,7 @@ export default {
   description:
     'Submit native-size PNG frames for a Longtime asset, with mandatory provenance (tool, prompt or generator, source hash). ' +
     'The pixel gates run first: palette membership, binary alpha, the silhouette outline, exact canvas size. If any frame has an error, NOTHING is written and every defect comes back with x, y coordinates. ' +
+    'When the batch holds every frame of a clip and facing, the CLIP gates run on it too, with the limits of a drawn clip, and the result carries them in clipGates and in the qa checks frameGates (pivot drift, ground contact: the lowest opaque row must be within 1 px of the pivot row minus 2, with the shift that fixes a miss), paletteGates (the pixel palette check plus stability between clips) and motionGates (flicker, identity drift); foot slide, mark side and weight transfer are listed as not run. They report and never block the write; a partial clip is listed with what is missing. ' +
     'Accepted frames are written once under the asset\'s raw frames directory and never overwritten; submitting different pixels for an existing frame is refused. ' +
     'Each frame gets a revision history that starts as pending: only a human approves. dryRun runs the gates and lists the files it would write (wouldWrite) and the ones already stored (unchanged), writing nothing. ' +
     'Works only on Longtime assets that have no processed or packed frames yet. ' +
@@ -62,6 +65,7 @@ export default {
         additionalProperties: false,
       },
       generations: { type: 'integer', minimum: 1, maximum: 64, description: 'How many image-tool generations these frames came from (default 1). The studio records it for the quota; it cannot refuse an image tool that already ran.' },
+      qa: { type: 'object', description: 'Clip gate options, e.g. {"groundContact": false} for a floating figure, {"flicker": {"maxPixels": 30}}, {"identity": {"maxInteriorChange": 0.5}}; false turns a gate off and it then shows as not run.' },
       dryRun: dryRunProp,
     },
     required: ['assetId', 'provenance'],
@@ -69,7 +73,7 @@ export default {
   },
   // Not idempotent: with candidates a repeated call stores the survivors again as new takes and records another run.
   annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
-  async handler({ assetId, frames, candidates, note, reference, provenance, generations, dryRun }, ctx) {
+  async handler({ assetId, frames, candidates, note, reference, provenance, generations, dryRun, qa }, ctx) {
     const { ws, snap, asset } = await loadAsset(ctx, assetId);
     requireFrames(asset);
     if ((frames === undefined) === (candidates === undefined)) throw new ToolError('Give exactly one of frames or candidates.');
@@ -83,11 +87,21 @@ export default {
       if (!dryRun) r.quota = await recordImageSpend(ctx, { tool: provenance.tool, generations: generations ?? candidates.length, assetId });   // every candidate was a generation, kept or not
       return jsonResult(dryRun ? { ...r, wrote: 'nothing' } : r, !r.accepted);
     }
-    const { accepted, report } = await submitFrames({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, frames, provenance, caller: ctx.caller, dryRun });
+    // An asset that is not open for frames is refused by submitFrames with its own message; the clip gates then have nothing to judge.
+    const forge = await settingsFor(snap, ws, asset).catch(() => null);
+    const judge = forge ? (images) => judgeFrames({ asset, images, settings: forge.settings, palette: forge.palette, qa }) : undefined;
+    const { accepted, report } = await submitFrames({ ws, pack: snap.pack, palette: snap.palette, index: snap.index, asset, frames, provenance, caller: ctx.caller, dryRun, judge });
     const frameErrors = report.frames?.reduce((n, f) => n + (f.errors ?? 0), 0) ?? 0;
-    report.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${report.frames?.length ?? 0} submitted frame(s)`,
-      checks: [check('pixelGates', { ok: frameErrors === 0, warn: report.frames?.some((f) => f.warnings > 0), measured: { errorPixels: frameErrors }, threshold: { errorPixels: 0 } })],
-      notProven: [{ what: 'the rest of the asset', why: 'only the frames in this batch were judged; studio_qa_run judges the whole asset' }],
+    const clip = report.clipGates;
+    const group = (name) => clip?.groups?.[name];
+    const groupCheck = (name, label, extra = {}) => (group(name) ? [check(label, { ok: group(name).pass && (extra.ok ?? true), warn: group(name).warnings > 0, measured: { errors: group(name).errors, warnings: group(name).warnings, ran: group(name).ran, ...(extra.measured ?? {}) }, threshold: { errors: 0 } })] : []);
+    report.qa = envelope({ method: `${dryRun ? 'dry run of ' : ''}the pixel gates over ${report.frames?.length ?? 0} submitted frame(s)${clip?.judged?.length ? `, then the clip gates over ${clip.judged.length} complete clip facing(s)` : ''}`,
+      checks: [check('pixelGates', { ok: frameErrors === 0, warn: report.frames?.some((f) => f.warnings > 0), measured: { errorPixels: frameErrors }, threshold: { errorPixels: 0 } }),
+        ...groupCheck('frame', 'frameGates'), ...groupCheck('palette', 'paletteGates', { ok: frameErrors === 0, measured: { errorPixels: frameErrors } }), ...groupCheck('motion', 'motionGates')],
+      notProven: [{ what: 'the rest of the asset', why: 'only the frames in this batch were judged; studio_qa_run judges the whole asset' },
+        ...(clip?.partial ?? []).map((p) => ({ what: `clip gates for ${p.clip} ${p.direction}`, why: p.why })),
+        ...(clip?.notRun ?? []).map((n) => ({ what: `${n.gate} for ${n.clips.join(', ')}`, why: n.reason, ...(n.turnOn ? { turnOn: n.turnOn } : {}) })),
+        ...(clip?.judged?.length ? [] : [{ what: 'clip gates (frame, palette stability, flicker and identity drift)', why: 'no clip of this batch is complete: submit every frame of a clip and facing together' }])],
       inputs: Object.fromEntries((report.frames ?? []).slice(0, 40).map((f) => [f.name, f.sha256])) });
     if (accepted && !dryRun && report.written?.length) report.quota = await recordImageSpend(ctx, { tool: provenance.tool, generations, assetId });
     return jsonResult(dryRun ? { ...report, wrote: 'nothing' } : report, !accepted);

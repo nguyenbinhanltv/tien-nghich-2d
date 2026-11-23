@@ -307,7 +307,7 @@ Tách thành gói độc lập; lệnh `studio init`; một dự án mẫu thứ
 
 ## Rủi ro chính
 
-- **Animation nhân vật: rig cứng, pose vẽ trôi.** Hai bài thử (`lt_ink_marten`, [FORGE_BAKEOFF](FORGE_BAKEOFF.md)) cho thấy rig đứng một mình làm clip di chuyển trông như thân cứng trượt trên chân nhỏ, còn pose vẽ cho dáng đi đọc được nhưng mất dấu tai (11 trong 16 key) và đổi màu nội thất giữa các key (cổng nhấp nháy bắt 16 trong 16 key). Giảm thiểu: rig cho idle và chuyển động phụ, pose vẽ cho clip di chuyển, bản vá pixel lưu cùng asset để giữ dấu, cổng riêng cho key vẽ (đo trôi nhận dạng, ngưỡng chưa hiệu chỉnh). Con người duyệt cuối; quyết định này đảo lại được.
+- **Animation nhân vật: rig cứng, pose vẽ trôi.** Hai bài thử (`lt_ink_marten`, [FORGE_BAKEOFF](FORGE_BAKEOFF.md)) cho thấy rig đứng một mình làm clip di chuyển trông như thân cứng trượt trên chân nhỏ, còn pose vẽ cho dáng đi đọc được nhưng mất dấu tai (11 trong 16 key) và đổi màu nội thất giữa các key (cổng nhấp nháy bắt 16 trong 16 key). Giảm thiểu: rig cho idle và chuyển động phụ, pose vẽ cho clip di chuyển, bản vá pixel lưu cùng asset để giữ dấu, cổng riêng cho key vẽ (đo trôi nhận dạng; ngưỡng đã hiệu chỉnh lần đầu ngày 2026-11-23 trên một nhân vật, xem [FORGE_BAKEOFF](FORGE_BAKEOFF.md#drawn-clip-gates-calibration-2026-11-23)). Con người duyệt cuối; quyết định này đảo lại được.
 - **Chất lượng hình khi bỏ PixelLab.** Chưa có bằng chứng đường mới đạt mức PixelLab ở 32×32. Bài thử chồn mực ở P0 trả lời câu này trước khi làm P2.
 - **Công cụ tạo ảnh của agent.** Tạo ảnh ăn vào hạn mức gói thuê bao của agent được chọn và có thể đổi theo phiên bản. Studio chỉ phụ thuộc file ảnh đầu ra, nên đổi công cụ không ảnh hưởng pipeline.
 - **Phình phạm vi.** Chín tab là nhiều. Mỗi pha có tiêu chí nghiệm thu riêng và dùng được ngay, nên có thể dừng sau bất kỳ pha nào.
@@ -370,7 +370,7 @@ Ngày 2026-11-22 người dùng duyệt quyết định 3 là "rig theo bộ ph�
 | Chuyển động phụ trên pose vẽ (đuôi, tai, đầu) | Rig chồng lên pose | Tùy chọn |
 | Dấu bất đối xứng | Bản vá pixel lưu cùng asset | Áp lại sau mỗi lần bake; cổng đánh dấu kiểm đúng bên |
 
-Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh ảnh, mọi bước xác định và dựng lại được, người duyệt cuối. Cổng nhấp nháy dùng cho key vẽ và ngưỡng đo trôi nhận dạng chưa được hiệu chỉnh trên clip thật; cần một bài thử nữa trước khi coi mặc định này là chốt.
+Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh ảnh, mọi bước xác định và dựng lại được, người duyệt cuối. Cổng nhấp nháy và ngưỡng đo trôi nhận dạng cho key vẽ đã được hiệu chỉnh lần đầu (2026-11-23, [bảng số liệu](FORGE_BAKEOFF.md#drawn-clip-gates-calibration-2026-11-23)) nhưng chỉ trên một nhân vật (hai trạng thái của cùng một dáng đi); cần thêm nhân vật trước khi coi các ngưỡng này là chốt. Chân được căn theo pivot sau pixel hóa (một độ lệch cho cả clip, ghi trong provenance), cổng ground_contact báo lỗi khi lệch quá 1 px.
 
 ## Ghi nhận (2026-11-22): quyết định của chủ dự án và trạng thái P0 đến P5
 

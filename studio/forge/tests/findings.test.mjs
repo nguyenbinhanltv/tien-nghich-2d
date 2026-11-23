@@ -185,16 +185,17 @@ test('a pose clip declares the anatomical box of a mark and the markSide gate va
   assert.throws(() => bakeStage({settings, palette: pal, cells: px.cells, poseClips: {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['a', 'a', 'a', 'a'], landmarks: {front: [{id: 'x', color: 'nope', box}]}}}}}), /unknown palette id/);
 });
 
-test('drawn-key clips skip the rig flicker gate by default and report identity drift instead', async t => {
+test('drawn-key clips run flicker with their own limit (a warning) and report identity drift', async t => {
   const {settings, pal, result} = await poseBake(t);
-  const gates = options => qaStage(result, {settings, palette: pal, options: {pivotDrift: false, ...options}});
+  const gates = options => qaStage(result, {settings, palette: pal, options: {pivotDrift: false, groundContact: false, ...options}});
   const base = gates({});
-  assert.ok(!base.findings.some(f => f.gate === 'flicker'), 'no flicker findings for drawn keys by default');
+  assert.ok(base.findings.filter(f => f.gate === 'flicker').every(f => f.severity === 'warn' && f.limit === 16), 'drawn keys get the drawn limit (16) as a warning');
+  assert.ok(!gates({pose: {flicker: false}}).findings.some(f => f.gate === 'flicker'), 'and it can be turned off');
   const metrics = base.metrics['walk/front'];
   assert.ok(metrics.interiorChange > 0.3 && metrics.colorShift > 0.1, JSON.stringify(metrics));
   assert.equal(base.pass, true);
   // The old gate is available per run (options.pose) and per clip; the same drawn keys trip it.
-  assert.ok(gates({pose: {flicker: {maxPixels: 10}}}).findings.some(f => f.gate === 'flicker'));
+  assert.ok(gates({pose: {flicker: {maxPixels: 10}}}).findings.some(f => f.gate === 'flicker' && f.severity === 'error'), 'an explicit flicker option judges like a rig clip: errors');
   // Identity thresholds produce warnings, which never fail the run.
   const strict = gates({pose: {identity: {maxInteriorChange: 0.1, maxColorShift: 0.1}}});
   assert.ok(strict.findings.some(f => f.gate === 'identity_drift' && f.severity === 'warn'));
@@ -239,7 +240,7 @@ test('drawn pose clips run the gates in a project without an outline', async t =
   const pal = rigPalette(settings);
   assert.equal(pal.outline, null);
   const {summary} = await runPipeline({project: {settings, palette: pal}, layout, sheet: {bytes: encodePng(sheet)}, scaleOptions: {mode: 'sheet'},
-    poseClips: {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['a', 'b', 'a', 'b']}}}, qa: {pivotDrift: false}});
-  assert.equal(summary.stages.gates.ok, true, summary.error);
+    poseClips: {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['a', 'b', 'a', 'b']}}}, qa: {pivotDrift: false, groundContact: false}});
+  assert.equal(summary.stages.gates.ok, true, summary.failed + ' ' + summary.error);
   assert.ok(summary.stages.gates.metrics['walk/front'].interiorChange > 0, 'identity drift measured without an outline');
 });

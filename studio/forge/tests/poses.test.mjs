@@ -82,7 +82,7 @@ test('recorded sheet-mode scale is refitted, never reused, for another profile o
   assert.deepEqual(normalizeEntries(shared.record.cells, bigger.profile, {mode: 'sheet'}).map(c => c.scale), refit.record.cells.map(c => c.scale));
 });
 
-const clips = {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['stand', 'crouch', 'stand', 'lift'], mirror: {side_r: {of: 'side'}}}}};
+const clips = {schema: 'forge.poseclips', version: 1, clips: {walk: {keys: ['stand', 'crouch', 'stand', 'lift'], ground: false, qa: {groundContact: false}, mirror: {side_r: {of: 'side'}}}}};
 
 test('a pose clip plays the imported cells in key order, shares them between keys and mirrors a facing', async t => {
   const {dir, settings, layout, sheet} = await build();

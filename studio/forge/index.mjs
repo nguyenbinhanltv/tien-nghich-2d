@@ -9,9 +9,10 @@ export { settingsFromPack, parsePaletteColors, resolveMarks } from './pixelize/s
 export { pixelizeCell, pixelizeImport, writePixelized, readPixelized, pixelizeSchema } from './pixelize/pixelize.mjs';
 export { bakeRig, writeBake, qaBake, validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, gateFacing, unitOf } from './rig/index.mjs';
 export { loadLibrary, getTemplate, listTemplates, coverage, clipTable, checkApplicable, validateLibrary } from './motion/library.mjs';
-export { runGates, stability, defaultOptions } from './gates/index.mjs';
+export { runGates, stability, defaultOptions, defaultGround, groundRow, groundContact, groundTarget, alignGround } from './gates/index.mjs';
+export { groundContactGate } from './gates/ground.mjs';
 export { openForgeProject, rigPalette, manifestProfile, bakeStage, qaStage, summarizeBake, writeBakeDir, readBakeDir, runPipeline, bakeSchema,
-  poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops } from './pipeline/index.mjs';
+  poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops, identityDrift, defaultDrift, drawnDefaults, drawnOptions } from './pipeline/index.mjs';
 export { compareSets, loadFrameSet } from './pipeline/compare.mjs';
 export { accentsInBrief, nearestColours, colourDistance } from './figure/accents.mjs';
 export { figureFor, figureChoice, guidanceText, guideShapes, drawGuide, measureFigure, figureWarnings } from './figure/figure.mjs';

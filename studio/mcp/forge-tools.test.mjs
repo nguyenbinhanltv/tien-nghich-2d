@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { join } from 'node:path';
 import { convertPrototypeRig } from '../forge/rig/tests/fixtures/convert-prototype-rig.mjs';
-import { decodePng, framesEqual, importSheet, normalizeLayout, pixelizeImport, readFrame, resolveMarks, settingsFromPack } from '../forge/index.mjs';
+import { decodePng, framesEqual, importSheet, normalizeLayout, pixelizeImport, readFrame, resolveMarks, settingsFromPack, shiftFrame } from '../forge/index.mjs';
 import { loadPackSync } from '../core/pack.mjs';
 import { REPO, connect, makeProject } from './testkit.mjs';
 
@@ -210,7 +210,7 @@ test('pose sheet: drawn key poses become the follow clip; the keys are the cells
   const px = await a.call('studio_process', { assetId: ASSET, marks: json(join(POSE, 'marks.json')) });
   assert.equal(px.structuredContent.cells.length, 16);
 
-  const bake = await a.call('studio_rig_bake', { assetId: ASSET, poseClips: tpl.structuredContent.poseClips, qa: { pivotDrift: false } });
+  const bake = await a.call('studio_rig_bake', { assetId: ASSET, poseClips: tpl.structuredContent.poseClips, qa: { pivotDrift: false, groundContact: false } });
   assert.equal(bake.isError, undefined, text(bake));
   assert.deepEqual(Object.keys(bake.structuredContent.clips), ['follow']);
   assert.equal(bake.structuredContent.clips.follow.source, 'poses');
@@ -227,12 +227,16 @@ test('pose sheet: drawn key poses become the follow clip; the keys are the cells
     settings, { marks: resolveMarks(json(join(POSE, 'marks.json')), settings.palette), poseClips: json(join(p.root, 'assets/raw/longtime', ASSET, 'forge/poseclips.json')) });
   assert.ok(reference.held.size === 16, 'the bake holds colours across the four keys of each facing');
   const dir = join(p.root, '.inspector-revisions/work', ASSET, 'bake');
+  // After pixelisation the feet go on the pivot's ground row (pivot row minus 2): one vertical offset per facing, recorded in bake.json.
+  const baked = JSON.parse(fs.readFileSync(join(dir, 'bake.json'), 'utf8')).clips.follow.facings;
   for (const f of FACINGS) KEYS.forEach((k, i) => {
-    assert.ok(framesEqual(readFrame(join(dir, `follow_${f}_${i}.png`)), reference.held.get(`follow/${f}/${i}`).native), `follow_${f}_${i} is the held frame of key ${k}_${f}`);
+    const { dy, applied } = baked[f].ground;
+    assert.ok(applied && dy !== 0, `${f}: the pose sheet's feet were off the ground row, so the clip was moved (${dy})`);
+    assert.ok(framesEqual(readFrame(join(dir, `follow_${f}_${i}.png`)), shiftFrame(reference.held.get(`follow/${f}/${i}`).native, 0, dy)), `follow_${f}_${i} is the held frame of key ${k}_${f}, moved by the recorded offset`);
   });
 
   assert.ok(FACINGS.some((f) => KEYS.some((k, i) => !framesEqual(reference.held.get(`follow/${f}/${i}`).native, reference.cells.get(`${k}_${f}`).native))), 'the hold changed some frames against the plain snap');
-  const sub = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: { pivotDrift: false } });
+  const sub = await a.call('studio_rig_bake', { assetId: ASSET, submit: true, qa: { pivotDrift: false, groundContact: false } });
   assert.equal(sub.isError, undefined, text(sub));
   assert.equal(sub.structuredContent.submit.written, 16);
   const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse)[0];
@@ -259,7 +263,7 @@ test('one character, two sheets: a pose-sheet clip plus rig clips bake together 
   const px = await a.call('studio_process', { assetId: ASSET, marks: MARKS });
   assert.equal(px.structuredContent.cells.length, 20, 'both sheets are pixelised: 4 facings + 16 poses');
 
-  const both = { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa: { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } } };
+  const both = { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa: { weightTransfer: false, pivotDrift: false, groundContact: false, stability: { maxNewColors: 3 } } };
   const bake = await a.call('studio_rig_bake', both);
   assert.equal(bake.isError, undefined, text(bake));
   assert.deepEqual(Object.keys(bake.structuredContent.clips).sort(), ['follow', 'idle']);
@@ -342,7 +346,7 @@ test('ONE PNG imported into both slots keeps two records: each frame is credited
   }
   const rig = { schema: 'studio.rig', version: 1, id: ASSET, bodyPlan: 'quadruped', canvas: [32, 32], pivot: [16, 29], facings };
   const library = { schema: 'studio.motion.library', version: 1, bodyPlan: 'quadruped', archetypes: { idle: { loop: true, tracks: [{ id: 'gait', target: { role: 'limb' }, gait: { groups: 2, planted: 0.5, stride: 1, lift: 1 } }] } }, templates: { 'pet/idle': { use: 'idle' } } };
-  const qa = { weightTransfer: false, pivotDrift: false, stability: false, footSlide: false, markSide: false, flicker: false, loopSeam: false, pose: { identity: false } };
+  const qa = { weightTransfer: false, pivotDrift: false, groundContact: false, stability: false, footSlide: false, markSide: false, flicker: false, loopSeam: false, pose: { identity: false } };
   const sub = await a.call('studio_rig_bake', { assetId: ASSET, rig, library, poseClips: tpl.structuredContent.poseClips, qa, submit: true });
   assert.equal(sub.isError, undefined, text(sub));
   const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
@@ -361,7 +365,7 @@ test('a mixed bake is one all-or-nothing submission: a conflict in one sheet\'s 
   const a = connect(p.root);
   const { m, tpl } = await twoSheets(p, a);
   await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
-  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
+  const qa = { weightTransfer: false, pivotDrift: false, groundContact: false, stability: { maxNewColors: 3 } };
   // A different frame already sits where a RIG frame would go (the second group in bake order): raw is immutable, so the whole submission must be refused.
   const dir = join(p.root, 'assets/raw/longtime', ASSET, 'frames');
   fs.mkdirSync(dir, { recursive: true });
@@ -381,7 +385,7 @@ test('rig_bake: two named verdicts, and a gate that did not run is said so', () 
   await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/turnaround.png' }, layout: m.layout, prompt: m.prompt, tool: 'test' });
   await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: 'p', tool: 'test', scaleOptions: { mode: 'sheet' } });
   await a.ok('studio_process', { assetId: ASSET, marks: MARKS });
-  const qa = { weightTransfer: false, pivotDrift: false, stability: { maxNewColors: 3 } };
+  const qa = { weightTransfer: false, pivotDrift: false, groundContact: false, stability: { maxNewColors: 3 } };
   const clean = await a.call('studio_rig_bake', { assetId: ASSET, rig: m.rig, library: m.library, poseClips: tpl.structuredContent.poseClips, qa });
   const v = clean.structuredContent.verdicts;
   assert.deepEqual([v.animationGates.pass, v.pixelGates.pass, clean.structuredContent.pass], [true, true, true]);
@@ -390,8 +394,10 @@ test('rig_bake: two named verdicts, and a gate that did not run is said so', () 
   assert.deepEqual(notRun.foot_slide.clips, ['follow'], 'the drawn walk had no planted contacts, so foot slide never ran for it');
   assert.match(notRun.foot_slide.reason, /no planted contact/);
   assert.match(notRun.foot_slide.turnOn, /contacts/);
-  assert.match(notRun.flicker.reason, /skipped by default for drawn pose clips/);
-  assert.match(notRun.flicker.turnOn, /qa:\{pose:\{flicker/);
+  assert.equal(notRun.flicker, undefined, 'a drawn clip now runs the flicker gate by default, with its own limit');
+  assert.ok(v.animationGates.ran.some((g) => g.gate === 'flicker' && g.clips.includes('follow')));
+  assert.ok(clean.structuredContent.gates.findings.some((f) => f.gate === 'flicker' && f.severity === 'warn' && f.limit === 16), 'the drawn limit is 16 pixels and a warning');
+  assert.equal(notRun.ground_contact.reason, 'turned off in qa');
   assert.equal(notRun.pivot_drift.reason, 'turned off in qa');
   assert.ok(v.animationGates.ran.some((g) => g.gate === 'loop_seam'));
   assert.match(clean.structuredContent.next, /Both verdicts pass \(gates not run: .*foot_slide/);
