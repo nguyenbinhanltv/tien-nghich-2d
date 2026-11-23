@@ -1,4 +1,5 @@
 import { jsonResult, statusOf } from './_shared.mjs';
+import { ToolError } from '../registry.mjs';
 import { milestones } from '../../core/assets.mjs';
 import { latestVersion } from '../../core/audio-candidates.mjs';
 
@@ -15,7 +16,7 @@ export default {
     type: 'object',
     properties: {
       query: { type: 'string', maxLength: 100, description: 'Case-insensitive text matched against id and brief.' },
-      source: { type: 'string', maxLength: 40, description: 'Which catalog source the asset comes from: one of the source ids in studio_project_info (catalog.sources).' },
+      source: { type: 'string', maxLength: 40, description: 'Which catalog source the asset comes from: one of the ids listed in facets.source of a search without filters.' },
       category: { type: 'string', maxLength: 40, description: 'as the project defines it; facets.category in a first search lists the values.' },
       profile: { type: 'string', maxLength: 40, description: 'Profile name as the project defines it (see studio_project_info sizeClasses).' },
       chunk: { type: 'string', maxLength: 40, description: 'Chunk group as the project defines it.' },
@@ -31,6 +32,8 @@ export default {
   async handler(args, ctx) {
     const ws = ctx.project.workspace;
     const { index } = await ws.snapshot();
+    const known = [...new Set([...index.assets.values()].map((a) => a.source))].sort();
+    if (args.source && !known.includes(args.source)) throw new ToolError(`unknown source "${args.source}"; this project has: ${known.join(', ')}.`);
     const q = args.query?.toLowerCase();
     let rows = [...index.assets.values()].filter((a) =>
       (!args.source || a.source === args.source) && (!args.category || a.category === args.category) &&

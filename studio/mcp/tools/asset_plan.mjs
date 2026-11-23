@@ -17,7 +17,7 @@ export default {
     type: 'object',
     properties: {
       op: { type: 'string', enum: ['create', 'edit'], description: 'create a new entry, or edit one you created.' },
-      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, matching the idPattern of the target source (studio_project_info catalog.sources).' },
+      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, matching the id pattern of the asset source it belongs to (copy the shape of an existing id from studio_catalog_search).' },
       profile: { type: 'string', maxLength: 40, description: 'Profile: sets size, directions and clips. See studio_project_info sizeClasses for the names. Give this OR custom.' },
       custom: {
         type: 'object',
