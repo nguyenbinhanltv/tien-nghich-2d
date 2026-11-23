@@ -24,6 +24,9 @@ import { audioStatus } from './status.mjs';
 import { readApprovals } from './approvals.mjs';
 import { readArtApprovals } from './art-approvals.mjs';
 import { createCache } from './cache.mjs';
+import { evidenceView, lineupImageOf } from './evidence.mjs';
+import { criteriaOf } from '../../../core/rubric.mjs';
+import { createHash } from 'node:crypto';
 
 const handles = new Map();
 const wavCache = new Map();
@@ -212,6 +215,31 @@ export async function handle(req, res, url, context) {
     const key = url.searchParams.get('key') ?? '';
     if (!/^[A-Za-z0-9_./-]{1,200}$/.test(key) || key.includes('..')) throw problem(422, 'invalid_input', 'key is required');
     return send(200, {key, submission: await submissionFor(root, key)});
+  }
+  if (['evidence', 'lineup-image'].includes(name) && ['GET', 'HEAD'].includes(req.method)) {
+    // What an agent attached to its review request (the weighed rubric, the lineup verdict and picture). Reads only; it decides nothing.
+    const key = url.searchParams.get('key') ?? '';
+    if (!/^[A-Za-z0-9_./-]{1,200}$/.test(key) || key.includes('..')) throw problem(422, 'invalid_input', 'key is required');
+    const ws = openWorkspace(root, {indexer: loadAssetIndex, libraryDir: dir});
+    try {
+      const events = (await ws.db()).events(key);
+      if (name === 'evidence') {
+        const revision = Number(url.searchParams.get('revision'));
+        return send(200, evidenceView({key, revision: Number.isInteger(revision) ? revision : null, criteria: criteriaOf(await loadPack(root)), events}));
+      }
+      // The picture is read only from where the agent tool saves it (<library>/work/<asset>/lineup/*.png) and only if it still has the recorded hash.
+      const stored = lineupImageOf(events);
+      const real = async f => fs.realpath(f).catch(() => null);
+      const abs = stored ? await real(path.resolve(root, stored.image)) : null;
+      const lineupDir = await real(path.join(dir, 'work', key.split('/')[1] ?? '', 'lineup'));
+      if (!abs || !lineupDir || path.dirname(abs) !== lineupDir || !abs.endsWith('.png')) throw problem(404, 'no_lineup', 'No lineup picture for this frame');
+      const bytes = await fs.readFile(abs).catch(() => null);
+      let ok = false;
+      try { ok = bytes && bytes.length <= 4 * 1024 * 1024 && createHash('sha256').update(bytes).digest('hex') === stored.sha256 && Boolean(decodeRgba(bytes)); } catch { /* not a PNG */ }
+      if (!ok) throw problem(404, 'no_lineup', 'The lineup picture is missing or changed since it was recorded');
+      res.writeHead(200, {'Content-Type': 'image/png', 'Content-Length': bytes.length, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
+      return res.end(bytes);
+    } finally { ws.close(); }
   }
   if (name === 'audio' && ['GET', 'HEAD'].includes(req.method)) {
     const id = url.searchParams.get('id') ?? '';
