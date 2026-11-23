@@ -27,3 +27,24 @@ describe('greedy dodger vs the boss', () => {
     expect(blind.rate).toBeLessThanOrEqual(0.1);
   }, 120_000);
 });
+
+// G2-HN 5: the same bot against Đằng Hóa Nguyên (room_hy_boss), same band.
+describe('greedy dodger vs Đằng Hóa Nguyên', () => {
+  const ROOM = 'room_hy_boss';
+  it('is reproducible: same seed, same fight', () => {
+    expect(runBossFight(5, content, GREEDY, undefined, ROOM)).toEqual(runBossFight(5, content, GREEDY, undefined, ROOM));
+  });
+  it('really fights the Hằng Nhạc boss', () => {
+    const r = runBossFight(3, content, GREEDY, undefined, ROOM);
+    expect(r.bossHpLeft).toBeLessThan(Number(tables.bosses.find((b) => b.id === 'boss_teng_huayuan')!.hp));
+  });
+  it(`wins 20-50% of ${SEEDS} seeds (placeholder numbers)`, () => {
+    const r = winRate(content, SEEDS, GREEDY, 1, ROOM);
+    console.log('greedy dodger vs Teng', JSON.stringify(r));
+    expect(r.rate).toBeGreaterThanOrEqual(0.2); expect(r.rate).toBeLessThanOrEqual(0.5);
+  }, 120_000);
+  it('a bot that never notices a telegraph loses, and a perfect one wins more', () => {
+    const blind = winRate(content, 30, { ...GREEDY, notice: 0 }, 1, ROOM), base = winRate(content, 30, GREEDY, 1, ROOM), keen = winRate(content, 30, { ...GREEDY, notice: 1 }, 1, ROOM);
+    expect(blind.rate).toBeLessThanOrEqual(0.1); expect(keen.rate).toBeGreaterThanOrEqual(base.rate);
+  }, 120_000);
+});
