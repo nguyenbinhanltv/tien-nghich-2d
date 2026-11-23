@@ -1,0 +1,168 @@
+{
+ "schema": "tien-nghich-2d.replay-golden",
+ "version": 1,
+ "note": "Recorded by `npm run qa:replay -- --record`. The same seed and inputs must give the same hashes. A diff here means sim behaviour changed: review it before committing.",
+ "checkpointEvery": 600,
+ "scenarios": {
+  "gk_idle": {
+   "checkpoints": [
+    "7d5064fc",
+    "12485b9a",
+    "621d5dcc",
+    "0bb74479",
+    "a266db5e",
+    "5cd7e0c4"
+   ],
+   "finalHash": "5cd7e0c4",
+   "events": {
+    "actor-died": 1,
+    "hazard-resolved": 6,
+    "hit": 6,
+    "hit-stop": 6,
+    "mode-changed": 2,
+    "telegraph": 6
+   },
+   "mode": "lost",
+   "playerHp": 0,
+   "bossHp": 12,
+   "ticks": 3600
+  },
+  "gk_circler": {
+   "checkpoints": [
+    "4c34c455",
+    "58af4774",
+    "7c20b19a",
+    "23ca96e3",
+    "451111b8",
+    "43fcd6c2",
+    "f1a9af83",
+    "5d2f5115",
+    "68c8006a"
+   ],
+   "finalHash": "68c8006a",
+   "events": {
+    "actor-died": 1,
+    "clip-event": 12,
+    "dash": 2,
+    "hazard-resolved": 2,
+    "hit": 12,
+    "hit-stop": 12,
+    "mode-changed": 2,
+    "phase-changed": 1,
+    "projectile-fired": 12,
+    "projectile-hit": 12,
+    "strike": 12,
+    "telegraph": 2
+   },
+   "mode": "won",
+   "playerHp": 6,
+   "bossHp": 0,
+   "ticks": 5400
+  },
+  "gk_random_a": {
+   "checkpoints": [
+    "e2f55f20",
+    "61d4c9d7",
+    "b0bc7d81",
+    "a85d2e48",
+    "46a07c8f",
+    "55c4827d",
+    "5e3571c4",
+    "6d5977b2",
+    "635fc4c1"
+   ],
+   "finalHash": "635fc4c1",
+   "events": {
+    "actor-died": 1,
+    "clip-event": 14,
+    "dash": 6,
+    "hazard-resolved": 3,
+    "hit": 13,
+    "hit-stop": 13,
+    "mode-changed": 2,
+    "phase-changed": 1,
+    "projectile-fired": 14,
+    "projectile-hit": 12,
+    "strike": 18,
+    "telegraph": 3
+   },
+   "mode": "won",
+   "playerHp": 4,
+   "bossHp": 0,
+   "ticks": 5400
+  },
+  "gk_random_b": {
+   "checkpoints": [
+    "af74ba64",
+    "8f244db6",
+    "3ac0d770",
+    "98a7b9b1",
+    "4dd2b4b2",
+    "5e835f80",
+    "d4b028e1",
+    "4845c12f",
+    "a4a32bb0"
+   ],
+   "finalHash": "a4a32bb0",
+   "events": {
+    "actor-died": 1,
+    "clip-event": 18,
+    "dash": 5,
+    "dodge-counter": 1,
+    "hazard-resolved": 3,
+    "hit": 13,
+    "hit-stop": 13,
+    "mode-changed": 2,
+    "phase-changed": 1,
+    "projectile-fired": 18,
+    "projectile-hit": 12,
+    "strike": 20,
+    "telegraph": 4
+   },
+   "mode": "won",
+   "playerHp": 5,
+   "bossHp": 0,
+   "ticks": 5400
+  },
+  "empty_walk": {
+   "checkpoints": [
+    "52c00cf3",
+    "bba4887b"
+   ],
+   "finalHash": "bba4887b",
+   "events": {},
+   "mode": "playing",
+   "playerHp": null,
+   "bossHp": null,
+   "ticks": 1200
+  },
+  "run_flow": {
+   "checkpoints": [
+    "4cd71870",
+    "72ba6d9f",
+    "94d8e891"
+   ],
+   "finalHash": "94d8e891",
+   "events": {
+    "actor-died": 1,
+    "clip-event": 12,
+    "dash": 2,
+    "hazard-resolved": 2,
+    "hit": 12,
+    "hit-stop": 12,
+    "mode-changed": 2,
+    "phase-changed": 1,
+    "projectile-fired": 12,
+    "projectile-hit": 12,
+    "reward-gained": 1,
+    "run-ended": 1,
+    "strike": 12,
+    "telegraph": 2
+   },
+   "mode": "won",
+   "playerHp": 6,
+   "bossHp": 0,
+   "ticks": 1800
+  }
+ }
+}
