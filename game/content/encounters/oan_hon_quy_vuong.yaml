@@ -1,0 +1,31 @@
+# Sample encounter (format sample, placeholder numbers). Clip names are real clips of boss_ghost_king
+# in assets/manifest.json; timings echo assets/encounter/blood-sea/contract.json (claw 900, wail 920, dodge 280, counter 900).
+id: oan_hon_quy_vuong
+boss: boss_ghost_king
+phases:
+  - id: p1
+    hp_above: 0.5
+    loop: [claw, wail]
+  - id: p2
+    hp_above: 0
+    enter_clip: phase_transition
+    loop: [claw, wail, soul_devour]
+attacks:
+  claw:
+    clip: attack_claw
+    tell: { ms: 900, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: claw_arc, damage: 2 }
+  wail:
+    clip: attack_wail
+    tell: { ms: 920, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: wail_ring, damage: 2 }
+  soul_devour:
+    clip: soul_devour
+    tell: { ms: 920, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: devour_cone, damage: 3 }

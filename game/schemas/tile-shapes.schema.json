@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/tile-shapes.schema.json",
+  "title": "tile-shapes.json: collision shapes and tile animation per tileset tile, compiled from Kiln metadata tiles.<sheet>.<n>",
+  "type": "object", "additionalProperties": false, "required": ["schema", "version", "tilesets"],
+  "properties": {
+    "schema": { "const": "tien-nghich-2d.tile-shapes" },
+    "version": { "const": 1 },
+    "tilesets": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/assetId" }, "additionalProperties": { "$ref": "#/$defs/tileset" } }
+  },
+  "$defs": {
+    "properties": {
+      "type": "object", "required": ["collision"],
+      "description": "Kiln's own limits apply (snake_case names, string/number/boolean). The game additionally requires `collision`.",
+      "propertyNames": { "$ref": "_defs.schema.json#/$defs/snake" },
+      "additionalProperties": { "type": ["string", "number", "boolean"] },
+      "properties": { "collision": { "enum": ["block", "pit", "slow", "trigger"], "description": "block: stops movement and bullets. pit: kills/drops non-flyers, bullets pass. slow: movement multiplier. trigger: no physics, fires an event." } }
+    },
+    "shape": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["kind", "x", "y", "w", "h", "properties"], "properties": { "kind": { "enum": ["rect", "ellipse"] }, "x": { "type": "integer", "minimum": 0 }, "y": { "type": "integer", "minimum": 0 }, "w": { "type": "integer", "minimum": 1 }, "h": { "type": "integer", "minimum": 1 }, "name": { "type": "string", "maxLength": 40 }, "properties": { "$ref": "#/$defs/properties" } } },
+        { "type": "object", "additionalProperties": false, "required": ["kind", "points", "properties"], "properties": { "kind": { "const": "polygon" }, "points": { "type": "array", "minItems": 3, "maxItems": 16, "items": { "$ref": "_defs.schema.json#/$defs/point" } }, "name": { "type": "string", "maxLength": 40 }, "properties": { "$ref": "#/$defs/properties" } } }
+      ]
+    },
+    "tile": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "shapes": { "type": "array", "minItems": 1, "maxItems": 16, "items": { "$ref": "#/$defs/shape" } },
+        "animation": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "type": "object", "additionalProperties": false, "required": ["n", "ms"], "properties": { "n": { "type": "integer", "minimum": 0 }, "ms": { "type": "integer", "minimum": 1 } } } }
+      }
+    },
+    "tileset": {
+      "type": "object", "additionalProperties": false, "required": ["tileSize", "sheets"],
+      "properties": {
+        "tileSize": { "$ref": "_defs.schema.json#/$defs/size" },
+        "sheets": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/clipName" }, "additionalProperties": { "type": "object", "propertyNames": { "pattern": "^(0|[1-9][0-9]{0,3})$" }, "additionalProperties": { "$ref": "#/$defs/tile" } } }
+      }
+    }
+  }
+}
