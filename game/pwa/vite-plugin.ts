@@ -14,7 +14,7 @@ const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'applicatio
 /** Audio packs: the sprite, music beds and pack tables only (masters and evidence stay out of the build). */
 export const AUDIO_RE = /^audio\/packs\/[a-z0-9_]+\/(pack\.json|sfx_sprite\.(ogg|m4a)|bgm_[a-z0-9_]+\.(ogg|m4a))$/;
 /** Compiled content the game reads at run time (npm run content:build writes dist-content/). */
-export const CONTENT_FILES = ['audio_events.json'];
+export const CONTENT_FILES = ['audio_events.json', 'tables.json'];
 export const ATLAS_RE = /^(atlases\/mobile\/atlas-\d+\.(png|json)|atlases\/mob-runtime\.json|atlases_longtime\/mobile\/[a-z_]+\/(atlas-\d+\.(png|json)|chunk-manifest\.json))$/;
 
 /** IPv4/IPv6 loopback and private (RFC 1918, link-local, unique-local) addresses. */
