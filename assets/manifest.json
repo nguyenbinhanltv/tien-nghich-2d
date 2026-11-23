@@ -4115,10 +4115,11 @@
    },
    "output_path": "assets/raw/environment_items/projectiles/pj_mob_crow_feather/",
    "palette_refs": [
-    "soul_02",
-    "soul_04",
     "blood_05",
     "blood_06",
+    "blood_07",
+    "soul_02",
+    "soul_04",
     "ink_01"
    ],
    "status": "pending",
@@ -4223,10 +4224,12 @@
    },
    "output_path": "assets/raw/environment_items/projectiles/pj_mob_soul_wisp/",
    "palette_refs": [
+    "jade_05",
+    "soul_03",
     "soul_04",
+    "soul_05",
     "soul_06",
     "soul_07",
-    "jade_05",
     "ink_01"
    ],
    "status": "pending",
