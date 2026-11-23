@@ -1,4 +1,5 @@
-// Behaviour tests shared by the four mobs added after the wolf (charger.test.ts keeps the wolf's own timing tests).
+// Behaviour tests shared by the telegraph-and-resolve mobs added after the wolf (charger.test.ts keeps the wolf's own timing
+// tests, shooter.test.ts the soul's, which fires an orb instead of resolving a hazard).
 import { describe, expect, it } from 'vitest';
 import { loadTables } from '../../../tools/lib/tables.ts';
 import type { MobRow } from '../../contracts/content.ts';
@@ -16,7 +17,6 @@ const CASES: [string, number, number, number, string][] = [
   ['mob_blood_crow', 80, 150, msToTicks(SWOOPER.diveMs), 'recover'],
   ['mob_blood_corpse', 175, 150, 0, 'recover'],
   ['mob_blood_pool_lurker', 170, 150, 0, 'recover'],
-  ['mob_vengeful_soul', 105, 150, 0, 'recover'],
 ];
 const mk = (kind: string, x: number, y: number, seed = 1): Fight => makeFight(seed, content, 200, 150, [[kind, x, y]]);
 const until = (f: Fight, cond: () => boolean, max = 1500): void => { for (let i = 0; i < max && !cond(); i++) f.tick(); };
