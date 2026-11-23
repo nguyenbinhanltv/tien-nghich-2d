@@ -9,6 +9,7 @@ import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
 import { artOf } from '../clip-map.ts';
+import { FloorHud } from '../floor-hud.ts';
 import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
@@ -20,6 +21,8 @@ export interface SceneHost {
   paused(): boolean;
   /** Display name of a content id (a boss or mob) in the player's language. */
   nameOf?(kind: string): string;
+  /** Floor name shown by the minimap (e.g. "Huyết Hải"). */
+  floorLabel?: string;
   /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
   onEvents?(events: readonly GameEvent[], world: WorldState): void;
   /** Status line (hp, result). */
@@ -57,13 +60,14 @@ export class BloodSeaScene extends Phaser.Scene {
   private endedAt = -1;
   readonly juice = new Juice();
   private hud!: Hud;
+  private floor!: FloorHud;
 
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
   }
 
-  preload(): void { preloadKiln(this); }
+  preload(): void { preloadKiln(this); this.load.json('content-tables', 'content/tables.json'); }
 
   create(): void {
     this.frames = new KilnFrames(this);
@@ -71,6 +75,12 @@ export class BloodSeaScene extends Phaser.Scene {
     this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
     this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
+    this.floor = new FloorHud(this, this.frames);
+    // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
+    if (this.cache.json.exists('content-tables')) {
+      const t = this.cache.json.get('content-tables') as { rooms?: { id: string; kind: string; next?: string }[] };
+      this.floor.setFloor(t.rooms ?? [], 'room_bs_1', this.host.floorLabel ?? '');
+    }
     if (this.host.frozen) for (let i = 0; i < 120; i++) this.fight.tick(NO_INPUT);
     this.draw();
   }
@@ -132,6 +142,8 @@ export class BloodSeaScene extends Phaser.Scene {
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
     this.hud.update(w);
+    // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
+    this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
     this.host.status?.(w);
   }
 
