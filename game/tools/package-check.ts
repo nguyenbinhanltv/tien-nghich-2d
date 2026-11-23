@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { GAME } from './lib/repo.ts';
-import { checkChunks, checkContentPack, checkWeb } from './lib/package-check.ts';
+import { checkChunks, checkContentPack, checkWeb, readBudget } from './lib/package-check.ts';
 
 const argv = process.argv.slice(2);
 const flag = (n: string): string | undefined => { const i = argv.indexOf(n); return i < 0 ? undefined : argv[i + 1]; };
@@ -16,7 +16,7 @@ const dist = flag('--dist') ?? path.join(GAME, 'dist');
 const pack = flag('--pack') ?? path.join(GAME, 'dist-content'); // the PWA plugin copies dist-content into the build, so the pack must exist before `vite build`
 if (!flag('--pack')) run('node', ['tools/content-build.ts']);
 if (!flag('--dist')) run(path.join(GAME, 'node_modules/.bin/vite'), ['build', '--emptyOutDir']);
-const problems = [...checkWeb(dist).map((x) => `web: ${x}`), ...checkContentPack(pack).map((x) => `pack: ${x}`), ...checkChunks().map((x) => `atlas: ${x}`)];
+const problems = [...checkWeb(dist, readBudget(), undefined, pack).map((x) => `web: ${x}`), ...checkContentPack(pack).map((x) => `pack: ${x}`), ...checkChunks().map((x) => `atlas: ${x}`)];
 fs.rmSync(tmp, { recursive: true, force: true });
 for (const x of problems) console.error(`ERROR: ${x}`);
 console.log(problems.length ? `package:check FAILED: ${problems.length} problem(s)` : 'package:check OK: web build, content pack and atlas chunk budgets');

@@ -127,6 +127,13 @@ describe('E9.4 audio and content copies in the build', () => {
     expect(over).toMatch(/audio is [\d.]+ MiB, over the 1 MiB/);
     expect(over).toMatch(/first-launch download is [\d.]+ MiB, over the 0\.1 MiB/);
   });
+  it('the content copy is compared with the pack that was passed, not a default folder', () => {
+    const other = copy(pack);
+    fs.appendFileSync(path.join(other, 'audio_events.json'), ' ');
+    expect(checkWeb(dist, readBudget(), undefined, pack)).toEqual([]);
+    expect(checkWeb(dist, readBudget(), undefined, other).join('\n')).toMatch(/content\/audio_events\.json: differs from the content pack/);
+    expect(checkWeb(dist, readBudget(), undefined, path.join(other, 'nowhere')).join('\n')).toMatch(/not in the content pack/);
+  });
   it('the content copy in the build must equal the pack', () => {
     const d = copy(dist);
     fs.appendFileSync(path.join(d, 'content/audio_events.json'), ' ');
