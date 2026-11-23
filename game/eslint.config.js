@@ -14,5 +14,6 @@ export default tseslint.config(
       'no-restricted-properties': ['error', { object: 'Math', property: 'random', message: 'Use the seeded Rng from sim/rng.ts.' }, { object: 'Date', property: 'now', message: 'The sim has no wall clock; time is ticks.' }],
     },
   },
+  { files: ['golden/**/*.mjs'], languageOptions: { globals: Object.fromEntries(['process', 'console', 'window', 'fetch', 'OffscreenCanvas', 'createImageBitmap', 'setTimeout'].map((g) => [g, 'readonly'])) } },
   { files: ['tools/**/*.ts', 'tests/**/*.ts', 'pwa/**/*.ts'], rules: { '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }] } },
 );
