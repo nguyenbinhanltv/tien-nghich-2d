@@ -18,6 +18,7 @@ npm run dev       # trang trống chứng minh phân lớp
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
 | `schemas/` | JSON Schema: bảng, encounter, bốn bảng hợp đồng Kiln, manifest gói |
 | `tools/` | `content-build.ts`, `kiln-contract-check.ts`, `draft-bodies.ts` (chạy trực tiếp bằng Node 24, không cần bước build) |
+| `tests/golden/images.json` | SHA-256 của ảnh dựng bằng phần mềm (E9.2) ở 4 cỡ: 384×216, 1280×720, điện thoại 844×390@3, 1920×1080@2. `npm run qa:golden -- --out <thư mục>` xem ảnh; `--record` ghi lại sau thay đổi có chủ ý |
 | `spike/` | của lane G0-A; lane này không sửa |
 
 `npm run content:build` ghi `dist-content/` (không commit). `--profile web`, `--chunks core,abode,trial`, `--out` có sẵn.
