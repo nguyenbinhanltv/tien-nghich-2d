@@ -143,7 +143,7 @@ export async function mount(ctx, state) {
   syncView(app);
   renderRoster(app); renderStage(app); app.renderPanel();
   const stopKeys = installShortcuts(action => handleKey(app, action));
-  ctx.onUnmount(() => { stopKeys(); cancelPlayback(app); clearTimeout(app.searchTimer); app.store.forget(); });
+  ctx.onUnmount(() => { stopKeys(); app.previewStop?.(); cancelPlayback(app); clearTimeout(app.searchTimer); app.store.forget(); });
   await Promise.all([app.loadRoster(), loadDetail(app)]);
 }
 

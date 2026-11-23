@@ -9,7 +9,7 @@ export function bindPreview(app, link, c) {
   if (!img) return;
   const home = img.getAttribute('src');
   let token = 0, timer = 0;
-  const stop = () => { token++; clearTimeout(timer); if (img.getAttribute('src') !== home) img.setAttribute('src', home); link.removeAttribute('data-playing'); };
+  const stop = () => { token++; if (app.previewStop === stop) app.previewStop = null; clearTimeout(timer); if (img.getAttribute('src') !== home) img.setAttribute('src', home); link.removeAttribute('data-playing'); };
   const start = async () => {
     if (reducedMotion(window)) return;
     const mine = ++token;
@@ -17,10 +17,12 @@ export function bindPreview(app, link, c) {
     const clip = await idleFor(app, c);
     if (mine !== token || !clip || reducedMotion(window)) return;
     for (const p of clip.paths) new Image().src = '/' + p;
+    app.previewStop?.(); app.previewStop = stop;
     link.dataset.playing = '';
     let i = 0;
     const step = () => {
       if (mine !== token) return;
+      if (!link.isConnected) { stop(); return; }
       img.setAttribute('src', '/' + clip.paths[i]);
       timer = setTimeout(step, clip.ms[i]);
       i = (i + 1) % clip.paths.length;

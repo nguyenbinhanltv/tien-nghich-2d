@@ -6,6 +6,7 @@ import { bindPreview } from './preview.mjs';
 export function renderRoster(app) {
   const {ctx, roster, state} = app;
   const root = app.els.roster;
+  app.previewStop?.(); // the rows below are replaced; a loop on a removed row would never get its pointerleave/blur
   const title = h('h2', {}, ctx.t('roster.title'));
   if (!roster) {
     root.replaceChildren(title, app.rosterError
