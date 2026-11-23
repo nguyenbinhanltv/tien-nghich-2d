@@ -1,0 +1,53 @@
+# Đằng Hóa Nguyên (boss_teng_huayuan), G2-HN 2. Phases and behaviours follow the manifest/GDD entry of the boss
+# (assets/manifest.json "phases", docs/GDD.md section 8): 3 phases at 100-60 / 60-30 / 30-0 % health.
+#   p1  "blood-robe sword arcs, blood-bolt volleys"  -> slash, bolt
+#   p2  "summons blood corpse puppets"                -> + summon (mob_blood_corpse)
+#   p3  "desperation: bleeds HP for speed, full-room blood nova" -> faster stalk (speed_mul), nova opener and in the loop
+# Numbers are placeholders for balance, not final. Shapes are the ones the runner has (src/sim/ai/boss.ts HIT_SHAPES): the arc is a
+# strip, the bolt a disc on the player, the nova the big ring (it keeps the ring's open wedge). Clip names are real clips of boss_teng_huayuan.
+id: dang_hoa_nguyen
+boss: boss_teng_huayuan
+phases:
+  - id: p1
+    hp_above: 0.6
+    stalk_ms: 1100
+    loop: [slash, bolt]
+  - id: p2
+    hp_above: 0.3
+    enter_clip: phase_transition
+    stalk_ms: 900
+    loop: [slash, summon, bolt]
+  - id: p3
+    hp_above: 0
+    enter_clip: phase_transition
+    opener: nova
+    stalk_ms: 600
+    speed_mul: 1.4
+    loop: [slash, bolt, nova]
+attacks:
+  slash:
+    clip: attack_slash
+    tell: { ms: 800, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: claw_strip, damage: 1 }
+  bolt:
+    clip: attack_cast
+    tell: { ms: 800, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: seal_disc, damage: 1 }
+  summon:
+    # Calls blood corpse puppets (GDD: "summons blood corpse puppets"). No damage: the circle shows where they rise.
+    clip: summon
+    tell: { ms: 1000, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: summon_call, damage: 0 }
+    summon: { mobs: [{ mob: mob_blood_corpse, count: 2 }], max_alive: 3 }
+  nova:
+    clip: attack_cast
+    tell: { ms: 1200, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: wail_ring, damage: 2 }

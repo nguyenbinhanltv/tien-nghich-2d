@@ -17,7 +17,7 @@ import { spawnMob } from './index.ts';
 export interface EncounterSummon { mobs: { mob: string; count: number }[]; max_alive: number }
 export interface EncounterAttack { clip: string; tell: { ms: number; sfx_event?: string; vfx?: string }; dodge_window_ms: number; strike_window_ms: number; hit: { id: string; damage: number }; summon?: EncounterSummon }
 /** `enter_clip` is played by the renderer on the `phase-changed` event of this phase (see warn()); it does not change sim timing. */
-export interface EncounterPhase { id: string; hp_above: number; enter_clip?: string; opener?: string; stalk_ms?: number; loop: string[] }
+export interface EncounterPhase { id: string; hp_above: number; enter_clip?: string; opener?: string; stalk_ms?: number; speed_mul?: number; loop: string[] }
 export interface Encounter { id: string; boss: string; phases: EncounterPhase[]; attacks: Record<string, EncounterAttack> }
 
 /** What each `hit.id` of an encounter looks like on the ground (px). The shapes are the original's; damage comes from the file. */
@@ -115,7 +115,7 @@ function summon(world: WorldState, b: ActorState, s: EncounterSummon, events: Ga
 export function bossStep(world: WorldState, b: ActorState, enc: Encounter, speed: number, events: GameEvent[], content?: ContentApi): void {
   const p = findPlayer(world);
   if (!p || b.hp <= 0) return;
-  const ai = b.ai, stalkSpeed = speed / 60;
+  const ai = b.ai, stalkSpeed = (speed / 60) * ((enc.phases[phaseIndex(enc, b.hp, b.hpMax)] as EncounterPhase).speed_mul ?? 1);
   if (ai.data[2] === 0) ai.data[2] = b.hpMax;
   const h = world.hazards.find((x) => x.owner === b.id);
   if (ai.state === 'warn' && h) markDodgedThrough(h, p);
