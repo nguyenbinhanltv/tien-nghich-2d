@@ -15,6 +15,7 @@ import { bossStep, type Encounter } from './ai/boss.ts';
 import type { SimContext } from './context.ts';
 import { mobMovement } from './systems/mob-move.ts';
 import { resolveMove } from './systems/grid.ts';
+import { floorSystem } from './run/floor.ts';
 
 export const NO_INPUT: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
 
@@ -71,6 +72,7 @@ export function step(world: WorldState, input: InputFrame, events: GameEvent[], 
     }
   } else for (const a of world.actors) if (a.role === 'boss' && a.kind === BOSS_SCRIPT) ghostKingStep(world, a, events);
   sweepDead(world, events);
+  if (ctx) floorSystem(world, ctx.content, events);
 }
 
 /** Start the original Drowned Court arena: the player at (125,176) with 6 hp, the Ghost King at (253,139) with 12 hp, 1.4 s before the first attack. */

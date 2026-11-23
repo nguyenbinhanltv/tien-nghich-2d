@@ -18,7 +18,7 @@ grid:
   - "#......................#"
   - "########################"
 doors:
-  - { side: west, role: entry, to: room_bs_8 }
+  - { side: west, role: entry, to: room_bs_9 }
   - { side: east, role: exit, to: room_bs_reward }
 props:
   - { id: prop_restriction_pillar, at: [7, 4] }

@@ -14,9 +14,9 @@ describe('sample content tables (Huyết Hải slice)', () => {
   const { tables, problems } = loadTables();
   const assets = loadAssets('mobile');
   it('pass their schemas', () => { expect(problems).toEqual([]); });
-  it('have the slice shape: 5 mobs, 1 boss, a run abode -> 8 combat -> boss -> reward', () => {
+  it('have the slice shape: 5 mobs, 1 boss, a run abode -> 9 combat -> boss -> reward', () => {
     expect(tables.mobs).toHaveLength(5); expect(tables.bosses).toHaveLength(1);
-    expect(tables.rooms.map((r) => r.kind)).toEqual(['abode', ...Array<string>(8).fill('combat'), 'boss', 'reward']);
+    expect(tables.rooms.map((r) => r.kind)).toEqual(['abode', ...Array<string>(9).fill('combat'), 'boss', 'reward']);
   });
   it('cross-reference the art manifests, encounters and locale', () => {
     expect(crossCheck(tables, assets, { vi: locale('vi'), en: locale('en') })).toEqual([]);
@@ -51,7 +51,7 @@ describe('content-build', () => {
     const mb = JSON.parse(fs.readFileSync(path.join(b, 'content.manifest.json'), 'utf8')) as { contentHash: string };
     expect(ma.contentHash).toBe(mb.contentHash);
     expect(Object.keys(ma.files)).toEqual(expect.arrayContaining(['tables.json', 'bodies.json', 'clip_events.json', 'tile_shapes.json', 'audio_events.json', 'vfx.json', 'atlases.json']));
-    expect(Object.keys(ma.files).filter((f) => f.startsWith('rooms/'))).toEqual(expect.arrayContaining([...Array.from({ length: 8 }, (_, i) => `rooms/room_bs_${i + 1}.json`), 'rooms/room_bs_boss.json', 'rooms/room_bs_reward.json']));
+    expect(Object.keys(ma.files).filter((f) => f.startsWith('rooms/'))).toEqual(expect.arrayContaining([...Array.from({ length: 9 }, (_, i) => `rooms/room_bs_${i + 1}.json`), 'rooms/room_bs_boss.json', 'rooms/room_bs_reward.json']));
     expect(Object.keys(ma.files).some((f) => f.startsWith('atlas/core/') && f.endsWith('.png'))).toBe(true);
   }, 60_000);
   it('--check passes on the repository and writes nothing', () => {

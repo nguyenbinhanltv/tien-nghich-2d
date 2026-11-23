@@ -12,3 +12,14 @@ export interface ContentApi {
   /** Ids of a table in file order (stable, so seeded picks are reproducible). */
   ids(table: string): readonly string[];
 }
+
+/** Layout of one room (content/rooms/<id>.yaml, compiled to rooms/<id>.json); table `room_layouts` of the ContentApi. */
+export interface RoomLayout {
+  id: string; size: [number, number]; player_start: [number, number]; grid: string[];
+  doors: { side: 'west' | 'east'; role: 'entry' | 'exit'; to: string }[];
+  props: { id: string; at: [number, number]; to?: string }[];
+  waves: { spawns: { mob: string; at: [number, number] }[] }[];
+}
+
+/** Props that stop movement (they occupy their base tile). The sim (sim/run/floor.ts) and the content validator (tools/lib/rooms.ts) both read this one list, so "every cell is reachable" means the same in both. */
+export const BLOCKING_PROPS: ReadonlySet<string> = new Set(['prop_restriction_pillar', 'prop_mist_ravine_rock', 'prop_bone_altar', 'prop_alchemy_jar', 'prop_shrine_altar', 'prop_spirit_chest']);

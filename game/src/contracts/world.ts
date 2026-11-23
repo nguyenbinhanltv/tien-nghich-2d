@@ -73,6 +73,19 @@ export interface ActorState {
   diedTick: number;
 }
 
+/** State of the room being played (sim/run/floor.ts). */
+export interface FloorState {
+  /** Room id of rooms.csv. */
+  room: string;
+  /** Wave on the field (1-based) and how many the room has. */
+  wave: number;
+  waves: number;
+  /** Every wave dead: the exit door is open. */
+  cleared: boolean;
+  /** The exit is open but the realm gate must be chosen first (takeGate); the player waits in the doorway. */
+  gatePending: boolean;
+}
+
 export interface WorldState {
   tick: number;
   seed: number;
@@ -87,6 +100,8 @@ export interface WorldState {
   room: RoomBounds;
   /** Optional tile collision of the room; omitted (not null) when absent so worlds without one hash as before. */
   grid?: RoomGrid;
+  /** Where the run is in the floor: the room being played, its waves and doors. Omitted outside a floor. */
+  stage?: FloorState;
   mode: Mode;
   /** Hit-stop: ticks left in which the world does not advance (but time-to-render does). */
   freeze: number;
@@ -114,6 +129,9 @@ export type GameEvent =
   | { type: 'phase-changed'; tick: number; actor: number; phase: string }
   | { type: 'mode-changed'; tick: number; mode: Mode }
   | { type: 'room-cleared'; tick: number }
+  | { type: 'room-entered'; tick: number; room: string }
+  | { type: 'wave-spawned'; tick: number; wave: number; of: number }
+  | { type: 'door-opened'; tick: number; room: string }
   | { type: 'realm-breakthrough'; tick: number; from: number; to: number }
   | { type: 'reward-gained'; tick: number; id: string; amount: number }
   | { type: 'run-ended'; tick: number; outcome: 'banked' | 'died' | 'abandoned' | 'won' };

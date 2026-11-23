@@ -9,10 +9,10 @@ const GAME = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const rows = (): RoomRow[] => readFileSync(join(GAME, 'content/tables/rooms.csv'), 'utf8').trim().split('\n').slice(1).map((l) => { const c = l.split(','); return { id: c[0]!, kind: c[2]!, next: c[8] ?? '' }; });
 
 describe('chainFrom (real rooms.csv)', () => {
-  it('the Blood Sea floor is eight combat rooms, the boss and the reward, in order', () => {
+  it('the Blood Sea floor is nine combat rooms (3 clusters of 3), the boss and the reward, in order', () => {
     const c = chainFrom(rows(), 'room_bs_1');
-    expect(c.map((r) => r.id)).toEqual(['room_bs_1', 'room_bs_2', 'room_bs_3', 'room_bs_4', 'room_bs_5', 'room_bs_6', 'room_bs_7', 'room_bs_8', 'room_bs_boss', 'room_bs_reward']);
-    expect(c.filter((r) => r.kind === 'combat')).toHaveLength(8);
+    expect(c.map((r) => r.id)).toEqual(['room_bs_1', 'room_bs_2', 'room_bs_3', 'room_bs_4', 'room_bs_5', 'room_bs_6', 'room_bs_7', 'room_bs_8', 'room_bs_9', 'room_bs_boss', 'room_bs_reward']);
+    expect(c.filter((r) => r.kind === 'combat')).toHaveLength(9);
     expect(c.at(-2)?.kind).toBe('boss');
   });
   it('starting at the abode hub includes it first; a cycle or a dangling link ends the chain', () => {
