@@ -39,7 +39,8 @@ const SHOT_FRAME: Record<(typeof PROJECTILE_KINDS)[number], string> = {
   mob_shot: 'projectiles/pj_soul_lamp/flight_none_0',
   player_bolt: 'projectiles/pj_azure_wind_sword/flight_none_0',
 };
-// palette ids blood_05, blood_06, soul_05, bronze_05
+// palette ids blood_05, blood_06, soul_05, bronze_05; hit flash = thunder_04, the lightest palette colour (pure white is not in the palette)
+const HIT_FLASH = 0xe8fdff;
 const HAZARD_FILL = 0xd03a4a, HAZARD_EDGE = 0xee7a80, SAFE_EDGE = 0x8f62cf;
 
 export class BloodSeaScene extends Phaser.Scene {
@@ -151,7 +152,7 @@ export class BloodSeaScene extends Phaser.Scene {
     // invulnerable blink while hurt
     s.setAlpha(a.role === 'player' && a.combat.hurt > 0 && (w.tick & 4) ? 0.45 : 1);
     // white hit flash (E2.3): fill tint for a few frames
-    if (this.juice.isFlashing(a.id, this.time.now)) s.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL);
+    if (this.juice.isFlashing(a.id, this.time.now)) s.setTint(HIT_FLASH).setTintMode(Phaser.TintModes.FILL);
     else s.clearTint().setTintMode(Phaser.TintModes.MULTIPLY);
   }
 
