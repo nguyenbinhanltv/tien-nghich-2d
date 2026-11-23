@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createPreviewServer } from '../../../serve.mjs';
 import { summarizeRig, parseFrameFile, handle } from './server.mjs';
 import { makeProject } from '../../../mcp/testkit.mjs';
-import { layoutSheet, largestScale, maxSheetPixels } from './sheet.mjs';
+import { layoutSheet, largestScale, maxSheetPixels, assertSheetFits } from './sheet.mjs';
 import { decodePng } from '../../../forge/image.mjs';
 
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
@@ -195,14 +195,18 @@ test('contact sheet: oversized requests are refused with 422 and the largest all
   assert.equal(refused.status, 422);
   assert.equal(refused.data.error.code, 'sheet_too_large');
   assert.match(refused.data.error.message, new RegExp(`largest scale for this character is ${largest}\\.`));
-  // The boundary is exact on the server too: the largest scale is not refused, one more is, and the refusal is cheap
-  // (decided from the layout alone, before any frame is decoded or any PNG is encoded).
+  // The boundary is exact in the server's own gate (assertSheetFits, the check contactSheet runs before decoding anything):
+  // `largest` passes and `largest + 1` is refused, with no 16-megapixel render needed to prove it.
+  const gate = scale => assertSheetFits({frames: boss.frames, facings, scale, size});
+  assert.doesNotThrow(() => gate(largest), 'the largest allowed scale is accepted by the gate');
+  assert.throws(() => gate(largest + 1), {status: 422, code: 'sheet_too_large', largestScale: largest});
+  // And over HTTP, where the refusal is cheap (decided from the layout alone, before any frame is decoded).
   const over = await api(`sheet.png?id=boss_ancient_god_remnant&scale=${largest + 1}`);
   assert.equal(over.status, 422);
   assert.equal(over.data.error.code, 'sheet_too_large');
   assert.match(over.data.error.message, new RegExp(`largest scale for this character is ${largest}\\.`));
   // Accepted requests are rendered for real, but on the smallest clip at 2x: rendering the whole boss at the limit builds a
-  // 16-megapixel PNG, which takes seconds on a loaded machine and proves nothing the layout arithmetic above does not.
+  // 16-megapixel PNG, which takes seconds on a loaded machine and proves nothing the gate test above does not.
   const clips = Object.keys(boss.clips).sort((x, y) => boss.frames.filter(f => f.clip === x).length - boss.frames.filter(f => f.clip === y).length);
   const clip = clips[0];
   const small = 2;
