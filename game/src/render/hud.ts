@@ -8,7 +8,8 @@ import type { WorldState } from '../contracts/world.ts';
 import { BAR_H, BAR_W, barCropWidth, digitPixels, HUD_POS, ratio } from '../ui/hud-layout.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
-const INK = 0x14101a, INK_LIGHT = 0xd4d0d8, SLOT = 0x2a1a2a, BRONZE = 0xe0b030, BRONZE_DIM = 0x5a4a28;
+// palette ids (tools/generators/palette.json, 43 colours, nothing invented): ink_01, ink_06, ink_02, bronze_05, bronze_02
+const INK = 0x14101a, INK_LIGHT = 0xd4d0d8, SLOT = 0x2c2733, BRONZE = 0xe0b030, BRONZE_DIM = 0x63400f;
 const F = { hp: 'ui/ui_hud_bars/hp_none_0', boss: 'ui/ui_hud_bars/boss_hp_none_0' };
 
 class Bar {
