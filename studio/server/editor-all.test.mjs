@@ -48,7 +48,7 @@ test('frames can be listed by asset and category; every category is present', as
   const all = (await api.call('frames')).data.frames;
   assert.ok(all.length > 3000);
   const hero = (await api.call('frames', {assetId: 'wl_outer_disciple'})).data.frames;
-  assert.equal(hero.length, 88);
+  assert.equal(hero.length, 100); // 88 PixelLab frames + 12 PX-1 hurt frames
   assert.ok(hero.every(f => f.assetId === 'wl_outer_disciple' && f.key.startsWith('characters/')));
   const mobs = (await api.call('frames', {category: 'mob'})).data.frames;
   assert.ok(mobs.length > 500 && mobs.every(f => f.category === 'mob'));
