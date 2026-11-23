@@ -32,8 +32,8 @@ img, canvas.px { image-rendering: pixelated; }
 .gridhead p { margin: 0; }
 .zoombar { display: flex; align-items: center; gap: var(--ui-sp-2); font-size: var(--ui-fs-sm); color: var(--ui-text-muted); }
 .zoomrange { accent-color: var(--ui-accent); }
-.grid { --cell: calc(16px * var(--zoom) + 2.6rem); display: grid; grid-template-columns: repeat(auto-fill, var(--cell)); gap: var(--ui-sp-2); margin-top: var(--ui-sp-2); justify-content: start; }
-.card { display: flex; flex-direction: column; gap: .2rem; padding: .4rem; width: var(--cell); min-width: 0; box-sizing: border-box; text-decoration: none; color: var(--ui-text); background: var(--ui-surface); border: var(--ui-bw) solid var(--ui-line); position: relative; }
+.grid { --cell: calc(16px * var(--zoom) + 2.6rem); display: grid; grid-template-columns: repeat(auto-fill, minmax(min(var(--cell), 100%), 1fr)); gap: var(--ui-sp-2); margin-top: var(--ui-sp-2); }
+.card { display: flex; flex-direction: column; gap: .2rem; padding: .4rem; width: 100%; min-width: 0; box-sizing: border-box; text-decoration: none; color: var(--ui-text); background: var(--ui-surface); border: var(--ui-bw) solid var(--ui-line); position: relative; }
 .card:hover { border-color: var(--ui-accent); }
 .card.on { border-color: var(--ui-gold); box-shadow: 3px 3px 0 var(--ui-accent-soft); }
 .card::before { content: ""; position: absolute; left: -2px; top: -2px; width: .5rem; height: .5rem; background: var(--ui-line); z-index: 1; }
