@@ -31,6 +31,12 @@ test("every cue a family can emit exists in some pack (planned cues are reported
   }
   const missing = new Set<string>();
   for (const fam of Object.values(manifest.families)) for (const c of Object.values(fam)) if (!have.has(c)) missing.add(c);
-  // The count is informational: the manifest still lists planned cues. Fail only if it GROWS past the recorded baseline.
-  assert.ok(missing.size <= 12, `missing cues: ${[...missing].join(", ")}`);
+  // Pinned by name: a new missing cue (or a planned one that gets delivered) changes this list and must be reviewed.
+  assert.deepEqual([...missing].sort(), EXPECTED_MISSING);
 });
+
+// 4 planned SFX cues (no pack yet) + 7 BGM ids (BGM lives in separate files, not in the SFX sprite cue tables).
+const EXPECTED_MISSING = [
+  "bgm_ancient_god", "bgm_blood_sea", "bgm_dong_phu", "bgm_ember_delta", "bgm_hengyue", "bgm_mist_archive", "bgm_star_quarry",
+  "sfx_core_crack", "sfx_form_shift", "sfx_keeper_call", "sfx_pet_reply",
+];
