@@ -18,6 +18,7 @@ npm run dev       # trang trống chứng minh phân lớp
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
 | `schemas/` | JSON Schema: bảng, encounter, bốn bảng hợp đồng Kiln, manifest gói |
 | `tools/` | `content-build.ts`, `kiln-contract-check.ts`, `draft-bodies.ts` (chạy trực tiếp bằng Node 24, không cần bước build) |
+| `package-budget.json` | ngân sách gói build (E9.4). `npm run package:check` dựng `dist/` + gói nội dung và kiểm: tham chiếu index/manifest, precache của service worker, kích thước JS/tổng, tệp cấm (map, studio, đường dẫn máy), trang atlas khớp nguồn Kiln, băm gói nội dung, trần trang/MiB từng chunk Longtime |
 | `spike/` | của lane G0-A; lane này không sửa |
 
 `npm run content:build` ghi `dist-content/` (không commit). `--profile web`, `--chunks core,abode,trial`, `--out` có sẵn.
