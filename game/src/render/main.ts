@@ -4,6 +4,9 @@ import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 import { fitView } from './camera.ts';
 import { AudioDirector } from '../audio/director.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
+import { DongPhuScene } from './scenes/DongPhuScene.ts';
+import { mountAbodePanel } from '../ui/abode-panel.ts';
+import { readProfile, writeProfile } from '../meta/profile-store.ts';
 import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
@@ -23,9 +26,29 @@ window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
 void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
 let portrait = false;
 const params = new URLSearchParams(location.search);
-const scene: Phaser.Scene = params.get('view') === 'clips'
+const abodePanel = params.get('view') === 'dong-phu' ? mountAbodePanel(document.body, i18n) : null;
+const store = { getItem: (k: string) => localStorage.getItem(k), setItem: (k: string, v: string) => localStorage.setItem(k, v) };
+const scene: Phaser.Scene = params.get('view') === 'dong-phu'
+  ? makeAbode()
+  : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
   : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w), frozen: params.has('golden') });
+
+/** Hub scene on a saved profile. Entering the gate only announces `tn2d:enter-run`: the Blood Sea scene is wired in after the arena PR. */
+function makeAbode(): Phaser.Scene {
+  const loaded = readProfile(store, Date.now() >>> 0);
+  let profile = loaded.profile;
+  const host = {
+    sample: () => hub.sample(), paused: () => portrait, frozen: params.has('golden'),
+    get profile() { return profile; },
+    commit: (p: typeof profile) => { profile = p; writeProfile(store, p); abodePanel?.stock(p); },
+    enterRun: (p: typeof profile) => { window.dispatchEvent(new CustomEvent('tn2d:enter-run', { detail: p })); },
+    onPrompt: (s: Parameters<NonNullable<typeof abodePanel>['update']>[0], o: Parameters<NonNullable<typeof abodePanel>['update']>[1]) => abodePanel?.update(s, o),
+  };
+  abodePanel?.stock(profile);
+  if (loaded.source === 'recovered') abodePanel?.flash(`save: ${loaded.reason}`);
+  return new DongPhuScene(host);
+}
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
