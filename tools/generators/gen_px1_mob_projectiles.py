@@ -25,12 +25,6 @@ IDS = {
     "pj_mob_lurker_bubble": "Blood Pool Lurker: blood-water bubble",
     "pj_mob_soul_wisp": "Vengeful Soul: jade-violet soul fire",
 }
-REFS = {
-    "pj_mob_crow_feather": ["soul_02", "soul_04", "blood_05", "blood_06", "ink_01"],
-    "pj_mob_corpse_gore": ["blood_02", "blood_03", "blood_05", "blood_07", "ink_01"],
-    "pj_mob_lurker_bubble": ["blood_01", "blood_04", "blood_06", "blood_07", "ink_01"],
-    "pj_mob_soul_wisp": ["soul_04", "soul_06", "soul_07", "jade_05", "ink_01"],
-}
 
 
 class Canvas:
@@ -150,6 +144,17 @@ BURST_TONES = {"pj_mob_crow_feather": ("soul_02", "soul_04", "blood_06", "blood_
                "pj_mob_corpse_gore": ("blood_02", "blood_03", "blood_05", "blood_07"),
                "pj_mob_lurker_bubble": ("blood_01", "blood_04", "blood_06", "blood_07"),
                "pj_mob_soul_wisp": ("soul_03", "soul_05", "soul_06", "soul_07")}
+
+
+def palette_refs(frames):
+    """The palette ids each projectile actually paints (first-seen order, ink_01 last), so the manifest cannot drift from the art."""
+    by_rgb = {rgb: i for i, rgb in PALETTE.items()}
+    refs = {}
+    for (pid, _clip, _n), image in frames.items():
+        for _, colour in sorted(image.getcolors(SIZE * SIZE), key=lambda t: -t[0]):
+            if colour[3]:
+                refs.setdefault(pid, set()).add(by_rgb[colour[:3]])
+    return {pid: sorted(ids - {"ink_01"}) + ["ink_01"] for pid, ids in refs.items()}
 
 
 def render():
