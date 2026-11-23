@@ -8,3 +8,8 @@ __pycache__/
 /.inspector-revisions/
 # Local audio codec toolchain builds (tools/scripts/build_ffmpeg_611_mac.sh); also matches the worktree symlink.
 tools/.toolchains
+
+# game/ (Vite + TypeScript): installs and outputs stay local; its own game/.gitignore says the same.
+game/node_modules/
+game/dist/
+game/dist-content/

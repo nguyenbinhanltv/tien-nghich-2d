@@ -1,0 +1,21 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_core_crack",
+  "title": "Core crack (Defense, core breached)",
+  "design": "The sealed core splits once. A hard broadband snap opens it, a low thump with a quick downward glide carries the shake, a crumble of grainy noise runs under falling glassy shards at scattered pitches, and a dull settle closes it. Brittle and short, with nothing ringing: it reads as failure, not as a hit.",
+  "sampleRate": 44100, "channels": 1, "seed": 9804,
+  "durationMs": 1250, "trim": 0.449,
+  "window": {"ms": 770, "tailMs": 480},
+  "layers": [
+    {"type": "noise", "startMs": 0, "ms": 45, "gain": 1.0, "filters": [{"type": "band", "lowHz": 2200, "highHz": 7500}], "env": {"attackMs": 1, "decayMs": 7, "releaseMs": 16}},
+    {"type": "osc", "startMs": 0, "ms": 280, "gain": 0.85, "hz": 135, "endHz": 44, "env": {"attackMs": 1, "decayMs": 70, "releaseMs": 160}},
+    {"type": "noise", "startMs": 20, "ms": 320, "gain": 0.35, "filters": [{"type": "band", "lowHz": 900, "highHz": 4200}], "am": {"hz": 45, "depth": 0.9}, "env": {"attackMs": 5, "decayMs": 120, "releaseMs": 110}},
+    {"type": "osc", "startMs": 38, "ms": 40, "gain": 0.34, "hz": 3400, "env": {"attackMs": 1, "decayMs": 7, "releaseMs": 18}},
+    {"type": "osc", "startMs": 92, "ms": 40, "gain": 0.28, "hz": 2100, "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 18}},
+    {"type": "osc", "startMs": 150, "ms": 40, "gain": 0.22, "hz": 4700, "env": {"attackMs": 1, "decayMs": 6, "releaseMs": 16}},
+    {"type": "osc", "startMs": 236, "ms": 40, "gain": 0.2, "hz": 2800, "env": {"attackMs": 1, "decayMs": 7, "releaseMs": 18}},
+    {"type": "osc", "startMs": 332, "ms": 40, "gain": 0.14, "hz": 1700, "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 18}},
+    {"type": "noise", "startMs": 380, "ms": 820, "gain": 0.3, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 300}], "env": {"attackMs": 10, "decayMs": 260, "releaseMs": 420}}
+  ]
+}

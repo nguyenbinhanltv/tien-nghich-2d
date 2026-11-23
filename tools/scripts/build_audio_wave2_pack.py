@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify one Audio Wave 2 sub-batch pack (batches 2-4) with the Mac-built FFmpeg 6.1.1 (Ogg Vorbis + AAC-LC/M4A).
+"""Build and verify one Audio Wave 2 sub-batch pack (batches 2-6) with the Mac-built FFmpeg 6.1.1 (Ogg Vorbis + AAC-LC/M4A).
 
 One parameterised builder replaces per-batch copies. pilot_v1 and wave2_batch1_v1 keep their frozen Windows-pinned builders.
 
@@ -14,7 +14,7 @@ apart from the machine-specific toolchain values (`toolchain` block in the JSON 
 identical outputs is reported, not hidden). --audition-dir writes the portable decoded audition WAV + timing key.
 
 Usage:
-  python -I -B tools/scripts/build_audio_wave2_pack.py --batch 2|3|4|5 --ffmpeg <ffmpeg> [--out DIR] [--check] [--audition-dir DIR]
+  python -I -B tools/scripts/build_audio_wave2_pack.py --batch 2|3|4|5|6 --ffmpeg <ffmpeg> [--out DIR] [--check] [--audition-dir DIR]
 """
 from __future__ import annotations
 
@@ -54,8 +54,10 @@ BATCHES = {
     4: {"pack": "wave2_batch4_v1", "bgms": ["bgm_boss_trial", "bgm_endless"], "sfx": "wave2_fourth_sfx",
         "bgm_source_commit": "b7154359bf3847449a6e5b101d0c57927c273cff", "sfx_source_commit": "b7154359bf3847449a6e5b101d0c57927c273cff"},
     5: {"pack": "branches_v1", "label": "Branches", "base": "3f34dd6c33c79a124f966e189fdc5aa69b19a4d3", "bgms": ["bgm_mist_archive", "bgm_ember_delta", "bgm_star_quarry"], "sfx": "branches_sfx", "sfx_count": 3,
-        "bgm_source_commit": "same pull request as this pack; the source hashes are in each assets/audio/<bed>/provenance.json",
-        "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/branches_sfx/provenance.json"},
+        "bgm_source_commit": "c72f601fad4874c672c0bba110788b068db9c186",
+        "sfx_source_commit": "c72f601fad4874c672c0bba110788b068db9c186"},
+    6: {"pack": "modes_v1", "label": "Modes", "base": "c72f601fad4874c672c0bba110788b068db9c186", "bgms": ["bgm_aftermath", "bgm_defense"], "sfx": "modes_sfx", "sfx_count": 4,
+        "bgm_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58", "sfx_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58"},
 }
 
 

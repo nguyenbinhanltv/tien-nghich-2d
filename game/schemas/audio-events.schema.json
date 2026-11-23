@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/audio-events.schema.json",
+  "title": "audio_events.json: semantic audio event -> cue id, per asset id (compiled from audio_manifest.json)",
+  "type": "object", "additionalProperties": false, "required": ["schema", "version", "events", "modes", "silent"],
+  "properties": {
+    "schema": { "const": "tien-nghich-2d.audio-events" },
+    "version": { "const": 1 },
+    "events": { "type": "object", "description": "asset id -> { semantic event -> cue id }. Semantic events: stride dash evade counter hurt fall advance change release impact tell outcome stagger, and so on as the families define them.",
+      "propertyNames": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/snake" }, "additionalProperties": { "$ref": "#/$defs/cue" } } },
+    "modes": { "type": "object", "additionalProperties": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/snake" }, "additionalProperties": { "$ref": "#/$defs/cue" } } },
+    "silent": { "type": "array", "items": { "type": "string" }, "description": "Asset ids that deliberately play nothing." }
+  },
+  "$defs": { "cue": { "type": "string", "pattern": "^(bgm|sfx)_[a-z0-9_]+$" } }
+}
