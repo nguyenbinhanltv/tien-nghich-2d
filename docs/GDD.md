@@ -106,6 +106,10 @@ Mỗi hàng là một ID bắt buộc. Với 90 mục gốc, trường `animatio
 | `pj_soul_lamp` | Đạn: Hồn Đăng | projectile | 16x16 |
 | `pj_five_element_needles` | Đạn: Ngũ Hành Phi Châm | projectile | 16x16 |
 | `pj_spirit_stone_beads` | Đạn: Linh Thạch Bạo Châu | projectile | 16x16 |
+| `pj_mob_crow_feather` | Đạn: Lông Quạ Huyết | projectile | 16x16 |
+| `pj_mob_corpse_gore` | Đạn: Cục Máu Xác | projectile | 16x16 |
+| `pj_mob_lurker_bubble` | Đạn: Bọt Huyết Thủy | projectile | 16x16 |
+| `pj_mob_soul_wisp` | Đạn: Oán Hỏa | projectile | 16x16 |
 | `prop_spirit_chest` | Linh Thạch Rương | prop | 24x24 |
 | `prop_alchemy_jar` | Đan Dược Bình (Có Thể Phá) | prop | 16x24 |
 | `prop_teleport_array` | Truyền Tống Trận | prop | 32x32 |

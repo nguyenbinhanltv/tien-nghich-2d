@@ -6998,6 +6998,99 @@
      }
     }
    }
+  },
+  {
+   "id": "px1-generator:gen_px1_mob_projectiles.py",
+   "basis": [
+    "tools/generators/gen_px1_mob_projectiles.py",
+    "assets/raw/environment_items/projectiles/pj_mob_crow_feather",
+    "assets/raw/environment_items/projectiles/pj_mob_corpse_gore",
+    "assets/raw/environment_items/projectiles/pj_mob_lurker_bubble",
+    "assets/raw/environment_items/projectiles/pj_mob_soul_wisp"
+   ],
+   "defaults": {},
+   "assets": {
+    "pj_mob_crow_feather": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    },
+    "pj_mob_corpse_gore": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    },
+    "pj_mob_lurker_bubble": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    },
+    "pj_mob_soul_wisp": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    }
+   }
   }
  ]
 }

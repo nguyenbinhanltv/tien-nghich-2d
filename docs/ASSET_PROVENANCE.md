@@ -18,3 +18,12 @@ Sprite từ thư viện chỉ là **tham chiếu**; muốn vào game phải đi 
 
 ## Trạng thái
 CLI `assetcat` chưa cài, chưa có thư viện được index -> hiện **chưa có** `assets/sources.toml`. Việc cài đặt (đọc `pyproject.toml`, `uv tool install` từ đường dẫn local) cần người dùng đồng ý.
+
+## Clip `hurt` của vertical slice (PX-1, 2026-11-24)
+84 khung (3 khung × 28 hướng) cho 4 hình thái `wl_*`, 5 quái Huyết Hải và `boss_ghost_king`, ghi vào `assets/processed/<players|mobs|bosses>/<id>/hurt_<dir>_<n>.png`.
+- **Tuyến**: sửa pixel bằng mã (tuyến "direct pixel edits" của xưởng), `tools/scripts/build_hurt_clips.py`, tái lập được (`--check`). Dẫn xuất từ chính khung `idle_<dir>_0` đã có: giật lùi + nghiêng (cắt hàng, chân đứng yên), khung 0 chớp trắng `thunder_04`, viền `ink_01` dựng lại. **Không sinh ảnh, không dùng PixelLab/Codex/AGY cho phần này.**
+- Chủ dự án quyết định 2026-11-24 không dùng PixelLab cho đợt này (hết hạn gói, không gia hạn); ngoại lệ PixelLab một đợt không được dùng, 0 lượt.
+- Trạng thái: **chờ duyệt** (không ghi bản duyệt). Khung này chưa đi qua `studio_rig_bake`, nên các cổng animation (trượt chân, trôi pivot, nháy) chưa chạy.
+
+## Đạn của quái Huyết Hải (PX-1 nhóm 2, 2026-11-24)
+4 đạn 16×16 (`pj_mob_crow_feather`, `pj_mob_corpse_gore`, `pj_mob_lurker_bubble`, `pj_mob_soul_wisp`; mỗi đạn `flight` 4 + `impact` 4 khung) do mã vẽ: `tools/generators/gen_px1_mob_projectiles.py` → `assets/raw/environment_items/projectiles/<id>/` → `build_processed.py --only`. Chỉ dùng palette gốc, viền `ink_01`, alpha nhị phân. **Không sinh ảnh, không PixelLab.** Trạng thái chờ duyệt (không ghi bản duyệt). Manifest dùng `owner_mob` thay cho `weapon_id`, cờ `px1` đánh dấu phần thêm sau khi ghim hợp đồng gốc.

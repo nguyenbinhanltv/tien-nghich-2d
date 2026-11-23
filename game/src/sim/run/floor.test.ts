@@ -41,7 +41,7 @@ describe('a room', () => {
   it('loads from its layout: grid with props and a closed entry and exit, the player at the start, wave 1 on the field', () => {
     const { w, ev } = freshRun();
     const L = layouts['room_bs_1']!;
-    expect(w.stage).toEqual({ room: 'room_bs_1', wave: 1, waves: 1, cleared: false, gatePending: false });
+    expect(w.stage).toMatchObject({ room: 'room_bs_1', wave: 1, waves: 1, cleared: false, gatePending: false, pressure: 1 });
     expect(w.mode).toBe('playing'); expect(w.run!.room).toBe(0);
     expect(w.grid!.rows[5]![8]).toBe('P'); // the pillar at (8,5)
     expect(w.grid!.rows[7]![0]).toBe('D'); expect(w.grid!.rows[7]![23]).toBe('D');

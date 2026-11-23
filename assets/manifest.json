@@ -110,21 +110,21 @@
   "ancient_god"
  ],
  "summary": {
-  "total": 90,
+  "total": 94,
   "by_category": {
    "player": 4,
    "mob": 15,
    "boss": 3,
    "tileset": 3,
    "weapon": 12,
-   "projectile": 12,
+   "projectile": 16,
    "prop": 19,
    "icon": 16,
    "ui": 6
   },
   "by_agent": {
    "pixellab": 22,
-   "codex_antigravity": 68
+   "codex_antigravity": 72
   }
  },
  "assets": [
@@ -170,10 +170,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_outer_disciple/",
    "palette_refs": [
     "ink_04",
@@ -229,10 +233,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_qi_condensation/",
    "palette_refs": [
     "thunder_01",
@@ -288,10 +296,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_blood_foundation/",
    "palette_refs": [
     "blood_02",
@@ -348,10 +360,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 88,
+   "frames_per_direction": 25,
+   "total_frames": 100,
    "output_path": "assets/raw/characters/players/wl_extreme_jing/",
    "palette_refs": [
     "ink_01",
@@ -662,10 +678,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_blood_wolf/",
    "palette_refs": [
     "blood_02",
@@ -714,10 +734,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_blood_crow/",
    "palette_refs": [
     "ink_01",
@@ -766,10 +790,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_blood_corpse/",
    "palette_refs": [
     "blood_02",
@@ -818,10 +846,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_vengeful_soul/",
    "palette_refs": [
     "soul_07",
@@ -870,10 +902,14 @@
     "death": {
      "frames": 6,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_blood_pool_lurker/",
    "palette_refs": [
     "blood_02",
@@ -1292,10 +1328,14 @@
     "death": {
      "frames": 10,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 50,
-   "total_frames": 100,
+   "frames_per_direction": 53,
+   "total_frames": 106,
    "output_path": "assets/raw/characters/bosses/boss_ghost_king/",
    "palette_refs": [
     "soul_07",
@@ -4048,6 +4088,153 @@
     "ink_06"
    ],
    "status": "pending"
+  },
+  {
+   "id": "pj_mob_crow_feather",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Lông Quạ Huyết",
+    "en": "Projectile: Blood Crow Feather"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_crow",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_crow_feather/",
+   "palette_refs": [
+    "blood_05",
+    "blood_06",
+    "blood_07",
+    "soul_02",
+    "soul_04",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_corpse_gore",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Cục Máu Xác",
+    "en": "Projectile: Corpse Gore Clot"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_corpse",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_corpse_gore/",
+   "palette_refs": [
+    "blood_02",
+    "blood_03",
+    "blood_05",
+    "blood_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_lurker_bubble",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Bọt Huyết Thủy",
+    "en": "Projectile: Blood-Water Bubble"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_pool_lurker",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_lurker_bubble/",
+   "palette_refs": [
+    "blood_01",
+    "blood_04",
+    "blood_06",
+    "blood_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_soul_wisp",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Oán Hỏa",
+    "en": "Projectile: Vengeful Soul Fire"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_vengeful_soul",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_soul_wisp/",
+   "palette_refs": [
+    "jade_05",
+    "soul_03",
+    "soul_04",
+    "soul_05",
+    "soul_06",
+    "soul_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
   }
  ]
 }
