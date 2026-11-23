@@ -1,0 +1,142 @@
+{
+  "when": "2026-11-23T06:25:28.994Z",
+  "reloads": [
+    {
+      "color": [
+        0,
+        255,
+        0
+      ],
+      "writeToApplied": 55,
+      "writeToVisible": 58,
+      "reloadMs": 19,
+      "pixelBefore": [
+        20,
+        16,
+        26,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 2,
+      "tickAfter": 12
+    },
+    {
+      "color": [
+        0,
+        128,
+        255
+      ],
+      "writeToApplied": 53,
+      "writeToVisible": 53,
+      "reloadMs": 19,
+      "pixelBefore": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        128,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 36,
+      "tickAfter": 45
+    },
+    {
+      "color": [
+        255,
+        0,
+        255
+      ],
+      "writeToApplied": 53,
+      "writeToVisible": 57,
+      "reloadMs": 18,
+      "pixelBefore": [
+        0,
+        128,
+        255,
+        255
+      ],
+      "pixelAfter": [
+        255,
+        0,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 69,
+      "tickAfter": 77
+    },
+    {
+      "color": [
+        255,
+        255,
+        0
+      ],
+      "writeToApplied": 53,
+      "writeToVisible": 53,
+      "reloadMs": 16,
+      "pixelBefore": [
+        255,
+        0,
+        255,
+        255
+      ],
+      "pixelAfter": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 101,
+      "tickAfter": 109
+    },
+    {
+      "color": [
+        0,
+        255,
+        255
+      ],
+      "writeToApplied": 53,
+      "writeToVisible": 56,
+      "reloadMs": 16,
+      "pixelBefore": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        255,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 133,
+      "tickAfter": 141
+    }
+  ],
+  "writeToVisibleMs": {
+    "p50": 56,
+    "max": 58
+  },
+  "allPixelsChanged": true,
+  "simStateKept": {
+    "refTick": 900,
+    "nodeHash": "5bf89c6e20de8360",
+    "pageHash": "5bf89c6e20de8360",
+    "equal": true
+  },
+  "errors": []
+}
