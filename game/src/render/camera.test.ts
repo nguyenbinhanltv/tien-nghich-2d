@@ -35,3 +35,13 @@ describe('isPortrait', () => {
     expect(isPortrait(500, 500)).toBe(false);
   });
 });
+
+import { snapPx } from './camera.ts';
+describe('snapPx', () => {
+  it('rounds to whole logical pixels and never returns -0', () => {
+    expect(snapPx(2.4)).toBe(2);
+    expect(snapPx(2.5)).toBe(3);
+    expect(snapPx(-0.2)).toBe(0);
+    expect(Object.is(snapPx(-0.2), 0)).toBe(true);
+  });
+});

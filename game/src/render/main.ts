@@ -4,6 +4,7 @@ import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 import { fitView } from './camera.ts';
 import { AudioDirector } from '../audio/director.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
+import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
 import { createUiI18n } from '../ui/strings.ts';
@@ -21,7 +22,10 @@ hub.onGesture = () => audio.unlock();
 window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
 void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
 let portrait = false;
-const scene = new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w) });
+const params = new URLSearchParams(location.search);
+const scene: Phaser.Scene = params.get('view') === 'clips'
+  ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
+  : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w), frozen: params.has('golden') });
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,

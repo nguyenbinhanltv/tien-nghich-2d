@@ -15,5 +15,6 @@ export default tseslint.config(
     },
   },
   { files: ['audio-check/**/*.mjs'], languageOptions: { globals: Object.fromEntries(['process', 'console', 'fetch', 'OffscreenCanvas', 'OfflineAudioContext', 'setTimeout'].map((g) => [g, 'readonly'])) } },
+  { files: ['golden/**/*.mjs'], languageOptions: { globals: Object.fromEntries(['process', 'console', 'window', 'fetch', 'OffscreenCanvas', 'createImageBitmap', 'setTimeout'].map((g) => [g, 'readonly'])) } },
   { files: ['tools/**/*.ts', 'tests/**/*.ts', 'pwa/**/*.ts'], rules: { '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }] } },
 );

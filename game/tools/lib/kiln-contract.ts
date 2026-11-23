@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
-import { ASSETS, readJson, rel } from './repo.ts';
+import { ASSETS, GAME, readJson, rel } from './repo.ts';
 import type { AssetInfo } from './assets.ts';
 import { check } from './schemas.ts';
 
@@ -36,10 +36,11 @@ export function readSidecars(): Map<string, { file: string; data: Sidecar }> {
   return out;
 }
 
-export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<string, { file: string; data: Sidecar }>, dir = path.join(ASSETS, 'bodies')): Compiled<{ schema: string; version: 1; bodies: Record<string, unknown> }> {
+export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<string, { file: string; data: Sidecar }>, dirs: string | string[] = [path.join(ASSETS, 'bodies'), path.join(GAME, 'content/hitbox')]): Compiled<{ schema: string; version: 1; bodies: Record<string, unknown> }> {
   const problems: string[] = [], warnings: string[] = [];
   const bodies: Record<string, unknown> = {};
-  if (fs.existsSync(dir)) {
+  for (const dir of [dirs].flat()) {
+    if (!fs.existsSync(dir)) continue;
     for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json')).sort()) {
       const id = f.replace(/\.bodies\.json$/, '');
       const where = `${rel(path.join(dir, f))}`;
@@ -47,6 +48,8 @@ export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<stri
       try { body = readJson(path.join(dir, f)); } catch (e) { problems.push(`${where}: not valid JSON (${(e as Error).message})`); continue; }
       const a = assets.get(id);
       if (!a) { problems.push(`${where}: unknown asset id ${id}`); continue; }
+      // Folders are listed in precedence order: the first one holding an id wins (assets/bodies, the approved store, before the game/content/hitbox drafts).
+      if (bodies[id]) { warnings.push(`${where}: ignored, ${id} already has a body from an earlier folder (delete this draft)`); continue; }
       const invalid = check('bodies.schema.json#/$defs/body', body, where);
       problems.push(...invalid);
       if (invalid.length) continue; // a body that failed its schema is never stored: later steps may rely on its shape

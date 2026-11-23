@@ -22,7 +22,9 @@ export interface RunState {
   carried: Reward[];
   /** Rewards already sent home (kept whatever happens next). */
   banked: Reward[];
-  /** First-clear bonus already granted for these clusters (anti-farm). */
+  /** Recipe ids learned this run. They go to the profile even when the run ends in death (failure keeps what was learned). */
+  learned: string[];
+  /** Clusters whose first-clear bonus was already granted this run (anti-farm). */
   clusterFirstClear: number[];
   outcome: RunOutcome;
 }

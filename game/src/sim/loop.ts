@@ -8,6 +8,7 @@ import { playerControl, tickTimers } from './systems/movement.ts';
 import { projectileSystem } from './systems/projectile.ts';
 import { setMode, sweepDead } from './systems/combat.ts';
 import { BOSS_SCRIPT, ghostKingStep } from './systems/ghost-king.ts';
+import { settleRun } from './run/run.ts';
 
 export const NO_INPUT: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
 
@@ -31,6 +32,7 @@ export function spawn(world: WorldState, kind: string, x: number, y: number, hp:
  */
 export function step(world: WorldState, input: InputFrame, events: GameEvent[]): void {
   world.tick++;
+  settleRun(world, events);
   const player = findPlayer(world);
   if (world.mode === 'falling') {
     if (player) { player.combat.down = Math.max(0, player.combat.down - 1); if (!player.combat.down) setMode(world, 'lost', events); }

@@ -15,7 +15,7 @@ const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'applicatio
 export const AUDIO_RE = /^audio\/packs\/[a-z0-9_]+\/(pack\.json|sfx_sprite\.(ogg|m4a)|bgm_[a-z0-9_]+\.(ogg|m4a))$/;
 /** Compiled content the game reads at run time (npm run content:build writes dist-content/). */
 export const CONTENT_FILES = ['audio_events.json'];
-export const ATLAS_RE = /^atlases\/mobile\/atlas-\d+\.(png|json)$/;
+export const ATLAS_RE = /^(atlases\/mobile\/atlas-\d+\.(png|json)|atlases\/mob-runtime\.json|atlases_longtime\/mobile\/[a-z_]+\/(atlas-\d+\.(png|json)|chunk-manifest\.json))$/;
 
 /** IPv4/IPv6 loopback and private (RFC 1918, link-local, unique-local) addresses. */
 export function isLocalAddress(addr: string | undefined): boolean {
@@ -63,12 +63,16 @@ export function pwa(): Plugin {
     closeBundle() {
       const dist = join(GAME, 'dist');
       if (!existsSync(dist)) return;
-      const src = join(ASSETS, 'atlases/mobile');
-      for (const f of readdirSync(src)) {
-        if (!ATLAS_RE.test(`atlases/mobile/${f}`)) continue;
-        const dst = join(dist, 'assets/atlases/mobile', f);
-        mkdirSync(dirname(dst), { recursive: true });
-        copyFileSync(join(src, f), dst);
+      for (const sub of ['atlases', 'atlases_longtime/mobile']) {
+        const root = join(ASSETS, sub);
+        if (!existsSync(root)) continue;
+        for (const f of listFiles(root)) {
+          const rel = relative(ASSETS, f).split(sep).join('/');
+          if (!ATLAS_RE.test(rel)) continue;
+          const dst = join(dist, 'assets', rel);
+          mkdirSync(dirname(dst), { recursive: true });
+          copyFileSync(f, dst);
+        }
       }
       const packs = join(ASSETS, 'audio/packs');
       if (existsSync(packs)) {
@@ -86,7 +90,9 @@ export function pwa(): Plugin {
         mkdirSync(join(dist, 'content'), { recursive: true });
         copyFileSync(src, join(dist, 'content', name));
       }
-      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map') && !f.startsWith('assets/audio/'));
+      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map'))
+        // audio is fetched on first use (28 MB with both codecs); chunks other than the Dong Phu (abode) likewise
+        .filter((f) => !f.startsWith('assets/audio/') && !/^assets\/atlases_longtime\/mobile\/(?!abode\/)/.test(f));
       const version = createHash('sha1').update(all.map((f) => `${f}:${statSync(join(dist, f)).size}`).join('|')).digest('hex').slice(0, 10);
       const sw = readFileSync(join(here, 'sw.template.js'), 'utf8').replace('__VERSION__', version).replace('__PRECACHE__', JSON.stringify(['./', ...all.map((f) => `./${f}`)]));
       writeFileSync(join(dist, 'sw.js'), sw);

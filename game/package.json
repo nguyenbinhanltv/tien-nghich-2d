@@ -22,7 +22,8 @@
     "dev:lan": "node pwa/lan.ts dev",
     "preview:lan": "vite build && node pwa/lan.ts preview",
     "preview": "vite preview",
-    "audio:check": "node audio-check/check.mjs"
+    "audio:check": "node audio-check/check.mjs",
+    "golden": "node golden/check.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -29,7 +29,10 @@ describe('atlas allow-list', () => {
   it('matches atlas pages and nothing else', () => {
     expect(ATLAS_RE.test('atlases/mobile/atlas-3.png')).toBe(true);
     expect(ATLAS_RE.test('atlases/mobile/atlas-3.json')).toBe(true);
-    for (const bad of ['atlases/mobile/../manifest.json', 'manifest.json', 'atlases/web/atlas-0.png', 'atlases/mobile/atlas-x.png']) expect(ATLAS_RE.test(bad)).toBe(false);
+    expect(ATLAS_RE.test('atlases/mob-runtime.json')).toBe(true);
+    expect(ATLAS_RE.test('atlases_longtime/mobile/abode/atlas-0.png')).toBe(true);
+    expect(ATLAS_RE.test('atlases_longtime/mobile/abode/chunk-manifest.json')).toBe(true);
+    for (const bad of ['atlases_longtime/mobile/../../manifest.json', 'atlases_longtime/mobile/abode/secret.json', 'atlases/mobile/../manifest.json', 'manifest.json', 'atlases/web/atlas-0.png', 'atlases/mobile/atlas-x.png']) expect(ATLAS_RE.test(bad)).toBe(false);
   });
   it('KILN_PAGE_COUNT equals the pages on disk', () => {
     const dir = join(GAME, '../assets/atlases/mobile');
