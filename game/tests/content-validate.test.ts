@@ -53,7 +53,7 @@ describe('content validation: wrong data gives a readable message', () => {
   it('a mob from another biome, a bad count and a duplicated id are errors', () => {
     expect(broken({ 'tables/mobs.csv': ['mob_blood_crow,8,48,1,swooper,1,blood_sea', 'mob_blood_crow,8,48,1,swooper,1,abode'] }).semantic.errors.join('\n')).toMatch(/mob_blood_crow is a abode mob in a blood_sea room/);
     expect(broken({ 'tables/rooms.csv': ['mob_blood_wolf:2,,room_bs_2', 'mob_blood_wolf:x,,room_bs_2'] }).semantic.errors.join('\n')).toMatch(/needs a positive count/);
-    expect(broken({ 'tables/bosses.csv': ['boss_ghost_king,420', 'mob_blood_wolf,420'] }).semantic.errors.join('\n')).toMatch(/id is already used in mobs\.csv/);
+    expect(broken({ 'tables/bosses.csv': ['boss_ghost_king,60', 'mob_blood_wolf,60'] }).semantic.errors.join('\n')).toMatch(/id is already used in mobs\.csv/);
   });
   it('an unreachable room and a chain with no reward end are errors', () => {
     const r = broken({ 'tables/rooms.csv': ['room_bs_2,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:2;mob_blood_wolf:1,,room_bs_3', 'room_bs_2,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:2;mob_blood_wolf:1,,'] });
