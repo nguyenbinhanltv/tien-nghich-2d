@@ -55,3 +55,11 @@ describe('manifest', () => {
     }
   });
 });
+
+import { AUDIO_RE } from './vite-plugin.ts';
+describe('audio allow-list', () => {
+  it('serves packs, sprites and beds only', () => {
+    for (const ok of ['audio/packs/pilot_v1/pack.json', 'audio/packs/pilot_v1/sfx_sprite.ogg', 'audio/packs/modes_v1/bgm_defense.m4a']) expect(AUDIO_RE.test(ok), ok).toBe(true);
+    for (const bad of ['audio/packs/pilot_v1/sfx_sprite_master.wav', 'audio/packs/pilot_v1/evidence.json', 'audio/packs/../../manifest.json', 'audio/masters/x.wav']) expect(AUDIO_RE.test(bad), bad).toBe(false);
+  });
+});
