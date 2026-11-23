@@ -21,6 +21,17 @@ const fly = (mobKind: string) => {
   for (let i = 0; i < 40; i++) projectileSystem(w, ev);
   return mob.hp;
 };
+describe('an enemy shot next to a soul', () => {
+  it('is still stopped by the wall (a player behind the wall is not hit)', () => {
+    const { w, ev, player, mob } = world('mob_vengeful_soul');
+    player.pos.y = 48; player.pos.x = 7 * 16 + 12; // standing in the wall cell behind the soul's line of fire
+    fireProjectile(w, mob.id, KIND.mobShot, 90, 48, 1, 0, 4, 3, 60, 1, false, ev);
+    for (let i = 0; i < 40; i++) projectileSystem(w, ev);
+    expect(player.hp).toBe(6);
+    expect(w.projectiles.count).toBe(0);
+  });
+});
+
 describe('player shots and a wall-phasing mob inside the wall', () => {
   it('hit a vengeful soul floating in the wall', () => { expect(fly('mob_vengeful_soul')).toBeLessThan(12); });
   it('are still stopped by the wall when nothing floats in it', () => { expect(fly('mob_blood_wolf')).toBe(12); });
