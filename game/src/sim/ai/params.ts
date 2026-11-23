@@ -38,7 +38,9 @@ export const AMBUSHER = {
 } as const;
 
 export const SHOOTER = {
-  /** Keeps this distance (px) +/- tolerance, casts a seal on the player's position. */
-  keep: 96, tolerance: 14, castRange: 140, sealRadius: 20,
+  /** Keeps this distance (px) +/- tolerance and fires an orb at the player. */
+  keep: 96, tolerance: 14, castRange: 140,
+  /** The wailing orb (manifest: "fires wailing orbs"): speed px/tick, hit radius, how far it flies. The aim line shown during the tell is as long as that range. */
+  shotSpeed: 2.2, shotRadius: 4, shotRange: 170, aimHalfWidth: 4,
   recoverMs: 600, cooldownMs: 1400, jitterMs: 500,
 } as const;

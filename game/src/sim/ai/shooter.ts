@@ -1,15 +1,18 @@
 // mob_vengeful_soul: "hồn xuyên tường" (shooter). Floats through walls (see PHASES_WALLS), keeps its distance from the
-// player and casts a seal (disc) on the player's position. There is no projectile art for mobs yet, so the cast is a
-// telegraphed area, which the renderer shows with the existing hazard drawing.
+// player and fires a wailing orb (assets/manifest.json: "fires wailing orbs"). The aim is locked when the tell starts and
+// shown as a thin line (a hazard that deals no damage and is never resolved); at the end of the tell the line goes and an
+// orb flies along it. A dash's guard window absorbs the orb (hurtPlayer), walls stop it. The renderer dresses the orb as
+// pj_mob_soul_wisp by its owner.
 import { dist, unitInto } from '../math.ts';
-import { begin, impact, noPlayer, stagger, track } from './attack.ts';
+import { fireProjectile, KIND } from '../systems/projectile.ts';
+import { begin, noPlayer, stagger, track } from './attack.ts';
 import { SHOOTER as P, ticks } from './params.ts';
 import type { MobBehavior } from './types.ts';
-import { enter, setVel } from './util.ts';
+import { dropHazards, enter, setVel } from './util.ts';
 
 const d = { x: 0, y: 0 };
 const FLOAT = 'float', CAST = 'cast', RECOVER = 'recover';
-// data[0] cooldown ticks left.
+// data[0] cooldown ticks left; data[1..2] locked aim direction in 1/1000 during the cast.
 
 export const shooter: MobBehavior = {
   ai: 'shooter',
@@ -30,14 +33,19 @@ export const shooter: MobBehavior = {
         else if (r <= P.castRange) {
           setVel(a, 0, 0);
           const tell = ticks(row.tell_ms);
-          begin(a, ctx, { kind: 'seal', x: player.pos.x, y: player.pos.y, dirX: d.x, dirY: d.y, radius: P.sealRadius, length: 0, damage: row.contact_dmg, ticks: tell });
+          a.ai.data[1] = Math.round(d.x * 1000); a.ai.data[2] = Math.round(d.y * 1000);
+          begin(a, ctx, { kind: 'claw', x: a.pos.x, y: a.pos.y, dirX: d.x, dirY: d.y, radius: P.aimHalfWidth, length: P.shotRange, damage: 0, ticks: tell }); // aim line only
           enter(a, world, CAST, tell, row.attack_clip);
         }
         break;
       }
       case CAST: {
         setVel(a, 0, 0);
-        if (--a.ai.timer <= 0) { impact(a, ctx); enter(a, world, RECOVER, ticks(P.recoverMs), 'idle'); }
+        if (--a.ai.timer <= 0) {
+          dropHazards(world, a.id);
+          fireProjectile(world, a.id, KIND.mobShot, a.pos.x, a.pos.y, a.ai.data[1] / 1000, a.ai.data[2] / 1000, P.shotSpeed, P.shotRadius, Math.ceil(P.shotRange / P.shotSpeed), row.contact_dmg, false, ctx.events);
+          enter(a, world, RECOVER, ticks(P.recoverMs), 'idle');
+        }
         else track(a, ctx, a.ai.timer);
         break;
       }

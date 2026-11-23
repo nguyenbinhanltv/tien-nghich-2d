@@ -91,8 +91,8 @@ describe('collision in step()', () => {
       const p = w.actors[0]!; p.hp = p.hpMax = 999;
       const m = mob(w, content, kind, 150, 100, ev);
       m.hp = m.hpMax = 9999; // outlasts the blades
-      let resolved = 0;
-      for (let i = 0; i < 900; i++) { ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: null }, ev, ctx); resolved += ev.filter((e) => e.type === 'hazard-resolved').length; }
+      let resolved = 0; // an attack completes by resolving its hazard or, for the soul, by firing its orb
+      for (let i = 0; i < 900; i++) { ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: null }, ev, ctx); resolved += ev.filter((e) => e.type === 'hazard-resolved' || e.type === 'projectile-fired').length; }
       expect(w.stats.hits, kind).toBeGreaterThan(0);
       expect(resolved, `${kind} completed an attack while being struck`).toBeGreaterThan(0);
     }
