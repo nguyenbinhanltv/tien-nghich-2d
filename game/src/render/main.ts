@@ -11,6 +11,7 @@ import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { Menus } from '../ui/menus.ts';
 import { loadSettings, saveSettings } from '../ui/settings.ts';
+import { mountLifecycle } from '../platform/lifecycle.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
 import { createUiI18n } from '../ui/strings.ts';
 import { isResult, mountStatus, statusText } from '../ui/status.ts';
@@ -31,6 +32,7 @@ window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
 const startBgm = new URLSearchParams(location.search).get('view') === 'dong-phu' ? 'bgm_dong_phu' : 'bgm_blood_sea';
 void audio.init().then(() => audio.engine.playBgm(startBgm));
 let portrait = false;
+let away = false; // app in the background (src/platform/lifecycle.ts)
 const ui: { menus?: Menus } = {}; // the menus need the scene and the scene needs to ask whether they are open
 const params = new URLSearchParams(location.search);
 if (params.has('golden')) document.body.classList.add('golden');
@@ -38,13 +40,13 @@ if (params.has('golden')) document.body.classList.add('golden');
 const content = params.get('view') === 'clips' ? null : await loadSliceContent().catch((e: unknown) => { console.warn('content unavailable, boss arena only:', e); return null; });
 const flow = params.get('view') === 'dong-phu'
   ? createFlow({ hub, i18n, audio, content, onGate: (c) => ui.menus?.openGate(c), runLines: (r) => runLines((k) => i18n.t(k), r), store: { getItem: (k) => localStorage.getItem(k), setItem: (k, v) => localStorage.setItem(k, v) }, frozen: params.has('golden'),
-      paused: () => portrait || (ui.menus?.isOpen ?? false), juice: () => ({ shake: settings.shake, flash: settings.flash }), setStatus, panelRoot: document.body })
+      paused: () => portrait || away || (ui.menus?.isOpen ?? false), juice: () => ({ shake: settings.shake, flash: settings.flash }), setStatus, panelRoot: document.body })
   : null;
 const scene: Phaser.Scene = flow
   ? flow.first()
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ content, onGate: (c) => ui.menus?.openGate(c), runLines: (r) => runLines((k) => i18n.t(k), r), sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), nameOf: (k) => (i18n.has(k) ? i18n.t(k) : ''), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
+  : new BloodSeaScene({ content, onGate: (c) => ui.menus?.openGate(c), runLines: (r) => runLines((k) => i18n.t(k), r), sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), nameOf: (k) => (i18n.has(k) ? i18n.t(k) : ''), paused: () => portrait || away || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 
@@ -82,6 +84,7 @@ const coarse = window.matchMedia('(pointer: coarse)').matches || new URLSearchPa
 controls.setVisible(coarse);
 window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') controls.setVisible(true); }, { passive: true });
 mountOrientationGate(document.body, i18n, (p) => { portrait = p; });
+mountLifecycle(document, window, { onAway: (a) => { away = a; }, suspendAudio: () => audio.engine.suspend(), resumeAudio: () => audio.engine.resume() });
 
 function applySettings(): void {
   audio.engine.setVolume('master', settings.master);
