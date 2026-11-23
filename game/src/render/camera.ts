@@ -25,3 +25,10 @@ export function fitView(cssWidth: number, cssHeight: number, dpr: number): ViewF
 export function isPortrait(cssWidth: number, cssHeight: number): boolean {
   return cssHeight > cssWidth;
 }
+
+/**
+ * Scroll and shake offsets are applied in WHOLE logical pixels. A fractional offset on a pixel-art canvas that is then
+ * scaled by an integer makes some pixel columns wider than others (shimmer); rounding keeps every pixel the same size.
+ * Half-way values round toward +infinity consistently (Math.round), and -0 is normalised to 0.
+ */
+export function snapPx(v: number): number { return Math.round(v) + 0; }
