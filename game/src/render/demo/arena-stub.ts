@@ -23,6 +23,7 @@ export class ArenaStub {
   private counterLeft = 0;
 
   constructor() {
+    this.world.mode = 'playing'; // the real sim starts in 'ready' (frozen); the demo wants walking, not the dash/strike it fakes below
     this.playerId = spawn(this.world, 'wl_outer_disciple', 192, 150, 100, this.events);
     this.player.role = 'player'; // kind names the art (form); the contract derives role from kind 'player'
     MOB_KINDS.forEach((k, i) => spawn(this.world, k, 80 + i * 50, 110 + (i % 2) * 40, 40, this.events));
@@ -45,7 +46,7 @@ export class ArenaStub {
     if (input.fire && this.counterLeft === 0 && this.dashLeft === 0) { this.counterLeft = COUNTER_TICKS; this.events.push({ type: 'strike', tick: this.world.tick, actor: p.id, counter: true }); }
     const moving = Math.hypot(input.move.x, input.move.y) > 0.1;
     // the counter plants the feet
-    for (const e of this.sim.step(this.counterLeft > 0 ? { ...input, move: { x: 0, y: 0 } } : input)) this.events.push(e);
+    for (const e of this.sim.step({ ...input, move: this.counterLeft > 0 ? { x: 0, y: 0 } : input.move, dash: false, fire: false })) this.events.push(e);
     if (this.dashLeft > 0) {
       p.pos.x += this.dashDir.x * DASH_SPEED;
       p.pos.y += this.dashDir.y * DASH_SPEED;

@@ -10,7 +10,7 @@ import type { InputFrame } from '../src/contracts/world.ts';
 
 function runSeed(seed: number, ticks: number): string {
   const sim = createSim({ seed });
-  const w = sim.world, ev: never[] = [];
+  const w = sim.world, ev: never[] = []; w.mode = 'playing';
   spawn(w, 'player', 0, 0, 10, ev); spawn(w, 'mob_blood_wolf', 50, 50, 14, ev);
   const inputs = new Rng(seed ^ 0x5bd1e995);
   const input: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
