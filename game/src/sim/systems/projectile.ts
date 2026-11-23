@@ -5,6 +5,7 @@ import { circleCircle } from '../collide.ts';
 import { addProjectile, removeProjectile } from '../pool.ts';
 import { SpatialHash } from '../spatial-hash.ts';
 import { damageEnemy, hurtPlayer } from './combat.ts';
+import { pointSolid } from './grid.ts';
 
 export const KIND = { spiritBlade: PROJECTILE_KINDS.indexOf('spirit_blade'), mobShot: PROJECTILE_KINDS.indexOf('mob_shot'), playerBolt: PROJECTILE_KINDS.indexOf('player_bolt') } as const;
 
@@ -41,6 +42,7 @@ export function projectileSystem(world: WorldState, events: GameEvent[]): void {
     p.y[i] = (p.y[i] as number) + (p.vy[i] as number);
     p.ttl[i] = (p.ttl[i] as number) - 1;
   }
+  if (world.grid) for (let i = 0; i < p.count; i++) if (pointSolid(world.grid, p.x[i] as number, p.y[i] as number)) p.ttl[i] = -1; // shots stop at walls and props
   const { hash, out } = scratch(world);
   hash.rebuild(p.count, p.x, p.y);
   for (const a of world.actors) {

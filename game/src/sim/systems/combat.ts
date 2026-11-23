@@ -24,6 +24,7 @@ export function damageEnemy(world: WorldState, target: ActorState, damage: numbe
   if (counter) world.stats.counterHits++;
   events.push({ type: 'hit', tick: world.tick, source, target: target.id, damage, counter });
   hitStop(world, COMBAT.freezeHit, events);
+  if (target.role === 'mob' && target.hp > 0) target.combat.hurt = COMBAT.hurtPose; // a mob that is hit flinches: its AI cancels the attack in progress (sim/ai stagger)
   if (target.hp === 0 && before > 0) killActor(world, target, events);
 }
 
