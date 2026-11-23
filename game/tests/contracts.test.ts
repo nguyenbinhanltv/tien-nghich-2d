@@ -39,6 +39,20 @@ describe('bodies', () => {
     fs.writeFileSync(path.join(dir, 'ghost_thing.bodies.json'), JSON.stringify(goodBody));
     expect(compileBodies(assets, new Map(), dir).problems.join()).toMatch(/unknown asset id ghost_thing/);
   });
+  it('reports a body with no review block and broken JSON as problems, and does not store them', () => {
+    const dir = tmp();
+    const noReview: Record<string, unknown> = { ...goodBody };
+    delete noReview.review;
+    fs.writeFileSync(path.join(dir, 'mob_test_wolf.bodies.json'), JSON.stringify(noReview));
+    const r = compileBodies(assets, new Map(), dir);
+    expect(r.problems.join()).toMatch(/review/);
+    expect(r.data.bodies).toEqual({});
+    expect(() => verifyApprovals(r.data.bodies, path.join(dir, 'x.json'))).not.toThrow();
+    fs.writeFileSync(path.join(dir, 'mob_test_wolf.bodies.json'), '{ not json');
+    const j = compileBodies(assets, new Map(), dir);
+    expect(j.problems.join()).toMatch(/not valid JSON/);
+    expect(j.data.bodies).toEqual({});
+  });
   it("takes Kiln's metadata hitbox as a draft default hurtbox, never as approval", () => {
     const sc = new Map([['mob_test_wolf', { file: 'x/studio-metadata.json', data: { pivot: [16, 31] as [number, number], hitbox: { x: 4, y: 8, w: 20, h: 22 } } }]]);
     const r = compileBodies(assets, sc, path.join(tmp(), 'none'));

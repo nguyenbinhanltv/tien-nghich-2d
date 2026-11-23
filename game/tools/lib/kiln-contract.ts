@@ -43,10 +43,13 @@ export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<stri
     for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json')).sort()) {
       const id = f.replace(/\.bodies\.json$/, '');
       const where = `${rel(path.join(dir, f))}`;
-      const body = readJson<{ frameSize: [number, number]; pivot: [number, number]; hurtbox: Box; clips?: Record<string, { frames: Record<string, { hurtbox?: Box; hitboxes?: Box[] }> }> }>(path.join(dir, f));
+      let body: { frameSize: [number, number]; pivot: [number, number]; hurtbox: Box; clips?: Record<string, { frames: Record<string, { hurtbox?: Box; hitboxes?: Box[] }> }> };
+      try { body = readJson(path.join(dir, f)); } catch (e) { problems.push(`${where}: not valid JSON (${(e as Error).message})`); continue; }
       const a = assets.get(id);
       if (!a) { problems.push(`${where}: unknown asset id ${id}`); continue; }
-      problems.push(...check('bodies.schema.json#/$defs/body', body, where));
+      const invalid = check('bodies.schema.json#/$defs/body', body, where);
+      problems.push(...invalid);
+      if (invalid.length) continue; // a body that failed its schema is never stored: later steps may rely on its shape
       if (a.size && (body.frameSize?.[0] !== a.size[0] || body.frameSize?.[1] !== a.size[1])) problems.push(`${where}: frameSize ${JSON.stringify(body.frameSize)} differs from the manifest size ${JSON.stringify(a.size)}`);
       const inside = (b: Box | undefined, at: string): void => {
         if (b && body.frameSize && (b.x + b.w > body.frameSize[0] || b.y + b.h > body.frameSize[1])) problems.push(`${where}: ${at} leaves the ${body.frameSize.join('x')} frame`);
@@ -70,7 +73,9 @@ export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<stri
     const a = assets.get(id);
     if (!a?.size) { warnings.push(`${s.file}: hitbox on unknown asset ${id}`); continue; }
     bodies[id] = { frameSize: a.size, pivot: s.data.pivot ?? [Math.floor(a.size[0] / 2), a.size[1] - 1], hurtbox: s.data.hitbox, review: { status: 'draft-unreviewed', source: 'hand', note: `from ${s.file} hitbox` } };
-    problems.push(...check('bodies.schema.json#/$defs/body', bodies[id], `${s.file} (hitbox)`));
+    const bad = check('bodies.schema.json#/$defs/body', bodies[id], `${s.file} (hitbox)`);
+    problems.push(...bad);
+    if (bad.length) delete bodies[id];
   }
   return { data: { schema: 'tien-nghich-2d.bodies', version: 1, bodies }, problems, warnings };
 }
