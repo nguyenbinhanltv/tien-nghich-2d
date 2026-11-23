@@ -9,6 +9,7 @@ import { check } from './lib/schemas.ts';
 import { loadAssets } from './lib/assets.ts';
 import { crossCheck, loadTables, semanticCheck } from './lib/tables.ts';
 import { encounterProblems, type Encounter } from '../src/sim/ai/boss.ts';
+import { loadLayouts, validateAll, type RoomRow } from './lib/rooms.ts';
 import { verifyLocks } from './lib/hitbox-edit.ts';
 import { compileAudioEvents, compileBodies, compileClipEvents, compileTileShapes, readSidecars, verifyApprovals } from './lib/kiln-contract.ts';
 
@@ -37,6 +38,7 @@ for (const k of ['mob_blood_wolf', 'boss_ghost_king']) { // names are canon: the
 }
 problems.push(...crossCheck(tables, assets, locale));
 for (const [id, e] of Object.entries(tables.encounters)) problems.push(...encounterProblems(e as Encounter).map((m) => `encounters/${id}.yaml: ${m}`));
+problems.push(...validateAll(tables.rooms as unknown as RoomRow[]));
 
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);
 for (const c of [bodies, events, shapes, audio]) { problems.push(...c.problems); warnings.push(...c.warnings); }
@@ -48,6 +50,7 @@ problems.push(...approvals.problems, ...verifyLocks());
 
 put('tables.json', { mobs: tables.mobs, bosses: tables.bosses, rooms: tables.rooms });
 for (const [id, e] of Object.entries(tables.encounters)) put(`encounters/${id}.json`, e);
+for (const [id, layout] of loadLayouts()) put(`rooms/${id}.json`, layout);
 put('locale/vi.json', locale.vi); put('locale/en.json', locale.en);
 put('bodies.json', bodies.data); put('clip_events.json', events.data); put('tile_shapes.json', shapes.data); put('audio_events.json', audio.data);
 put('assets.json', { schema: 'tien-nghich-2d.game-assets', version: 1, profile, assets: [...assets.values()].map(({ id, category, source, readiness, size, directions, clips, chunk }) => ({ id, category, source, readiness, size, directions, clips, chunk })) });

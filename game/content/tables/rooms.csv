@@ -1,7 +1,12 @@
 id,biome,kind,width_tiles,height_tiles,tileset,mobs,boss,next
 room_abode_hub,abode,abode,24,14,lt_abode_stone,,,room_bs_1
-room_bs_1,blood_sea,combat,24,14,ts_blood_valley,mob_blood_wolf:3;mob_blood_crow:2,,room_bs_2
-room_bs_2,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:3;mob_blood_wolf:2,,room_bs_3
-room_bs_3,blood_sea,combat,24,14,ts_blood_valley,mob_blood_pool_lurker:2;mob_blood_crow:3;mob_blood_corpse:2,,room_bs_boss
+room_bs_1,blood_sea,combat,24,14,ts_blood_valley,mob_blood_wolf:2,,room_bs_2
+room_bs_2,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:2;mob_blood_wolf:1,,room_bs_3
+room_bs_3,blood_sea,combat,24,14,ts_blood_valley,mob_blood_crow:2;mob_blood_wolf:2,,room_bs_4
+room_bs_4,blood_sea,combat,24,14,ts_blood_valley,mob_blood_pool_lurker:2;mob_blood_corpse:2,,room_bs_5
+room_bs_5,blood_sea,combat,24,14,ts_blood_valley,mob_vengeful_soul:2;mob_blood_wolf:2,,room_bs_6
+room_bs_6,blood_sea,combat,24,14,ts_blood_valley,mob_blood_crow:3;mob_vengeful_soul:1;mob_blood_corpse:1,,room_bs_7
+room_bs_7,blood_sea,combat,24,14,ts_blood_valley,mob_blood_pool_lurker:2;mob_vengeful_soul:2;mob_blood_wolf:2,,room_bs_8
+room_bs_8,blood_sea,combat,24,14,ts_blood_valley,mob_blood_corpse:3;mob_blood_crow:2;mob_vengeful_soul:1;mob_blood_pool_lurker:1,,room_bs_boss
 room_bs_boss,blood_sea,boss,24,14,ts_blood_valley,,boss_ghost_king,room_bs_reward
 room_bs_reward,blood_sea,reward,24,14,ts_blood_valley,,,
