@@ -97,11 +97,11 @@ test('overview: pins today\'s totals and agrees with the manifests read directly
   const {data} = await get('/api/studio/overview');
   const core = json('assets/manifest.json'), longtime = json('assets/manifest_longtime.json');
   const vfx = json('assets/processed/vfx/vfx_index.json'), audio = json('assets/audio_manifest.json');
-  // Pinned: the project today has 97 core assets, 126 Longtime IDs, 6 Longtime VFX, 12 VFX, 46 core audio IDs.
+  // Pinned: the project today has 97 core assets, 126 Longtime IDs, 6 Longtime VFX, 13 VFX, 46 core audio IDs.
   assert.equal(data.bySource.core.total, 97);
   assert.equal(data.bySource.longtime.total, 126);
   assert.equal(data.bySource.longtime_effects.total, 6);
-  assert.equal(data.bySource.vfx.total, 12);
+  assert.equal(data.bySource.vfx.total, 13);
   assert.equal(data.bySourceGroup.audio.core.total, 46);
   // And they are the manifests' own numbers, not a copy.
   assert.equal(data.bySource.core.total, core.assets.length);

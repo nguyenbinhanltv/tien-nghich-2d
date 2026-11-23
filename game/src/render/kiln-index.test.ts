@@ -1,3 +1,4 @@
+import { STATUS_IDS, statusFrame } from '../ui/status-icons.ts';
 import { shotFrame } from './clip-map.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -20,17 +21,20 @@ describe('parseFrameName', () => {
 
 describe('core atlas (real mobile pages)', () => {
   const names = coreNames();
+  it('has the 16-px frame of every status icon (PX-1)', () => {
+    for (const id of STATUS_IDS) expect(names).toContain(statusFrame(id));
+  });
   it('has every flight frame of the four enemy shots (PX-1)', () => {
     for (const owner of ['mob_blood_crow', 'mob_blood_corpse', 'mob_blood_pool_lurker', 'mob_vengeful_soul']) {
       for (let t = 0; t < 60; t += 5) expect(names, `${owner}@${t}`).toContain(shotFrame(owner, t, 'missing'));
     }
   });
   const { clips, unparsed } = indexClips(names);
-  it('has 3012 frames and 479 clips, the counts of the Studio Phaser check', () => {
-    expect(names.length).toBe(3012);
-    expect(new Set(names).size).toBe(3012);
+  it('has 3087 frames and 480 clips, the counts of the Studio Phaser check', () => {
+    expect(names.length).toBe(3087);
+    expect(new Set(names).size).toBe(3087);
     expect(unparsed).toEqual([]);
-    expect(clips.size).toBe(479);
+    expect(clips.size).toBe(480);
   });
   it('clip frames are consecutive from 0 and every frame belongs to exactly one clip', () => {
     let total = 0;
@@ -38,11 +42,11 @@ describe('core atlas (real mobile pages)', () => {
       total += c.frames.length;
       c.frames.forEach((f, i) => expect(f.endsWith(`_${i}`), f).toBe(true));
     }
-    expect(total).toBe(3012);
+    expect(total).toBe(3087);
   });
   it('builds a fromJSON document with one animation per clip, loops for idle/move, one-shot for attacks', () => {
     const doc = animsJson(clips.values(), () => 'page', (c) => (c === 'idle' ? 6 : 8)) as { anims: { key: string; repeat: number; frames: unknown[] }[] };
-    expect(doc.anims.length).toBe(479);
+    expect(doc.anims.length).toBe(480);
     expect(doc.anims.find((a) => a.key === 'characters/mob_blood_wolf/move_east')?.repeat).toBe(-1);
     expect(doc.anims.find((a) => a.key === 'characters/boss_ghost_king/attack_claw_east')?.repeat).toBe(0);
   });

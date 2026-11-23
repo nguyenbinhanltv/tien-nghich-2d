@@ -1,11 +1,11 @@
 {
   "schema": "tien-nghich-2d.package-budget",
   "version": 1,
-  "note": "Budgets for the web build (dist/) and the content pack (dist-content/), checked by `npm run package:check`. precacheMiB is what the service worker downloads on first launch (everything not lazy); audio packs and non-abode Longtime chunks are fetched on first use (pwa/vite-plugin.ts), audioMiB caps all audio shipped. Atlas chunk caps are the LONGTIME_GDD.md table (mobile pages / MiB of decompressed RGBA8); the core atlas cap is 26 MiB (game-plan 5.3 set 24.5 = 6 x 1024x1024 + 1024x128 pages; PX-1 hurt clips (84 frames) and enemy projectiles grew the last page to 1024x512, owner/orchestrator to confirm).",
+  "note": "Budgets for the web build (dist/) and the content pack (dist-content/), checked by `npm run package:check`. precacheMiB is what the service worker downloads on first launch (everything not lazy); audio packs and non-abode Longtime chunks are fetched on first use (pwa/vite-plugin.ts), audioMiB caps all audio shipped. Atlas chunk caps are the LONGTIME_GDD.md table (mobile pages / MiB of decompressed RGBA8); the core atlas cap is 28 MiB (game-plan 5.3 set 24.5 = 6 x 1024x1024 + 1024x128 pages; PX-1: hurt clips and enemy projectiles took it to 26, the 75-frame ghost_summon_call grew the last page to 1024x1024).",
   "web": {
     "jsGzipKiB": 500,
     "corePages": 7,
-    "coreRgbaMiB": 26,
+    "coreRgbaMiB": 28,
     "allowedTopLevel": [
       "index.html",
       "manifest.webmanifest",

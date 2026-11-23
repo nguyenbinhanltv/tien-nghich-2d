@@ -199,7 +199,7 @@ def validate_delivery(root, doc):
     effects = index["effects"]
     ids = {e["id"] for e in effects}
     specs = {p.stem for p in (root / "tools/generators/vfx_specs").glob("*.json")}
-    if len(effects) != 12 or len(ids) != 12 or ids != specs or ids & records.keys():
+    if len(effects) != 13 or len(ids) != 13 or ids != specs or ids & records.keys():
         raise ValueError("duplicate, missing or unexpected VFX IDs across catalogs")
     for entry in effects:
         i = entry["id"]

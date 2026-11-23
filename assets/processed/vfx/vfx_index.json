@@ -256,6 +256,74 @@
    ]
   },
   {
+   "id": "ghost_summon_call",
+   "frame_size": [
+    76,
+    40
+   ],
+   "anchor": [
+    38,
+    38
+   ],
+   "fps": 30,
+   "loop": true,
+   "frame_count": 75,
+   "total_ms": 2500,
+   "sheet": "assets/processed/vfx/ghost_summon_call_sheet.png",
+   "descriptor": "assets/processed/vfx/ghost_summon_call.json",
+   "px1": true,
+   "tags": [
+    [
+     "draw",
+     0,
+     17,
+     "once"
+    ],
+    [
+     "channel",
+     18,
+     41,
+     "loop"
+    ],
+    [
+     "burst",
+     42,
+     44,
+     "once"
+    ],
+    [
+     "release",
+     45,
+     74,
+     "once"
+    ],
+    [
+     "start",
+     0,
+     17,
+     "once"
+    ],
+    [
+     "loop",
+     18,
+     41,
+     "loop"
+    ],
+    [
+     "end",
+     42,
+     74,
+     "once"
+    ]
+   ],
+   "events": [
+    [
+     "summon",
+     42
+    ]
+   ]
+  },
+  {
    "id": "hit_spark",
    "frame_size": [
     32,

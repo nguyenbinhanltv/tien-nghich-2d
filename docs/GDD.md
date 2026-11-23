@@ -161,6 +161,7 @@ Mỗi hàng là một ID bắt buộc. Với 90 mục gốc, trường `animatio
 | `cam_che_tran_phap` | 85 frames @ 30 fps | vfx | 64x64 |
 | `charge_up` | 30 frames @ 30 fps | vfx | 64x64 |
 | `dash_afterimage` | 12 frames @ 30 fps | vfx | 32x32 |
+| `ghost_summon_call` | 75 frames @ 30 fps | vfx | 76x40 |
 | `hit_spark` | 12 frames @ 30 fps | vfx | 32x32 |
 | `huyet_hai_kiem_khi` | 14 frames @ 30 fps | vfx | 64x64 |
 | `spirit_stone_glint` | 12 frames @ 30 fps | vfx | 32x32 |

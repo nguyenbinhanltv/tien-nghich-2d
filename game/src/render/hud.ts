@@ -9,6 +9,8 @@ import type { WorldState } from '../contracts/world.ts';
 import { BAR_H, BAR_W, barCropWidth, BOSS_NAME_MAX_W, HUD_POS, ratio } from '../ui/hud-layout.ts';
 import { DIGIT_H, textPixels, wrapText } from '../ui/pixel-text.ts';
 import type { TextPixels } from '../ui/pixel-text.ts';
+import { activeStatuses, STATUS_IDS, statusFrame, statusSlot } from '../ui/status-icons.ts';
+import type { StatusId } from '../ui/status-icons.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
 // palette ids (tools/generators/palette.json, 43 colours, nothing invented): ink_01, ink_06, ink_02, bronze_05, bronze_02
@@ -62,6 +64,7 @@ export class Hud {
   private bossNameText = '';
   private lastCounter = -1;
   private lastReady = -1;
+  private readonly statusIcons: Record<StatusId, Phaser.GameObjects.Image>;
 
   private readonly names: (kind: string) => string;
   constructor(scene: Phaser.Scene, frames: KilnFrames, names: (kind: string) => string = () => '') {
@@ -70,6 +73,11 @@ export class Hud {
     this.boss = new Bar(scene, frames, F.boss, HUD_POS.bossBar.x, HUD_POS.bossBar.y, true);
     this.bossName = scene.add.graphics().setScrollFactor(0).setDepth(102);
     this.counter = scene.add.graphics().setScrollFactor(0).setDepth(102);
+    // status icons: lit only while active (nothing to show at rest), one fixed slot each so they never jump around
+    this.statusIcons = Object.fromEntries(STATUS_IDS.map((id, i) => {
+      const slot = statusSlot(i), frame = statusFrame(id);
+      return [id, scene.add.image(slot.x, slot.y, frames.pageOf(frame), frame).setOrigin(0, 0).setScrollFactor(0).setDepth(102).setVisible(false)];
+    })) as Record<StatusId, Phaser.GameObjects.Image>;
   }
 
   update(w: WorldState): void {
@@ -94,6 +102,8 @@ export class Hud {
       }
     }
     if (!p) return;
+    const active = activeStatuses(p);
+    for (const id of STATUS_IDS) this.statusIcons[id].setVisible(active[id]);
     // counter window: a bar under the hp digits that drains; dodge ready: a diamond that is lit when the dodge can be used
     const win = Math.round(ratio(p.combat.counterWindow, COMBAT.counterWindow) * 24);
     const ready = p.combat.cool === 0 && p.combat.dash === 0 ? 1 : 0;
