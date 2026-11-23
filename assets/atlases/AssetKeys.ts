@@ -70,6 +70,12 @@ export const AssetKeys = {
     "boss_ancient_god_remnant/death_south_7": "characters/boss_ancient_god_remnant/death_south_7",
     "boss_ancient_god_remnant/death_south_8": "characters/boss_ancient_god_remnant/death_south_8",
     "boss_ancient_god_remnant/death_south_9": "characters/boss_ancient_god_remnant/death_south_9",
+    "boss_ancient_god_remnant/hurt_east_0": "characters/boss_ancient_god_remnant/hurt_east_0",
+    "boss_ancient_god_remnant/hurt_east_1": "characters/boss_ancient_god_remnant/hurt_east_1",
+    "boss_ancient_god_remnant/hurt_east_2": "characters/boss_ancient_god_remnant/hurt_east_2",
+    "boss_ancient_god_remnant/hurt_south_0": "characters/boss_ancient_god_remnant/hurt_south_0",
+    "boss_ancient_god_remnant/hurt_south_1": "characters/boss_ancient_god_remnant/hurt_south_1",
+    "boss_ancient_god_remnant/hurt_south_2": "characters/boss_ancient_god_remnant/hurt_south_2",
     "boss_ancient_god_remnant/idle_east_0": "characters/boss_ancient_god_remnant/idle_east_0",
     "boss_ancient_god_remnant/idle_east_1": "characters/boss_ancient_god_remnant/idle_east_1",
     "boss_ancient_god_remnant/idle_east_2": "characters/boss_ancient_god_remnant/idle_east_2",
@@ -510,6 +516,12 @@ export const AssetKeys = {
     "mob_chain_warden/death_south_3": "characters/mob_chain_warden/death_south_3",
     "mob_chain_warden/death_south_4": "characters/mob_chain_warden/death_south_4",
     "mob_chain_warden/death_south_5": "characters/mob_chain_warden/death_south_5",
+    "mob_chain_warden/hurt_east_0": "characters/mob_chain_warden/hurt_east_0",
+    "mob_chain_warden/hurt_east_1": "characters/mob_chain_warden/hurt_east_1",
+    "mob_chain_warden/hurt_east_2": "characters/mob_chain_warden/hurt_east_2",
+    "mob_chain_warden/hurt_south_0": "characters/mob_chain_warden/hurt_south_0",
+    "mob_chain_warden/hurt_south_1": "characters/mob_chain_warden/hurt_south_1",
+    "mob_chain_warden/hurt_south_2": "characters/mob_chain_warden/hurt_south_2",
     "mob_chain_warden/idle_east_0": "characters/mob_chain_warden/idle_east_0",
     "mob_chain_warden/idle_east_1": "characters/mob_chain_warden/idle_east_1",
     "mob_chain_warden/idle_east_2": "characters/mob_chain_warden/idle_east_2",
@@ -726,6 +738,12 @@ export const AssetKeys = {
     "mob_rune_sentinel/death_south_1": "characters/mob_rune_sentinel/death_south_1",
     "mob_rune_sentinel/death_south_2": "characters/mob_rune_sentinel/death_south_2",
     "mob_rune_sentinel/death_south_3": "characters/mob_rune_sentinel/death_south_3",
+    "mob_rune_sentinel/hurt_east_0": "characters/mob_rune_sentinel/hurt_east_0",
+    "mob_rune_sentinel/hurt_east_1": "characters/mob_rune_sentinel/hurt_east_1",
+    "mob_rune_sentinel/hurt_east_2": "characters/mob_rune_sentinel/hurt_east_2",
+    "mob_rune_sentinel/hurt_south_0": "characters/mob_rune_sentinel/hurt_south_0",
+    "mob_rune_sentinel/hurt_south_1": "characters/mob_rune_sentinel/hurt_south_1",
+    "mob_rune_sentinel/hurt_south_2": "characters/mob_rune_sentinel/hurt_south_2",
     "mob_rune_sentinel/idle_east_0": "characters/mob_rune_sentinel/idle_east_0",
     "mob_rune_sentinel/idle_east_1": "characters/mob_rune_sentinel/idle_east_1",
     "mob_rune_sentinel/idle_east_2": "characters/mob_rune_sentinel/idle_east_2",
@@ -770,6 +788,12 @@ export const AssetKeys = {
     "mob_stone_archer_puppet/death_south_1": "characters/mob_stone_archer_puppet/death_south_1",
     "mob_stone_archer_puppet/death_south_2": "characters/mob_stone_archer_puppet/death_south_2",
     "mob_stone_archer_puppet/death_south_3": "characters/mob_stone_archer_puppet/death_south_3",
+    "mob_stone_archer_puppet/hurt_east_0": "characters/mob_stone_archer_puppet/hurt_east_0",
+    "mob_stone_archer_puppet/hurt_east_1": "characters/mob_stone_archer_puppet/hurt_east_1",
+    "mob_stone_archer_puppet/hurt_east_2": "characters/mob_stone_archer_puppet/hurt_east_2",
+    "mob_stone_archer_puppet/hurt_south_0": "characters/mob_stone_archer_puppet/hurt_south_0",
+    "mob_stone_archer_puppet/hurt_south_1": "characters/mob_stone_archer_puppet/hurt_south_1",
+    "mob_stone_archer_puppet/hurt_south_2": "characters/mob_stone_archer_puppet/hurt_south_2",
     "mob_stone_archer_puppet/idle_east_0": "characters/mob_stone_archer_puppet/idle_east_0",
     "mob_stone_archer_puppet/idle_east_1": "characters/mob_stone_archer_puppet/idle_east_1",
     "mob_stone_archer_puppet/idle_east_2": "characters/mob_stone_archer_puppet/idle_east_2",
@@ -810,6 +834,12 @@ export const AssetKeys = {
     "mob_stone_puppet/death_south_1": "characters/mob_stone_puppet/death_south_1",
     "mob_stone_puppet/death_south_2": "characters/mob_stone_puppet/death_south_2",
     "mob_stone_puppet/death_south_3": "characters/mob_stone_puppet/death_south_3",
+    "mob_stone_puppet/hurt_east_0": "characters/mob_stone_puppet/hurt_east_0",
+    "mob_stone_puppet/hurt_east_1": "characters/mob_stone_puppet/hurt_east_1",
+    "mob_stone_puppet/hurt_east_2": "characters/mob_stone_puppet/hurt_east_2",
+    "mob_stone_puppet/hurt_south_0": "characters/mob_stone_puppet/hurt_south_0",
+    "mob_stone_puppet/hurt_south_1": "characters/mob_stone_puppet/hurt_south_1",
+    "mob_stone_puppet/hurt_south_2": "characters/mob_stone_puppet/hurt_south_2",
     "mob_stone_puppet/idle_east_0": "characters/mob_stone_puppet/idle_east_0",
     "mob_stone_puppet/idle_east_1": "characters/mob_stone_puppet/idle_east_1",
     "mob_stone_puppet/idle_east_2": "characters/mob_stone_puppet/idle_east_2",
@@ -938,6 +968,12 @@ export const AssetKeys = {
     "mob_void_eater/death_south_1": "characters/mob_void_eater/death_south_1",
     "mob_void_eater/death_south_2": "characters/mob_void_eater/death_south_2",
     "mob_void_eater/death_south_3": "characters/mob_void_eater/death_south_3",
+    "mob_void_eater/hurt_east_0": "characters/mob_void_eater/hurt_east_0",
+    "mob_void_eater/hurt_east_1": "characters/mob_void_eater/hurt_east_1",
+    "mob_void_eater/hurt_east_2": "characters/mob_void_eater/hurt_east_2",
+    "mob_void_eater/hurt_south_0": "characters/mob_void_eater/hurt_south_0",
+    "mob_void_eater/hurt_south_1": "characters/mob_void_eater/hurt_south_1",
+    "mob_void_eater/hurt_south_2": "characters/mob_void_eater/hurt_south_2",
     "mob_void_eater/idle_east_0": "characters/mob_void_eater/idle_east_0",
     "mob_void_eater/idle_east_1": "characters/mob_void_eater/idle_east_1",
     "mob_void_eater/idle_east_2": "characters/mob_void_eater/idle_east_2",
@@ -4133,6 +4169,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/hurt_east_0",
+          "characters/boss_ancient_god_remnant/hurt_east_1",
+          "characters/boss_ancient_god_remnant/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ancient_god_remnant/hurt_south_0",
+          "characters/boss_ancient_god_remnant/hurt_south_1",
+          "characters/boss_ancient_god_remnant/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5161,6 +5217,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_chain_warden/hurt_east_0",
+          "characters/mob_chain_warden/hurt_east_1",
+          "characters/mob_chain_warden/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_chain_warden/hurt_south_0",
+          "characters/mob_chain_warden/hurt_south_1",
+          "characters/mob_chain_warden/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5723,6 +5799,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_rune_sentinel/hurt_east_0",
+          "characters/mob_rune_sentinel/hurt_east_1",
+          "characters/mob_rune_sentinel/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_rune_sentinel/hurt_south_0",
+          "characters/mob_rune_sentinel/hurt_south_1",
+          "characters/mob_rune_sentinel/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5825,6 +5921,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_stone_archer_puppet/hurt_east_0",
+          "characters/mob_stone_archer_puppet/hurt_east_1",
+          "characters/mob_stone_archer_puppet/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_stone_archer_puppet/hurt_south_0",
+          "characters/mob_stone_archer_puppet/hurt_south_1",
+          "characters/mob_stone_archer_puppet/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5919,6 +6035,26 @@ export const CharacterAnimations = {
           "characters/mob_stone_puppet/death_south_1",
           "characters/mob_stone_puppet/death_south_2",
           "characters/mob_stone_puppet/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_stone_puppet/hurt_east_0",
+          "characters/mob_stone_puppet/hurt_east_1",
+          "characters/mob_stone_puppet/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_stone_puppet/hurt_south_0",
+          "characters/mob_stone_puppet/hurt_south_1",
+          "characters/mob_stone_puppet/hurt_south_2"
         ],
         "loop": false
       }
@@ -6249,6 +6385,26 @@ export const CharacterAnimations = {
           "characters/mob_void_eater/death_south_1",
           "characters/mob_void_eater/death_south_2",
           "characters/mob_void_eater/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_void_eater/hurt_east_0",
+          "characters/mob_void_eater/hurt_east_1",
+          "characters/mob_void_eater/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_void_eater/hurt_south_0",
+          "characters/mob_void_eater/hurt_south_1",
+          "characters/mob_void_eater/hurt_south_2"
         ],
         "loop": false
       }

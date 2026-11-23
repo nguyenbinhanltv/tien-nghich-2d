@@ -91,8 +91,16 @@ describe('collision in step()', () => {
       const p = w.actors[0]!; p.hp = p.hpMax = 999;
       const m = mob(w, content, kind, 150, 100, ev);
       m.hp = m.hpMax = 9999; // outlasts the blades
+      // Count only the MOB's own completed attacks: a hazard it owns that resolves, or an orb it fires. (The player's own blades
+      // also emit `projectile-fired`, so those are filtered by source.)
+      const owned = new Set<number>();
       let resolved = 0;
-      for (let i = 0; i < 900; i++) { ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: null }, ev, ctx); resolved += ev.filter((e) => e.type === 'hazard-resolved').length; }
+      for (let i = 0; i < 900; i++) {
+        ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: null }, ev, ctx);
+        for (const h of w.hazards) if (h.owner === m.id) owned.add(h.id);
+        for (const h of ev) if (h.type === 'telegraph' && w.hazards.some((x) => x.id === h.hazard && x.owner === m.id)) owned.add(h.hazard);
+        resolved += ev.filter((e) => (e.type === 'hazard-resolved' && owned.has(e.hazard)) || (e.type === 'projectile-fired' && e.source === m.id)).length;
+      }
       expect(w.stats.hits, kind).toBeGreaterThan(0);
       expect(resolved, `${kind} completed an attack while being struck`).toBeGreaterThan(0);
     }

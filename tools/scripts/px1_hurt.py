@@ -2,8 +2,10 @@
 PLAYERS = ["wl_outer_disciple", "wl_qi_condensation", "wl_blood_foundation", "wl_extreme_jing"]
 MOBS = ["mob_blood_wolf", "mob_blood_crow", "mob_blood_corpse", "mob_vengeful_soul", "mob_blood_pool_lurker",
         # G2-A Hằng Nhạc (same route, 2026-11-24)
-        "mob_rogue_disciple", "mob_courtyard_guard", "mob_sword_acolyte", "mob_herb_viper", "mob_demonic_talisman"]
-BOSSES = ["boss_ghost_king", "boss_teng_huayuan"]
+        "mob_rogue_disciple", "mob_courtyard_guard", "mob_sword_acolyte", "mob_herb_viper", "mob_demonic_talisman",
+        # G2-B Cổ Thần Chi Địa
+        "mob_stone_puppet", "mob_stone_archer_puppet", "mob_chain_warden", "mob_void_eater", "mob_rune_sentinel"]
+BOSSES = ["boss_ghost_king", "boss_teng_huayuan", "boss_ancient_god_remnant"]
 HURT_IDS = frozenset(PLAYERS + MOBS + BOSSES)
 HURT_ENTRY = {"frames": 3, "loop": False}
 
