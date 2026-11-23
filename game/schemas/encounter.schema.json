@@ -14,6 +14,7 @@
         "tell": { "type": "object", "additionalProperties": false, "required": ["ms"], "properties": { "ms": { "type": "integer", "minimum": 250 }, "sfx_event": { "$ref": "_defs.schema.json#/$defs/snake" }, "vfx": { "type": "string" } } },
         "dodge_window_ms": { "type": "integer", "minimum": 1 },
         "strike_window_ms": { "type": "integer", "minimum": 1 },
+        "summon": { "type": "object", "additionalProperties": false, "required": ["mobs", "max_alive"], "description": "A calling attack: at the end of the tell the listed mobs appear round the boss (never more than max_alive hostile mobs at once). Its hit.damage is 0.", "properties": { "mobs": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["mob", "count"], "properties": { "mob": { "type": "string", "pattern": "^mob_[a-z0-9_]+$" }, "count": { "type": "integer", "minimum": 1 } } } }, "max_alive": { "type": "integer", "minimum": 1 } } },
         "hit": { "type": "object", "additionalProperties": false, "required": ["id", "damage"], "properties": { "id": { "$ref": "_defs.schema.json#/$defs/snake" }, "damage": { "type": "integer", "minimum": 0 } } }
       } } }
   }

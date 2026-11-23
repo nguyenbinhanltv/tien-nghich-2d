@@ -17,7 +17,7 @@ phases:
     enter_clip: phase_transition
     opener: wail
     stalk_ms: 650
-    loop: [claw, seal, wail]
+    loop: [claw, seal, wail, summon]
 attacks:
   claw:
     clip: attack_claw
@@ -38,3 +38,11 @@ attacks:
     dodge_window_ms: 280
     strike_window_ms: 900
     hit: { id: wail_ring, damage: 2 }
+  summon:
+    # The boss calls two Huyết Hải mobs round it (never more than 4 alive). Deals no damage: the circle only shows where they rise.
+    clip: attack_wail
+    tell: { ms: 1000, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: summon_call, damage: 0 }
+    summon: { mobs: [{ mob: mob_blood_wolf, count: 1 }, { mob: mob_blood_crow, count: 1 }], max_alive: 4 }
