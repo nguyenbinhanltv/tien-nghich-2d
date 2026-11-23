@@ -55,12 +55,13 @@ test('route inbox returns art items and the audio masters waiting for a listenin
   assert.deepEqual(body.items, []);
   assert.ok(body.audio.length > 10 && body.audio.every(a => a.signoff === null));
   const by = label => body.audio.filter(a => a.label === label).map(a => a.id).sort();
-  // All 58 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 (2026-11-22), Branches and Modes (2026-11-23) stated by the owner.
-  assert.equal(body.audio.length, 58);
+  // 58 of the 61 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 (2026-11-22), Branches and Modes (2026-11-23) stated by the owner. The three Characters cues (2026-11-23) wait for a listening: no record covers them.
+  assert.equal(body.audio.length, 61);
   assert.equal(by('approved_before').length, 58);
   assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light') && by('approved_before').includes('bgm_star_quarry') && by('approved_before').includes('sfx_core_crack'));
   assert.equal(body.audio.filter(a => a.state === 'decided').length, 58);
-  assert.deepEqual(body.audio.filter(a => a.state === 'waiting').map(a => a.id), [], 'nothing waits for a listening');
+  assert.deepEqual(body.audio.filter(a => a.state === 'waiting').map(a => a.id).sort(), ['sfx_form_shift', 'sfx_keeper_call', 'sfx_pet_reply']);
+  assert.equal(body.audio.filter(a => a.state === 'waiting').every(a => a.approval === null), true, 'nothing covers the three Characters cues');
   const kinds = Object.fromEntries(body.audio.filter(a => a.approval).map(a => [a.id, a.approval.kind]));
   assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 40, 'batches 2 to 4, Branches and Modes are owner statements');
   assert.equal(kinds.bgm_blood_sea, 'owner_statement');
@@ -173,14 +174,14 @@ test('the inbox carries the art approved on record, and a changed frame stops be
   } finally { clearAudioCache(); p.cleanup?.(); }
 });
 
-test('Review and Audio both read 58 of 58 audio assets as approved', async () => {
+test('Review and Audio both read 58 of 61 audio assets as approved and the three Characters cues as waiting', async () => {
   const {listeningOf, stageOf} = await import('../audio/model.mjs');
   const {body} = await call(lib(), 'inbox');
-  assert.equal(body.audio.length, 58);
+  assert.equal(body.audio.length, 61);
   assert.equal(body.audio.filter(a => a.state === 'decided').length, 58, 'Review: 58 decided');
-  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 0, 'Review: none waits');
+  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 3, 'Review: the three Characters cues wait for a listening');
   const audioTab = body.audio.map(a => listeningOf({stage: stageOf(a.readiness), signoff: a.signoff, masterSha: null, evidence: 'pending', record: a.label}));
-  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [58, 58], 'Audio tab: 58 of 58 approved');
+  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [58, 61], 'Audio tab: 58 of 61 approved, the three Characters cues are not');
 });
 
 test('B2: a finished inbox is reused, but a review decision or a listening sign-off shows in the very next answer', async () => {

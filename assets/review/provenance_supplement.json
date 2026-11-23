@@ -32,6 +32,7 @@
     "assets/audio/bgm_star_quarry/provenance.json",
     "assets/audio/bgm_star_quarry/render.py",
     "assets/audio/source/branches_sfx/provenance.json",
+    "assets/audio/source/characters_sfx/provenance.json",
     "assets/audio/source/modes_sfx/provenance.json",
     "assets/audio/source/pilot_sfx/provenance.json",
     "assets/audio/source/wave2_first_sfx/provenance.json",
@@ -40,6 +41,7 @@
     "assets/audio/source/wave2_third_sfx/provenance.json",
     "docs/AUDIO_DESIGN.md",
     "tools/generators/branches_sfx.py",
+    "tools/generators/characters_sfx.py",
     "tools/generators/modes_sfx.py",
     "tools/generators/pilot_sfx.py",
     "tools/generators/wave2_first_sfx.py",
@@ -581,6 +583,22 @@
      },
      "scriptCommit": "c1db17870829ae4cdadf310786567efb8b99489e"
     },
+    "sfx_form_shift": {
+     "fields": {
+      "scriptSha256": "aeb0b5fab1d96d580a2df9fa58857e01176550005b12670b40bea97d2f7fb2cc",
+      "agent": "Claude Code (claude-sonnet-5-5)",
+      "tool": "Node + Studio audio engine (CPython wrapper)",
+      "toolPin": "Node v24.12.0, CPython 3.14.5",
+      "document": "docs/AUDIO_DESIGN.md"
+     },
+     "reasons": {
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: synthesised by a script from a score and a patch."
+      }
+     },
+     "scriptCommit": "9a63200111dc02db744305724f23e7dc1725d754"
+    },
     "sfx_gate": {
      "fields": {
       "scriptSha256": "bb7b897ffd310e9151dd2d9e54fa45d6a693de3a0e2097efd892ed901d49965f",
@@ -677,6 +695,22 @@
      },
      "scriptCommit": "1c441d7ba6449828c27bf013fde1298b9e2a5c94"
     },
+    "sfx_keeper_call": {
+     "fields": {
+      "scriptSha256": "aeb0b5fab1d96d580a2df9fa58857e01176550005b12670b40bea97d2f7fb2cc",
+      "agent": "Claude Code (claude-sonnet-5-5)",
+      "tool": "Node + Studio audio engine (CPython wrapper)",
+      "toolPin": "Node v24.12.0, CPython 3.14.5",
+      "document": "docs/AUDIO_DESIGN.md"
+     },
+     "reasons": {
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: synthesised by a script from a score and a patch."
+      }
+     },
+     "scriptCommit": "9a63200111dc02db744305724f23e7dc1725d754"
+    },
     "sfx_kiln": {
      "fields": {
       "scriptSha256": "bb7b897ffd310e9151dd2d9e54fa45d6a693de3a0e2097efd892ed901d49965f",
@@ -724,6 +758,22 @@
       }
      },
      "scriptCommit": "c72f601fad4874c672c0bba110788b068db9c186"
+    },
+    "sfx_pet_reply": {
+     "fields": {
+      "scriptSha256": "aeb0b5fab1d96d580a2df9fa58857e01176550005b12670b40bea97d2f7fb2cc",
+      "agent": "Claude Code (claude-sonnet-5-5)",
+      "tool": "Node + Studio audio engine (CPython wrapper)",
+      "toolPin": "Node v24.12.0, CPython 3.14.5",
+      "document": "docs/AUDIO_DESIGN.md"
+     },
+     "reasons": {
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: synthesised by a script from a score and a patch."
+      }
+     },
+     "scriptCommit": "9a63200111dc02db744305724f23e7dc1725d754"
     },
     "sfx_pickup": {
      "fields": {
@@ -6945,46 +6995,6 @@
        "status": "not-applicable",
        "reason": "Not made from a prompt: rendered from a JSON spec."
       }
-     }
-    }
-   }
-  },
-  {
-   "id": "planned-audio",
-   "basis": [
-    "assets/audio_manifest.json",
-    "docs/AUDIO_DESIGN.md"
-   ],
-   "defaults": {},
-   "assets": {
-    "sfx_form_shift": {
-     "intent": {
-      "en": "Planned, not produced. The audio plan (extension wave 'characters') reserves this cue; docs/AUDIO_DESIGN.md says the core plan uses original deterministic synthesis and scoring by project scripts. This is an intention, not a provenance record.",
-      "vi": "Dự kiến, chưa sản xuất. Kế hoạch âm thanh (đợt mở rộng 'characters') dành chỗ cho cue này; docs/AUDIO_DESIGN.md nêu kế hoạch dùng tổng hợp và phối khí tất định, nguyên bản, bằng script của dự án. Đây là ý định, không phải bản ghi nguồn gốc.",
-      "sources": [
-       "assets/audio_manifest.json",
-       "docs/AUDIO_DESIGN.md"
-      ]
-     }
-    },
-    "sfx_keeper_call": {
-     "intent": {
-      "en": "Planned, not produced. The audio plan (extension wave 'characters') reserves this cue; docs/AUDIO_DESIGN.md says the core plan uses original deterministic synthesis and scoring by project scripts. This is an intention, not a provenance record.",
-      "vi": "Dự kiến, chưa sản xuất. Kế hoạch âm thanh (đợt mở rộng 'characters') dành chỗ cho cue này; docs/AUDIO_DESIGN.md nêu kế hoạch dùng tổng hợp và phối khí tất định, nguyên bản, bằng script của dự án. Đây là ý định, không phải bản ghi nguồn gốc.",
-      "sources": [
-       "assets/audio_manifest.json",
-       "docs/AUDIO_DESIGN.md"
-      ]
-     }
-    },
-    "sfx_pet_reply": {
-     "intent": {
-      "en": "Planned, not produced. The audio plan (extension wave 'characters') reserves this cue; docs/AUDIO_DESIGN.md says the core plan uses original deterministic synthesis and scoring by project scripts. This is an intention, not a provenance record.",
-      "vi": "Dự kiến, chưa sản xuất. Kế hoạch âm thanh (đợt mở rộng 'characters') dành chỗ cho cue này; docs/AUDIO_DESIGN.md nêu kế hoạch dùng tổng hợp và phối khí tất định, nguyên bản, bằng script của dự án. Đây là ý định, không phải bản ghi nguồn gốc.",
-      "sources": [
-       "assets/audio_manifest.json",
-       "docs/AUDIO_DESIGN.md"
-      ]
      }
     }
    }
