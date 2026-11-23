@@ -1,0 +1,20 @@
+{
+  "id": "icon_status_guard",
+  "producer": "Claude Code (Anthropic), PX-1 worker session tien-nghich-2d-88, 2026-11-24",
+  "method": "Original deterministic native-grid drawing (integer primitives, master palette only); no image model, no PixelLab, no input images.",
+  "brief": "H\u1ed9 Th\u1ec3: guard up",
+  "rights": "Original artwork created for this project.",
+  "seed": "none: no random generator is used",
+  "generator": "tools/generators/gen_px1_status_icons.py",
+  "generator_sha256_lf": "fc6d3348f0780b1174ac7cfe98d353909f1a65c2de726df4c154fa1e0394f002",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "variant_px": [
+    16,
+    16
+  ],
+  "source_sha256": "416282161111f92a536be322c8539b917e48a38fbd75120660802eba21f9f0e8"
+}

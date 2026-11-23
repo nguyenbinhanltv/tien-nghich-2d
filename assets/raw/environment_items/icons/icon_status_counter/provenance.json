@@ -1,0 +1,20 @@
+{
+  "id": "icon_status_counter",
+  "producer": "Claude Code (Anthropic), PX-1 worker session tien-nghich-2d-88, 2026-11-24",
+  "method": "Original deterministic native-grid drawing (integer primitives, master palette only); no image model, no PixelLab, no input images.",
+  "brief": "Ph\u1ea3n Ch\u1ea5n: counter-strike window",
+  "rights": "Original artwork created for this project.",
+  "seed": "none: no random generator is used",
+  "generator": "tools/generators/gen_px1_status_icons.py",
+  "generator_sha256_lf": "fc6d3348f0780b1174ac7cfe98d353909f1a65c2de726df4c154fa1e0394f002",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "variant_px": [
+    16,
+    16
+  ],
+  "source_sha256": "7e726590cfcfed681c3c0172e08ac42451ef4041444bfa1d28c6a2d87f2c7b57"
+}
