@@ -8,6 +8,7 @@ import { ASSETS, GAME, REPO, readJson, rel, sha256 } from './lib/repo.ts';
 import { check } from './lib/schemas.ts';
 import { loadAssets } from './lib/assets.ts';
 import { crossCheck, loadTables } from './lib/tables.ts';
+import { verifyLocks } from './lib/hitbox-edit.ts';
 import { compileAudioEvents, compileBodies, compileClipEvents, compileTileShapes, readSidecars, verifyApprovals } from './lib/kiln-contract.ts';
 
 const argv = process.argv.slice(2);
@@ -38,7 +39,7 @@ problems.push(...crossCheck(tables, assets, locale));
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);
 for (const c of [bodies, events, shapes, audio]) { problems.push(...c.problems); warnings.push(...c.warnings); }
 const approvals = verifyApprovals(bodies.data.bodies);
-problems.push(...approvals.problems);
+problems.push(...approvals.problems, ...verifyLocks());
 // A draft is never shipped as approved: the build carries the status through, and the game's loader must treat anything but owner-approved as a placeholder.
 
 put('tables.json', { mobs: tables.mobs, bosses: tables.bosses, rooms: tables.rooms });

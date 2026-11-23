@@ -17,6 +17,7 @@
     "content:build": "node tools/content-build.ts",
     "content:check": "node tools/content-build.ts --check",
     "contract:check": "node tools/kiln-contract-check.ts",
+    "hitbox": "node tools/hitbox.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
     "qa:replay": "node tools/qa-replay.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
