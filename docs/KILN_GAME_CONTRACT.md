@@ -12,7 +12,7 @@ Hiện trạng đo trên `main`: 0 sidecar `studio-metadata.json` trong `assets/
 - Khóa asset: `^[a-z][a-z0-9]*(_[a-z0-9]+)+$`, tên clip: `^[a-z][a-z0-9_]{0,31}$`.
 
 ## 2. `bodies.json` — hurtbox / hitbox theo clip, khung
-Schema `bodies.schema.json`. Nguồn: một tệp mỗi asset `assets/bodies/<asset_id>.bodies.json` (phần tử `body` của schema). Lý do không dùng sidecar Kiln: `studio-metadata.json` hiện chỉ cho một `hitbox` cho cả asset và chặn khóa lạ trong `clips.<tên>`; thêm khóa cần đổi Studio, việc đó thuộc epic E2.1, không thuộc lane này. Dự phòng: `hitbox` của sidecar được nhận làm hurtbox mặc định, luôn ghi `draft-unreviewed`.
+Schema `bodies.schema.json`. Nguồn: một tệp mỗi asset (phần tử `body` của schema), đọc từ hai thư mục theo thứ tự: `assets/bodies/<asset_id>.bodies.json` (kho đã duyệt) rồi `game/content/hitbox/<asset_id>.bodies.json` (bản nháp E2.1, Làn D, có trong repo). Lý do không dùng sidecar Kiln: `studio-metadata.json` hiện chỉ cho một `hitbox` cho cả asset và chặn khóa lạ trong `clips.<tên>`; thêm khóa cần đổi Studio, việc đó thuộc epic E2.1, không thuộc lane này. Dự phòng: `hitbox` của sidecar được nhận làm hurtbox mặc định, luôn ghi `draft-unreviewed`.
 
 | Trường | Ý nghĩa |
 |---|---|
@@ -25,11 +25,19 @@ Schema `bodies.schema.json`. Nguồn: một tệp mỗi asset `assets/bodies/<as
 ### 2.1 Duyệt
 `owner-approved` chỉ hợp lệ khi `assets/review/body_approvals.json` (do **người** ghi qua Studio, tool không tạo) có `approvals.<approvalRef>.digests.<asset_id>` bằng `sha256` của body bỏ khối `review` (JSON chuẩn hóa khóa sắp xếp, `bodyDigest`). Sửa hộp sau khi duyệt làm lệch băm → build fail. Build mặc định chấp nhận `draft-unreviewed` và mang trạng thái đó vào `bodies.json`; game phải coi mọi thứ khác `owner-approved` là hộp tạm. `contract:check --strict` (cổng phát hành) fail với mọi body chưa duyệt và mọi asset lát cắt thiếu body.
 
-### 2.2 Cổng M0
-Người duyệt 6 mẫu: bản nháp sinh bằng `npm --prefix game run contract:draft-bodies` (ghi `game/dist-content/drafts/`, không ghi vào `assets/`), người xem, chỉnh, chép vào `assets/bodies/`, rồi ký trong Studio. Repo này **không chứa** hitbox nào cho asset thật.
+### 2.2 Cổng M0 và đường duyệt
+`game/content/hitbox/` chứa **24 body nháp cho asset thật** (4 hình thái, 5 mob, boss, 4 đạn, 10 prop của 51 ID VS), tất cả `draft-unreviewed`/`alpha-auto`. Sinh bằng `npm --prefix game run contract:draft-bodies -- --write` (không đè tệp đã có trừ khi `--force`; không `--write` thì ghi `game/dist-content/drafts/`). Trang xem: `node game/tools/hitbox-sheet.ts --out <file.html>` (không commit).
+Đường duyệt: người xem trang tổng hợp, chỉnh nếu cần, **chép tệp vào `assets/bodies/`** rồi ký trong Studio (`body_approvals.json`) và đổi `review` thành `owner-approved` + `approvalRef`. Thư mục đứng trước thắng: cùng ID ở `assets/bodies/` và `game/content/hitbox/` thì `assets/bodies/` được dùng, bản nháp bị bỏ qua kèm cảnh báo; nên xóa bản nháp sau khi chép. Các bản nháp trong `game/content/hitbox/` không bao giờ là `owner-approved`.
 
 ### 2.3 Quy tắc bản nháp tự động
-Hurtbox = bounding box của pixel có `alpha ≥ 128` (ngưỡng `alphaThreshold` của `assets/encounter/blood-sea/contract.json`) ở khung 0 của clip `idle` (hướng E, nếu không có thì S), co 1 px mỗi cạnh để viền outline không tính là thân. **Không** đề xuất hitbox tấn công vì đó là ý đồ thiết kế.
+Khung đọc theo thứ tự ưu tiên: hướng E, nếu không có thì S (chiều hướng không có trong `body`: W lật từ E, S/N dùng chung hộp). Ngưỡng `alphaThreshold` = 128 (`assets/encounter/blood-sea/contract.json`). Mọi hộp co 1 px mỗi cạnh để viền outline không tính là thân.
+- **mob, boss, người chơi**: hurtbox = bbox alpha của `idle` khung 0; pivot = `anchor.json`.
+- **mob, boss: hitbox tấn công** (clip `attack*`, `cast_attack*`, `soul_devour*`, khung hướng E): *reach* = phần pixel thò ra ngoài bbox thân của idle; giữ các khung có phần thò ≥ 50% đỉnh (≥ 4 px, tối đa 4 khung), hitbox = bbox phần thò. Nếu không có gì thò ra thì *lunge*: hitbox = bbox alpha cả khung ở khung lệch xa idle nhất. `id` hitbox = tên clip bỏ tiền tố `attack_`/`cast_`. Đây chỉ là đoán từ pixel, vì chưa có clip event `hit`; người chơi không có hitbox (sát thương đến từ đạn).
+- **đạn**: hurtbox = bbox alpha khung `flight` 0, pivot ở giữa khung.
+- **prop**: hurtbox = bbox alpha khung nghỉ 0 (`idle`, nếu không có thì `closed`/`intact`/`locked`), pivot giữa-đáy. Là cả khung hình, chưa phải dấu chân chặn đường.
+- **không có body**: ô nền (hình va chạm ô thuộc §4), pháp bảo cầm tay, UI, icon, VFX.
+Hurtbox cố định cho cả clip (chưa ghi đè theo khung).
+
 
 ## 3. Sự kiện clip (tell / hit / step…)
 Schema `clip-events.schema.json`. Nguồn: **API sẵn có của Kiln** — `studio-metadata.json` → `clips.<clip>.events[] = {frame, name}` và `clips.<clip>.frameMs[]`. Không đổi Studio.

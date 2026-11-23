@@ -1,0 +1,60 @@
+{
+ "frameSize": [
+  32,
+  32
+ ],
+ "pivot": [
+  15,
+  31
+ ],
+ "hurtbox": {
+  "x": 3,
+  "y": 16,
+  "w": 23,
+  "h": 15
+ },
+ "review": {
+  "status": "draft-unreviewed",
+  "source": "alpha-auto",
+  "note": "alpha >= 128 bbox of idle_east_0, inset 1 px; attack hitboxes guessed from east attack frames (reach), no clip events exist yet"
+ },
+ "clips": {
+  "attack": {
+   "frames": {
+    "2": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 10,
+       "y": 11,
+       "w": 19,
+       "h": 18
+      }
+     ]
+    },
+    "3": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 1,
+       "y": 12,
+       "w": 27,
+       "h": 17
+      }
+     ]
+    },
+    "4": {
+     "hitboxes": [
+      {
+       "id": "attack",
+       "x": 8,
+       "y": 12,
+       "w": 13,
+       "h": 3
+      }
+     ]
+    }
+   }
+  }
+ }
+}
