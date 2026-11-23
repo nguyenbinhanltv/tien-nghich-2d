@@ -14,6 +14,7 @@ import { drawText, Hud } from '../hud.ts';
 import { DamageNumbers, TONE_COLOUR } from '../damage-numbers.ts';
 import { textPixels } from '../../ui/pixel-text.ts';
 import { Juice } from '../juice.ts';
+import { HurtPoses } from '../hurt-poses.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
@@ -77,6 +78,7 @@ export class BloodSeaScene extends Phaser.Scene {
   readonly juice = new Juice();
   readonly numbers = new DamageNumbers();
   private numbersGfx!: Phaser.GameObjects.Graphics;
+  private readonly hurts = new HurtPoses();
   private hud!: Hud;
   private floor!: FloorHud;
   private room!: RoomView;
@@ -165,7 +167,7 @@ export class BloodSeaScene extends Phaser.Scene {
         if (!this.gateAsked) { this.gateAsked = true; this.host.onGate?.((c) => this.fight.takeGate(c)); }
       } else this.gateAsked = false;
       const ev = this.fight.drain();
-      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.numbers.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
+      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.hurts.onEvents(ev); this.numbers.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
     this.draw();
   }
@@ -204,7 +206,7 @@ export class BloodSeaScene extends Phaser.Scene {
   }
 
   private drawActor(a: ActorState, w: WorldState): void {
-    const art = artOf(w, a);
+    const art = artOf(w, a, this.hurts.startOf(a.id, w.tick));
     const clip = resolveClip(this.frames, art.kind, art.clip, a.facing);
     if (!clip) return;
     const name = clip.frames[frameIndex(clip.frames.length, art.clip, art.startTick, w.tick)]!;

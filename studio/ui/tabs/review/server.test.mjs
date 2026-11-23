@@ -154,7 +154,9 @@ test('the inbox hashes each master once: unchanged files are not read again', as
 test('the inbox carries the art approved on record, and a changed frame stops being covered', async () => {
   const {body} = await call(lib(), 'inbox');
   assert.equal(body.artRecords.length, 183, 'eight earlier assets, the 30 new characters and 93 other Longtime assets approved on 2026-11-22, plus lt_ashen_crown_b');
-  assert.ok(body.artRecords.every(r => r.current && r.matching === r.frames));
+  // PX-1 (2026-11-24): ten slice assets gained a script-made `hurt` clip; those added frames await the owner (not current).
+  assert.equal(body.artRecords.filter(r => !r.current).length, 10);
+  assert.ok(body.artRecords.every(r => r.matching === r.frames));
   const p = makeProject({extraDirs: ['assets/audio/bgm_blood_sea']});
   fs.mkdirSync(path.join(p.root, 'assets/review'), {recursive: true});
   const frame = 'assets/x/a/a_0.png';

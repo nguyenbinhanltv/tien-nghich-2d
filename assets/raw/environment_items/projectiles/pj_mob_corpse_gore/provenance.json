@@ -1,0 +1,16 @@
+{
+  "id": "pj_mob_corpse_gore",
+  "producer": "Claude Code (Anthropic), PX-1 worker session tien-nghich-2d-88, 2026-11-24",
+  "method": "Original deterministic native-grid drawing (integer primitives, master palette only); no image model, no PixelLab, no input images.",
+  "brief": "Blood Corpse: hurled gore clot",
+  "rights": "Original artwork created for this project.",
+  "seed": "none: no random generator is used",
+  "generator": "tools/generators/gen_px1_mob_projectiles.py",
+  "generator_sha256_lf": "2dad1bb9ae3b8c3494093e6f7af6b9551bb394056f4df558a9b7620788b15b6d",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    16,
+    16
+  ],
+  "source_sha256": "53c1071d47675f5736004ef8a1eeecd09a6a06b2a99b688374ddc7237b4f8bcf"
+}
