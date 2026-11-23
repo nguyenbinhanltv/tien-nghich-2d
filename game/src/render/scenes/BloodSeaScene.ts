@@ -2,7 +2,7 @@
 // the player and a few mobs from the real mobile atlas, a fixed 384x216 view. Tiles are placed by a hash of the cell so the
 // picture is identical on every run (golden images later).
 import Phaser from 'phaser';
-import { FixedLoop } from '../../sim/loop.ts';
+import { FixedLoop, NO_INPUT } from '../../sim/loop.ts';
 import type { ActorState, InputFrame } from '../../contracts/world.ts';
 import { VIEW_H, VIEW_W } from '../../contracts/world.ts';
 import { frameIndex, resolveClip } from '../animator.ts';
@@ -13,6 +13,8 @@ export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
   sample(): InputFrame;
   paused(): boolean;
+  /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
+  frozen?: boolean;
 }
 
 const T = 'tilesets/ts_blood_valley/';
@@ -41,6 +43,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.frames = new KilnFrames(this);
     this.cameras.main.setBackgroundColor('#14101a');
     this.buildRoom();
+    if (this.host.frozen) for (let i = 0; i < 120; i++) this.stub.tick(NO_INPUT);
   }
 
   private put(name: string, x: number, y: number, depth: number): void {
@@ -62,7 +65,7 @@ export class BloodSeaScene extends Phaser.Scene {
   }
 
   override update(_t: number, deltaMs: number): void {
-    if (!this.host.paused()) {
+    if (!this.host.paused() && !this.host.frozen) {
       const inp = this.host.sample();
       this.input0 = inp;
       let first = true;
@@ -89,13 +92,14 @@ export class BloodSeaScene extends Phaser.Scene {
     const clip = resolveClip(this.frames, a.kind, a.clip, a.facing);
     if (!clip) return;
     const name = clip.frames[frameIndex(clip.frames.length, a.clip, a.clipStartTick, tick)]!;
+    const page = this.frames.pageOf(name);
     let s = this.sprites.get(a.id);
-    if (!s) {
-      const o = originOf([32, 32], [16, 31]);
-      s = this.add.image(0, 0, this.frames.pageOf(name), name).setOrigin(o.x, o.y);
-      this.sprites.set(a.id, s);
-    }
-    s.setTexture(this.frames.pageOf(name), name);
+    if (!s) { s = this.add.image(0, 0, page, name); this.sprites.set(a.id, s); }
+    s.setTexture(page, name);
+    // the pivot pixel (mob-runtime anchor) sits on the actor position; west and east anchors differ by a pixel
+    const f = this.textures.getFrame(page, name);
+    const o = originOf([f.width, f.height], this.frames.pivot(`characters/${a.kind}`, a.facing, name));
+    s.setOrigin(o.x, o.y);
     s.setFlipX(clip.flipX);
     s.setPosition(Math.round(a.pos.x), Math.round(a.pos.y));
     s.setDepth(10 + a.pos.y);
