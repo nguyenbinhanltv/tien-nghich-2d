@@ -103,9 +103,9 @@ def render():
     result = {}
     for group, ident, directions in TARGETS:
         folder = PROCESSED / group / ident
-        scale = 3 if ident == "boss_ancient_god_remnant" else 2 if group == "bosses" else 1  # canvas / 32
         for direction in directions:
             source = Image.open(folder / f"idle_{direction}_0.png").convert("RGBA")
+            scale = source.size[0] // 32  # canvas / 32: 1 (mob), 2 (boss 64), 3 (boss 96)
             for n, image in enumerate(build(source, direction, scale)):
                 result[folder / f"hurt_{direction}_{n}.png"] = image
     return result

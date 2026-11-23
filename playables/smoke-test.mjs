@@ -88,7 +88,7 @@ async function run() {
     assert.equal(palette.colors.length, 43, 'Palette must have exactly 43 colors');
 
     const manifest = await (await fetchOk(`${origin}/assets/manifest.json`)).json();
-    assert.equal(manifest.assets.length, 94, 'Manifest must have 94 assets: 90 original plus the 4 PX-1 enemy projectiles');
+    assert.equal(manifest.assets.length, 97, 'Manifest must have 97 assets: 90 original plus the 4 PX-1 enemy projectiles and 3 status icons');
 
     // 3. Verify live preview index & separation of fixtures from processed/raw
     const index = await (await fetchOk(`${origin}/__preview_index.json`)).json();

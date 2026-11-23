@@ -16,10 +16,10 @@ const INK = 0x14101a, INK_LIGHT = 0xd4d0d8, SLOT = 0x2c2733, BRONZE = 0xe0b030, 
 const F = { hp: 'ui/ui_hud_bars/hp_none_0', boss: 'ui/ui_hud_bars/boss_hp_none_0' };
 
 /** Draw lit pixels with a 1-px ink outline (4-neighbour), then the text colour on top. */
-function drawText(g: Phaser.GameObjects.Graphics, t: TextPixels, ox: number, oy: number): void {
+export function drawText(g: Phaser.GameObjects.Graphics, t: TextPixels, ox: number, oy: number, colour: number = INK_LIGHT): void {
   g.fillStyle(INK, 1);
   for (const [px, py] of t.pixels) for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]] as const) g.fillRect(ox + px + dx, oy + py + dy, 1, 1);
-  g.fillStyle(INK_LIGHT, 1);
+  g.fillStyle(colour, 1);
   for (const [px, py] of t.pixels) g.fillRect(ox + px, oy + py, 1, 1);
 }
 

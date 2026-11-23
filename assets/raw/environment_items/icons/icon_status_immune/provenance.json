@@ -1,0 +1,20 @@
+{
+  "id": "icon_status_immune",
+  "producer": "Claude Code (Anthropic), PX-1 worker session tien-nghich-2d-88, 2026-11-24",
+  "method": "Original deterministic native-grid drawing (integer primitives, master palette only); no image model, no PixelLab, no input images.",
+  "brief": "B\u1ea5t T\u1ed5n: damage immunity",
+  "rights": "Original artwork created for this project.",
+  "seed": "none: no random generator is used",
+  "generator": "tools/generators/gen_px1_status_icons.py",
+  "generator_sha256_lf": "52c7817c160c0f33870f422640deff0a18b83009dc15162ef4df41a919c2120e",
+  "palette": "tools/generators/palette.json",
+  "native_px": [
+    24,
+    24
+  ],
+  "variant_px": [
+    16,
+    16
+  ],
+  "source_sha256": "59a8925ec6e077a57ac0e670ebd1c4a4358ddad35f3670cfb63ebfef3104690b"
+}
