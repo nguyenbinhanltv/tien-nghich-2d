@@ -10,6 +10,7 @@ import { unitInto } from '../math.ts';
 import { addHazard, markDodgedThrough, resolveHazard } from '../systems/telegraph.ts';
 
 export interface EncounterAttack { clip: string; tell: { ms: number; sfx_event?: string; vfx?: string }; dodge_window_ms: number; strike_window_ms: number; hit: { id: string; damage: number } }
+/** `enter_clip` is played by the renderer on the `phase-changed` event of this phase (see warn()); it does not change sim timing. */
 export interface EncounterPhase { id: string; hp_above: number; enter_clip?: string; opener?: string; stalk_ms?: number; loop: string[] }
 export interface Encounter { id: string; boss: string; phases: EncounterPhase[]; attacks: Record<string, EncounterAttack> }
 
@@ -52,10 +53,12 @@ function warn(world: WorldState, b: ActorState, p: ActorState, enc: Encounter, e
   if (d.x === 0 && d.y === 0) { if (b.facing === 'south') d.y = 1; else d.x = b.facing === 'west' ? -1 : 1; }
   const pi = phaseIndex(enc, b.hp, b.hpMax), phase = enc.phases[pi] as EncounterPhase;
   let name: string;
-  if (pi > b.ai.data[1]) { // entering a new phase: its opener, if any, plays once and does not advance the loop
+  if (pi > b.ai.data[1]) { // entering a new phase: tell the renderer/audio, then its opener (if any) plays once and does not advance the loop
     b.ai.data[1] = pi;
-    if (phase.opener) { name = phase.opener; events.push({ type: 'phase-changed', tick: world.tick, actor: b.id, phase: phase.id }); }
-    else name = phase.loop[b.ai.data[0]++ % phase.loop.length] as string;
+    // The renderer plays the phase's `enter_clip` when this event arrives (a short cinematic over the boss); the sim itself
+    // keeps the attack timeline unchanged, which is what keeps tick parity with the reference port.
+    events.push({ type: 'phase-changed', tick: world.tick, actor: b.id, phase: phase.id });
+    name = phase.opener ?? phase.loop[b.ai.data[0]++ % phase.loop.length] as string;
   } else name = phase.loop[b.ai.data[0]++ % phase.loop.length] as string;
   const atk = enc.attacks[name] as EncounterAttack, shape = HIT_SHAPES[atk.hit.id as HitId];
   b.ai.state = 'warn';

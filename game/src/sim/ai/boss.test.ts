@@ -81,9 +81,9 @@ describe('encounter oan_hon_quy_vuong', () => {
   });
   it('rejects a broken encounter (unknown hit shape, short tell, unknown attack, non-falling phases)', () => {
     const bad = structuredClone(enc);
-    bad.attacks['claw']!.hit.id = 'nope'; bad.attacks['seal']!.tell.ms = 100; bad.phases[0]!.loop.push('ghost'); bad.phases[1]!.hp_above = 0.9;
+    bad.attacks['claw']!.hit.id = 'nope'; bad.attacks['seal']!.tell.ms = 100; bad.phases[0]!.loop.push('ghost'); bad.phases[1]!.hp_above = 0.9; bad.phases[1]!.opener = 'wial';
     const p = encounterProblems(bad).join('\n');
-    expect(p).toMatch(/unknown hit shape nope/); expect(p).toMatch(/under 250 ms/); expect(p).toMatch(/unknown attack ghost/); expect(p).toMatch(/must fall/);
+    expect(p).toMatch(/unknown hit shape nope/); expect(p).toMatch(/under 250 ms/); expect(p).toMatch(/unknown attack ghost/); expect(p).toMatch(/unknown attack wial/); expect(p).toMatch(/must fall/);
   });
 
   for (const [name, script] of Object.entries(SCRIPTS)) {
@@ -100,6 +100,18 @@ describe('encounter oan_hon_quy_vuong', () => {
     expect(dash.evB.some((e) => e.type === 'dodge-counter')).toBe(true);
     const r = dash;
     expect(r.evB.filter((e) => e.type === 'telegraph').length).toBeGreaterThanOrEqual(4);
+  });
+  it('announces every phase entry with phase-changed, opener or not', () => {
+    const r = fight(SCRIPTS['strike and dodge on a rhythm']!, 5, 60 * 25);
+    expect(r.evB.filter((e) => e.type === 'phase-changed').map((e) => (e as { phase: string }).phase)).toEqual(['p2']);
+    const noOpener = structuredClone(enc); delete noOpener.phases[1]!.opener;
+    const w = createWorld(1), ev: GameEvent[] = [];
+    startGhostKingFight(w, ev);
+    const boss = w.actors.find((a) => a.role === 'boss')!;
+    boss.hp = 5; boss.ai.data[2] = boss.hpMax; boss.ai.timer = 0; // already below half and about to attack
+    for (let i = 0; i < 3; i++) bossStep(w, boss, noOpener, speed, ev);
+    expect(ev.filter((e) => e.type === 'phase-changed')).toHaveLength(1);
+    expect(boss.clip).toBe(noOpener.attacks[noOpener.phases[1]!.loop[0]!]!.clip);
   });
   it('is deterministic: the same fight twice gives the same hash', () => {
     const a = fight(SCRIPTS['random walk, dodge and strike']!, 9, 1500), b = fight(SCRIPTS['random walk, dodge and strike']!, 9, 1500);
