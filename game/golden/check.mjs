@@ -25,7 +25,7 @@ await new Promise((r) => setTimeout(r, 2000));
 const browser = await pw.chromium.launch({ executablePath: exe, headless: true });
 
 async function capture(k) {
-  const ctx = await browser.newContext({ viewport: { width: 384 * k, height: 216 * k }, deviceScaleFactor: 1 });
+  const ctx = await browser.newContext({ viewport: { width: 384 * k, height: 216 * k }, deviceScaleFactor: 1, locale: 'vi-VN' }); // fixed locale: the minimap label is text
   const page = await ctx.newPage();
   await page.goto('http://127.0.0.1:4173/?golden');
   await page.waitForFunction(() => window.__tn2d?.scene?.debugState?.().tick >= 120, null, { timeout: 15000 });
