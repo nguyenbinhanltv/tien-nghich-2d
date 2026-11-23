@@ -1,0 +1,62 @@
+{
+  "schema": "tien-nghich-2d.package-budget",
+  "version": 1,
+  "note": "Budgets for the web build (dist/) and the content pack (dist-content/), checked by `npm run package:check`. precacheMiB is what the service worker downloads on first launch (everything not lazy); audio packs and non-abode Longtime chunks are fetched on first use (pwa/vite-plugin.ts), audioMiB caps all audio shipped. Atlas chunk caps are the LONGTIME_GDD.md table (mobile pages / MiB of decompressed RGBA8); the core atlas cap is 24.5 MiB (game-plan 5.3: 6 x 1024x1024 + 1024x128 pages).",
+  "web": {
+    "jsGzipKiB": 500,
+    "corePages": 7,
+    "coreRgbaMiB": 24.5,
+    "allowedTopLevel": [
+      "index.html",
+      "manifest.webmanifest",
+      "sw.js",
+      "assets",
+      "fonts",
+      "icons",
+      "content"
+    ],
+    "precacheMiB": 12,
+    "audioMiB": 40
+  },
+  "contentPack": {
+    "totalMiB": 12
+  },
+  "chunks": {
+    "abode": {
+      "pages": 1,
+      "mib": 4
+    },
+    "forms": {
+      "pages": 2,
+      "mib": 8
+    },
+    "mist_archive": {
+      "pages": 3,
+      "mib": 12
+    },
+    "ember_delta": {
+      "pages": 3,
+      "mib": 12
+    },
+    "star_quarry": {
+      "pages": 3,
+      "mib": 12
+    },
+    "trial": {
+      "pages": 2,
+      "mib": 8
+    },
+    "armory": {
+      "pages": 1,
+      "mib": 4
+    },
+    "wards": {
+      "pages": 1,
+      "mib": 4
+    },
+    "interface": {
+      "pages": 1,
+      "mib": 4
+    }
+  }
+}
