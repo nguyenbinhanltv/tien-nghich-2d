@@ -25,7 +25,7 @@ import { prepareFacing, bakeKey, mirrorFacing } from '../rig/bake.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
 import { sequenceHash } from '../pixelize/hold.mjs';
 import { getTemplate, bodyPlans, checkApplicable } from '../motion/library.mjs';
-import { applyPatch, patchKey } from '../rig/patch.mjs';
+import { applyPatch, patchKey, translateOps } from '../rig/patch.mjs';
 import { alignGround } from '../gates/ground.mjs';
 
 export const poseClipsSchema = 'forge.poseclips';
@@ -153,7 +153,14 @@ export function bakePoseClip({name, spec, clip, cells, held, palette, rig, libra
   }));
   const out = {clip: name, durationMs: clip.durationMs, loop, source: 'poses', secondary: Boolean(template), landmarks, qa: spec.qa, facings: {}};
   for (const [f, b] of Object.entries(baked)) {
-    out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => applyPatch(fr, patch.frames?.[patchKey(name, f, i)], palette, {lookup})) : b.frames};
+    // Stored operations are in the coordinates of the frame as it was when they were written (patch.ground records the offset the clip had then,
+    // 0 when nothing is recorded): move them by the difference to the offset this bake applied.
+    const moved = facing => (baked[facing]?.ground?.applied ? baked[facing].ground.dy : 0) - (patch?.ground?.[`${name}_${facing}`] ?? 0);
+    const fromT = Object.fromEntries(Object.keys(baked).map(facing => [facing, moved(facing)]));
+    out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => {
+      const key = patchKey(name, f, i), ops = patch.frames?.[key];
+      return applyPatch(fr, moved(f) || Object.values(fromT).some(Boolean) ? translateOps(key, ops, moved(f), {height: fr.height, fromT}) : ops, palette, {lookup});
+    }) : b.frames};
   }
   return out;
 }

@@ -15,6 +15,8 @@ const PROVENANCE = { tool: 'test', prompt: 'a walk', sourceHash: 'a'.repeat(64) 
 const withProject = async (fn) => { const p = makeProject({ git: false }); try { return await fn(p); } finally { await p.cleanup(); } };
 const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const text = (r) => r.content?.[0]?.text ?? '';
+const PALETTE = json(join(REPO, 'tools/generators/palette.json'));
+const settingsRgb = (id) => { const hex = PALETTE.colors.find((c) => c.id === id).hex; return [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)); };
 const walk = (facing, dy = 0, n = 4) => Array.from({ length: n }, (_, i) => {
   const frame = readFrame(join(FIX, `walk_${facing}_${i}.png`));
   return { clip: 'follow', direction: facing, n: i, pngBase64: Buffer.from(encodePng(dy ? shiftFrame(frame, 0, dy) : frame)).toString('base64') };
@@ -97,4 +99,40 @@ test('rig_bake: the baker moves each drawn clip onto the ground row, returns the
   assert.equal(ok.isError, undefined, text(ok));
   const log = fs.readFileSync(join(p.root, 'assets/raw/longtime', ASSET, 'studio-submissions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
   assert.match(log.at(-1).notes, /ground offsets \(rows moved to the ground row 27\) follow\/south [+-]\d/);
+}));
+
+test('frame_patch target bake records the ground offset it was written against, and a rebake with another offset moves the patched pixel with the body', () => withProject(async (p) => {
+  const a = connect(p.root, { agent: 'codex' });
+  fs.mkdirSync(join(p.root, 'work'), { recursive: true });
+  fs.copyFileSync(join(POSE, 'pose_sheet.png'), join(p.root, 'work/pose_sheet.png'));
+  const tpl = await a.call('studio_template_get', { assetId: ASSET, kind: 'pose-sheet', clip: 'follow' });
+  await a.ok('studio_sheet_import', { assetId: ASSET, sheet: { file: 'work/pose_sheet.png' }, layout: json(join(POSE, 'layout.json')), prompt: 'p', tool: 'test', scaleOptions: { mode: 'sheet' } });
+  await a.ok('studio_process', { assetId: ASSET, marks: [{ color: 'soul_07', minRgb: [165, 0, 187], blueOverGreen: 17 }] });
+  const qa = { pivotDrift: false, flicker: false, identity: false, groundContact: false, stability: false };
+  const first = await a.call('studio_rig_bake', { assetId: ASSET, poseClips: tpl.structuredContent.poseClips, qa });
+  const dy = first.structuredContent.groundOffsets.find((o) => o.facing === 'south').dy;
+  assert.ok(dy > 0);
+  const bakeDir = join(p.root, '.inspector-revisions/work', ASSET, 'bake');
+  const topRow = (f) => { const img = readFrame(join(bakeDir, f)); for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (img.pixels[(y * 32 + x) * 4 + 3]) return { x, y }; };
+  const top = topRow('follow_south_0.png');
+  // A patch on the first opaque pixel of the figure, written against this bake.
+  await a.ok('studio_frame_patch', { assetId: ASSET, target: 'bake', edits: [{ frame: 'follow_south_0', ops: [{ op: 'set', pixels: [[top.x, top.y, 'jade_04']] }] }] });
+  const stored = () => json(join(p.root, 'assets/raw/longtime', ASSET, 'forge/patch.json'));
+  assert.deepEqual(stored().ground, { follow_south: dy }, 'the offset of the bake it was written against');
+  assert.deepEqual(stored().frames.follow_south_0[0].pixels, [[top.x, top.y, 'jade_04']]);
+  // The same clip moved one row further (inset 1): the pixel is still on the top of the figure, one row lower.
+  const moved = structuredClone(tpl.structuredContent.poseClips);
+  moved.clips.follow.ground = { inset: 1 };
+  await a.call('studio_rig_bake', { assetId: ASSET, poseClips: moved, qa });
+  const after = topRow('follow_south_0.png');
+  assert.equal(after.y, top.y + 1);
+  const img = readFrame(join(bakeDir, 'follow_south_0.png'));
+  const at = (x, y) => [...img.pixels.subarray((y * 32 + x) * 4, (y * 32 + x) * 4 + 3)];
+  const jade = settingsRgb('jade_04');
+  assert.deepEqual(at(top.x, top.y + 1), jade, 'the patched pixel moved with the body');
+  assert.notDeepEqual(at(top.x, top.y), jade);
+  // A new patch on that bake rebases the stored one to its offset and records it.
+  await a.ok('studio_frame_patch', { assetId: ASSET, target: 'bake', edits: [{ frame: 'follow_west_0', ops: [{ op: 'set', pixels: [[1, 1, 'jade_04']] }] }] });
+  assert.deepEqual(stored().ground.follow_south, dy + 1);
+  assert.deepEqual(stored().frames.follow_south_0[0].pixels, [[top.x, top.y + 1, 'jade_04']]);
 }));

@@ -7,7 +7,7 @@ export { renderTemplate } from './sheet/template.mjs';
 export { importSheet, normalizeScale, normalizeEntries, scalesByFacing, defaultScaleOptions, readSheetFile, writeImport, readImport, assertNoOverwrite, assertCellId, importSchema } from './sheet/import.mjs';
 export { settingsFromPack, parsePaletteColors, resolveMarks } from './pixelize/settings.mjs';
 export { pixelizeCell, pixelizeImport, writePixelized, readPixelized, pixelizeSchema } from './pixelize/pixelize.mjs';
-export { bakeRig, writeBake, qaBake, validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, gateFacing, unitOf } from './rig/index.mjs';
+export { bakeRig, writeBake, qaBake, validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, gateFacing, unitOf, translateOps, rebasePatch, groupOfKey } from './rig/index.mjs';
 export { loadLibrary, getTemplate, listTemplates, coverage, clipTable, checkApplicable, validateLibrary } from './motion/library.mjs';
 export { runGates, stability, defaultOptions, defaultGround, groundRow, groundContact, groundTarget, alignGround } from './gates/index.mjs';
 export { groundContactGate } from './gates/ground.mjs';

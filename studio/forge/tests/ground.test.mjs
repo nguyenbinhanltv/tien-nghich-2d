@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { alignGround, bakePoseClip, createImage, drawnDefaults, groundContact, groundContactGate, groundRow, groundTarget, identityDrift, readFrame, runGates, setPixel } from '../index.mjs';
+import { alignGround, bakePoseClip, createImage, getRgb, rebasePatch, translateOps, validatePatch, drawnDefaults, groundContact, groundContactGate, groundRow, groundTarget, identityDrift, readFrame, runGates, setPixel } from '../index.mjs';
 import { unitsFromFlatDir } from '../gates/calibrate.mjs';
 
 const fixtures = path.join(path.dirname(fileURLToPath(import.meta.url)), 'fixtures');
@@ -83,6 +83,56 @@ test('bakePoseClip puts the feet on the pivot row, moves declared contacts and l
   assert.deepEqual(still.facings.south.frames.map(groundRow), [24, 24]);
   assert.equal(still.facings.south.ground, undefined);
   assert.equal(bakePoseClip({name: 'walk', spec, clip, cells, palette: null, profileName: 'p', canvasWidth: 32}).facings.south.ground, undefined, 'no pivot given: no move');
+});
+
+// ---- stored patches follow the clip when its ground offset changes
+const palette = {has: () => true, rgb: () => [250, 10, 10], outline: INK};
+const patched = (spec, patch) => {
+  const frames = [figure(24), figure(24)];
+  const cells = new Map(frames.map((f, i) => [`k${i}_south`, {native: f, indexed: f}]));
+  return bakePoseClip({name: 'walk', spec: {keys: ['k0', 'k1'], facings: ['south'], ...spec}, clip: {durationMs: 200, frames: 2}, cells, palette, profileName: 'p', canvasWidth: 32, pivot, patch});
+};
+const red = f => { const hits = []; for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (getRgb(f, x, y)[0] === 250 && f.pixels[(y * 32 + x) * 4 + 3] === 255) hits.push([x, y]); return hits; };
+// The pixel on the top row of the body: head, whatever the offset.
+const topOf = f => { for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (f.pixels[(y * 32 + x) * 4 + 3]) return y; };
+
+test('a stored patch stays on the same body part when the clip is moved by another offset', () => {
+  // Written against a bake whose clip was moved by 3 (frame rows 20..27): a pixel on the top row of the body, and a copy box over the head.
+  const patch = {schema: 'studio.patch', version: 1, ground: {walk_south: 3}, frames: {walk_south_0: [{op: 'set', pixels: [[15, 20, 'x']]}, {op: 'fill', box: [14, 21, 16, 22], color: 'x'}]}};
+  assert.deepEqual(validatePatch(patch, {palette, width: 32, height: 32}), []);
+  const at3 = patched({}, patch).facings.south.frames[0];
+  assert.deepEqual(red(at3), [[15, 20], [14, 21], [15, 21]]);
+  assert.equal(topOf(at3), 20, 'the figure top is row 20 at offset 3');
+  // The same patch with the clip now moved by 4 (inset 1): every operation moves down one row with the body.
+  const at4 = patched({ground: {inset: 1}}, patch).facings.south.frames[0];
+  assert.equal(topOf(at4), 21);
+  assert.deepEqual(red(at4), [[15, 21], [14, 22], [15, 22]]);
+  // Only frame 0 carries operations; frame 1 is untouched.
+  assert.deepEqual(red(patched({ground: {inset: 1}}, patch).facings.south.frames[1]), []);
+  // No record means the frame as pixelised (offset 0): the operations are moved by the whole offset.
+  const bare = {schema: 'studio.patch', version: 1, frames: {walk_south_0: [{op: 'set', pixels: [[15, 17, 'x']]}]}};
+  assert.deepEqual(red(patched({}, bare).facings.south.frames[0]), [[15, 20]]);
+  // A clip that is not moved, against a patch recorded at 3: moved back up.
+  assert.deepEqual(red(patched({ground: false}, patch).facings.south.frames[0]), [[15, 17], [14, 18], [15, 18]]);
+});
+
+test('translateOps and rebasePatch move every kind of operation, refuse to leave the canvas, and record the new offset', () => {
+  const ops = [{op: 'line', from: [1, 2], to: [3, 4], color: 'x'}, {op: 'flood', at: [5, 6], color: 'x'}, {op: 'shift', box: [0, 1, 2, 3], dx: 1, dy: 1}, {op: 'shade', box: [0, 0, 2, 2]}, {op: 'outline'},
+    {op: 'copy', box: [0, 1, 2, 3], dx: 0, dy: 2, from: {facing: 'west', frame: 0}}];
+  const out = translateOps('walk_south_0', ops, 2, {height: 32, fromT: {west: 1}});
+  assert.deepEqual([out[0].from, out[0].to, out[2].box, out[3].box, out[4]], [[1, 4], [3, 6], [0, 3, 2, 5], [0, 2, 2, 4], ops[4]]);
+  assert.deepEqual(out[1].at, [5, 8]);
+  assert.deepEqual(out[5].box, [0, 2, 2, 4], 'a copy box is in the source frame, moved by the source offset');
+  assert.equal(out[5].dy, 3, 'and the destination by the difference');
+  assert.throws(() => translateOps('walk_south_0', [{op: 'set', pixels: [[0, 31, 'x']]}], 2, {height: 32}), /would leave the canvas when moved by 2 row/);
+  const patch = {schema: 'studio.patch', version: 1, frames: {walk_south_0: [{op: 'set', pixels: [[1, 5, 'x']]}], idle_south_0: [{op: 'set', pixels: [[1, 5, 'x']]}]}};
+  const next = rebasePatch(patch, {walk_south: 3}, {height: 32});
+  assert.deepEqual(next.frames.walk_south_0[0].pixels, [[1, 8, 'x']]);
+  assert.deepEqual(next.frames.idle_south_0, patch.frames.idle_south_0, 'groups not named keep their operations');
+  assert.deepEqual(next.ground, {walk_south: 3});
+  assert.equal(patch.ground, undefined, 'the input is not changed');
+  assert.deepEqual(rebasePatch(next, {walk_south: 3}, {height: 32}), next, 'already at that offset: nothing moves');
+  assert.ok(validatePatch({...patch, ground: {walk_south: 1.5}}, {palette, width: 32, height: 32}).some(i => /patch.ground/.test(i)));
 });
 
 // ---- calibration on the committed walks (the table is in docs/FORGE_BAKEOFF.md, "Drawn-clip gates: calibration")
