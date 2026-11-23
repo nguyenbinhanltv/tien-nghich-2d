@@ -3,7 +3,7 @@
 // wave is dead, and walking through the open door goes to the next room. The boss room ends the run through the mode
 // machine ('won' -> settleRun). Rooms keep their order from the `next` column, so the room index of the run (run.room) is the
 // position in the chain.
-import type { RoomRow, ContentApi, BossRow, RoomLayout } from '../../contracts/content.ts';
+import { BLOCKING_PROPS, type RoomRow, type ContentApi, type BossRow, type RoomLayout } from '../../contracts/content.ts';
 import type { GameEvent, WorldState } from '../../contracts/world.ts';
 import { clearProjectiles } from '../pool.ts';
 import { findPlayer, spawnActor } from '../actors.ts';
@@ -13,8 +13,6 @@ import { advanceRoom, startRun } from './run.ts';
 
 export const TILE = 16;
 const PLAYER_HP = 6, PLAYER_RADIUS = 5, BOSS_RADIUS = 19, BOSS_FIRST_ATTACK = 84;
-/** Props that block movement (same set as the validator's BLOCKING_PROPS). */
-const BLOCKING = new Set(['prop_restriction_pillar', 'prop_mist_ravine_rock', 'prop_bone_altar', 'prop_alchemy_jar', 'prop_shrine_altar', 'prop_spirit_chest']);
 
 /** The rooms of the floor in play order: the chain of `next` after the abode. */
 export function floorChain(content: ContentApi): string[] {
@@ -29,7 +27,7 @@ const center = (c: number, r: number): { x: number; y: number } => ({ x: c * TIL
 
 function buildRows(L: RoomLayout): string[] {
   const rows = L.grid.map((r) => r.split(''));
-  for (const p of L.props) if (BLOCKING.has(p.id)) rows[p.at[1]]![p.at[0]] = 'P';
+  for (const p of L.props) if (BLOCKING_PROPS.has(p.id)) rows[p.at[1]]![p.at[0]] = 'P';
   return rows.map((r) => r.join(''));
 }
 
