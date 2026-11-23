@@ -25,7 +25,7 @@
 .roster-item { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: var(--ui-sp-2); align-items: center; padding: var(--ui-sp-1); border: var(--ui-bw) solid transparent; text-decoration: none; color: var(--ui-text); }
 .roster-item:hover { border-color: var(--ui-line); background: var(--ui-bg); } .roster-item.readiness-planned { opacity: .8; }
 .roster-item[aria-current="true"] { border-color: var(--ui-accent); background: var(--ui-bg); box-shadow: inset 4px 0 0 var(--ui-accent); }
-.thumb { width: 2.4rem; height: 2.4rem; display: grid; place-items: center; background: var(--ui-bg); border: 1px solid var(--ui-line); } .thumb img { width: 2rem; height: 2rem; image-rendering: pixelated; }
+.thumb { width: 2.4rem; height: 2.4rem; display: grid; place-items: center; background: repeating-conic-gradient(var(--ui-checker-a) 0 25%, var(--ui-checker-b) 0 50%) 0 0 / 8px 8px; border: 1px solid var(--ui-line); } .thumb img { width: 2rem; height: 2rem; image-rendering: pixelated; }
 .who { display: grid; min-width: 0; line-height: 1.25; }
 .who > :is(strong, code), .who small, .titles > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: normal; }
 .who :is(code, small) { font-size: var(--ui-fs-xs); color: var(--ui-text-muted); } .chip.status-baseline { border-style: dotted; }
