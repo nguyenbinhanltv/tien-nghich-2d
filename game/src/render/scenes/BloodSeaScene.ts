@@ -8,10 +8,13 @@ import { VIEW_H, VIEW_W } from '../../contracts/world.ts';
 import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
-import { artOf } from '../clip-map.ts';
+import { artOf, shotFrame } from '../clip-map.ts';
 import { FloorHud } from '../floor-hud.ts';
-import { Hud } from '../hud.ts';
+import { drawText, Hud } from '../hud.ts';
+import { DamageNumbers, TONE_COLOUR } from '../damage-numbers.ts';
+import { textPixels } from '../../ui/pixel-text.ts';
 import { Juice } from '../juice.ts';
+import { HurtPoses } from '../hurt-poses.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
@@ -51,7 +54,7 @@ const cellHash = (x: number, y: number): number => {
   return (h ^ (h >>> 16)) >>> 0;
 };
 
-/** Sprite of each projectile kind (index of PROJECTILE_KINDS). Placeholders: the real shots come with the weapons (E5.1). */
+/** Sprite of each projectile kind (index of PROJECTILE_KINDS). Placeholders: the real shots come with the weapons (E5.1); an enemy's `mob_shot` wears its own art (shotFrame). */
 const SHOT_FRAME: Record<(typeof PROJECTILE_KINDS)[number], string> = {
   spirit_blade: 'projectiles/pj_blood_jade_blade/flight_none_0',
   mob_shot: 'projectiles/pj_soul_lamp/flight_none_0',
@@ -73,6 +76,9 @@ export class BloodSeaScene extends Phaser.Scene {
   private endedAt = -1;
   private finished = false;
   readonly juice = new Juice();
+  readonly numbers = new DamageNumbers();
+  private numbersGfx!: Phaser.GameObjects.Graphics;
+  private readonly hurts = new HurtPoses();
   private hud!: Hud;
   private floor!: FloorHud;
   private room!: RoomView;
@@ -94,6 +100,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.room = new RoomView(this, this.frames);
     if (!this.fight.hasFloor) this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
+    this.numbersGfx = this.add.graphics().setDepth(200);
     this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
@@ -160,7 +167,7 @@ export class BloodSeaScene extends Phaser.Scene {
         if (!this.gateAsked) { this.gateAsked = true; this.host.onGate?.((c) => this.fight.takeGate(c)); }
       } else this.gateAsked = false;
       const ev = this.fight.drain();
-      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
+      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.hurts.onEvents(ev); this.numbers.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
     this.draw();
   }
@@ -190,6 +197,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
+    this.drawNumbers();
     this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
     this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
@@ -198,7 +206,7 @@ export class BloodSeaScene extends Phaser.Scene {
   }
 
   private drawActor(a: ActorState, w: WorldState): void {
-    const art = artOf(w, a);
+    const art = artOf(w, a, this.hurts.startOf(a.id, w.tick));
     const clip = resolveClip(this.frames, art.kind, art.clip, a.facing);
     if (!clip) return;
     const name = clip.frames[frameIndex(clip.frames.length, art.clip, art.startTick, w.tick)]!;
@@ -240,6 +248,16 @@ export class BloodSeaScene extends Phaser.Scene {
     }
   }
 
+  /** Floating damage numbers: pixel-font digits with an ink outline, in world space above the actor that was hit. */
+  private drawNumbers(): void {
+    const g = this.numbersGfx;
+    g.clear();
+    for (const n of this.numbers.visible(this.time.now)) {
+      const t = textPixels(n.text);
+      drawText(g, t, n.x - (t.w >> 1), n.y, TONE_COLOUR[n.tone]);
+    }
+  }
+
   private drawShots(w: WorldState): void {
     const pool = w.projectiles;
     while (this.shots.length < pool.count) {
@@ -250,7 +268,8 @@ export class BloodSeaScene extends Phaser.Scene {
       const s = this.shots[i]!;
       if (i >= pool.count) { s.setVisible(false); continue; }
       const kind = PROJECTILE_KINDS[pool.kind[i]!] ?? 'spirit_blade';
-      const name = SHOT_FRAME[kind];
+      const owner = kind === 'mob_shot' ? w.actors.find((x) => x.id === pool.owner[i]) : undefined;
+      const name = shotFrame(owner?.kind, w.tick, SHOT_FRAME[kind]);
       s.setVisible(true).setTexture(this.frames.pageOf(name), name);
       s.setPosition(Math.round(pool.x[i]!), Math.round(pool.y[i]!));
       s.setRotation(Math.atan2(pool.vy[i]!, pool.vx[i]!));

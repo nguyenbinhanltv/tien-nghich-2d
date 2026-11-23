@@ -42,6 +42,6 @@ export class AudioDirector {
 
   handle(events: readonly GameEvent[], world: Pick<WorldState, 'actors' | 'hazards'>): void {
     if (!this.map) return;
-    for (const ev of events) for (const p of this.map.fromEvent(ev, world)) void this.engine.playCue(p.cue, { priority: p.priority });
+    for (const ev of events) for (const p of this.map.fromEvent(ev, world)) void this.engine.playCue(p.cue, { priority: p.priority, ...(p.gain === undefined ? {} : { gain: p.gain }) });
   }
 }
