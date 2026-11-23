@@ -1,0 +1,51 @@
+{
+  "when": "2026-11-23T05:43:06.657Z",
+  "chromium": "156.0.8078.4",
+  "distOnDisk": {
+    "atlas": {
+      "files": 14,
+      "raw": 1844302,
+      "gzip": 824345
+    },
+    "audio": {
+      "files": 36,
+      "raw": 23323498,
+      "gzip": 23222751
+    },
+    "shell": {
+      "files": 5,
+      "raw": 20361,
+      "gzip": 8098
+    },
+    "js": {
+      "files": 2,
+      "raw": 1418843,
+      "gzip": 379455
+    }
+  },
+  "coldLoadBytes": {
+    "atlas": 1847017,
+    "audio": 415393,
+    "js": 381214,
+    "shell": 16700,
+    "total": 2660324,
+    "requests": 42
+  },
+  "coldReadyMs": 401,
+  "serviceWorkerCache": {
+    "names": [
+      "tn2d-spike-ac4816e585"
+    ],
+    "entries": 39,
+    "audio": 18,
+    "atlas": 14
+  },
+  "display": "fullscreen",
+  "offline": {
+    "readyMs": 143,
+    "requests": 42,
+    "servedBySW": 30,
+    "fps": 60.31,
+    "audioCues": 43
+  }
+}

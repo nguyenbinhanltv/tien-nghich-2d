@@ -1,0 +1,142 @@
+{
+  "when": "2026-11-23T05:43:23.143Z",
+  "reloads": [
+    {
+      "color": [
+        0,
+        255,
+        0
+      ],
+      "writeToApplied": 56,
+      "writeToVisible": 59,
+      "reloadMs": 20,
+      "pixelBefore": [
+        20,
+        16,
+        26,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 1,
+      "tickAfter": 10
+    },
+    {
+      "color": [
+        0,
+        128,
+        255
+      ],
+      "writeToApplied": 52,
+      "writeToVisible": 55,
+      "reloadMs": 18,
+      "pixelBefore": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        128,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 34,
+      "tickAfter": 42
+    },
+    {
+      "color": [
+        255,
+        0,
+        255
+      ],
+      "writeToApplied": 52,
+      "writeToVisible": 52,
+      "reloadMs": 16,
+      "pixelBefore": [
+        0,
+        128,
+        255,
+        255
+      ],
+      "pixelAfter": [
+        255,
+        0,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 67,
+      "tickAfter": 74
+    },
+    {
+      "color": [
+        255,
+        255,
+        0
+      ],
+      "writeToApplied": 52,
+      "writeToVisible": 55,
+      "reloadMs": 16,
+      "pixelBefore": [
+        255,
+        0,
+        255,
+        255
+      ],
+      "pixelAfter": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 98,
+      "tickAfter": 107
+    },
+    {
+      "color": [
+        0,
+        255,
+        255
+      ],
+      "writeToApplied": 52,
+      "writeToVisible": 52,
+      "reloadMs": 17,
+      "pixelBefore": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "pixelAfter": [
+        0,
+        255,
+        255,
+        255
+      ],
+      "changed": true,
+      "tickBefore": 131,
+      "tickAfter": 138
+    }
+  ],
+  "writeToVisibleMs": {
+    "p50": 55,
+    "max": 59
+  },
+  "allPixelsChanged": true,
+  "simStateKept": {
+    "refTick": 900,
+    "nodeHash": "5bf89c6e20de8360",
+    "pageHash": "5bf89c6e20de8360",
+    "equal": true
+  },
+  "errors": []
+}

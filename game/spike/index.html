@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#14101a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.png">
+<title>Tiên Nghịch 2D · engine spike</title>
+<style>
+  html,body{margin:0;height:100%;background:#0b0810;overflow:hidden;overscroll-behavior:none;-webkit-touch-callout:none}
+  body{display:flex;align-items:center;justify-content:center}
+  #game{position:relative;touch-action:none}
+  #game canvas{display:block}
+  #hud{position:absolute;left:4px;top:4px;color:#d7c9a3;font:11px/1.2 ui-monospace,monospace;text-shadow:0 1px #000;pointer-events:none;z-index:2}
+</style>
+</head>
+<body>
+<div id="game"><div id="hud"></div></div>
+<script type="module" src="./src/main.ts"></script>
+</body>
+</html>
