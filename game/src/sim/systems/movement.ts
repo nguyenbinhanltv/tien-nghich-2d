@@ -51,7 +51,7 @@ export function playerControl(world: WorldState, p: ActorState, input: InputFram
       c.slash = c.action + COMBAT.strikeRecovery;
       c.counterCast = c.counterWindow > 0;
       c.counterWindow = 0;
-      if (input.aim) { c.aim.x = input.aim.x; c.aim.y = input.aim.y; }
+      if (input.aim && (input.aim.x !== 0 || input.aim.y !== 0)) unitInto(c.aim, input.aim.x, input.aim.y);
       else {
         const t = nearestHostile(world, p.pos.x, p.pos.y);
         if (t) unitInto(c.aim, t.pos.x - p.pos.x, t.pos.y - p.pos.y);
