@@ -1,7 +1,9 @@
 // Pixel operations for studio_frame_patch: the forge's patch engine plus a palette-index `grid` op, which is
 // expanded to plain `set` operations before anything is stored or validated.
 import { ToolError } from '../registry.mjs';
-import { applyPatch, appendOps, createImage, decodePng, emptyPatch, validatePatch } from '../../forge/index.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { applyPatch, appendOps, createImage, decodePng, emptyPatch, rebasePatch, validatePatch } from '../../forge/index.mjs';
 
 export const MAX_OPS_PER_FRAME = 500;
 
@@ -36,3 +38,18 @@ export function checkOps(key, ops, { palette, width, height }) {
 export const blank = (width, height) => createImage(width, height);
 export const decode = (bytes) => decodePng(bytes);
 export { applyPatch, appendOps, emptyPatch };
+
+/**
+ * The ground offset of every clip and facing of the last stored bake ({'<clip>_<facing>': dy}, 0 for a clip that was not moved), read from its bake.json;
+ * {} when there is no stored bake. Stored patch operations are written against that bake, so they record these offsets.
+ */
+export async function bakeGroundOffsets(bakeDir) {
+  let doc;
+  try { doc = JSON.parse(await fs.readFile(path.join(bakeDir, 'bake.json'), 'utf8')); } catch { return {}; }
+  const out = {};
+  for (const [clip, c] of Object.entries(doc.clips ?? {})) for (const [facing, o] of Object.entries(c.facings ?? {})) out[`${clip}_${facing}`] = o.ground?.applied ? o.ground.dy : 0;
+  return out;
+}
+
+/** The stored patch with its operations moved to the offsets of the last bake, and those offsets recorded (so new operations and old ones share one coordinate frame). */
+export const rebaseToBake = (patch, offsets, height) => rebasePatch(patch, offsets, { height });

@@ -96,7 +96,7 @@ async function build(ts = [0.42, 0.58, 0.46]) {
 
 const bytesOf = (map) => [...map.entries()].map(([id, c]) => [id, Buffer.from(encodePng(c.native)).toString('base64'), Buffer.from(encodePng(c.indexed)).toString('base64')]);
 const sig = (frame) => Buffer.from(encodePng(frame.native)).toString('base64');
-const clips = (spec) => ({schema: 'forge.poseclips', version: 1, clips: Object.fromEntries(Object.entries(spec).map(([name, [keys, loop]]) => [name, {keys, facings, ...(loop === undefined ? {} : {loop})}]))});
+const clips = (spec) => ({schema: 'forge.poseclips', version: 1, clips: Object.fromEntries(Object.entries(spec).map(([name, [keys, loop]]) => [name, {keys, facings, ground: false, ...(loop === undefined ? {} : {loop})}]))});
 // Body colour between clay and moss: a just on the clay side, the others clearly moss. The margin is wide enough to hold a
 // against moss, too narrow to hold moss against clay.
 async function boundary(t, ts = [0.45, 0.7, 0.7]) {

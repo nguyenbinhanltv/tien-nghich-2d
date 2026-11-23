@@ -1,7 +1,12 @@
 // Direct pixel edits as data. A patch document stores an ordered list of operations per frame key; the
 // baker applies them after the bake, so a fix survives a rebuild. This is the engine behind studio_frame_patch.
 //
-//   {"schema": "studio.patch", "version": 1, "frames": {"idle_south_0": [{"op": "set", ...}, ...]}}
+//   {"schema": "studio.patch", "version": 1, "frames": {"idle_south_0": [{"op": "set", ...}, ...]}, "ground": {"walk_south": 3}}
+//
+// `ground` (optional) records, per clip and facing, the vertical offset the baker had moved the frames by when the operations were
+// written (drawn clips are moved onto the pivot's ground row after pixelisation). Coordinates are in the frame as it was then. The
+// baker moves the operations by the difference to the offset it applies now (translateOps); a group with no record counts as 0,
+// the frame as it was pixelised.
 //
 // Colours are palette ids (null clears to transparent). Boxes are half-open [x0, y0, x1, y1].
 import { BAYER_SIZES, LIGHTS, PATTERNS, ditherAt, hueShiftRamp, patternAt, lightPosition, shadeId } from '../../core/shading.mjs';
@@ -11,6 +16,50 @@ export const patchKey = (clip, facing, index) => `${clip}_${facing}_${index}`;
 export const patchOps = ['set', 'line', 'fill', 'flood', 'shift', 'copy', 'outline', 'shade', 'dither', 'pattern', 'gradient'];
 
 export const emptyPatch = () => ({schema: 'studio.patch', version: 1, frames: {}});
+
+/** `<clip>_<facing>` of a frame key (or null). */
+export const groupOfKey = key => /^(.+_(?:south|west|north|east|none))_\d+$/.exec(key)?.[1] ?? null;
+
+/**
+ * The operations of one frame moved `t` rows down (negative: up), for a frame whose clip was moved by `t` more rows than when they
+ * were written. `fromT` (copy with a source frame) is the same for the source frame, whose boxes are in its own coordinates.
+ * Throws with the frame key when anything would leave the canvas: the patch is then not applied to wrong pixels, the bake says so.
+ */
+export function translateOps(key, ops, t, {height, fromT = {}} = {}) {
+  if (!ops?.length) return ops;
+  const out = [];
+  const row = (y, extra = 0) => {
+    const v = y + t + extra;
+    if (height !== undefined && (v < 0 || v >= height)) throw new Error(`the stored patch for ${key} would leave the canvas when moved by ${t} row(s) (the clip's ground offset changed since the operations were written); remove or redo them with studio_frame_patch`);
+    return v;
+  };
+  const box = (b, tb = t) => { const y0 = b[1] + tb, y1 = b[3] + tb; if (height !== undefined && (y0 < 0 || y1 > height)) throw new Error(`the stored patch for ${key} would leave the canvas when moved by ${tb} row(s) (the clip's ground offset changed since the operations were written); remove or redo them with studio_frame_patch`); return [b[0], y0, b[2], y1]; };
+  for (const op of ops) {
+    if (op.op === 'set') out.push({...op, pixels: op.pixels.map(([x, y, c]) => [x, row(y), ...(c === undefined ? [] : [c])])});
+    else if (op.op === 'line') out.push({...op, from: [op.from[0], row(op.from[1])], to: [op.to[0], row(op.to[1])]});
+    else if (op.op === 'flood') out.push({...op, at: [op.at[0], row(op.at[1])]});
+    else if (op.op === 'shift' || op.op === 'copy') {
+      if (op.from) { const ts = fromT[op.from.facing] ?? 0; out.push({...op, box: box(op.box, ts), dy: op.dy + t - ts}); }
+      else out.push({...op, box: box(op.box)});
+    } else if (op.box) out.push({...op, box: box(op.box)});   // fill, shade, dither, pattern, gradient
+    else out.push(op);                                          // outline
+  }
+  return out;
+}
+
+/** The patch with every group's operations moved from its recorded offset to `current` ({'<clip>_<facing>': dy}); groups not named there keep theirs. */
+export function rebasePatch(patch, current, {height} = {}) {
+  const next = {...patch, frames: {...patch.frames}, ground: {...(patch.ground ?? {})}};
+  for (const [key, ops] of Object.entries(patch.frames)) {
+    const g = groupOfKey(key);
+    if (!g || !(g in current)) continue;
+    const t = current[g] - (patch.ground?.[g] ?? 0);
+    if (t) next.frames[key] = translateOps(key, ops, t, {height});
+  }
+  for (const g of Object.keys(current)) if (Object.keys(patch.frames).some(k => groupOfKey(k) === g)) next.ground[g] = current[g];
+  if (!Object.keys(next.ground).length) delete next.ground;
+  return next;
+}
 
 /** Append operations to a frame key, returning a new patch document (the input is not mutated). */
 export function appendOps(patch, key, ops) {
@@ -34,6 +83,7 @@ export function validatePatch(patch, {palette, width, height}) {
   const issues = [];
   if (patch?.schema !== 'studio.patch' || patch.version !== 1) return ['patch must have schema "studio.patch" and version 1'];
   if (typeof patch.frames !== 'object' || patch.frames === null || Array.isArray(patch.frames)) return ['patch.frames must be an object'];
+  if (patch.ground !== undefined && (typeof patch.ground !== 'object' || patch.ground === null || Array.isArray(patch.ground) || !Object.values(patch.ground).every(Number.isInteger))) issues.push('patch.ground must map "<clip>_<facing>" to an integer row offset');
   const color = (at, id) => { if (id !== null && !palette.has(id)) issues.push(`${at}: unknown palette id "${id}"`); };
   for (const [key, ops] of Object.entries(patch.frames)) {
     if (!/^[a-z0-9_]+_(south|west|north|east|none)_\d+$/.test(key)) issues.push(`frames.${key}: key must look like clip_facing_index`);

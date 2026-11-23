@@ -113,6 +113,7 @@ const FIXTURE_TESTS = new Set([
   'ui/tabs/vfx/server.test.mjs',
   'ui/tests/router.test.mjs',
   'mcp/pack-decisions.test.mjs',
+  'mcp/clipgates.test.mjs',
 ]);
 // Records and harnesses of runs on this project.
 const RECORDS = [/^mcp\/eval\//, /^mcp\/testkit\.mjs$/, /^forge\/prototype\//, /^forge\/rig\/tests\/fixtures\//];

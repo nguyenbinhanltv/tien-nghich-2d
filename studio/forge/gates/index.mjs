@@ -8,6 +8,9 @@
 //
 // Finding: {gate, severity: "error"|"warn", clip, facing, frame, frameTo?, pixels: [[x, y]], message, measured?, limit?}
 import { alphaAt, bounds, getRgb, isColor, luma, sameRgb } from '../image.mjs';
+import { defaultGround, groundContactGate } from './ground.mjs';
+
+export { defaultGround, groundRow, groundContact, groundTarget, alignGround } from './ground.mjs';
 
 export const defaultOptions = {
   footSlide: {},
@@ -18,7 +21,8 @@ export const defaultOptions = {
   stability: {maxSizeDelta: 0.5, maxNewColors: 0},
   silhouetteContrast: {minRatio: 1.5, maxLowEdgeFraction: 0.5},
   featureContrast: {},
-  weightTransfer: {minBodyTravel: 1}
+  weightTransfer: {minBodyTravel: 1},
+  groundContact: defaultGround
 };
 
 const cap = (list, n = 40) => list.slice(0, n);
@@ -72,7 +76,8 @@ export function pivotDrift(unit, ctx, options = defaultOptions.pivotDrift) {
   return out;
 }
 
-const interior = (frame, x, y, ink) => alphaAt(frame, x, y) === 255 && !isColor(frame, x, y, ink);
+// `ink` is null for a project without an outline: every opaque pixel is interior then.
+const interior = (frame, x, y, ink) => alphaAt(frame, x, y) === 255 && (!ink || !isColor(frame, x, y, ink));
 
 /** Interior pixels that change for one key and revert (A, B, A) read as flicker. */
 export function flicker(unit, ctx, options = defaultOptions.flicker) {
@@ -91,7 +96,7 @@ export function flicker(unit, ctx, options = defaultOptions.flicker) {
     }
     if (pixels.length > options.maxPixels) {
       out.push(finding(unit, 'flicker', {frame: i, pixels: cap(pixels), measured: pixels.length, limit: options.maxPixels,
-        message: `${pixels.length} interior pixels change for key ${i} only and revert`}));
+        message: `${pixels.length} interior pixels change for key ${i} only and revert`}, options.severity ?? 'error'));
     }
   }
   return out;
@@ -305,6 +310,8 @@ export function runGates(unit, ctx, options = {}) {
     ...run('flicker', flicker),
     ...run('loopSeam', loopSeam),
     ...run('markSide', markSide),
+    // Off unless asked for: the pipeline turns it on for drawn clips (qaStage, studio_frames_submit); a rig clip sits on its pivot by construction.
+    ...(options.groundContact ? run('groundContact', groundContactGate) : []),
     ...run('featureContrast', featureContrast),
     ...(options.weightTransfer === false || !unit.poses ? [] : weightTransfer(unit, ctx, opt('weightTransfer'))),
     ...(options.silhouetteContrast?.background ? silhouetteContrast(unit, ctx, opt('silhouetteContrast')) : [])

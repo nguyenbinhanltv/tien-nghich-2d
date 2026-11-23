@@ -25,7 +25,8 @@ import { prepareFacing, bakeKey, mirrorFacing } from '../rig/bake.mjs';
 import { resolveClip } from '../motion/resolve.mjs';
 import { sequenceHash } from '../pixelize/hold.mjs';
 import { getTemplate, bodyPlans, checkApplicable } from '../motion/library.mjs';
-import { applyPatch, patchKey } from '../rig/patch.mjs';
+import { applyPatch, patchKey, translateOps } from '../rig/patch.mjs';
+import { alignGround } from '../gates/ground.mjs';
 
 export const poseClipsSchema = 'forge.poseclips';
 
@@ -87,7 +88,7 @@ export function effectiveLoops(poseClips, {library, profileName} = {}) {
   return out;
 }
 
-export function bakePoseClip({name, spec, clip, cells, held, palette, rig, library, profileName, patch, canvasWidth, edgeSafe}) {
+export function bakePoseClip({name, spec, clip, cells, held, palette, rig, library, profileName, patch, canvasWidth, edgeSafe, pivot}) {
   const ids = new Set(cells.keys());
   const facings = poseFacings(spec, ids);
   let template = null, plan = null;
@@ -131,17 +132,35 @@ export function bakePoseClip({name, spec, clip, cells, held, palette, rig, libra
       }
       frames.push(frame); contacts.push(list);
     });
-    return {frames, contacts, poses};
+    // The feet go on the pivot's ground row after pixelisation: one offset for the whole clip and facing, recorded in `ground` (and in the
+    // provenance of a submit). Declared contacts are in the coordinates of the pixelised cell, so they move with the frames. `ground: false`
+    // in the clip spec leaves the frames where the import put them; the ground-contact gate then judges them as they are.
+    const aligned = pivot && spec.ground !== false ? alignGround(frames, {pivot, ...(spec.ground ?? {})}) : null;
+    const ground = aligned && {dy: aligned.dy, applied: aligned.applied, target: aligned.target, reference: aligned.reference, rowsBefore: aligned.rows, rowsAfter: aligned.rowsAfter, ...(aligned.reason ? {reason: aligned.reason} : {})};
+    if (aligned?.applied) return {frames: aligned.frames, contacts: contacts.map(list => list.map(c => ({...c, xy: [c.xy[0], c.xy[1] + aligned.dy]}))), poses, ground};
+    return {frames, contacts, poses, ...(ground ? {ground} : {})};
   };
   for (const f of facings) baked[f] = bakeFacing(f);
   for (const [f, m] of Object.entries(spec.mirror ?? {})) {
     const src = baked[m.of];
-    baked[f] = {...mirrorFacing(src, {swapColors: m.swapColors}, palette, canvasWidth), poses: src.poses};
+    baked[f] = {...mirrorFacing(src, {swapColors: m.swapColors}, palette, canvasWidth), poses: src.poses, ...(src.ground ? {ground: src.ground} : {})};
   }
   const lookup = (facing, index) => baked[facing]?.frames[index] ?? null;
-  const out = {clip: name, durationMs: clip.durationMs, loop, source: 'poses', secondary: Boolean(template), landmarks: spec.landmarks, qa: spec.qa, facings: {}};
+  // Landmark boxes were declared on the pixelised cell: they move with the facing's frames.
+  const landmarks = spec.landmarks && Object.fromEntries(Object.entries(spec.landmarks).map(([f, marks]) => {
+    const dy = baked[f]?.ground?.applied ? baked[f].ground.dy : 0;
+    return [f, dy ? marks.map(m => ({...m, box: [m.box[0], m.box[1] + dy, m.box[2], m.box[3] + dy]})) : marks];
+  }));
+  const out = {clip: name, durationMs: clip.durationMs, loop, source: 'poses', secondary: Boolean(template), landmarks, qa: spec.qa, facings: {}};
   for (const [f, b] of Object.entries(baked)) {
-    out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => applyPatch(fr, patch.frames?.[patchKey(name, f, i)], palette, {lookup})) : b.frames};
+    // Stored operations are in the coordinates of the frame as it was when they were written (patch.ground records the offset the clip had then,
+    // 0 when nothing is recorded): move them by the difference to the offset this bake applied.
+    const moved = facing => (baked[facing]?.ground?.applied ? baked[facing].ground.dy : 0) - (patch?.ground?.[`${name}_${facing}`] ?? 0);
+    const fromT = Object.fromEntries(Object.keys(baked).map(facing => [facing, moved(facing)]));
+    out.facings[f] = {...b, frames: patch ? b.frames.map((fr, i) => {
+      const key = patchKey(name, f, i), ops = patch.frames?.[key];
+      return applyPatch(fr, moved(f) || Object.values(fromT).some(Boolean) ? translateOps(key, ops, moved(f), {height: fr.height, fromT}) : ops, palette, {lookup});
+    }) : b.frames};
   }
   return out;
 }

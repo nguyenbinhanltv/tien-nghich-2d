@@ -12,6 +12,8 @@ import { carriesVerbatim } from '../workflow/prompt.mjs';
 import { judgeLineup, lineupMessages, measureFigure, referenceMeasure } from '../../forge/index.mjs';
 import { inkOf, lineupGroup, loadReferences } from '../workflow/lineup.mjs';
 import { dryRunProp, loadAsset, jsonResult, proposal, requireFrames } from './_shared.mjs';
+import { judgeSheetCells } from '../workflow/clipgates.mjs';
+import { cellsOfPixelized, pixelOptions } from '../workflow/frames.mjs';
 
 /**
  * The newcomer against the approved references, measured on the cleaned crops of the facing the pack measures (before pixelising, so the
@@ -63,6 +65,7 @@ export default {
     'If the asset has a locked reference in the pack, your prompt must carry its description paragraph verbatim (studio_template_get gives it in prompt.text); the check and the reference hash are recorded in provenance, and the result says when it is missing. ' +
     'When the pack has a lineup group for the asset\'s profile, the result carries lineup: the figure of the pose the pack measures, against the approved reference characters (height, head-to-body share, limb width as estimates at native size); advisory here, the gate is studio_process. ' +
     'annotations (pose sheets, optional) turn gates on: say where a foot is planted and where an asymmetric mark sits, per cell, as fractions (0 to 1) of that template cell; studio_template_get lists each cell\'s slots. The studio converts them to native pixels with the figure\'s own fit, returns them (annotations.native) so you can check them, and studio_rig_bake fills them into pose clips that declare none (foot slide needs planted contacts, mark side needs landmarks). A gate with no annotation stays reported as not run. ' +
+    'The result carries gates: the plain pixelisation of the cells judged like a clip, per facing (frame: ground contact against the pivot with the whole-clip offset the bake applies; palette: the pixel gates; motion: flicker and identity drift between the poses), advisory, with what did not run. ' +
     'Next: studio_process to pixelise. dryRun runs the import and lists the files it would write, storing nothing.',
   scope: 'author',
   inputSchema: {
@@ -82,6 +85,7 @@ export default {
       prompt: { type: 'string', minLength: 1, maxLength: 8000, description: 'What you asked the image tool, verbatim. Recorded with the sheet hash.' },
       tool: { type: 'string', minLength: 1, maxLength: 120, description: 'The image tool that drew the sheet (e.g. "Codex built-in image generation").' },
       annotations: { type: 'object', description: 'Pose sheets: {<cell id>: {contacts: [{id, at: [fx, fy], planted: true}], landmarks: [{id, color: <palette id>, box: [fx0, fy0, fx1, fy1]}]}}, fractions 0..1 of the cell from its top left. Stored with the import.' },
+      qa: { type: 'object', description: 'Clip gate options for the advisory gates in the result, e.g. {"groundContact": false}; the same keys as studio_rig_bake qa.' },
       dryRun: dryRunProp,
       scaleOptions: {
         type: 'object',
@@ -102,7 +106,7 @@ export default {
     requireFrames(asset);
     return forgeCall(async () => {
       if (isShipped(await milestones(ws.root, asset))) throw new ToolError(`${asset.id} already has processed or packed frames; new work on it goes through revisions.`);
-      const { settings } = await settingsFor(snap, ws, asset);
+      const { settings, palette: forgePalette } = await settingsFor(snap, ws, asset);
 
       let layoutDoc = args.layout;
       if (!layoutDoc) {
@@ -137,6 +141,11 @@ export default {
       }
       // Run the import first: a layout that does not fit stops here, before anything is stored.
       const result = importSheet({ layout, sheet: image, sheetBytes: bytes, source: file ? path.basename(file) : 'sheet.png', prompt: args.prompt, profile: settings.profile, scaleOptions: args.scaleOptions });
+      // The gates of the result: the plain pixelisation of the cells, judged the way a clip is (ground contact against the pivot, palette, flicker and identity
+      // drift between the poses of a facing). Advisory: they say what the bake will find and which whole-clip offset it applies; they never refuse an import.
+      const pixelized = pixelizeImport({ record: result.record, cells: result.cells }, settings);
+      const pixelErrors = cellsOfPixelized(pixelized, pixelOptions(snap, asset)).reduce((n, c) => n + c.errors, 0);
+      const gates = { ...judgeSheetCells({ pixelized, settings, palette: forgePalette, qa: args.qa }), pixelGates: { pass: pixelErrors === 0, errorPixels: pixelErrors, means: 'palette, binary alpha, outline and size of every pixelised cell' } };
       if (args.dryRun) {
         const { rel: sheetRel, exists } = await checkStoredSheet(ws, asset, bytes);
         const slot = slotOfLayout(layout);
@@ -146,7 +155,7 @@ export default {
         const warnings = result.record.cells.filter((c) => c.warnings.length).map((c) => ({ cell: c.id, warnings: c.warnings, advice: c.warnings.map((w) => ADVICE[w] ?? w) }));
         return proposal({ asset: asset.id, slot, layoutId: layout.id, replaces: previous ? previous.sheet.sha256.slice(0, 12) : null,
           wouldWrite: [...(exists ? [] : [sheetRel]), `${forgeDir(asset)}/${importName(slot)}.json`, ...(legacyMove ? [`${forgeDir(asset)}/import.pose.json`] : []), `${forgeDir(asset)}/imports.jsonl (one line appended)`], sheetAlreadyStored: exists, annotations: annotationReport(args.annotations, result, settings),
-          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings, lineup: await lineupAdvice(ws, snap, asset, layout, result) });
+          cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, warnings: c.warnings })), warnings, gates, lineup: await lineupAdvice(ws, snap, asset, layout, result) });
       }
       const stored = await storeSheet(ws, asset, bytes);
       // A style-locked entity: the prompt must carry the pack's description paragraph verbatim; the check is recorded either way.
@@ -163,7 +172,7 @@ export default {
       return jsonResult({
         ok: true, asset: asset.id, slot, sheet: doc.sheet, layoutId: layout.id, replaced: previous ? previous.sheet.sha256.slice(0, 12) : null,
         cells: result.record.cells.map((c) => ({ id: c.id, facing: c.facing, pose: c.pose, bounds: c.bounds, ground: c.ground, scale: c.scale ?? null, limit: c.limit ?? null, warnings: c.warnings })),
-        warnings,
+        warnings, gates,
         ...(args.annotations ? { annotations: annotationReport(args.annotations, result, settings) } : {}),
         ...(lineup ? { lineup } : {}),
         ...(reference ? { reference: { ...reference, message: reference.verbatim ? `The prompt carries the locked description of ${lock.name} verbatim; recorded in provenance.` : `Your prompt does NOT carry the locked description of ${lock.name} verbatim. Recorded as verbatim:false in provenance. Paste this paragraph unchanged into the sheet prompt, redraw, and import again: ${lock.description}` } } : {}),

@@ -3,7 +3,10 @@
 // way that suits drawn keys: how much of the interior changes colour from key to key, and how far the colour mix moves.
 import { alphaAt, getRgb, isColor, sameRgb } from '../image.mjs';
 
-export const defaultDrift = {maxInteriorChange: 0.6, maxColorShift: null};
+// Calibrated on the drawn clips in the repo (docs/FORGE_BAKEOFF.md, "Drawn-clip gates: calibration"): the limits sit between the
+// worst number of the Codex retest walk after its patches (change 0.315, shift 0.090) and the best of the same walk before them
+// (change 0.407, shift 0.110). They were 0.6 and off before.
+export const defaultDrift = {maxInteriorChange: 0.36, maxColorShift: 0.10};
 
 // `ink` is null for a project without an outline: nothing is excluded then.
 const isInk = (frame, x, y, ink) => ink !== null && ink !== undefined && isColor(frame, x, y, ink);

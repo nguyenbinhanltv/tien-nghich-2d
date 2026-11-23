@@ -10,6 +10,7 @@ import { writeFrame } from '../image.mjs';
 
 export { makePalette, readFrame, writeFrame, framesEqual, contactSheet } from '../image.mjs';
 export { validateRig, validatePatch, applyPatch, appendOps, emptyPatch, patchKey, frameName, bakeClip };
+export { translateOps, rebasePatch, groupOfKey } from './patch.mjs';
 export { loadLibrary, getTemplate, listTemplates, coverage, clipTable, checkApplicable, validateLibrary } from '../motion/library.mjs';
 export { runGates, stability, defaultOptions } from '../gates/index.mjs';
 

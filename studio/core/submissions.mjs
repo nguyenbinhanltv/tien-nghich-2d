@@ -104,8 +104,10 @@ export function checkAddress(asset, f) {
  * Submit frames for a design-manifest asset.
  * frames: [{clip, direction, n, pngBase64 | file}]; provenance as validateProvenance.
  * Returns {accepted, report}. A batch with any error-severity defect is not written at all.
+ * `judge(images)` (optional) is called with Map frame name -> decoded image after the pixel gates, accepted or not, and returns
+ * {report, record}: report goes to report.clipGates (the clip-level gates), record into the provenance record's gates.clips.
  */
-export async function submitFrames({ws, pack, palette, index, asset, frames, provenance, caller, dryRun = false}) {
+export async function submitFrames({ws, pack, palette, index, asset, frames, provenance, caller, dryRun = false, judge}) {
   const root = ws.root;
   if (!asset.layout?.studioRawDir) throw problem(422, 'unsupported', `${asset.id} (${asset.source}) is not open for frame submission; only design-manifest assets are. Shipped frames change through reviewed revisions.`);
   const m = await milestones(root, asset);
@@ -138,10 +140,12 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
   const [w, h] = asset.size;
   const report = {asset: asset.id, dryRun, frames: [], written: [], unchanged: []};
   let rejected = false;
+  const images = new Map();
   for (const f of loaded) {
     let image;
     try { image = decodeRgba(f.bytes); }
     catch (error) { image = null; f.problem = `not a readable PNG: ${error.message}`; }
+    if (image) images.set(f.name, image);
     let found = {defects: [], counts: {}, totals: {error: 0, warn: 0}};
     if (image) {
       if (image.width !== w || image.height !== h) f.problem = `canvas ${image.width}x${image.height} does not match the ${asset.profile} profile (${w}x${h})`;
@@ -152,6 +156,8 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
     report.frames.push({name: f.name, key: asset.layout.keyOf(f.clip, f.direction, f.n), sha256: sha256(f.bytes),
       ...(f.problem ? {problem: f.problem} : {}), errors, warnings: found.totals.warn, counts: found.counts, defects: found.defects.slice(0, 60)});
   }
+  const judged = judge ? judge(images) : null;
+  if (judged?.report) report.clipGates = judged.report;
   if (rejected) {
     report.accepted = false;
     report.message = 'Nothing was written. Fix the defects below (coordinates are x, y from the top-left of the frame) and submit again; use dryRun to check without writing.';
@@ -209,7 +215,7 @@ export async function submitFrames({ws, pack, palette, index, asset, frames, pro
         if (!mine.length) continue;
         const record = {at: new Date().toISOString(), agent: caller.agent, session: caller.session, kind: 'frames', ...g.prov, rules: stampOf(pack, palette),
           frames: mine.map(p => ({name: p.f.name, file: p.rel, sha256: sha256(p.f.bytes), width: w, height: h, created: !p.exists})),
-          gates: {errors: 0, warnings: report.frames.reduce((n, x) => n + x.warnings, 0)}};
+          gates: {errors: 0, warnings: report.frames.reduce((n, x) => n + x.warnings, 0), ...(judged?.record ? {clips: judged.record} : {})}};
         // A resubmission that wrote nothing adds no provenance: the pixels' origin is the first record.
         if (mine.some(p => !p.exists)) lines.push(JSON.stringify(record));
       }

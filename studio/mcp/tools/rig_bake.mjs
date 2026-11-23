@@ -15,8 +15,9 @@ export default {
   name: 'studio_rig_bake',
   title: 'Bake clips from a rig and/or drawn key poses, then run the animation gates',
   description:
-    'Build native frames per clip and facing from the pixelised sheet(s), apply the stored pixel patches, and judge the result with TWO named verdicts: verdicts.animationGates (foot slide, pivot drift, flicker, loop seam, mark side, weight transfer, identity drift, palette and proportion stability across clips) and verdicts.pixelGates (palette, alpha, outline, size of every frame, the check submit applies). pass is true only when both pass, and next never suggests submitting otherwise. ' +
-    'A gate that judged nothing is listed in verdicts.animationGates.notRun with the reason and what turns it on (foot slide needs planted contacts annotated in the poseClips or rig; flicker is off for drawn pose clips unless qa.pose.flicker is set; mark side needs landmarks); not run is NOT a pass. ' +
+    'Build native frames per clip and facing from the pixelised sheet(s), apply the stored pixel patches, and judge the result with TWO named verdicts: verdicts.animationGates (foot slide, pivot drift, ground contact, flicker, loop seam, mark side, weight transfer, identity drift, palette and proportion stability across clips) and verdicts.pixelGates (palette, alpha, outline, size of every frame, the check submit applies). pass is true only when both pass, and next never suggests submitting otherwise. ' +
+    'A gate that judged nothing is listed in verdicts.animationGates.notRun with the reason and what turns it on (foot slide needs planted contacts annotated in the poseClips or rig; mark side needs landmarks); not run is NOT a pass. ' +
+    'Drawn pose clips run ground contact (error when a key\'s lowest opaque row is more than 1 px from the pivot row minus 2), flicker (warning at 16 pixels) and identity drift (warnings) with the limits calibrated in docs/FORGE_BAKEOFF.md; before the gates the baker moves each drawn clip and facing by one whole offset so its usual contact lands on that row, and returns it in groundOffsets and in the submit provenance (poseClips clip `ground: false` leaves the frames where they are). ' +
     'Findings carry clip, facing, frame and pixel coordinates. Returns a contact sheet by clip and facing with defects boxed. ' +
     'ROUTES (forge bake-off): LOCOMOTION clips (walk, follow, advance) come from drawn KEY POSES: pass poseClips (the skeleton is in studio_template_get\'s result, with the formats of both documents) after importing a pose sheet (scaleOptions mode "sheet" or "facing"); ' +
     'IDLE and small motions come from the RIG: pass rig (parts cut from the pixelised sprite, joints, contacts, landmarks) after importing a turnaround; a motion template is applied by profile and clip. ' +
@@ -102,6 +103,9 @@ export default {
         facings: Object.fromEntries(Object.entries(c.facings).map(([f, o]) => [f, o.frames.length])) }]));
       const pixelErrors = view.structured.defects.errors, pixelWarnings = view.structured.defects.warnings;
       const coverage = gateCoverage(baked, { rig, poseRig: args.poseRig, options: args.qa });
+      // The feet of every drawn clip were put on the pivot's ground row after pixelisation (poseClips `ground: false` turns that off): the offsets, for the result and the provenance.
+      const groundOffsets = Object.entries(baked.clips).flatMap(([clip, c]) => Object.entries(c.facings).filter(([, o]) => o.ground).map(([facing, o]) => ({ clip, facing, ...o.ground })));
+      const groundNote = groundOffsets.length ? `; ground offsets (rows moved to the ground row ${groundOffsets[0].target}) ${groundOffsets.map((g) => `${g.clip}/${g.facing} ${g.applied ? (g.dy > 0 ? '+' : '') + g.dy : `none${g.reason ? ` (${g.reason})` : ''}`}`).join(', ')}`.slice(0, 600) : '';
       const verdicts = {
         animationGates: { pass: gates.pass, errors: errors.length, warnings: warnings.length, ran: coverage.ran, notRun: coverage.notRun,
           means: 'foot slide, pivot drift, flicker, loop seam, mark side, weight transfer, identity drift and palette/proportion stability across clips; a gate listed in notRun judged nothing' },
@@ -117,7 +121,7 @@ export default {
           check('pixelGates', { ok: pixelErrors === 0, warn: pixelWarnings > 0, measured: { errorPixels: pixelErrors, warningPixels: pixelWarnings }, threshold: { errorPixels: 0 } })],
         notProven: coverage.notRun.map((n) => ({ what: `${n.gate} for ${n.clips.join(', ')}`, why: n.reason, turnOn: n.turnOn })),
         inputs: { sheets: slots.map((x) => `${x.slot}:${x.doc.sheet.sha256.slice(0, 16)}`).join(' '), rig: rig ? sha(rig) : '-', poseClips: poseClips ? sha(poseClips) : '-', patch: patch ? sha(patch) : '-', frames: sha(Object.entries(baked.frames).map(([k, f]) => `${k}:${sha(f.pixels)}`).join(',')) } });
-      const out = { asset: asset.id, pass: ready, qa, verdicts, ...(annotated.length ? { annotationsApplied: annotated } : {}), clips: clipsOut, frames: Object.keys(baked.frames).length,
+      const out = { asset: asset.id, pass: ready, qa, verdicts, ...(groundOffsets.length ? { groundOffsets } : {}), ...(annotated.length ? { annotationsApplied: annotated } : {}), clips: clipsOut, frames: Object.keys(baked.frames).length,
         gates: { errors: errors.length, warnings: warnings.length, byGate, findings: listed, ...(gates.findings.length > CAP ? { truncated: gates.findings.length - CAP } : {}) },
         patched: Object.keys(patch?.frames ?? {}).length, ...view.structured,
         ...(args.dryRun ? { dryRun: true, wrote: 'nothing', wouldStore: storing.map((k) => `${forgeDir(asset)}/${k}.json`) } : { bakeDir: shown(ws, dir), stored: storing }) };
@@ -137,7 +141,7 @@ export default {
           groups.set(slot, g);
         }
         const hashes = `rig ${rig ? sha256(JSON.stringify(rig)).slice(0, 12) : '-'}; poseclips ${poseClips ? sha256(JSON.stringify(poseClips)).slice(0, 12) : '-'}; patch ${patch ? sha256(JSON.stringify(patch)).slice(0, 12) : '-'}`;
-        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}${g.doc.reference ? `; reference ${g.doc.reference.name} ${g.doc.reference.sha256.slice(0, 12)} verbatim ${g.doc.reference.verbatim ? 'yes' : 'no'}` : ''}`, frames: Object.keys(g.frames) }));
+        const provenance = [...groups.entries()].map(([slot, g]) => ({ tool: `${g.doc.tool} + studio forge bake`, prompt: g.doc.prompt, sourceHash: g.doc.sheet.sha256, notes: `${slot} sheet; layout ${g.doc.layout.id}; ${hashes}${slot === 'pose' ? groundNote : ''}${g.doc.reference ? `; reference ${g.doc.reference.name} ${g.doc.reference.sha256.slice(0, 12)} verbatim ${g.doc.reference.verbatim ? 'yes' : 'no'}` : ''}`, frames: Object.keys(g.frames) }));
         // ONE submission: all frames are gated together, written under one lock and rolled back together, each credited to its own sheet.
         const { accepted, report } = await submitBaked({ ws, snap, asset, frames: baked.frames, provenance, caller: ctx.caller, dryRun: args.dryRun });
         const written = report.written?.length ?? 0, unchanged = report.unchanged?.length ?? 0;

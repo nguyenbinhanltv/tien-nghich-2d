@@ -4,11 +4,11 @@ import { findDefects } from '../../core/defects.mjs';
 import { readInside } from '../../core/files.mjs';
 import { isShipped, milestones } from '../../core/assets.mjs';
 import { headPng, saveRevisions } from '../../core/revisions.mjs';
-import { encodePng, validatePatch } from '../../forge/index.mjs';
+import { encodePng, groupOfKey, validatePatch } from '../../forge/index.mjs';
 import { ToolError } from '../registry.mjs';
-import { MAX_DOC_BYTES, forgeCall, parseFrameName, readDoc, settingsFor, writeDoc } from '../workflow/forge.mjs';
+import { MAX_DOC_BYTES, forgeCall, parseFrameName, readDoc, settingsFor, workDir, writeDoc } from '../workflow/forge.mjs';
 import { cellsOf, pixelOptions, sheetContent, submitBaked } from '../workflow/frames.mjs';
-import { appendOps, applyPatch, blank, checkOps, decode, emptyPatch, expandOps } from '../workflow/patch.mjs';
+import { appendOps, applyPatch, bakeGroundOffsets, blank, checkOps, decode, emptyPatch, expandOps, rebaseToBake } from '../workflow/patch.mjs';
 import { currentFrame, diffImages, glyphTable, rowsToChanges } from '../workflow/glyphs.mjs';
 import { requireNotStopped } from '../workflow/stop.mjs';
 import { readMetadata } from '../../core/metadata.mjs';
@@ -158,7 +158,16 @@ export default {
 
       if (target === 'bake') {
         let patch = (await readDoc(ws, asset, 'patch')) ?? emptyPatch();
+        // The new operations are written against the last stored bake, whose drawn clips were moved onto the ground row: bring the operations already
+        // stored to that bake's offsets (they may have been written against another), then record the offsets, so a later bake with a different offset moves them all.
+        let rebased;
+        const offsets = await bakeGroundOffsets(workDir(ws, asset, 'bake'));
+        try { rebased = rebaseToBake(patch, offsets, height); }
+        catch (error) { throw new ToolError(error.message); }
+        patch = rebased;
         for (const p of plan) patch = appendOps(patch, p.frame, p.ops);
+        const recorded = Object.fromEntries(plan.map((p) => groupOfKey(p.frame)).filter((g) => g && offsets[g]).map((g) => [g, offsets[g]]));
+        if (Object.keys(recorded).length) patch = { ...patch, ground: { ...(patch.ground ?? {}), ...recorded } };
         const size = JSON.stringify(patch, null, 2).length + 1;
         if (size > MAX_DOC_BYTES) throw new ToolError(`patch document is ${size} bytes; the limit is ${MAX_DOC_BYTES}`);
         const issues = validatePatch(patch, { palette, width, height });

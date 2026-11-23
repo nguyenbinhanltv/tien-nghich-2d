@@ -160,3 +160,42 @@ Pixels held per key at the default, in layout order (contact A south, west, nort
 **What this leaves.** The default does not by itself take the pose-sheet walk to 0 flagged keys; the gate also counts reversals that come from the drawing. If the project wants 0, margin 48 does it on this sheet and costs shading motion; the better lever is probably drawing steadier shading. The pose gate remains off by default for drawn clips (`flicker: false`) and was run here explicitly. Not verified: other characters, other palettes' ramps, and a human judgement of the animation at speed.
 
 Reproduce: `node studio/forge/pixelize/hold-eval.mjs --import <import dir> --project . --profile pet --marks <marks.json> --margins 16,32,48 --max-chroma-gain 8 --out <pictures dir>`. The rebuild recipe above now yields the held frames; add `--hold off` to the `pixelise` step to get the committed ones back. Pictures: `marten_contact_before_after.png`, `marten_flicker_pixels.png` (magenta marks the reversing pixels, plain and held), `marten_difference.png` (magenta marks what the hold changed), and the same three for `ash_skater`.
+
+## Drawn-clip gates: calibration (2026-11-23)
+
+**Result.** Three changes for drawn walks, from the Codex retest of session 41 (PR #120) and the clips already in the repo. No new picture was made and no image tool was called.
+
+1. **Feet on the pivot.** After pixelisation the baker finds each drawn clip's ground contact (the lowest opaque row, outline included) and moves the clip and facing by one whole offset so the usual contact lands on the ground row, which is the profile's pivot row minus 2 (27 for the 32×32 profiles). The offset is in `bake.json`, in the `studio_rig_bake` result (`groundOffsets`) and in the provenance notes of a submit. A new gate `ground_contact` is an **error** when a key's lowest row is more than 1 px from that row, with the row found, the row wanted and the offset that fixes it. It runs for drawn clips by default; a rig clip sits on its pivot by construction and gets it only with `qa.groundContact`.
+2. **Three gates for drawn clips.** Frame (pivot drift, ground contact), palette (pixel palette check, stability between clips) and flicker/identity drift now run for drawn clips: through `studio_rig_bake`, through `studio_frames_submit` when a batch holds every frame of a clip and facing, and in advisory form from `studio_sheet_import`. Flicker was off for drawn clips; it now runs as a **warning** with its own limit.
+3. **Limits calibrated** (table below). Identity drift: interior change 0.36 (was 0.6), colour-mix shift 0.10 (was off). Flicker for drawn keys: 16 pixels (rig keys stay at 10).
+
+**Why 27 and not row 29.** The pivot is `[16, 29]`, but the lowest row of a shipped figure is not 29: over the 346 shipped 32×32 character frames (every clip) it is 24 once, 25 five times, 26 86, **27 145**, 28 86, 29 18, 30 five times. 92% lie within 26 to 28. A foot on row 29 would sit 2 px lower than every shipped character. The retest's "4 px above the pivot" is its lowest row 24 against row 28; against the shipped norm of 27 it is **3 px**, which is the offset the baker now applies (`dy` +3 on all four facings of both retest walks). Stored pixel patches follow the move: `forge/patch.json` records, per clip and facing, the offset of the bake its operations were written against (`ground`); a bake moves the operations by the difference to the offset it applies now (no record counts as 0, the frame as pixelised), and a new `studio_frame_patch` rebases the stored ones to the last bake first. An operation that would leave the canvas stops the bake with the frame named. The inset (2) and the tolerance (1) are options (`groundContact: {inset, tolerance}`); only 32×32 was measured, so the inset for the 64 and 96 profiles is unverified.
+
+**The numbers** (`node studio/forge/gates/calibrate.mjs`; worst key or pair of each clip and facing, min / median / max over the facings; interior change = share of the interior shared by two keys that changes colour, shift = half the L1 distance between the interior colour mixes, flicker = interior pixels that change for one key and revert):
+
+| Set (clips × facings) | Interior change | Colour shift | Flicker, worst key | Lowest rows |
+| --- | --- | --- | --- | --- |
+| Retest walk **after** its patches (4) | 0.093 / 0.146 / 0.315 | 0.059 / 0.071 / 0.090 | 0 / 0 / 0 | 24 on every key |
+| Same walk **before** the patches, hold on (4) | 0.407 / 0.476 / 0.541 | 0.110 / 0.120 / 0.166 | 17 / 37 / 50 | 24 on every key |
+| Marten pose sheet, plain snap (4) | 0.259 / 0.351 / 0.444 | 0.039 / 0.058 / 0.076 | 26 / 40 / 47 | spread ≤ 1 |
+| Marten rig follow clip (4) | 0.012 / 0.020 / 0.044 | 0.005 / 0.016 / 0.016 | 1 / 4 / 6 | spread ≤ 1 |
+| Shipped 32×32 locomotion clips (19) | 0.368 / 0.572 / 0.712 | 0.069 / 0.170 / 0.264 | 13 / 29 / 46 | spread 0 to 3 |
+
+**How the limits were chosen.** The only labelled pair in the repo is the retest walk: its gates flagged 18 errors before Codex patched it by hand with `studio_frame_patch` and none after, so "before" counts as defective and "after" as acceptable. Every limit sits between the two: interior change 0.36 between 0.315 and 0.407, colour shift 0.10 between 0.090 and 0.110, flicker 16 between 0 and 17. Each limit separates 4 of 4 facings from 4 of 4, and the retest's own flicker limit (10) agrees. The marten pose sheet with a plain snap is flagged by flicker on 4 of 4 facings and by interior change on 1 of 4, the same verdict the colour-hold addendum reached; the rig clip is nowhere near any limit. Identity drift and flicker are **warnings**: a person decides. Ground contact is an **error**, as asked.
+
+**What this does not show.**
+- The separation rests on one character (four facings, two states of the same walk), so the limits are midpoints of a gap, not estimates of a spread. They are a first calibration, not a validated one.
+- The shipped clips (made frame by frame with the retired image service) sit above every limit: all 19 exceed 0.36, 17 of 19 exceed shift 0.10 and 17 of 19 exceed 16 flicker pixels. They are not a quality reference and would all warn; they are in the table to show how much noisier they are than the forge's drawn walks, not as passing examples.
+- Real feet are not always on one row. In the committed marten pose walk one key puts a paw 2 px below the clip's usual contact even after the move, so `ground_contact` fails its south and east clips; `qa.groundContact: {tolerance: 2}` accepts them. Whether 1 px is right for four-legged pets is a question for a person looking at the animation.
+- Held colours (`pixelize.hold`) and a human judgement of the animation at speed were not re-measured. Nothing here approves any art.
+
+Fixtures: `studio/forge/tests/fixtures/ember_courier` (the walk after its patches, and its idle) and `ember_courier_unpatched` (walk straight from the pipeline with hold on, rebuilt from the retest's stored sheet, layout and pose clips with no patch). Both are unapproved draft art kept only as test data. Reproduce:
+
+```
+node studio/forge/gates/calibrate.mjs --project . --profile pet --json \
+  --shipped assets/raw/longtime \
+  --flat marten_rig_follow=assets/experiments/forge_bakeoff/lt_ink_marten/frames:follow \
+  --poses marten_pose_plain=assets/experiments/forge_bakeoff/lt_ink_marten_pose/frames:contact_a,passing_a,contact_b,passing_b \
+  --flat ember_courier_walk=studio/forge/tests/fixtures/ember_courier:walk \
+  --flat ember_courier_unpatched=studio/forge/tests/fixtures/ember_courier_unpatched:walk
+```

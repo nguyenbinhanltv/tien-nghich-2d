@@ -16,8 +16,10 @@ import { loadLibrary, clipTable } from '../motion/library.mjs';
 import { runGates, stability, defaultOptions } from '../gates/index.mjs';
 import { bakePoseClip, effectiveLoops, validatePoseClips, poseClipsSchema } from './poses.mjs';
 import { identityDrift } from './drift.mjs';
+import { drawnOptions } from '../gates/drawn.mjs';
 
 export { identityDrift, defaultDrift } from './drift.mjs';
+export { drawnDefaults, drawnOptions } from '../gates/drawn.mjs';
 export { poseClipsSchema, validatePoseClips, poseFacings, bakePoseClip, effectiveLoops } from './poses.mjs';
 export const bakeSchema = 'forge.bake';
 
@@ -75,7 +77,7 @@ export function bakeStage({settings, palette, cells, held, rig, poseRig, poseCli
   }
   for (const [clipName, spec] of Object.entries(poseSpecs)) {
     if (clips && !clips.includes(clipName)) continue;
-    const baked = bakePoseClip({name: clipName, spec, clip: table[clipName], cells, held, palette, rig: poseRig ?? rig, library, profileName: name, patch, canvasWidth: width, edgeSafe});
+    const baked = bakePoseClip({name: clipName, spec, clip: table[clipName], cells, held, palette, rig: poseRig ?? rig, library, profileName: name, patch, canvasWidth: width, edgeSafe, pivot: settings.profile.pivotPx});
     result.clips[clipName] = baked;
     for (const [facing, out] of Object.entries(baked.facings)) out.frames.forEach((f, i) => { result.frames[`${clipName}_${facing}_${i}`] = f; });
   }
@@ -87,8 +89,8 @@ const stub = {parts: [], landmarks: [], features: []};
 /**
  * Gates over a bake: per clip and facing (rig landmarks apply to rig clips and to pose clips with secondary motion;
  * a plain pose clip is judged against the `landmarks` its own spec declares), plus palette and proportion stability
- * across the clips of each facing. Pose clips (drawn keys) skip the A-B-A flicker gate by default, which is tuned for rig keys,
- * and get the identity-drift measure instead (warnings). `options.pose` overrides for them, e.g.
+ * across the clips of each facing. Pose clips (drawn keys) run the same gates with limits of their own (drawnDefaults): the A-B-A flicker gate as a warning
+ * at 16 pixels, the ground-contact gate (error beyond 1 px) and the identity-drift measure (warnings). `options.pose` overrides for them, e.g.
  * `{flicker: {maxPixels: 60}, identity: {maxInteriorChange: 0.5, maxColorShift: 0.3}}`; a pose clip's own `qa` applies on top.
  * Returns {pass, findings, metrics}.
  */
@@ -102,7 +104,7 @@ export function qaStage(result, {settings, palette, rig, poseRig, options = {}})
       const declared = baked.source === 'poses' ? baked.landmarks?.[facing] : null;
       const drawn = baked.source === 'poses';
       const {pose: poseOptions = {}, ...gateOptions} = options;
-      const clipOptions = drawn ? {flicker: false, ...gateOptions, ...poseOptions, ...(baked.qa ?? {})} : gateOptions;
+      const clipOptions = drawn ? drawnOptions(gateOptions, poseOptions, baked.qa) : gateOptions;
       const {identity, ...forGates} = clipOptions;
       const unit = unitOf(result, clip, facing);
       const run = runGates(unit,
@@ -135,7 +137,7 @@ export function summarizeBake(result) {
     clips: Object.fromEntries(Object.entries(result.clips).map(([name, c]) => [name, {
       durationMs: c.durationMs, loop: c.loop, source: c.source ?? 'rig', ...(c.secondary !== undefined ? {secondary: c.secondary} : {}),
       ...(c.landmarks ? {landmarks: c.landmarks} : {}), ...(c.qa ? {qa: c.qa} : {}),
-      facings: Object.fromEntries(Object.entries(c.facings).map(([f, o]) => [f, {frames: o.frames.length, contacts: o.contacts, poses: o.poses ?? null}]))}])),
+      facings: Object.fromEntries(Object.entries(c.facings).map(([f, o]) => [f, {frames: o.frames.length, contacts: o.contacts, poses: o.poses ?? null, ...(o.ground ? {ground: o.ground} : {})}]))}])),
     frames: frameHashes(result),
   }));  // through JSON so the summary is exactly what a tool would send (no -0, no undefined)
 }
@@ -157,7 +159,7 @@ export async function readBakeDir(dir) {
     for (const [f, o] of Object.entries(c.facings)) {
       const frames = Array.from({length: o.frames}, (_, i) => readFrame(path.join(dir, `${name}_${f}_${i}.png`)));
       frames.forEach((fr, i) => { result.frames[`${name}_${f}_${i}`] = fr; });
-      result.clips[name].facings[f] = {frames, contacts: o.contacts, poses: o.poses ?? undefined};
+      result.clips[name].facings[f] = {frames, contacts: o.contacts, poses: o.poses ?? undefined, ...(o.ground ? {ground: o.ground} : {})};
     }
   }
   return result;
