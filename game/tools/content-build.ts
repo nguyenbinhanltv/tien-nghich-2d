@@ -8,6 +8,7 @@ import { ASSETS, GAME, REPO, readJson, rel, sha256 } from './lib/repo.ts';
 import { check } from './lib/schemas.ts';
 import { loadAssets } from './lib/assets.ts';
 import { crossCheck, loadTables } from './lib/tables.ts';
+import { loadLayouts, validateAll, type RoomRow } from './lib/rooms.ts';
 import { compileAudioEvents, compileBodies, compileClipEvents, compileTileShapes, readSidecars, verifyApprovals } from './lib/kiln-contract.ts';
 
 const argv = process.argv.slice(2);
@@ -34,6 +35,7 @@ for (const k of ['mob_blood_wolf', 'boss_ghost_king']) { // names are canon: the
   if (n && (locale.vi[k] !== n.vi || locale.en[k] !== n.en)) problems.push(`locale: ${k} differs from the manifest name`);
 }
 problems.push(...crossCheck(tables, assets, locale));
+problems.push(...validateAll(tables.rooms as unknown as RoomRow[]));
 
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);
 for (const c of [bodies, events, shapes, audio]) { problems.push(...c.problems); warnings.push(...c.warnings); }
@@ -43,6 +45,7 @@ problems.push(...approvals.problems);
 
 put('tables.json', { mobs: tables.mobs, bosses: tables.bosses, rooms: tables.rooms });
 for (const [id, e] of Object.entries(tables.encounters)) put(`encounters/${id}.json`, e);
+for (const [id, layout] of loadLayouts()) put(`rooms/${id}.json`, layout);
 put('locale/vi.json', locale.vi); put('locale/en.json', locale.en);
 put('bodies.json', bodies.data); put('clip_events.json', events.data); put('tile_shapes.json', shapes.data); put('audio_events.json', audio.data);
 put('assets.json', { schema: 'tien-nghich-2d.game-assets', version: 1, profile, assets: [...assets.values()].map(({ id, category, source, readiness, size, directions, clips, chunk }) => ({ id, category, source, readiness, size, directions, clips, chunk })) });

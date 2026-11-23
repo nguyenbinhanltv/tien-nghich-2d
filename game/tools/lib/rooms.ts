@@ -1,12 +1,12 @@
-// Loader and validator for content/rooms/*.yaml (E3.2). Pure data checks: a room that passes can be played and left.
+// Loader and validator for content/rooms/*.yaml (E3.2), run by content-build and compiled into the pack as rooms/<id>.json. Pure data checks: a room that passes can be played and left.
 // Rules: the grid matches rooms.csv; doors, props and spawns sit on legal cells; every walkable cell is reachable from the
 // player start (blocking props and mobs' own cells counted as blocked); spawns keep their distance from the start;
 // the mobs of the waves equal the counts in rooms.csv; only the human-approved art ids are used.
 import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
-import { check } from '../../tools/lib/schemas.ts';
-import { ASSETS, GAME, readJson } from '../../tools/lib/repo.ts';
+import { check } from './schemas.ts';
+import { ASSETS, GAME, readJson } from './repo.ts';
 
 export interface RoomLayout {
   id: string; size: [number, number]; player_start: [number, number]; grid: string[];

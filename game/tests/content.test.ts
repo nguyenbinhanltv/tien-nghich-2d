@@ -51,6 +51,7 @@ describe('content-build', () => {
     const mb = JSON.parse(fs.readFileSync(path.join(b, 'content.manifest.json'), 'utf8')) as { contentHash: string };
     expect(ma.contentHash).toBe(mb.contentHash);
     expect(Object.keys(ma.files)).toEqual(expect.arrayContaining(['tables.json', 'bodies.json', 'clip_events.json', 'tile_shapes.json', 'audio_events.json', 'vfx.json', 'atlases.json']));
+    expect(Object.keys(ma.files).filter((f) => f.startsWith('rooms/'))).toEqual(expect.arrayContaining([...Array.from({ length: 8 }, (_, i) => `rooms/room_bs_${i + 1}.json`), 'rooms/room_bs_boss.json', 'rooms/room_bs_reward.json']));
     expect(Object.keys(ma.files).some((f) => f.startsWith('atlas/core/') && f.endsWith('.png'))).toBe(true);
   }, 60_000);
   it('--check passes on the repository and writes nothing', () => {

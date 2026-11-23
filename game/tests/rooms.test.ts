@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadTables } from '../tools/lib/tables.ts';
-import { approvedArtIds, loadLayouts, validateAll, validateLayout, type RoomLayout, type RoomRow } from '../content/rooms/layout.ts';
+import { approvedArtIds, loadLayouts, validateAll, validateLayout, type RoomLayout, type RoomRow } from '../tools/lib/rooms.ts';
 
 const rooms = loadTables().tables.rooms as unknown as RoomRow[];
 const layouts = loadLayouts();
