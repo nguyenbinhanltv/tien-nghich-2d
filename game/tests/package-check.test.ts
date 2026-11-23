@@ -98,3 +98,14 @@ describe('E9.4 the checks catch a bad package', () => {
     expect(e).toMatch(/chunk trial: has a budget but no chunk-manifest\.json/);
   });
 });
+
+describe('E9.4 lazy Longtime chunks', () => {
+  it('a non-abode chunk is allowed to be missing from the precache, but must not be precached', () => {
+    const d = copy(dist);
+    expect(fs.readdirSync(path.join(d, 'assets/atlases_longtime/mobile')).some((c) => c !== 'abode')).toBe(true);
+    const swp = path.join(d, 'sw.js'), sw = fs.readFileSync(swp, 'utf8');
+    expect(checkWeb(d)).toEqual([]);
+    fs.writeFileSync(swp, sw.replace('const PRECACHE = [', 'const PRECACHE = ["./assets/atlases_longtime/mobile/trial/atlas-0.png",'));
+    expect(checkWeb(d).join('\n')).toMatch(/sw\.js precaches assets\/atlases_longtime\/mobile\/trial\/atlas-0\.png, a lazy chunk/);
+  });
+});

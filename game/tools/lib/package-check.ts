@@ -47,8 +47,11 @@ export function checkWeb(dist: string, b: PackageBudget = readBudget(), atlasSou
     if (!m) p.push('sw.js has no PRECACHE list');
     else {
       const list = (JSON.parse(m[1]!) as string[]).map((e) => (e === './' ? 'index.html' : e.replace(/^\.\//, '')));
+      // pwa/vite-plugin.ts: Longtime chunks other than abode are cached on first use, so they are in the build but deliberately not precached.
+      const lazy = (f: string): boolean => /^assets\/atlases_longtime\/mobile\/(?!abode\/)/.test(f);
+      for (const e of list) if (lazy(e)) p.push(`sw.js precaches ${e}, a lazy chunk: it would be downloaded on first launch`);
       for (const e of list) if (!need(e)) p.push(`sw.js precaches ${e}, which is not in the build`);
-      for (const f of files) if (f !== 'sw.js' && !list.includes(f)) p.push(`${f} is in the build but not precached: offline play would miss it`);
+      for (const f of files) if (f !== 'sw.js' && !lazy(f) && !list.includes(f)) p.push(`${f} is in the build but not precached: offline play would miss it`);
     }
   }
 
