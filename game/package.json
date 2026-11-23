@@ -19,8 +19,8 @@
     "contract:check": "node tools/kiln-contract-check.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
-    "dev:lan": "node pwa/lan.ts dev",
-    "preview:lan": "vite build && node pwa/lan.ts preview",
+    "dev:lan": "node tools/content-build.ts && node pwa/lan.ts dev",
+    "preview:lan": "npm run build && node pwa/lan.ts preview",
     "preview": "vite preview",
     "audio:check": "node audio-check/check.mjs",
     "golden": "node golden/check.mjs"
