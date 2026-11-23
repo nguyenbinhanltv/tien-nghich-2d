@@ -1,3 +1,4 @@
+import { shotFrame } from './clip-map.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,12 +20,17 @@ describe('parseFrameName', () => {
 
 describe('core atlas (real mobile pages)', () => {
   const names = coreNames();
+  it('has every flight frame of the four enemy shots (PX-1)', () => {
+    for (const owner of ['mob_blood_crow', 'mob_blood_corpse', 'mob_blood_pool_lurker', 'mob_vengeful_soul']) {
+      for (let t = 0; t < 60; t += 5) expect(names, `${owner}@${t}`).toContain(shotFrame(owner, t, 'missing'));
+    }
+  });
   const { clips, unparsed } = indexClips(names);
-  it('has 3042 frames and 485 clips, the counts of the Studio Phaser check', () => {
-    expect(names.length).toBe(3042);
-    expect(new Set(names).size).toBe(3042);
+  it('has 3048 frames and 491 clips, the counts of the Studio Phaser check', () => {
+    expect(names.length).toBe(3048);
+    expect(new Set(names).size).toBe(3048);
     expect(unparsed).toEqual([]);
-    expect(clips.size).toBe(485);
+    expect(clips.size).toBe(491);
   });
   it('clip frames are consecutive from 0 and every frame belongs to exactly one clip', () => {
     let total = 0;
@@ -32,11 +38,11 @@ describe('core atlas (real mobile pages)', () => {
       total += c.frames.length;
       c.frames.forEach((f, i) => expect(f.endsWith(`_${i}`), f).toBe(true));
     }
-    expect(total).toBe(3042);
+    expect(total).toBe(3048);
   });
   it('builds a fromJSON document with one animation per clip, loops for idle/move, one-shot for attacks', () => {
     const doc = animsJson(clips.values(), () => 'page', (c) => (c === 'idle' ? 6 : 8)) as { anims: { key: string; repeat: number; frames: unknown[] }[] };
-    expect(doc.anims.length).toBe(485);
+    expect(doc.anims.length).toBe(491);
     expect(doc.anims.find((a) => a.key === 'characters/mob_blood_wolf/move_east')?.repeat).toBe(-1);
     expect(doc.anims.find((a) => a.key === 'characters/boss_ghost_king/attack_claw_east')?.repeat).toBe(0);
   });

@@ -144,6 +144,9 @@ Mỗi hàng là một ID bắt buộc. Với 90 mục gốc, trường `animatio
 | `icon_phong_an_cam` | Phong Ấn Cấm | icon | 24x24 |
 | `icon_cuc_canh_hoa_than` | Cực Cảnh Hóa Thần | icon | 24x24 |
 | `icon_huyet_te` | Huyết Tế | icon | 24x24 |
+| `icon_status_guard` | Trạng thái: Hộ Thể | icon | 24x24 |
+| `icon_status_counter` | Trạng thái: Phản Chấn | icon | 24x24 |
+| `icon_status_immune` | Trạng thái: Bất Tổn | icon | 24x24 |
 | `icon_tu_linh_tran` | Tụ Linh Trận | icon | 24x24 |
 | `ui_card_frame` | Khung Thẻ Cấm Chế | ui | 32x40 |
 | `ui_hud_bars` | Thanh Huyết / Linh Lực | ui | 64x8 |

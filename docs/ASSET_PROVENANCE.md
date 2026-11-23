@@ -27,3 +27,17 @@ CLI `assetcat` chưa cài, chưa có thư viện được index -> hiện **chư
 
 ## Đạn của quái Huyết Hải (PX-1 nhóm 2, 2026-11-24)
 4 đạn 16×16 (`pj_mob_crow_feather`, `pj_mob_corpse_gore`, `pj_mob_lurker_bubble`, `pj_mob_soul_wisp`; mỗi đạn `flight` 4 + `impact` 4 khung) do mã vẽ: `tools/generators/gen_px1_mob_projectiles.py` → `assets/raw/environment_items/projectiles/<id>/` → `build_processed.py --only`. Chỉ dùng palette gốc, viền `ink_01`, alpha nhị phân. **Không sinh ảnh, không PixelLab.** Trạng thái chờ duyệt (không ghi bản duyệt). Manifest dùng `owner_mob` thay cho `weapon_id`, cờ `px1` đánh dấu phần thêm sau khi ghim hợp đồng gốc.
+
+## Icon trạng thái (PX-1 nhóm 3, 2026-11-24)
+3 icon 24×24 + biến thể 16×16 (`icon_status_guard` Hộ Thể, `icon_status_counter` Phản Chấn, `icon_status_immune` Bất Tổn), ứng với 3 trạng thái mà sim đã có (guard, cửa sổ phản đòn sau né đúng nhịp, miễn sát thương khi lướt/trúng đòn). Vẽ bằng mã `tools/generators/gen_px1_status_icons.py`, palette gốc, viền `ink_01`; không sinh ảnh, không PixelLab. Chờ duyệt, không ghi bản duyệt. **Số sát thương không có asset riêng**: dùng font pixel đã duyệt (`game/src/ui/pixel-font.ts`, #184) viền `ink_01`, nên không có gì để vẽ lại; nối vào game là PR riêng.
+
+## Clip `hurt` của quái và boss Hằng Nhạc (G2-A, 2026-11-24)
+36 khung (3 khung × 2 hướng S, E; W lật lúc chạy) cho `mob_rogue_disciple`, `mob_courtyard_guard`, `mob_sword_acolyte`, `mob_herb_viper`, `mob_demonic_talisman` và `boss_teng_huayuan`, ghi vào `assets/processed/<mobs|bosses>/<id>/hurt_<dir>_<n>.png`.
+- **Tuyến**: sửa pixel bằng mã (tuyến "direct pixel edits" của xưởng), cùng `tools/scripts/build_hurt_clips.py` với lô PX-1 (danh sách ID ở `tools/scripts/px1_hurt.py`): đẩy lùi và nghiêng giữ chân (shove/shear), khung 0 chớp trắng `thunder_04`, viền `ink_01` dựng lại. Dẫn xuất từ chính `idle_<dir>_0` đã có; nguồn gốc PixelLab của các khung idle giữ nguyên provenance cũ. **Không sinh ảnh, không dùng PixelLab/Codex/AGY cho phần này.** Tái lập được (`--check`). Rig của xưởng không dùng vì 6 asset này chưa có turnaround/rig trong Studio catalog.
+- Khung `hurt_*` không thuộc gói phát hành ghim ở `assets/mob-releases.json`: băm ghim bỏ qua tiền tố `hurt_`.
+- Trạng thái: **chờ duyệt** (không ghi bản duyệt). Băm baseline gắn theo thư mục asset, nên 6 asset này đọc là `awaiting` (276 khung cũ + 36 mới). Chưa đi qua `studio_rig_bake`, các cổng animation chưa chạy.
+
+## Clip `hurt` của quái và boss Cổ Thần Chi Địa (G2-B, 2026-11-24)
+36 khung (3 khung × 2 hướng S, E; W lật lúc chạy) cho `mob_stone_puppet`, `mob_stone_archer_puppet`, `mob_chain_warden`, `mob_void_eater`, `mob_rune_sentinel` và `boss_ancient_god_remnant` (96×96), ghi vào `assets/processed/<mobs|bosses>/<id>/hurt_<dir>_<n>.png`.
+- **Tuyến**: sửa pixel bằng mã (tuyến "direct pixel edits"), cùng `tools/scripts/build_hurt_clips.py` và `tools/scripts/px1_hurt.py` với lô PX-1 và Hằng Nhạc: đẩy lùi và nghiêng giữ chân (shove/shear), khung 0 chớp trắng `thunder_04`, viền `ink_01` dựng lại; đơn vị đẩy = cạnh khung/32 (boss 96 dùng 3 px). Dẫn xuất từ `idle_<dir>_0` đã có (nguồn PixelLab, giữ provenance cũ). **Không sinh ảnh, không dùng PixelLab/Codex/AGY cho phần này.** Rig không dùng vì 6 asset này chưa có rig trong Studio catalog.
+- Trạng thái: **chờ duyệt** (không ghi bản duyệt). Baseline gắn theo thư mục asset nên 6 asset đọc là `awaiting` (320 khung cũ + 36 mới).
