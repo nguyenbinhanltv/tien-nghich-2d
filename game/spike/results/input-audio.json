@@ -1,0 +1,268 @@
+{
+  "when": "2026-11-23T06:23:58.524Z",
+  "chromium": "156.0.8078.4",
+  "runs": [
+    {
+      "cpuThrottle": 1,
+      "audioBeforeGesture": {
+        "contextCreated": false
+      },
+      "audioUnlock": {
+        "unlockMs": 46.3,
+        "baseLatencyMs": 5.33,
+        "outputLatencyMs": 0,
+        "state": "running"
+      },
+      "audio": {
+        "codec": "ogg",
+        "loadMs": 22.3,
+        "cues": 43,
+        "missingFamilyCues": [
+          "bgm_ancient_god",
+          "bgm_blood_sea",
+          "bgm_dong_phu",
+          "bgm_ember_delta",
+          "bgm_hengyue",
+          "bgm_mist_archive",
+          "bgm_star_quarry",
+          "sfx_core_crack",
+          "sfx_form_shift",
+          "sfx_keeper_call",
+          "sfx_pet_reply"
+        ],
+        "sfxBytes": 291161,
+        "emitToStartUs": {
+          "n": 1140,
+          "p50": 0,
+          "p95": 100,
+          "max": 200
+        },
+        "ok": [
+          [
+            "release",
+            "wp_soul_banner",
+            true
+          ],
+          [
+            "tell",
+            "boss_ghost_king",
+            true
+          ],
+          [
+            "impact",
+            "mob_blood_wolf",
+            true
+          ],
+          [
+            "release",
+            "lt_reed_verdict",
+            true
+          ]
+        ],
+        "bgmStartMs": 128.30000001192093,
+        "state": "running",
+        "sampleRate": 48000,
+        "buffers": 6
+      },
+      "joystick": {
+        "moved": 37.06
+      },
+      "gamepad": {
+        "movedLeft": 36,
+        "padSeen": true
+      },
+      "touch": {
+        "touch": {
+          "n": 31,
+          "simMs": {
+            "p50": 54.4,
+            "p95": 65.9,
+            "max": 66.5
+          },
+          "frameMs": {
+            "p50": 70.2,
+            "p95": 81.5,
+            "max": 82
+          }
+        }
+      },
+      "keyboard": {
+        "key": {
+          "n": 15,
+          "simMs": {
+            "p50": 6,
+            "p95": 15,
+            "max": 15
+          },
+          "frameMs": {
+            "p50": 22.3,
+            "p95": 30.5,
+            "max": 30.5
+          }
+        }
+      },
+      "mouse": {
+        "mouse": {
+          "n": 15,
+          "simMs": {
+            "p50": 10.2,
+            "p95": 16.6,
+            "max": 16.6
+          },
+          "frameMs": {
+            "p50": 25.8,
+            "p95": 32.1,
+            "max": 32.1
+          }
+        }
+      },
+      "pad": {
+        "pad": {
+          "n": 15,
+          "simMs": {
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "frameMs": {
+            "p50": 15.7,
+            "p95": 16.5,
+            "max": 16.5
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "cpuThrottle": 4,
+      "audioBeforeGesture": {
+        "contextCreated": false
+      },
+      "audioUnlock": {
+        "unlockMs": 35.3,
+        "baseLatencyMs": 5.33,
+        "outputLatencyMs": 0,
+        "state": "running"
+      },
+      "audio": {
+        "codec": "ogg",
+        "loadMs": 44.6,
+        "cues": 43,
+        "missingFamilyCues": [
+          "bgm_ancient_god",
+          "bgm_blood_sea",
+          "bgm_dong_phu",
+          "bgm_ember_delta",
+          "bgm_hengyue",
+          "bgm_mist_archive",
+          "bgm_star_quarry",
+          "sfx_core_crack",
+          "sfx_form_shift",
+          "sfx_keeper_call",
+          "sfx_pet_reply"
+        ],
+        "sfxBytes": 291161,
+        "emitToStartUs": {
+          "n": 1114,
+          "p50": 0,
+          "p95": 300,
+          "max": 800
+        },
+        "ok": [
+          [
+            "release",
+            "wp_soul_banner",
+            true
+          ],
+          [
+            "tell",
+            "boss_ghost_king",
+            true
+          ],
+          [
+            "impact",
+            "mob_blood_wolf",
+            true
+          ],
+          [
+            "release",
+            "lt_reed_verdict",
+            true
+          ]
+        ],
+        "bgmStartMs": 123.09999996423721,
+        "state": "running",
+        "sampleRate": 48000,
+        "buffers": 6
+      },
+      "joystick": {
+        "moved": 30.05
+      },
+      "gamepad": {
+        "movedLeft": 36,
+        "padSeen": true
+      },
+      "touch": {
+        "touch": {
+          "n": 31,
+          "simMs": {
+            "p50": 36,
+            "p95": 39.5,
+            "max": 47.1
+          },
+          "frameMs": {
+            "p50": 51.9,
+            "p95": 55,
+            "max": 62.9
+          }
+        }
+      },
+      "keyboard": {
+        "key": {
+          "n": 15,
+          "simMs": {
+            "p50": 8.6,
+            "p95": 16,
+            "max": 16
+          },
+          "frameMs": {
+            "p50": 24.7,
+            "p95": 31.8,
+            "max": 31.8
+          }
+        }
+      },
+      "mouse": {
+        "mouse": {
+          "n": 15,
+          "simMs": {
+            "p50": 7.8,
+            "p95": 14.9,
+            "max": 14.9
+          },
+          "frameMs": {
+            "p50": 23.5,
+            "p95": 30.6,
+            "max": 30.6
+          }
+        }
+      },
+      "pad": {
+        "pad": {
+          "n": 15,
+          "simMs": {
+            "p50": 0,
+            "p95": 0,
+            "max": 0
+          },
+          "frameMs": {
+            "p50": 15.3,
+            "p95": 16.4,
+            "max": 16.4
+          }
+        }
+      },
+      "errors": []
+    }
+  ]
+}
