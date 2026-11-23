@@ -14,6 +14,8 @@ export interface MenuDeps {
   /** Called after every change (apply to audio/juice and save). `reload` is true when the language changed. */
   onChange(s: Settings, reload: boolean): void;
   onRestart(): void;
+  /** Hide the Restart item when there is nothing to restart (the hub). Default: shown. */
+  canRestart?(): boolean;
   /** Pause menu "title screen": the caller restarts the fight; the menu shows the title again. */
   onTitle?(): void;
   onOpenChange(open: boolean): void;
@@ -127,7 +129,7 @@ export class Menus {
     if (this.view === 'title') {
       box.append(this.btn(this.t('menu.start'), () => this.close()), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }), this.el('p', 'menu-note', this.t('title.hint')));
     } else if (this.view === 'pause') {
-      box.append(this.btn(this.t('menu.resume'), () => this.close()), this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); }), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }),
+      box.append(this.btn(this.t('menu.resume'), () => this.close()), ...(this.deps.canRestart?.() ?? true ? [this.btn(this.t('menu.restart'), () => { this.close(); this.deps.onRestart(); })] : []), this.btn(this.t('menu.settings'), () => { this.view = 'settings'; this.render(); }),
         ...(this.deps.onTitle ? [this.btn(this.t('menu.title'), () => { this.deps.onTitle?.(); this.view = 'title'; this.origin = 'title'; this.render(); })] : []));
     } else if (this.view === 'settings') {
       const emit = (reload = false) => this.deps.onChange(s, reload);
