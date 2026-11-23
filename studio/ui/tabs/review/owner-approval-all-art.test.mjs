@@ -32,7 +32,7 @@ test('both entries carry the owner\'s own words, say the first statement was nar
 
 test('the real project: only the 197 PX-1 frames (84 hurt + 32 enemy-projectile + 6 status-icon + 75 ghost_summon_call frames, 2026-11-24, written by script, not yet seen by the owner) await; the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 197, changes_requested: 0, total: 5249});
+  assert.deepEqual(counts, {approved: 3554, baseline: 1222, awaiting: 509, changes_requested: 0, total: 5285});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -133,11 +133,11 @@ test('the baseline record is kept untouched and never wins over an approval', as
   // PX-1 (2026-11-24): the baseline digest is per directory, so the ten directories that gained a hurt clip (644 older frames) no longer match it
   // and read as awaiting here; the record itself is NOT rewritten (that would label the new frames as accepted). The owner's 51-asset approval
   // below still covers the 644 older frames by hash.
-  assert.equal(tally.baseline, 2854 - 644, 'baseline_frames.json still labels the legacy art of every directory that was not touched');
+  assert.equal(tally.baseline, 2854 - 644 - 276, 'baseline_frames.json still labels the legacy art of every directory that was not touched');
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 3554, baseline: 1498, awaiting: 197});
+  assert.deepEqual(both, {approved: 3554, baseline: 1222, awaiting: 509});
 });
 
 const VS = 'owner_vs_baseline_2026-11-23';

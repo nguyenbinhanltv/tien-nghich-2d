@@ -182,7 +182,7 @@ def validate(m):
             # original 40). Hash the manifest as it was: the first 40 palette ids; the three new ids are checked
             # against palette.json by check_manifest.py.
             source["palette"]["ids"] = source["palette"]["ids"][:40]
-            # Likewise the PX-1 `hurt` clip (2026-11-24), scoped to the ten ids and exactly {frames: 3, loop: false}:
+            # Likewise the PX-1 `hurt` clip (2026-11-24), scoped to the ids listed in px1_hurt.py and exactly {frames: 3, loop: false}:
             # anything else leaves the digest mismatch to surface (tools/scripts/px1_hurt.py).
             strip_hurt(source)
         # PX-1 additions (2026-11-24) carry "px1": true and are not part of the pinned base: hash and count without them.

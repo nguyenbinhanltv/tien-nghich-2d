@@ -137,7 +137,7 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   let baseline = 0;
   for (const f of core) {
     // PX-1 (2026-11-24): the script-made `hurt` frames of ten slice assets and the four enemy projectiles await the owner; nothing else does.
-    const want = vs.has(f.processed) ? 'approved' : /^vfx\/ghost_summon_call_|^projectiles\/pj_mob_|^ui\/icon_status_|^characters\/(wl_outer_disciple|wl_qi_condensation|wl_blood_foundation|wl_extreme_jing|mob_blood_wolf|mob_blood_crow|mob_blood_corpse|mob_vengeful_soul|mob_blood_pool_lurker|boss_ghost_king)\/hurt_/.test(f.info.key) ? 'awaiting' : 'baseline';
+    const want = vs.has(f.processed) ? 'approved' : /^vfx\/ghost_summon_call_|^projectiles\/pj_mob_|^ui\/icon_status_|^characters\/(wl_outer_disciple|wl_qi_condensation|wl_blood_foundation|wl_extreme_jing|mob_blood_wolf|mob_blood_crow|mob_blood_corpse|mob_vengeful_soul|mob_blood_pool_lurker|boss_ghost_king)\/hurt_/.test(f.info.key) ? 'awaiting' : /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman)|boss_teng_huayuan)\//.test(f.info.key) ? 'awaiting' : 'baseline'; // Hằng Nhạc: the asset-level baseline lapses when frames are added
     baseline += want === 'baseline';
     assert.equal(await standing.of(f.processed), want, f.info.key);
   }

@@ -256,6 +256,12 @@ export const AssetKeys = {
     "boss_teng_huayuan/death_south_5": "characters/boss_teng_huayuan/death_south_5",
     "boss_teng_huayuan/death_south_6": "characters/boss_teng_huayuan/death_south_6",
     "boss_teng_huayuan/death_south_7": "characters/boss_teng_huayuan/death_south_7",
+    "boss_teng_huayuan/hurt_east_0": "characters/boss_teng_huayuan/hurt_east_0",
+    "boss_teng_huayuan/hurt_east_1": "characters/boss_teng_huayuan/hurt_east_1",
+    "boss_teng_huayuan/hurt_east_2": "characters/boss_teng_huayuan/hurt_east_2",
+    "boss_teng_huayuan/hurt_south_0": "characters/boss_teng_huayuan/hurt_south_0",
+    "boss_teng_huayuan/hurt_south_1": "characters/boss_teng_huayuan/hurt_south_1",
+    "boss_teng_huayuan/hurt_south_2": "characters/boss_teng_huayuan/hurt_south_2",
     "boss_teng_huayuan/idle_east_0": "characters/boss_teng_huayuan/idle_east_0",
     "boss_teng_huayuan/idle_east_1": "characters/boss_teng_huayuan/idle_east_1",
     "boss_teng_huayuan/idle_east_2": "characters/boss_teng_huayuan/idle_east_2",
@@ -544,6 +550,12 @@ export const AssetKeys = {
     "mob_courtyard_guard/death_south_1": "characters/mob_courtyard_guard/death_south_1",
     "mob_courtyard_guard/death_south_2": "characters/mob_courtyard_guard/death_south_2",
     "mob_courtyard_guard/death_south_3": "characters/mob_courtyard_guard/death_south_3",
+    "mob_courtyard_guard/hurt_east_0": "characters/mob_courtyard_guard/hurt_east_0",
+    "mob_courtyard_guard/hurt_east_1": "characters/mob_courtyard_guard/hurt_east_1",
+    "mob_courtyard_guard/hurt_east_2": "characters/mob_courtyard_guard/hurt_east_2",
+    "mob_courtyard_guard/hurt_south_0": "characters/mob_courtyard_guard/hurt_south_0",
+    "mob_courtyard_guard/hurt_south_1": "characters/mob_courtyard_guard/hurt_south_1",
+    "mob_courtyard_guard/hurt_south_2": "characters/mob_courtyard_guard/hurt_south_2",
     "mob_courtyard_guard/idle_east_0": "characters/mob_courtyard_guard/idle_east_0",
     "mob_courtyard_guard/idle_east_1": "characters/mob_courtyard_guard/idle_east_1",
     "mob_courtyard_guard/idle_east_2": "characters/mob_courtyard_guard/idle_east_2",
@@ -584,6 +596,12 @@ export const AssetKeys = {
     "mob_demonic_talisman/death_south_1": "characters/mob_demonic_talisman/death_south_1",
     "mob_demonic_talisman/death_south_2": "characters/mob_demonic_talisman/death_south_2",
     "mob_demonic_talisman/death_south_3": "characters/mob_demonic_talisman/death_south_3",
+    "mob_demonic_talisman/hurt_east_0": "characters/mob_demonic_talisman/hurt_east_0",
+    "mob_demonic_talisman/hurt_east_1": "characters/mob_demonic_talisman/hurt_east_1",
+    "mob_demonic_talisman/hurt_east_2": "characters/mob_demonic_talisman/hurt_east_2",
+    "mob_demonic_talisman/hurt_south_0": "characters/mob_demonic_talisman/hurt_south_0",
+    "mob_demonic_talisman/hurt_south_1": "characters/mob_demonic_talisman/hurt_south_1",
+    "mob_demonic_talisman/hurt_south_2": "characters/mob_demonic_talisman/hurt_south_2",
     "mob_demonic_talisman/idle_east_0": "characters/mob_demonic_talisman/idle_east_0",
     "mob_demonic_talisman/idle_east_1": "characters/mob_demonic_talisman/idle_east_1",
     "mob_demonic_talisman/idle_east_2": "characters/mob_demonic_talisman/idle_east_2",
@@ -620,6 +638,12 @@ export const AssetKeys = {
     "mob_herb_viper/death_south_1": "characters/mob_herb_viper/death_south_1",
     "mob_herb_viper/death_south_2": "characters/mob_herb_viper/death_south_2",
     "mob_herb_viper/death_south_3": "characters/mob_herb_viper/death_south_3",
+    "mob_herb_viper/hurt_east_0": "characters/mob_herb_viper/hurt_east_0",
+    "mob_herb_viper/hurt_east_1": "characters/mob_herb_viper/hurt_east_1",
+    "mob_herb_viper/hurt_east_2": "characters/mob_herb_viper/hurt_east_2",
+    "mob_herb_viper/hurt_south_0": "characters/mob_herb_viper/hurt_south_0",
+    "mob_herb_viper/hurt_south_1": "characters/mob_herb_viper/hurt_south_1",
+    "mob_herb_viper/hurt_south_2": "characters/mob_herb_viper/hurt_south_2",
     "mob_herb_viper/idle_east_0": "characters/mob_herb_viper/idle_east_0",
     "mob_herb_viper/idle_east_1": "characters/mob_herb_viper/idle_east_1",
     "mob_herb_viper/idle_east_2": "characters/mob_herb_viper/idle_east_2",
@@ -656,6 +680,12 @@ export const AssetKeys = {
     "mob_rogue_disciple/death_south_1": "characters/mob_rogue_disciple/death_south_1",
     "mob_rogue_disciple/death_south_2": "characters/mob_rogue_disciple/death_south_2",
     "mob_rogue_disciple/death_south_3": "characters/mob_rogue_disciple/death_south_3",
+    "mob_rogue_disciple/hurt_east_0": "characters/mob_rogue_disciple/hurt_east_0",
+    "mob_rogue_disciple/hurt_east_1": "characters/mob_rogue_disciple/hurt_east_1",
+    "mob_rogue_disciple/hurt_east_2": "characters/mob_rogue_disciple/hurt_east_2",
+    "mob_rogue_disciple/hurt_south_0": "characters/mob_rogue_disciple/hurt_south_0",
+    "mob_rogue_disciple/hurt_south_1": "characters/mob_rogue_disciple/hurt_south_1",
+    "mob_rogue_disciple/hurt_south_2": "characters/mob_rogue_disciple/hurt_south_2",
     "mob_rogue_disciple/idle_east_0": "characters/mob_rogue_disciple/idle_east_0",
     "mob_rogue_disciple/idle_east_1": "characters/mob_rogue_disciple/idle_east_1",
     "mob_rogue_disciple/idle_east_2": "characters/mob_rogue_disciple/idle_east_2",
@@ -816,6 +846,12 @@ export const AssetKeys = {
     "mob_sword_acolyte/death_south_1": "characters/mob_sword_acolyte/death_south_1",
     "mob_sword_acolyte/death_south_2": "characters/mob_sword_acolyte/death_south_2",
     "mob_sword_acolyte/death_south_3": "characters/mob_sword_acolyte/death_south_3",
+    "mob_sword_acolyte/hurt_east_0": "characters/mob_sword_acolyte/hurt_east_0",
+    "mob_sword_acolyte/hurt_east_1": "characters/mob_sword_acolyte/hurt_east_1",
+    "mob_sword_acolyte/hurt_east_2": "characters/mob_sword_acolyte/hurt_east_2",
+    "mob_sword_acolyte/hurt_south_0": "characters/mob_sword_acolyte/hurt_south_0",
+    "mob_sword_acolyte/hurt_south_1": "characters/mob_sword_acolyte/hurt_south_1",
+    "mob_sword_acolyte/hurt_south_2": "characters/mob_sword_acolyte/hurt_south_2",
     "mob_sword_acolyte/idle_east_0": "characters/mob_sword_acolyte/idle_east_0",
     "mob_sword_acolyte/idle_east_1": "characters/mob_sword_acolyte/idle_east_1",
     "mob_sword_acolyte/idle_east_2": "characters/mob_sword_acolyte/idle_east_2",
@@ -4483,6 +4519,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_teng_huayuan/hurt_east_0",
+          "characters/boss_teng_huayuan/hurt_east_1",
+          "characters/boss_teng_huayuan/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_teng_huayuan/hurt_south_0",
+          "characters/boss_teng_huayuan/hurt_south_1",
+          "characters/boss_teng_huayuan/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5203,6 +5259,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_courtyard_guard/hurt_east_0",
+          "characters/mob_courtyard_guard/hurt_east_1",
+          "characters/mob_courtyard_guard/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_courtyard_guard/hurt_south_0",
+          "characters/mob_courtyard_guard/hurt_south_1",
+          "characters/mob_courtyard_guard/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5301,6 +5377,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_demonic_talisman/hurt_east_0",
+          "characters/mob_demonic_talisman/hurt_east_1",
+          "characters/mob_demonic_talisman/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_demonic_talisman/hurt_south_0",
+          "characters/mob_demonic_talisman/hurt_south_1",
+          "characters/mob_demonic_talisman/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5395,6 +5491,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_herb_viper/hurt_east_0",
+          "characters/mob_herb_viper/hurt_east_1",
+          "characters/mob_herb_viper/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_herb_viper/hurt_south_0",
+          "characters/mob_herb_viper/hurt_south_1",
+          "characters/mob_herb_viper/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -5485,6 +5601,26 @@ export const CharacterAnimations = {
           "characters/mob_rogue_disciple/death_south_1",
           "characters/mob_rogue_disciple/death_south_2",
           "characters/mob_rogue_disciple/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_rogue_disciple/hurt_east_0",
+          "characters/mob_rogue_disciple/hurt_east_1",
+          "characters/mob_rogue_disciple/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_rogue_disciple/hurt_south_0",
+          "characters/mob_rogue_disciple/hurt_south_1",
+          "characters/mob_rogue_disciple/hurt_south_2"
         ],
         "loop": false
       }
@@ -5877,6 +6013,26 @@ export const CharacterAnimations = {
           "characters/mob_sword_acolyte/death_south_1",
           "characters/mob_sword_acolyte/death_south_2",
           "characters/mob_sword_acolyte/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_sword_acolyte/hurt_east_0",
+          "characters/mob_sword_acolyte/hurt_east_1",
+          "characters/mob_sword_acolyte/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_sword_acolyte/hurt_south_0",
+          "characters/mob_sword_acolyte/hurt_south_1",
+          "characters/mob_sword_acolyte/hurt_south_2"
         ],
         "loop": false
       }

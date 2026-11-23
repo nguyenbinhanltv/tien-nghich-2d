@@ -385,6 +385,8 @@ def _audit_runtime_frames(
 
     if m_asset:
         for state, mcfg in (m_asset.get("animations") or {}).items():
+            if state == "hurt":  # derived overlay (build_hurt_clips.py), not part of the release archive
+                continue
             rcfg = (rt_spec.get("clips") or {}).get(state)
             if not rcfg or int(rcfg["frames"]) != int(mcfg["frames"]):
                 add_exc("error", "runtime_manifest_clip_mismatch", mob_id, state, f"runtime.json clip {rcfg} != manifest {mcfg}")
@@ -646,6 +648,9 @@ def _check_repo_pipeline_compat(work_root: Path, runtime_mob_ids: list[str]) -> 
             dst_dir = proc / "mobs" / mob_id
             dst_dir.mkdir(parents=True, exist_ok=True)
             for p in matches[0].glob("*.png"):
+                shutil.copy2(p, dst_dir / p.name)
+            # the manifest also lists the derived hurt clip, which is not part of the release package
+            for p in (REPO / "assets/processed/mobs" / mob_id).glob("hurt_*.png"):
                 shutil.copy2(p, dst_dir / p.name)
         r1 = subprocess.run([sys.executable, "-E", "-B", str(qa_script), "--root", str(proc)], capture_output=True, text=True, cwd=td, timeout=120)
         r2 = subprocess.run(
