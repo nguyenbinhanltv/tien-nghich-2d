@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { artOf } from './clip-map.ts';
+import { artOf, shotFrame } from './clip-map.ts';
 import { FightRunner } from './fight-runner.ts';
 import { hazardProgress, hazardShape } from './hazard-geometry.ts';
 import { NO_INPUT } from '../sim/loop.ts';
@@ -39,7 +39,20 @@ describe('FightRunner drives the real sim', () => {
 
 describe('artOf maps sim names to atlas names', () => {
   const player = (over: object) => ({ role: 'player', kind: 'player', clip: 'idle', clipStartTick: 5, diedTick: -1, hp: 6, ai: { state: 'idle' }, combat: { down: 0, dash: 0, slash: 0, moving: false }, ...over }) as never;
-  const w = { mode: 'playing' } as never;
+  const w = { mode: 'playing', tick: 100 } as never;
+  it('a player hit plays the 3-frame hurt clip from the tick of the hit, above run and idle but below death', () => {
+    const hit = (hurt: number, over: object = {}) => player({ combat: { down: 0, dash: 0, slash: 0, moving: true, hurt }, ...over });
+    expect(artOf(w, hit(10))).toEqual({ kind: 'wl_outer_disciple', clip: 'hurt', startTick: 100 });
+    expect(artOf(w, hit(4))).toMatchObject({ clip: 'hurt', startTick: 94 });
+    expect(artOf(w, hit(0)).clip).toBe('run');
+    expect(artOf(w, hit(4, { diedTick: 90 })).clip).toBe('death');
+  });
+  it('a counter-struck mob flinches from the recorded hit tick; one mid-attack does not (the real-sim case is in hurt-poses.test.ts)', () => {
+    const mob = (clip: string) => ({ role: 'mob', kind: 'mob_blood_wolf', clip, clipStartTick: 7, diedTick: -1, hp: 3, ai: { state: 'idle' }, combat: { hurt: 0 } }) as never;
+    expect(artOf(w, mob('move'), 96)).toEqual({ kind: 'mob_blood_wolf', clip: 'hurt', startTick: 96 });
+    expect(artOf(w, mob('attack'), 96).clip).toBe('attack');
+    expect(artOf(w, mob('move')).clip).toBe('move');
+  });
   it('the player kind is the form art; dash, strike, run, idle, death', () => {
     expect(artOf(w, player({}))).toMatchObject({ kind: 'wl_outer_disciple', clip: 'idle' });
     expect(artOf(w, player({ combat: { down: 0, dash: 0, slash: 0, moving: true } })).clip).toBe('run');
@@ -53,6 +66,17 @@ describe('artOf maps sim names to atlas names', () => {
     expect(artOf(w, boss('warn', 'attack_wail')).clip).toBe('attack_wail');
     expect(artOf(w, boss('stalk')).clip).toBe('move');
     expect(artOf(w, boss('release')).clip).toBe('death');
+  });
+});
+
+describe('shotFrame: an enemy shot wears the art of the mob that fired it', () => {
+  it('maps the four Blood Sea mobs, loops the 4 flight frames at 12 fps, and falls back for any other owner', () => {
+    expect(shotFrame('mob_blood_crow', 0, 'x')).toBe('projectiles/pj_mob_crow_feather/flight_none_0');
+    expect(shotFrame('mob_blood_corpse', 5, 'x')).toBe('projectiles/pj_mob_corpse_gore/flight_none_1');
+    expect(shotFrame('mob_blood_pool_lurker', 30, 'x')).toBe('projectiles/pj_mob_lurker_bubble/flight_none_2');
+    expect(shotFrame('mob_vengeful_soul', 20, 'x')).toBe('projectiles/pj_mob_soul_wisp/flight_none_0');
+    expect(shotFrame('boss_ghost_king', 0, 'fallback')).toBe('fallback');
+    expect(shotFrame(undefined, 0, 'fallback')).toBe('fallback');
   });
 });
 

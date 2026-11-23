@@ -8,7 +8,7 @@ export interface FrameSource { sequence(prefix: string): string[] }
 export interface ResolvedClip { frames: string[]; flipX: boolean }
 
 /** Frames per second per clip family. Placeholders until Kiln exports clip timing (E2.2). */
-export const CLIP_FPS: Record<string, number> = { idle: 6, run: 10, move: 8, dash: 16, cast_attack: 14, attack: 10, death: 8 };
+export const CLIP_FPS: Record<string, number> = { idle: 6, run: 10, move: 8, dash: 16, cast_attack: 14, attack: 10, death: 8, hurt: 18 };
 const LOOPING = new Set(['idle', 'run', 'move']);
 export const isLooping = (clip: string): boolean => LOOPING.has(clip);
 
