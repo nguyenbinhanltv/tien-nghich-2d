@@ -185,6 +185,17 @@ def validate(m):
             # Likewise the PX-1 `hurt` clip (2026-11-24), scoped to the ten ids and exactly {frames: 3, loop: false}:
             # anything else leaves the digest mismatch to surface (tools/scripts/px1_hurt.py).
             strip_hurt(source)
+        # PX-1 additions (2026-11-24) carry "px1": true and are not part of the pinned base: hash and count without them.
+        dropped = [a for a in source[field] if a.get("px1")]
+        source[field] = [a for a in source[field] if not a.get("px1")]
+        if name == "assets/manifest.json":   # the manifest summary counts them too
+            summary = source["summary"]
+            summary["total"] -= len(dropped)
+            for key, field_name in (("by_category", "category"), ("by_agent", "assigned_agent")):
+                for a in dropped:
+                    summary[key][a[field_name]] -= 1
+                    if summary[key][a[field_name]] == 0:
+                        del summary[key][a[field_name]]
         normalized = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
         require(hashlib.sha256(normalized).hexdigest() == digest, "Base contract drift: " + name)
         ids = [a["id"] for a in source[field]]
@@ -255,7 +266,7 @@ def validate(m):
     require(set(m["mode_assets"]) == {"core","abode","endless","trial","defense"}, "Missing mode")
     for mode, ids in m["mode_assets"].items():
         require(ids and set(ids)<=known, "Bad mode link: "+mode)
-    inherited_effects = {a["id"] for a in read(ROOT / "assets/processed/vfx/vfx_index.json")["effects"]}
+    inherited_effects = {a["id"] for a in read(ROOT / "assets/processed/vfx/vfx_index.json")["effects"] if not a.get("px1")}
     validate_vfx(m, inherited_effects, known, rectangles)
     vfx = {e["id"] for e in m["vfx"]["entries"]}
     docs = (ROOT / "docs/LONGTIME_GDD.md").read_text(encoding="utf-8")

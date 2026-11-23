@@ -21,7 +21,7 @@ ROUTES = {  # category -> (agent, required output_path prefix)
     "ui": ("codex_antigravity", "assets/raw/environment_items/"),
     "icon": ("codex_antigravity", "assets/raw/environment_items/"),
 }
-EXPECTED = {"player": 4, "mob": 15, "boss": 3, "tileset": 3, "weapon": 12, "projectile": 12, "prop": 19, "icon": 16, "ui": 6}
+EXPECTED = {"player": 4, "mob": 15, "boss": 3, "tileset": 3, "weapon": 12, "projectile": 16, "prop": 19, "icon": 16, "ui": 6}
 REQUIRED = ["id", "name", "category", "assigned_agent", "size", "output_path", "palette_refs", "status"]
 
 
@@ -186,6 +186,10 @@ def validate_delivery(root, doc):
                             export["atlas_key"].format(**fields) != f"ui/{i}/{stem}"):
                         raise ValueError(f"{i}: UI export differs from processed or atlas naming contract")
         if category == "projectile":
+            if "owner_mob" in asset:   # enemy projectile (PX-1): owned by a mob, not a weapon
+                if not any(a["category"] == "mob" and a["id"] == asset["owner_mob"] for a in doc["assets"]):
+                    raise ValueError(f"{i}: owner_mob names no mob")
+                continue
             owners = [a for a in doc["assets"] if a["category"] == "weapon" and a["projectile_id"] == i]
             if len(owners) != 1 or owners[0]["id"] != asset["weapon_id"]:
                 raise ValueError(f"{i}: broken weapon/projectile link")
