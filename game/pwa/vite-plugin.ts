@@ -11,7 +11,7 @@ const GAME = resolve(here, '..');
 /** Pixel Kiln output root. TN2D_ASSETS_DIR overrides it (tests). */
 const ASSETS = resolve(process.env['TN2D_ASSETS_DIR'] ?? join(GAME, '../assets'));
 const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'application/json' };
-export const ATLAS_RE = /^atlases\/mobile\/atlas-\d+\.(png|json)$/;
+export const ATLAS_RE = /^(atlases\/mobile\/atlas-\d+\.(png|json)|atlases\/mob-runtime\.json|atlases_longtime\/mobile\/[a-z_]+\/(atlas-\d+\.(png|json)|chunk-manifest\.json))$/;
 
 /** IPv4/IPv6 loopback and private (RFC 1918, link-local, unique-local) addresses. */
 export function isLocalAddress(addr: string | undefined): boolean {
@@ -51,14 +51,20 @@ export function pwa(): Plugin {
     closeBundle() {
       const dist = join(GAME, 'dist');
       if (!existsSync(dist)) return;
-      const src = join(ASSETS, 'atlases/mobile');
-      for (const f of readdirSync(src)) {
-        if (!ATLAS_RE.test(`atlases/mobile/${f}`)) continue;
-        const dst = join(dist, 'assets/atlases/mobile', f);
-        mkdirSync(dirname(dst), { recursive: true });
-        copyFileSync(join(src, f), dst);
+      for (const sub of ['atlases', 'atlases_longtime/mobile']) {
+        const root = join(ASSETS, sub);
+        if (!existsSync(root)) continue;
+        for (const f of listFiles(root)) {
+          const rel = relative(ASSETS, f).split(sep).join('/');
+          if (!ATLAS_RE.test(rel)) continue;
+          const dst = join(dist, 'assets', rel);
+          mkdirSync(dirname(dst), { recursive: true });
+          copyFileSync(f, dst);
+        }
       }
-      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map'));
+      const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map'))
+        // chunks other than the Dong Phu (abode) are cached on first use, not precached
+        .filter((f) => !/^assets\/atlases_longtime\/mobile\/(?!abode\/)/.test(f));
       const version = createHash('sha1').update(all.map((f) => `${f}:${statSync(join(dist, f)).size}`).join('|')).digest('hex').slice(0, 10);
       const sw = readFileSync(join(here, 'sw.template.js'), 'utf8').replace('__VERSION__', version).replace('__PRECACHE__', JSON.stringify(['./', ...all.map((f) => `./${f}`)]));
       writeFileSync(join(dist, 'sw.js'), sw);
