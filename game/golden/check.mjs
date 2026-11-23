@@ -30,7 +30,7 @@ async function capture(k) {
   await page.goto('http://127.0.0.1:4173/?golden');
   await page.waitForFunction(() => window.__tn2d?.scene?.debugState?.().tick >= 120, null, { timeout: 15000 });
   await page.waitForTimeout(300);
-  const png = await page.screenshot();
+  const png = await page.locator('canvas').screenshot(); // the canvas only: DOM overlays (status text, touch buttons) are not part of the pixel contract
   await ctx.close();
   return png;
 }
