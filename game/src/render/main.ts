@@ -48,7 +48,7 @@ function makeAbode(): Phaser.Scene {
   const loaded = readProfile(store, Date.now() >>> 0);
   let profile = loaded.profile;
   const host = {
-    sample: () => hub.sample(), paused: () => portrait, frozen: params.has('golden'),
+    sample: () => hub.sample(), paused: () => portrait || (ui.menus?.isOpen ?? false), frozen: params.has('golden'),
     get profile() { return profile; },
     commit: (p: typeof profile) => {
       profile = p;
