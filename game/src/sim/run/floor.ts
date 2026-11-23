@@ -9,6 +9,7 @@ import { clearProjectiles } from '../pool.ts';
 import { findPlayer, spawnActor } from '../actors.ts';
 import { spawnMob } from '../ai/index.ts';
 import { setMode } from '../systems/combat.ts';
+import { pressureAtFloor } from '../../contracts/run.ts';
 import { advanceRoom, startRun } from './run.ts';
 
 export const TILE = 16;
@@ -34,6 +35,8 @@ function buildRows(L: RoomLayout): string[] {
 function setDoor(world: WorldState, L: RoomLayout, role: 'entry' | 'exit', ch: 'D' | 'O'): void {
   const side = L.doors.find((d) => d.role === role)?.side;
   if (!side || !world.grid) return;
+  const d = world.stage?.doors.find((x) => x.role === role);
+  if (d) d.open = ch === 'O';
   const col = side === 'west' ? 0 : L.size[0] - 1;
   world.grid.rows = world.grid.rows.map((row) => row.split('').map((c, i) => (i === col && (c === 'D' || c === 'O') ? ch : c)).join(''));
 }
@@ -58,7 +61,10 @@ export function enterRoom(world: WorldState, content: ContentApi, roomId: string
   const [cols, rows] = L.size;
   world.room = { minX: 4, minY: 2 * TILE + 4, maxX: cols * TILE - 4, maxY: (rows - 1) * TILE - 4 };
   world.grid = { tile: TILE, rows: buildRows(L) };
-  world.stage = { room: roomId, wave: 1, waves: L.waves.length, cleared: L.waves.length === 0, gatePending: false };
+  world.stage = {
+    room: roomId, wave: 1, waves: L.waves.length, cleared: L.waves.length === 0, gatePending: false,
+    doors: L.doors.map((d) => ({ side: d.side, role: d.role, to: d.to, open: false })), pressure: pressureAtFloor(0),
+  };
   if (player) { const s = center(L.player_start[0], L.player_start[1]); player.pos.x = s.x; player.pos.y = s.y; player.vel.x = 0; player.vel.y = 0; player.combat.dash = 0; player.combat.action = 0; }
   setDoor(world, L, 'entry', 'D');
   setDoor(world, L, 'exit', world.stage.cleared ? 'O' : 'D');
@@ -94,6 +100,7 @@ export function floorSystem(world: WorldState, content: ContentApi, events: Game
   if (!next) return;
   if (world.run?.outcome === 'active') {
     const r = advanceRoom(world, events);
+    if (r === 'gate-pending' && !st.gatePending) events.push({ type: 'gate-pending', tick: world.tick, room: st.room });
     st.gatePending = r === 'gate-pending';
     if (r !== 'ok') return;
   }

@@ -84,6 +84,10 @@ export interface FloorState {
   cleared: boolean;
   /** The exit is open but the realm gate must be chosen first (takeGate); the player waits in the doorway. */
   gatePending: boolean;
+  /** Doors of the room and whether each is open now (the HUD and the renderer draw them from here; `grid` holds the collision). */
+  doors: { side: 'west' | 'east'; role: 'entry' | 'exit'; to: string; open: boolean }[];
+  /** Pressure P of the floor (contracts/run.ts pressureAtFloor); 1 on the first floor. */
+  pressure: number;
 }
 
 export interface WorldState {
@@ -124,6 +128,7 @@ export type GameEvent =
   | { type: 'telegraph'; tick: number; hazard: number; kind: string; ticks: number }
   | { type: 'hazard-resolved'; tick: number; hazard: number; hitActor: number }
   | { type: 'projectile-fired'; tick: number; source: number; kind: string }
+  /** `target` is the actor hit, or 0 when the shot hit a wall or prop. */
   | { type: 'projectile-hit'; tick: number; projectile: number; target: number }
   | { type: 'hit-stop'; tick: number; ticks: number }
   | { type: 'phase-changed'; tick: number; actor: number; phase: string }
@@ -132,6 +137,7 @@ export type GameEvent =
   | { type: 'room-entered'; tick: number; room: string }
   | { type: 'wave-spawned'; tick: number; wave: number; of: number }
   | { type: 'door-opened'; tick: number; room: string }
+  | { type: 'gate-pending'; tick: number; room: string }
   | { type: 'realm-breakthrough'; tick: number; from: number; to: number }
   | { type: 'reward-gained'; tick: number; id: string; amount: number }
   | { type: 'run-ended'; tick: number; outcome: 'banked' | 'died' | 'abandoned' | 'won' };

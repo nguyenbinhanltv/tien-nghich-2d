@@ -39,7 +39,20 @@ describe('FightRunner drives the real sim', () => {
 
 describe('artOf maps sim names to atlas names', () => {
   const player = (over: object) => ({ role: 'player', kind: 'player', clip: 'idle', clipStartTick: 5, diedTick: -1, hp: 6, ai: { state: 'idle' }, combat: { down: 0, dash: 0, slash: 0, moving: false }, ...over }) as never;
-  const w = { mode: 'playing' } as never;
+  const w = { mode: 'playing', tick: 100 } as never;
+  it('a player hit plays the 3-frame hurt clip from the tick of the hit, above run and idle but below death', () => {
+    const hit = (hurt: number, over: object = {}) => player({ combat: { down: 0, dash: 0, slash: 0, moving: true, hurt }, ...over });
+    expect(artOf(w, hit(10))).toEqual({ kind: 'wl_outer_disciple', clip: 'hurt', startTick: 100 });
+    expect(artOf(w, hit(4))).toMatchObject({ clip: 'hurt', startTick: 94 });
+    expect(artOf(w, hit(0)).clip).toBe('run');
+    expect(artOf(w, hit(4, { diedTick: 90 })).clip).toBe('death');
+  });
+  it('a counter-struck mob flinches from the recorded hit tick; one mid-attack does not (the real-sim case is in hurt-poses.test.ts)', () => {
+    const mob = (clip: string) => ({ role: 'mob', kind: 'mob_blood_wolf', clip, clipStartTick: 7, diedTick: -1, hp: 3, ai: { state: 'idle' }, combat: { hurt: 0 } }) as never;
+    expect(artOf(w, mob('move'), 96)).toEqual({ kind: 'mob_blood_wolf', clip: 'hurt', startTick: 96 });
+    expect(artOf(w, mob('attack'), 96).clip).toBe('attack');
+    expect(artOf(w, mob('move')).clip).toBe('move');
+  });
   it('the player kind is the form art; dash, strike, run, idle, death', () => {
     expect(artOf(w, player({}))).toMatchObject({ kind: 'wl_outer_disciple', clip: 'idle' });
     expect(artOf(w, player({ combat: { down: 0, dash: 0, slash: 0, moving: true } })).clip).toBe('run');
