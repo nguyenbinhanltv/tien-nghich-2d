@@ -3,12 +3,13 @@ import type { GameEvent, InputFrame, WorldState } from '../src/contracts/world.t
 import { SAVE_VERSION } from '../src/contracts/save.ts';
 import { hashWorld } from '../src/sim/hash.ts';
 import { createWorld, startGhostKingFight, step } from '../src/sim/loop.ts';
+import { spawnActor } from '../src/sim/actors.ts';
 import { Rng } from '../src/sim/rng.ts';
 import { advanceRoom, BOSS_ROOM, bankCarried, discardCarried, endRun, FIRST_CLEAR_BONUS, gateAvailable, grantReward, learnRecipe, startRun, takeGate } from '../src/sim/run/run.ts';
 import { applyRunResult, beginRun, createProfile } from '../src/sim/save/profile.ts';
 import { loadProfile, serializeProfile } from '../src/sim/save/codec.ts';
 import { migrateProfile } from '../src/sim/save/migrate.ts';
-import { InputRecorder, quantizeInput, resumeRun, suspendRun } from '../src/sim/save/replay.ts';
+import { InputRecorder, performRunAction, quantizeInput, resumeRun, suspendRun } from '../src/sim/save/replay.ts';
 
 const IDLE: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
 const fresh = (): { w: WorldState; ev: GameEvent[] } => { const w = createWorld(1), ev: GameEvent[] = []; startGhostKingFight(w, ev); startRun(w, 1); return { w, ev }; };
@@ -168,6 +169,44 @@ describe('E6.2 close the game mid-run and reopen it', () => {
     for (let t = 0; t < 300; t++) { step(w, rand(r1), ev); step(res.world, rand(r2), ev); ev.length = 0; }
     expect(hashWorld(res.world)).toBe(hashWorld(w));
     expect(res.recorder.ticks).toBe(900);
+  });
+  it('run actions (rooms, gate, rewards, bank, recipe) are in the log in order: suspend after them, resume to an equal hash, keep playing', () => {
+    const w = createWorld(21), ev: GameEvent[] = [], rec = new InputRecorder(), rng = new Rng(6);
+    // A room change rebuilds the actors: the hook is what both live play and replay run.
+    const onRoom = (world: WorldState, e: GameEvent[]): void => { world.actors.splice(1); spawnActor(world, 'mob_blood_crow', 200 + world.run!.room * 5, 140, 4, e); };
+    setup(w, ev);
+    const play = (n: number): void => { for (let t = 0; t < n; t++) { const f = rand(rng); rec.push(f); step(w, f, ev); ev.length = 0; } };
+    const act = (a: Parameters<typeof performRunAction>[3]): void => { performRunAction(w, ev, rec, a, onRoom); ev.length = 0; };
+    play(120);
+    for (let i = 0; i < 3; i++) act({ t: 'advance' });   // cluster 0 -> 1, pays a first-clear
+    act({ t: 'grant', id: 'ore piece,1*', amount: 2 }); // an id with separator characters
+    play(40);
+    act({ t: 'gate', choice: 'breakthrough' });
+    act({ t: 'bank' });
+    act({ t: 'recipe', id: 'recipe_blank' });
+    act({ t: 'advance' });
+    act({ t: 'grant', id: 'seed', amount: 1 });
+    act({ t: 'discard' });
+    play(90);
+    expect(w.run!.realm).toBe(2);
+    expect(w.run!.room).toBe(4);
+    const sus = suspendRun(w, rec);
+    const res = resumeRun(sus, setup, onRoom);
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    expect(hashWorld(res.world)).toBe(hashWorld(w));
+    expect(res.world.run).toEqual(w.run);
+    // Without the hook the replay cannot match: the failure is reported, not hidden.
+    expect(resumeRun(sus, setup)).toEqual({ ok: false, reason: 'diverged' });
+    // A failed action is not logged, and a log naming an impossible action is rejected.
+    expect(() => performRunAction(w, ev, rec, { t: 'gate', choice: 'pill' }, onRoom)).toThrow();
+    expect(rec.log()).toBe(sus.inputLog);
+    expect(resumeRun({ ...sus, inputLog: sus.inputLog + ',!gate|pill' }, setup, onRoom)).toEqual({ ok: false, reason: 'bad-log' });
+    expect(resumeRun({ ...sus, inputLog: sus.inputLog + ',!bogus' }, setup, onRoom)).toEqual({ ok: false, reason: 'bad-log' });
+    // And both worlds carry on identically.
+    const r1 = new Rng(9), r2 = new Rng(9);
+    for (let t = 0; t < 200; t++) { step(w, rand(r1), ev); step(res.world, rand(r2), ev); ev.length = 0; }
+    expect(hashWorld(res.world)).toBe(hashWorld(w));
   });
   it('the run-length log is much smaller than one token per tick, and a tampered log or seed is reported, not accepted', () => {
     const w = createWorld(3), ev: GameEvent[] = [], rec = new InputRecorder();
