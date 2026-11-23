@@ -6,7 +6,8 @@ Mã game Tiên Nghịch 2D. Quyết định và kiến trúc: [`docs/GAME_PLAN.m
 cd game
 npm ci            # chỉ cài trong game/node_modules (Node >= 24)
 npm run check     # tsc + eslint + vitest + content:check + contract:check
-npm run dev       # trang trống chứng minh phân lớp
+npm run dev       # cảnh Huyết Hải thử (Phaser 4), http://127.0.0.1:5173
+npm run dev:lan   # cho điện thoại cùng Wi-Fi: docs/PLAYTEST_LAN.md
 ```
 
 | Thư mục | Vai trò |
@@ -21,7 +22,7 @@ npm run dev       # trang trống chứng minh phân lớp
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
 | `schemas/` | JSON Schema: bảng, encounter, bốn bảng hợp đồng Kiln, manifest gói |
 | `tools/` | `content-build.ts`, `kiln-contract-check.ts`, `draft-bodies.ts` (chạy trực tiếp bằng Node 24, không cần bước build) |
-| `spike/` | của lane G0-A; lane này không sửa |
+| `spike/` | spike engine G0-A (Phaser 4, màn ngang), cấu hình riêng, xem `spike/REPORT.md`; không thuộc `check` của khung này |
 
 `npm run content:build` ghi `dist-content/` (không commit). `--profile web`, `--chunks core,abode,trial`, `--out` có sẵn.
 Đừng thêm `studio/` vào bất cứ import nào của `src/`: chỉ `tools/` đọc Studio (decoder PNG), và chỉ đọc.
