@@ -19,6 +19,7 @@ PACKS = {
     "wave2_batch4_v1": ("wave2_fourth_sfx", ["bgm_boss_trial", "bgm_endless"]),
     "branches_v1": ("branches_sfx", ["bgm_mist_archive", "bgm_ember_delta", "bgm_star_quarry"]),
     "modes_v1": ("modes_sfx", ["bgm_aftermath", "bgm_defense"]),
+    "characters_v1": ("characters_sfx", []),
 }
 
 
@@ -57,7 +58,9 @@ class WavePackTests(unittest.TestCase):
             self.assertEqual(sha(ROOT / g["master"]["file"]), bp["wav_sha256"])
             self.assertEqual(g["master"]["sha256"], bp["wav_sha256"])
             self.assertEqual(g["master"]["loopEnd"], bp["loopEnd"])
-        self.assertIsNone(ev["automated"]["mix_comparison"][bgm_ids[0]]["derived_mastering"])
+        for bgm_id in bgm_ids[:1]:  # a pack without beds (characters_v1) has no bed to mix against
+            self.assertIsNone(ev["automated"]["mix_comparison"][bgm_id]["derived_mastering"])
+        self.assertEqual(sorted(ev["automated"]["mix_comparison"]), sorted(bgm_ids))
         # toolchain record is complete and consistent with the build script
         t = pack["toolchain"]
         self.assertEqual(t["variant"], "native")

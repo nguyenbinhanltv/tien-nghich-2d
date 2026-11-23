@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify one Audio Wave 2 sub-batch pack (batches 2-6) with the Mac-built FFmpeg 6.1.1 (Ogg Vorbis + AAC-LC/M4A).
+"""Build and verify one Audio Wave 2 sub-batch pack (batches 2-7) with the Mac-built FFmpeg 6.1.1 (Ogg Vorbis + AAC-LC/M4A).
 
 One parameterised builder replaces per-batch copies. pilot_v1 and wave2_batch1_v1 keep their frozen Windows-pinned builders.
 
@@ -14,7 +14,7 @@ apart from the machine-specific toolchain values (`toolchain` block in the JSON 
 identical outputs is reported, not hidden). --audition-dir writes the portable decoded audition WAV + timing key.
 
 Usage:
-  python -I -B tools/scripts/build_audio_wave2_pack.py --batch 2|3|4|5|6 --ffmpeg <ffmpeg> [--out DIR] [--check] [--audition-dir DIR]
+  python -I -B tools/scripts/build_audio_wave2_pack.py --batch 2|3|4|5|6|7 --ffmpeg <ffmpeg> [--out DIR] [--check] [--audition-dir DIR]
 """
 from __future__ import annotations
 
@@ -59,6 +59,9 @@ BATCHES = {
     6: {"pack": "modes_v1", "label": "Modes", "base": "c72f601fad4874c672c0bba110788b068db9c186", "bgms": ["bgm_aftermath", "bgm_defense"], "sfx": "modes_sfx", "sfx_count": 4,
         "bgm_source_commit": "same pull request as this pack; the source hashes are in each assets/audio/<bed>/provenance.json",
         "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/modes_sfx/provenance.json"},
+    7: {"pack": "characters_v1", "label": "Characters", "base": "d715f9e8e3f812ec8a2b322c83dc797256547e58", "bgms": [], "sfx": "characters_sfx", "sfx_count": 3,
+        "bgm_source_commit": "none: the Characters wave has no beds",
+        "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/characters_sfx/provenance.json"},
 }
 
 
