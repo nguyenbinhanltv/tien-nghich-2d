@@ -205,6 +205,16 @@ A small module any tab can use to show pixel art. It holds no project data. Load
 
 `studio/ui/tests/capture-viewports.sh [out-dir]` takes all 9 tabs × EN/VI × 4 widths = 72 PNGs through the Orchestrator Browser panel (`ao browser`; Playwright is not used and not needed). Run it from a worker session with the Browser panel visible. Images and a `report.tsv` go to `out-dir` (default: a new temp directory), never into the repo. `TABS`, `LANGS`, `WIDTHS` and `HEIGHT` env vars narrow the run.
 
+### Running the harness, and the 200% zoom check (lane 5D)
+
+1. `node studio/serve.mjs --port 4173` (any port works; the Jobs feed reads the MCP handler in process, not over HTTP, so ports undici refuses for `fetch`, such as 4190, are fine).
+2. One page: open the harness URL above in the Browser panel and read the title line. All 72 shots: `studio/ui/tests/capture-viewports.sh <out-dir> http://127.0.0.1:4173`.
+3. Browser zoom 200% at 1280 px is a 640 px viewport, so `WIDTHS=640 studio/ui/tests/capture-viewports.sh <out-dir>` covers it.
+4. Keyboard: Tab from a fresh load (skip link first), `⌘K`, `?`, `g` `1`–`9`, the drawer under 900 px; focus must always be visible and Esc must always give it back.
+5. Reduced motion: turn on "Reduce motion" in the OS; `tokens.css` zeroes every duration, and tabs add no motion of their own.
+
+`.btn.sm` is the compact button (28 px, 36 px on touch screens) for secondary controls inside a toolbar, for example the seal switch in Review.
+
 ## Interface modes and density
 
 `studio/ui/theme.mjs` holds the choice; `shell.js` writes `data-theme` (`abode` | `ink` | `paper`) and `data-density` (`comfortable` | `compact`) on `<html>`, remembers them in `localStorage` (`studio.theme`, `studio.density`) and, until a mode is chosen, follows `prefers-color-scheme`. Change them from the top-bar menu or the command palette's actions.

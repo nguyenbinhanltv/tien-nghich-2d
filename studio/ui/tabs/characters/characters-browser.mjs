@@ -52,8 +52,8 @@ try {
   await page.locator('#panel-body input[type=number]').first().fill('15');
   await page.locator('#panel-body button:has-text("Save pivot")').click();
   await page.locator('.chip.status-pending').first().waitFor();
-  await page.locator('#panel-body textarea').fill('Browser test');
-  await page.locator('#panel-body button:has-text("Request changes")').click();
+  await page.locator('.decide textarea').fill('Browser test');
+  await page.locator('.decide button:has-text("Request changes")').click();
   await page.locator('.chip.status-changes_requested').first().waitFor();
 
   // Language switch keeps the selection.

@@ -23,7 +23,7 @@ function framePanel(app) {
   if (!info) { out.push(notice(ctx, {body: ctx.t('frame.notEditable')})); return h('div', {}, out); }
   if (info.publish) out.push(h('p', {class: 'toast warn publish-note', role: 'status'}, h('span', {}, h('strong', {}, ctx.t('frame.cannotPublish')), ' ', info.publish.reason)));
   const snap = editor.snapshot;
-  if (editor.error) out.push(h('p', {class: 'toast danger', role: 'alert'}, editor.error));
+  if (editor.error && editor.errorSource !== 'review') out.push(h('p', {class: 'toast danger', role: 'alert'}, editor.error));
   if (!snap) { out.push(h('div', {role: 'status'}, h('span', 'sr-only', ctx.t('common.loading')), skeleton(3))); return h('div', {}, out); }
   const pivot = app.draft ?? snap.metadata.pivot;
   const changed = app.draft && (app.draft[0] !== snap.metadata.pivot[0] || app.draft[1] !== snap.metadata.pivot[1]);
@@ -35,14 +35,9 @@ function framePanel(app) {
   h('p', 'muted small', ctx.t('frame.pivotHelp', {foot: detail_foot(app)}))));
   out.push(h('section', 'block', h('h3', {}, ctx.t('frame.status')),
     h('p', {}, badge('status', snap.status, ctx.t('status.' + snap.status)), ' ', ctx.t('frame.head', {head: snap.head, shown: snap.revision})),
-    h('ol', 'history', ...snap.history.map(item => h('li', {}, 'r' + item.revision, ' ', badge('status', item.status, ctx.t('status.' + item.status)))))));
-  const note = h('textarea', {class: 'field', rows: 3, maxlength: 2000, 'aria-label': ctx.t('review.note'), placeholder: ctx.t('review.note')});
-  const send = status => app.review(status, note.value.trim());
-  out.push(h('section', {class: 'block human decision', 'data-slot': 'decision'}, h('h3', {}, ctx.t('review.title')), h('p', 'muted small', ctx.t('review.humanOnly')),
-    snap.comments.length ? h('ul', 'comments', ...snap.comments.map(c => h('li', {}, c.text, ' ', badge('status', c.status, ctx.t('status.' + c.status))))) : null, note,
-    h('div', 'row', h('button', {type: 'button', class: 'btn danger', disabled: editor.busy, onclick: () => send('changes_requested')}, ctx.t('review.requestChanges')),
-      h('button', {type: 'button', class: 'btn', disabled: editor.busy, onclick: () => app.review(null, note.value.trim())}, ctx.t('review.comment')),
-      h('button', {type: 'button', class: 'btn primary', disabled: editor.busy, onclick: () => send('approved')}, ctx.t('review.approve')))));
+    h('ol', 'history', ...snap.history.map(item => h('li', {}, 'r' + item.revision, ' ', badge('status', item.status, ctx.t('status.' + item.status))))),
+    snap.comments.length ? h('ul', 'comments', ...snap.comments.map(c => h('li', {}, c.text, ' ', badge('status', c.status, ctx.t('status.' + c.status))))) : null));
+  out.push(h('p', {class: 'muted small', 'data-slot': 'decision-note'}, ctx.t('review.barHint')));
   return h('div', {}, out);
 }
 const detail_foot = app => app.detail.foot ? app.detail.foot.join(', ') : '–';

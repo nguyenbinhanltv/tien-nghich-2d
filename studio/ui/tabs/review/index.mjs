@@ -156,7 +156,7 @@ function layout(ctx) {
 function sealToggle(ctx) {
   const reduced = reducedMotion(window);
   const on = () => sealSetting(localStorage) === 'on';
-  const b = h('button', {type: 'button', class: 'btn quiet rv-seal-toggle', 'aria-pressed': String(on() && !reduced), disabled: reduced, title: reduced ? ctx.t('seal.reduced') : null});
+  const b = h('button', {type: 'button', class: 'btn quiet sm rv-seal-toggle', 'aria-pressed': String(on() && !reduced), disabled: reduced, title: reduced ? ctx.t('seal.reduced') : null});
   const text = () => { b.textContent = ctx.t(reduced ? 'seal.reducedShort' : on() ? 'seal.on' : 'seal.off'); b.setAttribute('aria-pressed', String(on() && !reduced)); };
   text();
   b.addEventListener('click', () => { setSealSetting(localStorage, on() ? 'off' : 'on'); text(); });
