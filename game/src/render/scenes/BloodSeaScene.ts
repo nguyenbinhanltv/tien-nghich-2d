@@ -10,7 +10,9 @@ import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
 import { artOf, shotFrame } from '../clip-map.ts';
 import { FloorHud } from '../floor-hud.ts';
-import { Hud } from '../hud.ts';
+import { drawText, Hud } from '../hud.ts';
+import { DamageNumbers, TONE_COLOUR } from '../damage-numbers.ts';
+import { textPixels } from '../../ui/pixel-text.ts';
 import { Juice } from '../juice.ts';
 import { HurtPoses } from '../hurt-poses.ts';
 import { FightRunner } from '../fight-runner.ts';
@@ -74,6 +76,8 @@ export class BloodSeaScene extends Phaser.Scene {
   private endedAt = -1;
   private finished = false;
   readonly juice = new Juice();
+  readonly numbers = new DamageNumbers();
+  private numbersGfx!: Phaser.GameObjects.Graphics;
   private readonly hurts = new HurtPoses();
   private hud!: Hud;
   private floor!: FloorHud;
@@ -96,6 +100,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.room = new RoomView(this, this.frames);
     if (!this.fight.hasFloor) this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
+    this.numbersGfx = this.add.graphics().setDepth(200);
     this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
@@ -162,7 +167,7 @@ export class BloodSeaScene extends Phaser.Scene {
         if (!this.gateAsked) { this.gateAsked = true; this.host.onGate?.((c) => this.fight.takeGate(c)); }
       } else this.gateAsked = false;
       const ev = this.fight.drain();
-      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.hurts.onEvents(ev); this.host.onEvents?.(ev, this.fight.world); }
+      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.hurts.onEvents(ev); this.numbers.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
     this.draw();
   }
@@ -192,6 +197,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
+    this.drawNumbers();
     this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
     this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
@@ -239,6 +245,16 @@ export class BloodSeaScene extends Phaser.Scene {
         g.lineBetween(sh.x, sh.y, sh.x + Math.cos(sh.centre - sh.half) * sh.r, sh.y + Math.sin(sh.centre - sh.half) * sh.r);
         g.lineBetween(sh.x, sh.y, sh.x + Math.cos(sh.centre + sh.half) * sh.r, sh.y + Math.sin(sh.centre + sh.half) * sh.r);
       } else g.strokeCircle(sh.x, sh.y, sh.r);
+    }
+  }
+
+  /** Floating damage numbers: pixel-font digits with an ink outline, in world space above the actor that was hit. */
+  private drawNumbers(): void {
+    const g = this.numbersGfx;
+    g.clear();
+    for (const n of this.numbers.visible(this.time.now)) {
+      const t = textPixels(n.text);
+      drawText(g, t, n.x - (t.w >> 1), n.y, TONE_COLOUR[n.tone]);
     }
   }
 
