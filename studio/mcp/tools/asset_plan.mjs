@@ -9,7 +9,7 @@ export default {
   description:
     'Create a new planned asset (id, profile, chunk, brief, dependencies) or edit one you created. ' +
     'Plans are stored in the studio plans file of the project, beside the locked design manifest, so a human can promote them later. ' +
-    'op "create" needs id (matching the idPattern of its source), chunk, brief and a profile OR a custom spec. op "edit" needs id and the etag from studio_asset_get, plus the fields to change. ' +
+    'op "create" needs id (in the id style of the project: see the ids studio_catalog_search returns; a wrong id is refused with the expected shape), chunk, brief and a profile OR a custom spec. op "edit" needs id and the etag from studio_asset_get, plus the fields to change. ' +
     'Entries in the design manifest itself cannot be edited here, and nothing can be deleted. Once an asset has processed or packed frames it is no longer planned and cannot be edited. ' +
     'dryRun returns the entry field by field and writes nothing.',
   scope: 'author',
@@ -17,7 +17,7 @@ export default {
     type: 'object',
     properties: {
       op: { type: 'string', enum: ['create', 'edit'], description: 'create a new entry, or edit one you created.' },
-      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, matching the id pattern of the asset source it belongs to (copy the shape of an existing id from studio_catalog_search).' },
+      id: { type: 'string', maxLength: 64, description: 'Asset id, lowercase words joined by underscores, in the project\'s id style (see ids from studio_catalog_search); a wrong id is refused with the expected shape.' },
       profile: { type: 'string', maxLength: 40, description: 'Profile: sets size, directions and clips. See studio_project_info sizeClasses for the names. Give this OR custom.' },
       custom: {
         type: 'object',
