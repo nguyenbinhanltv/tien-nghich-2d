@@ -2,6 +2,7 @@
 // The HUD is drawn at the logical resolution and scaled by the integer camera scale like everything else; sharp text (menus,
 // result banner) lives in the DOM layer instead (owner decision 2026-11-23: pixel HUD, sharp menus).
 import { VIEW_W } from '../contracts/world.ts';
+import { mapSize } from './minimap-layout.ts';
 
 export const BAR_W = 64;
 export const BAR_H = 8;
@@ -21,3 +22,9 @@ export const HUD_POS = {
   playerBar: { x: MARGIN.x, y: MARGIN.y },
   bossBar: { x: Math.round((VIEW_W - BAR_W) / 2), y: MARGIN.y },
 } as const;
+
+/** The minimap column in the top-right: the map (up to 3 cells wide), a 6-px gap and the floor label (reserved 64 px). */
+export const FLOOR_LABEL_MAX_W = 64;
+export const FLOOR_COLUMN_LEFT = VIEW_W - MARGIN.x - mapSize(99).w - 6 - FLOOR_LABEL_MAX_W;
+/** The boss name may use the space between the boss bar's left edge and the floor column (4 px clear). */
+export const BOSS_NAME_MAX_W = FLOOR_COLUMN_LEFT - 4 - HUD_POS.bossBar.x;

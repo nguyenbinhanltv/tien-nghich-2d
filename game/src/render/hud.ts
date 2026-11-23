@@ -6,8 +6,8 @@
 import Phaser from 'phaser';
 import { COMBAT } from '../contracts/combat.ts';
 import type { WorldState } from '../contracts/world.ts';
-import { BAR_H, BAR_W, barCropWidth, HUD_POS, ratio } from '../ui/hud-layout.ts';
-import { DIGIT_H, textPixels } from '../ui/pixel-text.ts';
+import { BAR_H, BAR_W, barCropWidth, BOSS_NAME_MAX_W, HUD_POS, ratio } from '../ui/hud-layout.ts';
+import { DIGIT_H, textPixels, wrapText } from '../ui/pixel-text.ts';
 import type { TextPixels } from '../ui/pixel-text.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
@@ -84,7 +84,13 @@ export class Hud {
       if (name !== this.bossNameText) {
         this.bossNameText = name;
         this.bossName.clear();
-        drawText(this.bossName, textPixels(name), HUD_POS.bossBar.x, HUD_POS.bossBar.y + BAR_H + 3);
+        // at most two lines, kept clear of the minimap column on the right (hud-layout BOSS_NAME_MAX_W)
+        let y = HUD_POS.bossBar.y + BAR_H + 3;
+        for (const line of wrapText(name, BOSS_NAME_MAX_W, 2)) {
+          const t = textPixels(line);
+          drawText(this.bossName, t, HUD_POS.bossBar.x, y);
+          y += t.h + 3;
+        }
       }
     }
     if (!p) return;
