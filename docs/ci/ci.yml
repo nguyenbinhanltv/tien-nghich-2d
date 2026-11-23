@@ -1,0 +1,72 @@
+# PENDING INSTALL: the bot token that opened this PR has no `workflow` scope, so this file could not be pushed to
+# .github/workflows/ci.yml. A maintainer installs it with: git mv docs/ci/ci.yml .github/workflows/ci.yml
+# (or the workflow-scope token pushes the same move). Not yet run on GitHub Actions.
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
+
+jobs:
+  game:
+    name: game (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix: { os: [ubuntu-latest, macos-latest, windows-latest] }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm, cache-dependency-path: game/package-lock.json }
+      - run: npm ci
+        working-directory: game
+      - run: npm run typecheck
+        working-directory: game
+      - run: npm run lint
+        working-directory: game
+      - run: npm test
+        working-directory: game
+      - run: npm run content:check
+        working-directory: game
+      - run: npm run contract:check
+        working-directory: game
+      - run: npm run build
+        working-directory: game
+
+  studio:
+    name: studio (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix: { os: [ubuntu-latest, macos-latest] }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - name: Studio unit tests
+        shell: bash
+        run: node --test $(git ls-files 'studio/**/*.test.mjs' 'playables/**/*.test.mjs' | grep -v browser | sort -u)
+      - run: node studio/smoke-test.mjs
+      - run: node playables/smoke-test.mjs
+      - run: node preview-app/smoke-test.mjs
+      - run: node studio/mcp.mjs --self-test
+
+  python-checks:
+    name: python gates (ubuntu-latest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -m pip install pillow numpy
+      - name: unit tests
+        run: python -I -m unittest discover -s tools/tests -p 'test_*.py'
+      - name: gates
+        run: |
+          python tools/scripts/check_longtime.py
+          python tools/scripts/check_manifest.py
+          python tools/scripts/check_audio_plan.py
+          python tools/scripts/check_audio_core_masters.py
+          python tools/scripts/check_longtime_vfx.py
+          python tools/scripts/pack_atlases.py --check

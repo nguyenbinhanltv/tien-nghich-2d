@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/table-bosses.schema.json",
+  "title": "One row of content/tables/bosses.csv (after CSV typing)",
+  "type": "object", "additionalProperties": false,
+  "required": ["id", "hp", "speed", "contact_dmg", "biome", "encounter"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^boss_[a-z0-9_]+$" },
+    "hp": { "type": "integer", "minimum": 1 },
+    "speed": { "type": "number", "minimum": 0 },
+    "contact_dmg": { "type": "integer", "minimum": 0 },
+    "biome": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "encounter": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$", "description": "Id of a file in content/encounters/<id>.yaml." }
+  }
+}

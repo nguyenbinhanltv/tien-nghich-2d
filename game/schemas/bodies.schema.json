@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/bodies.schema.json",
+  "title": "bodies.json: hurtbox and hitbox per asset, clip and frame (compiled) and its per-asset source file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "bodies"
+  ],
+  "properties": {
+    "schema": {
+      "const": "tien-nghich-2d.bodies"
+    },
+    "version": {
+      "const": 1
+    },
+    "bodies": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "_defs.schema.json#/$defs/assetId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/body"
+      }
+    }
+  },
+  "$defs": {
+    "review": {
+      "description": "Who vouches for the boxes. Only a human sets owner-approved; tools write draft-unreviewed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "source"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "draft-unreviewed",
+            "owner-approved"
+          ]
+        },
+        "source": {
+          "enum": [
+            "alpha-auto",
+            "hand"
+          ]
+        },
+        "approvalRef": {
+          "type": "string",
+          "description": "Entry id in assets/review/body_approvals.json; required when status is owner-approved."
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "owner-approved"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "approvalRef"
+        ]
+      }
+    },
+    "hitbox": {
+      "description": "An attack box: x, y, w, h as in the box definition, plus the id the encounter data names in its hit definition.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "_defs.schema.json#/$defs/snake"
+        },
+        "x": {
+          "$ref": "_defs.schema.json#/$defs/px"
+        },
+        "y": {
+          "$ref": "_defs.schema.json#/$defs/px"
+        },
+        "w": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "h": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      }
+    },
+    "frameBodies": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hurtbox": {
+          "$ref": "_defs.schema.json#/$defs/box",
+          "description": "Overrides the asset hurtbox on this frame."
+        },
+        "hitboxes": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/hitbox"
+          }
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frameSize",
+        "pivot",
+        "hurtbox",
+        "review"
+      ],
+      "properties": {
+        "frameSize": {
+          "$ref": "_defs.schema.json#/$defs/size"
+        },
+        "pivot": {
+          "$ref": "_defs.schema.json#/$defs/point",
+          "description": "Ground point in frame pixels (Kiln pivot); the world position of the actor."
+        },
+        "hurtbox": {
+          "$ref": "_defs.schema.json#/$defs/box",
+          "description": "Default hurtbox for every frame of every clip."
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "clips": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "_defs.schema.json#/$defs/clipName"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frames"
+            ],
+            "properties": {
+              "frames": {
+                "type": "object",
+                "propertyNames": {
+                  "pattern": "^(0|[1-9][0-9]{0,2})$"
+                },
+                "additionalProperties": {
+                  "$ref": "#/$defs/frameBodies"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
