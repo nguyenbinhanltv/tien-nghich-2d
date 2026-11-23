@@ -60,7 +60,7 @@ BATCHES = {
         "bgm_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58", "sfx_source_commit": "d715f9e8e3f812ec8a2b322c83dc797256547e58"},
     7: {"pack": "characters_v1", "label": "Characters", "base": "d715f9e8e3f812ec8a2b322c83dc797256547e58", "bgms": [], "sfx": "characters_sfx", "sfx_count": 3,
         "bgm_source_commit": "none: the Characters wave has no beds",
-        "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/characters_sfx/provenance.json"},
+        "sfx_source_commit": "2163ccac19f67215fdae2b45e45237b5bf689204"},
 }
 
 
