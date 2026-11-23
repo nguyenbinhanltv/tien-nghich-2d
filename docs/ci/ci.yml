@@ -1,6 +1,7 @@
 # PENDING INSTALL: the bot token that opened this PR has no `workflow` scope, so this file could not be pushed to
 # .github/workflows/ci.yml. A maintainer installs it with: git mv docs/ci/ci.yml .github/workflows/ci.yml
-# (or the workflow-scope token pushes the same move). Not yet run on GitHub Actions.name: ci
+# (or the workflow-scope token pushes the same move). Not yet run on GitHub Actions.
+name: ci
 on:
   push: { branches: [main] }
   pull_request:
