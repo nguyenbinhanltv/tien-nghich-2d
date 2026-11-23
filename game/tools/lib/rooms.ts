@@ -5,15 +5,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
+import type { RoomLayout } from '../../src/contracts/content.ts';
 import { check } from './schemas.ts';
 import { ASSETS, GAME, readJson } from './repo.ts';
 
-export interface RoomLayout {
-  id: string; size: [number, number]; player_start: [number, number]; grid: string[];
-  doors: { side: 'west' | 'east'; role: 'entry' | 'exit'; to: string }[];
-  props: { id: string; at: [number, number]; to?: string }[];
-  waves: { spawns: { mob: string; at: [number, number] }[] }[];
-}
+export type { RoomLayout };
 export interface RoomRow { id: string; kind: string; width_tiles: number; height_tiles: number; mobs?: string; boss?: string; next?: string }
 
 /** Props that stop movement (they occupy their base tile). The rest are decoration or triggers drawn over walkable floor. */

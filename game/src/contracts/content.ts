@@ -12,3 +12,11 @@ export interface ContentApi {
   /** Ids of a table in file order (stable, so seeded picks are reproducible). */
   ids(table: string): readonly string[];
 }
+
+/** Layout of one room (content/rooms/<id>.yaml, compiled to rooms/<id>.json); table `room_layouts` of the ContentApi. */
+export interface RoomLayout {
+  id: string; size: [number, number]; player_start: [number, number]; grid: string[];
+  doors: { side: 'west' | 'east'; role: 'entry' | 'exit'; to: string }[];
+  props: { id: string; at: [number, number]; to?: string }[];
+  waves: { spawns: { mob: string; at: [number, number] }[] }[];
+}

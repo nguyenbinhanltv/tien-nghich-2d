@@ -9,15 +9,15 @@ const clone = (id: string): RoomLayout => structuredClone(layouts.get(id)!);
 const problems = (id: string, L: RoomLayout): string => validateLayout(id, L, rooms, approved).join('\n');
 
 describe('Huyết Hải room layouts (E3.2)', () => {
-  it('cover the 9 fight rooms + the reward room and all pass validation', () => {
-    expect(rooms.filter((r) => r.kind === 'combat' || r.kind === 'boss')).toHaveLength(9);
+  it('cover the 9 combat rooms (3 clusters of 3) + the boss room + the reward room and all pass validation', () => {
+    expect(rooms.filter((r) => r.kind === 'combat')).toHaveLength(9); expect(rooms.filter((r) => r.kind === 'boss')).toHaveLength(1);
     expect(validateAll(rooms)).toEqual([]);
   });
-  it('chain by their doors: abode -> 1 ... 8 -> boss -> reward, every exit locked room leads to the next row', () => {
+  it('chain by their doors: abode -> 1 ... 9 -> boss -> reward, every exit locked room leads to the next row', () => {
     let id = 'room_bs_1';
     const seen: string[] = [];
     for (let i = 0; i < 20 && id; i++) { seen.push(id); id = layouts.get(id)!.doors.find((d) => d.role === 'exit')?.to ?? ''; }
-    expect(seen).toEqual([...Array.from({ length: 8 }, (_, i) => `room_bs_${i + 1}`), 'room_bs_boss', 'room_bs_reward']);
+    expect(seen).toEqual([...Array.from({ length: 9 }, (_, i) => `room_bs_${i + 1}`), 'room_bs_boss', 'room_bs_reward']);
   });
   it('use only approved art ids, and the reward room leads home by the teleport array', () => {
     for (const L of layouts.values()) for (const id of [...L.props.map((p) => p.id), ...L.waves.flatMap((w) => w.spawns.map((s) => s.mob))]) expect(approved.has(id)).toBe(true);
