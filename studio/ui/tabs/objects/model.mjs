@@ -2,8 +2,13 @@
 // No DOM and no fetch, so node:test can drive all of it.
 import { computeBlob47Mask, createDefaultBitmaskMap, parseWorkerBitmaskJson, CANONICAL_47_MASKS } from '../../../src/blob47.js';
 
+import { ZOOMS, snapZoom } from '../../pixelview.mjs';
+
 export const tools = ['blob', 'nine', 'hud'];
-export const zoomRange = [1, 8];
+const maxZoom = ZOOMS.at(-1);
+/** The grid slider indexes the viewer's zoom levels, so it, the stage toolbar and the + / − keys all share one list and one range. */
+export const zoomIndex = zoom => Math.max(0, ZOOMS.indexOf(snapZoom(zoom)));
+export const zoomAt = index => ZOOMS[Math.max(0, Math.min(ZOOMS.length - 1, Math.round(Number(index)) || 0))];
 export const defaultZoom = 3;
 const idPattern = /^[A-Za-z0-9_.-]+$/;
 const pick = (value, ok) => (typeof value === 'string' && ok.test(value) ? value : null);
@@ -21,7 +26,7 @@ export function parseRoute(route = {}) {
     source: pick(p.source, idPattern),
     kind: pick(p.kind, idPattern), ready: pick(p.ready, /^(planned|authored|packed)$/), chunk: pick(p.chunk, idPattern), src: pick(p.src, idPattern),
     q: typeof p.q === 'string' ? p.q.slice(0, 60) : '',
-    zoom: int(p.zoom, zoomRange[0], zoomRange[1], defaultZoom),
+    zoom: snapZoom(int(p.zoom, 1, maxZoom, defaultZoom)),
     tool: tools.includes(p.tool) ? p.tool : null,
     sheet: pick(p.sheet, idPattern), ins, fill: int(p.fill, 0, 100, 100), seed: int(p.seed, 0, 999999, 1)
   };

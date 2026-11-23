@@ -216,5 +216,12 @@
  "build.rec.skip": "Frame skip",
  "build.rec.columns": "Sheet columns",
  "build.recorded": "Recorded cut, not compared with the delivered effect: {text}.",
- "build.recordedFrames": "Recorded"
+ "build.recordedFrames": "Recorded",
+  "pv.zoomIn": "Zoom in",
+  "pv.zoomOut": "Zoom out",
+  "pv.grid": "Pixel grid",
+  "pv.gridHint": "Shows from 8×",
+  "pv.coords": "Pixel",
+  "pv.none": "–",
+  "player.keys": "Keys: Space plays, ← → step frames, + − zoom, G grid."
 }

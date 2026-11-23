@@ -1,7 +1,8 @@
 // The stage: floor + effect (+ character) on a canvas at integer scale, frame-accurate playback from per-frame
 // durations, and a timeline whose widths are the durations.
 import { h, button, loadImage, pixelCanvas, paintFloor } from './dom.mjs';
-import { scales, buildPlan, nextFrame, segmentIndexOf, layoutTimeline, sectionsAt, eventsAt, stepFrame, clampFrame, fmtMs, overlayLayout, characterPivot } from './model.mjs';
+import { pixelFrame, pixelToolbar, setView, trackPointer, installShortcuts, stepZoom } from '../../pixelview.mjs';
+import { buildPlan, nextFrame, segmentIndexOf, layoutTimeline, sectionsAt, eventsAt, stepFrame, clampFrame, fmtMs, overlayLayout, characterPivot } from './model.mjs';
 
 /** Load every frame of a clip/variant; missing frames stay null and are reported, never faked. */
 export async function loadFrames(paths) {
@@ -30,7 +31,7 @@ export async function loadCharacter(app, state) {
  * Build the stage into `host`. Returns {destroy, setFrame, getFrame} so the tab can stop timers and sync the URL.
  * `onFrame(frame)` is called when playback pauses or the user steps/scrubs, so the router can record the frame.
  */
-export function mountStage(app, host, {effect, clip, focus, variant, frames, floor, floors, character, onFrame, onChange, state}) {
+export function mountStage(app, host, {effect, clip, focus, variant, frames, floor, floors, character, onFrame, onNavigate, state}) {
   const {ctx} = app;
   const plan = buildPlan(clip, focus);
   const count = clip.ms.length;
@@ -42,6 +43,8 @@ export function mountStage(app, host, {effect, clip, focus, variant, frames, flo
   const cw = (layout ? layout.width : w) * scale + 0, ch = (layout ? layout.height : hgt) * scale;
   const [canvas, g] = pixelCanvas(Math.max(cw, 1), Math.max(ch, 1));
   canvas.setAttribute('role', 'img');
+  const native = [Math.max(layout ? layout.width : w, 1), Math.max(layout ? layout.height : hgt, 1)];
+  const pv = app.pv;
 
   const readout = h('p', {class: 'vx-readout', 'aria-live': 'off'});
   const scrub = h('input', {type: 'range', class: 'vx-range', min: 0, max: Math.max(count - 1, 0), step: 1, value: live.frame, 'aria-label': ctx.t('player.scrub')});
@@ -118,24 +121,35 @@ export function mountStage(app, host, {effect, clip, focus, variant, frames, flo
   const hasLoop = plan.some(s => s.kind === 'loop');
   const release = button(ctx.t('player.release'), () => { live.held = false; loopHeld.checked = false; if (!live.playing) play(); }, {title: ctx.t('player.releaseHint')});
 
-  const scaleBar = h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('player.scale')}, ...scales.map(s =>
-    h('a', {class: 'seg-item' + (s === scale ? ' is-pressed' : ''), href: ctx.href(onChange({scale: s})), 'aria-current': s === scale ? 'true' : null}, s + '×')));
-  const floorBar = h('div', {class: 'seg', role: 'group', 'aria-label': ctx.t('player.floor')}, ...floors.map(f =>
-    h('a', {class: 'seg-item' + (f.id === floor.id ? ' is-pressed' : ''), href: ctx.href(onChange({floor: f.id})), 'aria-current': f.id === floor.id ? 'true' : null, title: f.paletteId}, ctx.t('floor.' + f.id))));
+  const noneText = ctx.t('pv.none');
+  const toolbar = pixelToolbar({labels: {zoom: ctx.t('player.scale'), zoomIn: ctx.t('pv.zoomIn'), zoomOut: ctx.t('pv.zoomOut'), auto: '', grid: ctx.t('pv.grid'), gridHint: ctx.t('pv.gridHint'),
+      bg: ctx.t('player.floor'), bgNames: Object.fromEntries(floors.map(f => [f.id, ctx.t('floor.' + f.id)])), wipe: '', coords: ctx.t('pv.coords'), none: noneText},
+    zoom: scale, noAuto: true, grid: pv.grid, bg: floor.id, backgrounds: floors.map(f => f.id),
+    onZoom: z => onNavigate({scale: z}), onGrid: on => { pv.grid = on; setView(frame, {zoom: scale, grid: on}); }, onBg: id => onNavigate({floor: id})});
+  const frame = pixelFrame({canvas, size: native, bg: 'dark', zoom: scale, grid: pv.grid});
+  trackPointer(canvas, native, toolbar.coords, noneText);
+  for (const b of toolbar.el.querySelectorAll('[data-fk^="pv-bg-"]')) b.title = floors.find(f => 'pv-bg-' + f.id === b.dataset.fk)?.paletteId ?? '';
 
-  const stageBox = h('div', {class: 'vx-stagebox'}, canvas);
+  const stageBox = h('div', {class: 'vx-stagebox'}, frame);
+  const stopKeys = installShortcuts(action => {
+    if (action === 'play') { live.playing ? pause(true) : play(); return true; }
+    if (action === 'prev' || action === 'next') { pause(); show(stepFrame(live.frame, action === 'next' ? 1 : -1, count), true); return true; }
+    if (action === 'grid') { pv.grid = !pv.grid; setView(frame, {zoom: scale, grid: pv.grid}); const box = host.querySelector('[data-fk="pv-grid"]'); if (box) box.checked = pv.grid; return true; }
+    const next = stepZoom(scale, action === 'zoomIn' ? 1 : -1);
+    if (next !== scale) onNavigate({scale: next});
+    return true;
+  });
   host.replaceChildren(
-    h('div', 'vx-toolbar', scaleBar, floorBar,
-      h('label', 'vx-check', anchorBox, ' ', ctx.t('player.showAnchor'))),
+    h('div', 'vx-toolbar', toolbar.el, h('label', 'vx-check', anchorBox, ' ', ctx.t('player.showAnchor'))),
     stageBox,
     h('div', 'vx-controls', playBtn, button('⏮', step(-1), {'aria-label': ctx.t('player.stepBack')}), button('⏭', step(1), {'aria-label': ctx.t('player.stepForward')}), scrub,
       h('label', 'vx-check', repeat, ' ', ctx.t('player.repeat')),
       hasLoop && h('label', 'vx-check', loopHeld, ' ', ctx.t('player.hold')), hasLoop && release),
-    readout, timeline.el);
+    h('p', {class: 'muted small', id: 'vx-keys'}, ctx.t('player.keys')), readout, timeline.el);
   syncPlay(); draw(); annotate();
   return {
     getFrame: () => live.frame, isPlaying: () => live.playing, setFrame(f) { pause(); show(f, false); },
-    destroy() { live.playing = false; cancelAnimationFrame(live.raf); }, canvas
+    destroy() { live.playing = false; cancelAnimationFrame(live.raf); stopKeys(); }, canvas
   };
 }
 

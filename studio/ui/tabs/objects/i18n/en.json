@@ -124,5 +124,17 @@
   "tiles.ellipse": "ellipse {x},{y} {w}×{h}",
   "tiles.point": "point {x},{y}",
   "tiles.polygon": "polygon of {count} points",
-  "timeline.open": "Timeline and drawing tools…"
+  "timeline.open": "Timeline and drawing tools…",
+  "pv.zoomIn": "Zoom in",
+  "pv.zoomOut": "Zoom out",
+  "pv.grid": "Pixel grid",
+  "pv.gridHint": "Shows from 8×",
+  "pv.coords": "Pixel",
+  "pv.none": "–",
+  "detail.keys": "Keys: Space plays, ← → step frames, + − zoom, G grid.",
+  "detail.canvas": "{id}, clip {clip}, frame {n}, shown at {zoom}×",
+  "pv.bg": "Background",
+  "pv.bg.dark": "Dark",
+  "pv.bg.light": "Light",
+  "pv.bg.palette": "Palette"
 }

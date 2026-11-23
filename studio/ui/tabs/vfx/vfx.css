@@ -40,7 +40,9 @@
 .seg-item { display: inline-flex; align-items: center; text-decoration: none; }
 .vx-check { display: inline-flex; gap: var(--ui-sp-1); align-items: center; font-size: var(--ui-fs-sm); color: var(--ui-text-muted); }
 .vx-stagebox { display: grid; place-items: center; padding: var(--ui-sp-4); border: var(--ui-bw) solid var(--ui-line); overflow: auto; background: var(--ui-bg); min-height: 10rem; }
-.vx-stagebox canvas { image-rendering: pixelated; display: block; max-width: none; }
+.vx-stagebox canvas { image-rendering: pixelated; display: block; max-width: none; cursor: crosshair; }
+.vx-stagebox .pv { max-width: none; }
+.vx-toolbar .pv-readout { margin-left: 0; }
 .vx-controls { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; margin: var(--ui-sp-2) 0; }
 .vx-controls input[type="range"] { flex: 1 1 10rem; min-width: 8rem; }
 .vx-readout { font: var(--ui-fs-xs) var(--ui-font-mono); color: var(--ui-text-muted); margin: .2rem 0 var(--ui-sp-2); }

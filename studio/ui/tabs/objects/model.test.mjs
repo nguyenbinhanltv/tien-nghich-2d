@@ -108,3 +108,18 @@ test('the room floor tile comes from the floor sheet, never the selected wall sh
   assert.equal(floorTilePath(frames, undefined, map), null);
   assert.equal(floorTilePath([{clip: 'floor', n: 3, path: 'f3.png'}], 'floor', map), null);
 });
+
+test('zoom is always one of the viewer\'s integer levels, up to 16×', () => {
+  for (const [raw, want] of [['1', 1], ['5', 4], ['7', 6], ['12', 12], ['16', 16], ['17', defaultZoom], ['0', defaultZoom]]) assert.equal(parseRoute({params: {zoom: raw}}).zoom, want, raw);
+});
+
+test('the grid slider walks every zoom level with the keyboard and never sticks (4 → 6 → 8 → 12 → 16)', async () => {
+  const {zoomIndex, zoomAt} = await import('./model.mjs');
+  let zoom = 4;
+  const seen = [];
+  for (let i = 0; i < 4; i++) { zoom = zoomAt(zoomIndex(zoom) + 1); seen.push(zoom); }
+  assert.deepEqual(seen, [6, 8, 12, 16]);
+  assert.equal(zoomAt(zoomIndex(16) + 1), 16);
+  assert.equal(zoomAt(zoomIndex(1) - 1), 1);
+  assert.equal(parseRoute({params: {zoom: String(zoomAt(zoomIndex(12)))}}).zoom, 12);
+});

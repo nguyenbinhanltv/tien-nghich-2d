@@ -81,3 +81,9 @@ test('resolveClip / resolveVariant / clamp / step', () => {
   assert.equal(resolveVariant(lt, 'b'), 'b'); assert.equal(resolveVariant(lt, 'zz'), 'a'); assert.equal(resolveVariant(core, 'x'), '');
   assert.equal(clampFrame(99, 12), 11); assert.equal(clampFrame(null, 12), 0); assert.equal(stepFrame(0, -1, 12), 11); assert.equal(stepFrame(11, 1, 12), 0);
 });
+
+test('scale is one of the pixel viewer\'s integer zooms; anything else falls back to 2×', async () => {
+  const {scales} = await import('./model.mjs');
+  assert.deepEqual([...scales], [1, 2, 3, 4, 6, 8, 12, 16]);
+  for (const [raw, want] of [['3', 3], ['8', 8], ['16', 16], ['5', 2], ['7', 2], ['17', 2]]) assert.equal(parseRoute({asset: 'x', params: {scale: raw}}).scale, want, raw);
+});

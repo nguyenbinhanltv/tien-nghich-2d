@@ -1,6 +1,7 @@
 // The left filter column and the grid of real frames.
 import { h, humanize, imgUrl, fill, emptyBox } from './dom.mjs';
-import { applyFilters, facetCounts, zoomRange } from './model.mjs';
+import { ZOOMS } from '../../pixelview.mjs';
+import { applyFilters, facetCounts, zoomIndex, zoomAt } from './model.mjs';
 
 const readiness = ['packed', 'authored', 'planned'];
 
@@ -71,8 +72,8 @@ export function renderGrid(app, host) {
   const shown = applyFilters(app.assets, state);
   app.shown = shown;
   const zoom = h('div', 'zoombar', h('label', {for: 'ob-zoom'}, ctx.t('grid.zoom', {zoom: state.zoom})),
-    Object.assign(h('input', {id: 'ob-zoom', class: 'zoomrange', type: 'range', min: zoomRange[0], max: zoomRange[1], step: 1, value: state.zoom}), {}));
-  zoom.lastChild.addEventListener('input', e => app.go({zoom: Number(e.target.value)}, {replace: true, keepAsset: true}));
+    Object.assign(h('input', {id: 'ob-zoom', class: 'zoomrange', type: 'range', min: 0, max: ZOOMS.length - 1, step: 1, value: zoomIndex(state.zoom), 'aria-valuetext': state.zoom + '×'}), {}));
+  zoom.lastChild.addEventListener('input', e => app.go({zoom: zoomAt(e.target.value)}, {replace: true, keepAsset: true}));
   const cards = shown.map(a => card(app, a));
   fill(host, 
     h('div', 'gridhead', h('p', {class: 'muted', role: 'status'}, ctx.t('grid.count', {shown: shown.length, total: app.assets.length})), zoom),

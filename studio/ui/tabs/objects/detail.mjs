@@ -5,12 +5,14 @@ import { kindLabel } from './browser.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 import { importButton } from '../../importer/dialog.mjs';
 import { timelineButton } from '../../timeline/panel.mjs';
+import { pixelFrame, pixelToolbar, setView, trackPointer } from '../../pixelview.mjs';
 
 const short = hash => (typeof hash === 'string' ? hash.slice(0, 12) : '');
 
 export async function renderDetail(app, host, token) {
   const {ctx, state} = app;
   const entry = app.selected();
+  const keep = host.contains(document.activeElement) ? document.activeElement.closest('[data-fk]')?.dataset.fk : null;
   if (!state.asset) { fill(host, emptyBox(ctx.t('detail.none'))); return; }
   if (!entry) { fill(host, errorBox(ctx.t('detail.unknown', {id: state.asset})), h('a', {class: 'btn back', href: ctx.href(app.route({}, {asset: null}))}, '← ' + ctx.t('detail.back'))); return; }
   fill(host, loadingBox(ctx.t('common.loading')));
@@ -42,6 +44,7 @@ export async function renderDetail(app, host, token) {
     await tilesPanel(app, entry),
     provenancePanel(app, entry, detail, provenance),
     current ? await editorPanel(app, entry, detail, current, token) : null);
+  if (keep) host.querySelector(`[data-fk="${keep}"]`)?.focus();
 }
 
 function metaList(app, entry, detail, current) {
@@ -67,30 +70,68 @@ async function measure(app, el, path) {
 
 function stage(app, entry, clips, clip, inClip, index) {
   const {ctx, state} = app;
-  const current = inClip[index];
-  const img = h('img', {class: 'stage-img', alt: `${entry.id} ${clip} ${current.n}`, src: imgUrl(current.path), draggable: 'false'});
-  const sized = () => { img.style.width = img.naturalWidth * state.zoom + 'px'; img.style.height = img.naturalHeight * state.zoom + 'px'; };
-  img.addEventListener('load', sized);
+  const pv = app.pv;
+  const size = [1, 1];
+  const canvas = h('canvas', {role: 'img', 'aria-describedby': 'ob-keys'});
+  const frame = pixelFrame({canvas, size, bg: pv.bg, zoom: state.zoom, grid: pv.grid});
+  const note = h('p', {class: 'muted small', role: 'status'});
   const label = h('span', {class: 'tick', role: 'status'});
   const setLabel = i => { const f = inClip[i]; label.textContent = ctx.t('play.frame', {n: f.n, total: inClip.length, ms: frameMs(f)}) + (f.ms ? '' : ' · ' + ctx.t('play.defaultMs')); };
-  setLabel(index);
-  let at = index, playing = false, timer;
-  const show = i => { at = i; img.src = imgUrl(inClip[i].path); setLabel(i); };
+  let at = index, playing = false, timer, alive = true;
+  /** Paint frame `i` at integer zoom into the canvas; the grid layer follows its size. A frame that fails to load says so, it is never faked. */
+  const draw = async i => {
+    const f = inClip[i];
+    try {
+      const img = await loadImage(f.path);
+      if (!alive || i !== at) return;
+      size[0] = img.naturalWidth; size[1] = img.naturalHeight;
+      canvas.width = size[0] * state.zoom; canvas.height = size[1] * state.zoom;
+      const g = canvas.getContext('2d');
+      g.imageSmoothingEnabled = false;
+      g.drawImage(img, 0, 0, canvas.width, canvas.height);
+      frame.style.setProperty('--pv-cols', size[0]); frame.style.setProperty('--pv-rows', size[1]);
+      canvas.setAttribute('aria-label', ctx.t('detail.canvas', {id: entry.id, clip, n: f.n, zoom: state.zoom}));
+      note.textContent = '';
+    } catch { if (alive && i === at) note.textContent = ctx.t('common.error', {message: f.path}); }
+  };
+  const show = i => { at = i; draw(i); setLabel(i); };
+  setLabel(index); draw(index);
   const tick = () => { show((at + 1) % inClip.length); timer = setTimeout(tick, frameMs(inClip[at])); };
-  const play = button(ctx.t('play.play'), () => {
+  const toggle = () => {
     playing = !playing;
     play.textContent = ctx.t(playing ? 'play.pause' : 'play.play');
     play.setAttribute('aria-pressed', String(playing));
     clearTimeout(timer);
     if (playing) timer = setTimeout(tick, frameMs(inClip[at]));
-  }, {'aria-pressed': 'false'});
+  };
+  const play = button(ctx.t('play.play'), toggle, {'aria-pressed': 'false', 'data-fk': 'play'});
   if (inClip.length < 2) play.disabled = true;
-  app.onCleanup(() => clearTimeout(timer));
+  const toolbar = pixelToolbar({labels: {zoom: ctx.t('grid.zoom', {zoom: state.zoom}), zoomIn: ctx.t('pv.zoomIn'), zoomOut: ctx.t('pv.zoomOut'), auto: '', grid: ctx.t('pv.grid'), gridHint: ctx.t('pv.gridHint'),
+      bg: ctx.t('pv.bg'), bgNames: {dark: ctx.t('pv.bg.dark'), light: ctx.t('pv.bg.light'), palette: ctx.t('pv.bg.palette')}, wipe: '', coords: ctx.t('pv.coords'), none: ctx.t('pv.none')},
+    zoom: state.zoom, noAuto: true, grid: pv.grid, bg: pv.bg,
+    onZoom: z => app.go({zoom: z}, {replace: true}), onGrid: on => { pv.grid = on; setView(frame, {zoom: state.zoom, grid: on}); }, onBg: name => { pv.bg = name; setView(frame, {bg: name}); }});
+  trackPointer(canvas, size, toolbar.coords, ctx.t('pv.none'));
+  // Viewer keys (the document listener lives in index.mjs and calls this while a stage is on screen).
+  app.ctl = action => {
+    if (action === 'play') { if (play.disabled) return false; toggle(); return true; }
+    if (action === 'prev' || action === 'next') {
+      if (inClip.length < 2) return false;
+      if (playing) toggle();
+      app.go({}, {clip, frame: inClip[(at + (action === 'next' ? 1 : -1) + inClip.length) % inClip.length].n}, {replace: true});
+      return true;
+    }
+    if (action === 'grid') { pv.grid = !pv.grid; setView(frame, {zoom: state.zoom, grid: pv.grid}); const box = toolbar.el.querySelector('[data-fk="pv-grid"]'); if (box) box.checked = pv.grid; return true; }
+    return false;
+  };
+  app.onCleanup(() => { alive = false; clearTimeout(timer); app.ctl = null; });
   return h('section', 'stage',
     h('nav', {class: 'clips', 'aria-label': ctx.t('detail.clips')}, ...clips.map(c => h('a', {class: 'chip clip' + (c === clip ? ' on is-pressed' : ''), 'aria-current': c === clip ? 'true' : null,
       href: ctx.href(app.route({}, {clip: c, frame: framesOfClip(app.frames, c)[0]?.n ?? 0}))}, c, h('small', '', String(framesOfClip(app.frames, c).length))))),
-    h('div', 'stagebox checker', img),
+    h('div', 'toolbar pv-tools', toolbar.el),
+    h('div', 'stagebox', frame),
+    note,
     h('div', 'controls', play, label),
+    h('p', {class: 'muted small', id: 'ob-keys'}, ctx.t('detail.keys')),
     h('ol', {class: 'strip', 'aria-label': ctx.t('detail.frames')}, ...inClip.map((f, i) => h('li', '',
       h('a', {class: 'thumb' + (i === index ? ' on' : ''), 'aria-current': i === index ? 'true' : null, href: ctx.href(app.route({}, {clip, frame: f.n}))},
         h('span', 'checker', h('img', {src: imgUrl(f.path), alt: '', loading: 'lazy', draggable: 'false', style: `--z:${Math.max(1, Math.min(state.zoom, 4))}`})),
