@@ -45,7 +45,7 @@ export default {
           kind: { type: 'string', enum: ['checker', 'flat', 'tile'] },
           color: { type: 'string', maxLength: 20, description: 'Palette id (e.g. ink_03) for flat, or the first checker colour.' },
           color2: { type: 'string', maxLength: 20, description: 'Palette id for the second checker colour.' },
-          tileAsset: { type: 'string', maxLength: 64, description: 'For tile: a tileset asset id with processed frames, e.g. ts_hengyue.' },
+          tileAsset: { type: 'string', maxLength: 64, description: 'For tile: a tileset asset id with processed frames (find one with studio_catalog_search category=tileset).' },
           tileFrame: { type: 'string', maxLength: 80, description: 'For tile: the frame name (without .png); default: the first.' },
         },
         additionalProperties: false,
@@ -95,7 +95,7 @@ export default {
     const bg = args.background ?? { kind: 'checker' };
     let backdrop, bgInfo = { kind: bg.kind ?? 'checker' };
     if (bgInfo.kind === 'tile') {
-      if (!bg.tileAsset) throw new ToolError('background tile needs tileAsset (e.g. ts_hengyue).');
+      if (!bg.tileAsset) throw new ToolError('background tile needs tileAsset (a tileset asset id from studio_catalog_search).');
       const tileAsset = snap.index.assets.get(bg.tileAsset);
       if (!tileAsset?.layout) throw new ToolError(`No tile asset "${bg.tileAsset}" with frames. Find tilesets with studio_catalog_search category=tileset.`);
       const tiles = (await listFrames(ws.root, tileAsset, 'processed')).frames;

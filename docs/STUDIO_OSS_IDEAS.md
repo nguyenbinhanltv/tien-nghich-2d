@@ -2,7 +2,17 @@
 
 **Trạng thái:** đã được chủ dự án duyệt ngày 2026-11-22 (khoảng 14:10 giờ Việt Nam), nói trực tiếp với orchestrator trong chat, phiên `tien-nghich-2d-1`; orchestrator chuyển lại cho worker này rằng chủ dự án duyệt kế hoạch ý tưởng từ công cụ mã nguồn mở và năm quyết định của nó theo phương án đề xuất (lời chuyển lại, không phải nguyên văn). Worker `tien-nghich-2d-30` ghi lại thành tài liệu này từ bản `/tmp/tn2d-studio-plan/oss-plan-approved.html` (bảng 44 ý tưởng lấy nguyên từ mảng `I` của bản đó). Đây là bản bổ sung cho [STUDIO_PLAN.md](STUDIO_PLAN.md), không thay thế nó.
 
-**Chưa có gì trong tài liệu này được làm.** Duyệt kế hoạch nghĩa là cho phép làm theo đợt dưới đây, không phải đã làm. Mỗi đợt do một brief riêng giao cho worker.
+**Tiến độ (kiểm theo `main` ở `4aad1e0`, sau PR #145):** **đợt 1 xong 14 trên 14, đợt 2 xong 18 trên 18, đợt 3 (12 ý tưởng) chưa làm gì** vì theo quyết định 1 chỉ làm khi dự án thực sự cần. Mỗi đợt do một brief riêng giao cho worker; PR của từng ý tưởng nằm trong [STUDIO_PLAN](STUDIO_PLAN.md) (phần "Kế hoạch ý tưởng mã nguồn mở") và [ORCHESTRATOR_HANDOFF](ORCHESTRATOR_HANDOFF.md).
+
+| Đợt | Ý tưởng | Đã vào `main` | PR |
+|---|---|---|---|
+| 1 | 14 | 14 | #95, #99, #105, #106, #107 |
+| 2 | 18 | 18 | #111, #112, #113, #114, #117, #118, #119 |
+| 3 | 12 | 0 | không có |
+
+Đếm số ý tưởng mỗi đợt: `grep -E '^\| [A-F][0-9]+ \|' docs/STUDIO_OSS_IDEAS.md | awk -F'|' '{print $(NF-1)+0}' | sort | uniq -c` in ra 14, 18, 12. Đợt 2 gồm A4, A6, B2, B5, B7, C1, C4, D1, D2, D3, D7, E1, E3, E7, F5, F6, F8, F9; PR nào mang mã nào được ghi theo tiêu đề PR trên GitHub (`gh pr view <số>`). Các quyết định 1 đến 5 đều đã theo: MCP giữ 27 công cụ, bản công bố AI soạn từ sổ nguồn gốc (D3, #113), trình vẽ tay theo hướng mở bằng Pixelorama và LibreSprite (E7, #117). Luật tự phủ tile (quyết định 3) thuộc đợt 3, chưa làm.
+
+Phần còn lại của tài liệu giữ nguyên như lúc duyệt; các cột "Đợt" là kế hoạch, bảng trên là trạng thái.
 
 ## Tóm tắt
 
@@ -28,7 +38,7 @@ Mỗi ý tưởng có chỗ đọc được trong repo nguồn (cột "Lấy t�
 | 4 | Số công cụ MCP | **Giữ 27, gộp thao tác mới vào công cụ đã có** | Mỗi nhóm thao tác một công cụ riêng |
 | 5 | Bản công bố AI | **Soạn sẵn cho Steam và itch.io từ sổ nguồn gốc** (`docs/LEDGER_FACTS.md` và tab Atlas) | Chỉ xuất bảng nguồn gốc thô, tự viết khi phát hành |
 
-Hệ quả: hiện MCP có 25 công cụ; con số 27 chỉ đạt khi làm đợt 1 (xem phần MCP bên dưới). Không brief nào được thêm công cụ MCP nếu brief đó không nói rõ.
+Hệ quả (lúc duyệt MCP có 25 công cụ): con số 27 đạt khi làm đợt 1, và đợt 2 giữ nguyên 27 (xem phần MCP bên dưới). Không brief nào được thêm công cụ MCP nếu brief đó không nói rõ.
 
 ## Ba đợt triển khai
 

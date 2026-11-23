@@ -11,7 +11,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      key: { type: 'string', maxLength: 200, description: 'Frame key from studio_review_list (e.g. longtime/lt_seed_broker/idle_south_0).' },
+      key: { type: 'string', maxLength: 200, description: 'Frame key from studio_review_list (shape: <source>/<asset id>/<clip>_<direction>_<n>; copy one from the list).' },
       revision: { type: 'integer', minimum: 0, description: 'Revision the comment is on (default: the newest).' },
       replyTo: { type: 'integer', minimum: 0, description: 'Index of the human comment you answer, from studio_review_list.' },
       text: { type: 'string', minLength: 1, maxLength: 1500, description: 'Your answer.' },

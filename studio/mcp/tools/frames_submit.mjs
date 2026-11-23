@@ -24,19 +24,19 @@ export default {
   name: 'studio_frames_submit',
   title: 'Submit native frames with provenance',
   description:
-    'Submit native-size PNG frames for a Longtime asset, with mandatory provenance (tool, prompt or generator, source hash). ' +
+    'Submit native-size PNG frames for a planned asset, with mandatory provenance (tool, prompt or generator, source hash). ' +
     'The pixel gates run first: palette membership, binary alpha, the silhouette outline, exact canvas size. If any frame has an error, NOTHING is written and every defect comes back with x, y coordinates. ' +
     'When the batch holds every frame of a clip and facing, the CLIP gates run on it too, with the limits of a drawn clip, and the result carries them in clipGates and in the qa checks frameGates (pivot drift, ground contact: the lowest opaque row must be within 1 px of the pivot row minus 2, with the shift that fixes a miss), paletteGates (the pixel palette check plus stability between clips) and motionGates (flicker, identity drift); foot slide, mark side and weight transfer are listed as not run. They report and never block the write; a partial clip is listed with what is missing. ' +
     'Accepted frames are written once under the asset\'s raw frames directory and never overwritten; submitting different pixels for an existing frame is refused. ' +
     'Each frame gets a revision history that starts as pending: only a human approves. dryRun runs the gates and lists the files it would write (wouldWrite) and the ones already stored (unchanged), writing nothing. ' +
-    'Works only on Longtime assets that have no processed or packed frames yet. ' +
+    'Works only on assets that have no processed or packed frames yet. ' +
     'Instead of frames you may give candidates (1 to 6, each the same frames): the pixel gates reject the broken ones first, the survivors are stored as takes (new revisions; nothing is replaced) and one candidate run is recorded for a person to compare on one contact sheet beside the reference. ' +
     'Nothing is selected and nothing in use changes: only a person picks, in the Review tab, and no tool can.',
   scope: 'author',
   inputSchema: {
     type: 'object',
     properties: {
-      assetId: { type: 'string', maxLength: 64, description: 'Longtime asset id (see studio_catalog_search source=longtime status=planned).' },
+      assetId: { type: 'string', maxLength: 64, description: 'Asset id of a planned asset (see studio_catalog_search status=planned).' },
       frames: { type: 'array', minItems: 1, maxItems: 128, items: frameItem, description: 'Frames to submit; each is addressed by clip, direction and n. Give this or candidates.' },
       candidates: {
         type: 'array', minItems: 1, maxItems: MAX_CANDIDATES,

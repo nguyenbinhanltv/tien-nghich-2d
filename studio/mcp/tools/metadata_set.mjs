@@ -20,7 +20,7 @@ export default {
   name: 'studio_metadata_set',
   title: 'Set pivot, hitbox, frame durations and events',
   description:
-    'Set authoring metadata for a Longtime asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame), named events on frames of a clip, and for a tileset tile animations and collision shapes. ' +
+    'Set authoring metadata for an asset: the pivot [x, y], a hitbox {x, y, w, h}, per-frame durations (frameMs, one per frame), named events on frames of a clip, and for a tileset tile animations and collision shapes. ' +
     'Fields you do not mention keep their value; null clears one. Stored beside the asset\'s raw frames. ' +
     'If metadata already exists you must pass the etag from studio_asset_get. Not allowed once the asset has processed or packed frames, except `tiles`, which only describes tiles and may be set on a shipped tileset. ' +
     'dryRun returns each field that would change (from, to) and writes nothing.',
@@ -28,7 +28,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      assetId: { type: 'string', maxLength: 64, description: 'Longtime asset id.' },
+      assetId: { type: 'string', maxLength: 64, description: 'Asset id.' },
       pivot: { type: ['array', 'null'], items: { type: 'integer' }, minItems: 2, maxItems: 2, description: '[x, y] inside the frame; where the sprite stands.' },
       hitbox: {
         type: ['object', 'null'],

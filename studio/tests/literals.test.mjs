@@ -111,21 +111,8 @@ const FIXTURE_TESTS = new Set([
   'ui/tabs/vfx/model.test.mjs',
   'ui/tabs/vfx/server.test.mjs',
   'ui/tests/router.test.mjs',
-  'mcp/self_test.mjs',
   'mcp/pack-decisions.test.mjs',
   'mcp/clipgates.test.mjs',
-  // PENDING: example ids in the MCP tool descriptions (and the source enum of catalog_search). These files are being
-  // edited by another worker; the change is described in the PR that introduced this test. Remove these lines when done.
-  'mcp/tools/asset_get.mjs',
-  'mcp/tools/asset_plan.mjs',
-  'mcp/tools/audio_render.mjs',
-  'mcp/tools/catalog_search.mjs',
-  'mcp/tools/frames_submit.mjs',
-  'mcp/tools/metadata_set.mjs',
-  'mcp/tools/pack.mjs',
-  'mcp/tools/review_reply.mjs',
-  'mcp/tools/scene_snapshot.mjs',
-  'mcp/tools/template_get.mjs',
 ]);
 // Records and harnesses of runs on this project.
 const RECORDS = [/^mcp\/eval\//, /^mcp\/testkit\.mjs$/, /^forge\/prototype\//, /^forge\/rig\/tests\/fixtures\//];
