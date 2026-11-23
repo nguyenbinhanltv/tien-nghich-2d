@@ -8,7 +8,7 @@ import { VIEW_H, VIEW_W } from '../../contracts/world.ts';
 import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
-import { artOf } from '../clip-map.ts';
+import { artOf, shotFrame } from '../clip-map.ts';
 import { FloorHud } from '../floor-hud.ts';
 import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
@@ -52,7 +52,7 @@ const cellHash = (x: number, y: number): number => {
   return (h ^ (h >>> 16)) >>> 0;
 };
 
-/** Sprite of each projectile kind (index of PROJECTILE_KINDS). Placeholders: the real shots come with the weapons (E5.1). */
+/** Sprite of each projectile kind (index of PROJECTILE_KINDS). Placeholders: the real shots come with the weapons (E5.1); an enemy's `mob_shot` wears its own art (shotFrame). */
 const SHOT_FRAME: Record<(typeof PROJECTILE_KINDS)[number], string> = {
   spirit_blade: 'projectiles/pj_blood_jade_blade/flight_none_0',
   mob_shot: 'projectiles/pj_soul_lamp/flight_none_0',
@@ -252,7 +252,8 @@ export class BloodSeaScene extends Phaser.Scene {
       const s = this.shots[i]!;
       if (i >= pool.count) { s.setVisible(false); continue; }
       const kind = PROJECTILE_KINDS[pool.kind[i]!] ?? 'spirit_blade';
-      const name = SHOT_FRAME[kind];
+      const owner = kind === 'mob_shot' ? w.actors.find((x) => x.id === pool.owner[i]) : undefined;
+      const name = shotFrame(owner?.kind, w.tick, SHOT_FRAME[kind]);
       s.setVisible(true).setTexture(this.frames.pageOf(name), name);
       s.setPosition(Math.round(pool.x[i]!), Math.round(pool.y[i]!));
       s.setRotation(Math.atan2(pool.vy[i]!, pool.vx[i]!));

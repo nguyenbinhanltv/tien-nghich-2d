@@ -1,3 +1,4 @@
+import { shotFrame } from './clip-map.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +20,11 @@ describe('parseFrameName', () => {
 
 describe('core atlas (real mobile pages)', () => {
   const names = coreNames();
+  it('has every flight frame of the four enemy shots (PX-1)', () => {
+    for (const owner of ['mob_blood_crow', 'mob_blood_corpse', 'mob_blood_pool_lurker', 'mob_vengeful_soul']) {
+      for (let t = 0; t < 60; t += 5) expect(names, `${owner}@${t}`).toContain(shotFrame(owner, t, 'missing'));
+    }
+  });
   const { clips, unparsed } = indexClips(names);
   it('has 2976 frames and 467 clips, the counts of the Studio Phaser check', () => {
     expect(names.length).toBe(2976);
