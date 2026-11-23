@@ -3,11 +3,18 @@ import type { ContentApi, MobRow } from '../../contracts/content.ts';
 import type { GameEvent, WorldState } from '../../contracts/world.ts';
 import { findPlayer } from '../actors.ts';
 import { Rng } from '../rng.ts';
+import { ambusher } from './ambusher.ts';
+import { brawler } from './brawler.ts';
 import { charger } from './charger.ts';
+import { shooter } from './shooter.ts';
+import { swooper } from './swooper.ts';
 import { dropHazards } from './util.ts';
 import type { AiContext, MobBehavior } from './types.ts';
 
-export const BEHAVIORS: Partial<Record<MobRow['ai'], MobBehavior>> = { charger };
+export const BEHAVIORS: Partial<Record<MobRow['ai'], MobBehavior>> = { charger, swooper, brawler, ambusher, shooter };
+
+/** Mob kinds that float through walls: lane A's movement must skip tile collision for them. */
+export const PHASES_WALLS: ReadonlySet<string> = new Set(['mob_vengeful_soul']);
 
 const behaviorOf = (row: MobRow): MobBehavior => {
   const b = BEHAVIORS[row.ai];
