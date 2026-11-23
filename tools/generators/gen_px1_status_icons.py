@@ -21,9 +21,6 @@ PALETTE = {c["id"]: tuple(int(c["hex"][i:i + 2], 16) for i in (1, 3, 5)) for c i
            json.loads((ROOT / "tools/generators/palette.json").read_text(encoding="utf-8"))["colors"]}
 IDS = {"icon_status_guard": "Hộ Thể: guard up", "icon_status_counter": "Phản Chấn: counter-strike window",
        "icon_status_immune": "Bất Tổn: damage immunity"}
-REFS = {"icon_status_guard": ["jade_03", "jade_05", "jade_06", "bronze_05", "ink_01"],
-        "icon_status_counter": ["bronze_04", "bronze_06", "bronze_07", "thunder_03", "ink_01"],
-        "icon_status_immune": ["soul_04", "soul_06", "soul_07", "thunder_04", "ink_01"]}
 
 
 class Canvas:
@@ -117,6 +114,17 @@ def immune(c):
 
 
 DRAW = {"icon_status_guard": guard, "icon_status_counter": counter, "icon_status_immune": immune}
+
+
+def palette_refs(frames):
+    """The palette ids each icon actually paints at either size (sorted, ink_01 last), so the manifest cannot drift."""
+    by_rgb = {rgb: i for i, rgb in PALETTE.items()}
+    refs = {}
+    for (pid, _n), image in frames.items():
+        for _, colour in image.getcolors(image.width * image.height):
+            if colour[3]:
+                refs.setdefault(pid, set()).add(by_rgb[colour[:3]])
+    return {pid: sorted(ids - {"ink_01"}) + ["ink_01"] for pid, ids in refs.items()}
 
 
 def render():

@@ -4264,10 +4264,11 @@
    "description": "Hộ Thể: guard up",
    "output_path": "assets/raw/environment_items/icons/icon_status_guard/",
    "palette_refs": [
-    "jade_03",
+    "bronze_05",
+    "bronze_07",
+    "jade_04",
     "jade_05",
     "jade_06",
-    "bronze_05",
     "ink_01"
    ],
    "status": "pending",
@@ -4303,9 +4304,11 @@
    "output_path": "assets/raw/environment_items/icons/icon_status_counter/",
    "palette_refs": [
     "bronze_04",
+    "bronze_05",
     "bronze_06",
     "bronze_07",
     "thunder_03",
+    "thunder_04",
     "ink_01"
    ],
    "status": "pending",
@@ -4341,6 +4344,7 @@
    "output_path": "assets/raw/environment_items/icons/icon_status_immune/",
    "palette_refs": [
     "soul_04",
+    "soul_05",
     "soul_06",
     "soul_07",
     "thunder_04",
