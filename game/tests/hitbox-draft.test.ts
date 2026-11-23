@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { alphaBox, bodyClass, clampBox, draftClipHits, reach } from '../tools/lib/hitbox-draft.ts';
 import { compileBodies, verifyApprovals } from '../tools/lib/kiln-contract.ts';
@@ -67,4 +68,20 @@ describe('VS draft bodies (real assets)', () => {
       if (tracked.review.source === 'alpha-auto') expect('body' in fresh ? fresh.body : null).toEqual(tracked);
     }
   }, 60_000);
+});
+
+describe('body folders precedence', () => {
+  it('the earlier folder wins for an id in both; the later copy only warns', async () => {
+    const assets = loadAssets('mobile');
+    const d = await draftFor('mob_blood_wolf', assets.get('mob_blood_wolf'));
+    if ('skip' in d) throw new Error('no draft');
+    const a = fs.mkdtempSync(path.join(os.tmpdir(), 'bd-a-')), b = fs.mkdtempSync(path.join(os.tmpdir(), 'bd-b-'));
+    const first = { ...d.body, hurtbox: { ...d.body.hurtbox, w: d.body.hurtbox.w - 1 } };
+    fs.writeFileSync(path.join(a, 'mob_blood_wolf.bodies.json'), JSON.stringify(first));
+    fs.writeFileSync(path.join(b, 'mob_blood_wolf.bodies.json'), JSON.stringify(d.body));
+    const c = compileBodies(assets, new Map(), [a, b]);
+    expect(c.problems).toEqual([]);
+    expect(c.warnings.join('\n')).toMatch(/ignored, mob_blood_wolf already has a body from an earlier folder/);
+    expect((c.data.bodies.mob_blood_wolf as { hurtbox: { w: number } }).hurtbox.w).toBe(first.hurtbox.w);
+  });
 });

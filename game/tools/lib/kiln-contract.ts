@@ -48,7 +48,8 @@ export function compileBodies(assets: Map<string, AssetInfo>, sidecars: Map<stri
       try { body = readJson(path.join(dir, f)); } catch (e) { problems.push(`${where}: not valid JSON (${(e as Error).message})`); continue; }
       const a = assets.get(id);
       if (!a) { problems.push(`${where}: unknown asset id ${id}`); continue; }
-      if (bodies[id]) { problems.push(`${where}: ${id} already has a body from another folder`); continue; }
+      // Folders are listed in precedence order: the first one holding an id wins (assets/bodies, the approved store, before the game/content/hitbox drafts).
+      if (bodies[id]) { warnings.push(`${where}: ignored, ${id} already has a body from an earlier folder (delete this draft)`); continue; }
       const invalid = check('bodies.schema.json#/$defs/body', body, where);
       problems.push(...invalid);
       if (invalid.length) continue; // a body that failed its schema is never stored: later steps may rely on its shape

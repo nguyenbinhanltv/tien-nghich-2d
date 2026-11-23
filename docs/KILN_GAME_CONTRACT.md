@@ -28,6 +28,8 @@ Schema `bodies.schema.json`. Nguồn: một tệp mỗi asset `assets/bodies/<as
 ### 2.2 Cổng M0
 Người duyệt 6 mẫu: bản nháp sinh bằng `npm --prefix game run contract:draft-bodies` (ghi `game/dist-content/drafts/`, không ghi vào `assets/`), người xem, chỉnh, chép vào `assets/bodies/`, rồi ký trong Studio. Repo này **không chứa** hitbox nào cho asset thật.
 
+Thứ tự đọc: `assets/bodies/` (kho đã duyệt) trước, rồi `game/content/hitbox/` (bản nháp E2.1). Cùng một ID ở cả hai nơi thì `assets/bodies/` thắng, bản nháp bị bỏ qua kèm cảnh báo (nên xóa bản nháp sau khi chép).
+
 ### 2.3 Quy tắc bản nháp tự động
 Hurtbox = bounding box của pixel có `alpha ≥ 128` (ngưỡng `alphaThreshold` của `assets/encounter/blood-sea/contract.json`) ở khung 0 của clip `idle` (hướng E, nếu không có thì S), co 1 px mỗi cạnh để viền outline không tính là thân. **Không** đề xuất hitbox tấn công vì đó là ý đồ thiết kế.
 
