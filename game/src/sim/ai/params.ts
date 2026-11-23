@@ -44,3 +44,32 @@ export const SHOOTER = {
   shotSpeed: 2.2, shotRadius: 4, shotRange: 170, aimHalfWidth: 4,
   recoverMs: 600, cooldownMs: 1400, jitterMs: 500,
 } as const;
+
+// Per-mob tuning (plan G2-HN): a mob of the table may override single numbers of its behaviour's block above, keyed by mob id.
+// The five Hằng Nhạc mobs reuse the five behaviours; a viper is a quicker charger, a guard a slower, wider brawler, and so on.
+// Placeholder numbers, NOT balance. Mobs without an entry (the Huyết Hải five) keep the base block, so their fights are unchanged.
+type Block = Record<string, number>;
+type Overrides<T extends Block> = Readonly<Record<string, Partial<Record<keyof T, number>>>>;
+
+/** The base block with the mob's overrides (if any) on top. Returns the base itself when there are none. */
+export function tune<T extends Block>(base: T, overrides: Overrides<T>, mobId: string): Readonly<Record<keyof T, number>> {
+  const o = overrides[mobId];
+  return o ? ({ ...base, ...o } as Record<keyof T, number>) : base;
+}
+
+export const CHARGER_BY_MOB: Overrides<typeof CHARGER> = {
+  // mob_rogue_disciple: "charges with iron sword" - the base charge, a little slower to recover.
+  mob_rogue_disciple: { chargeLength: 60, recoverMs: 650 },
+  // mob_herb_viper: "fast melee, lunging bite" - shorter, much quicker lunge, short recovery, often.
+  mob_herb_viper: { triggerRange: 48, chargeLength: 56, chargeMs: 180, recoverMs: 550, cooldownMs: 500 },
+};
+export const BRAWLER_BY_MOB: Overrides<typeof BRAWLER> = {
+  // mob_courtyard_guard: "slow shielded bruiser, shield bash" - a wider bash that comes out of a long guard, then a long recovery.
+  mob_courtyard_guard: { swingRadius: 28, swingOffset: 20, recoverMs: 900, cooldownMs: 600 },
+};
+export const SHOOTER_BY_MOB: Overrides<typeof SHOOTER> = {
+  // mob_sword_acolyte: "flying-sword volleys, keeps distance" - stays further off, a faster, thinner shot, fires more often.
+  mob_sword_acolyte: { keep: 112, castRange: 150, shotSpeed: 2.6, shotRadius: 3, cooldownMs: 1200 },
+  // mob_demonic_talisman: "hurls talismans" - a caster: a bigger, slower talisman orb, slower rhythm.
+  mob_demonic_talisman: { keep: 100, shotSpeed: 1.8, shotRadius: 5, recoverMs: 700, cooldownMs: 1600 },
+};

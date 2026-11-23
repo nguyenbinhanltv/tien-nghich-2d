@@ -2,7 +2,7 @@
 // front of it after the tell. Then it is open (recover), then it must close in again after a short cooldown.
 import { dist, unitInto } from '../math.ts';
 import { begin, impact, noPlayer, stagger, track } from './attack.ts';
-import { BRAWLER as P, ticks } from './params.ts';
+import { BRAWLER, BRAWLER_BY_MOB, tune, ticks } from './params.ts';
 import type { MobBehavior } from './types.ts';
 import { enter, setVel } from './util.ts';
 
@@ -14,7 +14,7 @@ export const brawler: MobBehavior = {
   ai: 'brawler',
   init(a, ctx) { enter(a, ctx.world, CHASE, 0, 'move'); a.ai.data = [0, 0, 0, 0]; },
   update(a, ctx) {
-    const { world, row, player } = ctx;
+    const { world, row, player } = ctx, P = tune(BRAWLER, BRAWLER_BY_MOB, row.id);
     if (noPlayer(a, ctx) || !player) return;
     a.ai.target = player.id;
     if (stagger(a, ctx, P.recoverMs)) return;
