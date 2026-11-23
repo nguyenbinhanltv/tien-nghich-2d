@@ -63,6 +63,7 @@ export function step(world: WorldState, input: InputFrame, events: GameEvent[], 
   }
   projectileSystem(world, events);
   if (world.mode !== 'playing') return;
+  for (const a of world.actors) if (a.role === 'boss' && a.combat.hurt > 0) a.combat.hurt--; // the boss's hurt pose runs down (its script is not interrupted by it)
   if (ctx) {
     aiSystem(world, ctx.content, events);
     mobMovement(world);

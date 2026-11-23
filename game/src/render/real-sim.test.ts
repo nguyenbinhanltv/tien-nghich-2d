@@ -1,3 +1,4 @@
+import { COMBAT } from '../contracts/combat.ts';
 import { describe, expect, it } from 'vitest';
 import { artOf, shotFrame } from './clip-map.ts';
 import { FightRunner } from './fight-runner.ts';
@@ -52,6 +53,16 @@ describe('artOf maps sim names to atlas names', () => {
     expect(artOf(w, mob('move'), 96)).toEqual({ kind: 'mob_blood_wolf', clip: 'hurt', startTick: 96 });
     expect(artOf(w, mob('attack'), 96).clip).toBe('attack');
     expect(artOf(w, mob('move')).clip).toBe('move');
+  });
+  it('a counter-struck boss plays its hurt clip between attacks, from the tick of the hit, and never over a telegraph, the release or death', () => {
+    const boss = (state: string, hurt: number, over: object = {}) => ({ role: 'boss', kind: 'boss_ghost_king', clip: 'attack_claw', clipStartTick: 60, diedTick: -1, hp: 5, ai: { state }, combat: { hurt }, ...over }) as never;
+    expect(artOf(w, boss('stalk', COMBAT.hurtPose))).toEqual({ kind: 'boss_ghost_king', clip: 'hurt', startTick: 100 });
+    expect(artOf(w, boss('recover', 4))).toMatchObject({ clip: 'hurt', startTick: 100 - (COMBAT.hurtPose - 4) });
+    expect(artOf(w, boss('stalk', 0)).clip).toBe('move');
+    expect(artOf(w, boss('warn', COMBAT.hurtPose))).toMatchObject({ clip: 'attack_claw', startTick: 60 });
+    expect(artOf(w, boss('impact', COMBAT.hurtPose)).clip).toBe('attack_claw');
+    expect(artOf(w, boss('stalk', COMBAT.hurtPose, { hp: 0 })).clip).toBe('death');
+    expect(artOf(w, boss('release', COMBAT.hurtPose)).clip).toBe('death');
   });
   it('the player kind is the form art; dash, strike, run, idle, death', () => {
     expect(artOf(w, player({}))).toMatchObject({ kind: 'wl_outer_disciple', clip: 'idle' });

@@ -39,7 +39,7 @@ export async function runSelfTest({ projectRoot, entry }) {
     if (ready) {
       const qa = await a.request(41, 'tools/call', { name: 'studio_qa_run', arguments: { assetId: ready.id } });
       check('studio_qa_run runs on a framed asset', qa.result?.structuredContent?.summary?.frames > 0, `${ready.id}: ${qa.result?.structuredContent?.summary?.frames} frames, pass ${qa.result?.structuredContent?.pass}`);
-      const sheet = await a.request(42, 'tools/call', { name: 'studio_preview_render', arguments: { assetId: ready.id, zoom: 1, maxSide: 1600 } });
+      const sheet = await a.request(42, 'tools/call', { name: 'studio_preview_render', arguments: { assetId: ready.id, zoom: 1, maxSide: 4096 } });
       check('studio_preview_render returns an image', sheet.result?.content?.some((c) => c.type === 'image' && c.mimeType === 'image/png' && c.data.length > 100), sheet.error?.message ?? '');
     } else {
       console.error('SKIP  studio_qa_run and studio_preview_render: this project has no processed or packed asset yet');

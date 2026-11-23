@@ -11,11 +11,13 @@ export interface AudioEventsDoc {
 export interface CuePlay { cue: string; priority: number; role: string; asset: string; /** 0..1 loudness of this cue (default 1). */ gain?: number }
 
 /** Higher wins a voice. A boss tell is above everything and also ducks the rest (engine). */
-export const PRIORITY = { bossTell: 100, hurt: 70, outcome: 60, counter: 55, dash: 50, tell: 40, impact: 30, door: 28, wall: 22, release: 20, step: 10 } as const;
+export const PRIORITY = { bossTell: 100, hurt: 70, outcome: 60, counter: 55, dash: 50, tell: 40, impact: 30, door: 28, reward: 45, room: 26, wall: 22, release: 20, step: 10 } as const;
 
 /** A shot that ends on a wall or prop is stone: it uses the stone family's impact (asset below) and is quieter than a creature hit. */
 export const WALL_ASSET = 'mob_stone_puppet';
-export const GAIN = { step: 0.6, wall: 0.7 } as const;
+export const GAIN = { step: 0.6, wall: 0.7, room: 0.6 } as const;
+/** A reward is the spirit-stone pick-up (its `activate` cue, sfx_pickup); a pill uses the same one. */
+export const REWARD_ASSET = 'spirit_stone_glint';
 
 /**
  * The sim's player actor has kind "player"; the audio table is keyed by the form asset. Same form as the renderer's
@@ -75,6 +77,9 @@ export class EventMap {
       case 'projectile-hit': return ev.target === 0 ? this.play('impact', WALL_ASSET, PRIORITY.wall, GAIN.wall) : [];
       case 'door-opened': { const cue = this.modeCue('abode', 'door'); return cue ? [{ cue, priority: PRIORITY.door, role: 'door', asset: ev.room }] : []; }
       case 'projectile-fired': return this.play('release', SHOT_ASSET[ev.kind] ?? ev.kind, PRIORITY.release);
+      case 'reward-gained': return this.play('activate', REWARD_ASSET, PRIORITY.reward);
+      // walking into a room: the floor-mark cue the endless mode names for a checkpoint (the only "you arrived" cue of the pack), quiet
+      case 'room-entered': { const cue = this.modeCue('endless', 'checkpoint'); return cue ? [{ cue, priority: PRIORITY.room, role: 'room', asset: ev.room, gain: GAIN.room }] : []; }
       case 'realm-breakthrough': { const p = world.actors.find((a) => a.role === 'player'); return p ? this.play('advance', assetOf(p), PRIORITY.outcome) : []; }
       default: return [];
     }

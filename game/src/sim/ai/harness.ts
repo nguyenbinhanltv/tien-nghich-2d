@@ -8,6 +8,7 @@ import { createWorld, NO_INPUT } from '../loop.ts';
 import { hashWorld } from '../hash.ts';
 import { playerControl, tickTimers } from '../systems/movement.ts';
 import { sweepDead } from '../systems/combat.ts';
+import { projectileSystem } from '../systems/projectile.ts';
 import { aiSystem, initMobAi } from './index.ts';
 
 export function contentOf(mobs: MobRow[]): ContentApi {
@@ -34,6 +35,7 @@ export function makeFight(seed: number, content: ContentApi, px: number, py: num
       if (world.freeze > 0) { world.freeze--; return; }
       const p = world.actors[0]!;
       tickTimers(p); playerControl(world, p, { ...NO_INPUT, ...input }, events);
+      projectileSystem(world, events);
       aiSystem(world, content, events);
       for (const a of world.actors) if (a.role === 'mob' && a.hp > 0) { a.pos.x += a.vel.x; a.pos.y += a.vel.y; }
       sweepDead(world, events);

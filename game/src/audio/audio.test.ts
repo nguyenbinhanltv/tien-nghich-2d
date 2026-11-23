@@ -236,3 +236,31 @@ describe('the real sim names the player "player"', () => {
   });
   it('the audio form asset equals the renderer\'s PLAYER_FORM', () => { expect(PLAYER_FORM_ASSET).toBe(PLAYER_FORM); });
 });
+
+describe('cues for enemy shots, rewards and entering a room', () => {
+  // the entries of the compiled table (content:build of assets/audio_manifest.json) these events read
+  const real: AudioEventsDoc = {
+    events: {
+      pj_soul_lamp: { release: 'sfx_shade', impact: 'sfx_hit_spirit' }, spirit_stone_glint: { activate: 'sfx_pickup' },
+      wl_outer_disciple: { hurt: 'sfx_player_hurt' }, mob_stone_puppet: { impact: 'sfx_hit_stone' },
+    },
+    modes: { endless: { entry: 'bgm_endless', checkpoint: 'sfx_floor_mark' } }, silent: [],
+  };
+  const m = new EventMap(real);
+  const w = { actors: [actor(1, 'player', 'player'), actor(2, 'mob_blood_crow', 'mob')], hazards: [] } as never;
+  it('an enemy shot plays its release when fired, hurts the player through the hit event, and is stone on a wall', () => {
+    expect(m.fromEvent(ev({ type: 'projectile-fired', tick: 0, source: 2, kind: 'mob_shot' }), w)[0]?.cue).toBe('sfx_shade');
+    expect(m.fromEvent(ev({ type: 'hit', tick: 0, source: 2, target: 1, damage: 1, counter: false }), w)[0]?.cue).toBe('sfx_player_hurt');
+    expect(m.fromEvent(ev({ type: 'projectile-hit', tick: 0, projectile: 9, target: 0 }), w)[0]?.cue).toBe('sfx_hit_stone');
+  });
+  it('a reward plays the pick-up cue; entering a room plays the quiet floor mark', () => {
+    expect(m.fromEvent(ev({ type: 'reward-gained', tick: 0, id: 'spirit_stone', amount: 3 }), w)[0]).toMatchObject({ cue: 'sfx_pickup', priority: 45 });
+    expect(m.fromEvent(ev({ type: 'room-entered', tick: 0, room: 'room_bs_2' }), w)[0]).toMatchObject({ cue: 'sfx_floor_mark', gain: 0.6 });
+    expect(new EventMap({ ...real, modes: {} }).fromEvent(ev({ type: 'room-entered', tick: 0, room: 'r' }), w)).toEqual([]);
+  });
+  it('both cues exist in a pack', () => {
+    const have = new Set<string>();
+    for (const id of PACK_IDS) { const p = parsePack(id, rawPack(id), 'ogg'); for (const k of p.cues.keys()) have.add(k); }
+    for (const c of ['sfx_pickup', 'sfx_floor_mark', 'sfx_shade']) expect(have.has(c), c).toBe(true);
+  });
+});
