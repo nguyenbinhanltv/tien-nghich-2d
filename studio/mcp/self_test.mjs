@@ -22,15 +22,28 @@ export async function runSelfTest({ projectRoot, entry }) {
     check('legacy tools/list has the read tools', names.includes('studio_project_info') && names.includes('studio_qa_run') && !names.includes('studio_frames_submit'), `${names.length} tools at scope read`);
     const call = await a.request(3, 'tools/call', { name: 'studio_project_info', arguments: {} });
     const s = call.result?.structuredContent;
-    check('tools/call returns 43 palette colours', s?.palette?.count === 43 && s.palette.colors.length === 43);
-    check('tools/call returns asset counts', s?.assetCounts?.base?.total > 0 && s.assetCounts.longtime.total > 0, `base ${s?.assetCounts?.base?.total}, longtime ${s?.assetCounts?.longtime?.total}`);
+    check('tools/call returns the project palette', s?.palette?.count > 0 && s.palette.colors.length === s.palette.count, `${s?.palette?.count} colours`);
+    const counts = Object.values(s?.assetCounts ?? {}).filter((v) => typeof v?.total === 'number');
+    check('tools/call returns asset counts', counts.length > 0 && counts.some((v) => v.total > 0), counts.map((v) => v.total).join(' + '));
     check('caller agent recorded', s?.connection?.agent === 'self-test', s?.connection?.agent);
-    const search = await a.request(40, 'tools/call', { name: 'studio_catalog_search', arguments: { source: 'longtime', limit: 1 } });
-    check('studio_catalog_search finds Longtime assets', search.result?.structuredContent?.total > 0, `total ${search.result?.structuredContent?.total}`);
-    const qa = await a.request(41, 'tools/call', { name: 'studio_qa_run', arguments: { assetId: 'lt_kiln_keeper' } });
-    check('studio_qa_run passes a shipped asset', qa.result?.structuredContent?.pass === true, `${qa.result?.structuredContent?.summary?.frames} frames`);
-    const sheet = await a.request(42, 'tools/call', { name: 'studio_preview_render', arguments: { assetId: 'lt_kiln_keeper', clip: 'idle', direction: 'south' } });
-    check('studio_preview_render returns an image', sheet.result?.content?.some((c) => c.type === 'image' && c.mimeType === 'image/png' && c.data.length > 100));
+    const search = await a.request(40, 'tools/call', { name: 'studio_catalog_search', arguments: { limit: 1 } });
+    const found = search.result?.structuredContent;
+    check('studio_catalog_search finds assets', found?.total > 0 && found.results.length === 1, `total ${found?.total}`);
+    // QA and preview need an asset that already has frames; a project that has none yet skips them (reported, not failed).
+    let ready;
+    for (const status of ['packed', 'processed']) {
+      const r = await a.request(44, 'tools/call', { name: 'studio_catalog_search', arguments: { status, limit: 10 } });
+      ready = (r.result?.structuredContent?.results ?? [])[0];
+      if (ready) break;
+    }
+    if (ready) {
+      const qa = await a.request(41, 'tools/call', { name: 'studio_qa_run', arguments: { assetId: ready.id } });
+      check('studio_qa_run runs on a framed asset', qa.result?.structuredContent?.summary?.frames > 0, `${ready.id}: ${qa.result?.structuredContent?.summary?.frames} frames, pass ${qa.result?.structuredContent?.pass}`);
+      const sheet = await a.request(42, 'tools/call', { name: 'studio_preview_render', arguments: { assetId: ready.id, zoom: 1, maxSide: 1600 } });
+      check('studio_preview_render returns an image', sheet.result?.content?.some((c) => c.type === 'image' && c.mimeType === 'image/png' && c.data.length > 100), sheet.error?.message ?? '');
+    } else {
+      console.error('SKIP  studio_qa_run and studio_preview_render: this project has no processed or packed asset yet');
+    }
     const human = await a.request(43, 'tools/call', { name: 'studio_review_approve', arguments: {} });
     check('there is no tool to approve (unknown tool, -32602)', human.error?.code === -32602);
     const bad = await a.request(4, 'tools/call', { name: 'no_such_tool', arguments: {} });
@@ -53,7 +66,7 @@ export async function runSelfTest({ projectRoot, entry }) {
     const d = await b.request('d1', 'server/discover', { _meta: meta });
     check('modern server/discover', d.result?.supportedVersions?.includes(MODERN_VERSIONS[0]) && d.result.resultType === 'complete');
     const c = await b.request('c1', 'tools/call', { name: 'studio_project_info', arguments: { sections: ['palette'] }, _meta: meta });
-    check('modern tools/call', c.result?.resultType === 'complete' && c.result.structuredContent?.palette?.count === 43);
+    check('modern tools/call', c.result?.resultType === 'complete' && c.result.structuredContent?.palette?.count > 0);
     const u = await b.request('u1', 'tools/list', { _meta: { [META_VERSION]: '1900-01-01' } });
     check('unsupported modern version -> -32022', u.error?.code === -32022 && u.error.data?.supported?.includes(MODERN_VERSIONS[0]));
   } catch (e) {

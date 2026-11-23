@@ -55,7 +55,7 @@ export default {
   name: 'studio_pack',
   title: 'Pack a chunk into STAGING atlases and check its budget',
   description:
-    'Pack every frame of a Longtime chunk (the processed frames of assets that have them, otherwise the raw frames you submitted) into texture atlases for web and mobile, in a STAGING area, ' +
+    'Pack every frame of a chunk (the processed frames of assets that have them, otherwise the raw frames you submitted) into texture atlases for web and mobile, in a STAGING area, ' +
     'and check the chunk against its budget: the mobile page ceiling and memory ceiling from the design manifest (pages 1024x1024, padding 2, extrude 1, 4 bytes per pixel) and the web page size. ' +
     'It answers "does this asset still fit its chunk, and how many pages" before anything is delivered. ' +
     'It NEVER writes to the shipped atlases or the processed directories, and proves it: the shipped atlas directories are fingerprinted before and after and must be identical. ' +
@@ -64,7 +64,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      chunk: { type: 'string', maxLength: 40, description: 'Chunk group to pack, e.g. abode or mist_archive (see studio_catalog_search chunk).' },
+      chunk: { type: 'string', maxLength: 40, description: 'Chunk group to pack (see studio_catalog_search chunk).' },
       platform: { type: 'string', enum: ['web', 'mobile', 'both'], description: 'Which atlas profile to pack and check (default both).' },
       dryRun: dryRunProp,
       background: backgroundProp,

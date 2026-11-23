@@ -26,7 +26,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      assetId: { type: 'string', maxLength: 64, description: 'Asset id, e.g. lt_seed_broker. Find ids with studio_catalog_search.' },
+      assetId: { type: 'string', maxLength: 64, description: 'Asset id. Find ids with studio_catalog_search.' },
       promptDetail: { type: 'string', enum: ['summary', 'full'], description: 'summary (default): prompts cut at 300 characters, with their length and sha256. full: whole prompts (up to 8000 characters each).' },
       sections: { type: 'array', maxItems: 9, items: { type: 'string', enum: SECTIONS }, description: `Limit to these sections (default: all of ${SECTIONS.join(', ')}).` },
     },

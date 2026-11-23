@@ -374,7 +374,7 @@ Phần còn lại của quyết định 3 giữ nguyên: studio không tự sinh
 
 ## Ghi nhận (2026-11-22): quyết định của chủ dự án và trạng thái P0 đến P5
 
-Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Từ 18:20 đến 18:27 cùng ngày chủ dự án nói "Duyệt hết assets trên studio cho tôi", rồi "Duyệt 30 hình nhân vật mới", và khi được hỏi chọn "30 nhân vật + asset Longtime đang chờ" (câu trả lời sau thu hẹp câu đầu); worker `tien-nghich-2d-37` ghi lại thành hai mục `owner_new_characters_2026-11-22` và `owner_longtime_awaiting_assets_2026-11-22` trong `art_approvals.json`. Tab Review nay đọc 2.126 frame đã duyệt, 2.854 frame baseline (art lõi cũ, chưa duyệt), 0 frame chờ duyệt. Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
+Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với orchestrator trong chat (phiên `tien-nghich-2d-1`) các quyết định dưới đây; worker `tien-nghich-2d-30` ghi lại. Các điều chủ dự án duyệt về audio, VFX và nhân vật nằm trong các bản ghi theo hash: `assets/audio/listening_approvals.json` và `assets/review/art_approvals.json`. Từ 18:20 đến 18:27 cùng ngày chủ dự án nói "Duyệt hết assets trên studio cho tôi", rồi "Duyệt 30 hình nhân vật mới", và khi được hỏi chọn "30 nhân vật + asset Longtime đang chờ" (câu trả lời sau thu hẹp câu đầu); worker `tien-nghich-2d-37` ghi lại thành hai mục `owner_new_characters_2026-11-22` và `owner_longtime_awaiting_assets_2026-11-22` trong `art_approvals.json`. Lúc đó tab Review đọc 2.126 frame đã duyệt, 2.854 frame baseline (art lõi cũ, chưa duyệt), 0 frame chờ duyệt (số hiện tại ở phần trạng thái cuối). Kế hoạch ý tưởng từ mã nguồn mở và năm quyết định của nó nằm ở [STUDIO_OSS_IDEAS.md](STUDIO_OSS_IDEAS.md).
 
 **Quyết định 5: những gì orchestrator tự đặt, chủ dự án nói "làm theo đề xuất".**
 
@@ -399,16 +399,20 @@ Chiều 2026-11-22 (khoảng 14:10 giờ Việt Nam) chủ dự án nói với o
 | P4 | Tab VFX và Audio, động cơ audio khai báo `studio/audio/` |
 | P5 | Tab Sandbox (scene `studio/core/scene.mjs`), tab Atlas và Nguồn gốc, xuất cho engine `studio/core/export/`, sổ giấy phép `studio/core/ledger.mjs` |
 
-P6 và các đợt 1, 2 của kế hoạch ý tưởng mã nguồn mở được ghi ở phần cuối tài liệu: [Trạng thái cuối](#trạng-thái-cuối-kiểm-theo-mã-trên-main-sau-p6).
+P6, hai đợt đầu của kế hoạch ý tưởng mã nguồn mở và kế hoạch giao diện năm đợt được ghi ở phần cuối tài liệu: [Trạng thái cuối](#trạng-thái-cuối-kiểm-theo-mã-trên-main-sau-p6-và-kế-hoạch-ui).
 
-## Trạng thái cuối, kiểm theo mã trên `main` sau P6
+## Trạng thái cuối, kiểm theo mã trên `main` sau P6 và kế hoạch UI
 
-Kiểm theo mã và lệnh chạy được trên `main` ở `6a47370` (sau PR #115), không theo trí nhớ. **Cả bảy pha P0 đến P6 đã có trên `main`.**
+Kiểm theo mã và lệnh chạy được trên `main` ở `4aad1e0` (sau PR #145), không theo trí nhớ. **Cả bảy pha P0 đến P6 đã có trên `main`, đợt 2 của kế hoạch ý tưởng mã nguồn mở đủ 18 trên 18, và kế hoạch giao diện năm đợt đã xong.** Bảng và con số dưới đây được đếm lại bằng lệnh; lệnh tái hiện nằm trong [ORCHESTRATOR_HANDOFF](ORCHESTRATOR_HANDOFF.md).
 
 | Pha | Có trên `main` |
 |---|---|
 | P0 đến P5 | Như bảng ở phần ghi nhận phía trên |
 | P6 | **#94**: gỡ mọi quy ước của Tiên Nghịch ra khỏi `studio/` (khối `catalog.categories`, `info`, `serve` và các tùy chọn nguồn trong pack; `playables/` chứa ba bản chơi thử và trang Previewer; bài kiểm tra `studio/tests/literals.test.mjs` quét cả cây `studio/`). **#115**: `node studio/cli.mjs` với `init`, `serve`, `mcp`, `check`, `doctor`, `baseline`; `studio/package.json` không phụ thuộc; dự án mẫu thứ hai `studio/examples/moss-lantern/`; bài kiểm tra nghiệm thu CLI-005 chạy trọn vòng qua MCP trên một bản sao nguyên vẹn của `studio/` đặt ngoài dự án. PR này: `studio/README.md` viết lại cho người lạ, phần tham chiếu pack sinh từ schema (`studio/schemas/reference.mjs`), bản bàn giao. |
+| Đợt 2 ý tưởng và việc quanh nó | **#113, #117, #118, #119** (mười một ý tưởng còn lại, xem bảng dưới), **#120** (quyết định pack của chủ dự án và các điểm thô sau lần thử lại với Codex). |
+| Giấy phép, nguồn gốc, màu, nhân vật | **#121** quyền đầu ra của 97 asset cũ theo lời chủ dự án; **#124** nguồn gốc cho mọi asset, tab Atlas hiện đã biết, chưa biết (kèm lý do), không áp dụng, chưa sản xuất; **#122** dải màu cam (40 lên 43 màu); **#123** `lt_ashen_crown_b` đứng cạnh `lt_ashen_crown`. |
+| Pixel Kiln: tên và dự án | **#126** tên; **#131** quản lý dự án (danh sách dự án ở thư mục cấu hình của người dùng, màn hình Dự án, chuyển dự án ngay); **#132** thanh trên một dòng. |
+| Kế hoạch giao diện "Ngọc giản & Ấn triện", năm đợt | Đợt 1: **#125, #127, #128** (cùng #126, #131, #132 ở trên). Đợt 2: **#129** bộ thành phần dùng chung, **#130** bộ đo viewport, **#133** token, phông cục bộ, giao diện mới. Đợt 3: **#134 đến #137** chín tab chuyển sang bộ dùng chung. Đợt 4: **#138** con dấu duyệt và hàng đợi, **#139** trình xem pixel, **#140** lệnh palette và bảng phím `?`, **#141** Tổng quan thành "động phủ". Đợt 5: **#142** trình xem pixel ở Objects và VFX, **#143** xem idle và thanh quyết định ở Characters, **#144** Jobs và tài liệu UI, **#145** ba chế độ giao diện và hai mật độ. |
 
 **Tiêu chí nghiệm thu của P6 đạt:** dự án mẫu chạy cả vòng tạo, kiểm, duyệt, đóng gói mà không sửa một dòng mã studio; bài kiểm tra băm cả bản sao `studio/` trước và sau và so khớp.
 
@@ -418,15 +422,18 @@ Kiểm theo mã và lệnh chạy được trên `main` ở `6a47370` (sau PR #1
 |---|---|
 | 25 công cụ MCP | **27** (14 `read`, 13 `author`; không công cụ nào cần phạm vi `pack`): thêm `studio_guide` (đợt 1) và `studio_frame_read` (đợt 1). Quyết định 4 của kế hoạch ý tưởng giữ 27 nên mọi thao tác mới gộp vào công cụ đã có |
 | Trạng thái duyệt: đã duyệt hoặc chưa | Ba trạng thái: **approved** (người quyết, gắn hash), **baseline** (art có trước studio, khai báo trong `review.baseline`, không phải duyệt), **awaiting review**. Dự án không khai báo baseline thì mọi frame chưa có bản ghi của người đều là awaiting (#108) |
-| Pack gồm palette, cỡ khung, quy tắc, key, thư mục, định tuyến | Thêm các khối tùy chọn: `policy` (chính sách dừng), `agentGuidance`, `references`, `figures`, `lineup`, `motion`, `rubric`, `review`, `forge`, `serve`, `info`, và `catalog.categories`. Pack có 25 khối cấp trên, 13 bắt buộc; bảng tham chiếu trong README sinh thẳng từ schema |
+| Pack gồm palette, cỡ khung, quy tắc, key, thư mục, định tuyến | Thêm các khối tùy chọn: `policy` (chính sách dừng), `agentGuidance`, `references`, `figures`, `lineup`, `motion`, `rubric`, `review`, `forge`, `serve`, `info`, và `catalog.categories`. Pack có 25 khối cấp trên, 13 bắt buộc (con số của lần đếm đó; đếm lại bằng `studio/schemas/reference.mjs` khi cần); bảng tham chiếu trong README sinh thẳng từ schema |
 | Bộ chạy chương trình là một Python trong venv | `adapters.interpreter` có thêm `runtime: "node"`: dự án chỉ dùng Node không cần cài gì |
 | Ba bản chơi thử nằm trong `studio/` | Nằm ở `playables/` (là của dự án đầu, không phải của studio); URL cũ vẫn chạy nhờ khối `serve` của pack |
 | Xuất atlas của studio phải trùng byte với packer Python | **Trùng pixel, không trùng byte**: nén PNG của Node khác Pillow. Atlas tab so pixel và nói rõ. Packer Python vẫn là nguồn chuẩn về byte |
 | Kiểm tra độc lập "khác phiên, khác agent thì tốt hơn" | Máy chủ chỉ nhận kiểm tra độc lập từ phiên khác; bằng chứng hết hạn khi frame, sheet hay contact sheet đổi (#107) |
 | Test hành vi gắn với tên tab | Mỗi hành vi có mã ổn định (`studio/specs/*.md`, thêm `cli.md`); mỗi mã phải có test nêu tên nó |
 | PixelLab ngừng dùng | Vẫn ngừng. Ngoại lệ một ngày 2026-11-22 (credit còn lại) đã xong; 30 nhân vật Longtime đã có và được chủ dự án duyệt |
+| Tên và phạm vi | Công cụ tên **Pixel Kiln** (chủ dự án chọn 2026-11-22); Tiên Nghịch 2D chỉ là một dự án nó phục vụ. Màn hình Dự án, danh sách dự án và chuyển dự án sống đã có (#131) |
+| Bảng màu 40 | **43 màu**: thêm dải cam (#122), chỉ số 1 đến 40 giữ nguyên |
+| Tab Review: 2.126 đã duyệt | **2.198 đã duyệt, 2.854 baseline, 0 chờ duyệt** (5.052 frame; `artCounts` của `/api/tabs/review/inbox`) |
 
-### Kế hoạch ý tưởng mã nguồn mở ([STUDIO_OSS_IDEAS](STUDIO_OSS_IDEAS.md)): đợt 1 xong, đợt 2 làm được 7 trên 18
+### Kế hoạch ý tưởng mã nguồn mở ([STUDIO_OSS_IDEAS](STUDIO_OSS_IDEAS.md)): đợt 1 xong 14 trên 14, đợt 2 xong 18 trên 18
 
 **Đợt 1: cả 14 ý tưởng đã làm.**
 
@@ -438,21 +445,32 @@ Kiểm theo mã và lệnh chạy được trên `main` ở `6a47370` (sau PR #1
 | #106 | A3 `studio_guide` và luật dự án gửi lúc initialize, C2 thực thể khóa phong cách, C3 quy ước prompt |
 | #107 | B1 phong bì QA chuẩn, B3 chính sách dừng, B4 bằng chứng hết hạn |
 
-**Đợt 2: 7 trên 18 ý tưởng đã làm.**
+**Đợt 2: cả 18 ý tưởng đã làm.**
 
 | PR | Ý tưởng |
 |---|---|
 | #111 | A4 đo chuyển động, B7 hợp đồng và lint cho clip, B2 rubric cố định |
 | #112 | D1 chạy ứng viên và người chọn, D2 mỗi lần render thêm một take, B5 yêu cầu sửa theo vùng |
+| #113 | C4 tem phiên bản art bible, D7 ước tính hạn mức trước khi chạy, D3 gói bàn giao và bản công bố AI |
 | #114 | C1 thước dàn nhân vật |
+| #117 | E1 frame tag và cel liên kết, E3 biến đổi theo phạm vi, E7 mở được bằng Pixelorama và LibreSprite |
+| #118 | F5 animation theo tile, F6 xuất bản đồ LDtk và Tiled |
+| #119 | A6 trợ thủ vẽ theo palette, F8 recorder cho VFX, F9 audio theo cửa sổ gameplay |
 
-**Chưa làm của đợt 2 (11; PR #113 đang mở cho C4, D7 và D3, chưa vào `main` lúc viết):** A6 trợ thủ vẽ theo palette, C4 tem phiên bản art bible, D3 gói bàn giao và bản công bố AI, D7 ước tính hạn mức, E1 frame tag và cel liên kết, E3 biến đổi theo phạm vi, E7 mở được bằng Pixelorama và LibreSprite (`.pxo`, `.ase`), F5 animation theo tile, F6 xuất `.ldtk` và TMX, F8 recorder cho VFX, F9 audio theo cửa sổ gameplay. **Đợt 3 (12 ý tưởng): chưa làm gì**, và theo quyết định 1 chỉ làm khi dự án thực sự cần.
+3 + 3 + 3 + 1 + 3 + 2 + 3 = 18. Danh sách 18 mã lấy từ cột "Đợt" của bảng trong STUDIO_OSS_IDEAS (`grep -E '^\| [A-F][0-9]+ \|' docs/STUDIO_OSS_IDEAS.md | awk -F'|' '$(NF-1)+0==2' | wc -l` in ra 18). **Đợt 3 (12 ý tưởng): chưa làm gì**, và theo quyết định 1 chỉ làm khi dự án thực sự cần.
+
+### Kế hoạch giao diện năm đợt: xong
+
+Kế hoạch "Ngọc giản & Ấn triện" (chủ dự án duyệt; phông Lora và VT323, con dấu duyệt, chế độ sáng đều được duyệt) làm xong trong #125 đến #145; từng PR theo đợt nằm ở bảng trạng thái ở trên. Tài liệu hợp đồng giao diện là [studio/ui/README.md](../studio/ui/README.md) (thành phần dùng chung, token `--ui-*`, trình xem pixel, chế độ và mật độ).
 
 ### Còn thiếu, nói thẳng
 
-- Đã mở thử (2026-11-23): Godot 4.7.2, Tiled 1.12.2, Phaser 3.90.0 và 4.2.1, PixiJS 8.23.0, LibreSprite 1.3 (.ase), Pixelorama 1.2.4 (.pxo); chi tiết ở `docs/STUDIO_EXPORT_VERIFICATION.md`. Chưa mở được: LDtk, Unity, Aseprite; các bộ xuất này chỉ được kiểm bằng test theo định dạng công bố.
+- Đã mở thử (2026-11-23): Godot 4.7.2, Tiled 1.12.2, Phaser 3.90.0 và 4.2.1, PixiJS 8.23.0, LibreSprite 1.3 (.ase), Pixelorama 1.2.4 (.pxo); chi tiết ở `docs/STUDIO_EXPORT_VERIFICATION.md`. Chưa mở được: LDtk (kể cả bản đồ LDtk), Unity, Aseprite; các bộ xuất này chỉ được kiểm bằng test theo định dạng công bố.
 - Chưa chạy trên Windows.
 - Tab Review chưa có bảng cho rubric và ảnh lineup (công cụ và pack đã có; kết quả của agent và ghi chú review mang chúng).
 - Ba bản chơi thử chạy như scene kịch bản được host; art của chúng không nằm trong catalog.
-- Mô tả một số công cụ MCP còn nêu ví dụ của dự án đầu ("40 màu", id `lt_`); hành vi đọc theo pack. `studio mcp --self-test` viết cho dự án đầu.
-
+- Test trình duyệt (3 tệp `*.test.mjs` có chữ `browser`) cần Playwright, chưa cài ở đây nên không chạy. Các đợt giao diện được xem bằng mắt trong bảng Browser của Orchestrator; ảnh chụp không đưa vào repo.
+- Nguồn gốc còn khoảng trống có chủ ý: `toolPin` chưa biết ở 216 asset, hạt giống của một asset chưa biết, 15 cue audio mở rộng chưa sản xuất (`node studio/core/ledger-cli.mjs`, `summary.fieldStats`). Quyền đầu ra của 97 asset cũ là lời của chủ dự án, không phải thẩm định pháp lý.
+- Bản nháp công bố AI cho Steam và itch.io (#113) là bản nháp sự kiện để người xem lại; chưa đối chiếu với biểu mẫu hiện tại của cửa hàng.
+- `lt_ashen_crown_b` mới nằm trong manifest, atlas, catalog và Studio; chưa có gì trong game chọn nó.
+- Đã gỡ khỏi danh sách này: mô tả công cụ MCP nêu ví dụ của dự án đầu và `mcp --self-test` viết riêng cho dự án đầu. Mô tả giờ trung tính, self-test đọc palette và catalog từ pack, và có test chạy nó trên `examples/moss-lantern`.
