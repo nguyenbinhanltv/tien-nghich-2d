@@ -120,7 +120,7 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline, nothing awaits', async () => {
+test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline except the 51 slice assets, nothing awaits', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
   const catalog = await loadEditableCatalog(pack, repoRoot);
   const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
@@ -129,8 +129,18 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   for (const f of longtime) assert.equal(await standing.of(f.processed), 'approved', f.info.key);
   const core = [...catalog.frames.values()].filter(f => !f.info.key.startsWith('longtime/'));
   assert.ok(core.length > 1000);
-  // the owner did not approve the legacy art: it keeps the baseline label (no review record)
-  for (const f of core) assert.equal(await standing.of(f.processed), 'baseline', f.info.key);
+  // the owner approved only the 51 legacy assets of the Huyết Hải vertical slice (2026-11-23): the rest keeps the baseline label (no review record)
+  const record = JSON.parse(await fs.readFile(path.join(repoRoot, 'assets/review/art_approvals.json'), 'utf8'));
+  const vs = new Set(Object.values(record.approvals.find(a => a.id === 'owner_vs_baseline_2026-11-23').assets)
+    .flatMap(info => Object.keys(info.frames).map(k => `${info.frame_dir}/${k.split('/').at(-1)}.png`)));
+  assert.equal(vs.size, 1356);
+  let baseline = 0;
+  for (const f of core) {
+    const want = vs.has(f.processed) ? 'approved' : 'baseline';
+    baseline += want === 'baseline';
+    assert.equal(await standing.of(f.processed), want, f.info.key);
+  }
+  assert.ok(baseline > 1000, 'most of the legacy core art stays baseline');
 });
 
 test('a transparent pixel with colour does not break the match with the normalized stored copy', () => {

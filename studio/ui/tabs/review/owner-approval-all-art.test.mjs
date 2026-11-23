@@ -3,6 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,9 +30,9 @@ test('both entries carry the owner\'s own words, say the first statement was nar
   }
 });
 
-test('the real project: zero awaiting, the legacy core art stays baseline, everything else is approved', async () => {
+test('the real project: zero awaiting, the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 2198, baseline: 2854, awaiting: 0, changes_requested: 0, total: 5052});
+  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 0, changes_requested: 0, total: 5052});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -57,7 +58,7 @@ test('the 30 new PixelLab characters are one entry, every processed frame and ev
 
 test('every asset record in the project file is current: nothing changed, missing or added', async () => {
   const records = await readArtApprovals(repo, 'assets/review');
-  assert.equal(records.length, 132);
+  assert.equal(records.length, 183);
   assert.deepEqual(records.filter(r => !r.current).map(r => [r.assetId, r.changed, r.missing, r.added, r.rawChanged]), []);
   const seen = new Map();
   for (const a of record.approvals) for (const info of Object.values(a.assets ?? {})) for (const key of Object.keys(info.frames)) {
@@ -131,5 +132,34 @@ test('the baseline record is kept untouched and never wins over an approval', as
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 2198, baseline: 2854});
+  assert.deepEqual(both, {approved: 3554, baseline: 1498});
+});
+
+const VS = 'owner_vs_baseline_2026-11-23';
+test('the vertical-slice entry: the owner\'s answer verbatim, 51 assets and 1,356 frames, hash-tied to the files, recorded by an agent that judged nothing', () => {
+  const e = entry(VS);
+  assert.equal(e.kind, 'owner_statement');
+  assert.equal(e.approved_by, 'user');
+  assert.equal(e.evidence.quote, 'Duyệt 41 ID + 10 đạo cụ (51 ID)');
+  assert.match(e.recorded_by, /judged nothing and approved nothing/);
+  assert.equal(Object.keys(e.assets).length, 51);
+  let frames = 0;
+  for (const [id, info] of Object.entries(e.assets)) {
+    assert.ok(info.frame_dir.startsWith('assets/processed/'), id);
+    for (const [key, sha] of Object.entries(info.frames)) {
+      frames++;
+      assert.ok(key.startsWith(`core/${id}/`), key);
+      const bytes = fs.readFileSync(path.join(repo, info.frame_dir, `${key.split('/').at(-1)}.png`));
+      assert.equal(createHash('sha256').update(bytes).digest('hex'), sha, key);
+    }
+  }
+  assert.equal(frames, 1356);
+});
+
+test('the vertical-slice entry covers exactly its 51 assets: no other legacy asset and no sheet image', () => {
+  const ids = Object.keys(entry(VS).assets);
+  assert.equal(new Set(ids).size, 51);
+  assert.ok(ids.includes('boss_ghost_king') && ids.includes('ts_blood_valley') && ids.includes('prop_room_door') && ids.includes('hit_spark'));
+  assert.ok(!ids.includes('mob_stone_puppet') && !ids.includes('boss_teng_huayuan') && !ids.includes('huyet_hai_kiem_khi'));
+  for (const info of Object.values(entry(VS).assets)) assert.ok(Object.keys(info.frames).every(k => !k.endsWith('_sheet')));
 });

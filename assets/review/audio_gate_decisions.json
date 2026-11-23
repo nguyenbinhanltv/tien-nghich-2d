@@ -38,6 +38,29 @@
       ],
       "covers": "Opens the production of bgm_aftermath, bgm_defense, sfx_floor_mark, sfx_oath, sfx_wave_call and sfx_core_crack. The Characters wave keeps its own gate.",
       "does_not_cover": "Any listening sign-off, any art approval, any listening statement about the Branch cues, and the numbers the author proposes."
+    },
+    {
+      "id": "characters_gate_2026-11-23",
+      "kind": "owner_statement",
+      "decided_by": "user",
+      "recorded": "2026-11-23T12:58:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-78 (an agent; it transcribed the orchestrator's relay of the owner's choice and approved nothing)",
+      "wave": "extensions.characters",
+      "gate": "Mode wave accepted; NPC handoffs, pet bond and form silhouettes approved.",
+      "statement": "Coi như đã đủ, làm luôn",
+      "statement_note": "The owner's choice, relayed by the orchestrator (session tien-nghich-2d-1) on 2026-11-23, selected among the options of the orchestrator's question about the NPC handoff milestones, the pet bond and the form silhouettes. The option label is quoted verbatim. The time of the choice was not passed on; `recorded` is the time this record was written, not the time of the choice.",
+      "related_statement": {
+        "statement": "Duyệt hết",
+        "note": "The owner's listening statement about the Modes cues, said on 2026-11-23 at about 12:50 Asia/Saigon as relayed by the orchestrator. Session tien-nghich-2d-74 records it, and only in assets/audio/listening_approvals.json; this record neither repeats nor depends on that entry and edits nothing there."
+      },
+      "decision": [
+        "The NPC handoff milestones, the pet bond and the form silhouettes named in the gate are treated as sufficient: their art was approved by the owner on 2026-11-22 (assets/review/art_approvals.json), and the Characters audio production starts: sfx_keeper_call, sfx_pet_reply and sfx_form_shift. There are no beds in this wave.",
+        "The Modes part of the gate is a listening matter and belongs to the separate change that records it in assets/audio/listening_approvals.json, the only place a listening is recorded.",
+        "The sound direction is the Động Phủ row of docs/AUDIO_DESIGN.md: gesture and pitched responses for the character lanes, no dialogue recording budgeted. The author proposes the length and the gameplay window of each effect; the proposal is recorded as a proposal in docs/AUDIO_DESIGN.md ('Characters proposal') and in assets/audio/source/characters_sfx/VERIFICATION.md. The owner has not set these numbers.",
+        "Produce the three effects with the Studio audio engine: no samples, recordings, voices, soundfonts, generative model or PixelLab. Record no listening approval."
+      ],
+      "covers": "Opens the production of sfx_keeper_call, sfx_pet_reply and sfx_form_shift.",
+      "does_not_cover": "Any listening sign-off (including the Modes cues), any art approval, and the numbers the author proposes."
     }
   ]
 }

@@ -2,12 +2,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { createPreviewServer } from '../serve.mjs';
 import { encodePixels, decodeStrict } from '../core/png.mjs';
+
+// the 51 legacy assets the owner approved for the Huyết Hải vertical slice (assets/review/art_approvals.json, 2026-11-23)
+const vsAssets = new Set(Object.keys(JSON.parse(readFileSync(new URL('../../assets/review/art_approvals.json', import.meta.url), 'utf8')).approvals
+  .find(a => a.id === 'owner_vs_baseline_2026-11-23').assets));
+const assetOf = key => key.split('/')[1].replace(/_\d+$/, '');
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const samples = {
@@ -55,8 +61,8 @@ for (const [name, key] of Object.entries(samples)) test(`save, review and restor
   const base = (await api.call('frame', {key})).data;
   assert.equal(base.head, 0);
   // Revision 0 of a frame nobody judged here reads by the project's records: approved only for a hash-matching human record
-  // (lt_ink_marten), and since the owner's 2026-11-22 approval for every Longtime frame; baseline for the shipped core art.
-  const want = key.startsWith('longtime/') ? 'approved' : 'baseline';
+  // (lt_ink_marten), since the owner's 2026-11-22 approval for every Longtime frame and his 2026-11-23 approval of the 51 slice assets; baseline for the rest of the shipped core art.
+  const want = key.startsWith('longtime/') || vsAssets.has(assetOf(key)) ? 'approved' : 'baseline';
   assert.equal(base.status, want, 'revision 0 reads by standing');
   const {width, height} = base;
   const original = Buffer.from(base.pngBase64, 'base64');

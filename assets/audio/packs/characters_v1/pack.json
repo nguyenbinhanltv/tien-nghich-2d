@@ -1,0 +1,232 @@
+{
+  "batch": 7,
+  "bgms": [],
+  "inputs": {
+    "base": "d715f9e8e3f812ec8a2b322c83dc797256547e58",
+    "bgm_source_commit": "none: the Characters wave has no beds",
+    "sfx_source_commit": "same pull request as this pack; the source hashes are in assets/audio/source/characters_sfx/provenance.json"
+  },
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack",
+  "sfx": {
+    "aac_frame_alignment": 1024,
+    "channels": 1,
+    "codecs": {
+      "m4a": {
+        "bytes": 47215,
+        "container": {
+          "edit_list": [
+            {
+              "media_time": 1024,
+              "segment_duration_movie_units": 4365
+            }
+          ],
+          "itunsmpb_present": false,
+          "media_duration_units": 193536,
+          "media_timescale": 44100
+        },
+        "decoded_frames": 192512,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8200,
+              "sprite_end_exclusive": 78752,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 78745
+            },
+            "id": "sfx_form_shift"
+          },
+          {
+            "decoded": {
+              "onset": 87041,
+              "sprite_end_exclusive": 135550,
+              "sprite_start": 87040,
+              "tail_end_exclusive": 135542
+            },
+            "id": "sfx_keeper_call"
+          },
+          {
+            "decoded": {
+              "onset": 144385,
+              "sprite_end_exclusive": 184074,
+              "sprite_start": 144384,
+              "tail_end_exclusive": 177853
+            },
+            "id": "sfx_pet_reply"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -5.997,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 192512,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "aac",
+          "-b:a",
+          "96k",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.m4a"
+        ],
+        "file": "sfx_sprite.m4a",
+        "loudness": {
+          "integrated_lufs": -17.7,
+          "loudness_range_lu": 0.9,
+          "true_peak_dbtp": -6.0
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 1024,
+        "sha256": "f3f4186aeeaed66689624a080684173ce20f8465f2c448099299e2e547e1f2c6",
+        "trailing_extra_frames": 0
+      },
+      "ogg": {
+        "bytes": 30919,
+        "container": {
+          "final_granule_position": 192512,
+          "pages": 7,
+          "serial_number": 0
+        },
+        "decoded_frames": 192512,
+        "decoded_markers": [
+          {
+            "decoded": {
+              "onset": 8200,
+              "sprite_end_exclusive": 78752,
+              "sprite_start": 8192,
+              "tail_end_exclusive": 78745
+            },
+            "id": "sfx_form_shift"
+          },
+          {
+            "decoded": {
+              "onset": 87041,
+              "sprite_end_exclusive": 135550,
+              "sprite_start": 87040,
+              "tail_end_exclusive": 135542
+            },
+            "id": "sfx_keeper_call"
+          },
+          {
+            "decoded": {
+              "onset": 144385,
+              "sprite_end_exclusive": 184074,
+              "sprite_start": 144384,
+              "tail_end_exclusive": 177853
+            },
+            "id": "sfx_pet_reply"
+          }
+        ],
+        "decoded_sample_peak_dbfs": -5.753,
+        "decoder": "FFmpeg native decode (ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers)",
+        "expected_frames": 192512,
+        "ffmpeg_args": [
+          "ffmpeg",
+          "-y",
+          "-i",
+          "sfx_sprite_master.wav",
+          "-c:a",
+          "libvorbis",
+          "-q:a",
+          "5",
+          "-map_metadata",
+          "-1",
+          "-fflags",
+          "+bitexact",
+          "-flags:a",
+          "+bitexact",
+          "sfx_sprite.ogg"
+        ],
+        "file": "sfx_sprite.ogg",
+        "loudness": {
+          "integrated_lufs": -17.6,
+          "loudness_range_lu": 0.9,
+          "true_peak_dbtp": -5.8
+        },
+        "measured_head_offset_frames": 0,
+        "raw_head_offset_frames_if_edit_list_ignored": 0,
+        "sha256": "c1b5dbaf71e04c2ae346ea0cff9bac50e7b73f6490f119076acdea04394c4a17",
+        "trailing_extra_frames": 0
+      }
+    },
+    "cues": [
+      {
+        "id": "sfx_form_shift",
+        "master_file": "assets/audio/masters/characters_sfx/sfx_form_shift.wav",
+        "master_frames": 70560,
+        "master_onset_frame": 8,
+        "master_sha256": "274a27b8e1a14cdd3836ef70f5218c38309a8118637034a97e2a50977f339d7b",
+        "master_tail_end_exclusive": 70553,
+        "source": {
+          "onset": 8200,
+          "sprite_end_exclusive": 78752,
+          "sprite_start": 8192,
+          "tail_end_exclusive": 78745
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_keeper_call",
+        "master_file": "assets/audio/masters/characters_sfx/sfx_keeper_call.wav",
+        "master_frames": 48510,
+        "master_onset_frame": 1,
+        "master_sha256": "854afc2b87bf04ee4c477cab407119a1c568b945f2321370c1ca55456e8fddd1",
+        "master_tail_end_exclusive": 48502,
+        "source": {
+          "onset": 87041,
+          "sprite_end_exclusive": 135550,
+          "sprite_start": 87040,
+          "tail_end_exclusive": 135542
+        },
+        "variant": "default"
+      },
+      {
+        "id": "sfx_pet_reply",
+        "master_file": "assets/audio/masters/characters_sfx/sfx_pet_reply.wav",
+        "master_frames": 39690,
+        "master_onset_frame": 1,
+        "master_sha256": "0de78ebb1d232dbfb3cacb25205f6ff0ddf8ccc5f4ecff28737e9f770b9320b0",
+        "master_tail_end_exclusive": 33469,
+        "source": {
+          "onset": 144385,
+          "sprite_end_exclusive": 184074,
+          "sprite_start": 144384,
+          "tail_end_exclusive": 177853
+        },
+        "variant": "default"
+      }
+    ],
+    "guard_frames": 8192,
+    "id": "sfx_sprite",
+    "sample_rate_hz": 44100,
+    "sprite_master": {
+      "file": "sfx_sprite_master.wav",
+      "frames": 192512,
+      "sha256": "4161af16aef89e84bc3a4484e75920a447837704bf066335192e5936ab45dd1b"
+    }
+  },
+  "toolchain": {
+    "aac_encoder": "FFmpeg native aac (AAC-LC) 96k mono SFX / 160k stereo BGM",
+    "binary_sha256": "468833134308b22bc67dde18016cc3a9fae1d93d839f54581dab5fa4cd5c1744",
+    "build_script": "tools/scripts/build_ffmpeg_611_mac.sh",
+    "configure": "--prefix=<prefix> --cc=clang --disable-autodetect --disable-doc --disable-ffplay --disable-ffprobe --enable-libvorbis --enable-static --disable-shared --pkg-config-flags=--static --extra-cflags='-O2 -I<prefix>/include' --extra-ldflags=' -L<prefix>/lib'",
+    "ffmpeg": "ffmpeg version 6.1.1 Copyright (c) 2000-2023 the FFmpeg developers",
+    "libvorbis_build_note": "sed removes -force_cpusubtype_ALL (patched configure sha256 c1991118ed159631298a5ce620afe7f1fb059854473ca12774e3f224fb864130)",
+    "numpy": "2.5.5",
+    "python": "3.14.5",
+    "rebuild": "tools/.venvs/project/bin/python -I -B tools/scripts/build_audio_wave2_pack.py --batch 7 --ffmpeg <native ffmpeg>",
+    "source_tarball_sha256": {
+      "ffmpeg-6.1.1.tar.xz": "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968",
+      "libogg-1.3.5.tar.xz": "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705",
+      "libvorbis-1.3.7.tar.xz": "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
+    },
+    "variant": "native",
+    "vorbis_encoder": "libvorbis -q:a 5"
+  }
+}

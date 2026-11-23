@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'dist-content/**', 'node_modules/**'] },
+  { ignores: ['dist/**', 'dist-content/**', 'node_modules/**', 'spike/**', 'pwa/sw.template.js'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -14,5 +14,5 @@ export default tseslint.config(
       'no-restricted-properties': ['error', { object: 'Math', property: 'random', message: 'Use the seeded Rng from sim/rng.ts.' }, { object: 'Date', property: 'now', message: 'The sim has no wall clock; time is ticks.' }],
     },
   },
-  { files: ['tools/**/*.ts', 'tests/**/*.ts'], rules: { '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }] } },
+  { files: ['tools/**/*.ts', 'tests/**/*.ts', 'pwa/**/*.ts'], rules: { '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }] } },
 );
