@@ -176,3 +176,63 @@ describe('AudioEngine (fake Web Audio)', () => {
     expect(bed.loopEnd).toBeCloseTo(info.loopEnd / 44100, 6);
   });
 });
+
+describe('cues for the sim events of #195 (footsteps, wall hits, doors)', () => {
+  const full: AudioEventsDoc = {
+    events: { ...doc.events, mob_stone_puppet: { tell: 'sfx_tell_heavy', impact: 'sfx_hit_stone', outcome: 'sfx_enemy_fall' } },
+    modes: { ...doc.modes, abode: { entry: 'bgm_dong_phu', door: 'sfx_gate' } },
+    silent: doc.silent,
+  };
+  const m = new EventMap(full);
+  const w = { actors: [actor(1, 'wl_outer_disciple', 'player'), actor(2, 'mob_blood_wolf', 'mob'), actor(3, 'boss_ghost_king', 'boss')], hazards: [] } as never;
+  it('the player\'s step plays the stride cue, quietly and at the lowest priority; mob and boss steps are silent', () => {
+    const p = m.fromEvent(ev({ type: 'clip-event', tick: 0, actor: 1, clip: 'move', name: 'step' }), w);
+    expect(p).toHaveLength(1);
+    expect(p[0]).toMatchObject({ cue: 'sfx_step', priority: 10, gain: 0.6 });
+    expect(m.fromEvent(ev({ type: 'clip-event', tick: 0, actor: 2, clip: 'move', name: 'step' }), w)).toEqual([]);
+    expect(m.fromEvent(ev({ type: 'clip-event', tick: 0, actor: 3, clip: 'move', name: 'step' }), w)).toEqual([]);
+  });
+  it('a shot that ends on a wall plays the stone impact (quieter than a creature hit); a shot that hit a creature adds nothing (its hit event voices it)', () => {
+    const wall = m.fromEvent(ev({ type: 'projectile-hit', tick: 0, projectile: 5, target: 0 }), w);
+    expect(wall).toHaveLength(1);
+    expect(wall[0]).toMatchObject({ cue: 'sfx_hit_stone', gain: 0.7 });
+    expect(wall[0]!.priority).toBeLessThan(30);
+    expect(m.fromEvent(ev({ type: 'projectile-hit', tick: 0, projectile: 5, target: 2 }), w)).toEqual([]);
+  });
+  it('a door opening plays the gate cue; with no door cue in the modes table it stays silent', () => {
+    expect(m.fromEvent(ev({ type: 'door-opened', tick: 0, room: 'room_bs_1' }), w)[0]).toMatchObject({ cue: 'sfx_gate', priority: 28 });
+    expect(new EventMap({ ...full, modes: { core: {} } }).fromEvent(ev({ type: 'door-opened', tick: 0, room: 'r' }), w)).toEqual([]);
+  });
+  it('every cue these events use exists in a pack, so none of them plays nothing', () => {
+    const have = new Set<string>();
+    for (const id of PACK_IDS) { const p = parsePack(id, rawPack(id), 'ogg'); for (const k of p.cues.keys()) have.add(k); }
+    for (const c of ['sfx_step', 'sfx_hit_stone', 'sfx_gate']) expect(have.has(c), c).toBe(true);
+  });
+  it('the real manifest gives the wall asset a stone impact and the abode a door cue', () => {
+    const manifest = JSON.parse(readFileSync(join(ASSETS, 'audio_manifest.json'), 'utf8')) as { asset_groups: Record<string, string[]>; families: Record<string, Record<string, string>>; core: Record<string, unknown> };
+    const group = Object.entries(manifest.asset_groups).find(([, ids]) => ids.includes('mob_stone_puppet'))?.[0];
+    expect(group && manifest.families[group]?.['impact']).toBe('sfx_hit_stone');
+  });
+});
+
+import { PLAYER_FORM_ASSET } from './event-map.ts';
+import { PLAYER_FORM } from '../render/clip-map.ts';
+describe('the real sim names the player "player"', () => {
+  const table: AudioEventsDoc = {
+    events: { ...doc.events, pj_blood_jade_blade: { release: 'sfx_blade', impact: 'sfx_hit_flesh' } },
+    modes: doc.modes, silent: doc.silent,
+  };
+  const m = new EventMap(table);
+  const w = { actors: [actor(1, 'player', 'player'), actor(2, 'mob_blood_wolf', 'mob')], hazards: [] } as never;
+  it('player cues are found through the form asset, not the actor kind', () => {
+    expect(m.fromEvent(ev({ type: 'dash', tick: 0, actor: 1, facing: 'east' }), w)[0]?.cue).toBe('sfx_dash');
+    expect(m.fromEvent(ev({ type: 'clip-event', tick: 0, actor: 1, clip: 'move', name: 'step' }), w)[0]?.cue).toBe('sfx_step');
+    expect(m.fromEvent(ev({ type: 'hit', tick: 0, source: 2, target: 1, damage: 1, counter: false }), w)[0]?.cue).toBe('sfx_player_hurt');
+    expect(m.fromEvent(ev({ type: 'strike', tick: 0, actor: 1, counter: true }), w)[0]?.cue).toBe('sfx_counter');
+    expect(m.fromEvent(ev({ type: 'actor-died', tick: 0, actor: 1 }), w)[0]?.cue).toBe('sfx_player_fall');
+  });
+  it('the player\'s blade plays its release when fired', () => {
+    expect(m.fromEvent(ev({ type: 'projectile-fired', tick: 0, source: 1, kind: 'spirit_blade' }), w)[0]?.cue).toBe('sfx_blade');
+  });
+  it('the audio form asset equals the renderer\'s PLAYER_FORM', () => { expect(PLAYER_FORM_ASSET).toBe(PLAYER_FORM); });
+});
