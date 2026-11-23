@@ -45,7 +45,15 @@ export class InputHub {
     for (const a of ACTIONS) for (const c of b[a]) this.codeToAction.set(c, a);
   }
   /** Drop held keys and pending presses (menu opened or closed). */
-  reset(): void { this.keys.clear(); this.dashLatch = this.fireLatch = false; this.touchMove = { x: 0, y: 0 }; }
+  reset(): void {
+    this.keys.clear(); this.dashLatch = this.fireLatch = false; this.touchMove = { x: 0, y: 0 };
+    this.followPad();
+  }
+  /** Remember which pad buttons are down right now, so a press that was already held (A on "Resume", B to go back, Start) only counts after release. */
+  private followPad(): void {
+    const p = this.pad();
+    this.padDashHeld = p.dash; this.padFireHeld = p.fire; this.padStartHeld = p.start;
+  }
   private held(a: Action): boolean { for (const [c, act] of this.codeToAction) if (act === a && this.keys.has(c)) return true; return false; }
 
   pressDash(): void { if (this.enabled) this.dashLatch = true; }
@@ -75,7 +83,7 @@ export class InputHub {
 
   /** One call per render frame. dash/fire fire once per press (rising edge). */
   sample(): InputFrame {
-    if (!this.enabled) return { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
+    if (!this.enabled) { this.followPad(); return { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false }; }
     let x = this.touchMove.x;
     let y = this.touchMove.y;
     if (this.held('left')) x -= 1;
