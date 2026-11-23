@@ -40,7 +40,7 @@ const scene: Phaser.Scene = flow
   ? flow.first()
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
+  : new BloodSeaScene({ sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), nameOf: (k) => (i18n.has(k) ? i18n.t(k) : ''), paused: () => portrait || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 

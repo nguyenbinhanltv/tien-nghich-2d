@@ -20,6 +20,8 @@ export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
   sample(): InputFrame;
   paused(): boolean;
+  /** Display name of a content id (a boss or mob) in the player's language. */
+  nameOf?(kind: string): string;
   /** Floor name shown by the minimap (e.g. "Huyết Hải"). */
   floorLabel?: string;
   /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
@@ -80,7 +82,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#14101a');
     this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
-    this.hud = new Hud(this, this.frames);
+    this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
     if (this.cache.json.exists('content-tables')) {

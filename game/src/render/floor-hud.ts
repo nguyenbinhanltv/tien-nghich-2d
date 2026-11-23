@@ -4,9 +4,10 @@
 import Phaser from 'phaser';
 import { VIEW_W } from '../contracts/world.ts';
 import { canDraw, rasterize } from '../ui/pixel-font.ts';
+import { wrapText } from '../ui/pixel-text.ts';
 import { cellOrigin, chainFrom, CELL, connector, floorCounter, iconFrame, mapSize, roomStates, snakeLayout } from '../ui/minimap-layout.ts';
 import type { MiniRoom, RoomRow } from '../ui/minimap-layout.ts';
-import { MARGIN } from '../ui/hud-layout.ts';
+import { FLOOR_LABEL_MAX_W, MARGIN } from '../ui/hud-layout.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
 // palette ids ink_01 (outline), ink_06 (text), bronze_02 (connector), bronze_05 (visited connector)
@@ -76,7 +77,8 @@ export class FloorHud {
   private drawText(): void {
     const g = this.text;
     g.clear();
-    const label = [...this.label].every(canDraw) ? this.label : '';
+    // one line, never wider than the column the boss name leaves free
+    const label = [...this.label].every(canDraw) ? (wrapText(this.label, FLOOR_LABEL_MAX_W, 1)[0] ?? '') : '';
     const lines = [label, floorCounter(this.current, this.rooms.length)].filter(Boolean);
     // right-aligned to the left of the map, one line under the other
     let y = MARGIN.y;
