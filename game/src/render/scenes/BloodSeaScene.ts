@@ -134,7 +134,7 @@ export class BloodSeaScene extends Phaser.Scene {
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
-    this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.time.now);
+    this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
     this.host.status?.(w);
   }
 
