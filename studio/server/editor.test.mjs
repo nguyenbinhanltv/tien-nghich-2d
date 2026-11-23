@@ -158,7 +158,7 @@ test('reject invalid input before writing and keep legacy static paths',async t=
   const dir=await scratch(t), api=await start(t,dir);
   const list=(await api.call('frames')).data.frames;
   assert.equal(list.filter(f=>f.category==='ui').length,30);
-  assert.equal(list.filter(f=>f.key.startsWith('vfx/')).length,391);
+  assert.equal(list.filter(f=>f.key.startsWith('vfx/')).length,466);
   const {width,height}=list.find(f=>f.key===ui);
   const raw=Buffer.alloc(width*height*4);
   for (const rgba of [[0,0,0,1],[1,2,3,255]]) {

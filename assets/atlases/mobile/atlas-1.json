@@ -3122,7 +3122,7 @@
     },
     "ui/ui_card_frame/common_none_0": {
       "frame": {
-        "x": 869,
+        "x": 951,
         "y": 965,
         "w": 32,
         "h": 40
@@ -3142,47 +3142,7 @@
     },
     "ui/ui_card_frame/forbidden_none_0": {
       "frame": {
-        "x": 907,
-        "y": 965,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_1": {
-      "frame": {
-        "x": 945,
-        "y": 965,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_2": {
-      "frame": {
-        "x": 983,
+        "x": 989,
         "y": 965,
         "w": 32,
         "h": 40
@@ -3298,6 +3258,26 @@
       "sourceSize": {
         "w": 8,
         "h": 8
+      }
+    },
+    "vfx/ghost_summon_call_0": {
+      "frame": {
+        "x": 869,
+        "y": 965,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
       }
     }
   },

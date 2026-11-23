@@ -15,7 +15,7 @@ const withProject = async (fn, opts = { git: true }) => {
 test('catalog_search: filters, derived status, facets and paging agree', () => withProject(async (p) => {
   const { ok, call } = connect(p.root, { scope: 'read' });
   const all = await ok('studio_catalog_search', { limit: 100 });
-  assert.equal(all.total, 302, 'core 97 + longtime 126 + longtime vfx 6 + vfx 12 + audio 61');
+  assert.equal(all.total, 303, 'core 97 + longtime 126 + longtime vfx 6 + vfx 13 + audio 61');
   assert.equal(all.facets.source.core, 97);
   assert.equal(all.facets.source.audio, 61);
 

@@ -97,12 +97,12 @@ class QATests(unittest.TestCase):
         errs = [i for i in issues if i["severity"] == "error"]
         self.assertEqual(errs, [], f"Unexpected errors on real processed tree: {errs[:5]}")
         groups = qa.group_counts(cov)
-        self.assertEqual(groups["vfx"]["assets"], 12)
-        self.assertEqual(groups["vfx"]["complete"], 12)
-        self.assertEqual(groups["vfx"]["have"], 391)
-        self.assertEqual(groups["vfx"]["want"], 391)
-        self.assertEqual(groups["vfx"]["excluded_sheets"], 12)
-        self.assertEqual(sum(v["have"] for v in cov.values()), 2976)
+        self.assertEqual(groups["vfx"]["assets"], 13)
+        self.assertEqual(groups["vfx"]["complete"], 13)
+        self.assertEqual(groups["vfx"]["have"], 466)
+        self.assertEqual(groups["vfx"]["want"], 466)
+        self.assertEqual(groups["vfx"]["excluded_sheets"], 13)
+        self.assertEqual(sum(v["have"] for v in cov.values()), 3051)
 
     def test_vfx_index_validation_and_defect_detection(self):
         import numpy as np

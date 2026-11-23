@@ -30,3 +30,6 @@ CLI `assetcat` chưa cài, chưa có thư viện được index -> hiện **chư
 
 ## Icon trạng thái (PX-1 nhóm 3, 2026-11-24)
 3 icon 24×24 + biến thể 16×16 (`icon_status_guard` Hộ Thể, `icon_status_counter` Phản Chấn, `icon_status_immune` Bất Tổn), ứng với 3 trạng thái mà sim đã có (guard, cửa sổ phản đòn sau né đúng nhịp, miễn sát thương khi lướt/trúng đòn). Vẽ bằng mã `tools/generators/gen_px1_status_icons.py`, palette gốc, viền `ink_01`; không sinh ảnh, không PixelLab. Chờ duyệt, không ghi bản duyệt. **Số sát thương không có asset riêng**: dùng font pixel đã duyệt (`game/src/ui/pixel-font.ts`, #184) viền `ink_01`, nên không có gì để vẽ lại; nối vào game là PR riêng.
+
+## Hiệu ứng triệu hồi của Quỷ Vương (PX-1 nhóm 4, 2026-11-24)
+`ghost_summon_call` (76×40, 75 khung @30 fps, start 0-17 / loop 18-41 / end 42-74, sự kiện `summon` ở khung 42): vòng pháp trận tím hồn, nút ngọc lục, hoa văn xoay. Spec SpriteFX `tools/generators/vfx_specs/ghost_summon_call.json` (chỉnh từ ví dụ `summon` của spritefx, đổi sang ramp `soul`/`jade` của dự án, seed 11), dựng bằng `vfx_pipeline.py build/export` (0 lỗi audit). Không sinh ảnh, không PixelLab. **Bản quyền**: chủ dự án trả lời orchestrator 2026-11-24 "Dự án sở hữu, như các VFX cũ", ghi trong `assets/review/licence_decisions.json` (chỉ bản quyền). **Art CHƯA duyệt.**
