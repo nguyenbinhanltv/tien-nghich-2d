@@ -158,6 +158,12 @@ export const AssetKeys = {
     "boss_ghost_king/death_south_7": "characters/boss_ghost_king/death_south_7",
     "boss_ghost_king/death_south_8": "characters/boss_ghost_king/death_south_8",
     "boss_ghost_king/death_south_9": "characters/boss_ghost_king/death_south_9",
+    "boss_ghost_king/hurt_east_0": "characters/boss_ghost_king/hurt_east_0",
+    "boss_ghost_king/hurt_east_1": "characters/boss_ghost_king/hurt_east_1",
+    "boss_ghost_king/hurt_east_2": "characters/boss_ghost_king/hurt_east_2",
+    "boss_ghost_king/hurt_south_0": "characters/boss_ghost_king/hurt_south_0",
+    "boss_ghost_king/hurt_south_1": "characters/boss_ghost_king/hurt_south_1",
+    "boss_ghost_king/hurt_south_2": "characters/boss_ghost_king/hurt_south_2",
     "boss_ghost_king/idle_east_0": "characters/boss_ghost_king/idle_east_0",
     "boss_ghost_king/idle_east_1": "characters/boss_ghost_king/idle_east_1",
     "boss_ghost_king/idle_east_2": "characters/boss_ghost_king/idle_east_2",
@@ -324,6 +330,12 @@ export const AssetKeys = {
     "mob_blood_corpse/death_south_1": "characters/mob_blood_corpse/death_south_1",
     "mob_blood_corpse/death_south_2": "characters/mob_blood_corpse/death_south_2",
     "mob_blood_corpse/death_south_3": "characters/mob_blood_corpse/death_south_3",
+    "mob_blood_corpse/hurt_east_0": "characters/mob_blood_corpse/hurt_east_0",
+    "mob_blood_corpse/hurt_east_1": "characters/mob_blood_corpse/hurt_east_1",
+    "mob_blood_corpse/hurt_east_2": "characters/mob_blood_corpse/hurt_east_2",
+    "mob_blood_corpse/hurt_south_0": "characters/mob_blood_corpse/hurt_south_0",
+    "mob_blood_corpse/hurt_south_1": "characters/mob_blood_corpse/hurt_south_1",
+    "mob_blood_corpse/hurt_south_2": "characters/mob_blood_corpse/hurt_south_2",
     "mob_blood_corpse/idle_east_0": "characters/mob_blood_corpse/idle_east_0",
     "mob_blood_corpse/idle_east_1": "characters/mob_blood_corpse/idle_east_1",
     "mob_blood_corpse/idle_east_2": "characters/mob_blood_corpse/idle_east_2",
@@ -360,6 +372,12 @@ export const AssetKeys = {
     "mob_blood_crow/death_south_1": "characters/mob_blood_crow/death_south_1",
     "mob_blood_crow/death_south_2": "characters/mob_blood_crow/death_south_2",
     "mob_blood_crow/death_south_3": "characters/mob_blood_crow/death_south_3",
+    "mob_blood_crow/hurt_east_0": "characters/mob_blood_crow/hurt_east_0",
+    "mob_blood_crow/hurt_east_1": "characters/mob_blood_crow/hurt_east_1",
+    "mob_blood_crow/hurt_east_2": "characters/mob_blood_crow/hurt_east_2",
+    "mob_blood_crow/hurt_south_0": "characters/mob_blood_crow/hurt_south_0",
+    "mob_blood_crow/hurt_south_1": "characters/mob_blood_crow/hurt_south_1",
+    "mob_blood_crow/hurt_south_2": "characters/mob_blood_crow/hurt_south_2",
     "mob_blood_crow/idle_east_0": "characters/mob_blood_crow/idle_east_0",
     "mob_blood_crow/idle_east_1": "characters/mob_blood_crow/idle_east_1",
     "mob_blood_crow/idle_east_2": "characters/mob_blood_crow/idle_east_2",
@@ -404,6 +422,12 @@ export const AssetKeys = {
     "mob_blood_pool_lurker/death_south_3": "characters/mob_blood_pool_lurker/death_south_3",
     "mob_blood_pool_lurker/death_south_4": "characters/mob_blood_pool_lurker/death_south_4",
     "mob_blood_pool_lurker/death_south_5": "characters/mob_blood_pool_lurker/death_south_5",
+    "mob_blood_pool_lurker/hurt_east_0": "characters/mob_blood_pool_lurker/hurt_east_0",
+    "mob_blood_pool_lurker/hurt_east_1": "characters/mob_blood_pool_lurker/hurt_east_1",
+    "mob_blood_pool_lurker/hurt_east_2": "characters/mob_blood_pool_lurker/hurt_east_2",
+    "mob_blood_pool_lurker/hurt_south_0": "characters/mob_blood_pool_lurker/hurt_south_0",
+    "mob_blood_pool_lurker/hurt_south_1": "characters/mob_blood_pool_lurker/hurt_south_1",
+    "mob_blood_pool_lurker/hurt_south_2": "characters/mob_blood_pool_lurker/hurt_south_2",
     "mob_blood_pool_lurker/idle_east_0": "characters/mob_blood_pool_lurker/idle_east_0",
     "mob_blood_pool_lurker/idle_east_1": "characters/mob_blood_pool_lurker/idle_east_1",
     "mob_blood_pool_lurker/idle_east_2": "characters/mob_blood_pool_lurker/idle_east_2",
@@ -436,6 +460,12 @@ export const AssetKeys = {
     "mob_blood_wolf/death_south_1": "characters/mob_blood_wolf/death_south_1",
     "mob_blood_wolf/death_south_2": "characters/mob_blood_wolf/death_south_2",
     "mob_blood_wolf/death_south_3": "characters/mob_blood_wolf/death_south_3",
+    "mob_blood_wolf/hurt_east_0": "characters/mob_blood_wolf/hurt_east_0",
+    "mob_blood_wolf/hurt_east_1": "characters/mob_blood_wolf/hurt_east_1",
+    "mob_blood_wolf/hurt_east_2": "characters/mob_blood_wolf/hurt_east_2",
+    "mob_blood_wolf/hurt_south_0": "characters/mob_blood_wolf/hurt_south_0",
+    "mob_blood_wolf/hurt_south_1": "characters/mob_blood_wolf/hurt_south_1",
+    "mob_blood_wolf/hurt_south_2": "characters/mob_blood_wolf/hurt_south_2",
     "mob_blood_wolf/idle_east_0": "characters/mob_blood_wolf/idle_east_0",
     "mob_blood_wolf/idle_east_1": "characters/mob_blood_wolf/idle_east_1",
     "mob_blood_wolf/idle_east_2": "characters/mob_blood_wolf/idle_east_2",
@@ -858,6 +888,12 @@ export const AssetKeys = {
     "mob_vengeful_soul/death_south_1": "characters/mob_vengeful_soul/death_south_1",
     "mob_vengeful_soul/death_south_2": "characters/mob_vengeful_soul/death_south_2",
     "mob_vengeful_soul/death_south_3": "characters/mob_vengeful_soul/death_south_3",
+    "mob_vengeful_soul/hurt_east_0": "characters/mob_vengeful_soul/hurt_east_0",
+    "mob_vengeful_soul/hurt_east_1": "characters/mob_vengeful_soul/hurt_east_1",
+    "mob_vengeful_soul/hurt_east_2": "characters/mob_vengeful_soul/hurt_east_2",
+    "mob_vengeful_soul/hurt_south_0": "characters/mob_vengeful_soul/hurt_south_0",
+    "mob_vengeful_soul/hurt_south_1": "characters/mob_vengeful_soul/hurt_south_1",
+    "mob_vengeful_soul/hurt_south_2": "characters/mob_vengeful_soul/hurt_south_2",
     "mob_vengeful_soul/idle_east_0": "characters/mob_vengeful_soul/idle_east_0",
     "mob_vengeful_soul/idle_east_1": "characters/mob_vengeful_soul/idle_east_1",
     "mob_vengeful_soul/idle_east_2": "characters/mob_vengeful_soul/idle_east_2",
@@ -974,6 +1010,18 @@ export const AssetKeys = {
     "wl_blood_foundation/death_west_1": "characters/wl_blood_foundation/death_west_1",
     "wl_blood_foundation/death_west_2": "characters/wl_blood_foundation/death_west_2",
     "wl_blood_foundation/death_west_3": "characters/wl_blood_foundation/death_west_3",
+    "wl_blood_foundation/hurt_east_0": "characters/wl_blood_foundation/hurt_east_0",
+    "wl_blood_foundation/hurt_east_1": "characters/wl_blood_foundation/hurt_east_1",
+    "wl_blood_foundation/hurt_east_2": "characters/wl_blood_foundation/hurt_east_2",
+    "wl_blood_foundation/hurt_north_0": "characters/wl_blood_foundation/hurt_north_0",
+    "wl_blood_foundation/hurt_north_1": "characters/wl_blood_foundation/hurt_north_1",
+    "wl_blood_foundation/hurt_north_2": "characters/wl_blood_foundation/hurt_north_2",
+    "wl_blood_foundation/hurt_south_0": "characters/wl_blood_foundation/hurt_south_0",
+    "wl_blood_foundation/hurt_south_1": "characters/wl_blood_foundation/hurt_south_1",
+    "wl_blood_foundation/hurt_south_2": "characters/wl_blood_foundation/hurt_south_2",
+    "wl_blood_foundation/hurt_west_0": "characters/wl_blood_foundation/hurt_west_0",
+    "wl_blood_foundation/hurt_west_1": "characters/wl_blood_foundation/hurt_west_1",
+    "wl_blood_foundation/hurt_west_2": "characters/wl_blood_foundation/hurt_west_2",
     "wl_blood_foundation/idle_east_0": "characters/wl_blood_foundation/idle_east_0",
     "wl_blood_foundation/idle_east_1": "characters/wl_blood_foundation/idle_east_1",
     "wl_blood_foundation/idle_east_2": "characters/wl_blood_foundation/idle_east_2",
@@ -1062,6 +1110,18 @@ export const AssetKeys = {
     "wl_extreme_jing/death_west_1": "characters/wl_extreme_jing/death_west_1",
     "wl_extreme_jing/death_west_2": "characters/wl_extreme_jing/death_west_2",
     "wl_extreme_jing/death_west_3": "characters/wl_extreme_jing/death_west_3",
+    "wl_extreme_jing/hurt_east_0": "characters/wl_extreme_jing/hurt_east_0",
+    "wl_extreme_jing/hurt_east_1": "characters/wl_extreme_jing/hurt_east_1",
+    "wl_extreme_jing/hurt_east_2": "characters/wl_extreme_jing/hurt_east_2",
+    "wl_extreme_jing/hurt_north_0": "characters/wl_extreme_jing/hurt_north_0",
+    "wl_extreme_jing/hurt_north_1": "characters/wl_extreme_jing/hurt_north_1",
+    "wl_extreme_jing/hurt_north_2": "characters/wl_extreme_jing/hurt_north_2",
+    "wl_extreme_jing/hurt_south_0": "characters/wl_extreme_jing/hurt_south_0",
+    "wl_extreme_jing/hurt_south_1": "characters/wl_extreme_jing/hurt_south_1",
+    "wl_extreme_jing/hurt_south_2": "characters/wl_extreme_jing/hurt_south_2",
+    "wl_extreme_jing/hurt_west_0": "characters/wl_extreme_jing/hurt_west_0",
+    "wl_extreme_jing/hurt_west_1": "characters/wl_extreme_jing/hurt_west_1",
+    "wl_extreme_jing/hurt_west_2": "characters/wl_extreme_jing/hurt_west_2",
     "wl_extreme_jing/idle_east_0": "characters/wl_extreme_jing/idle_east_0",
     "wl_extreme_jing/idle_east_1": "characters/wl_extreme_jing/idle_east_1",
     "wl_extreme_jing/idle_east_2": "characters/wl_extreme_jing/idle_east_2",
@@ -1150,6 +1210,18 @@ export const AssetKeys = {
     "wl_outer_disciple/death_west_1": "characters/wl_outer_disciple/death_west_1",
     "wl_outer_disciple/death_west_2": "characters/wl_outer_disciple/death_west_2",
     "wl_outer_disciple/death_west_3": "characters/wl_outer_disciple/death_west_3",
+    "wl_outer_disciple/hurt_east_0": "characters/wl_outer_disciple/hurt_east_0",
+    "wl_outer_disciple/hurt_east_1": "characters/wl_outer_disciple/hurt_east_1",
+    "wl_outer_disciple/hurt_east_2": "characters/wl_outer_disciple/hurt_east_2",
+    "wl_outer_disciple/hurt_north_0": "characters/wl_outer_disciple/hurt_north_0",
+    "wl_outer_disciple/hurt_north_1": "characters/wl_outer_disciple/hurt_north_1",
+    "wl_outer_disciple/hurt_north_2": "characters/wl_outer_disciple/hurt_north_2",
+    "wl_outer_disciple/hurt_south_0": "characters/wl_outer_disciple/hurt_south_0",
+    "wl_outer_disciple/hurt_south_1": "characters/wl_outer_disciple/hurt_south_1",
+    "wl_outer_disciple/hurt_south_2": "characters/wl_outer_disciple/hurt_south_2",
+    "wl_outer_disciple/hurt_west_0": "characters/wl_outer_disciple/hurt_west_0",
+    "wl_outer_disciple/hurt_west_1": "characters/wl_outer_disciple/hurt_west_1",
+    "wl_outer_disciple/hurt_west_2": "characters/wl_outer_disciple/hurt_west_2",
     "wl_outer_disciple/idle_east_0": "characters/wl_outer_disciple/idle_east_0",
     "wl_outer_disciple/idle_east_1": "characters/wl_outer_disciple/idle_east_1",
     "wl_outer_disciple/idle_east_2": "characters/wl_outer_disciple/idle_east_2",
@@ -1238,6 +1310,18 @@ export const AssetKeys = {
     "wl_qi_condensation/death_west_1": "characters/wl_qi_condensation/death_west_1",
     "wl_qi_condensation/death_west_2": "characters/wl_qi_condensation/death_west_2",
     "wl_qi_condensation/death_west_3": "characters/wl_qi_condensation/death_west_3",
+    "wl_qi_condensation/hurt_east_0": "characters/wl_qi_condensation/hurt_east_0",
+    "wl_qi_condensation/hurt_east_1": "characters/wl_qi_condensation/hurt_east_1",
+    "wl_qi_condensation/hurt_east_2": "characters/wl_qi_condensation/hurt_east_2",
+    "wl_qi_condensation/hurt_north_0": "characters/wl_qi_condensation/hurt_north_0",
+    "wl_qi_condensation/hurt_north_1": "characters/wl_qi_condensation/hurt_north_1",
+    "wl_qi_condensation/hurt_north_2": "characters/wl_qi_condensation/hurt_north_2",
+    "wl_qi_condensation/hurt_south_0": "characters/wl_qi_condensation/hurt_south_0",
+    "wl_qi_condensation/hurt_south_1": "characters/wl_qi_condensation/hurt_south_1",
+    "wl_qi_condensation/hurt_south_2": "characters/wl_qi_condensation/hurt_south_2",
+    "wl_qi_condensation/hurt_west_0": "characters/wl_qi_condensation/hurt_west_0",
+    "wl_qi_condensation/hurt_west_1": "characters/wl_qi_condensation/hurt_west_1",
+    "wl_qi_condensation/hurt_west_2": "characters/wl_qi_condensation/hurt_west_2",
     "wl_qi_condensation/idle_east_0": "characters/wl_qi_condensation/idle_east_0",
     "wl_qi_condensation/idle_east_1": "characters/wl_qi_condensation/idle_east_1",
     "wl_qi_condensation/idle_east_2": "characters/wl_qi_condensation/idle_east_2",
@@ -4110,6 +4194,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/hurt_east_0",
+          "characters/boss_ghost_king/hurt_east_1",
+          "characters/boss_ghost_king/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/boss_ghost_king/hurt_south_0",
+          "characters/boss_ghost_king/hurt_south_1",
+          "characters/boss_ghost_king/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -4476,6 +4580,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_corpse/hurt_east_0",
+          "characters/mob_blood_corpse/hurt_east_1",
+          "characters/mob_blood_corpse/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_corpse/hurt_south_0",
+          "characters/mob_blood_corpse/hurt_south_1",
+          "characters/mob_blood_corpse/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -4566,6 +4690,26 @@ export const CharacterAnimations = {
           "characters/mob_blood_crow/death_south_1",
           "characters/mob_blood_crow/death_south_2",
           "characters/mob_blood_crow/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_crow/hurt_east_0",
+          "characters/mob_blood_crow/hurt_east_1",
+          "characters/mob_blood_crow/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_crow/hurt_south_0",
+          "characters/mob_blood_crow/hurt_south_1",
+          "characters/mob_blood_crow/hurt_south_2"
         ],
         "loop": false
       }
@@ -4672,6 +4816,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_pool_lurker/hurt_east_0",
+          "characters/mob_blood_pool_lurker/hurt_east_1",
+          "characters/mob_blood_pool_lurker/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_pool_lurker/hurt_south_0",
+          "characters/mob_blood_pool_lurker/hurt_south_1",
+          "characters/mob_blood_pool_lurker/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -4758,6 +4922,26 @@ export const CharacterAnimations = {
           "characters/mob_blood_wolf/death_south_1",
           "characters/mob_blood_wolf/death_south_2",
           "characters/mob_blood_wolf/death_south_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_wolf/hurt_east_0",
+          "characters/mob_blood_wolf/hurt_east_1",
+          "characters/mob_blood_wolf/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_blood_wolf/hurt_south_0",
+          "characters/mob_blood_wolf/hurt_south_1",
+          "characters/mob_blood_wolf/hurt_south_2"
         ],
         "loop": false
       }
@@ -5834,6 +6018,26 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_vengeful_soul/hurt_east_0",
+          "characters/mob_vengeful_soul/hurt_east_1",
+          "characters/mob_vengeful_soul/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/mob_vengeful_soul/hurt_south_0",
+          "characters/mob_vengeful_soul/hurt_south_1",
+          "characters/mob_vengeful_soul/hurt_south_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -6116,6 +6320,44 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_blood_foundation/hurt_east_0",
+          "characters/wl_blood_foundation/hurt_east_1",
+          "characters/wl_blood_foundation/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "north": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_blood_foundation/hurt_north_0",
+          "characters/wl_blood_foundation/hurt_north_1",
+          "characters/wl_blood_foundation/hurt_north_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_blood_foundation/hurt_south_0",
+          "characters/wl_blood_foundation/hurt_south_1",
+          "characters/wl_blood_foundation/hurt_south_2"
+        ],
+        "loop": false
+      },
+      "west": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_blood_foundation/hurt_west_0",
+          "characters/wl_blood_foundation/hurt_west_1",
+          "characters/wl_blood_foundation/hurt_west_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -6332,6 +6574,44 @@ export const CharacterAnimations = {
           "characters/wl_extreme_jing/death_west_1",
           "characters/wl_extreme_jing/death_west_2",
           "characters/wl_extreme_jing/death_west_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_extreme_jing/hurt_east_0",
+          "characters/wl_extreme_jing/hurt_east_1",
+          "characters/wl_extreme_jing/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "north": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_extreme_jing/hurt_north_0",
+          "characters/wl_extreme_jing/hurt_north_1",
+          "characters/wl_extreme_jing/hurt_north_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_extreme_jing/hurt_south_0",
+          "characters/wl_extreme_jing/hurt_south_1",
+          "characters/wl_extreme_jing/hurt_south_2"
+        ],
+        "loop": false
+      },
+      "west": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_extreme_jing/hurt_west_0",
+          "characters/wl_extreme_jing/hurt_west_1",
+          "characters/wl_extreme_jing/hurt_west_2"
         ],
         "loop": false
       }
@@ -6556,6 +6836,44 @@ export const CharacterAnimations = {
         "loop": false
       }
     },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_outer_disciple/hurt_east_0",
+          "characters/wl_outer_disciple/hurt_east_1",
+          "characters/wl_outer_disciple/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "north": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_outer_disciple/hurt_north_0",
+          "characters/wl_outer_disciple/hurt_north_1",
+          "characters/wl_outer_disciple/hurt_north_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_outer_disciple/hurt_south_0",
+          "characters/wl_outer_disciple/hurt_south_1",
+          "characters/wl_outer_disciple/hurt_south_2"
+        ],
+        "loop": false
+      },
+      "west": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_outer_disciple/hurt_west_0",
+          "characters/wl_outer_disciple/hurt_west_1",
+          "characters/wl_outer_disciple/hurt_west_2"
+        ],
+        "loop": false
+      }
+    },
     "idle": {
       "east": {
         "frameRate": null,
@@ -6772,6 +7090,44 @@ export const CharacterAnimations = {
           "characters/wl_qi_condensation/death_west_1",
           "characters/wl_qi_condensation/death_west_2",
           "characters/wl_qi_condensation/death_west_3"
+        ],
+        "loop": false
+      }
+    },
+    "hurt": {
+      "east": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_qi_condensation/hurt_east_0",
+          "characters/wl_qi_condensation/hurt_east_1",
+          "characters/wl_qi_condensation/hurt_east_2"
+        ],
+        "loop": false
+      },
+      "north": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_qi_condensation/hurt_north_0",
+          "characters/wl_qi_condensation/hurt_north_1",
+          "characters/wl_qi_condensation/hurt_north_2"
+        ],
+        "loop": false
+      },
+      "south": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_qi_condensation/hurt_south_0",
+          "characters/wl_qi_condensation/hurt_south_1",
+          "characters/wl_qi_condensation/hurt_south_2"
+        ],
+        "loop": false
+      },
+      "west": {
+        "frameRate": null,
+        "frames": [
+          "characters/wl_qi_condensation/hurt_west_0",
+          "characters/wl_qi_condensation/hurt_west_1",
+          "characters/wl_qi_condensation/hurt_west_2"
         ],
         "loop": false
       }

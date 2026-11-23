@@ -54,7 +54,7 @@ test('asset: a core character has frames, raw frames, a foot point and a card', 
   assert.equal(data.clips.idle.ms, null, 'the manifest defines no frame time for core clips');
   assert.equal(data.defaultFrameMs, 100);
   assert.deepEqual(data.foot, [16, 31]);
-  assert.equal(data.rawFrames.length, record.total_frames);
+  assert.equal(data.rawFrames.length, record.total_frames - 3 * record.directions.length, 'the hurt clip is derived from processed frames and has no raw');
   assert.ok(data.frames.every(f => fs.existsSync(root + f.path)) && data.rawFrames.every(f => fs.existsSync(root + f.path)));
   assert.equal(data.card.names.en, record.name.en);
   assert.deepEqual(data.card.palette.map(p => p.id), record.palette_refs);

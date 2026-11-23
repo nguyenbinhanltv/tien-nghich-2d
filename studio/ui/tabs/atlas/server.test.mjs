@@ -59,7 +59,7 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   assert.equal(core.chunked, false);
   assert.deepEqual(core.profiles, ['web', 'mobile']);
   assert.equal(core.shipped.mobile.pages, 7);
-  assert.equal(core.shipped.web.frames, 2890);
+  assert.equal(core.shipped.web.frames, 2974);
   assert.equal(core.studioPack, true);
   assert.equal(typeof core.authority.build, 'boolean');
   const design = JSON.parse(await fs.readFile(path.join(REPO, 'assets/manifest_longtime.json'), 'utf8'));

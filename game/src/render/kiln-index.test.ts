@@ -20,11 +20,11 @@ describe('parseFrameName', () => {
 describe('core atlas (real mobile pages)', () => {
   const names = coreNames();
   const { clips, unparsed } = indexClips(names);
-  it('has 2890 frames and 437 clips, the counts of the Studio Phaser check', () => {
-    expect(names.length).toBe(2890);
-    expect(new Set(names).size).toBe(2890);
+  it('has 2974 frames and 465 clips, the counts of the Studio Phaser check', () => {
+    expect(names.length).toBe(2974);
+    expect(new Set(names).size).toBe(2974);
     expect(unparsed).toEqual([]);
-    expect(clips.size).toBe(437);
+    expect(clips.size).toBe(465);
   });
   it('clip frames are consecutive from 0 and every frame belongs to exactly one clip', () => {
     let total = 0;
@@ -32,11 +32,11 @@ describe('core atlas (real mobile pages)', () => {
       total += c.frames.length;
       c.frames.forEach((f, i) => expect(f.endsWith(`_${i}`), f).toBe(true));
     }
-    expect(total).toBe(2890);
+    expect(total).toBe(2974);
   });
   it('builds a fromJSON document with one animation per clip, loops for idle/move, one-shot for attacks', () => {
     const doc = animsJson(clips.values(), () => 'page', (c) => (c === 'idle' ? 6 : 8)) as { anims: { key: string; repeat: number; frames: unknown[] }[] };
-    expect(doc.anims.length).toBe(437);
+    expect(doc.anims.length).toBe(465);
     expect(doc.anims.find((a) => a.key === 'characters/mob_blood_wolf/move_east')?.repeat).toBe(-1);
     expect(doc.anims.find((a) => a.key === 'characters/boss_ghost_king/attack_claw_east')?.repeat).toBe(0);
   });

@@ -120,7 +120,7 @@ test('a second tiny project with no baseline declaration shows everything awaiti
   assert.deepEqual(await tallyStandings(standing, ['out/a_0.png', 'out/a_1.png']), {approved: 0, baseline: 0, awaiting: 2, total: 2});
 });
 
-test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline except the 51 slice assets, nothing awaits', async () => {
+test('the real project: every Longtime frame is approved on record, the legacy core art stays baseline except the 51 slice assets, only the 84 PX-1 hurt frames await', async () => {
   const pack = await loadPack(repoRoot, undefined, {verifyFiles: false});
   const catalog = await loadEditableCatalog(pack, repoRoot);
   const standing = createStanding(repoRoot, {review: pack.review, approvalsDir: pack.directories.approvals});
@@ -134,12 +134,10 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   const vs = new Set(Object.values(record.approvals.find(a => a.id === 'owner_vs_baseline_2026-11-23').assets)
     .flatMap(info => Object.keys(info.frames).map(k => `${info.frame_dir}/${k.split('/').at(-1)}.png`)));
   assert.equal(vs.size, 1356);
-  // Hằng Nhạc mobs and boss gained a derived `hurt` clip (tools/scripts/build_hurt_clips.py): new frames await a human,
-  // and the asset-level baseline label no longer covers their changed asset.
-  const hurt = /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman)|boss_teng_huayuan)\//;
   let baseline = 0;
   for (const f of core) {
-    const want = vs.has(f.processed) ? 'approved' : hurt.test(f.info.key) ? 'awaiting' : 'baseline';
+    // PX-1 (2026-11-24): the script-made `hurt` frames of ten slice assets await the owner; nothing else does.
+    const want = vs.has(f.processed) ? 'approved' : /^characters\/(wl_outer_disciple|wl_qi_condensation|wl_blood_foundation|wl_extreme_jing|mob_blood_wolf|mob_blood_crow|mob_blood_corpse|mob_vengeful_soul|mob_blood_pool_lurker|boss_ghost_king)\/hurt_/.test(f.info.key) ? 'awaiting' : /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman)|boss_teng_huayuan)\//.test(f.info.key) ? 'awaiting' : 'baseline'; // Hằng Nhạc: asset-level baseline lapses when frames are added
     baseline += want === 'baseline';
     assert.equal(await standing.of(f.processed), want, f.info.key);
   }
