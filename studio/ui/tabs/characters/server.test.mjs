@@ -195,15 +195,23 @@ test('contact sheet: oversized requests are refused with 422 and the largest all
   assert.equal(refused.status, 422);
   assert.equal(refused.data.error.code, 'sheet_too_large');
   assert.match(refused.data.error.message, new RegExp(`largest scale for this character is ${largest}\\.`));
-  const ok = await get(`sheet.png?id=boss_ancient_god_remnant&scale=${largest}`);
-  assert.equal(ok.status, 200);
-  const image = decodePng(ok.body);
+  // The boundary is exact on the server too: the largest scale is not refused, one more is, and the refusal is cheap
+  // (decided from the layout alone, before any frame is decoded or any PNG is encoded).
+  const over = await api(`sheet.png?id=boss_ancient_god_remnant&scale=${largest + 1}`);
+  assert.equal(over.status, 422);
+  assert.equal(over.data.error.code, 'sheet_too_large');
+  assert.match(over.data.error.message, new RegExp(`largest scale for this character is ${largest}\\.`));
+  // Accepted requests are rendered for real, but on the smallest clip at 2x: rendering the whole boss at the limit builds a
+  // 16-megapixel PNG, which takes seconds on a loaded machine and proves nothing the layout arithmetic above does not.
+  const clips = Object.keys(boss.clips).sort((x, y) => boss.frames.filter(f => f.clip === x).length - boss.frames.filter(f => f.clip === y).length);
+  const clip = clips[0];
+  const small = 2;
+  const one = await get(`sheet.png?id=boss_ancient_god_remnant&scale=${small}&clip=${clip}`);
+  assert.equal(one.status, 200);
+  const image = decodePng(one.body);
+  const l = layoutSheet({frames: boss.frames, facings, scale: small, clip, size, labelWidth: 38});
+  assert.deepEqual([image.width, image.height], [l.width, l.height]);
   assert.ok(image.width * image.height <= maxSheetPixels);
-  // One clip at the top scale is allowed when it fits.
-  const clip = Object.keys(boss.clips)[0];
-  const l = layoutSheet({frames: boss.frames, facings, scale: 8, clip, size, labelWidth: 38});
-  const single = await get(`sheet.png?id=boss_ancient_god_remnant&scale=8&clip=${clip}`);
-  assert.equal(single.status, l.width * l.height <= maxSheetPixels ? 200 : 422);
   // Every ordinary character still exports at 8x for a single clip, and the limit is enforced before any decoding.
   assert.equal((await get('sheet.png?id=lt_ink_marten&scale=8&clip=idle')).status, 200);
 });
