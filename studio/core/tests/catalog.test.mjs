@@ -5,10 +5,10 @@ import { buildCatalog } from '../catalog.mjs';
 import { loadEditableCatalog } from '../editable.mjs';
 import { root } from './helpers.mjs';
 
-test('catalog lists every asset: 90 core, 126 Longtime, 12 VFX, plus planned effects and audio', async () => {
+test('catalog lists every asset: 94 core, 126 Longtime, 12 VFX, plus planned effects and audio', async () => {
   const pack = await loadPack(root);
   const {assets, totals} = await buildCatalog(pack, root);
-  assert.equal(totals.bySource.core, 90);
+  assert.equal(totals.bySource.core, 94);
   assert.equal(totals.bySource.longtime, 126);
   assert.equal(totals.bySource.vfx, 12);
   assert.equal(totals.bySource.longtime_effects, 6);

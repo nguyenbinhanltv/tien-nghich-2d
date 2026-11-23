@@ -30,9 +30,9 @@ test('both entries carry the owner\'s own words, say the first statement was nar
   }
 });
 
-test('the real project: only the 84 PX-1 hurt frames (2026-11-24, written by script, not yet seen by the owner) await; the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
+test('the real project: only the 116 PX-1 frames (84 hurt + 32 enemy-projectile frames, 2026-11-24, written by script, not yet seen by the owner) await; the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 84, changes_requested: 0, total: 5136});
+  assert.deepEqual(counts, {approved: 3554, baseline: 1498, awaiting: 116, changes_requested: 0, total: 5168});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -56,7 +56,7 @@ test('the 30 new PixelLab characters are one entry, every processed frame and ev
   }
 });
 
-// PX-1 (2026-11-24): a script-made `hurt` clip was added to ten approved slice assets; only those added frames await.
+// PX-1 (2026-11-24): four new enemy-projectile assets (32 frames, new directories, so no baseline is touched) also await. A script-made `hurt` clip was added to ten approved slice assets; only those added frames await.
 const PX1_HURT = {wl_outer_disciple: 12, wl_qi_condensation: 12, wl_blood_foundation: 12, wl_extreme_jing: 12, mob_blood_wolf: 6, mob_blood_crow: 6, mob_blood_corpse: 6, mob_vengeful_soul: 6, mob_blood_pool_lurker: 6, boss_ghost_king: 6};
 test('every asset record in the project file is current: nothing changed or missing, and nothing added except the PX-1 hurt frames', async () => {
   const records = await readArtApprovals(repo, 'assets/review');
@@ -137,7 +137,7 @@ test('the baseline record is kept untouched and never wins over an approval', as
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 3554, baseline: 1498, awaiting: 84});
+  assert.deepEqual(both, {approved: 3554, baseline: 1498, awaiting: 116});
 });
 
 const VS = 'owner_vs_baseline_2026-11-23';
