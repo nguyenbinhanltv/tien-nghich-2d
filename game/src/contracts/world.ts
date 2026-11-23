@@ -69,6 +69,8 @@ export interface ActorState {
   invuln: number;
   combat: ActorCombat;
   ai: AiState;
+  /** Elite variant of a mob (G2-HN): the same content row with more health and damage (sim/ai/params.ts ELITE). Absent on everything else. */
+  elite?: boolean;
   /** Tick when `hp` reached 0, or -1 while alive. Dead actors are removed by the sim after the death clip. */
   diedTick: number;
 }

@@ -18,7 +18,7 @@ export interface RoomLayout {
   id: string; size: [number, number]; player_start: [number, number]; grid: string[];
   doors: { side: 'west' | 'east'; role: 'entry' | 'exit'; to: string }[];
   props: { id: string; at: [number, number]; to?: string }[];
-  waves: { spawns: { mob: string; at: [number, number] }[] }[];
+  waves: { spawns: { mob: string; at: [number, number]; /** An elite variant of the mob (more health and damage). */ elite?: boolean }[] }[];
 }
 
 /** Props that stop movement (they occupy their base tile). The sim (sim/run/floor.ts) and the content validator (tools/lib/rooms.ts) both read this one list, so "every cell is reachable" means the same in both. */

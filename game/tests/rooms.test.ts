@@ -81,6 +81,10 @@ describe('provisional art (content/art_provisional.json): allowed before approva
     const L = hy(); L.props.push({ id: 'prop_fake_thing', at: [4, 4] });
     expect(validateLayout('room_hy_1', L, rooms, approved, provisional).join('\n')).toMatch(/prop_fake_thing is not an approved art id/);
   });
+  it('only a mob can be elite', () => {
+    const L = layouts.get('room_hy_boss')!, c = structuredClone(L); c.waves[0]!.spawns[0]!.elite = true;
+    expect(validateLayout('room_hy_boss', c, rooms, approved, provisional).join('\n')).toMatch(/only a mob can be elite/);
+  });
   it('validateAll reports the warnings into the array it is given', () => {
     const w: string[] = []; validateAll(rooms, w);
     expect(w.some((x) => /room_hy_boss.*boss_teng_huayuan is not yet approved/.test(x))).toBe(true);

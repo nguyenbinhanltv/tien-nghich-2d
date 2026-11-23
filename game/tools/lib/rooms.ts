@@ -108,6 +108,7 @@ export function validateLayout(file: string, L: RoomLayout, rooms: RoomRow[], ap
     const [c, r] = s.at;
     counts.set(s.mob, (counts.get(s.mob) ?? 0) + 1);
     art(s.mob);
+    if (s.elite && !s.mob.startsWith('mob_')) bad(`wave ${wi + 1} ${s.mob}: only a mob can be elite`);
     if (!walkable(c, r)) { bad(`wave ${wi + 1} ${s.mob} at ${c},${r} is not on a floor cell`); return; }
     place(s.mob, c, r);
     if (blocked.has(key(c, r))) bad(`${s.mob} at ${c},${r} is under a prop`);
