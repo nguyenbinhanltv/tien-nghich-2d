@@ -23,7 +23,7 @@ export default {
   inputSchema: {
     type: 'object',
     properties: {
-      cueId: { type: 'string', maxLength: 64, description: 'The audio cue this is for (an id from studio_catalog_search source=audio, e.g. sfx_step).' },
+      cueId: { type: 'string', maxLength: 64, description: 'The audio cue this is for (an id from studio_catalog_search source=audio, copy it from that search).' },
       document: { type: 'object', description: 'A studio.audio.patch or studio.audio.score document. sampleRate may be omitted (the project\'s rate is used); seed is required. A patch may carry window: {ms} | {frames, frameMs} | {clip:{asset, clip, from?, to?}} plus tailMs: its length is then the gameplay window (+ tail) and its layer times and envelopes stretch from the patch\'s own durationMs to fit; the clip form reads the clip contract and frame timing of that asset.' },
       keep: { type: 'boolean', description: 'Store this render as the next candidate of the cue and start its review history. Needs a deterministic render.' },
       note: { type: 'string', maxLength: 500, description: 'With keep: what you intended, recorded with the candidate.' },
