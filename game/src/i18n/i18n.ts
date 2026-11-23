@@ -10,5 +10,9 @@ export class I18n {
   t(key: string): string {
     return this.tables[this.locale][key] ?? this.tables.en[key] ?? `[${key}]`;
   }
+  /** Translate and fill `{name}` placeholders. An unknown placeholder is left as written so a missing variable shows up in tests. */
+  fmt(key: string, vars: Record<string, string | number> = {}): string {
+    return this.t(key).replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
+  }
   has(key: string): boolean { return key in this.tables[this.locale] || key in this.tables.en; }
 }

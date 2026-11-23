@@ -33,7 +33,7 @@ describe('pixel font', () => {
     expect(toAscii(rasterize('Ấ')).split('\n')[0]).toContain('#');
   });
   it('every character of every UI string can be drawn, so no glyph is silently dropped', () => {
-    for (const t of [uiTables.vi, uiTables.en]) for (const [k, v] of Object.entries(t)) expect(missingChars(v), k).toEqual([]);
+    for (const t of [uiTables.vi, uiTables.en]) for (const [k, v] of Object.entries(t)) expect(missingChars(v.replace(/\{\w+\}/g, "")), k).toEqual([]);
   });
   it('HUD strings fit the 384 px view with room to spare (no overflow of the pixel HUD)', () => {
     for (const t of [uiTables.vi, uiTables.en]) {

@@ -14,17 +14,24 @@ import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
+import { attachRun, canRestartRun } from '../../meta/flow.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
   sample(): InputFrame;
   paused(): boolean;
+  /** Display name of a content id (a boss or mob) in the player's language. */
+  nameOf?(kind: string): string;
   /** Floor name shown by the minimap (e.g. "Huyết Hải"). */
   floorLabel?: string;
   /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
   onEvents?(events: readonly GameEvent[], world: WorldState): void;
   /** Status line (hp, result). */
   status?(world: WorldState): void;
+  /** Run mode (the Động Phủ loop): fight on this seed under a run, and leave through `onFinished` instead of retrying. */
+  run?: { seed: number; runId: number };
+  /** Called once, on the first Dodge/Counter press after the result beat, when `run` is set. The run in `world.run` has ended. */
+  onFinished?(world: WorldState): void;
   /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
   frozen?: boolean;
 }
@@ -49,13 +56,14 @@ const HAZARD_FILL = 0xd03a4a, HAZARD_EDGE = 0xee7a80, SAFE_EDGE = 0x8f62cf;
 export class BloodSeaScene extends Phaser.Scene {
   private readonly host: SceneHost;
   private frames!: KilnFrames;
-  private readonly fight = new FightRunner();
+  private readonly fight: FightRunner;
   private readonly loop = new FixedLoop();
   private readonly sprites = new Map<number, Phaser.GameObjects.Image>();
   private shots: Phaser.GameObjects.Image[] = [];
   private hazards!: Phaser.GameObjects.Graphics;
   private input0: InputFrame | null = null;
   private endedAt = -1;
+  private finished = false;
   readonly juice = new Juice();
   private hud!: Hud;
   private floor!: FloorHud;
@@ -63,6 +71,8 @@ export class BloodSeaScene extends Phaser.Scene {
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
+    this.fight = new FightRunner(host.run?.seed);
+    if (host.run) attachRun(this.fight.world, host.run.runId);
   }
 
   preload(): void { preloadKiln(this); this.load.json('content-tables', 'content/tables.json'); }
@@ -72,7 +82,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#14101a');
     this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
-    this.hud = new Hud(this, this.frames);
+    this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
     if (this.cache.json.exists('content-tables')) {
@@ -83,8 +93,18 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** Run mode: the fight reached a result (or its run ended), so Restart must not be offered. */
+  resultShown(): boolean { return !canRestartRun(this.fight.world); }
+
   /** Menu: start the fight again from the beginning. */
-  restartFight(): void { this.fight.restart(); this.endedAt = -1; }
+  restartFight(): void {
+    // in run mode the same seed and run id stay: a restart never rerolls the fight or skips the result handling
+    const r = this.host.run;
+    if (r && !canRestartRun(this.fight.world)) return; // a finished run leaves only through onFinished
+    this.fight.restart(r?.seed);
+    if (r) attachRun(this.fight.world, r.runId);
+    this.endedAt = -1; this.finished = false;
+  }
 
   private put(name: string, x: number, y: number, depth: number): void {
     this.add.image(x, y, this.frames.pageOf(name), name).setOrigin(0, 0).setDepth(depth);
@@ -113,7 +133,9 @@ export class BloodSeaScene extends Phaser.Scene {
       // after a result, a fresh Dodge or Counter press (after a short beat) starts the fight again
       if (w.mode === 'won' || w.mode === 'lost') {
         if (this.endedAt < 0) this.endedAt = w.tick;
-        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) { this.fight.restart(); this.endedAt = -1; }
+        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) {
+          if (this.host.run) { if (!this.finished) { this.finished = true; this.host.onFinished?.(w); } } else { this.fight.restart(); this.endedAt = -1; }
+        }
       }
       let first = true;
       this.loop.advance(deltaMs, () => {
