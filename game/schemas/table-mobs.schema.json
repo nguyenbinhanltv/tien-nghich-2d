@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/table-mobs.schema.json",
+  "title": "One row of content/tables/mobs.csv (after CSV typing)",
+  "type": "object", "additionalProperties": false,
+  "required": ["id", "hp", "speed", "contact_dmg", "ai", "tier", "biome", "attack_clip", "tell_ms"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^mob_[a-z0-9_]+$" },
+    "hp": { "type": "integer", "minimum": 1 },
+    "speed": { "type": "number", "minimum": 0 },
+    "contact_dmg": { "type": "integer", "minimum": 0 },
+    "ai": { "enum": ["charger", "swooper", "brawler", "ambusher", "shooter"] },
+    "tier": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "biome": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "attack_clip": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "tell_ms": { "type": "integer", "minimum": 250, "description": "Telegraph shown before the hit. 250 ms is the floor of the contract lint." }
+  }
+}

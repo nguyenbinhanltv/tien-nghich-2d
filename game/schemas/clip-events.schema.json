@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/clip-events.schema.json",
+  "title": "clip-events.json: timed events (tell, hit, hit_end, fire, step) per clip, compiled from Kiln's studio-metadata.json",
+  "type": "object", "additionalProperties": false, "required": ["schema", "version", "clips"],
+  "properties": {
+    "schema": { "const": "tien-nghich-2d.clip-events" },
+    "version": { "const": 1 },
+    "clips": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/assetId" },
+      "additionalProperties": { "type": "object", "propertyNames": { "$ref": "_defs.schema.json#/$defs/clipName" }, "additionalProperties": { "$ref": "#/$defs/clip" } } }
+  },
+  "$defs": {
+    "event": {
+      "type": "object", "additionalProperties": false, "required": ["frame", "name", "atMs"],
+      "properties": {
+        "frame": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "name": { "enum": ["tell", "hit", "hit_end", "fire", "step"] },
+        "atMs": { "type": "integer", "minimum": 0, "description": "Start of the event's frame, summed from frameMs." }
+      }
+    },
+    "clip": {
+      "type": "object", "additionalProperties": false, "required": ["frameMs", "totalMs", "frameMsSource", "events"],
+      "properties": {
+        "frameMs": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 1, "maximum": 60000 } },
+        "totalMs": { "type": "integer", "minimum": 1 },
+        "frameMsSource": { "enum": ["metadata", "default"] },
+        "events": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/event" } }
+      }
+    }
+  }
+}

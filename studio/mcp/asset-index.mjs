@@ -74,13 +74,20 @@ export async function loadAssetIndex(pack, root) {
     // A studio plan may carry an inline spec instead of naming a manifest profile (a VFX, a one-off).
     const inlineProfile = c => ({category: c.category, native_px: c.size, pivot_px: c.pivot, directions: c.directions ?? ['none'],
       clips: Object.fromEntries(Object.entries(c.clips).map(([n, v]) => [n, [v.frames, v.frameMs]]))});
+    // A design manifest only DESIGNS: its default readiness is "planned". When the project packs the chunks
+    // (budget.manifest, one chunk-manifest per chunk group) an asset named there is packed, so the index says so.
+    const packedIds = new Set();
+    if (design.budget?.manifest) for (const chunk of Object.keys(data.chunks ?? {})) {
+      const cm = await readJson(root, fillTemplate(design.budget.manifest, {chunk})).catch(() => null);
+      for (const id of cm?.asset_ids ?? []) packedIds.add(id);
+    }
     const designRecord = (a, origin) => {
       const p = a.custom ? inlineProfile(a.custom) : data.profiles[a.profile];
       if (!p) throw new Error(`${design.id} asset ${a.id} names unknown profile ${a.profile}`);
       const rawDir = fillTemplate(data.defaults.source, {id: a.id}).replace(/\/$/, '');
       return {
         id: a.id, source: design.id, sourceId: design.id, manifest: design.file, origin, category: p.category,
-        profile: a.custom ? 'custom' : a.profile, name: a.id, readiness: a.readiness ?? data.defaults.readiness, brief: a.brief,
+        profile: a.custom ? 'custom' : a.profile, name: a.id, readiness: a.readiness ?? (packedIds.has(a.id) ? 'packed' : data.defaults.readiness), brief: a.brief,
         chunk: a.chunk_group, phase: a.phase, method: a.method, dependencies: a.dependencies ?? [],
         assignedAgent: p.assigned_agent, size: p.native_px, pivot: p.pivot_px, directions: p.directions,
         clips: Object.fromEntries(Object.entries(p.clips).map(([c, [frames, frameMs]]) => [c, {frames, frameMs}])),

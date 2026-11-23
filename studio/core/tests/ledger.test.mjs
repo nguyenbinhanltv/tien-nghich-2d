@@ -51,6 +51,14 @@ test('an asset with no record is "not recorded", and planned ones are counted as
   assert.ok(md.split('\n').some(l => l.startsWith(`| ${none[0].id} |`) && l.includes(NOT_RECORDED)));
 });
 
+test('a design-manifest asset the project has packed (its chunk-manifest lists it) is indexed as packed, not planned', () => {
+  const longtime = [...index.assets.values()].filter(a => a.source === 'longtime');
+  assert.ok(longtime.length > 0);
+  assert.deepEqual([...new Set(longtime.map(a => a.readiness))], ['packed']);
+  const ledger = JSON.parse(execFileSync('node', [path.join(REPO, 'studio/core/ledger-cli.mjs')], {encoding: 'utf8', maxBuffer: 1 << 26}));
+  assert.equal(ledger.assets.filter(r => r.source === 'longtime' && r.readiness === 'planned').length, 0);
+});
+
 test('tools and inputs: licences as recorded, the noncommercial skill flagged, the FFmpeg and PixelLab facts recorded, what only the owner can know left flagged', () => {
   const c = Object.fromEntries(ledger.components.map(x => [x.id, x]));
   assert.equal(c.spritefx.licence, 'MIT');

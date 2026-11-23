@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/encounter.schema.json",
+  "title": "content/encounters/<id>.yaml (parsed)",
+  "type": "object", "additionalProperties": false, "required": ["id", "boss", "phases", "attacks"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "boss": { "type": "string", "pattern": "^boss_[a-z0-9_]+$" },
+    "phases": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["id", "hp_above", "loop"],
+      "properties": { "id": { "type": "string" }, "hp_above": { "type": "number", "minimum": 0, "maximum": 1 }, "enter_clip": { "$ref": "_defs.schema.json#/$defs/clipName" }, "loop": { "type": "array", "minItems": 1, "items": { "type": "string" } } } } },
+    "attacks": { "type": "object", "minProperties": 1, "additionalProperties": { "type": "object", "additionalProperties": false, "required": ["clip", "tell", "dodge_window_ms", "strike_window_ms", "hit"],
+      "properties": {
+        "clip": { "$ref": "_defs.schema.json#/$defs/clipName" },
+        "tell": { "type": "object", "additionalProperties": false, "required": ["ms"], "properties": { "ms": { "type": "integer", "minimum": 250 }, "sfx_event": { "$ref": "_defs.schema.json#/$defs/snake" }, "vfx": { "type": "string" } } },
+        "dodge_window_ms": { "type": "integer", "minimum": 1 },
+        "strike_window_ms": { "type": "integer", "minimum": 1 },
+        "hit": { "type": "object", "additionalProperties": false, "required": ["id", "damage"], "properties": { "id": { "$ref": "_defs.schema.json#/$defs/snake" }, "damage": { "type": "integer", "minimum": 0 } } }
+      } } }
+  }
+}

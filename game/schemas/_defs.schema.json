@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/_defs.schema.json",
+  "title": "Shared definitions of the Kiln <-> game contract",
+  "$defs": {
+    "assetId": { "type": "string", "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)+$" },
+    "clipName": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,31}$" },
+    "snake": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,31}$" },
+    "px": { "type": "integer", "minimum": 0, "maximum": 4096 },
+    "size": { "type": "array", "prefixItems": [{ "type": "integer", "minimum": 1 }, { "type": "integer", "minimum": 1 }], "items": false, "minItems": 2 },
+    "point": { "type": "array", "prefixItems": [{ "type": "integer", "minimum": 0 }, { "type": "integer", "minimum": 0 }], "items": false, "minItems": 2 },
+    "box": {
+      "description": "Integer pixel rectangle in FRAME pixels, origin at the frame's top-left, y down. Same convention as Kiln's metadata hitbox {x,y,w,h}.",
+      "type": "object", "additionalProperties": false, "required": ["x", "y", "w", "h"],
+      "properties": { "x": { "$ref": "#/$defs/px" }, "y": { "$ref": "#/$defs/px" }, "w": { "type": "integer", "minimum": 1, "maximum": 4096 }, "h": { "type": "integer", "minimum": 1, "maximum": 4096 } }
+    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

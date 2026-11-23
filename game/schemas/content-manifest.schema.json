@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/content-manifest.schema.json",
+  "title": "dist-content/content.manifest.json: the pack index with a hash per file; the game refuses a pack that does not match it",
+  "type": "object", "additionalProperties": false, "required": ["schema", "version", "profile", "chunks", "files", "contentHash"],
+  "properties": {
+    "schema": { "const": "tien-nghich-2d.content-manifest" },
+    "version": { "const": 1 },
+    "profile": { "enum": ["mobile", "web"] },
+    "chunks": { "type": "array", "items": { "type": "string" } },
+    "files": { "type": "object", "additionalProperties": { "type": "object", "additionalProperties": false, "required": ["sha256", "bytes"], "properties": { "sha256": { "$ref": "_defs.schema.json#/$defs/sha256" }, "bytes": { "type": "integer", "minimum": 0 } } } },
+    "contentHash": { "$ref": "_defs.schema.json#/$defs/sha256" }
+  }
+}

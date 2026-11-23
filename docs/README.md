@@ -5,4 +5,5 @@
 - ASSET_ROUTING.md - who generates what (hard rule; PixelLab retired 2026-11-22, studio forge routes)
 - MCP_CAPABILITIES.md - studio MCP (planned), retired PixelLab inventory (history) + secondary MCPs
 - SKILLS_INSTALLED.md - third-party skills, SHAs, stages
+- [Game plan](GAME_PLAN.md) — quyết định 2026-11-23 và tóm tắt kế hoạch game; [Kiln ↔ game contract](KILN_GAME_CONTRACT.md) — đặc tả dữ liệu Kiln giao cho game.
 - [Lore Analysis](LORE_ANALYSIS.md) — ghi chú nguồn, độ tin cậy của bản dịch và đề xuất gameplay.
