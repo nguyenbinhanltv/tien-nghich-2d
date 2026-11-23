@@ -402,10 +402,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_rogue_disciple/",
    "palette_refs": [
     "ink_04",
@@ -454,10 +458,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_courtyard_guard/",
    "palette_refs": [
     "thunder_01",
@@ -506,10 +514,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_sword_acolyte/",
    "palette_refs": [
     "thunder_01",
@@ -558,10 +570,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 18,
-   "total_frames": 36,
+   "frames_per_direction": 21,
+   "total_frames": 42,
    "output_path": "assets/raw/characters/mobs/mob_herb_viper/",
    "palette_refs": [
     "jade_03",
@@ -610,10 +626,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_demonic_talisman/",
    "palette_refs": [
     "ink_01",
@@ -1210,10 +1230,14 @@
     "death": {
      "frames": 8,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 44,
-   "total_frames": 88,
+   "frames_per_direction": 47,
+   "total_frames": 94,
    "output_path": "assets/raw/characters/bosses/boss_teng_huayuan/",
    "palette_refs": [
     "blood_02",

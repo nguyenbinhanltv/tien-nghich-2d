@@ -40,9 +40,129 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/idle_east_0": {
+    "characters/boss_teng_huayuan/hurt_east_0": {
       "frame": {
         "x": 143,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/hurt_east_1": {
+      "frame": {
+        "x": 213,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/hurt_east_2": {
+      "frame": {
+        "x": 283,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/hurt_south_0": {
+      "frame": {
+        "x": 353,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/hurt_south_1": {
+      "frame": {
+        "x": 423,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/hurt_south_2": {
+      "frame": {
+        "x": 493,
+        "y": 3,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/idle_east_0": {
+      "frame": {
+        "x": 563,
         "y": 3,
         "w": 64,
         "h": 64
@@ -62,7 +182,7 @@
     },
     "characters/boss_teng_huayuan/idle_east_1": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 3,
         "w": 64,
         "h": 64
@@ -82,7 +202,7 @@
     },
     "characters/boss_teng_huayuan/idle_east_2": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 3,
         "w": 64,
         "h": 64
@@ -102,7 +222,7 @@
     },
     "characters/boss_teng_huayuan/idle_east_3": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 3,
         "w": 64,
         "h": 64
@@ -122,7 +242,7 @@
     },
     "characters/boss_teng_huayuan/idle_east_4": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 3,
         "w": 64,
         "h": 64
@@ -142,7 +262,7 @@
     },
     "characters/boss_teng_huayuan/idle_east_5": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 3,
         "w": 64,
         "h": 64
@@ -162,8 +282,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_0": {
       "frame": {
-        "x": 563,
-        "y": 3,
+        "x": 3,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -182,8 +302,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_1": {
       "frame": {
-        "x": 633,
-        "y": 3,
+        "x": 73,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -202,8 +322,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_2": {
       "frame": {
-        "x": 703,
-        "y": 3,
+        "x": 143,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -222,8 +342,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_3": {
       "frame": {
-        "x": 773,
-        "y": 3,
+        "x": 213,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -242,8 +362,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_4": {
       "frame": {
-        "x": 843,
-        "y": 3,
+        "x": 283,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -262,8 +382,8 @@
     },
     "characters/boss_teng_huayuan/idle_south_5": {
       "frame": {
-        "x": 913,
-        "y": 3,
+        "x": 353,
+        "y": 73,
         "w": 64,
         "h": 64
       },
@@ -282,7 +402,7 @@
     },
     "characters/boss_teng_huayuan/move_east_0": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 73,
         "w": 64,
         "h": 64
@@ -302,7 +422,7 @@
     },
     "characters/boss_teng_huayuan/move_east_1": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 73,
         "w": 64,
         "h": 64
@@ -322,7 +442,7 @@
     },
     "characters/boss_teng_huayuan/move_east_2": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 73,
         "w": 64,
         "h": 64
@@ -342,7 +462,7 @@
     },
     "characters/boss_teng_huayuan/move_east_3": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 73,
         "w": 64,
         "h": 64
@@ -362,7 +482,7 @@
     },
     "characters/boss_teng_huayuan/move_east_4": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 73,
         "w": 64,
         "h": 64
@@ -382,7 +502,7 @@
     },
     "characters/boss_teng_huayuan/move_east_5": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 73,
         "w": 64,
         "h": 64
@@ -402,7 +522,7 @@
     },
     "characters/boss_teng_huayuan/move_south_0": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 73,
         "w": 64,
         "h": 64
@@ -422,7 +542,7 @@
     },
     "characters/boss_teng_huayuan/move_south_1": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 73,
         "w": 64,
         "h": 64
@@ -442,8 +562,8 @@
     },
     "characters/boss_teng_huayuan/move_south_2": {
       "frame": {
-        "x": 563,
-        "y": 73,
+        "x": 3,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -462,8 +582,8 @@
     },
     "characters/boss_teng_huayuan/move_south_3": {
       "frame": {
-        "x": 633,
-        "y": 73,
+        "x": 73,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -482,8 +602,8 @@
     },
     "characters/boss_teng_huayuan/move_south_4": {
       "frame": {
-        "x": 703,
-        "y": 73,
+        "x": 143,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -502,8 +622,8 @@
     },
     "characters/boss_teng_huayuan/move_south_5": {
       "frame": {
-        "x": 773,
-        "y": 73,
+        "x": 213,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -522,8 +642,8 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_0": {
       "frame": {
-        "x": 843,
-        "y": 73,
+        "x": 283,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -542,8 +662,8 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_1": {
       "frame": {
-        "x": 913,
-        "y": 73,
+        "x": 353,
+        "y": 143,
         "w": 64,
         "h": 64
       },
@@ -562,7 +682,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_2": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 143,
         "w": 64,
         "h": 64
@@ -582,7 +702,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_3": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 143,
         "w": 64,
         "h": 64
@@ -602,7 +722,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_4": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 143,
         "w": 64,
         "h": 64
@@ -622,7 +742,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_east_5": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 143,
         "w": 64,
         "h": 64
@@ -642,7 +762,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_south_0": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 143,
         "w": 64,
         "h": 64
@@ -662,7 +782,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_south_1": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 143,
         "w": 64,
         "h": 64
@@ -682,7 +802,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_south_2": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 143,
         "w": 64,
         "h": 64
@@ -702,7 +822,7 @@
     },
     "characters/boss_teng_huayuan/phase_transition_south_3": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 143,
         "w": 64,
         "h": 64
@@ -722,126 +842,6 @@
     },
     "characters/boss_teng_huayuan/phase_transition_south_4": {
       "frame": {
-        "x": 563,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/phase_transition_south_5": {
-      "frame": {
-        "x": 633,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/summon_east_0": {
-      "frame": {
-        "x": 703,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/summon_east_1": {
-      "frame": {
-        "x": 773,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/summon_east_2": {
-      "frame": {
-        "x": 843,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/summon_east_3": {
-      "frame": {
-        "x": 913,
-        "y": 143,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/summon_east_4": {
-      "frame": {
         "x": 3,
         "y": 213,
         "w": 64,
@@ -860,7 +860,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_east_5": {
+    "characters/boss_teng_huayuan/phase_transition_south_5": {
       "frame": {
         "x": 73,
         "y": 213,
@@ -880,7 +880,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_0": {
+    "characters/boss_teng_huayuan/summon_east_0": {
       "frame": {
         "x": 143,
         "y": 213,
@@ -900,7 +900,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_1": {
+    "characters/boss_teng_huayuan/summon_east_1": {
       "frame": {
         "x": 213,
         "y": 213,
@@ -920,7 +920,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_2": {
+    "characters/boss_teng_huayuan/summon_east_2": {
       "frame": {
         "x": 283,
         "y": 213,
@@ -940,7 +940,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_3": {
+    "characters/boss_teng_huayuan/summon_east_3": {
       "frame": {
         "x": 353,
         "y": 213,
@@ -960,7 +960,7 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_4": {
+    "characters/boss_teng_huayuan/summon_east_4": {
       "frame": {
         "x": 423,
         "y": 213,
@@ -980,9 +980,129 @@
         "h": 64
       }
     },
-    "characters/boss_teng_huayuan/summon_south_5": {
+    "characters/boss_teng_huayuan/summon_east_5": {
       "frame": {
         "x": 493,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_0": {
+      "frame": {
+        "x": 563,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_1": {
+      "frame": {
+        "x": 633,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_2": {
+      "frame": {
+        "x": 703,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_3": {
+      "frame": {
+        "x": 773,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_4": {
+      "frame": {
+        "x": 843,
+        "y": 213,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      }
+    },
+    "characters/boss_teng_huayuan/summon_south_5": {
+      "frame": {
+        "x": 913,
         "y": 213,
         "w": 64,
         "h": 64
@@ -1962,8 +2082,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_0": {
       "frame": {
-        "x": 563,
-        "y": 213,
+        "x": 3,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -1982,8 +2102,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_1": {
       "frame": {
-        "x": 633,
-        "y": 213,
+        "x": 73,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -2002,8 +2122,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_10": {
       "frame": {
-        "x": 703,
-        "y": 213,
+        "x": 143,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -2022,8 +2142,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_11": {
       "frame": {
-        "x": 773,
-        "y": 213,
+        "x": 213,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -2042,8 +2162,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_12": {
       "frame": {
-        "x": 843,
-        "y": 213,
+        "x": 283,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -2062,8 +2182,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_13": {
       "frame": {
-        "x": 913,
-        "y": 213,
+        "x": 353,
+        "y": 283,
         "w": 64,
         "h": 64
       },
@@ -2082,7 +2202,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_14": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2102,7 +2222,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_15": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2122,7 +2242,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_16": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2142,7 +2262,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_17": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2162,7 +2282,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_18": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2182,7 +2302,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_19": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2202,7 +2322,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_2": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2222,7 +2342,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_20": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 283,
         "w": 64,
         "h": 64
@@ -2242,8 +2362,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_21": {
       "frame": {
-        "x": 563,
-        "y": 283,
+        "x": 3,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2262,8 +2382,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_22": {
       "frame": {
-        "x": 633,
-        "y": 283,
+        "x": 73,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2282,8 +2402,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_23": {
       "frame": {
-        "x": 703,
-        "y": 283,
+        "x": 143,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2302,8 +2422,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_24": {
       "frame": {
-        "x": 773,
-        "y": 283,
+        "x": 213,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2322,8 +2442,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_25": {
       "frame": {
-        "x": 843,
-        "y": 283,
+        "x": 283,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2342,8 +2462,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_26": {
       "frame": {
-        "x": 913,
-        "y": 283,
+        "x": 353,
+        "y": 353,
         "w": 64,
         "h": 64
       },
@@ -2362,7 +2482,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_27": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2382,7 +2502,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_28": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2402,7 +2522,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_29": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2422,7 +2542,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_3": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2442,7 +2562,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_30": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2462,7 +2582,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_31": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2482,7 +2602,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_32": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2502,7 +2622,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_33": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 353,
         "w": 64,
         "h": 64
@@ -2522,8 +2642,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_34": {
       "frame": {
-        "x": 563,
-        "y": 353,
+        "x": 3,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2542,8 +2662,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_35": {
       "frame": {
-        "x": 633,
-        "y": 353,
+        "x": 73,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2562,8 +2682,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_4": {
       "frame": {
-        "x": 703,
-        "y": 353,
+        "x": 143,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2582,8 +2702,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_5": {
       "frame": {
-        "x": 773,
-        "y": 353,
+        "x": 213,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2602,8 +2722,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_6": {
       "frame": {
-        "x": 843,
-        "y": 353,
+        "x": 283,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2622,8 +2742,8 @@
     },
     "vfx/breakthrough_aura_kim_dan_7": {
       "frame": {
-        "x": 913,
-        "y": 353,
+        "x": 353,
+        "y": 423,
         "w": 64,
         "h": 64
       },
@@ -2642,7 +2762,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_8": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2662,7 +2782,7 @@
     },
     "vfx/breakthrough_aura_kim_dan_9": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2682,7 +2802,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_0": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2702,7 +2822,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_1": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2722,7 +2842,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_10": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2742,7 +2862,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_11": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2762,7 +2882,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_12": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2782,7 +2902,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_13": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 423,
         "w": 64,
         "h": 64
@@ -2802,8 +2922,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_14": {
       "frame": {
-        "x": 563,
-        "y": 423,
+        "x": 3,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2822,8 +2942,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_15": {
       "frame": {
-        "x": 633,
-        "y": 423,
+        "x": 73,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2842,8 +2962,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_16": {
       "frame": {
-        "x": 703,
-        "y": 423,
+        "x": 143,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2862,8 +2982,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_17": {
       "frame": {
-        "x": 773,
-        "y": 423,
+        "x": 213,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2882,8 +3002,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_18": {
       "frame": {
-        "x": 843,
-        "y": 423,
+        "x": 283,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2902,8 +3022,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_19": {
       "frame": {
-        "x": 913,
-        "y": 423,
+        "x": 353,
+        "y": 493,
         "w": 64,
         "h": 64
       },
@@ -2922,7 +3042,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_2": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 493,
         "w": 64,
         "h": 64
@@ -2942,7 +3062,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_20": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 493,
         "w": 64,
         "h": 64
@@ -2962,7 +3082,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_21": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 493,
         "w": 64,
         "h": 64
@@ -2982,7 +3102,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_22": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 493,
         "w": 64,
         "h": 64
@@ -3002,7 +3122,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_23": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 493,
         "w": 64,
         "h": 64
@@ -3022,7 +3142,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_24": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 493,
         "w": 64,
         "h": 64
@@ -3042,7 +3162,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_25": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 493,
         "w": 64,
         "h": 64
@@ -3062,7 +3182,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_26": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 493,
         "w": 64,
         "h": 64
@@ -3082,8 +3202,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_27": {
       "frame": {
-        "x": 563,
-        "y": 493,
+        "x": 3,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3102,8 +3222,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_28": {
       "frame": {
-        "x": 633,
-        "y": 493,
+        "x": 73,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3122,8 +3242,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_29": {
       "frame": {
-        "x": 703,
-        "y": 493,
+        "x": 143,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3142,8 +3262,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_3": {
       "frame": {
-        "x": 773,
-        "y": 493,
+        "x": 213,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3162,8 +3282,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_30": {
       "frame": {
-        "x": 843,
-        "y": 493,
+        "x": 283,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3182,8 +3302,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_31": {
       "frame": {
-        "x": 913,
-        "y": 493,
+        "x": 353,
+        "y": 563,
         "w": 64,
         "h": 64
       },
@@ -3202,7 +3322,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_32": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3222,7 +3342,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_33": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3242,7 +3362,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_34": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3262,7 +3382,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_35": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3282,7 +3402,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_4": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3302,7 +3422,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_5": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3322,7 +3442,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_6": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3342,7 +3462,7 @@
     },
     "vfx/breakthrough_aura_luyen_khi_7": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 563,
         "w": 64,
         "h": 64
@@ -3362,8 +3482,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_8": {
       "frame": {
-        "x": 563,
-        "y": 563,
+        "x": 3,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3382,8 +3502,8 @@
     },
     "vfx/breakthrough_aura_luyen_khi_9": {
       "frame": {
-        "x": 633,
-        "y": 563,
+        "x": 73,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3402,8 +3522,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_0": {
       "frame": {
-        "x": 703,
-        "y": 563,
+        "x": 143,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3422,8 +3542,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_1": {
       "frame": {
-        "x": 773,
-        "y": 563,
+        "x": 213,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3442,8 +3562,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_10": {
       "frame": {
-        "x": 843,
-        "y": 563,
+        "x": 283,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3462,8 +3582,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_11": {
       "frame": {
-        "x": 913,
-        "y": 563,
+        "x": 353,
+        "y": 633,
         "w": 64,
         "h": 64
       },
@@ -3482,7 +3602,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_12": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3502,7 +3622,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_13": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3522,7 +3642,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_14": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3542,7 +3662,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_15": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3562,7 +3682,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_16": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3582,7 +3702,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_17": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3602,7 +3722,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_18": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3622,7 +3742,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_19": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 633,
         "w": 64,
         "h": 64
@@ -3642,8 +3762,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_2": {
       "frame": {
-        "x": 563,
-        "y": 633,
+        "x": 3,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3662,8 +3782,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_20": {
       "frame": {
-        "x": 633,
-        "y": 633,
+        "x": 73,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3682,8 +3802,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_21": {
       "frame": {
-        "x": 703,
-        "y": 633,
+        "x": 143,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3702,8 +3822,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_22": {
       "frame": {
-        "x": 773,
-        "y": 633,
+        "x": 213,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3722,8 +3842,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_23": {
       "frame": {
-        "x": 843,
-        "y": 633,
+        "x": 283,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3742,8 +3862,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_24": {
       "frame": {
-        "x": 913,
-        "y": 633,
+        "x": 353,
+        "y": 703,
         "w": 64,
         "h": 64
       },
@@ -3762,7 +3882,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_25": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3782,7 +3902,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_26": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3802,7 +3922,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_27": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3822,7 +3942,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_28": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3842,7 +3962,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_29": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3862,7 +3982,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_3": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3882,7 +4002,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_30": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3902,7 +4022,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_31": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 703,
         "w": 64,
         "h": 64
@@ -3922,8 +4042,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_32": {
       "frame": {
-        "x": 563,
-        "y": 703,
+        "x": 3,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -3942,8 +4062,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_33": {
       "frame": {
-        "x": 633,
-        "y": 703,
+        "x": 73,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -3962,8 +4082,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_34": {
       "frame": {
-        "x": 703,
-        "y": 703,
+        "x": 143,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -3982,8 +4102,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_35": {
       "frame": {
-        "x": 773,
-        "y": 703,
+        "x": 213,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -4002,8 +4122,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_4": {
       "frame": {
-        "x": 843,
-        "y": 703,
+        "x": 283,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -4022,8 +4142,8 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_5": {
       "frame": {
-        "x": 913,
-        "y": 703,
+        "x": 353,
+        "y": 773,
         "w": 64,
         "h": 64
       },
@@ -4042,7 +4162,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_6": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4062,7 +4182,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_7": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4082,7 +4202,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_8": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4102,7 +4222,7 @@
     },
     "vfx/breakthrough_aura_nguyen_anh_9": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4122,7 +4242,7 @@
     },
     "vfx/breakthrough_aura_truc_co_0": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4142,7 +4262,7 @@
     },
     "vfx/breakthrough_aura_truc_co_1": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4162,7 +4282,7 @@
     },
     "vfx/breakthrough_aura_truc_co_10": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4182,7 +4302,7 @@
     },
     "vfx/breakthrough_aura_truc_co_11": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 773,
         "w": 64,
         "h": 64
@@ -4202,8 +4322,8 @@
     },
     "vfx/breakthrough_aura_truc_co_12": {
       "frame": {
-        "x": 563,
-        "y": 773,
+        "x": 3,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4222,8 +4342,8 @@
     },
     "vfx/breakthrough_aura_truc_co_13": {
       "frame": {
-        "x": 633,
-        "y": 773,
+        "x": 73,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4242,8 +4362,8 @@
     },
     "vfx/breakthrough_aura_truc_co_14": {
       "frame": {
-        "x": 703,
-        "y": 773,
+        "x": 143,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4262,8 +4382,8 @@
     },
     "vfx/breakthrough_aura_truc_co_15": {
       "frame": {
-        "x": 773,
-        "y": 773,
+        "x": 213,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4282,8 +4402,8 @@
     },
     "vfx/breakthrough_aura_truc_co_16": {
       "frame": {
-        "x": 843,
-        "y": 773,
+        "x": 283,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4302,8 +4422,8 @@
     },
     "vfx/breakthrough_aura_truc_co_17": {
       "frame": {
-        "x": 913,
-        "y": 773,
+        "x": 353,
+        "y": 843,
         "w": 64,
         "h": 64
       },
@@ -4322,7 +4442,7 @@
     },
     "vfx/breakthrough_aura_truc_co_18": {
       "frame": {
-        "x": 3,
+        "x": 423,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4342,7 +4462,7 @@
     },
     "vfx/breakthrough_aura_truc_co_19": {
       "frame": {
-        "x": 73,
+        "x": 493,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4362,7 +4482,7 @@
     },
     "vfx/breakthrough_aura_truc_co_2": {
       "frame": {
-        "x": 143,
+        "x": 563,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4382,7 +4502,7 @@
     },
     "vfx/breakthrough_aura_truc_co_20": {
       "frame": {
-        "x": 213,
+        "x": 633,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4402,7 +4522,7 @@
     },
     "vfx/breakthrough_aura_truc_co_21": {
       "frame": {
-        "x": 283,
+        "x": 703,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4422,7 +4542,7 @@
     },
     "vfx/breakthrough_aura_truc_co_22": {
       "frame": {
-        "x": 353,
+        "x": 773,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4442,7 +4562,7 @@
     },
     "vfx/breakthrough_aura_truc_co_23": {
       "frame": {
-        "x": 423,
+        "x": 843,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4462,7 +4582,7 @@
     },
     "vfx/breakthrough_aura_truc_co_24": {
       "frame": {
-        "x": 493,
+        "x": 913,
         "y": 843,
         "w": 64,
         "h": 64
@@ -4482,126 +4602,6 @@
     },
     "vfx/breakthrough_aura_truc_co_25": {
       "frame": {
-        "x": 563,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_26": {
-      "frame": {
-        "x": 633,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_27": {
-      "frame": {
-        "x": 703,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_28": {
-      "frame": {
-        "x": 773,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_29": {
-      "frame": {
-        "x": 843,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_3": {
-      "frame": {
-        "x": 913,
-        "y": 843,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "vfx/breakthrough_aura_truc_co_30": {
-      "frame": {
         "x": 3,
         "y": 913,
         "w": 64,
@@ -4620,7 +4620,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_31": {
+    "vfx/breakthrough_aura_truc_co_26": {
       "frame": {
         "x": 73,
         "y": 913,
@@ -4640,7 +4640,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_32": {
+    "vfx/breakthrough_aura_truc_co_27": {
       "frame": {
         "x": 143,
         "y": 913,
@@ -4660,7 +4660,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_33": {
+    "vfx/breakthrough_aura_truc_co_28": {
       "frame": {
         "x": 213,
         "y": 913,
@@ -4680,7 +4680,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_34": {
+    "vfx/breakthrough_aura_truc_co_29": {
       "frame": {
         "x": 283,
         "y": 913,
@@ -4700,7 +4700,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_35": {
+    "vfx/breakthrough_aura_truc_co_3": {
       "frame": {
         "x": 353,
         "y": 913,
@@ -4720,7 +4720,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_4": {
+    "vfx/breakthrough_aura_truc_co_30": {
       "frame": {
         "x": 423,
         "y": 913,
@@ -4740,7 +4740,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_5": {
+    "vfx/breakthrough_aura_truc_co_31": {
       "frame": {
         "x": 493,
         "y": 913,
@@ -4760,7 +4760,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_6": {
+    "vfx/breakthrough_aura_truc_co_32": {
       "frame": {
         "x": 563,
         "y": 913,
@@ -4780,7 +4780,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_7": {
+    "vfx/breakthrough_aura_truc_co_33": {
       "frame": {
         "x": 633,
         "y": 913,
@@ -4800,7 +4800,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_8": {
+    "vfx/breakthrough_aura_truc_co_34": {
       "frame": {
         "x": 703,
         "y": 913,
@@ -4820,7 +4820,7 @@
         "h": 64
       }
     },
-    "vfx/breakthrough_aura_truc_co_9": {
+    "vfx/breakthrough_aura_truc_co_35": {
       "frame": {
         "x": 773,
         "y": 913,
@@ -4840,7 +4840,7 @@
         "h": 64
       }
     },
-    "vfx/cam_che_tran_phap_0": {
+    "vfx/breakthrough_aura_truc_co_4": {
       "frame": {
         "x": 843,
         "y": 913,
@@ -4860,7 +4860,7 @@
         "h": 64
       }
     },
-    "vfx/cam_che_tran_phap_1": {
+    "vfx/breakthrough_aura_truc_co_5": {
       "frame": {
         "x": 913,
         "y": 913,

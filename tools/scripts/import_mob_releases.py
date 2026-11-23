@@ -13,8 +13,12 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+OVERLAY_PREFIX = "hurt_"  # derived by build_hurt_clips.py from approved frames; not part of a pinned release
+
+
 def frame_set_digest(files):
-    entries = [f"{name} {digest(data)}\n" for name, data in sorted(files.items()) if name.endswith(".png")]
+    entries = [f"{name} {digest(data)}\n" for name, data in sorted(files.items())
+               if name.endswith(".png") and not name.startswith(OVERLAY_PREFIX)]
     return digest("".join(entries).encode("ascii"))
 
 
@@ -93,7 +97,7 @@ def main():
     outputs = collect(args.archives, assets, releases)
     for mob, files in outputs.items():
         folder = ROOT / "assets/processed/mobs" / mob
-        extra = {p.name for p in folder.glob("*.png")} - files.keys()
+        extra = {p.name for p in folder.glob("*.png") if not p.name.startswith(OVERLAY_PREFIX)} - files.keys()
         if extra:
             raise ValueError(f"Unexpected frames in {folder}: {sorted(extra)}")
     for mob, files in outputs.items():

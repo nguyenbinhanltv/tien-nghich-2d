@@ -59,7 +59,7 @@ test('sets: the core atlas and every Longtime chunk, with shipped pages, budget 
   assert.equal(core.chunked, false);
   assert.deepEqual(core.profiles, ['web', 'mobile']);
   assert.equal(core.shipped.mobile.pages, 7);
-  assert.equal(core.shipped.web.frames, 2854);
+  assert.equal(core.shipped.web.frames, 2890);
   assert.equal(core.studioPack, true);
   assert.equal(typeof core.authority.build, 'boolean');
   const design = JSON.parse(await fs.readFile(path.join(REPO, 'assets/manifest_longtime.json'), 'utf8'));
@@ -94,7 +94,7 @@ test('pages: every frame carries its rectangle and where it came from; the image
   assert.equal((await call(REPO, lib, 'GET', 'image', {query: {set: 'longtime', chunk: 'abode', profile: 'mobile', page: '9'}})).status, 404);
   const core = await call(REPO, lib, 'GET', 'pages', {query: {set: 'core', profile: 'web'}});
   assert.equal(core.json.pages.length, 2);
-  assert.ok(core.json.pages[0].frames.some(f => f.asset && f.category === 'tileset' && f.clip));
+  assert.ok(core.json.pages.some(p => p.frames.some(f => f.asset && f.category === 'tileset' && f.clip)));
 });
 
 test('inputs are checked: unknown set, chunk or profile, traversal, wrong method, bad JSON', async t => {

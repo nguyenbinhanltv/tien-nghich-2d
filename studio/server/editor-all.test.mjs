@@ -18,8 +18,8 @@ const assetOf = key => key.split('/')[1].replace(/_\d+$/, '');
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const samples = {
   player: 'characters/wl_outer_disciple/idle_south_0',
-  mob: 'characters/mob_rogue_disciple/attack_east_0',
-  boss: 'characters/boss_teng_huayuan/attack_cast_east_0',
+  mob: 'characters/mob_blood_wolf/attack_east_0',
+  boss: 'characters/boss_ghost_king/attack_claw_east_0',
   tileset: 'tilesets/ts_hengyue/deco_f0_0',
   prop: 'props/prop_spirit_chest/closed_none_0',
   weapon: 'weapons/wp_heaven_defying_bead/attack_none_0',

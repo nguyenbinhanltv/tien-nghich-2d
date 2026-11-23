@@ -134,9 +134,12 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   const vs = new Set(Object.values(record.approvals.find(a => a.id === 'owner_vs_baseline_2026-11-23').assets)
     .flatMap(info => Object.keys(info.frames).map(k => `${info.frame_dir}/${k.split('/').at(-1)}.png`)));
   assert.equal(vs.size, 1356);
+  // Hằng Nhạc mobs and boss gained a derived `hurt` clip (tools/scripts/build_hurt_clips.py): new frames await a human,
+  // and the asset-level baseline label no longer covers their changed asset.
+  const hurt = /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman)|boss_teng_huayuan)\//;
   let baseline = 0;
   for (const f of core) {
-    const want = vs.has(f.processed) ? 'approved' : 'baseline';
+    const want = vs.has(f.processed) ? 'approved' : hurt.test(f.info.key) ? 'awaiting' : 'baseline';
     baseline += want === 'baseline';
     assert.equal(await standing.of(f.processed), want, f.info.key);
   }

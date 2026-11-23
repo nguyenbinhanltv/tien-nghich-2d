@@ -180,6 +180,13 @@ def validate(m):
             # original 40). Hash the manifest as it was: the first 40 palette ids; the three new ids are checked
             # against palette.json by check_manifest.py.
             source["palette"]["ids"] = source["palette"]["ids"][:40]
+            # Likewise the derived `hurt` clip (tools/scripts/build_hurt_clips.py, 3 frames x 2 facings) is
+            # not part of the pinned base: hash the manifest without it.
+            for asset in source["assets"]:
+                if "hurt" in (asset.get("animations") or {}):
+                    del asset["animations"]["hurt"]
+                    asset["frames_per_direction"] -= 3
+                    asset["total_frames"] -= 6
         normalized = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
         require(hashlib.sha256(normalized).hexdigest() == digest, "Base contract drift: " + name)
         ids = [a["id"] for a in source[field]]
