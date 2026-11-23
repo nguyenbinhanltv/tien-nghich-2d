@@ -1,0 +1,21 @@
+{
+ "frameSize": [
+  32,
+  32
+ ],
+ "pivot": [
+  16,
+  31
+ ],
+ "hurtbox": {
+  "x": 6,
+  "y": 7,
+  "w": 21,
+  "h": 21
+ },
+ "review": {
+  "status": "draft-unreviewed",
+  "source": "alpha-auto",
+  "note": "alpha >= 128 bbox of idle_none_0, inset 1 px"
+ }
+}
