@@ -3,7 +3,7 @@
 // telegraphed area, which the renderer shows with the existing hazard drawing.
 import { dist, unitInto } from '../math.ts';
 import { begin, impact, noPlayer, stagger, track } from './attack.ts';
-import { SHOOTER as P, ticks } from './params.ts';
+import { SHOOTER, SHOOTER_BY_MOB, tune, ticks } from './params.ts';
 import type { MobBehavior } from './types.ts';
 import { enter, setVel } from './util.ts';
 
@@ -13,9 +13,9 @@ const FLOAT = 'float', CAST = 'cast', RECOVER = 'recover';
 
 export const shooter: MobBehavior = {
   ai: 'shooter',
-  init(a, ctx) { enter(a, ctx.world, FLOAT, 0, 'move'); a.ai.data = [ticks(P.cooldownMs) >> 1, 0, 0, 0]; },
+  init(a, ctx) { enter(a, ctx.world, FLOAT, 0, 'move'); a.ai.data = [ticks(tune(SHOOTER, SHOOTER_BY_MOB, ctx.row.id).cooldownMs) >> 1, 0, 0, 0]; },
   update(a, ctx) {
-    const { world, row, player } = ctx;
+    const { world, row, player } = ctx, P = tune(SHOOTER, SHOOTER_BY_MOB, row.id);
     if (noPlayer(a, ctx) || !player) return;
     a.ai.target = player.id;
     if (stagger(a, ctx, P.recoverMs)) return;

@@ -2,7 +2,7 @@
 // Reading: the rectangle is fixed when the tell starts, so a player who leaves it (dodge) is never hit; the wolf
 // then stands open for `recoverMs`, which is the punish window.
 import type { MobBehavior } from './types.ts';
-import { CHARGER as P, ticks } from './params.ts';
+import { CHARGER, CHARGER_BY_MOB, tune, ticks } from './params.ts';
 import { dist, unitInto } from '../math.ts';
 import { addHazard, markDodgedThrough, resolveHazard } from '../systems/telegraph.ts';
 import { dropHazards, enter, setVel } from './util.ts';
@@ -13,9 +13,9 @@ const CHASE = 'chase', WINDUP = 'windup', CHARGE = 'charge', RECOVER = 'recover'
 
 export const charger: MobBehavior = {
   ai: 'charger',
-  init(a, ctx) { enter(a, ctx.world, CHASE, 0, 'move'); a.ai.data = [ticks(P.cooldownMs) >> 1, 0, 0, 0]; },
+  init(a, ctx) { enter(a, ctx.world, CHASE, 0, 'move'); a.ai.data = [ticks(tune(CHARGER, CHARGER_BY_MOB, ctx.row.id).cooldownMs) >> 1, 0, 0, 0]; },
   update(a, ctx) {
-    const { world, row, player } = ctx;
+    const { world, row, player } = ctx, P = tune(CHARGER, CHARGER_BY_MOB, row.id);
     if (!player) { dropHazards(world, a.id); setVel(a, 0, 0); if (a.clip !== 'idle') enter(a, world, 'idle', 0, 'idle'); return; }
     a.ai.target = player.id;
     const walk = row.speed / 60;
