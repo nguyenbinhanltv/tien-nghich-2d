@@ -3,8 +3,11 @@
 // then stands open for `recoverMs`, which is the punish window.
 import type { MobBehavior } from './types.ts';
 import { CHARGER as P, ticks } from './params.ts';
-import { addHazard, dirTo, dist, enter, setVel, dropHazards } from './util.ts';
+import { dist, unitInto } from '../math.ts';
+import { addHazard, markDodgedThrough, resolveHazard } from '../systems/telegraph.ts';
+import { dropHazards, enter, setVel } from './util.ts';
 
+const d = { x: 0, y: 0 };
 const CHASE = 'chase', WINDUP = 'windup', CHARGE = 'charge', RECOVER = 'recover';
 // data[0] cooldown ticks left before the next charge; data[1..2] locked charge direction in 1/1000.
 
@@ -13,7 +16,7 @@ export const charger: MobBehavior = {
   init(a, ctx) { enter(a, ctx.world, CHASE, 0, 'move'); a.ai.data = [ticks(P.cooldownMs) >> 1, 0, 0, 0]; },
   update(a, ctx) {
     const { world, row, player } = ctx;
-    if (!player) { setVel(a, 0, 0); if (a.clip !== 'idle') enter(a, world, 'idle', 0, 'idle'); return; }
+    if (!player) { dropHazards(world, a.id); setVel(a, 0, 0); if (a.clip !== 'idle') enter(a, world, 'idle', 0, 'idle'); return; }
     a.ai.target = player.id;
     const walk = row.speed / 60;
     if (a.combat.hurt > 0) { // stagger is consumed when taken (nothing else ticks a mob's `hurt` down); no re-trigger next tick
@@ -22,27 +25,38 @@ export const charger: MobBehavior = {
     }
     switch (a.ai.state) {
       case CHASE: {
-        const d = dirTo(a.pos, player.pos);
+        unitInto(d, player.pos.x - a.pos.x, player.pos.y - a.pos.y);
         setVel(a, d.x * walk, d.y * walk);
         if (a.ai.data[0] > 0) a.ai.data[0]--;
-        else if (dist(a.pos, player.pos) <= P.triggerRange) {
+        else if (dist(a.pos.x, a.pos.y, player.pos.x, player.pos.y) <= P.triggerRange) {
           setVel(a, 0, 0);
           a.ai.data[1] = Math.round(d.x * 1000); a.ai.data[2] = Math.round(d.y * 1000);
           const tell = ticks(row.tell_ms);
-          addHazard(world, ctx.events, a, { kind: 'claw', x: a.pos.x, y: a.pos.y, dir: d, radius: P.chargeHalfWidth, length: P.chargeLength, damage: row.contact_dmg, ticks: tell });
+          // One hazard for the whole attack: shown through the tell AND the lunge, resolved by the wolf when the lunge ends
+          // (like the Ghost King owns its own countdown), so the hit lands when the wolf actually passes the player.
+          addHazard(world, { kind: 'claw', owner: a.id, x: a.pos.x, y: a.pos.y, dirX: d.x, dirY: d.y, radius: P.chargeHalfWidth, length: P.chargeLength, damage: row.contact_dmg, ticks: tell + ticks(P.chargeMs) }, ctx.events);
           enter(a, world, WINDUP, tell, row.attack_clip);
         } else if (a.clip !== 'move') enter(a, world, CHASE, 0, 'move');
         break;
       }
       case WINDUP: {
         setVel(a, 0, 0);
+        const h = world.hazards.find((x) => x.owner === a.id);
+        if (h) markDodgedThrough(h, player);
         if (--a.ai.timer <= 0) enter(a, world, CHARGE, ticks(P.chargeMs));
+        if (h) h.timer = a.ai.state === WINDUP ? a.ai.timer + ticks(P.chargeMs) : a.ai.timer;
         break;
       }
       case CHARGE: {
         const dx = a.ai.data[1] / 1000, dy = a.ai.data[2] / 1000, v = P.chargeLength / ticks(P.chargeMs);
         setVel(a, dx * v, dy * v);
-        if (--a.ai.timer <= 0) { setVel(a, 0, 0); enter(a, world, RECOVER, ticks(P.recoverMs), 'idle'); }
+        const h = world.hazards.find((x) => x.owner === a.id);
+        if (h) markDodgedThrough(h, player);
+        if (--a.ai.timer <= 0) {
+          setVel(a, 0, 0);
+          if (h) { resolveHazard(world, h, player, ctx.events); dropHazards(world, a.id); }
+          enter(a, world, RECOVER, ticks(P.recoverMs), 'idle');
+        } else if (h) h.timer = a.ai.timer;
         break;
       }
       case RECOVER: {

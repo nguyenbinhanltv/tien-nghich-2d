@@ -1,8 +1,10 @@
 // Mob AI system: one call per tick from the sim step. Registry maps the mobs-table `ai` kind to a behaviour.
 import type { ContentApi, MobRow } from '../../contracts/content.ts';
 import type { GameEvent, WorldState } from '../../contracts/world.ts';
+import { findPlayer } from '../actors.ts';
 import { Rng } from '../rng.ts';
 import { charger } from './charger.ts';
+import { dropHazards } from './util.ts';
 import type { AiContext, MobBehavior } from './types.ts';
 
 export const BEHAVIORS: Partial<Record<MobRow['ai'], MobBehavior>> = { charger };
@@ -27,9 +29,10 @@ export function initMobAi(world: WorldState, content: ContentApi, actorId: numbe
 /** Update every living mob in actor order (stable, so the RNG draw order is reproducible). */
 export function aiSystem(world: WorldState, content: ContentApi, events: GameEvent[]): void {
   const rng = new Rng(0); rng.state = world.rngState;
-  const player = world.actors.find((x) => x.role === 'player' && x.diedTick < 0) ?? null;
+  const found = findPlayer(world), player = found && found.diedTick < 0 ? found : null;
   for (const a of world.actors) {
-    if (a.role !== 'mob' || a.diedTick >= 0 || a.hp <= 0) continue;
+    if (a.role !== 'mob') continue;
+    if (a.diedTick >= 0 || a.hp <= 0) { if (world.hazards.length > 0) dropHazards(world, a.id); continue; } // a dead mob leaves no telegraph
     const row = content.get<MobRow>('mobs', a.kind);
     const ctx: AiContext = { world, rng, events, player, row };
     behaviorOf(row).update(a, ctx);

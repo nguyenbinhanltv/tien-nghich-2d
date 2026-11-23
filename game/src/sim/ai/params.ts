@@ -4,8 +4,8 @@
 import { msToTicks } from '../../contracts/world.ts';
 
 export const CHARGER = {
-  /** Start a charge when the player is closer than this (px). */
-  triggerRange: 76,
+  /** Start a charge when the player is closer than this (px); under chargeLength so the lunge reaches them. */
+  triggerRange: 56,
   chargeLength: 64, chargeHalfWidth: 9,
   /** Charge speed as a multiple of the walk speed. */
   chargeMs: 260,
