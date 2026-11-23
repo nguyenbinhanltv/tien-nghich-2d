@@ -9,6 +9,7 @@ import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
 import { artOf } from '../clip-map.ts';
+import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 
@@ -50,6 +51,7 @@ export class BloodSeaScene extends Phaser.Scene {
   private hazards!: Phaser.GameObjects.Graphics;
   private input0: InputFrame | null = null;
   private endedAt = -1;
+  readonly juice = new Juice();
 
   constructor(host: SceneHost) {
     super('blood-sea');
@@ -74,15 +76,16 @@ export class BloodSeaScene extends Phaser.Scene {
   private buildRoom(): void {
     const cols = VIEW_W / 16;
     const rows = Math.ceil(VIEW_H / 16);
-    for (let cy = 0; cy < rows; cy++) {
-      for (let cx = 0; cx < cols; cx++) {
+    // one tile of margin on every side so a camera shake never shows the background
+    for (let cy = -1; cy <= rows; cy++) {
+      for (let cx = -1; cx <= cols; cx++) {
         const h = cellHash(cx, cy);
         this.put(`${T}floor_blood_variants_f0_${h % 4}`, cx * 16, cy * 16, 0);
         if (cy > 3 && h % 23 === 0) this.put(`${T}deco_f0_${(h >>> 8) % 16}`, cx * 16, cy * 16, 1);
       }
     }
     // back wall: 16x32 faces along the top, drawn over the floor
-    for (let cx = 0; cx < cols; cx++) this.put(`${T}wall_face_f0_${cellHash(cx, 99) % 12}`, cx * 16, 16, 2);
+    for (let cx = -1; cx <= cols; cx++) this.put(`${T}wall_face_f0_${cellHash(cx, 99) % 12}`, cx * 16, 16, 2);
   }
 
   override update(_t: number, deltaMs: number): void {
@@ -102,7 +105,7 @@ export class BloodSeaScene extends Phaser.Scene {
         first = false;
       });
       const ev = this.fight.drain();
-      if (ev.length) this.host.onEvents?.(ev, this.fight.world);
+      if (ev.length) { this.juice.onEvents(ev, this.fight.world, this.time.now); this.host.onEvents?.(ev, this.fight.world); }
     }
     this.draw();
   }
@@ -117,6 +120,8 @@ export class BloodSeaScene extends Phaser.Scene {
     for (const [id, s] of this.sprites) if (!seen.has(id)) { s.destroy(); this.sprites.delete(id); }
     this.drawHazards(w);
     this.drawShots(w);
+    const o = this.juice.offset(this.time.now);
+    this.cameras.main.setScroll(o.x, o.y);
     this.host.status?.(w);
   }
 
@@ -136,8 +141,11 @@ export class BloodSeaScene extends Phaser.Scene {
     s.setFlipX(clip.flipX);
     s.setPosition(Math.round(a.pos.x), Math.round(a.pos.y));
     s.setDepth(10 + a.pos.y);
-    // invulnerable blink while hurt (hit-flash proper is E2.3)
+    // invulnerable blink while hurt
     s.setAlpha(a.role === 'player' && a.combat.hurt > 0 && (w.tick & 4) ? 0.45 : 1);
+    // white hit flash (E2.3): fill tint for a few frames
+    if (this.juice.isFlashing(a.id, this.time.now)) s.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL);
+    else s.clearTint().setTintMode(Phaser.TintModes.MULTIPLY);
   }
 
   private drawHazards(w: WorldState): void {
