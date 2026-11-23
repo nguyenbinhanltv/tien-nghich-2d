@@ -47,8 +47,8 @@ function fingerprint(root) {
   walk(root);
   return hash.digest('hex');
 }
-const scratchDirs = () => fs.readdirSync(os.tmpdir()).filter((n) => n.startsWith('studio-dry-'));
 // os.tmpdir() is this case's private directory (see withProject), so any entry in it is a scratch the case left behind.
+const scratchDirs = () => fs.readdirSync(os.tmpdir()).filter((n) => n.startsWith('studio-dry-'));
 
 /** Run `call` (a dryRun call) and prove the project is byte-identical afterwards; returns the result. */
 async function writesNothing(p, call) {
