@@ -36,12 +36,32 @@ describe('isPortrait', () => {
   });
 });
 
-import { snapPx } from './camera.ts';
+import { followScroll, snapPx } from './camera.ts';
 describe('snapPx', () => {
   it('rounds to whole logical pixels and never returns -0', () => {
     expect(snapPx(2.4)).toBe(2);
     expect(snapPx(2.5)).toBe(3);
     expect(snapPx(-0.2)).toBe(0);
     expect(Object.is(snapPx(-0.2), 0)).toBe(true);
+  });
+});
+
+describe('followScroll (room 384x224 in a 384x216 view)', () => {
+  it('shows the last wall row when the player is low, the first when high, and never scrolls sideways', () => {
+    expect(followScroll(384, 224, 100, 30)).toEqual({ x: 0, y: 0 });
+    expect(followScroll(384, 224, 100, 200)).toEqual({ x: 0, y: 8 });
+    expect(followScroll(384, 224, 100, 112)).toEqual({ x: 0, y: 4 });
+  });
+  it('is whole pixels and stays inside [0, room - view]', () => {
+    for (let y = -20; y < 260; y += 3.7) {
+      const s = followScroll(384, 224, 50, y);
+      expect(Number.isInteger(s.y)).toBe(true);
+      expect(s.y).toBeGreaterThanOrEqual(0);
+      expect(s.y).toBeLessThanOrEqual(8);
+    }
+  });
+  it('a room that fits the view does not scroll; a wide room scrolls on x', () => {
+    expect(followScroll(384, 216, 10, 10)).toEqual({ x: 0, y: 0 });
+    expect(followScroll(480, 216, 400, 10).x).toBe(96);
   });
 });
