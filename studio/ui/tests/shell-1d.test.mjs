@@ -44,8 +44,10 @@ test('SHELL-002: lineStrong is a pack theme role that gives control borders 3:1;
   assert.ok(contrast(palette[theme.lineStrong], surface2) >= 3, 'lineStrong against the control background');
   assert.ok(contrast(palette[theme.line], surface2) < 3, 'the plain line stays a quiet divider');
   // The sample project says nothing about it and must still be fine: the shell's own fallback chain, then a neutral grey.
-  const css = read('shell.css');
-  assert.match(css, /--line-strong: var\(--theme-lineStrong, var\(--theme-muted, #7a7a84\)\)/);
+  // Since the modes, shell.css takes the short name from the token, and tokens.css holds the chain and the abode's neutral grey (--fb-line-strong).
+  assert.match(read('shell.css'), /--line-strong: var\(--ui-line-strong\)/);
+  assert.match(read('tokens.css'), /--ui-line-strong: var\(--theme-lineStrong, var\(--theme-muted, var\(--fb-line-strong\)\)\)/);
+  assert.match(read('tokens.css'), /--fb-line-strong: #7a7a84/);
   assert.ok(contrast('#7a7a84', '#26262c') >= 3 && contrast('#7a7a84', '#101014') >= 3, 'the neutral default passes against the neutral surface and ink');
   const moss = JSON.parse(fs.readFileSync(studio + 'examples/moss-lantern/studio.project.json', 'utf8'));
   assert.equal(moss.ui.theme.lineStrong, undefined);

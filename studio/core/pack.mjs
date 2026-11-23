@@ -112,6 +112,7 @@ export function validatePack(pack) {
   });
   for (const [category, tab] of Object.entries(pack.ui?.categoryTabs ?? {})) if (!category) issues.push(`ui.categoryTabs: empty category for ${tab}`);
   for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.theme.${role}: must be a palette colour id`);
+  for (const [mode, spec] of Object.entries(pack.ui?.themeModes ?? {})) for (const [role, id] of Object.entries(spec.colors ?? {})) if (!/^[a-z0-9_]+$/.test(id)) issues.push(`ui.themeModes.${mode}.colors.${role}: must be a palette colour id`);
   issues.push(...validateGenerators(pack.adapters));
   issues.push(...validateFigures(pack.figures));
   issues.push(...validateReferences(pack.references));

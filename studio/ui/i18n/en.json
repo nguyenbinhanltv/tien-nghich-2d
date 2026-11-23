@@ -65,5 +65,19 @@
   "keys.go": "Go to destination 1–9: press g, then the number",
   "keys.esc": "Close the palette, this list or the menu",
   "keys.noTab": "This tab declares no shortcuts of its own.",
-  "keys.typing": "Shortcuts are off while you type in a field."
+  "keys.typing": "Shortcuts are off while you type in a field.",
+  "theme.title": "Appearance",
+  "theme.mode": "Mode",
+  "theme.density": "Density",
+  "theme.mode.abode": "Dark",
+  "theme.mode.ink": "High-contrast dark",
+  "theme.mode.paper": "Light",
+  "theme.density.comfortable": "Comfortable",
+  "theme.density.compact": "Compact",
+  "theme.set": "Mode: {mode}.",
+  "theme.densitySet": "Density: {density}.",
+  "actions.theme": "Switch the mode to {mode}",
+  "actions.themeNow": "Now {mode}",
+  "actions.density": "Switch the density to {density}",
+  "actions.densityNow": "Now {density}"
 }

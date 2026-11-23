@@ -65,5 +65,19 @@
   "keys.go": "Đến mục 1–9: nhấn g, rồi nhấn số",
   "keys.esc": "Đóng bảng lệnh, danh sách này hoặc menu",
   "keys.noTab": "Tab này không khai báo phím tắt riêng.",
-  "keys.typing": "Phím tắt tạm tắt khi bạn đang gõ trong ô nhập."
+  "keys.typing": "Phím tắt tạm tắt khi bạn đang gõ trong ô nhập.",
+  "theme.title": "Giao diện",
+  "theme.mode": "Chế độ",
+  "theme.density": "Mật độ",
+  "theme.mode.abode": "Tối",
+  "theme.mode.ink": "Tối tương phản cao",
+  "theme.mode.paper": "Sáng",
+  "theme.density.comfortable": "Thoáng",
+  "theme.density.compact": "Gọn",
+  "theme.set": "Chế độ: {mode}.",
+  "theme.densitySet": "Mật độ: {density}.",
+  "actions.theme": "Đổi chế độ sang {mode}",
+  "actions.themeNow": "Đang là {mode}",
+  "actions.density": "Đổi mật độ sang {density}",
+  "actions.densityNow": "Đang là {density}"
 }

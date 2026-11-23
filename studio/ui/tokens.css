@@ -17,33 +17,41 @@
 }
 
 :root {
+  /* ----- neutral defaults of the three modes (--fb-*): used only where the pack names no colour for a role. The abode defaults are the old ones;
+     ink and paper redefine them below. A pack colour (--theme-<role>, set by shell.js for the chosen mode) always wins. ----- */
+  --fb-ink: #101014; --fb-surface: #30303a; --fb-surface-mix: #26262c; --fb-line: #46464e; --fb-line-strong: #7a7a84; --fb-muted: #9a9aa2; --fb-text: #e4e4e8;
+  --fb-accent: #4aa3a3; --fb-accent-soft: #2f6b6b; --fb-gold: #c8a040; --fb-gold-soft: #ecd890; --fb-danger: #d05050;
+  --fb-hover: rgba(255, 255, 255, .08); --fb-press: rgba(0, 0, 0, .25); --fb-shadow: rgba(0, 0, 0, .45);
+
   /* ----- colour by role (see README: pack roles -> tokens) ----- */
-  --ui-bg: var(--theme-ink, #101014);
-  --ui-surface: var(--theme-panel, color-mix(in srgb, var(--theme-surface, #26262c) 55%, var(--ui-bg)));   /* the jade slip: card, stat, panel */
-  --ui-surface-raised: var(--theme-surface, #30303a);                                                      /* a control that stands out of a slip */
-  --ui-line: var(--theme-line, #46464e);                                                                   /* decoration and dividers: not a control border */
-  --ui-line-strong: var(--theme-lineStrong, var(--theme-muted, #7a7a84));                                  /* control border: 3:1 against its surroundings */
-  --ui-text: var(--theme-text, #e4e4e8);
-  --ui-text-muted: var(--theme-muted, #9a9aa2);
-  --ui-accent: var(--theme-accent, #4aa3a3);
-  --ui-accent-soft: var(--theme-accentSoft, #2f6b6b);
-  --ui-on-accent: var(--theme-ink, #101014);
-  --ui-gold: var(--theme-gold, #c8a040);
-  --ui-gold-soft: var(--theme-goldSoft, #ecd890);
-  --ui-danger: var(--theme-danger, #d05050);
-  --ui-ok: var(--theme-ok, var(--theme-accent, #4aa3a3));
-  --ui-warn: var(--theme-warn, var(--theme-gold, #c8a040));
-  --ui-focus: var(--theme-gold, #c8a040);
-  --ui-stud: var(--theme-gold, #c8a040);
-  --ui-hover: rgba(255, 255, 255, .08);
-  --ui-press: rgba(0, 0, 0, .25);
-  --ui-shadow: rgba(0, 0, 0, .45);
+  --ui-bg: var(--theme-ink, var(--fb-ink));
+  --ui-surface: var(--theme-panel, color-mix(in srgb, var(--theme-surface, var(--fb-surface-mix)) 55%, var(--ui-bg)));   /* the jade slip: card, stat, panel */
+  --ui-surface-raised: var(--theme-surface, var(--fb-surface));                                            /* a control that stands out of a slip */
+  --ui-line: var(--theme-line, var(--fb-line));                                                            /* decoration and dividers: not a control border */
+  --ui-line-strong: var(--theme-lineStrong, var(--theme-muted, var(--fb-line-strong)));                    /* control border: 3:1 against its surroundings */
+  --ui-text: var(--theme-text, var(--fb-text));
+  --ui-text-muted: var(--theme-muted, var(--fb-muted));
+  --ui-accent: var(--theme-accent, var(--fb-accent));
+  --ui-accent-soft: var(--theme-accentSoft, var(--fb-accent-soft));
+  --ui-on-accent: var(--theme-ink, var(--fb-ink));
+  --ui-gold: var(--theme-gold, var(--fb-gold));
+  --ui-gold-soft: var(--theme-goldSoft, var(--fb-gold-soft));
+  --ui-danger: var(--theme-danger, var(--fb-danger));
+  --ui-ok: var(--theme-ok, var(--theme-accent, var(--fb-accent)));
+  --ui-warn: var(--theme-warn, var(--theme-gold, var(--fb-gold)));
+  --ui-focus: var(--theme-gold, var(--fb-gold));
+  --ui-stud: var(--theme-gold, var(--fb-gold));
+  --ui-checker-a: var(--ui-surface);                                                                       /* the transparency checkerboard behind pixel art */
+  --ui-checker-b: var(--ui-bg);
+  --ui-hover: var(--fb-hover);
+  --ui-press: var(--fb-press);
+  --ui-shadow: var(--fb-shadow);
 
   /* Shell extras (not used by components.css) */
-  --ui-seal: var(--theme-seal, var(--theme-danger, #d05050));              /* the seal: brand mark, "waiting for you" badge, the approval stamp */
-  --ui-seal-ink: var(--theme-sealInk, var(--theme-text, #e4e4e8));        /* what is carved into the seal: needs 4.5:1 on --ui-seal */
-  --ui-ask: var(--theme-ask, var(--theme-text, #e4e4e8));                  /* an agent's question */
-  --ui-link: var(--theme-link, var(--theme-accent, #4aa3a3));              /* link, running */
+  --ui-seal: var(--theme-seal, var(--theme-danger, var(--fb-danger)));                                     /* the seal: brand mark, "waiting for you" badge, the approval stamp */
+  --ui-seal-ink: var(--theme-sealInk, var(--fb-seal-ink, var(--theme-text, var(--fb-text))));              /* what is carved into the seal: needs 4.5:1 on --ui-seal */
+  --ui-ask: var(--theme-ask, var(--theme-text, var(--fb-text)));                                           /* an agent's question */
+  --ui-link: var(--theme-link, var(--theme-accent, var(--fb-accent)));                                     /* link, running */
   --ui-rail: color-mix(in srgb, var(--ui-surface) 60%, var(--ui-bg));       /* the side rail: a step below the slip */
   --ui-bg-glow:
     radial-gradient(48rem 26rem at 0% 0%, color-mix(in srgb, var(--ui-surface) 85%, transparent), transparent 72%),
@@ -90,6 +98,35 @@
 
 @media (max-width: 900px) {
   :root { --ui-control-h: 2.5rem; }   /* a touch target, not a mouse one */
+}
+
+/* ----- interface modes. shell.js sets data-theme on <html> ("abode" is the default and sets nothing) and writes the pack's colours for that mode as --theme-*.
+   These blocks only carry what a pack cannot say: the neutral defaults of the mode, the tint of a hover or a press, the shadow and the browser's own
+   widgets (color-scheme). Every pair below passes 4.5:1 for text and 3:1 for a control border; studio/ui/tests/theme-modes.test.mjs checks it. ----- */
+:root[data-theme="ink"] {   /* high-contrast dark: body text 7:1 or better */
+  --fb-ink: #08080a; --fb-surface: #1c1c22; --fb-surface-mix: #16161b; --fb-line: #6a6a74; --fb-line-strong: #d0d0d8; --fb-muted: #d0d0d8; --fb-text: #ffffff;
+  --fb-accent: #6fe0c8; --fb-accent-soft: #2f7f70; --fb-gold: #ffd75a; --fb-gold-soft: #fff1b0; --fb-danger: #ff8a8a; --fb-seal-ink: #08080a;   /* the neutral seal is the light red, so it is carved dark */
+  --fb-hover: rgba(255, 255, 255, .16); --fb-press: rgba(0, 0, 0, .55); --fb-shadow: rgba(0, 0, 0, .8);
+  --ui-bg-glow: none;
+  color-scheme: dark;
+}
+:root[data-theme="paper"] {   /* light: paper ground, ink text, a red seal */
+  --fb-ink: #f2eee3; --fb-surface: #ffffff; --fb-surface-mix: #fbf9f2; --fb-line: #b9b3a4; --fb-line-strong: #6b665a; --fb-muted: #55504a; --fb-text: #1b1a18;
+  --fb-accent: #0f6b55; --fb-accent-soft: #6fbf9f; --fb-gold: #7a5200; --fb-gold-soft: #8c6000; --fb-danger: #a3182d; --fb-seal-ink: #fff8f0;
+  --fb-hover: rgba(0, 0, 0, .07); --fb-press: rgba(0, 0, 0, .14); --fb-shadow: rgba(60, 40, 10, .28);
+  --ui-checker-a: color-mix(in srgb, var(--ui-text) 13%, var(--ui-bg));   /* on paper the slip and the page are one colour, so the squares come from the ink */
+  --ui-bg-glow: radial-gradient(36rem 22rem at 100% 0%, color-mix(in srgb, var(--ui-accent-soft) 16%, transparent), transparent 72%);
+  color-scheme: light;
+}
+
+/* ----- density: "comfortable" (the default, no attribute) and "compact" (data-density="compact"). Space, line height and the control height shrink together. ----- */
+:root[data-density="compact"] {
+  --ui-sp-1: .1875rem; --ui-sp-2: .375rem; --ui-sp-3: .5625rem; --ui-sp-4: .75rem; --ui-sp-5: 1.125rem; --ui-sp-6: 1.5rem; --ui-sp-7: 2.25rem;
+  --ui-lh-body: 1.35;
+  --ui-control-h: 1.875rem;
+}
+@media (max-width: 900px) {
+  :root[data-density="compact"] { --ui-control-h: 2.25rem; }   /* still a touch target */
 }
 
 /* Every animation and transition stops. The durations are tokens too, so a component that reads them gets zero. */

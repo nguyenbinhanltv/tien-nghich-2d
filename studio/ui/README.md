@@ -214,3 +214,9 @@ A small module any tab can use to show pixel art. It holds no project data. Load
 5. Reduced motion: turn on "Reduce motion" in the OS; `tokens.css` zeroes every duration, and tabs add no motion of their own.
 
 `.btn.sm` is the compact button (28 px, 36 px on touch screens) for secondary controls inside a toolbar, for example the seal switch in Review.
+
+## Interface modes and density
+
+`studio/ui/theme.mjs` holds the choice; `shell.js` writes `data-theme` (`abode` | `ink` | `paper`) and `data-density` (`comfortable` | `compact`) on `<html>`, remembers them in `localStorage` (`studio.theme`, `studio.density`) and, until a mode is chosen, follows `prefers-color-scheme`. Change them from the top-bar menu or the command palette's actions.
+A mode's colours are pack roles: `ui.theme` for abode, `ui.themeModes.<mode>.colors` for ink and paper (palette ids; the server resolves them to hex). A role or a whole mode the pack leaves out falls to that mode's neutral `--fb-*` default in `tokens.css`. Tabs must not hard-code a colour: use `--ui-*` (the transparency checkerboard is `--ui-checker-a/b`).
+Targets: text 4.5:1, control border 3:1, body text 7:1 in ink. `studio/ui/tests/theme-modes.test.mjs` computes them. The viewport harness takes `theme=` and `density=`.
