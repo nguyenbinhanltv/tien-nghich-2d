@@ -1360,7 +1360,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/idle_east_0": {
+    "characters/boss_ancient_god_remnant/hurt_east_0": {
       "frame": {
         "x": 819,
         "y": 615,
@@ -1380,7 +1380,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/idle_east_1": {
+    "characters/boss_ancient_god_remnant/hurt_east_1": {
       "frame": {
         "x": 921,
         "y": 615,
@@ -1400,9 +1400,129 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/idle_east_2": {
+    "characters/boss_ancient_god_remnant/hurt_east_2": {
       "frame": {
         "x": 3,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/hurt_south_0": {
+      "frame": {
+        "x": 105,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/hurt_south_1": {
+      "frame": {
+        "x": 207,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/hurt_south_2": {
+      "frame": {
+        "x": 309,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/idle_east_0": {
+      "frame": {
+        "x": 411,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/idle_east_1": {
+      "frame": {
+        "x": 513,
+        "y": 717,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/idle_east_2": {
+      "frame": {
+        "x": 615,
         "y": 717,
         "w": 96,
         "h": 96
@@ -1422,7 +1542,7 @@
     },
     "characters/boss_ancient_god_remnant/idle_east_3": {
       "frame": {
-        "x": 105,
+        "x": 717,
         "y": 717,
         "w": 96,
         "h": 96
@@ -1442,7 +1562,7 @@
     },
     "characters/boss_ancient_god_remnant/idle_east_4": {
       "frame": {
-        "x": 207,
+        "x": 819,
         "y": 717,
         "w": 96,
         "h": 96
@@ -1462,7 +1582,7 @@
     },
     "characters/boss_ancient_god_remnant/idle_east_5": {
       "frame": {
-        "x": 309,
+        "x": 921,
         "y": 717,
         "w": 96,
         "h": 96
@@ -1482,8 +1602,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_0": {
       "frame": {
-        "x": 411,
-        "y": 717,
+        "x": 3,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1502,8 +1622,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_1": {
       "frame": {
-        "x": 513,
-        "y": 717,
+        "x": 105,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1522,8 +1642,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_2": {
       "frame": {
-        "x": 615,
-        "y": 717,
+        "x": 207,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1542,8 +1662,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_3": {
       "frame": {
-        "x": 717,
-        "y": 717,
+        "x": 309,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1562,8 +1682,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_4": {
       "frame": {
-        "x": 819,
-        "y": 717,
+        "x": 411,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1582,8 +1702,8 @@
     },
     "characters/boss_ancient_god_remnant/idle_south_5": {
       "frame": {
-        "x": 921,
-        "y": 717,
+        "x": 513,
+        "y": 819,
         "w": 96,
         "h": 96
       },
@@ -1602,7 +1722,7 @@
     },
     "characters/boss_ancient_god_remnant/move_east_0": {
       "frame": {
-        "x": 3,
+        "x": 615,
         "y": 819,
         "w": 96,
         "h": 96
@@ -1622,7 +1742,7 @@
     },
     "characters/boss_ancient_god_remnant/move_east_1": {
       "frame": {
-        "x": 105,
+        "x": 717,
         "y": 819,
         "w": 96,
         "h": 96
@@ -1642,7 +1762,7 @@
     },
     "characters/boss_ancient_god_remnant/move_east_2": {
       "frame": {
-        "x": 207,
+        "x": 819,
         "y": 819,
         "w": 96,
         "h": 96
@@ -1662,7 +1782,7 @@
     },
     "characters/boss_ancient_god_remnant/move_east_3": {
       "frame": {
-        "x": 309,
+        "x": 921,
         "y": 819,
         "w": 96,
         "h": 96
@@ -1682,126 +1802,6 @@
     },
     "characters/boss_ancient_god_remnant/move_east_4": {
       "frame": {
-        "x": 411,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_east_5": {
-      "frame": {
-        "x": 513,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_south_0": {
-      "frame": {
-        "x": 615,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_south_1": {
-      "frame": {
-        "x": 717,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_south_2": {
-      "frame": {
-        "x": 819,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_south_3": {
-      "frame": {
-        "x": 921,
-        "y": 819,
-        "w": 96,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 96,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 96
-      }
-    },
-    "characters/boss_ancient_god_remnant/move_south_4": {
-      "frame": {
         "x": 3,
         "y": 921,
         "w": 96,
@@ -1820,7 +1820,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/move_south_5": {
+    "characters/boss_ancient_god_remnant/move_east_5": {
       "frame": {
         "x": 105,
         "y": 921,
@@ -1840,7 +1840,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_0": {
+    "characters/boss_ancient_god_remnant/move_south_0": {
       "frame": {
         "x": 207,
         "y": 921,
@@ -1860,7 +1860,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_1": {
+    "characters/boss_ancient_god_remnant/move_south_1": {
       "frame": {
         "x": 309,
         "y": 921,
@@ -1880,7 +1880,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_2": {
+    "characters/boss_ancient_god_remnant/move_south_2": {
       "frame": {
         "x": 411,
         "y": 921,
@@ -1900,7 +1900,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_3": {
+    "characters/boss_ancient_god_remnant/move_south_3": {
       "frame": {
         "x": 513,
         "y": 921,
@@ -1920,7 +1920,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_4": {
+    "characters/boss_ancient_god_remnant/move_south_4": {
       "frame": {
         "x": 615,
         "y": 921,
@@ -1940,7 +1940,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_5": {
+    "characters/boss_ancient_god_remnant/move_south_5": {
       "frame": {
         "x": 717,
         "y": 921,
@@ -1960,7 +1960,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_6": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_0": {
       "frame": {
         "x": 819,
         "y": 921,
@@ -1980,7 +1980,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_east_7": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_1": {
       "frame": {
         "x": 921,
         "y": 921,

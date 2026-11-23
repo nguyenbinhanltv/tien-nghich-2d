@@ -5,6 +5,7 @@ import { circleCircle } from '../collide.ts';
 import { addProjectile, removeProjectile } from '../pool.ts';
 import { SpatialHash } from '../spatial-hash.ts';
 import { damageEnemy, hurtPlayer } from './combat.ts';
+import { PHASES_WALLS } from '../ai/index.ts';
 import { pointSolid } from './grid.ts';
 
 export const KIND = { spiritBlade: PROJECTILE_KINDS.indexOf('spirit_blade'), mobShot: PROJECTILE_KINDS.indexOf('mob_shot'), playerBolt: PROJECTILE_KINDS.indexOf('player_bolt') } as const;
@@ -32,6 +33,14 @@ export function fireProjectile(world: WorldState, ownerId: number, kind: number,
   return true;
 }
 
+/** A shot may keep flying through a wall cell for this many px to reach a wall-phasing mob floating inside it (one tile). */
+export const PHASER_REACH = 16;
+/** True when a living wall-phasing mob (it floats inside walls) is within PHASER_REACH of this shot, so the wall must not swallow the shot before it can hit it. */
+function inPhaser(world: WorldState, x: number, y: number, r: number): boolean {
+  for (const a of world.actors) if (a.role === 'mob' && a.hp > 0 && PHASES_WALLS.has(a.kind) && circleCircle(x, y, r + PHASER_REACH, a.pos.x, a.pos.y, a.radius)) return true;
+  return false;
+}
+
 /**
  * Move every shot one tick, test it against the actors it can hurt (owner is the player -> enemies, owner is an enemy -> the player),
  * apply damage, and drop spent shots. Order: move, hit, expire (as the original: a shot on its last tick can still hit).
@@ -46,6 +55,8 @@ export function projectileSystem(world: WorldState, events: GameEvent[]): void {
   }
   if (world.grid) for (let i = 0; i < p.count; i++) {
     if (!pointSolid(world.grid, p.x[i] as number, p.y[i] as number)) continue;
+    // the player's shot can still reach a wall-phasing mob inside the wall (the hit test below takes it); an enemy's shot never skips a wall
+    if (findActor(world, p.owner[i] as number)?.role === 'player' && inPhaser(world, p.x[i] as number, p.y[i] as number, p.radius[i] as number)) continue;
     p.ttl[i] = -1; // shots stop at walls and props
     events.push({ type: 'projectile-hit', tick: world.tick, projectile: p.id[i] as number, target: 0 });
   }

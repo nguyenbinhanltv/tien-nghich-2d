@@ -32,3 +32,13 @@ export function isPortrait(cssWidth: number, cssHeight: number): boolean {
  * Half-way values round toward +infinity consistently (Math.round), and -0 is normalised to 0.
  */
 export function snapPx(v: number): number { return Math.round(v) + 0; }
+
+/**
+ * Follow scroll inside a room bigger than the view (a 24x14-cell room is 384x224, the view 384x216): centre on the
+ * player, clamped to the room edges so the last wall row is always reachable and no background shows past the room.
+ * Whole logical pixels; a room that fits the view does not scroll on that axis.
+ */
+export function followScroll(roomW: number, roomH: number, px: number, py: number): { x: number; y: number } {
+  const axis = (room: number, view: number, p: number): number => (room <= view ? 0 : snapPx(Math.min(room - view, Math.max(0, p - view / 2))));
+  return { x: axis(roomW, VIEW_W, px), y: axis(roomH, VIEW_H, py) };
+}

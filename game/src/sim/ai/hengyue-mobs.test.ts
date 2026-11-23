@@ -7,7 +7,7 @@ import { COMBAT } from '../../contracts/combat.ts';
 import { msToTicks } from '../../contracts/world.ts';
 import { damageEnemy } from '../systems/combat.ts';
 import { contentOf, makeFight, type Fight } from './harness.ts';
-import { BRAWLER, BRAWLER_BY_MOB, CHARGER, CHARGER_BY_MOB, SHOOTER, SHOOTER_BY_MOB, tune } from './params.ts';
+import { BRAWLER, BRAWLER_BY_MOB, SHOOTER, SHOOTER_BY_MOB, CHARGER, CHARGER_BY_MOB, tune } from './params.ts';
 
 const mobs = loadTables().tables.mobs as unknown as MobRow[];
 const content = contentOf(mobs);
@@ -20,6 +20,7 @@ const CASES: [string, number, number, number, string][] = [
   ['mob_herb_viper', 130, 150, charge('mob_herb_viper'), 'recover'],
   ['mob_demonic_talisman', 105, 150, 0, 'recover'],
 ];
+const RANGED = new Set(['mob_sword_acolyte', 'mob_demonic_talisman']); // shooters: an aim line for the tell, then an orb (the dodge is of the orb)
 const mk = (kind: string, x: number, y: number, seed = 1): Fight => makeFight(seed, content, 200, 150, [[kind, x, y]]);
 const until = (f: Fight, cond: () => boolean, max = 1500): void => { for (let i = 0; i < max && !cond(); i++) f.tick(); };
 const mobOf = (f: Fight) => f.world.actors.find((a) => a.id === f.mobs[0])!;
@@ -45,7 +46,7 @@ describe.each(CASES)('%s', (kind, x, y, extra, openState) => {
     for (let i = 0; i < 1500; i++) { a.tick(); b.tick(); }
     expect(a.hash()).toBe(b.hash());
   });
-  it('telegraphs with the table tell (>= 250 ms) and resolves its own hazard exactly once', () => {
+  it.skipIf(RANGED.has(kind))('telegraphs with the table tell (>= 250 ms) and resolves its own hazard exactly once', () => {
     const f = mk(kind, x, y);
     until(f, () => f.world.hazards.length > 0);
     const h = f.world.hazards[0]!;
@@ -53,7 +54,7 @@ describe.each(CASES)('%s', (kind, x, y, extra, openState) => {
     until(f, () => f.world.hazards.length === 0);
     expect(f.events.filter((e) => e.type === 'hazard-resolved')).toHaveLength(1);
   });
-  it('hits a player who stands still, at the end of the telegraph', () => {
+  it.skipIf(RANGED.has(kind))('hits a player who stands still, at the end of the telegraph', () => {
     const f = mk(kind, x, y);
     until(f, () => f.world.hazards.length > 0);
     const start = f.world.tick;
@@ -62,7 +63,7 @@ describe.each(CASES)('%s', (kind, x, y, extra, openState) => {
     const hit = f.events.find((e) => e.type === 'hit' && e.target === f.player)!;
     expect(hit.tick - start).toBeGreaterThanOrEqual(tell + extra - 2);
   });
-  it('a well-timed dash is a dodge (counter window), not a hit', () => {
+  it.skipIf(RANGED.has(kind))('a well-timed dash is a dodge (counter window), not a hit', () => {
     const f = mk(kind, x, y);
     until(f, () => f.world.hazards.length > 0);
     until(f, () => f.world.hazards[0]!.timer <= COMBAT.guardCheck - 4, 200);
@@ -97,6 +98,31 @@ describe.each(CASES)('%s', (kind, x, y, extra, openState) => {
     f.world.actors[0]!.diedTick = 0;
     for (let i = 0; i < 30; i++) f.tick();
     expect(mobOf(f).vel).toEqual({ x: 0, y: 0 }); expect(mobOf(f).clip).toBe('idle');
+  });
+});
+
+describe.each([...RANGED])('%s fires an orb after an aim line', (kind) => {
+  const row = mobs.find((m) => m.id === kind)!, tell = msToTicks(row.tell_ms), P = tune(SHOOTER, SHOOTER_BY_MOB, kind);
+  const at = (k: string): [number, number] => (CASES.find((c) => c[0] === k)!.slice(1, 3) as [number, number]);
+  it('shows a no-damage aim line for the table tell (>= 250 ms), then fires exactly one orb of its own speed', () => {
+    const f = mk(kind, ...at(kind));
+    until(f, () => f.world.hazards.length > 0);
+    const h = f.world.hazards[0]!;
+    expect(h.damage).toBe(0); expect(h.duration).toBe(tell); expect(tell).toBeGreaterThanOrEqual(msToTicks(250));
+    until(f, () => f.world.projectiles.count > 0);
+    expect(f.events.filter((e) => e.type === 'projectile-fired')).toHaveLength(1);
+    expect(Math.hypot(f.world.projectiles.vx[0]!, f.world.projectiles.vy[0]!)).toBeCloseTo(P.shotSpeed, 3);
+    expect(f.events.filter((e) => e.type === 'hazard-resolved')).toHaveLength(0);
+  });
+  it('the orb hits a player who stands still; a dash across it takes no damage', () => {
+    const still = mk(kind, ...at(kind));
+    until(still, () => still.world.stats.hitsTaken > 0, 600);
+    expect(still.world.stats.hitsTaken).toBe(1);
+    const f = mk(kind, ...at(kind));
+    until(f, () => { const p = f.world.projectiles; return p.count > 0 && Math.hypot((p.x[0] as number) - f.world.actors[0]!.pos.x, (p.y[0] as number) - f.world.actors[0]!.pos.y) < 24; }, 600);
+    f.tick({ move: { x: 0, y: 1 }, dash: true });
+    for (let i = 0; i < 80; i++) f.tick({ move: { x: 0, y: 1 } });
+    expect(f.world.stats.hitsTaken).toBe(0);
   });
 });
 
