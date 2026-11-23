@@ -39,7 +39,10 @@ test('assets: lists everything and filters by category, readiness, chunk, wave a
   const mobs = (await get('/api/studio/assets?category=mob&limit=1000')).data;
   assert.ok(mobs.total > 0 && mobs.assets.every(a => a.category === 'mob'));
   const planned = (await get('/api/studio/assets?readiness=planned&limit=1000')).data;
-  assert.ok(planned.total > 0 && planned.assets.every(a => a.readiness === 'planned'));
+  // Every reserved audio cue is produced now (the Characters wave was the last), so nothing is planned: the filter must still return only planned assets.
+  assert.ok(planned.assets.every(a => a.readiness === 'planned'));
+  const packed = (await get('/api/studio/assets?readiness=packed&limit=1000')).data;
+  assert.ok(packed.total > 0 && packed.assets.every(a => a.readiness === 'packed'));
   const longtime = json('assets/manifest_longtime.json');
   const wave1 = (await get('/api/studio/assets?wave=wave_1')).data;
   assert.equal(wave1.total, longtime.assets.filter(a => a.phase === 'wave_1').length);

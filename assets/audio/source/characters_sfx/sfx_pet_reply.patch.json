@@ -1,0 +1,16 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_pet_reply",
+  "title": "Pet reply (companion answers)",
+  "design": "A small animal answer: two quick rising chirps (a glide from A5 to D6, then from C6 to F6, both soft FM sines kept at or below the 1.4 kHz band so it stays clear of the bronze warning register) and a short low purr of amplitude-modulated, low-passed noise under the second chirp. Pitched and playful, nothing like a hit or a pickup.",
+  "sampleRate": 44100, "channels": 1, "seed": 9812,
+  "durationMs": 900, "trim": 0.566,
+  "window": {"frames": 4, "frameMs": 120, "tailMs": 420},
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 150, "gain": 0.8, "hz": 880, "endHz": 1174.7, "fm": {"ratio": 2, "index": 0.25}, "env": {"attackMs": 8, "decayMs": 120, "releaseMs": 60}},
+    {"type": "osc", "startMs": 190, "ms": 230, "gain": 0.85, "hz": 1046.5, "endHz": 1396.9, "fm": {"ratio": 2, "index": 0.3}, "vibrato": {"hz": 7, "depth": 0.006, "riseMs": 80}, "env": {"attackMs": 8, "decayMs": 170, "releaseMs": 110}},
+    {"type": "osc", "startMs": 190, "ms": 230, "gain": 0.15, "hz": 523.3, "endHz": 698.5, "env": {"attackMs": 14, "decayMs": 170, "releaseMs": 110}},
+    {"type": "noise", "startMs": 200, "ms": 560, "gain": 0.34, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 380, "q": 0.9}], "am": {"hz": 26, "depth": 0.8}, "env": {"attackMs": 60, "decayMs": 300, "releaseMs": 260}}
+  ]
+}

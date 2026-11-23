@@ -1,0 +1,72 @@
+{
+  "sfx_keeper_call": {
+    "kind": "ms",
+    "windowMs": 560,
+    "tailMs": 540,
+    "totalMs": 1100,
+    "scale": 1,
+    "baseDurationMs": 1100,
+    "source": "560 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 560,
+        "tailMs": 540
+      },
+      "windowMs": 560,
+      "tailMs": 540,
+      "totalMs": 1100,
+      "scale": 1,
+      "baseDurationMs": 1100,
+      "source": "560 ms given"
+    },
+    "configSha256": "1c8844cfaf22311309e7b65191304136425cb983f9664fc0329c39e1a0033557"
+  },
+  "sfx_pet_reply": {
+    "kind": "frames",
+    "windowMs": 480,
+    "tailMs": 420,
+    "totalMs": 900,
+    "scale": 1,
+    "baseDurationMs": 900,
+    "source": "4 frames at 120 ms",
+    "config": {
+      "kind": "frames",
+      "window": {
+        "frames": 4,
+        "frameMs": 120,
+        "tailMs": 420
+      },
+      "windowMs": 480,
+      "tailMs": 420,
+      "totalMs": 900,
+      "scale": 1,
+      "baseDurationMs": 900,
+      "source": "4 frames at 120 ms"
+    },
+    "configSha256": "d5503439e5fda90495665569998c863a6783ffb0e001f837498af66cfe8b92b3"
+  },
+  "sfx_form_shift": {
+    "kind": "ms",
+    "windowMs": 900,
+    "tailMs": 700,
+    "totalMs": 1600,
+    "scale": 1,
+    "baseDurationMs": 1600,
+    "source": "900 ms given",
+    "config": {
+      "kind": "ms",
+      "window": {
+        "ms": 900,
+        "tailMs": 700
+      },
+      "windowMs": 900,
+      "tailMs": 700,
+      "totalMs": 1600,
+      "scale": 1,
+      "baseDurationMs": 1600,
+      "source": "900 ms given"
+    },
+    "configSha256": "5bab13145869e79428e328e3ea2a1e15e3d3f82b2aad6280ded7def7544b0fb4"
+  }
+}

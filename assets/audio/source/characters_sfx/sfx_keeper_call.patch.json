@@ -1,0 +1,18 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_keeper_call",
+  "title": "Keeper call (NPC greeting, first contact)",
+  "design": "A gesture, not speech: the kiln keeper clears a low throat and calls two soft notes, D4 then F#4 (a rising major third), each a triangle with a sine octave through a low-pass, with a faint warm breath of noise under them and a small wooden tock where the interact clip starts. Warm and low so it greets without reading as a warning or a confirmation.",
+  "sampleRate": 44100, "channels": 1, "seed": 9811,
+  "durationMs": 1100, "trim": 0.569,
+  "window": {"ms": 560, "tailMs": 540},
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 36, "gain": 0.5, "hz": 190, "env": {"attackMs": 1, "decayMs": 9, "releaseMs": 16}},
+    {"type": "osc", "startMs": 20, "ms": 330, "gain": 0.8, "wave": "triangle", "hz": 293.7, "scoop": {"depth": -0.03, "tauMs": 70}, "vibrato": {"hz": 5, "depth": 0.003, "riseMs": 200}, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 1100, "q": 0.8}], "env": {"attackMs": 50, "decayMs": 380, "releaseMs": 150}},
+    {"type": "osc", "startMs": 20, "ms": 330, "gain": 0.2, "hz": 587.3, "env": {"attackMs": 70, "decayMs": 300, "releaseMs": 150}},
+    {"type": "osc", "startMs": 290, "ms": 810, "gain": 0.9, "wave": "triangle", "hz": 370, "scoop": {"depth": -0.02, "tauMs": 60}, "vibrato": {"hz": 5, "depth": 0.004, "riseMs": 260}, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 1200, "endHz": 800, "q": 0.8}], "env": {"attackMs": 45, "decayMs": 520, "releaseMs": 380}},
+    {"type": "osc", "startMs": 290, "ms": 810, "gain": 0.18, "hz": 740, "env": {"attackMs": 60, "decayMs": 400, "releaseMs": 380}},
+    {"type": "noise", "startMs": 0, "ms": 900, "gain": 0.1, "filters": [{"type": "biquad", "mode": "bandpass", "hz": 420, "q": 0.9}], "env": {"attackMs": 120, "decayMs": 520, "releaseMs": 340}}
+  ]
+}

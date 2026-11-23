@@ -1,0 +1,136 @@
+{
+  "agent_listening": "not supported by this agent; no audio was auditioned",
+  "automated": {
+    "bgm": {},
+    "mix_comparison": {},
+    "sfx": {
+      "m4a": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              310,
+              68452
+            ],
+            "decoded_peak_dbfs": -6.05,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -84.288,
+            "id": "sfx_form_shift",
+            "master_active_start_end": [
+              310,
+              68453
+            ],
+            "master_peak_dbfs": -6.003,
+            "snr_db": 34.27,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              6,
+              47642
+            ],
+            "decoded_peak_dbfs": -5.997,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -57.44,
+            "id": "sfx_keeper_call",
+            "master_active_start_end": [
+              6,
+              47754
+            ],
+            "master_peak_dbfs": -5.992,
+            "snr_db": 55.89,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              5,
+              26585
+            ],
+            "decoded_peak_dbfs": -5.997,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -65.204,
+            "id": "sfx_pet_reply",
+            "master_active_start_end": [
+              6,
+              26583
+            ],
+            "master_peak_dbfs": -5.994,
+            "snr_db": 56.62,
+            "threshold_pcm": 164
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      },
+      "ogg": {
+        "per_cue": [
+          {
+            "decoded_active_start_end": [
+              302,
+              68453
+            ],
+            "decoded_peak_dbfs": -5.948,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -90.309,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -68.725,
+            "id": "sfx_form_shift",
+            "master_active_start_end": [
+              310,
+              68453
+            ],
+            "master_peak_dbfs": -6.003,
+            "snr_db": 30.97,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              4,
+              47755
+            ],
+            "decoded_peak_dbfs": -5.878,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -84.288,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -49.885,
+            "id": "sfx_keeper_call",
+            "master_active_start_end": [
+              6,
+              47754
+            ],
+            "master_peak_dbfs": -5.992,
+            "snr_db": 39.52,
+            "threshold_pcm": 164
+          },
+          {
+            "decoded_active_start_end": [
+              0,
+              26577
+            ],
+            "decoded_peak_dbfs": -5.753,
+            "guard_after_core_peak_dbfs": -240.0,
+            "guard_after_edge_peak_dbfs": -240.0,
+            "guard_before_core_peak_dbfs": -240.0,
+            "guard_before_edge_peak_dbfs": -45.301,
+            "id": "sfx_pet_reply",
+            "master_active_start_end": [
+              6,
+              26583
+            ],
+            "master_peak_dbfs": -5.994,
+            "snr_db": 31.56,
+            "threshold_pcm": 164
+          }
+        ],
+        "whole_pack_head_offset_frames": 0
+      }
+    }
+  },
+  "human_listening": "pending",
+  "pack_revision": 1,
+  "schema": "tien-nghich-2d.audio-wave2-pack-evidence"
+}

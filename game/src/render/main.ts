@@ -1,26 +1,60 @@
-// Placeholder entry. The renderer is chosen by the engine spike (G0-A, game/spike/); until then this only
-// proves the layering: the page imports the sim, the sim never imports this folder.
+// Boots the game: Phaser (pixel-art 384x216 canvas), input, touch controls, rotate gate, service worker.
+import Phaser from 'phaser';
 import { VIEW_H, VIEW_W } from '../contracts/world.ts';
-import { createWorld, FixedLoop, NO_INPUT, step } from '../sim/loop.ts';
-import type { GameEvent } from '../contracts/world.ts';
+import { fitView } from './camera.ts';
+import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
+import { InputHub } from '../ui/input-hub.ts';
+import { mountOrientationGate } from '../ui/orientation-gate.ts';
+import { createUiI18n } from '../ui/strings.ts';
+import { mountTouchControls } from '../ui/touch-controls.ts';
 
-const canvas = document.getElementById('stage') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d');
-if (!ctx) throw new Error('2d canvas unavailable');
-ctx.imageSmoothingEnabled = false;
-const world = createWorld(1);
-const loop = new FixedLoop();
-const events: GameEvent[] = [];
-let last = performance.now();
-function frame(now: number): void {
-  loop.advance(now - last, () => step(world, NO_INPUT, events));
-  last = now;
-  events.length = 0;
-  ctx!.fillStyle = '#14101a';
-  ctx!.fillRect(0, 0, VIEW_W, VIEW_H);
-  ctx!.fillStyle = '#d8c8a0';
-  ctx!.font = '12px monospace';
-  ctx!.fillText(`tick ${world.tick}`, 8, 16);
-  requestAnimationFrame(frame);
+const root = document.getElementById('game')!;
+const i18n = createUiI18n(navigator.language);
+document.title = i18n.t('game.title');
+document.documentElement.lang = i18n.locale;
+
+const hub = new InputHub(window);
+let portrait = false;
+const scene = new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait });
+
+const game = new Phaser.Game({
+  type: Phaser.AUTO,
+  parent: root,
+  width: VIEW_W,
+  height: VIEW_H,
+  backgroundColor: '#14101a',
+  pixelArt: true,
+  roundPixels: true,
+  antialias: false,
+  scale: { mode: Phaser.Scale.NONE },
+  input: { mouse: false, touch: false, keyboard: false, gamepad: false }, // our InputHub reads the raw events
+  scene: [scene],
+  banner: false,
+});
+
+function fit(): void {
+  const f = fitView(window.innerWidth, window.innerHeight, window.devicePixelRatio || 1);
+  const c = game.canvas;
+  c.style.position = 'fixed';
+  c.style.width = `${f.cssW}px`;
+  c.style.height = `${f.cssH}px`;
+  c.style.left = `${f.left}px`;
+  c.style.top = `${f.top}px`;
+  c.style.imageRendering = 'pixelated';
 }
-requestAnimationFrame(frame);
+game.events.once(Phaser.Core.Events.READY, fit);
+window.addEventListener('resize', fit);
+window.addEventListener('orientationchange', fit);
+
+const controls = mountTouchControls(document.body, hub, i18n);
+const coarse = window.matchMedia('(pointer: coarse)').matches || new URLSearchParams(location.search).has('touch');
+controls.setVisible(coarse);
+window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') controls.setVisible(true); }, { passive: true });
+mountOrientationGate(document.body, i18n, (p) => { portrait = p; });
+
+// Offline cache: needs a secure context (https or localhost). Plain http on the LAN skips it, the game still runs.
+if ('serviceWorker' in navigator && import.meta.env.PROD && window.isSecureContext) {
+  window.addEventListener('load', () => void navigator.serviceWorker.register('./sw.js'));
+}
+
+(window as unknown as { __tn2d: unknown }).__tn2d = { game, scene, hub };

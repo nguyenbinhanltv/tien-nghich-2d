@@ -1,0 +1,20 @@
+{
+  "schema": "studio.audio.patch",
+  "version": 1,
+  "id": "sfx_form_shift",
+  "title": "Form shift (future form change)",
+  "design": "A body changes shape. A low saw glides up an octave from A2 to A3 through an opening low-pass while a band of air sweeps upward, and the pitch gathers into a seal at 560 ms (a short tick and a bright FM bell on E5). A settled open chord of D4, A4 and E5 sines with a slow beat rings out. Rising and pitched, with no strike and no breakthrough fanfare.",
+  "sampleRate": 44100, "channels": 1, "seed": 9813,
+  "durationMs": 1600, "trim": 0.53,
+  "window": {"ms": 900, "tailMs": 700},
+  "layers": [
+    {"type": "osc", "startMs": 0, "ms": 760, "gain": 0.7, "wave": "saw", "hz": 110, "endHz": 220, "filters": [{"type": "biquad", "mode": "lowpass", "hz": 400, "endHz": 1500, "q": 1.2}], "env": {"attackMs": 260, "decayMs": 700, "releaseMs": 200}},
+    {"type": "osc", "startMs": 40, "ms": 700, "gain": 0.3, "hz": 220, "endHz": 440, "env": {"attackMs": 240, "releaseMs": 220}},
+    {"type": "noise", "startMs": 0, "ms": 760, "gain": 0.3, "filters": [{"type": "biquad", "mode": "bandpass", "hz": 350, "endHz": 1500, "q": 1.4}], "env": {"attackMs": 300, "releaseMs": 200}},
+    {"type": "osc", "startMs": 556, "ms": 30, "gain": 0.18, "hz": 1500, "env": {"attackMs": 1, "decayMs": 8, "releaseMs": 14}},
+    {"type": "osc", "startMs": 560, "ms": 1000, "gain": 0.3, "hz": 659.3, "fm": {"ratio": 2.01, "index": 0.5}, "env": {"attackMs": 6, "decayMs": 380, "releaseMs": 500}},
+    {"type": "osc", "startMs": 540, "ms": 1060, "gain": 0.32, "hz": 293.7, "env": {"attackMs": 90, "decayMs": 600, "releaseMs": 520}},
+    {"type": "osc", "startMs": 540, "ms": 1060, "gain": 0.28, "hz": 440, "env": {"attackMs": 110, "decayMs": 600, "releaseMs": 520}},
+    {"type": "osc", "startMs": 560, "ms": 1000, "gain": 0.14, "hz": 441.6, "env": {"attackMs": 110, "decayMs": 700, "releaseMs": 500}}
+  ]
+}

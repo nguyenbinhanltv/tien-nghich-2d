@@ -18,17 +18,24 @@
     "content:check": "node tools/content-build.ts --check",
     "contract:check": "node tools/kiln-contract-check.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check"
+    "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check",
+    "dev:lan": "node pwa/lan.ts dev",
+    "preview:lan": "vite build && node pwa/lan.ts preview",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
     "ajv": "^8.20.0",
     "eslint": "^10.15.0",
+    "qrcode-terminal": "^0.12.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.73.0",
     "vite": "^8.3.8",
     "vitest": "^5.1.1",
     "yaml": "^2.9.1"
+  },
+  "dependencies": {
+    "phaser": "4.2.1"
   }
 }
