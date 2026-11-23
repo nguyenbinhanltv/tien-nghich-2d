@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { describe, expect, it } from 'vitest';
-import { doorSpots, propFrames, tileKind } from './room-tiles.ts';
+import { blobIndex, doorSpots, poolIndex, propFrames, tileKind, wallTopIndex } from './room-tiles.ts';
 
 const ROOMS = join(dirname(fileURLToPath(import.meta.url)), '../../content/rooms');
 const layouts = readdirSync(ROOMS).filter((f) => f.endsWith('.yaml')).map((f) => YAML.parse(readFileSync(join(ROOMS, f), 'utf8')) as { id: string; grid: string[]; props: { id: string }[]; doors: { side: string; role: string }[] });
@@ -56,5 +56,29 @@ describe('propFrames', () => {
     for (const L of layouts) for (const p of L.props) expect(propFrames(sequence, p.id).length, `${L.id}/${p.id}`).toBeGreaterThan(0);
     expect(sequence('props/prop_room_door/locked_none').length).toBe(1);
     expect(sequence('props/prop_room_door/open_none').length).toBe(1);
+  });
+});
+
+describe('blob47 autotile', () => {
+  const mapping = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../../../assets/raw/environment_items/tilesets/blob47_mapping.json'), 'utf8')) as { raw_mask_to_index: number[] };
+  it('matches the generator mapping for all 256 raw masks', () => {
+    for (let m = 0; m < 256; m++) expect(blobIndex(m)).toBe(mapping.raw_mask_to_index[m]);
+  });
+  it('an interior wall cell is the full tile (46); a lone pool cell is the isolated tile (0)', () => {
+    expect(wallTopIndex(['###', '###', '###'], 1, 1)).toBe(46);
+    expect(poolIndex(['...', '.~.', '...'], 1, 1)).toBe(0);
+  });
+  it('a pool edge differs from its interior, and the room border (out of range) is wall', () => {
+    const rows = ['.....', '.~~~.', '.~~~.', '.~~~.', '.....'];
+    expect(poolIndex(rows, 2, 2)).toBe(46);
+    expect(poolIndex(rows, 1, 1)).not.toBe(46);
+    expect(wallTopIndex(['##', '##'], 0, 0)).toBe(46);
+  });
+  it('every wall-top and pool cell of the real rooms gets a tile in 0..46', () => {
+    for (const l of layouts) for (let r = 0; r < l.grid.length; r++) for (let c = 0; c < l.grid[r]!.length; c++) {
+      const k = tileKind(l.grid, c, r);
+      const i = k === 'wall-cap' ? wallTopIndex(l.grid, c, r) : k === 'pool' ? poolIndex(l.grid, c, r) : 0;
+      expect(i).toBeGreaterThanOrEqual(0); expect(i).toBeLessThanOrEqual(46);
+    }
   });
 });
