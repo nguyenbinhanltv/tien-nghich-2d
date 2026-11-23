@@ -46,7 +46,11 @@ describe('mob_blood_wolf (charger)', () => {
     for (let i = 0; i < 600 && wolf.ai.state !== 'windup'; i++) f.tick();
     expect(wolf.ai.state).toBe('windup'); expect(f.world.hazards).toHaveLength(1);
     wolf.combat.hurt = 9; f.tick();
-    expect(f.world.hazards).toHaveLength(0); expect(wolf.ai.state).toBe('recover');
+    expect(f.world.hazards).toHaveLength(0); expect(wolf.ai.state).toBe('recover'); expect(wolf.combat.hurt).toBe(0);
+    for (let i = 0; i < 600 && wolf.ai.state !== 'chase'; i++) f.tick();
+    expect(wolf.ai.state).toBe('chase'); // not locked in recover
+    for (let i = 0; i < 600 && wolf.ai.state !== 'windup'; i++) f.tick();
+    expect(wolf.ai.state).toBe('windup'); // and charges again
   });
   it('idles with no player and ignores dead mobs', () => {
     const f = makeFight(4, content, 200, 150, [[WOLF, 60, 150]]);

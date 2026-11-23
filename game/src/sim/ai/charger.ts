@@ -16,8 +16,9 @@ export const charger: MobBehavior = {
     if (!player) { setVel(a, 0, 0); if (a.clip !== 'idle') enter(a, world, 'idle', 0, 'idle'); return; }
     a.ai.target = player.id;
     const walk = row.speed / 60;
-    if (a.combat.hurt > 0 && a.ai.state !== RECOVER) { // staggered: the charge is cancelled, the telegraph goes with it
-      dropHazards(world, a.id); setVel(a, 0, 0); enter(a, world, RECOVER, ticks(P.recoverMs) >> 1, 'idle'); return;
+    if (a.combat.hurt > 0) { // stagger is consumed when taken (nothing else ticks a mob's `hurt` down); no re-trigger next tick
+      a.combat.hurt = 0;
+      if (a.ai.state !== RECOVER) { dropHazards(world, a.id); setVel(a, 0, 0); enter(a, world, RECOVER, ticks(P.recoverMs) >> 1, 'idle'); return; }
     }
     switch (a.ai.state) {
       case CHASE: {
