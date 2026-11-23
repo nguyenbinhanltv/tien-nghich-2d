@@ -44,7 +44,11 @@ export function projectileSystem(world: WorldState, events: GameEvent[]): void {
     p.y[i] = (p.y[i] as number) + (p.vy[i] as number);
     p.ttl[i] = (p.ttl[i] as number) - 1;
   }
-  if (world.grid) for (let i = 0; i < p.count; i++) if (pointSolid(world.grid, p.x[i] as number, p.y[i] as number)) p.ttl[i] = -1; // shots stop at walls and props
+  if (world.grid) for (let i = 0; i < p.count; i++) {
+    if (!pointSolid(world.grid, p.x[i] as number, p.y[i] as number)) continue;
+    p.ttl[i] = -1; // shots stop at walls and props
+    events.push({ type: 'projectile-hit', tick: world.tick, projectile: p.id[i] as number, target: 0 });
+  }
   const { hash, out } = scratch(world);
   hash.rebuild(p.count, p.x, p.y);
   for (const a of world.actors) {

@@ -110,21 +110,21 @@
   "ancient_god"
  ],
  "summary": {
-  "total": 90,
+  "total": 94,
   "by_category": {
    "player": 4,
    "mob": 15,
    "boss": 3,
    "tileset": 3,
    "weapon": 12,
-   "projectile": 12,
+   "projectile": 16,
    "prop": 19,
    "icon": 16,
    "ui": 6
   },
   "by_agent": {
    "pixellab": 22,
-   "codex_antigravity": 68
+   "codex_antigravity": 72
   }
  },
  "assets": [
@@ -4112,6 +4112,153 @@
     "ink_06"
    ],
    "status": "pending"
+  },
+  {
+   "id": "pj_mob_crow_feather",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Lông Quạ Huyết",
+    "en": "Projectile: Blood Crow Feather"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_crow",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_crow_feather/",
+   "palette_refs": [
+    "blood_05",
+    "blood_06",
+    "blood_07",
+    "soul_02",
+    "soul_04",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_corpse_gore",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Cục Máu Xác",
+    "en": "Projectile: Corpse Gore Clot"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_corpse",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_corpse_gore/",
+   "palette_refs": [
+    "blood_02",
+    "blood_03",
+    "blood_05",
+    "blood_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_lurker_bubble",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Bọt Huyết Thủy",
+    "en": "Projectile: Blood-Water Bubble"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_blood_pool_lurker",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_lurker_bubble/",
+   "palette_refs": [
+    "blood_01",
+    "blood_04",
+    "blood_06",
+    "blood_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "pj_mob_soul_wisp",
+   "readiness": "packed",
+   "name": {
+    "vi": "Đạn: Oán Hỏa",
+    "en": "Projectile: Vengeful Soul Fire"
+   },
+   "category": "projectile",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    16,
+    16
+   ],
+   "owner_mob": "mob_vengeful_soul",
+   "animations": {
+    "flight": {
+     "frames": 4,
+     "loop": false
+    },
+    "impact": {
+     "frames": 4,
+     "loop": false
+    }
+   },
+   "output_path": "assets/raw/environment_items/projectiles/pj_mob_soul_wisp/",
+   "palette_refs": [
+    "jade_05",
+    "soul_03",
+    "soul_04",
+    "soul_05",
+    "soul_06",
+    "soul_07",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
   }
  ]
 }
