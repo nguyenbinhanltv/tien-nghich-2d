@@ -48,3 +48,5 @@
 .menu-key { flex: 1.4; min-height: 40px; font-size: 16px; }
 .menu-note { margin: 0; font-size: 14px; opacity: 0.8; line-height: 1.35; }
 .golden .menu-btn, .golden .menu-overlay { display: none !important; }
+
+.menu-title { font-size: 40px !important; letter-spacing: 1px; margin: 6px 0 14px !important; }

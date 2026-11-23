@@ -19,7 +19,7 @@ const i18n = createUiI18n(settings.locale === 'auto' ? navigator.language : sett
 document.title = i18n.t('game.title');
 document.documentElement.lang = i18n.locale;
 
-const hub = new InputHub(window, settings.bindings);
+const hub = new InputHub(window, settings.bindings, settings.padBindings);
 const setStatus = mountStatus(document.body);
 const audio = new AudioDirector();
 // the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
@@ -83,7 +83,10 @@ const menus = (ui.menus = new Menus(document.body, {
   onChange: (s, reload) => { saveSettings(typeof localStorage === 'undefined' ? null : localStorage, s); applySettings(); if (reload) location.reload(); },
   onRestart: () => { if (scene instanceof BloodSeaScene) scene.restartFight(); },
   onOpenChange: () => {},
+  onTitle: () => { if (scene instanceof BloodSeaScene) scene.restartFight(); },
 }));
+// the title screen first (not in golden or viewer mode); Start unlocks audio like any first gesture
+if (!params.has('golden') && params.get('view') !== 'clips') menus.openTitle();
 hub.onPause = () => menus.toggle();
 game.events.on(Phaser.Core.Events.PRE_STEP, () => menus.update());
 

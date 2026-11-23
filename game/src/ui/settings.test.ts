@@ -59,3 +59,37 @@ describe('rebind', () => {
 });
 
 describe('keyLabel', () => { it('shows short labels', () => { expect(keyLabel('KeyW')).toBe('W'); expect(keyLabel('ArrowUp')).toBe('↑'); expect(keyLabel('Space')).toBe('Space'); }); });
+
+import { DEFAULT_PAD, padButtonAllowed, padLabel, rebindPad } from './settings.ts';
+describe('gamepad bindings', () => {
+  it('defaults match the old fixed layout and survive garbage', () => {
+    expect(parseSettings(null).padBindings).toEqual(DEFAULT_PAD);
+    const s = parseSettings({ padBindings: { dash: [9, 99, 'x', 3.5, 5], counter: 'no' } });
+    expect(s.padBindings.dash).toEqual([5]);
+    expect(s.padBindings.counter).toEqual(DEFAULT_PAD.counter);
+  });
+  it('one button never serves two actions in saved data', () => {
+    const s = parseSettings({ padBindings: { dash: [2], counter: [2, 7] } });
+    const all = [...s.padBindings.dash, ...s.padBindings.counter];
+    expect(new Set(all).size).toBe(all.length);
+    expect(s.padBindings.counter.length).toBeGreaterThan(0);
+  });
+  it('Start, the D-pad and back/guide buttons cannot be bound', () => {
+    for (const n of [9, 12, 13, 14, 15, 8, 16, -1, 17]) expect(padButtonAllowed(n), String(n)).toBe(false);
+    for (const n of [0, 1, 2, 3, 4, 5, 6, 7, 10, 11]) expect(padButtonAllowed(n), String(n)).toBe(true);
+    expect(rebindPad(DEFAULT_PAD, 'dash', 9)).toBeNull();
+  });
+  it('rebinding makes the button primary, takes it from the other action and keeps that one usable', () => {
+    const b = rebindPad(DEFAULT_PAD, 'dash', 2)!;
+    expect(b.dash[0]).toBe(2);
+    expect(b.counter).not.toContain(2);
+    expect(b.counter.length).toBeGreaterThan(0);
+    const all = [...b.dash, ...b.counter];
+    expect(new Set(all).size).toBe(all.length);
+    const lone = rebindPad({ dash: [0], counter: [2] }, 'dash', 2)!;
+    expect(lone.counter.length).toBe(1);
+    expect(lone.counter[0]).not.toBe(2);
+    expect(JSON.stringify(DEFAULT_PAD)).toBe('{"dash":[0,6],"counter":[2,1,7]}');
+  });
+  it('labels the standard buttons', () => { expect(padLabel(0)).toBe('A'); expect(padLabel(7)).toBe('RT'); expect(padLabel(10)).toBe('L3'); });
+});
