@@ -21,7 +21,7 @@ ROUTES = {  # category -> (agent, required output_path prefix)
     "ui": ("codex_antigravity", "assets/raw/environment_items/"),
     "icon": ("codex_antigravity", "assets/raw/environment_items/"),
 }
-EXPECTED = {"player": 4, "mob": 15, "boss": 3, "tileset": 3, "weapon": 12, "projectile": 16, "prop": 19, "icon": 16, "ui": 6}
+EXPECTED = {"player": 4, "mob": 15, "boss": 3, "tileset": 3, "weapon": 12, "projectile": 16, "prop": 19, "icon": 19, "ui": 6}
 REQUIRED = ["id", "name", "category", "assigned_agent", "size", "output_path", "palette_refs", "status"]
 
 

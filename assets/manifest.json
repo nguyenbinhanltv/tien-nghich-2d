@@ -110,7 +110,7 @@
   "ancient_god"
  ],
  "summary": {
-  "total": 94,
+  "total": 97,
   "by_category": {
    "player": 4,
    "mob": 15,
@@ -119,12 +119,12 @@
    "weapon": 12,
    "projectile": 16,
    "prop": 19,
-   "icon": 16,
+   "icon": 19,
    "ui": 6
   },
   "by_agent": {
    "pixellab": 22,
-   "codex_antigravity": 72
+   "codex_antigravity": 75
   }
  },
  "assets": [
@@ -4235,6 +4235,124 @@
    "status": "pending",
    "px1": true,
    "provenance": "code-drawn by tools/generators/gen_px1_mob_projectiles.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "icon_status_guard",
+   "readiness": "packed",
+   "source_path": "assets/raw/environment_items/ui/icon_status_guard/",
+   "name": {
+    "vi": "Trạng thái: Hộ Thể",
+    "en": "Status: Guard up"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "status",
+   "description": "Hộ Thể: guard up",
+   "output_path": "assets/raw/environment_items/icons/icon_status_guard/",
+   "palette_refs": [
+    "bronze_05",
+    "bronze_07",
+    "jade_04",
+    "jade_05",
+    "jade_06",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_status_icons.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "icon_status_counter",
+   "readiness": "packed",
+   "source_path": "assets/raw/environment_items/ui/icon_status_counter/",
+   "name": {
+    "vi": "Trạng thái: Phản Chấn",
+    "en": "Status: Counter-strike window"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "status",
+   "description": "Phản Chấn: counter-strike window",
+   "output_path": "assets/raw/environment_items/icons/icon_status_counter/",
+   "palette_refs": [
+    "bronze_04",
+    "bronze_05",
+    "bronze_06",
+    "bronze_07",
+    "thunder_03",
+    "thunder_04",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_status_icons.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
+  },
+  {
+   "id": "icon_status_immune",
+   "readiness": "packed",
+   "source_path": "assets/raw/environment_items/ui/icon_status_immune/",
+   "name": {
+    "vi": "Trạng thái: Bất Tổn",
+    "en": "Status: Damage immunity"
+   },
+   "category": "icon",
+   "assigned_agent": "codex_antigravity",
+   "size": [
+    24,
+    24
+   ],
+   "variant_sizes": [
+    [
+     24,
+     24
+    ],
+    [
+     16,
+     16
+    ]
+   ],
+   "card_type": "status",
+   "description": "Bất Tổn: damage immunity",
+   "output_path": "assets/raw/environment_items/icons/icon_status_immune/",
+   "palette_refs": [
+    "soul_04",
+    "soul_05",
+    "soul_06",
+    "soul_07",
+    "thunder_04",
+    "ink_01"
+   ],
+   "status": "pending",
+   "px1": true,
+   "provenance": "code-drawn by tools/generators/gen_px1_status_icons.py (Claude), PX-1 2026-11-24; no image model, no PixelLab"
   }
  ]
 }

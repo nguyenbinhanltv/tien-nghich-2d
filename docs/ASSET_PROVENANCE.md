@@ -27,3 +27,6 @@ CLI `assetcat` chưa cài, chưa có thư viện được index -> hiện **chư
 
 ## Đạn của quái Huyết Hải (PX-1 nhóm 2, 2026-11-24)
 4 đạn 16×16 (`pj_mob_crow_feather`, `pj_mob_corpse_gore`, `pj_mob_lurker_bubble`, `pj_mob_soul_wisp`; mỗi đạn `flight` 4 + `impact` 4 khung) do mã vẽ: `tools/generators/gen_px1_mob_projectiles.py` → `assets/raw/environment_items/projectiles/<id>/` → `build_processed.py --only`. Chỉ dùng palette gốc, viền `ink_01`, alpha nhị phân. **Không sinh ảnh, không PixelLab.** Trạng thái chờ duyệt (không ghi bản duyệt). Manifest dùng `owner_mob` thay cho `weapon_id`, cờ `px1` đánh dấu phần thêm sau khi ghim hợp đồng gốc.
+
+## Icon trạng thái (PX-1 nhóm 3, 2026-11-24)
+3 icon 24×24 + biến thể 16×16 (`icon_status_guard` Hộ Thể, `icon_status_counter` Phản Chấn, `icon_status_immune` Bất Tổn), ứng với 3 trạng thái mà sim đã có (guard, cửa sổ phản đòn sau né đúng nhịp, miễn sát thương khi lướt/trúng đòn). Vẽ bằng mã `tools/generators/gen_px1_status_icons.py`, palette gốc, viền `ink_01`; không sinh ảnh, không PixelLab. Chờ duyệt, không ghi bản duyệt. **Số sát thương không có asset riêng**: dùng font pixel đã duyệt (`game/src/ui/pixel-font.ts`, #184) viền `ink_01`, nên không có gì để vẽ lại; nối vào game là PR riêng.

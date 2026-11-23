@@ -7091,6 +7091,78 @@
      }
     }
    }
+  },
+  {
+   "id": "px1-generator:gen_px1_status_icons.py",
+   "basis": [
+    "tools/generators/gen_px1_status_icons.py",
+    "assets/raw/environment_items/ui/icon_status_guard",
+    "assets/raw/environment_items/ui/icon_status_counter",
+    "assets/raw/environment_items/ui/icon_status_immune"
+   ],
+   "defaults": {},
+   "assets": {
+    "icon_status_guard": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    },
+    "icon_status_counter": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    },
+    "icon_status_immune": {
+     "fields": {
+      "agent": "Claude Code, worker session tien-nghich-2d-88",
+      "document": "docs/ASSET_PROVENANCE.md"
+     },
+     "reasons": {
+      "tool": {
+       "status": "not-applicable",
+       "reason": "Drawn by the generator script itself; no separate tool."
+      },
+      "toolPin": {
+       "status": "unknown",
+       "reason": "The Python and Pillow versions that ran the generator are not recorded."
+      },
+      "promptHash": {
+       "status": "not-applicable",
+       "reason": "Not made from a prompt: the drawing is code."
+      }
+     }
+    }
+   }
   }
  ]
 }

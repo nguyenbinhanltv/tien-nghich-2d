@@ -102,7 +102,7 @@ class QATests(unittest.TestCase):
         self.assertEqual(groups["vfx"]["have"], 391)
         self.assertEqual(groups["vfx"]["want"], 391)
         self.assertEqual(groups["vfx"]["excluded_sheets"], 12)
-        self.assertEqual(sum(v["have"] for v in cov.values()), 2970)
+        self.assertEqual(sum(v["have"] for v in cov.values()), 2976)
 
     def test_vfx_index_validation_and_defect_detection(self):
         import numpy as np
