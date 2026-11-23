@@ -1,0 +1,8 @@
+.ap { position: fixed; inset: 0; pointer-events: none; z-index: 5; font: 600 15px/1.3 system-ui, sans-serif; color: #f2ead7; text-shadow: 0 1px 2px #14101a, 0 0 4px #14101a;
+  padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); display: flex; flex-direction: column; justify-content: space-between; }
+.ap-top { display: flex; justify-content: space-between; gap: 12px; }
+.ap-place { font-family: var(--font-sharp); font-size: 18px; }
+.ap-msg { margin-top: auto; align-self: center; text-align: center; min-height: 1.3em; }
+.ap-prompt { align-self: center; text-align: center; min-height: 1.3em; margin-bottom: 4px; color: #ffd98a; }
+.ap-warn { align-self: center; text-align: center; color: #ff9a8a; min-height: 1.3em; margin-top: auto; }
+.ap-warn + .ap-msg { margin-top: 0; }
