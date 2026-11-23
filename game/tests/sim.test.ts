@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Rng } from '../src/sim/rng.ts';
-import { hashState } from '../src/sim/hash.ts';
+import { hashState, hashWorld } from '../src/sim/hash.ts';
 import { createWorld, FixedLoop, NO_INPUT, spawn, step } from '../src/sim/loop.ts';
 import type { GameEvent } from '../src/contracts/world.ts';
 import { TICK_MS } from '../src/contracts/world.ts';
@@ -9,7 +9,7 @@ function run(seed: number, ticks: number): string {
   const w = createWorld(seed), ev: GameEvent[] = [];
   spawn(w, 'player', 0, 0, 10, ev); spawn(w, 'mob_blood_wolf', 50, 50, 14, ev); spawn(w, 'mob_blood_crow', -30, 20, 8, ev);
   for (let i = 0; i < ticks; i++) step(w, { ...NO_INPUT, move: { x: Math.sin(i / 30), y: 0.5 } }, ev);
-  return hashState(w);
+  return hashWorld(w);
 }
 
 describe('sim determinism (plan stop criterion 4, skeleton)', () => {
