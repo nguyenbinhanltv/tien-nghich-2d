@@ -122,3 +122,31 @@ audio { width: 100%; max-width: 640px; display: block; }
 .rv-toasts { position: fixed; right: var(--ui-sp-4); bottom: var(--ui-sp-4); display: grid; gap: var(--ui-sp-2); z-index: 70; }
 @media (max-width: 900px) { .rv-toasts { left: var(--ui-sp-3); right: var(--ui-sp-3); bottom: 4.5rem; } }
 @media (prefers-reduced-motion: reduce) { .row.fading { animation: none; opacity: .5; } .rv-progress-fill { transition: none; } }
+
+/* Rubric and lineup in the art detail (evidence for the reviewer; nothing here decides). Tokens only, so all three modes and both densities follow. */
+.evidence .ev-block { margin-top: var(--ui-sp-3); }
+.evidence .ev-block > * { margin-block: 0 var(--ui-sp-2); }
+.evidence h4 { margin: 0; color: var(--ui-gold-soft); font-size: var(--ui-fs-md, var(--ui-fs-sm)); }
+.ev-summary { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; margin: 0; font-size: var(--ui-fs-sm); }
+.ev-by { margin: 0; display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; font-size: var(--ui-fs-xs); }
+.ev-blocking { color: var(--ui-danger); }
+.ev-none { border: var(--ui-bw) dashed var(--ui-line); padding: var(--ui-sp-2) var(--ui-sp-3); }
+.ev-none p { margin: 0 0 var(--ui-sp-1); }
+.ev-none code { white-space: normal; overflow-wrap: anywhere; color: var(--ui-text); }
+.ev-scroll { display: block; overflow-x: auto; max-width: 100%; }
+.ev-table { width: 100%; border-collapse: collapse; font-size: var(--ui-fs-sm); }
+.ev-table :is(th, td) { text-align: left; vertical-align: top; padding: var(--ui-sp-1) var(--ui-sp-2); border-top: var(--ui-bw) dashed var(--ui-line); }
+.ev-table thead th { color: var(--ui-text-muted); font-size: var(--ui-fs-xs); border-top: 0; }
+.ev-table tbody th { font-weight: 400; }
+.ev-label { display: block; margin-bottom: var(--ui-sp-1); }
+.ev-table small { display: block; overflow-wrap: anywhere; }
+.ev-row.blocks { box-shadow: inset 3px 0 0 var(--ui-danger); }
+.ev-row .chip { margin-right: var(--ui-sp-1); }
+.ev-pic { margin: 0; display: grid; gap: var(--ui-sp-1); min-width: 0; }
+.ev-img { display: block; max-width: none; image-rendering: pixelated; }
+@media (max-width: 600px) {
+  .ev-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ev-table :is(tbody, tr, th, td) { display: block; }
+  .ev-table tr { border-top: var(--ui-bw) solid var(--ui-line); padding: var(--ui-sp-1) 0; }
+  .ev-table :is(th, td) { border-top: 0; }
+}

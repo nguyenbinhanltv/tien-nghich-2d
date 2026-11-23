@@ -5,6 +5,7 @@ import { thread, diffPixels, beforeOf, draftKey } from './model.mjs';
 import { takeBadges, takeLegend, selectTakeButton, regionSection } from './takes.mjs';
 import { EditorApiClient } from '../../../src/editorApi.js';
 import { approveThenStamp } from '../../seal.mjs';
+import { evidenceSection } from './evidence-view.mjs';
 
 const api = new EditorApiClient();
 
@@ -49,12 +50,14 @@ function authorLine(ctx, history, revision, submission) {
 export async function renderArt(app, host, item, token) {
   const {ctx, state} = app;
   fill(host, h('p', 'muted pad', ctx.t('common.loading')));
-  let head, snap, submission;
+  let head, snap, submission, evidence = null, evidenceError = null;
   try {
     head = await api.getFrame(item.key);
     const rev = state.rev != null && state.rev <= head.head ? state.rev : head.head;
     snap = rev === head.revision ? head : await api.getFrame(item.key, rev);
     submission = (await ctx.tabApi('authors?key=' + encodeURIComponent(item.key)).catch(() => ({}))).submission ?? null;
+    // The agent's rubric and lineup for this frame; a failure here never hides the art or the decision buttons.
+    evidence = await ctx.tabApi(`evidence?key=${encodeURIComponent(item.key)}&revision=${snap.revision}`).catch(error => { evidenceError = error; return null; });
   } catch (error) {
     if (error.name === 'AbortError' || token !== app.token) return;
     return fill(host, h('p', {class: 'pad', role: 'alert'}, ctx.t('detail.failed', {message: error.message})));
@@ -131,6 +134,7 @@ export async function renderArt(app, host, item, token) {
     h('section', 'dsec', h('h3', '', ctx.t('cmp.title')),
       h('p', 'muted', diff?.error ? ctx.t('cmp.sizeDiffers') : diff ? (diff.count ? ctx.t('cmp.summary', {count: diff.count, x: diff.bbox.x, y: diff.bbox.y, w: diff.bbox.w, h: diff.bbox.h}) : ctx.t('cmp.identical')) : ctx.t('cmp.root')),
       h('div', 'cmpgrid', ...figs.filter(Boolean))),
+    evidenceSection(ctx, evidence, item.key, evidenceError),
     h('section', 'dsec', h('h3', '', ctx.t('rev.title')),
       takeLegend(ctx, snap.takes),
       h('ol', 'revs', ...snap.history.map(r => h('li', '', h('a', {class: 'rev' + (r.revision === snap.revision ? ' on' : ''), 'aria-current': r.revision === snap.revision ? 'true' : null,

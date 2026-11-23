@@ -103,6 +103,7 @@ const FIXTURE_TESTS = new Set([
   'ui/tabs/objects/model.test.mjs',
   'ui/tabs/objects/server.test.mjs',
   'ui/tabs/objects/tools.test.mjs',
+  'ui/tabs/review/evidence.test.mjs',
   'ui/tabs/review/model.test.mjs',
   'ui/tabs/review/server.test.mjs',
   'ui/tabs/sandbox/contract.test.mjs',
