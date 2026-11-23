@@ -7,6 +7,7 @@ import { GAME } from './repo.ts';
 import { bodyDigest } from './kiln-contract.ts';
 import type { Box } from './kiln-contract.ts';
 import { check } from './schemas.ts';
+import { loadAssets } from './assets.ts';
 
 export const HITBOX_DIR = path.join(GAME, 'content/hitbox');
 export const LOCK_FILE = '_locks.json';
@@ -46,11 +47,20 @@ function touch(b: Body, what: string): Body {
   if (bad.length) throw new Error(`edit makes the body invalid: ${bad.join('; ')}`);
   return b;
 }
+/** The clip must exist on the asset and the frame must be inside it (the build would fail later otherwise). Throws before anything is written. */
+function assertClipFrame(id: string, clip: string, frame: number): void {
+  const clips = loadAssets('mobile').get(id)?.clips;
+  if (!clips) throw new Error(`${id} is not in the art manifests, so its clips cannot be checked`);
+  const n = clips[clip];
+  if (n === undefined) throw new Error(`${id} has no clip ${clip} (clips: ${Object.keys(clips).join(', ')})`);
+  if (!Number.isInteger(frame) || frame < 0 || frame >= n) throw new Error(`${id} clip ${clip} has ${n} frames, there is no frame ${frame}`);
+}
 const assertUnlocked = (dir: string, id: string): void => { if (isLocked(dir, id)) throw new Error(`${id} is locked; run unlock first`); };
 
 /** Every operation returns nothing and writes the file; a refused edit throws and leaves the file untouched. */
 export function setHurtbox(dir: string, id: string, box: Box, where?: { clip: string; frame: number }): void {
   assertUnlocked(dir, id); intBox(box);
+  if (where) assertClipFrame(id, where.clip, where.frame);
   const b = readBody(dir, id); insideFrame(b, box, 'hurtbox');
   if (where) (((b.clips ??= {})[where.clip] ??= { frames: {} }).frames[String(where.frame)] ??= {}).hurtbox = box; else b.hurtbox = box;
   writeBody(dir, id, touch(b, where ? `hurtbox ${where.clip}[${where.frame}]` : 'hurtbox'));
@@ -63,7 +73,7 @@ export function setPivot(dir: string, id: string, pivot: [number, number]): void
   writeBody(dir, id, touch(b, 'pivot'));
 }
 export function setHit(dir: string, id: string, clip: string, frame: number, hitId: string, box: Box): void {
-  assertUnlocked(dir, id); intBox(box);
+  assertUnlocked(dir, id); intBox(box); assertClipFrame(id, clip, frame);
   const b = readBody(dir, id); insideFrame(b, box, `hitbox ${hitId}`);
   const f = (((b.clips ??= {})[clip] ??= { frames: {} }).frames[String(frame)] ??= {});
   const list = (f.hitboxes ??= []);
@@ -110,11 +120,16 @@ export function verifyLocks(dir: string = HITBOX_DIR): string[] {
 }
 
 /** Lint of one body: hitboxes of attack clips missing (warn), boxes outside the frame (error). */
-export function lintBody(id: string, b: Body, attackClips: string[]): { errors: string[]; warnings: string[] } {
+export function lintBody(id: string, b: Body, attackClips: string[], clipFrames?: Record<string, number>): { errors: string[]; warnings: string[] } {
   const errors: string[] = [], warnings: string[] = [];
   const out = (box: Box | undefined, at: string): void => { if (box && (box.x < 0 || box.y < 0 || box.x + box.w > b.frameSize[0] || box.y + box.h > b.frameSize[1])) errors.push(`${id}: ${at} leaves the frame`); };
   out(b.hurtbox, 'hurtbox');
   for (const [c, v] of Object.entries(b.clips ?? {})) for (const [n, f] of Object.entries(v.frames)) { out(f.hurtbox, `${c}[${n}].hurtbox`); f.hitboxes?.forEach((h) => out(h, `${c}[${n}] ${h.id}`)); }
+  if (clipFrames) for (const [c, v] of Object.entries(b.clips ?? {})) {
+    const n = clipFrames[c];
+    if (n === undefined) { errors.push(`${id}: has boxes for clip ${c}, which the asset does not have`); continue; }
+    for (const f of Object.keys(v.frames)) if (Number(f) >= n) errors.push(`${id}: clip ${c} has ${n} frames, boxes on frame ${f} are out of range`);
+  }
   for (const c of attackClips) if (!Object.values(b.clips?.[c]?.frames ?? {}).some((f) => f.hitboxes?.length)) warnings.push(`${id}: attack clip ${c} has no hitbox`);
   return { errors, warnings };
 }

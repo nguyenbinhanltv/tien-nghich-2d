@@ -42,7 +42,7 @@ export function run(args: string[]): { out: string[]; code: number } {
         const problems = verifyLocks(dir), warnings: string[] = [];
         for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.bodies.json'))) {
           const bid = f.replace('.bodies.json', '');
-          const l = lintBody(bid, readBody(dir, bid), attackClips(assets.get(bid)));
+          const l = lintBody(bid, readBody(dir, bid), attackClips(assets.get(bid)), assets.get(bid)?.clips);
           problems.push(...l.errors); warnings.push(...l.warnings);
         }
         out.push(...warnings.map((w) => `warning: ${w}`), ...problems.map((p) => `ERROR: ${p}`), problems.length ? `FAILED: ${problems.length} problem(s)` : 'hitbox check OK');

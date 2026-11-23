@@ -37,6 +37,25 @@ describe('hitbox edit tool (E2.2)', () => {
       expect(cli(...a).code).toBe(1);
     expect(fs.readFileSync(path.join(dir, 'mob_blood_wolf.bodies.json'), 'utf8')).toBe(before);
   });
+  it('refuses an unknown clip or an out-of-range frame and leaves the file untouched', () => {
+    const f = path.join(dir, 'mob_blood_wolf.bodies.json'), before = fs.readFileSync(f, 'utf8');
+    for (const a of [['set-hit', 'mob_blood_wolf', 'atack', '2', 'bite', '1', '1', '2', '2'], ['set-hit', 'mob_blood_wolf', 'attack', '99', 'bite', '1', '1', '2', '2'],
+      ['set-hurtbox', 'mob_blood_wolf', '1', '1', '4', '4', 'atack', '1'], ['set-hurtbox', 'mob_blood_wolf', '1', '1', '4', '4', 'attack', '4']]) {
+      const r = cli(...a);
+      expect(r.code).toBe(1);
+      expect(r.out.join()).toMatch(/has no clip atack|has 4 frames, there is no frame (99|4)/);
+    }
+    expect(fs.readFileSync(f, 'utf8')).toBe(before);
+  });
+  it('check catches a clip or frame that does not exist in an existing file', () => {
+    const b = readBody(dir, 'mob_blood_wolf');
+    b.clips = { ...b.clips, ghost: { frames: { 0: { hitboxes: [{ id: 'x', x: 1, y: 1, w: 2, h: 2 }] } } }, attack: { frames: { ...b.clips!.attack!.frames, 9: { hitboxes: [{ id: 'y', x: 1, y: 1, w: 2, h: 2 }] } } } };
+    writeBody(dir, 'mob_blood_wolf', b);
+    const r = cli('check');
+    expect(r.code).toBe(1);
+    expect(r.out.join('\n')).toMatch(/clip ghost, which the asset does not have/);
+    expect(r.out.join('\n')).toMatch(/clip attack has 4 frames, boxes on frame 9/);
+  });
   it('lock freezes: edits are refused, an out-of-band change fails verify, unlock allows editing again', () => {
     expect(cli('lock', 'mob_blood_wolf').out[0]).toMatch(/locked \(not approved\)/);
     expect(verifyLocks(dir)).toEqual([]);
