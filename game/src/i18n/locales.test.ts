@@ -18,7 +18,7 @@ describe('E8.2 locales', () => {
     for (const k of Object.keys(ALL_TABLES.vi)) expect(ph(ALL_TABLES.vi[k]!), k).toBe(ph(ALL_TABLES.en[k]!));
   });
   it('every Vietnamese string can be drawn by the pixel font (content names are HUD text too)', () => {
-    for (const [k, v] of Object.entries(ALL_TABLES.vi)) expect(missingChars(v), k).toEqual([]);
+    for (const [k, v] of Object.entries(ALL_TABLES.vi)) expect(missingChars(v.replace(/\{\w+\}/g, "")), k).toEqual([]);
   });
   it('picks a language: saved choice first, then the browser, Vietnamese by default', () => {
     expect(localeFrom('en-GB')).toBe('en'); expect(localeFrom('fr')).toBe('vi'); expect(localeFrom(undefined)).toBe('vi');
