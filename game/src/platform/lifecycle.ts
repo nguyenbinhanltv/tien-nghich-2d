@@ -11,23 +11,24 @@ export interface LifecycleHooks {
 
 export function mountLifecycle(doc: Document, win: Window, hooks: LifecycleHooks): () => void {
   let away = false;
-  const set = (next: boolean): void => {
-    if (next === away) return;
+  const set = (next: boolean): boolean => {
+    if (next === away) return false;
     away = next;
     hooks.onAway(away);
     if (away) hooks.suspendAudio(); else hooks.resumeAudio();
+    return true;
   };
-  const onVis = (): void => set(doc.visibilityState === 'hidden');
-  const onBlur = (): void => set(true);
-  const onFocus = (): void => set(doc.visibilityState === 'hidden');
-  const onPageShow = (): void => { set(doc.visibilityState === 'hidden'); if (!away) hooks.resumeAudio(); };
+  const onVis = (): void => { set(doc.visibilityState === 'hidden'); };
+  const onHide = (): void => { set(true); };
+  const onFocus = (): void => { set(doc.visibilityState === 'hidden'); };
+  const onPageShow = (): void => { if (!set(doc.visibilityState === 'hidden') && !away) hooks.resumeAudio(); };
   doc.addEventListener('visibilitychange', onVis);
-  win.addEventListener('pagehide', onBlur);
+  win.addEventListener('pagehide', onHide);
   win.addEventListener('pageshow', onPageShow);
   win.addEventListener('focus', onFocus);
   return () => {
     doc.removeEventListener('visibilitychange', onVis);
-    win.removeEventListener('pagehide', onBlur);
+    win.removeEventListener('pagehide', onHide);
     win.removeEventListener('pageshow', onPageShow);
     win.removeEventListener('focus', onFocus);
   };

@@ -33,6 +33,7 @@
     "ios:open": "npm run ios:sync && cap open ios"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
     "ajv": "^8.20.0",
@@ -45,7 +46,6 @@
     "yaml": "^2.9.1"
   },
   "dependencies": {
-    "@capacitor/cli": "^8.6.2",
     "@capacitor/core": "^8.6.2",
     "@capacitor/ios": "^8.6.2",
     "phaser": "4.2.1"
