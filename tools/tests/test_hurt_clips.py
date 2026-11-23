@@ -27,6 +27,39 @@ class HurtClipTests(unittest.TestCase):
             opaque = frame[frame[:, :, 3] > 0][:, :3]
             self.assertIn(tuple(int(outline[i:i + 2], 16) for i in (1, 3, 5)), {tuple(p) for p in opaque}, path)
 
+    def test_flash_stays_in_the_source_ramp_and_never_goes_down(self):
+        outline, ramps, lookup = hurt.palette()
+        for path, frame in hurt.build(ROOT).items():
+            facing, n = path.stem.split("_")[1:]
+            source = np.array(Image.open(path.with_name(f"idle_{facing}_0.png")).convert("RGBA"))
+            if int(n) == 2:
+                continue
+            for y, x in zip(*np.nonzero(source[:, :, 3])):
+                value = hurt.rgb_hex(source[y, x])
+                if value == outline:
+                    continue
+                # the recoil moves pixels, so compare the multiset of ramp steps per ramp instead of positions
+                self.assertIn(value, lookup, path)
+            src = {}
+            for y, x in zip(*np.nonzero(source[:, :, 3])):
+                v = hurt.rgb_hex(source[y, x])
+                if v != outline:
+                    src.setdefault(lookup[v][0], []).append(lookup[v][1])
+            out = {}
+            for y, x in zip(*np.nonzero(frame[:, :, 3])):
+                v = hurt.rgb_hex(frame[y, x])
+                if v != outline:
+                    out.setdefault(lookup[v][0], []).append(lookup[v][1])
+            self.assertEqual(set(out), set(src), f"{path.name}: flash left its ramp")
+            for ramp, steps in src.items():
+                self.assertEqual(len(out[ramp]), len(steps), path.name)
+                self.assertGreaterEqual(sum(out[ramp]), sum(steps), path.name)
+
+    def test_thunder_ramps_are_split(self):
+        _, ramps, lookup = hurt.palette()
+        self.assertNotEqual(lookup["#8ae8ff"][0], lookup["#ff3b30"][0])
+        self.assertEqual(lookup["#e8fdff"][0], lookup["#28a8dc"][0])
+
 
 if __name__ == "__main__":
     unittest.main()
