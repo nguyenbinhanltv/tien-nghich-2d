@@ -72,6 +72,9 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** Menu: start the fight again from the beginning. */
+  restartFight(): void { this.fight.restart(); this.endedAt = -1; }
+
   private put(name: string, x: number, y: number, depth: number): void {
     this.add.image(x, y, this.frames.pageOf(name), name).setOrigin(0, 0).setDepth(depth);
   }
