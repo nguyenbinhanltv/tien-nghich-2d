@@ -64,27 +64,34 @@ export interface Hazard {
   dodgedThrough: boolean;
 }
 
-/** Fixed numbers of the model, in ticks (seconds in the original). Single source for sim and tests. */
+/**
+ * Fixed numbers of the model, in ticks. Each is the number of 1/60 s steps the original's float countdown takes to reach 0
+ * (so 0.19 s is 11 and 0.25 s is 16: float residue in the original adds a step), which keeps the port within 1 tick. Single source for sim and tests.
+ */
 export const COMBAT = {
   /** Invulnerable guard after a dash starts: DODGE 280 ms. */
   dodgeGuard: 17,
+  /** A dash that is inside a telegraph when this many ticks remain counts as dodged through (the original compares the float timer with 0.28 s). */
+  guardCheck: 16,
+  /** Cooldown the dodge leaves after it earns a counter (0.4 s). */
+  counterCool: 25,
   /** Counter window after a perfect dodge: STRIKE 900 ms. */
   counterWindow: 54,
   dashPush: 4,
   dashSlide: 7,
   dodgeCooldown: 51,
-  strikeWindup: 9,
+  strikeWindup: 10,
   strikeImpact: 11,
   strikeRecovery: 5,
-  hurtPose: 9,
-  kneelHold: 25,
+  hurtPose: 10,
+  kneelHold: 24,
   hurtBlink: 45,
-  bossImpact: 15,
+  bossImpact: 16,
   bossRecovery: 34,
   clawWarning: 54,
   wailCall: 55,
   sealBreak: 42,
-  freezeHit: 3,
+  freezeHit: 4,
   freezeHurt: 5,
   playerHp: 6,
 } as const;

@@ -11,7 +11,7 @@ describe('lane contracts (E0.2)', () => {
   it('design data converts to whole ticks, and the model constants are the 280 ms / 900 ms windows', () => {
     expect(msToTicks(280)).toBe(COMBAT.dodgeGuard);
     expect(msToTicks(900)).toBe(COMBAT.counterWindow);
-    expect(secondsToTicks(0.15)).toBe(COMBAT.strikeWindup);
+    expect(secondsToTicks(0.19)).toBe(COMBAT.strikeImpact);
     expect(secondsToTicks(0.85)).toBe(COMBAT.dodgeCooldown);
   });
   it('a fresh world carries every field of the contract and a pre-sized pool', () => {

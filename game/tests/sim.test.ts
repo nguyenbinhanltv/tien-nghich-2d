@@ -6,7 +6,7 @@ import type { GameEvent } from '../src/contracts/world.ts';
 import { TICK_MS } from '../src/contracts/world.ts';
 
 function run(seed: number, ticks: number): string {
-  const w = createWorld(seed), ev: GameEvent[] = [];
+  const w = createWorld(seed), ev: GameEvent[] = []; w.mode = 'playing';
   spawn(w, 'player', 0, 0, 10, ev); spawn(w, 'mob_blood_wolf', 50, 50, 14, ev); spawn(w, 'mob_blood_crow', -30, 20, 8, ev);
   for (let i = 0; i < ticks; i++) step(w, { ...NO_INPUT, move: { x: Math.sin(i / 30), y: 0.5 } }, ev);
   return hashWorld(w);
