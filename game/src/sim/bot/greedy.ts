@@ -72,11 +72,11 @@ export class GreedyBot {
 export type FightOutcome = 'won' | 'lost' | 'timeout';
 export interface FightResult { outcome: FightOutcome; ticks: number; hitsTaken: number; dodges: number; counters: number; bossHpLeft: number }
 
-/** Player (full hp) in the boss room against the real encounter. Gives up after `maxTicks` (default two minutes). */
-export function runBossFight(seed: number, content: ContentApi, skill: BotSkill = GREEDY, maxTicks = 60 * 120): FightResult {
+/** Player (full hp) in the boss room (default Huyết Hải's; `bossRoom` picks another biome's) against the real encounter. Gives up after `maxTicks` (default two minutes). */
+export function runBossFight(seed: number, content: ContentApi, skill: BotSkill = GREEDY, maxTicks = 60 * 120, bossRoom = 'room_bs_boss'): FightResult {
   const w = createWorld(seed), ev: GameEvent[] = [];
   startFloor(w, content, 1, ev);
-  enterRoom(w, content, 'room_bs_boss', ev);
+  enterRoom(w, content, bossRoom, ev);
   const bot = new GreedyBot(seed, skill), ctx = { content };
   let t = 0;
   for (; t < maxTicks && (w.mode === 'playing' || w.mode === 'falling' || w.mode === 'releasing'); t++) { ev.length = 0; step(w, bot.act(w), ev, ctx); }
@@ -85,9 +85,9 @@ export function runBossFight(seed: number, content: ContentApi, skill: BotSkill 
 }
 
 export interface WinRate { seeds: number; won: number; lost: number; timeout: number; rate: number; medianTicks: number }
-export function winRate(content: ContentApi, seeds: number, skill: BotSkill = GREEDY, first = 1): WinRate {
+export function winRate(content: ContentApi, seeds: number, skill: BotSkill = GREEDY, first = 1, bossRoom = 'room_bs_boss'): WinRate {
   const r = { seeds, won: 0, lost: 0, timeout: 0, rate: 0, medianTicks: 0 }, ticks: number[] = [];
-  for (let s = first; s < first + seeds; s++) { const f = runBossFight(s, content, skill); r[f.outcome]++; ticks.push(f.ticks); }
+  for (let s = first; s < first + seeds; s++) { const f = runBossFight(s, content, skill, undefined, bossRoom); r[f.outcome]++; ticks.push(f.ticks); }
   ticks.sort((a, b) => a - b);
   r.rate = r.won / seeds; r.medianTicks = ticks[Math.floor(ticks.length / 2)] ?? 0;
   return r;
