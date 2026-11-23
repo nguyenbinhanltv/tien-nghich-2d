@@ -14,8 +14,8 @@ describe('sample content tables (Huyết Hải slice)', () => {
   const { tables, problems } = loadTables();
   const assets = loadAssets('mobile');
   it('pass their schemas', () => { expect(problems).toEqual([]); });
-  it('have the slice shape: 4 mobs, 1 boss, a run abode -> 3 combat -> boss -> reward', () => {
-    expect(tables.mobs).toHaveLength(4); expect(tables.bosses).toHaveLength(1);
+  it('have the slice shape: 5 mobs, 1 boss, a run abode -> 3 combat -> boss -> reward', () => {
+    expect(tables.mobs).toHaveLength(5); expect(tables.bosses).toHaveLength(1);
     expect(tables.rooms.map((r) => r.kind)).toEqual(['abode', 'combat', 'combat', 'combat', 'boss', 'reward']);
   });
   it('cross-reference the art manifests, encounters and locale', () => {
