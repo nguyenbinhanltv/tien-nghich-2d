@@ -14,6 +14,11 @@ export const CHARGER = {
   cooldownMs: 700, jitterMs: 400,
 } as const;
 
+/** Elite variant of a mob (project owner: no separate elite roster, an elite is a data variant of a normal mob). PLACEHOLDER numbers. */
+export const ELITE = { hpMul: 2, bonusDamage: 1 } as const;
+/** Outline colour of an elite on screen: palette bronze_06. */
+export const ELITE_OUTLINE = 0xf5d765;
+
 export const ticks = msToTicks;
 
 export const SWOOPER = {

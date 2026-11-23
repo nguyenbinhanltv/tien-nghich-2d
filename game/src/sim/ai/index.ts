@@ -9,6 +9,7 @@ import { charger } from './charger.ts';
 import { shooter } from './shooter.ts';
 import { swooper } from './swooper.ts';
 import { dropHazards } from './util.ts';
+import { ELITE } from './params.ts';
 import type { AiContext, MobBehavior } from './types.ts';
 
 export const BEHAVIORS: Partial<Record<MobRow['ai'], MobBehavior>> = { charger, swooper, brawler, ambusher, shooter };
@@ -33,10 +34,11 @@ export function initMobAi(world: WorldState, content: ContentApi, actorId: numbe
   world.rngState = rng.state;
 }
 
-/** Spawn a mob of the table at (x, y) with the table's hp and start its AI. Returns the actor id. */
-export function spawnMob(world: WorldState, content: ContentApi, kind: string, x: number, y: number, events: GameEvent[]): number {
+/** Spawn a mob of the table at (x, y) with the table's hp (an elite: ELITE.hpMul times it) and start its AI. Returns the actor id. */
+export function spawnMob(world: WorldState, content: ContentApi, kind: string, x: number, y: number, events: GameEvent[], elite = false): number {
   const row = content.get<MobRow>('mobs', kind);
-  const id = spawnActor(world, kind, x, y, row.hp, events).id;
+  const a = spawnActor(world, kind, x, y, elite ? row.hp * ELITE.hpMul : row.hp, events), id = a.id;
+  if (elite) a.elite = true;
   initMobAi(world, content, id, events);
   return id;
 }
@@ -48,7 +50,7 @@ export function aiSystem(world: WorldState, content: ContentApi, events: GameEve
   for (const a of world.actors) {
     if (a.role !== 'mob') continue;
     if (a.diedTick >= 0 || a.hp <= 0) { if (world.hazards.length > 0) dropHazards(world, a.id); continue; } // a dead mob leaves no telegraph
-    const row = content.get<MobRow>('mobs', a.kind);
+    const base = content.get<MobRow>('mobs', a.kind), row = a.elite ? { ...base, contact_dmg: base.contact_dmg + ELITE.bonusDamage } : base;
     const ctx: AiContext = { world, rng, events, player, row };
     behaviorOf(row).update(a, ctx);
   }

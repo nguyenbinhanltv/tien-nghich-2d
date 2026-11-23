@@ -20,6 +20,7 @@ import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
 import type { ContentApi, RoomLayout, RoomRow } from '../../contracts/content.ts';
+import { ELITE_OUTLINE } from '../../sim/ai/params.ts';
 import { floorChain } from '../../sim/run/floor.ts';
 import { RoomView } from '../room-view.ts';
 
@@ -75,6 +76,7 @@ export class BloodSeaScene extends Phaser.Scene {
   private readonly loop = new FixedLoop();
   private readonly sprites = new Map<number, Phaser.GameObjects.Image>();
   private shots: Phaser.GameObjects.Image[] = [];
+  private readonly outlines = new Map<number, Phaser.GameObjects.Image[]>();
   private hazards!: Phaser.GameObjects.Graphics;
   private input0: InputFrame | null = null;
   private endedAt = -1;
@@ -198,7 +200,7 @@ export class BloodSeaScene extends Phaser.Scene {
       seen.add(a.id);
       this.drawActor(a, w);
     }
-    for (const [id, s] of this.sprites) if (!seen.has(id)) { s.destroy(); this.sprites.delete(id); }
+    for (const [id, s] of this.sprites) if (!seen.has(id)) { s.destroy(); this.sprites.delete(id); for (const i of this.outlines.get(id) ?? []) i.destroy(); this.outlines.delete(id); }
     this.drawHazards(w);
     this.drawSummon(w);
     this.drawShots(w);
@@ -229,10 +231,20 @@ export class BloodSeaScene extends Phaser.Scene {
     s.setPosition(Math.round(a.pos.x), Math.round(a.pos.y));
     s.setDepth(10 + a.pos.y);
     // invulnerable blink while hurt
+    this.eliteOutline(a, s);
     s.setAlpha(a.role === 'player' && a.combat.hurt > 0 && (w.tick & 4) ? 0.45 : 1);
     // white hit flash (E2.3): fill tint for a few frames
     if (this.juice.isFlashing(a.id, this.time.now)) s.setTint(HIT_FLASH).setTintMode(Phaser.TintModes.FILL);
     else s.clearTint().setTintMode(Phaser.TintModes.MULTIPLY);
+  }
+
+  /** Elite: four copies of the sprite one pixel off in each direction, tinted with the palette's bronze_06, drawn under it. */
+  private eliteOutline(a: ActorState, s: Phaser.GameObjects.Image): void {
+    if (!a.elite) return;
+    let o = this.outlines.get(a.id);
+    if (!o) { o = [0, 1, 2, 3].map(() => this.add.image(0, 0, s.texture.key, s.frame.name).setTint(ELITE_OUTLINE).setTintMode(Phaser.TintModes.FILL)); this.outlines.set(a.id, o); }
+    const d: [number, number][] = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    o.forEach((img, i) => img.setTexture(s.texture.key, s.frame.name).setOrigin(s.originX, s.originY).setFlipX(s.flipX).setPosition(s.x + d[i]![0], s.y + d[i]![1]).setDepth(s.depth - 0.1).setAlpha(s.alpha));
   }
 
   private drawHazards(w: WorldState): void {

@@ -30,4 +30,4 @@ waves:
       - { mob: mob_herb_viper, at: [16, 3] }
       - { mob: mob_herb_viper, at: [16, 11] }
       - { mob: mob_sword_acolyte, at: [20, 7] }
-      - { mob: mob_courtyard_guard, at: [18, 7] }
+      - { mob: mob_courtyard_guard, at: [18, 7], elite: true }

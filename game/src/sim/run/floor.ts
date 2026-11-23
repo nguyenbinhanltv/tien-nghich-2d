@@ -60,7 +60,7 @@ function spawnWave(world: WorldState, content: ContentApi, L: RoomLayout, wave: 
     if (s.mob.startsWith('boss_')) {
       const b = spawnActor(world, s.mob, x, y, content.get<BossRow>('bosses', s.mob).hp, events, BOSS_RADIUS);
       b.facing = 'west'; b.ai.state = 'stalk'; b.ai.timer = BOSS_FIRST_ATTACK;
-    } else spawnMob(world, content, s.mob, x, y, events);
+    } else spawnMob(world, content, s.mob, x, y, events, s.elite === true);
   }
   events.push({ type: 'wave-spawned', tick: world.tick, wave, of: L.waves.length });
 }
