@@ -39,6 +39,9 @@ Khung đọc theo thứ tự ưu tiên: hướng E, nếu không có thì S (chi
 Hurtbox cố định cho cả clip (chưa ghi đè theo khung).
 
 
+### 2.4 Chỉnh và khóa bản nháp (E2.2)
+`npm --prefix game run hitbox -- <lệnh>` (`game/tools/hitbox.ts`): `show`, `set-hurtbox` (cả asset hoặc một khung), `set-pivot`, `set-hit`, `rm-hit`, `lock`, `unlock`, `status`, `check`. Sửa tay đổi `review.source` thành `hand`, trạng thái vẫn `draft-unreviewed`; hộp phải nguyên pixel và nằm trong khung. **Khóa không phải duyệt**: `game/content/hitbox/_locks.json` ghi băm hộp để chặn sửa nhầm (CLI từ chối sửa, `draft-bodies --write --force` bỏ qua ID đang khóa, `content:build`/`contract:check` fail nếu tệp bị đổi ngoài luồng). Body `owner-approved` không sửa bằng công cụ này.
+
 ## 3. Sự kiện clip (tell / hit / step…)
 Schema `clip-events.schema.json`. Nguồn: **API sẵn có của Kiln** — `studio-metadata.json` → `clips.<clip>.events[] = {frame, name}` và `clips.<clip>.frameMs[]`. Không đổi Studio.
 
