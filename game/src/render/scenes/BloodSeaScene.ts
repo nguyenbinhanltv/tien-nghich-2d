@@ -23,6 +23,7 @@ import type { ContentApi, RoomLayout, RoomRow } from '../../contracts/content.ts
 import { ELITE_OUTLINE } from '../../sim/ai/params.ts';
 import { floorChain } from '../../sim/run/floor.ts';
 import { RoomView } from '../room-view.ts';
+import { followScroll } from '../camera.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
@@ -205,7 +206,10 @@ export class BloodSeaScene extends Phaser.Scene {
     this.drawSummon(w);
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
-    this.cameras.main.setScroll(o.x, o.y);
+    // a room taller than the view (224 vs 216) scrolls with the player so the bottom wall row is never cut; the boss-only arena has no grid
+    const player = w.actors.find((a) => a.role === 'player'), grid = w.grid;
+    const f = grid && player ? followScroll((grid.rows[0]?.length ?? 0) * 16, grid.rows.length * 16, player.pos.x, player.pos.y) : { x: 0, y: 0 };
+    this.cameras.main.setScroll(f.x + o.x, f.y + o.y);
     this.drawNumbers();
     this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists

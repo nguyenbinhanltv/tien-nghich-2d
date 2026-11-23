@@ -1,6 +1,6 @@
 {
   "frames": {
-    "characters/boss_ancient_god_remnant/phase_transition_south_0": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_2": {
       "frame": {
         "x": 3,
         "y": 3,
@@ -20,7 +20,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_1": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_3": {
       "frame": {
         "x": 105,
         "y": 3,
@@ -40,7 +40,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_2": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_4": {
       "frame": {
         "x": 207,
         "y": 3,
@@ -60,7 +60,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_3": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_5": {
       "frame": {
         "x": 309,
         "y": 3,
@@ -80,7 +80,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_4": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_6": {
       "frame": {
         "x": 411,
         "y": 3,
@@ -100,7 +100,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_5": {
+    "characters/boss_ancient_god_remnant/phase_transition_east_7": {
       "frame": {
         "x": 513,
         "y": 3,
@@ -120,7 +120,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_6": {
+    "characters/boss_ancient_god_remnant/phase_transition_south_0": {
       "frame": {
         "x": 615,
         "y": 3,
@@ -140,7 +140,7 @@
         "h": 96
       }
     },
-    "characters/boss_ancient_god_remnant/phase_transition_south_7": {
+    "characters/boss_ancient_god_remnant/phase_transition_south_1": {
       "frame": {
         "x": 717,
         "y": 3,
@@ -160,10 +160,130 @@
         "h": 96
       }
     },
-    "characters/boss_ghost_king/attack_claw_east_0": {
+    "characters/boss_ancient_god_remnant/phase_transition_south_2": {
       "frame": {
         "x": 819,
         "y": 3,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/phase_transition_south_3": {
+      "frame": {
+        "x": 921,
+        "y": 3,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/phase_transition_south_4": {
+      "frame": {
+        "x": 3,
+        "y": 105,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/phase_transition_south_5": {
+      "frame": {
+        "x": 105,
+        "y": 105,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/phase_transition_south_6": {
+      "frame": {
+        "x": 207,
+        "y": 105,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ancient_god_remnant/phase_transition_south_7": {
+      "frame": {
+        "x": 309,
+        "y": 105,
+        "w": 96,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 96
+      }
+    },
+    "characters/boss_ghost_king/attack_claw_east_0": {
+      "frame": {
+        "x": 411,
+        "y": 105,
         "w": 80,
         "h": 80
       },
@@ -182,8 +302,8 @@
     },
     "characters/boss_ghost_king/attack_claw_east_1": {
       "frame": {
-        "x": 905,
-        "y": 3,
+        "x": 497,
+        "y": 105,
         "w": 80,
         "h": 80
       },
@@ -202,7 +322,7 @@
     },
     "characters/boss_ghost_king/attack_claw_east_2": {
       "frame": {
-        "x": 3,
+        "x": 583,
         "y": 105,
         "w": 80,
         "h": 80
@@ -222,7 +342,7 @@
     },
     "characters/boss_ghost_king/attack_claw_east_3": {
       "frame": {
-        "x": 89,
+        "x": 669,
         "y": 105,
         "w": 80,
         "h": 80
@@ -242,7 +362,7 @@
     },
     "characters/boss_ghost_king/attack_claw_east_4": {
       "frame": {
-        "x": 175,
+        "x": 755,
         "y": 105,
         "w": 80,
         "h": 80
@@ -262,7 +382,7 @@
     },
     "characters/boss_ghost_king/attack_claw_east_5": {
       "frame": {
-        "x": 261,
+        "x": 841,
         "y": 105,
         "w": 80,
         "h": 80
@@ -282,7 +402,7 @@
     },
     "characters/boss_ghost_king/attack_claw_south_0": {
       "frame": {
-        "x": 347,
+        "x": 927,
         "y": 105,
         "w": 80,
         "h": 80
@@ -302,8 +422,8 @@
     },
     "characters/boss_ghost_king/attack_claw_south_1": {
       "frame": {
-        "x": 433,
-        "y": 105,
+        "x": 3,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -322,8 +442,8 @@
     },
     "characters/boss_ghost_king/attack_claw_south_2": {
       "frame": {
-        "x": 519,
-        "y": 105,
+        "x": 89,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -342,8 +462,8 @@
     },
     "characters/boss_ghost_king/attack_claw_south_3": {
       "frame": {
-        "x": 605,
-        "y": 105,
+        "x": 175,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -362,8 +482,8 @@
     },
     "characters/boss_ghost_king/attack_claw_south_4": {
       "frame": {
-        "x": 691,
-        "y": 105,
+        "x": 261,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -382,8 +502,8 @@
     },
     "characters/boss_ghost_king/attack_claw_south_5": {
       "frame": {
-        "x": 777,
-        "y": 105,
+        "x": 347,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -402,8 +522,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_0": {
       "frame": {
-        "x": 863,
-        "y": 105,
+        "x": 433,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -422,8 +542,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_1": {
       "frame": {
-        "x": 3,
-        "y": 191,
+        "x": 519,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -442,8 +562,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_2": {
       "frame": {
-        "x": 89,
-        "y": 191,
+        "x": 605,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -462,8 +582,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_3": {
       "frame": {
-        "x": 175,
-        "y": 191,
+        "x": 691,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -482,8 +602,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_4": {
       "frame": {
-        "x": 261,
-        "y": 191,
+        "x": 777,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -502,8 +622,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_5": {
       "frame": {
-        "x": 347,
-        "y": 191,
+        "x": 863,
+        "y": 207,
         "w": 80,
         "h": 80
       },
@@ -522,8 +642,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_6": {
       "frame": {
-        "x": 433,
-        "y": 191,
+        "x": 3,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -542,8 +662,8 @@
     },
     "characters/boss_ghost_king/attack_wail_east_7": {
       "frame": {
-        "x": 519,
-        "y": 191,
+        "x": 89,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -562,8 +682,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_0": {
       "frame": {
-        "x": 605,
-        "y": 191,
+        "x": 175,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -582,8 +702,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_1": {
       "frame": {
-        "x": 691,
-        "y": 191,
+        "x": 261,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -602,8 +722,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_2": {
       "frame": {
-        "x": 777,
-        "y": 191,
+        "x": 347,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -622,8 +742,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_3": {
       "frame": {
-        "x": 863,
-        "y": 191,
+        "x": 433,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -642,8 +762,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_4": {
       "frame": {
-        "x": 3,
-        "y": 277,
+        "x": 519,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -662,8 +782,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_5": {
       "frame": {
-        "x": 89,
-        "y": 277,
+        "x": 605,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -682,8 +802,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_6": {
       "frame": {
-        "x": 175,
-        "y": 277,
+        "x": 691,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -702,8 +822,8 @@
     },
     "characters/boss_ghost_king/attack_wail_south_7": {
       "frame": {
-        "x": 261,
-        "y": 277,
+        "x": 777,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -722,8 +842,8 @@
     },
     "characters/boss_ghost_king/death_east_0": {
       "frame": {
-        "x": 347,
-        "y": 277,
+        "x": 863,
+        "y": 293,
         "w": 80,
         "h": 80
       },
@@ -742,8 +862,8 @@
     },
     "characters/boss_ghost_king/death_east_1": {
       "frame": {
-        "x": 433,
-        "y": 277,
+        "x": 3,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -762,8 +882,8 @@
     },
     "characters/boss_ghost_king/death_east_2": {
       "frame": {
-        "x": 519,
-        "y": 277,
+        "x": 89,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -782,8 +902,8 @@
     },
     "characters/boss_ghost_king/death_east_3": {
       "frame": {
-        "x": 605,
-        "y": 277,
+        "x": 175,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -802,8 +922,8 @@
     },
     "characters/boss_ghost_king/death_east_4": {
       "frame": {
-        "x": 691,
-        "y": 277,
+        "x": 261,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -822,8 +942,8 @@
     },
     "characters/boss_ghost_king/death_east_5": {
       "frame": {
-        "x": 777,
-        "y": 277,
+        "x": 347,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -842,8 +962,8 @@
     },
     "characters/boss_ghost_king/death_east_6": {
       "frame": {
-        "x": 863,
-        "y": 277,
+        "x": 433,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -862,8 +982,8 @@
     },
     "characters/boss_ghost_king/death_east_7": {
       "frame": {
-        "x": 3,
-        "y": 363,
+        "x": 519,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -882,8 +1002,8 @@
     },
     "characters/boss_ghost_king/death_east_8": {
       "frame": {
-        "x": 89,
-        "y": 363,
+        "x": 605,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -902,8 +1022,8 @@
     },
     "characters/boss_ghost_king/death_east_9": {
       "frame": {
-        "x": 175,
-        "y": 363,
+        "x": 691,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -922,8 +1042,8 @@
     },
     "characters/boss_ghost_king/death_south_0": {
       "frame": {
-        "x": 261,
-        "y": 363,
+        "x": 777,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -942,8 +1062,8 @@
     },
     "characters/boss_ghost_king/death_south_1": {
       "frame": {
-        "x": 347,
-        "y": 363,
+        "x": 863,
+        "y": 379,
         "w": 80,
         "h": 80
       },
@@ -962,8 +1082,8 @@
     },
     "characters/boss_ghost_king/death_south_2": {
       "frame": {
-        "x": 433,
-        "y": 363,
+        "x": 3,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -982,8 +1102,8 @@
     },
     "characters/boss_ghost_king/death_south_3": {
       "frame": {
-        "x": 519,
-        "y": 363,
+        "x": 89,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1002,8 +1122,8 @@
     },
     "characters/boss_ghost_king/death_south_4": {
       "frame": {
-        "x": 605,
-        "y": 363,
+        "x": 175,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1022,8 +1142,8 @@
     },
     "characters/boss_ghost_king/death_south_5": {
       "frame": {
-        "x": 691,
-        "y": 363,
+        "x": 261,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1042,8 +1162,8 @@
     },
     "characters/boss_ghost_king/death_south_6": {
       "frame": {
-        "x": 777,
-        "y": 363,
+        "x": 347,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1062,8 +1182,8 @@
     },
     "characters/boss_ghost_king/death_south_7": {
       "frame": {
-        "x": 863,
-        "y": 363,
+        "x": 433,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1082,8 +1202,8 @@
     },
     "characters/boss_ghost_king/death_south_8": {
       "frame": {
-        "x": 3,
-        "y": 449,
+        "x": 519,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1102,8 +1222,8 @@
     },
     "characters/boss_ghost_king/death_south_9": {
       "frame": {
-        "x": 89,
-        "y": 449,
+        "x": 605,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1122,8 +1242,8 @@
     },
     "characters/boss_ghost_king/hurt_east_0": {
       "frame": {
-        "x": 175,
-        "y": 449,
+        "x": 691,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1142,8 +1262,8 @@
     },
     "characters/boss_ghost_king/hurt_east_1": {
       "frame": {
-        "x": 261,
-        "y": 449,
+        "x": 777,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1162,8 +1282,8 @@
     },
     "characters/boss_ghost_king/hurt_east_2": {
       "frame": {
-        "x": 347,
-        "y": 449,
+        "x": 863,
+        "y": 465,
         "w": 80,
         "h": 80
       },
@@ -1182,8 +1302,8 @@
     },
     "characters/boss_ghost_king/hurt_south_0": {
       "frame": {
-        "x": 433,
-        "y": 449,
+        "x": 3,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1202,8 +1322,8 @@
     },
     "characters/boss_ghost_king/hurt_south_1": {
       "frame": {
-        "x": 519,
-        "y": 449,
+        "x": 89,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1222,8 +1342,8 @@
     },
     "characters/boss_ghost_king/hurt_south_2": {
       "frame": {
-        "x": 605,
-        "y": 449,
+        "x": 175,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1242,8 +1362,8 @@
     },
     "characters/boss_ghost_king/idle_east_0": {
       "frame": {
-        "x": 691,
-        "y": 449,
+        "x": 261,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1262,8 +1382,8 @@
     },
     "characters/boss_ghost_king/idle_east_1": {
       "frame": {
-        "x": 777,
-        "y": 449,
+        "x": 347,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1282,8 +1402,8 @@
     },
     "characters/boss_ghost_king/idle_east_2": {
       "frame": {
-        "x": 863,
-        "y": 449,
+        "x": 433,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1302,8 +1422,8 @@
     },
     "characters/boss_ghost_king/idle_east_3": {
       "frame": {
-        "x": 3,
-        "y": 535,
+        "x": 519,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1322,8 +1442,8 @@
     },
     "characters/boss_ghost_king/idle_east_4": {
       "frame": {
-        "x": 89,
-        "y": 535,
+        "x": 605,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1342,8 +1462,8 @@
     },
     "characters/boss_ghost_king/idle_east_5": {
       "frame": {
-        "x": 175,
-        "y": 535,
+        "x": 691,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1362,8 +1482,8 @@
     },
     "characters/boss_ghost_king/idle_south_0": {
       "frame": {
-        "x": 261,
-        "y": 535,
+        "x": 777,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1382,8 +1502,8 @@
     },
     "characters/boss_ghost_king/idle_south_1": {
       "frame": {
-        "x": 347,
-        "y": 535,
+        "x": 863,
+        "y": 551,
         "w": 80,
         "h": 80
       },
@@ -1402,8 +1522,8 @@
     },
     "characters/boss_ghost_king/idle_south_2": {
       "frame": {
-        "x": 433,
-        "y": 535,
+        "x": 3,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1422,8 +1542,8 @@
     },
     "characters/boss_ghost_king/idle_south_3": {
       "frame": {
-        "x": 519,
-        "y": 535,
+        "x": 89,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1442,8 +1562,8 @@
     },
     "characters/boss_ghost_king/idle_south_4": {
       "frame": {
-        "x": 605,
-        "y": 535,
+        "x": 175,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1462,8 +1582,8 @@
     },
     "characters/boss_ghost_king/idle_south_5": {
       "frame": {
-        "x": 691,
-        "y": 535,
+        "x": 261,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1482,8 +1602,8 @@
     },
     "characters/boss_ghost_king/move_east_0": {
       "frame": {
-        "x": 777,
-        "y": 535,
+        "x": 347,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1502,8 +1622,8 @@
     },
     "characters/boss_ghost_king/move_east_1": {
       "frame": {
-        "x": 863,
-        "y": 535,
+        "x": 433,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1522,8 +1642,8 @@
     },
     "characters/boss_ghost_king/move_east_2": {
       "frame": {
-        "x": 3,
-        "y": 621,
+        "x": 519,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1542,8 +1662,8 @@
     },
     "characters/boss_ghost_king/move_east_3": {
       "frame": {
-        "x": 89,
-        "y": 621,
+        "x": 605,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1562,8 +1682,8 @@
     },
     "characters/boss_ghost_king/move_east_4": {
       "frame": {
-        "x": 175,
-        "y": 621,
+        "x": 691,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1582,8 +1702,8 @@
     },
     "characters/boss_ghost_king/move_east_5": {
       "frame": {
-        "x": 261,
-        "y": 621,
+        "x": 777,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1602,8 +1722,8 @@
     },
     "characters/boss_ghost_king/move_south_0": {
       "frame": {
-        "x": 347,
-        "y": 621,
+        "x": 863,
+        "y": 637,
         "w": 80,
         "h": 80
       },
@@ -1622,8 +1742,8 @@
     },
     "characters/boss_ghost_king/move_south_1": {
       "frame": {
-        "x": 433,
-        "y": 621,
+        "x": 3,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1642,8 +1762,8 @@
     },
     "characters/boss_ghost_king/move_south_2": {
       "frame": {
-        "x": 519,
-        "y": 621,
+        "x": 89,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1662,8 +1782,8 @@
     },
     "characters/boss_ghost_king/move_south_3": {
       "frame": {
-        "x": 605,
-        "y": 621,
+        "x": 175,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1682,8 +1802,8 @@
     },
     "characters/boss_ghost_king/move_south_4": {
       "frame": {
-        "x": 691,
-        "y": 621,
+        "x": 261,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1702,8 +1822,8 @@
     },
     "characters/boss_ghost_king/move_south_5": {
       "frame": {
-        "x": 777,
-        "y": 621,
+        "x": 347,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1722,8 +1842,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_0": {
       "frame": {
-        "x": 863,
-        "y": 621,
+        "x": 433,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1742,8 +1862,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_1": {
       "frame": {
-        "x": 3,
-        "y": 707,
+        "x": 519,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1762,8 +1882,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_2": {
       "frame": {
-        "x": 89,
-        "y": 707,
+        "x": 605,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1782,8 +1902,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_3": {
       "frame": {
-        "x": 175,
-        "y": 707,
+        "x": 691,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1802,8 +1922,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_4": {
       "frame": {
-        "x": 261,
-        "y": 707,
+        "x": 777,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1822,8 +1942,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_5": {
       "frame": {
-        "x": 347,
-        "y": 707,
+        "x": 863,
+        "y": 723,
         "w": 80,
         "h": 80
       },
@@ -1842,8 +1962,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_6": {
       "frame": {
-        "x": 433,
-        "y": 707,
+        "x": 3,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1862,8 +1982,8 @@
     },
     "characters/boss_ghost_king/phase_transition_east_7": {
       "frame": {
-        "x": 519,
-        "y": 707,
+        "x": 89,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1882,8 +2002,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_0": {
       "frame": {
-        "x": 605,
-        "y": 707,
+        "x": 175,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1902,8 +2022,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_1": {
       "frame": {
-        "x": 691,
-        "y": 707,
+        "x": 261,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1922,8 +2042,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_2": {
       "frame": {
-        "x": 777,
-        "y": 707,
+        "x": 347,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1942,8 +2062,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_3": {
       "frame": {
-        "x": 863,
-        "y": 707,
+        "x": 433,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1962,8 +2082,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_4": {
       "frame": {
-        "x": 3,
-        "y": 793,
+        "x": 519,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -1982,8 +2102,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_5": {
       "frame": {
-        "x": 89,
-        "y": 793,
+        "x": 605,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -2002,8 +2122,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_6": {
       "frame": {
-        "x": 175,
-        "y": 793,
+        "x": 691,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -2022,8 +2142,8 @@
     },
     "characters/boss_ghost_king/phase_transition_south_7": {
       "frame": {
-        "x": 261,
-        "y": 793,
+        "x": 777,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -2042,8 +2162,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_0": {
       "frame": {
-        "x": 347,
-        "y": 793,
+        "x": 863,
+        "y": 809,
         "w": 80,
         "h": 80
       },
@@ -2062,8 +2182,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_1": {
       "frame": {
-        "x": 433,
-        "y": 793,
+        "x": 3,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2082,8 +2202,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_2": {
       "frame": {
-        "x": 519,
-        "y": 793,
+        "x": 89,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2102,8 +2222,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_3": {
       "frame": {
-        "x": 605,
-        "y": 793,
+        "x": 175,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2122,8 +2242,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_4": {
       "frame": {
-        "x": 691,
-        "y": 793,
+        "x": 261,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2142,8 +2262,8 @@
     },
     "characters/boss_ghost_king/soul_devour_east_5": {
       "frame": {
-        "x": 777,
-        "y": 793,
+        "x": 347,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2162,8 +2282,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_0": {
       "frame": {
-        "x": 863,
-        "y": 793,
+        "x": 433,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2182,8 +2302,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_1": {
       "frame": {
-        "x": 3,
-        "y": 879,
+        "x": 519,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2202,8 +2322,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_2": {
       "frame": {
-        "x": 89,
-        "y": 879,
+        "x": 605,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2222,8 +2342,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_3": {
       "frame": {
-        "x": 175,
-        "y": 879,
+        "x": 691,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2242,8 +2362,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_4": {
       "frame": {
-        "x": 261,
-        "y": 879,
+        "x": 777,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2262,8 +2382,8 @@
     },
     "characters/boss_ghost_king/soul_devour_south_5": {
       "frame": {
-        "x": 347,
-        "y": 879,
+        "x": 863,
+        "y": 895,
         "w": 80,
         "h": 80
       },
@@ -2283,7 +2403,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_0": {
       "frame": {
         "x": 949,
-        "y": 105,
+        "y": 207,
         "w": 64,
         "h": 64
       },
@@ -2303,7 +2423,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_1": {
       "frame": {
         "x": 949,
-        "y": 191,
+        "y": 293,
         "w": 64,
         "h": 64
       },
@@ -2323,7 +2443,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_2": {
       "frame": {
         "x": 949,
-        "y": 277,
+        "y": 379,
         "w": 64,
         "h": 64
       },
@@ -2343,7 +2463,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_3": {
       "frame": {
         "x": 949,
-        "y": 363,
+        "y": 465,
         "w": 64,
         "h": 64
       },
@@ -2363,7 +2483,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_4": {
       "frame": {
         "x": 949,
-        "y": 449,
+        "y": 551,
         "w": 64,
         "h": 64
       },
@@ -2383,7 +2503,7 @@
     "characters/boss_teng_huayuan/attack_cast_east_5": {
       "frame": {
         "x": 949,
-        "y": 535,
+        "y": 637,
         "w": 64,
         "h": 64
       },
@@ -2403,7 +2523,7 @@
     "characters/boss_teng_huayuan/attack_cast_south_0": {
       "frame": {
         "x": 949,
-        "y": 621,
+        "y": 723,
         "w": 64,
         "h": 64
       },
@@ -2423,7 +2543,7 @@
     "characters/boss_teng_huayuan/attack_cast_south_1": {
       "frame": {
         "x": 949,
-        "y": 707,
+        "y": 809,
         "w": 64,
         "h": 64
       },
@@ -2443,7 +2563,7 @@
     "characters/boss_teng_huayuan/attack_cast_south_2": {
       "frame": {
         "x": 949,
-        "y": 793,
+        "y": 895,
         "w": 64,
         "h": 64
       },
@@ -2458,672 +2578,12 @@
       "sourceSize": {
         "w": 64,
         "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_cast_south_3": {
-      "frame": {
-        "x": 433,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_cast_south_4": {
-      "frame": {
-        "x": 503,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_cast_south_5": {
-      "frame": {
-        "x": 573,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_slash_east_0": {
-      "frame": {
-        "x": 643,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_slash_east_1": {
-      "frame": {
-        "x": 713,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_slash_east_2": {
-      "frame": {
-        "x": 783,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_slash_east_3": {
-      "frame": {
-        "x": 853,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "characters/boss_teng_huayuan/attack_slash_east_4": {
-      "frame": {
-        "x": 923,
-        "y": 879,
-        "w": 64,
-        "h": 64
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 64
-      },
-      "sourceSize": {
-        "w": 64,
-        "h": 64
-      }
-    },
-    "props/prop_ancient_statue/crumble_none_0": {
-      "frame": {
-        "x": 219,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_ancient_statue/crumble_none_1": {
-      "frame": {
-        "x": 257,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_ancient_statue/crumble_none_2": {
-      "frame": {
-        "x": 295,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_ancient_statue/crumble_none_3": {
-      "frame": {
-        "x": 333,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_ancient_statue/idle_none_0": {
-      "frame": {
-        "x": 371,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_bamboo_cluster/idle_none_0": {
-      "frame": {
-        "x": 409,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_bamboo_cluster/idle_none_1": {
-      "frame": {
-        "x": 447,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_bamboo_cluster/idle_none_2": {
-      "frame": {
-        "x": 485,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_bamboo_cluster/idle_none_3": {
-      "frame": {
-        "x": 523,
-        "y": 965,
-        "w": 32,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 48
-      }
-    },
-    "props/prop_petrified_chain/idle_none_0": {
-      "frame": {
-        "x": 991,
-        "y": 3,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_petrified_chain/shatter_none_0": {
-      "frame": {
-        "x": 993,
-        "y": 879,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_petrified_chain/shatter_none_1": {
-      "frame": {
-        "x": 561,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_petrified_chain/shatter_none_2": {
-      "frame": {
-        "x": 583,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_petrified_chain/shatter_none_3": {
-      "frame": {
-        "x": 605,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/broken_none_0": {
-      "frame": {
-        "x": 627,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_0": {
-      "frame": {
-        "x": 649,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_1": {
-      "frame": {
-        "x": 671,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_2": {
-      "frame": {
-        "x": 693,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_3": {
-      "frame": {
-        "x": 715,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_4": {
-      "frame": {
-        "x": 737,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/idle_none_5": {
-      "frame": {
-        "x": 759,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/overload_none_0": {
-      "frame": {
-        "x": 781,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/overload_none_1": {
-      "frame": {
-        "x": 803,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/overload_none_2": {
-      "frame": {
-        "x": 825,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
-      }
-    },
-    "props/prop_restriction_pillar/overload_none_3": {
-      "frame": {
-        "x": 847,
-        "y": 965,
-        "w": 16,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 16,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 48
       }
     },
     "ui/ui_card_frame/common_none_0": {
       "frame": {
-        "x": 951,
-        "y": 965,
+        "x": 987,
+        "y": 981,
         "w": 32,
         "h": 40
       },
@@ -3138,112 +2598,12 @@
       "sourceSize": {
         "w": 32,
         "h": 40
-      }
-    },
-    "ui/ui_card_frame/forbidden_none_0": {
-      "frame": {
-        "x": 989,
-        "y": 965,
-        "w": 32,
-        "h": 40
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 40
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 40
-      }
-    },
-    "ui/ui_form_portraits/form1_none_0": {
-      "frame": {
-        "x": 3,
-        "y": 965,
-        "w": 48,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 48,
-        "h": 48
-      }
-    },
-    "ui/ui_form_portraits/form2_none_0": {
-      "frame": {
-        "x": 57,
-        "y": 965,
-        "w": 48,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 48,
-        "h": 48
-      }
-    },
-    "ui/ui_form_portraits/form3_none_0": {
-      "frame": {
-        "x": 111,
-        "y": 965,
-        "w": 48,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 48,
-        "h": 48
-      }
-    },
-    "ui/ui_form_portraits/form4_none_0": {
-      "frame": {
-        "x": 165,
-        "y": 965,
-        "w": 48,
-        "h": 48
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 48
-      },
-      "sourceSize": {
-        "w": 48,
-        "h": 48
       }
     },
     "ui/ui_minimap/boss_none_0": {
       "frame": {
         "x": 1013,
-        "y": 3,
+        "y": 105,
         "w": 8,
         "h": 8
       },
@@ -3262,8 +2622,228 @@
     },
     "vfx/ghost_summon_call_0": {
       "frame": {
-        "x": 869,
-        "y": 965,
+        "x": 3,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_1": {
+      "frame": {
+        "x": 85,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_10": {
+      "frame": {
+        "x": 167,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_11": {
+      "frame": {
+        "x": 249,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_12": {
+      "frame": {
+        "x": 331,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_13": {
+      "frame": {
+        "x": 413,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_14": {
+      "frame": {
+        "x": 495,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_15": {
+      "frame": {
+        "x": 577,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_16": {
+      "frame": {
+        "x": 659,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_17": {
+      "frame": {
+        "x": 741,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_18": {
+      "frame": {
+        "x": 823,
+        "y": 981,
+        "w": 76,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 40
+      }
+    },
+    "vfx/ghost_summon_call_19": {
+      "frame": {
+        "x": 905,
+        "y": 981,
         "w": 76,
         "h": 40
       },

@@ -43,8 +43,10 @@ export const AMBUSHER = {
 } as const;
 
 export const SHOOTER = {
-  /** Keeps this distance (px) +/- tolerance, casts a seal on the player's position. */
-  keep: 96, tolerance: 14, castRange: 140, sealRadius: 20,
+  /** Keeps this distance (px) +/- tolerance and fires an orb at the player. */
+  keep: 96, tolerance: 14, castRange: 140,
+  /** The wailing orb (manifest: "fires wailing orbs"): speed px/tick, hit radius, how far it flies. The aim line shown during the tell is as long as that range. */
+  shotSpeed: 2.2, shotRadius: 4, shotRange: 170, aimHalfWidth: 4,
   recoverMs: 600, cooldownMs: 1400, jitterMs: 500,
 } as const;
 
@@ -71,8 +73,8 @@ export const BRAWLER_BY_MOB: Overrides<typeof BRAWLER> = {
   mob_courtyard_guard: { swingRadius: 28, swingOffset: 20, recoverMs: 900, cooldownMs: 600 },
 };
 export const SHOOTER_BY_MOB: Overrides<typeof SHOOTER> = {
-  // mob_sword_acolyte: "flying-sword volleys, keeps distance" - stays further off and casts more often.
-  mob_sword_acolyte: { keep: 112, castRange: 150, sealRadius: 18, cooldownMs: 1200 },
-  // mob_demonic_talisman: "hurls talismans" - a caster: a wider talisman seal, slower rhythm.
-  mob_demonic_talisman: { keep: 100, sealRadius: 24, recoverMs: 700, cooldownMs: 1600 },
+  // mob_sword_acolyte: "flying-sword volleys, keeps distance" - stays further off, a faster, thinner shot, fires more often.
+  mob_sword_acolyte: { keep: 112, castRange: 150, shotSpeed: 2.6, shotRadius: 3, cooldownMs: 1200 },
+  // mob_demonic_talisman: "hurls talismans" - a caster: a bigger, slower talisman orb, slower rhythm.
+  mob_demonic_talisman: { keep: 100, shotSpeed: 1.8, shotRadius: 5, recoverMs: 700, cooldownMs: 1600 },
 };
