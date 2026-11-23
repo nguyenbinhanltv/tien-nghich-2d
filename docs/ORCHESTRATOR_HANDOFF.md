@@ -127,7 +127,7 @@ Transports are stdio and loopback HTTP. `GET /mcp/jobs[?limit=n]` lists backgrou
 
 **Animation default** (decision 3 and its amendment in the plan, settled by the bake-off): locomotion from drawn key poses on a **pose sheet**; idle and other small motions from the **rig**; one-sided marks (a scar, a charm) as **pixel patches**, which survive every re-bake. Environment, items and projectiles come from registered generators, VFX from `studio_vfx_build`. PixelLab is retired.
 
-**Known gaps** (also in the studio README): exports are not opened in their engines; atlas PNGs are pixel-equal, not byte-equal, to the Python packer; the playables are hosted as scripted scenes; nothing was run on Windows; the Review tab lacks the rubric and lineup pictures; a few MCP tool descriptions still use the first project's example ids; `mcp --self-test` is written for the main project.
+**Known gaps** (also in the studio README): exports were opened in Godot 4.7.2, Tiled 1.12.2, Phaser 3.90/4.2, PixiJS 8.23, LibreSprite 1.3 and Pixelorama 1.2.4 but not in LDtk, Unity or Aseprite (docs/STUDIO_EXPORT_VERIFICATION.md); atlas PNGs are pixel-equal, not byte-equal, to the Python packer; the playables are hosted as scripted scenes; nothing was run on Windows; the Review tab lacks the rubric and lineup pictures; a few MCP tool descriptions still use the first project's example ids; `mcp --self-test` is written for the main project.
 
 ## Bring up on this Mac
 

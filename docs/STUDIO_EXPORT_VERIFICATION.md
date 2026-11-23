@@ -1,0 +1,19 @@
+# Studio exports opened in real tools (2026-11-23)
+
+The export files of `studio/core/export/` and `studio/core/interop/` were opened in the tools below. Tools were downloaded from the projects' own GitHub releases into a temp folder outside the repo (nothing installed, no sudo, no PATH change). The inputs were real exports of the shipped atlases (`longtime/abode`: 1 page, 430 frames, 107 clips; `core`: 7 pages, 2854 frames, 425 clips; profile `mobile`) and, for `.ase`/`.pxo`, a 14-frame, 3-tag sample cut from real `core` frames.
+
+| Format | Tool, version | Source | Result |
+|---|---|---|---|
+| Godot 4 `.tres` | Godot 4.7.2 stable, macOS universal | godotengine/godot-builds release 4.7.2-stable; SHA-512 matched `SHA512-SUMS.txt` | **Opens.** `--headless --import`, then a script loaded all SpriteFrames: abode 17 files / 107 animations / 430 frames, core 2854 frames; every AtlasTexture compared pixel by pixel with its page (0 differences); an AnimatedSprite2D scene saved and reloaded. |
+| Tiled `.tsj` / `.tmj` | Tiled 1.12.2, macOS 13+ | mapeditor/tiled release v1.12.2 (GitHub publishes no checksum) | **Opens.** `--export-map tmx`, `--export-map json`, `--export-tileset json` on all 27 tilesets/maps (3 abode, 24 core): no errors. **Found:** `tilecount` was the number of drawn tiles, Tiled recomputes it from the image grid (12 became 16 for 13 sheets). Fixed. Tile animations and collision shapes are not in the shipped data, so those paths were not exercised in Tiled. |
+| Phaser multi-atlas + animations | Phaser 3.90.0 and 4.2.1 (npm) | npm | **Loads.** `load.multiatlas` + `anims.fromJSON` in the Orchestrator Browser: core 2854/2854 frames found, 425 animations created, 391 custom pivots in range; abode 430 pivots. Screenshots drawn. |
+| PixiJS spritesheet | PixiJS 8.23.0 (npm) | npm | **Loads, with one bug found and fixed.** 7 sheets, 2854 frames, 0 bad textures, 391 anchors. 11 clips whose frames lie on two pages were written partly into each page JSON, so loading all pages truncated them (e.g. `boss_teng_huayuan/death_south` kept 2 of 8 frames). Fixed: page JSONs hold only whole clips; `pixi/animations.json` holds every clip; all 11 split clips then built from frame names. |
+| `.ase` (RGBA and indexed) | LibreSprite 1.3, macOS arm64 | LibreSprite/LibreSprite release v1.3; GitHub's digest matched | **Opens.** `--batch --data --sheet`: 14 frames, tags `attack_south 0-5`, `death_south 6-9`, `idle_south 10-13`, durations and every pixel equal to the source, in both RGBA and indexed. Ping-pong/reverse tags and linked cels were not tried. |
+| `.pxo` | Pixelorama 1.2.4, macOS | Orama-Interactive/Pixelorama release v1.2.4; GitHub's digest matched | **Opens.** CLI `--spritesheet --output`: 448x32 sheet, 14 frames pixel-equal to the source. Tags, durations and linked cels were not read back. |
+| LDtk `.ldtk` | LDtk 1.5.3 macOS dmg (deepnight/ldtk release) | GitHub release; no checksum published | **Not verified.** The app started with the file, but headless mode prints nothing and the GUI could not be captured here, so there is no evidence it loaded. |
+| Unity | not downloaded | | **Not verified** (needs a licensed editor and a Hub login). |
+| Aseprite JSON | not opened in Aseprite | | Aseprite (paid) was not obtained; LibreSprite reads `.ase`, not this JSON. **Not verified.** |
+
+Commands (paths shortened; `$T` is the tool inside its `.app`): `$T --headless --path <proj> --import`, `$T --headless --path <proj> --script res://check.gd`; `Tiled --export-map tmx|json <x>.tmj <out>`; `libresprite --batch x.ase --data d.json --sheet s.png --format json-array`; `Pixelorama -- x.pxo --spritesheet --output s.png`. The Phaser and Pixi pages were temporary and live outside the repo.
+
+Not checked anywhere: Windows, Linux, WebGL rendering differences, Godot/Tiled/Phaser behaviour on the optional metadata (tile animation, collision shapes), and any visual approval of the art, which stays with a human.

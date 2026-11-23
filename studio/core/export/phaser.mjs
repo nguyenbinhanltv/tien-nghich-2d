@@ -1,5 +1,5 @@
 // Phaser 3: the multi-atlas JSON (what `load.multiatlas` reads), a hash-form JSON per page (what `load.atlas` reads for a single page),
-// and the animations as Phaser's `anims.fromJSON` document. Written to the documented format; not opened in Phaser.
+// and the animations as Phaser's `anims.fromJSON` document. Written to the documented format; loaded in Phaser 3.90.0 and 4.2.1.
 import { json, clipName, pagesOf } from './common.mjs';
 
 export const id = 'phaser';
@@ -26,5 +26,5 @@ export async function build(desc, {atlasKey = desc.name} = {}) {
     'Load with `this.load.multiatlas(KEY, "multiatlas.json")` and `this.anims.fromJSON(animations)`; the atlas key used in the animations is "' + atlasKey + '".',
     'Per-frame durations are Phaser frame `duration` values in milliseconds; a clip that records no loop flag repeats forever.',
     ...(desc.frames.some(f => f.pivotPx) ? ['Pivots are written as the per-frame `pivot` Phaser 3.60 and later read.'] : ['This atlas records no pivots.']),
-    'Written to the documented format, not opened in Phaser.']};
+    'Written to the documented format and loaded in Phaser 3.90.0 and 4.2.1 (see studio/README.md).']};
 }

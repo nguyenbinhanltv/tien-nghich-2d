@@ -64,7 +64,7 @@ test('Phaser: multi-atlas, hash pages and animations match the description', asy
     assert.deepEqual(a.frames.map(x => x.frame), desc.clips[i].frames);
     assert.deepEqual(a.frames.map(x => x.duration ?? 0), desc.clips[i].frames.map(k => desc.frames.find(f => f.key === k).durationMs ?? 0));
   }
-  assert.match(r.built.notes.at(-1), /not opened in Phaser/);
+  assert.match(r.built.notes.at(-1), /loaded in Phaser/);
 });
 
 test('PixiJS: spritesheet frames, anchors and animations match the description', async () => {
@@ -78,6 +78,21 @@ test('PixiJS: spritesheet frames, anchors and animations match the description',
   }
   assert.deepEqual(sheet.animations, Object.fromEntries(desc.clips.map(c => [`${c.asset}/${clipName(c)}`, c.frames])));
   assert.deepEqual([sheet.meta.image, sheet.meta.size], [desc.pages[0].image, {w: desc.pages[0].width, h: desc.pages[0].height}]);
+});
+
+test('PixiJS: a clip whose frames lie on two pages is never written partly into a page JSON; animations.json holds every clip whole', async () => {
+  const r = await run('pixi', core), {desc} = core, pageOf = new Map(desc.frames.map(f => [f.key, f.page]));
+  const split = desc.clips.filter(c => new Set(c.frames.map(k => pageOf.get(k))).size > 1);
+  assert.ok(split.length > 0, 'the core atlas has clips that span pages (the case that broke)');
+  const seen = new Map();
+  for (const p of desc.pages) for (const [name, list] of Object.entries(r.json(`pixi/${p.name}.json`).animations)) {
+    assert.ok(!seen.has(name), `${name} is in one page JSON only`); seen.set(name, list);
+    const full = desc.clips.find(c => `${c.asset}/${clipName(c)}` === name).frames;
+    assert.deepEqual(list, full, `${name} in a page JSON is the whole clip`);
+  }
+  for (const c of split) assert.ok(!seen.has(`${c.asset}/${clipName(c)}`));
+  const all = r.json('pixi/animations.json').animations;
+  assert.deepEqual(all, Object.fromEntries(desc.clips.map(c => [`${c.asset}/${clipName(c)}`, c.frames])));
 });
 
 test('Godot: each asset .tres has the right rectangles, clip names and frame times', async () => {
@@ -151,7 +166,8 @@ test('Tiled: every tile of every tileset sheet is the atlas frame it names, draw
   for (const ts of desc.tilesets) {
     const name = `${ts.asset}.${ts.sheet}`;
     const tsj = r.json(`tiled/${name}.tsj`), image = decodeRgba(r.file(`tiled/${name}.png`));
-    assert.deepEqual([tsj.type, tsj.tilewidth, tsj.tileheight, tsj.tilecount, tsj.image], ['tileset', ts.tileSize[0], ts.tileSize[1], ts.tiles.length, `${name}.png`]);
+    assert.deepEqual([tsj.type, tsj.tilewidth, tsj.tileheight, tsj.tilecount, tsj.image], ['tileset', ts.tileSize[0], ts.tileSize[1], tsj.columns * (tsj.imageheight / tsj.tileheight), `${name}.png`]);
+    assert.ok(tsj.tilecount >= ts.tiles.length, 'tilecount is the grid of the image (Tiled recomputes it), not only the drawn tiles');
     assert.deepEqual([image.width, image.height], [tsj.imagewidth, tsj.imageheight]);
     assert.equal(tsj.imagewidth, tsj.columns * tsj.tilewidth);
     for (const tile of tsj.tiles) {

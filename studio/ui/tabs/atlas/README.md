@@ -30,7 +30,7 @@ A pack with no block gets one read-only-or-studio-packable `frame-hash` set per 
 
 ## Exports (`studio/core/export/`)
 
-One module per format, all taking the same neutral description (`describe.mjs`): Phaser 3 (multi-atlas, hash pages, animations), PixiJS spritesheet, Godot 4 `.tres` SpriteFrames (+ `pivots.json`), Unity (`.sprites.json` + `AtlasImporter.cs`), Aseprite JSON (frameTags from clips, durations), Tiled `.tsj` (one grid image per one-size tileset sheet). Each is tested by parsing its output and checking rectangles, pivots, durations and clip names against the source. **All are written to the documented format and were not opened in Phaser, Pixi, Godot, Unity, Aseprite or Tiled.** For Unity: the importer only slices the sheet; AnimationClips, Animators and prefabs are still the user's job, and the script is not compiled.
+One module per format, all taking the same neutral description (`describe.mjs`): Phaser 3 (multi-atlas, hash pages, animations), PixiJS spritesheet, Godot 4 `.tres` SpriteFrames (+ `pivots.json`), Unity (`.sprites.json` + `AtlasImporter.cs`), Aseprite JSON (frameTags from clips, durations), Tiled `.tsj` (one grid image per one-size tileset sheet). Each is tested by parsing its output and checking rectangles, pivots, durations and clip names against the source. **Phaser (3.90.0, 4.2.1), PixiJS 8.23.0, Godot 4.7.2 and Tiled 1.12.2 were opened with these files (see `docs/STUDIO_EXPORT_VERIFICATION.md`); Unity, Aseprite and LDtk were not.** For Unity: the importer only slices the sheet; AnimationClips, Animators and prefabs are still the user's job, and the script is not compiled.
 
 ## Ledger (`studio/core/ledger.mjs`)
 

@@ -1,6 +1,6 @@
 // Godot 4: one SpriteFrames `.tres` per asset (an AtlasTexture sub-resource per frame, one animation per clip and direction) written in the
 // text resource format 3. SpriteFrames has no per-frame pivot: pivots go to a `pivots.json` beside them for use as the AnimatedSprite2D offset.
-// Not opened in Godot.
+// Opened in Godot 4.7.2 (headless import, SpriteFrames loaded, every AtlasTexture compared with its page).
 import { json, clipName, gcd, stem, pagesOf, byAsset } from './common.mjs';
 
 export const id = 'godot';
@@ -36,5 +36,5 @@ export async function build(desc, {resPath = 'res://atlas'} = {}) {
     'Each frame\'s duration is its milliseconds divided by the clip\'s greatest common step; the clip\'s `speed` is 1000 divided by that step.',
     'SpriteFrames has no pivot: the pivots are in pivots.json and must be applied by hand as the sprite offset.',
     'Frames that belong to no asset or clip are not written to a .tres.',
-    'Written to the documented text format, not opened in Godot.']};
+    'Written to the documented text format and opened in Godot 4.7.2 (see studio/README.md).']};
 }

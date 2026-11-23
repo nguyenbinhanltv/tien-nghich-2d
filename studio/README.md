@@ -267,7 +267,7 @@ A generator is a program that draws frames. The studio will run **only** program
 
 ## Limits and known gaps
 
-- **Exports have not been opened in their engines.** The Phaser, Pixi, Godot, Unity, Aseprite and Tiled files are written to each format's published layout and checked by tests, but no engine has loaded them.
+- **Exports were opened in some engines, not all** ([details](../docs/STUDIO_EXPORT_VERIFICATION.md), 2026-11-23). Opened and read correctly: Godot 4.7.2 (`.tres`), Tiled 1.12.2 (`.tsj`/`.tmj`), Phaser 3.90.0 and 4.2.1, PixiJS 8.23.0, LibreSprite 1.3 (`.ase`, RGBA and indexed) and Pixelorama 1.2.4 (`.pxo`, pixels only). Still **not opened**: LDtk, Unity and Aseprite itself (so the Aseprite JSON and the Unity importer are checked by tests only). Tile animations and collision shapes were not exercised in Tiled, because the shipped data has none.
 - **Atlas PNGs are pixel-equal, not byte-equal, to a Python packer.** The studio packs in Node; its PNG compression differs from Pillow's, so a page can hold the same pixels in different bytes. Where a project registers its own packer as the authority, the Atlas tab compares pixels and labels the difference.
 - **Playables are hosted as scripted scenes.** The main project's three playables run unchanged in the Sandbox frame; their art is not in the catalog, and they are not driven by the scene document.
 - **No Windows testing.** The studio uses only Node and runs programs through process groups; nothing was run on Windows.

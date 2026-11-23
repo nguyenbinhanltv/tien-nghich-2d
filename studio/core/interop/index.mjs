@@ -56,8 +56,8 @@ export async function exportAsset({ws, snap, asset, direction, format, dir}) {
     links: doc.frames.filter(f => f.linkTo !== null).length,
     notes: [`One ${spec.tool} file holds the ${direction} direction: ${doc.frames.length} frames, one tag per clip (${doc.tags.map(t => t.name).join(', ')}).`,
       'Draw on the one layer, keep to the project palette and opaque pixels, and do not rename or move tags; change nothing else you want kept. Import it back from this page.',
-      format === 'pxo' ? 'Written to the structure of Pixelorama\'s published source; tag direction and linked cels travel in user-data fields. Not opened in Pixelorama.'
-        : 'Written to the published .ase format; checked by reading it back here. Not opened in LibreSprite or Aseprite.']};
+      format === 'pxo' ? 'Written to the structure of Pixelorama\'s published source; tag direction and linked cels travel in user-data fields. Opened in Pixelorama 1.2.4 (exported to a sheet, pixel-equal; tags, durations and linked cels were not read back there).'
+        : 'Written to the published .ase format; checked by reading it back here. Opened in LibreSprite 1.3 (frames, tags, durations, pixels, RGBA and indexed); not opened in Aseprite itself.']};
 }
 
 const kindOf = bytes => (bytes.length > 4 && bytes[0] === 0x50 && bytes[1] === 0x4b ? 'pxo' : bytes.length > 6 && bytes.readUInt16LE(4) === 0xa5e0 ? 'ase' : null);
