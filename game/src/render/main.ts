@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 import { fitView } from './camera.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
+import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
 import { createUiI18n } from '../ui/strings.ts';
@@ -15,7 +16,10 @@ document.documentElement.lang = i18n.locale;
 
 const hub = new InputHub(window);
 let portrait = false;
-const scene = new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait });
+const params = new URLSearchParams(location.search);
+const scene: Phaser.Scene = params.get('view') === 'clips'
+  ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
+  : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, frozen: params.has('golden') });
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,

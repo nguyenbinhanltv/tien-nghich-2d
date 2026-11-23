@@ -16,6 +16,7 @@ npm run dev:lan   # cho điện thoại cùng Wi-Fi: docs/PLAYTEST_LAN.md
 | `src/contracts/` | kiểu dùng chung giữa các lane, Lane A giữ: `world` (WorldState, InputFrame, GameEvent), `combat` (mô hình DODGE/STRIKE, Hazard), `pool` (đạn SoA), `run` (cảnh giới, thưởng), `save` (hồ sơ), `content` (ContentApi), `host` (Sim), `bodies`. Đổi ở đây = PR nhỏ riêng |
 | `src/render/` | hiển thị Phaser 4; chỉ đọc state. `camera.ts` (×nguyên theo pixel thiết bị), `kiln-loader.ts`, `animator.ts`, `scenes/`, `demo/arena-stub.ts` (stub tạm, xóa khi sim phòng của làn A vào main) |
 | `src/ui/`, `locale/` | điều khiển cảm ứng, bàn phím, tay cầm, màn xoay ngang; chuỗi UI VI/EN |
+| `golden/` | `npm run golden`: ảnh vàng camera nguyên pixel ở ×1/×3/×5/×10 (cần playwright-core + Chrome ngoài repo; không nằm trong `check`) |
 | `pwa/` | manifest/icon/service worker, plugin Vite phục vụ atlas, `lan.ts` (dev:lan) |
 | `src/i18n/`, `content/locale/` | chuỗi hiển thị VI/EN |
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
