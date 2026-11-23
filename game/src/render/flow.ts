@@ -2,6 +2,7 @@
 // It owns the profile for the session and swaps Phaser scenes; the rules live in meta/ (tested without Phaser). Scenes are
 // built fresh for every visit, so a run always starts from a clean world on the seed the profile handed out.
 import Phaser from 'phaser';
+import type { ContentApi } from '../contracts/content.ts';
 import type { SaveProfile } from '../contracts/save.ts';
 import type { WorldState } from '../contracts/world.ts';
 import type { I18n } from '../i18n/i18n.ts';
@@ -18,6 +19,8 @@ import { DongPhuScene } from './scenes/DongPhuScene.ts';
 
 export interface FlowDeps {
   hub: InputHub; i18n: I18n; audio: AudioDirector; store: KeyValueStore; frozen: boolean;
+  /** Compiled content: with it every run walks the real floor; null = the boss arena only. */
+  content: ContentApi | null;
   /** True while the scenes must not advance: portrait gate or an open menu. */
   paused(): boolean;
   /** Current shake/flash settings, applied to every fight scene built here. */
@@ -56,7 +59,7 @@ export function createFlow(d: FlowDeps): Flow {
 
   let fight: BloodSeaScene | null = null;
   const fightScene = (seed: number, runId: number): BloodSeaScene => (fight = new BloodSeaScene({
-    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, run: { seed, runId },
+    sample: () => d.hub.sample(), floorLabel: d.i18n.t('place.blood_sea'), paused: d.paused, frozen: d.frozen, content: d.content, run: { seed, runId },
     onEvents: (ev, w) => d.audio.handle(ev, w),
     status: (w) => {
       const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss');

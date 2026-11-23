@@ -15,6 +15,8 @@ import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
+import type { ContentApi, RoomLayout } from '../../contracts/content.ts';
+import { RoomView } from '../room-view.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
@@ -32,6 +34,8 @@ export interface SceneHost {
   run?: { seed: number; runId: number };
   /** Called once, on the first Dodge/Counter press after the result beat, when `run` is set. The run in `world.run` has ended. */
   onFinished?(world: WorldState): void;
+  /** Compiled content (tables, room layouts, encounters). With it the scene plays the real floor, room by room; without it the old boss arena. */
+  content?: ContentApi | null;
   /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
   frozen?: boolean;
 }
@@ -67,12 +71,14 @@ export class BloodSeaScene extends Phaser.Scene {
   readonly juice = new Juice();
   private hud!: Hud;
   private floor!: FloorHud;
+  private room!: RoomView;
 
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
-    this.fight = new FightRunner(host.run?.seed);
-    if (host.run) attachRun(this.fight.world, host.run.runId);
+    this.fight = new FightRunner(host.run?.seed, host.content ?? null, host.run?.runId);
+    // the boss-only fallback attaches its own run; on the real floor the sim started the run in the first room
+    if (host.run && !this.fight.hasFloor) attachRun(this.fight.world, host.run.runId);
   }
 
   preload(): void { preloadKiln(this); this.load.json('content-tables', 'content/tables.json'); }
@@ -80,7 +86,8 @@ export class BloodSeaScene extends Phaser.Scene {
   create(): void {
     this.frames = new KilnFrames(this);
     this.cameras.main.setBackgroundColor('#14101a');
-    this.buildRoom();
+    this.room = new RoomView(this, this.frames);
+    if (!this.fight.hasFloor) this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
     this.hud = new Hud(this, this.frames, (kind) => this.host.nameOf?.(kind) ?? '');
     this.floor = new FloorHud(this, this.frames);
@@ -102,7 +109,7 @@ export class BloodSeaScene extends Phaser.Scene {
     const r = this.host.run;
     if (r && !canRestartRun(this.fight.world)) return; // a finished run leaves only through onFinished
     this.fight.restart(r?.seed);
-    if (r) attachRun(this.fight.world, r.runId);
+    if (r && !this.fight.hasFloor) attachRun(this.fight.world, r.runId);
     this.endedAt = -1; this.finished = false;
   }
 
@@ -149,8 +156,21 @@ export class BloodSeaScene extends Phaser.Scene {
     this.draw();
   }
 
+  /** The room the sim is in: rebuild the view when it changes, keep the doors in step with the grid. */
+  private syncRoom(w: WorldState): void {
+    const st = w.stage, grid = w.grid;
+    if (!st || !grid || !this.host.content) return;
+    if (this.room.roomId !== st.room) {
+      const layout = this.host.content.get<RoomLayout>('room_layouts', st.room);
+      this.room.show(st.room, grid.rows, layout.props);
+      if (this.room.roomId && this.fight.world.tick > 0) this.cameras.main.fadeIn(180, 20, 16, 26);
+    }
+    this.room.update(grid.rows, w.tick);
+  }
+
   private draw(): void {
     const w = this.fight.world;
+    this.syncRoom(w);
     const seen = new Set<number>();
     for (const a of w.actors) {
       seen.add(a.id);
