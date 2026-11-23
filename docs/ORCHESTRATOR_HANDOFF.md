@@ -193,7 +193,7 @@ The earlier version of these steps was written for PowerShell on Windows. These 
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_plan.py
    tools/.venvs/project/bin/python -I tools/scripts/check_audio_core_masters.py
    tools/.venvs/project/bin/python -I tools/scripts/pack_atlases.py --check               # Validated 2854 frames on both profiles
-   git ls-files 'studio/**/*.test.mjs' 'playables/**/*.test.mjs' | grep -v browser | sort -u | xargs node --test   # NODE_TESTS tests (zsh does not split $(...), hence xargs)
+   git ls-files 'studio/**/*.test.mjs' 'playables/**/*.test.mjs' | grep -v browser | sort -u | xargs node --test   # 1039 tests with this PR, 1038 on 4aad1e0 (zsh does not split $(...), hence xargs)
    node studio/smoke-test.mjs               # the studio for this project; takes --project <dir>
    node playables/smoke-test.mjs            # the first project's pages (`node preview-app/smoke-test.mjs` still works through a shim)
    node studio/mcp.mjs --self-test          # must end with `self-test PASSED`; takes --project <dir> (the sample: studio/examples/moss-lantern)
