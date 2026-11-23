@@ -13,6 +13,7 @@ import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
+import { attachRun } from '../../meta/flow.ts';
 
 export interface SceneHost {
   /** Latest input for this render frame (dash/fire are one-shot). */
@@ -22,6 +23,10 @@ export interface SceneHost {
   onEvents?(events: readonly GameEvent[], world: WorldState): void;
   /** Status line (hp, result). */
   status?(world: WorldState): void;
+  /** Run mode (the Động Phủ loop): fight on this seed under a run, and leave through `onFinished` instead of retrying. */
+  run?: { seed: number; runId: number };
+  /** Called once, on the first Dodge/Counter press after the result beat, when `run` is set. The run in `world.run` has ended. */
+  onFinished?(world: WorldState): void;
   /** Golden-image mode: advance a fixed number of ticks once, then hold still (no wall-clock input). */
   frozen?: boolean;
 }
@@ -46,19 +51,22 @@ const HAZARD_FILL = 0xd03a4a, HAZARD_EDGE = 0xee7a80, SAFE_EDGE = 0x8f62cf;
 export class BloodSeaScene extends Phaser.Scene {
   private readonly host: SceneHost;
   private frames!: KilnFrames;
-  private readonly fight = new FightRunner();
+  private readonly fight: FightRunner;
   private readonly loop = new FixedLoop();
   private readonly sprites = new Map<number, Phaser.GameObjects.Image>();
   private shots: Phaser.GameObjects.Image[] = [];
   private hazards!: Phaser.GameObjects.Graphics;
   private input0: InputFrame | null = null;
   private endedAt = -1;
+  private finished = false;
   readonly juice = new Juice();
   private hud!: Hud;
 
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
+    this.fight = new FightRunner(host.run?.seed);
+    if (host.run) attachRun(this.fight.world, host.run.runId);
   }
 
   preload(): void { preloadKiln(this); }
@@ -100,7 +108,9 @@ export class BloodSeaScene extends Phaser.Scene {
       // after a result, a fresh Dodge or Counter press (after a short beat) starts the fight again
       if (w.mode === 'won' || w.mode === 'lost') {
         if (this.endedAt < 0) this.endedAt = w.tick;
-        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) { this.fight.restart(); this.endedAt = -1; }
+        if ((inp.dash || inp.fire) && w.tick - this.endedAt > 45) {
+          if (this.host.run) { if (!this.finished) { this.finished = true; this.host.onFinished?.(w); } } else { this.fight.restart(); this.endedAt = -1; }
+        }
       }
       let first = true;
       this.loop.advance(deltaMs, () => {

@@ -68,7 +68,9 @@ export class KilnFrames {
     }
     const { clips } = indexClips(names);
     for (const [k, c] of clips) this.clips.set(k, c);
-    this.scene.anims.fromJSON(animsJson(clips.values(), (f) => this.pageOf(f), (c) => CLIP_FPS[c] ?? 8) as unknown as Phaser.Types.Animations.JSONAnimations);
+    // the animation manager is global: a later scene (hub -> fight -> hub) must not register a clip twice
+    const fresh = [...clips.values()].filter((c) => !this.scene.anims.exists(c.key));
+    this.scene.anims.fromJSON(animsJson(fresh, (f) => this.pageOf(f), (c) => CLIP_FPS[c] ?? 8) as unknown as Phaser.Types.Animations.JSONAnimations);
     return this.page.size - before;
   }
 

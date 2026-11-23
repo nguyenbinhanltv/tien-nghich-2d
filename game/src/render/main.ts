@@ -4,9 +4,7 @@ import { VIEW_H, VIEW_W } from '../contracts/world.ts';
 import { fitView } from './camera.ts';
 import { AudioDirector } from '../audio/director.ts';
 import { BloodSeaScene } from './scenes/BloodSeaScene.ts';
-import { DongPhuScene } from './scenes/DongPhuScene.ts';
-import { mountAbodePanel } from '../ui/abode-panel.ts';
-import { readProfile, writeProfile } from '../meta/profile-store.ts';
+import { createFlow } from './flow.ts';
 import { ClipViewerScene } from './scenes/ClipViewerScene.ts';
 import { InputHub } from '../ui/input-hub.ts';
 import { mountOrientationGate } from '../ui/orientation-gate.ts';
@@ -25,42 +23,22 @@ const audio = new AudioDirector();
 // the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
 hub.onGesture = () => audio.unlock();
 window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
-void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
+const startBgm = new URLSearchParams(location.search).get('view') === 'dong-phu' ? 'bgm_dong_phu' : 'bgm_blood_sea';
+void audio.init().then(() => audio.engine.playBgm(startBgm));
 let portrait = false;
 const params = new URLSearchParams(location.search);
 if (params.has('golden')) document.body.classList.add('golden');
-const abodePanel = params.get('view') === 'dong-phu' ? mountAbodePanel(document.body, i18n) : null;
-const store = { getItem: (k: string) => localStorage.getItem(k), setItem: (k: string, v: string) => localStorage.setItem(k, v) };
-const scene: Phaser.Scene = params.get('view') === 'dong-phu'
-  ? makeAbode()
+const flow = params.get('view') === 'dong-phu'
+  ? createFlow({ hub, i18n, audio, store: { getItem: (k) => localStorage.getItem(k), setItem: (k, v) => localStorage.setItem(k, v) }, frozen: params.has('golden'),
+      portrait: () => portrait, setStatus, panelRoot: document.body })
+  : null;
+const scene: Phaser.Scene = flow
+  ? flow.first()
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
   : new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
-
-/** Hub scene on a saved profile. Entering the gate only announces `tn2d:enter-run`: the Blood Sea scene is wired in after the arena PR. */
-function makeAbode(): Phaser.Scene {
-  const loaded = readProfile(store, Date.now() >>> 0);
-  let profile = loaded.profile;
-  const host = {
-    sample: () => hub.sample(), paused: () => portrait, frozen: params.has('golden'),
-    get profile() { return profile; },
-    commit: (p: typeof profile) => {
-      profile = p;
-      // memory-only sessions never write: the stored key may hold the only copy of a profile we could not read or back up
-      if (!loaded.memoryOnly) abodePanel?.warn(writeProfile(store, p) ? null : i18n.t('abode.save.unavailable'));
-      abodePanel?.stock(p);
-    },
-    enterRun: (p: typeof profile) => { window.dispatchEvent(new CustomEvent('tn2d:enter-run', { detail: p })); },
-    onPrompt: (s: Parameters<NonNullable<typeof abodePanel>['update']>[0], o: Parameters<NonNullable<typeof abodePanel>['update']>[1]) => abodePanel?.update(s, o),
-  };
-  abodePanel?.stock(profile);
-  if (loaded.source === 'recovered') abodePanel?.warn(i18n.t('abode.save.recovered'));
-  if (loaded.source === 'unavailable') abodePanel?.warn(i18n.t('abode.save.unavailable'));
-  if (loaded.source === 'damaged') abodePanel?.warn(i18n.t('abode.save.damaged'));
-  return new DongPhuScene(host);
-}
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -102,4 +80,5 @@ if ('serviceWorker' in navigator && import.meta.env.PROD && window.isSecureConte
   window.addEventListener('load', () => void navigator.serviceWorker.register('./sw.js'));
 }
 
-(window as unknown as { __tn2d: unknown }).__tn2d = { game, scene, hub, audio };
+flow?.attach(game);
+(window as unknown as { __tn2d: unknown }).__tn2d = { game, scene, hub, audio, flow };
