@@ -55,17 +55,15 @@ test('route inbox returns art items and the audio masters waiting for a listenin
   assert.deepEqual(body.items, []);
   assert.ok(body.audio.length > 10 && body.audio.every(a => a.signoff === null));
   const by = label => body.audio.filter(a => a.label === label).map(a => a.id).sort();
-  // 52 of the 61 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 (2026-11-22) and Branches (2026-11-23) stated by the owner.
-  // The six Modes cues and the three Characters cues (2026-11-23) wait for a listening: no record covers them.
+  // 58 of the 61 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 (2026-11-22), Branches and Modes (2026-11-23) stated by the owner. The three Characters cues (2026-11-23) wait for a listening: no record covers them.
   assert.equal(body.audio.length, 61);
-  assert.equal(by('approved_before').length, 52);
-  assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light') && by('approved_before').includes('bgm_star_quarry'));
-  assert.equal(body.audio.filter(a => a.state === 'decided').length, 52);
-  assert.deepEqual(body.audio.filter(a => a.state === 'waiting').map(a => a.id).sort(),
-    ['bgm_aftermath', 'bgm_defense', 'sfx_core_crack', 'sfx_floor_mark', 'sfx_form_shift', 'sfx_keeper_call', 'sfx_oath', 'sfx_pet_reply', 'sfx_wave_call']);
-  assert.equal(body.audio.filter(a => a.state === 'waiting').every(a => a.approval === null), true, 'nothing covers the nine Modes and Characters cues');
+  assert.equal(by('approved_before').length, 58);
+  assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light') && by('approved_before').includes('bgm_star_quarry') && by('approved_before').includes('sfx_core_crack'));
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 58);
+  assert.deepEqual(body.audio.filter(a => a.state === 'waiting').map(a => a.id).sort(), ['sfx_form_shift', 'sfx_keeper_call', 'sfx_pet_reply']);
+  assert.equal(body.audio.filter(a => a.state === 'waiting').every(a => a.approval === null), true, 'nothing covers the three Characters cues');
   const kinds = Object.fromEntries(body.audio.filter(a => a.approval).map(a => [a.id, a.approval.kind]));
-  assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 34, 'batches 2 to 4 and Branches are owner statements');
+  assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 40, 'batches 2 to 4, Branches and Modes are owner statements');
   assert.equal(kinds.bgm_blood_sea, 'owner_statement');
   assert.equal(kinds.bgm_dong_phu, 'before_studio');
 });
@@ -176,14 +174,14 @@ test('the inbox carries the art approved on record, and a changed frame stops be
   } finally { clearAudioCache(); p.cleanup?.(); }
 });
 
-test('Review and Audio both read 52 of 61 audio assets as approved and the nine Modes and Characters cues as waiting', async () => {
+test('Review and Audio both read 58 of 61 audio assets as approved and the three Characters cues as waiting', async () => {
   const {listeningOf, stageOf} = await import('../audio/model.mjs');
   const {body} = await call(lib(), 'inbox');
   assert.equal(body.audio.length, 61);
-  assert.equal(body.audio.filter(a => a.state === 'decided').length, 52, 'Review: 52 decided');
-  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 9, 'Review: the nine Modes and Characters cues wait for a listening');
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 58, 'Review: 58 decided');
+  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 3, 'Review: the three Characters cues wait for a listening');
   const audioTab = body.audio.map(a => listeningOf({stage: stageOf(a.readiness), signoff: a.signoff, masterSha: null, evidence: 'pending', record: a.label}));
-  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [52, 61], 'Audio tab: 52 of 61 approved, the nine Modes and Characters cues are not');
+  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [58, 61], 'Audio tab: 58 of 61 approved, the three Characters cues are not');
 });
 
 test('B2: a finished inbox is reused, but a review decision or a listening sign-off shows in the very next answer', async () => {

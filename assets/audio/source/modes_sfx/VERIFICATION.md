@@ -1,6 +1,6 @@
 # Modes wave (wave 4): two beds and four effects
 
-**Listening status: no agent listened to any of this audio. Human listening approval is pending, and `assets/audio/listening_approvals.json` is untouched by this change.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
+**Listening status: no agent listened to any of this audio. The project owner listened to and approved all six cues on 2026-11-23 ("Duyệt hết"), recorded by an agent as `modes_v1` in `assets/audio/listening_approvals.json`, pinned to the master hashes below. The listening list at the end is kept as the record of what was to be judged.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
 
 Creator: Claude Code (Anthropic, `claude-sonnet-5-5`). The gate was opened by the owner's choice of 2026-11-23, recorded in `assets/review/audio_gate_decisions.json` (`modes_gate_2026-11-23`, statement "Coi như đã ký, làm luôn", about the trial round and defense wave milestones). The owner settled no musical number: the sound direction is the one-sentence brief of each mode in `docs/AUDIO_DESIGN.md` (Musical and event coverage).
 
@@ -69,7 +69,7 @@ Level over `bgm_defense` (active RMS of the cue minus the bed's RMS, pack mix co
 - Engines other than Node v24.12.0 on macOS/Apple silicon; Windows and Linux builds of the pack; the pinned Windows FFmpeg (the pack is on the native macOS toolchain like batches 2 to 5).
 - Gameplay timing against real triggers; playback in the playables or the preview app (no cue is wired in).
 
-## Listening list (a human must do this; nothing is signed)
+## Listening list (done by the owner on 2026-11-23; see the status line)
 
 The listening page is a session artifact (`modes_listening.html`), not committed. For each item note pass or the problem; then, if satisfied, sign in the Review tab.
 
