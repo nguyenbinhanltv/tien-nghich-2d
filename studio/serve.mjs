@@ -78,7 +78,7 @@ function openWorkspace(rootArg, revisionDir) {
   ws.editorApi = () => (ws.editor ??= import('./server/editor-api.mjs').then(m => m.editorApi(REPO_ROOT, revisionDir, REPO_ROOT)));
   ws.mcpApi = () => (ws.mcp ??= import('./mcp/http.mjs').then(m => m.createMcpHttp({ root: REPO_ROOT, libraryDir: revisionDir })));
   ws.studioApi = () => (ws.studio ??= studioApi(REPO_ROOT));
-  ws.tabApi = () => (ws.tabs ??= tabApi(REPO_ROOT));
+  ws.tabApi = () => (ws.tabs ??= tabApi(REPO_ROOT, {mcp: ws.mcpApi}));
   return ws;
 }
 

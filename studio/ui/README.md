@@ -204,3 +204,13 @@ A small module any tab can use to show pixel art. It holds no project data. Load
 `studio/ui/tests/viewport-harness.html` embeds the running studio in an iframe at 1600, 1280, 900 or 420 px for one tab and one language, with buttons to switch each. Open `http://127.0.0.1:4173/studio/ui/tests/viewport-harness.html?tab=review&w=900&lang=vi` after `node studio/serve.mjs --port 4173`. Query: `tab`, `w`, `h` (iframe height), `lang`, `fit` (`1` shrinks to the panel, `0` is real size), `capture=1` (hides the controls). Once the tab has settled the page title reads `READY <tab> <lang> <w>x<h> overflowX=<px> offenders=<n>`; the overflow figure only sees content that escapes the page, not content a panel clips or scrolls inside itself, so look at the image too.
 
 `studio/ui/tests/capture-viewports.sh [out-dir]` takes all 9 tabs × EN/VI × 4 widths = 72 PNGs through the Orchestrator Browser panel (`ao browser`; Playwright is not used and not needed). Run it from a worker session with the Browser panel visible. Images and a `report.tsv` go to `out-dir` (default: a new temp directory), never into the repo. `TABS`, `LANGS`, `WIDTHS` and `HEIGHT` env vars narrow the run.
+
+### Running the harness, and the 200% zoom check (lane 5D)
+
+1. `node studio/serve.mjs --port 4173` (any port works; the Jobs feed reads the MCP handler in process, not over HTTP, so ports undici refuses for `fetch`, such as 4190, are fine).
+2. One page: open the harness URL above in the Browser panel and read the title line. All 72 shots: `studio/ui/tests/capture-viewports.sh <out-dir> http://127.0.0.1:4173`.
+3. Browser zoom 200% at 1280 px is a 640 px viewport, so `WIDTHS=640 studio/ui/tests/capture-viewports.sh <out-dir>` covers it.
+4. Keyboard: Tab from a fresh load (skip link first), `⌘K`, `?`, `g` `1`–`9`, the drawer under 900 px; focus must always be visible and Esc must always give it back.
+5. Reduced motion: turn on "Reduce motion" in the OS; `tokens.css` zeroes every duration, and tabs add no motion of their own.
+
+`.btn.sm` is the compact button (28 px, 36 px on touch screens) for secondary controls inside a toolbar, for example the seal switch in Review.

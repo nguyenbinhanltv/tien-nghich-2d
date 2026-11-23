@@ -73,7 +73,7 @@ test('every component has all five states', () => {
     for (const state of [':hover', ':active', 'aria-pressed', ':focus-visible']) assert.ok(joined.includes(state), `.${cls} lacks ${state}`);
     assert.ok(joined.includes(':disabled') || joined.includes('aria-disabled'), `.${cls} lacks a disabled state`);
   }
-  for (const v of ['.primary', '.danger', '.quiet']) assert.ok(css.includes('.btn' + v));
+  for (const v of ['.primary', '.danger', '.quiet', '.sm']) assert.ok(css.includes('.btn' + v));
   assert.match(css, /clip-path/);
   assert.match(css, /steps\(/);
   assert.match(css, /prefers-reduced-motion: reduce/);

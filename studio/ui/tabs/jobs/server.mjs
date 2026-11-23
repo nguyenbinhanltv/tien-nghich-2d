@@ -1,8 +1,8 @@
 // Jobs tab server routes, read-only, under /api/tabs/jobs/:
 //   GET feed?since=N   the MCP server's tool-call feed (/mcp/activity), its job list (/mcp/jobs, when this
 //                      server has that route), and the assets and review items each session touched.
-// The job runner and the feed live inside the MCP HTTP handler of THIS process; they are read over
-// loopback, so this tab needs no access to their internals and nothing here can start, stop or edit a job.
+// The job runner and the feed live inside the MCP HTTP handler of THIS process; they are read in
+// process (or over loopback when no in-process handler is given), so this tab needs no access to their internals and nothing here can start, stop or edit a job.
 import path from 'node:path';
 import { loadPackSync } from '../../../core/pack.mjs';
 import { problem } from '../../../server/editor-catalog.mjs';
@@ -18,7 +18,23 @@ export function libraryOf(root, context = {}) {
   return context.libraryDir ?? path.join(root, loadPackSync(root, undefined, {verifyFiles: false}).directories.revisions);
 }
 
-async function upstream(address, route) {
+// In-process first: the handler is called as a function, so the feed works on any port (undici refuses fetch to some, e.g. 4190).
+// Over loopback HTTP only when no in-process handler was given (a front that proxies the MCP routes, as the tests do).
+async function inProcess(mcp, route) {
+  try {
+    const api = await mcp();
+    const url = new URL(route, 'http://127.0.0.1');
+    if (url.pathname === '/mcp/activity') {
+      const since = Number(url.searchParams.get('since') ?? 0);
+      return {status: 200, body: api.activity(Number.isSafeInteger(since) && since >= 0 ? since : 0)};
+    }
+    if (url.pathname === '/mcp/jobs') return {status: 200, body: {jobs: api.jobs.summaries(50)}};
+    return {status: 404};
+  } catch (error) { return {status: 0, error: String(error.message ?? error).slice(0, 120)}; }
+}
+
+async function upstream(address, route, mcp) {
+  if (mcp) return inProcess(mcp, route);
   if (!address || !loopback.has(address.address)) throw problem(403, 'forbidden', 'Loopback listener required');
   const host = address.address === '::1' ? '[::1]' : address.address;
   try {
@@ -53,7 +69,7 @@ export function shapeJob(j) {
 }
 
 export async function handle(req, res, url, context) {
-  const {root, address, prefix} = context;
+  const {root, address, prefix, mcp} = context;
   function send(status, data) {
     res.writeHead(status, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
     res.end(JSON.stringify(data));
@@ -76,7 +92,7 @@ export async function handle(req, res, url, context) {
   if (route !== 'feed') throw problem(404, 'unknown_route', 'Unknown Jobs route');
   const sinceParam = Number(url.searchParams.get('since') ?? 0);
   const since = Number.isSafeInteger(sinceParam) && sinceParam >= 0 ? sinceParam : 0;
-  const [activity, jobs] = await Promise.all([upstream(address, `/mcp/activity?since=${since}`), upstream(address, '/mcp/jobs')]);
+  const [activity, jobs] = await Promise.all([upstream(address, `/mcp/activity?since=${since}`, mcp), upstream(address, '/mcp/jobs', mcp)]);
   if (activity.status !== 200) throw problem(502, 'upstream_unavailable', 'The MCP feed is not reachable on this server');
   const events = activity.body.events.map(e => ({seq: e.seq, ts: e.ts, agent: String(e.agent ?? ''), session: String(e.session ?? ''), scope: e.scope, tool: e.tool, ok: e.ok, ms: e.ms}));
   const jobList = jobs.status === 200 && Array.isArray(jobs.body?.jobs) ? jobs.body.jobs.map(shapeJob).filter(Boolean) : null;

@@ -51,7 +51,7 @@
   @media (max-width: 420px) {
     gap: var(--ui-sp-2);
     .jb-head p, .quota > p.muted { display: none; }
-    .stats { display: flex; overflow-x: auto; gap: var(--ui-sp-1); } .stat { flex: 1 0 5.5rem; padding: var(--ui-sp-1) var(--ui-sp-2); } .stat-value { font-size: var(--ui-fs-lg); }
+    .stats { grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: var(--ui-sp-1); } .stat { padding: var(--ui-sp-1) var(--ui-sp-2); } .stat-value { font-size: var(--ui-fs-lg); }
     .seg { width: 100%; } .seg > button { flex: 1; padding-inline: var(--ui-sp-1); }
     .toolsel, .toolsel .field { width: 100%; }
     .agents { grid-template-columns: 1fr; }

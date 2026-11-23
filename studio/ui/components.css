@@ -40,6 +40,8 @@
 .btn.quiet { background: transparent; border-color: transparent; box-shadow: none; color: var(--ui-text-muted, var(--theme-muted, #9a9aa2)); }
 .btn.quiet:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"]) { color: var(--ui-text, var(--theme-text, #e4e4e8)); border-color: var(--ui-line, var(--theme-line, #46464e)); }
 .btn.quiet:is([aria-pressed="true"], .is-pressed) { color: var(--ui-gold-soft, var(--theme-goldSoft, #ecd890)); border-color: var(--ui-line, var(--theme-line, #46464e)); box-shadow: none; }
+.btn.sm { min-height: 1.75rem; padding: 0 var(--ui-sp-3, .75rem); font-size: var(--ui-fs-sm, .875rem); }
+@media (pointer: coarse) { .btn.sm { min-height: 2.25rem; } }   /* still a touch target */
 
 /* ---------- .seg (segmented control: a group of buttons, one or more pressed) ---------- */
 .seg { display: inline-flex; border: var(--ui-bw, 2px) solid var(--ui-line-strong, var(--theme-lineStrong, var(--theme-muted, #6b6b6b))); background: var(--ui-bg, var(--theme-ink, #101014)); }
