@@ -1,6 +1,6 @@
 # Branches wave (wave 3): three beds and three landmark effects
 
-**Listening status: no agent listened to any of this audio. Human listening approval is pending, and `assets/audio/listening_approvals.json` is untouched.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
+**Listening status: no agent listened to any of this audio. The project owner listened to and approved all six cues on 2026-11-23 ("Đã Nghe và duyệt"), recorded by an agent as `branches_v1` in `assets/audio/listening_approvals.json`, pinned to the master hashes below. The listening list at the end is kept as the record of what was to be judged.** Every statement below comes from code, hashes and numeric measurements, not from hearing the result.
 
 Creator: Claude Code (Anthropic, `claude-sonnet-5-5`). The gate was opened by the owner's choice of 2026-11-23, recorded in `assets/review/audio_gate_decisions.json` (`branches_gate_brief_2026-11-23`, statement "Dùng câu định hướng làm brief"). The owner settled only the one-sentence brief of each branch (`docs/AUDIO_DESIGN.md`, Musical and event coverage).
 
@@ -65,7 +65,7 @@ Mono PCM16, 44,100 Hz, digital zero on the first and last frame, peaks about -6 
 - Engines other than Node v24.12.0 on macOS/Apple silicon; Windows and Linux builds of the pack; the pinned Windows FFmpeg (the pack is on the native macOS toolchain like batches 2 to 4).
 - Gameplay timing against real landmark triggers; playback in the playables or the preview app (no cue is wired in).
 
-## Listening list (a human must do this; nothing is signed)
+## Listening list (done by the owner on 2026-11-23; see the status line)
 
 The listening page is a session artifact (`branches_listening.html`), not committed. For each item note pass or the problem; then, if satisfied, sign in the Review tab.
 

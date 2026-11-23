@@ -55,17 +55,14 @@ test('route inbox returns art items and the audio masters waiting for a listenin
   assert.deepEqual(body.items, []);
   assert.ok(body.audio.length > 10 && body.audio.every(a => a.signoff === null));
   const by = label => body.audio.filter(a => a.label === label).map(a => a.id).sort();
-  // 46 of the 52 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 stated by the owner on 2026-11-22.
-  // The six Branches cues (2026-11-23) wait for a listening: no record covers them.
+  // All 52 audio assets are approved on the project record: pilot_v1 and batch 1 earlier, batches 2 to 4 (2026-11-22) and Branches (2026-11-23) stated by the owner.
   assert.equal(body.audio.length, 52);
-  assert.equal(by('approved_before').length, 46);
-  assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light'));
-  assert.equal(body.audio.filter(a => a.state === 'decided').length, 46);
-  assert.deepEqual(body.audio.filter(a => a.state === 'waiting').map(a => a.id).sort(),
-    ['bgm_ember_delta', 'bgm_mist_archive', 'bgm_star_quarry', 'sfx_crystal_ring', 'sfx_paper_rustle', 'sfx_slag_shift']);
-  assert.equal(body.audio.filter(a => a.state === 'waiting').every(a => a.approval === null), true, 'nothing covers the six Branches cues');
-  const kinds = Object.fromEntries(body.audio.filter(a => a.approval).map(a => [a.id, a.approval.kind]));
-  assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 28, 'batches 2 to 4 are owner statements');
+  assert.equal(by('approved_before').length, 52);
+  assert.ok(by('approved_before').includes('bgm_dong_phu') && by('approved_before').includes('bgm_hengyue') && by('approved_before').includes('sfx_dash') && by('approved_before').includes('sfx_tell_light') && by('approved_before').includes('bgm_star_quarry'));
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 52);
+  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 0);
+  const kinds = Object.fromEntries(body.audio.map(a => [a.id, a.approval.kind]));
+  assert.equal(Object.values(kinds).filter(k => k === 'owner_statement').length, 34, 'batches 2 to 4 and Branches are owner statements');
   assert.equal(kinds.bgm_blood_sea, 'owner_statement');
   assert.equal(kinds.bgm_dong_phu, 'before_studio');
 });
@@ -176,14 +173,13 @@ test('the inbox carries the art approved on record, and a changed frame stops be
   } finally { clearAudioCache(); p.cleanup?.(); }
 });
 
-test('Review and Audio both read 46 of 52 audio assets as approved and the six Branches cues as waiting', async () => {
+test('Review and Audio both read 52 of 52 audio assets as approved', async () => {
   const {listeningOf, stageOf} = await import('../audio/model.mjs');
   const {body} = await call(lib(), 'inbox');
   assert.equal(body.audio.length, 52);
-  assert.equal(body.audio.filter(a => a.state === 'decided').length, 46, 'Review: 46 decided');
-  assert.equal(body.audio.filter(a => a.state === 'waiting').length, 6, 'Review: the six Branches cues wait for a listening');
+  assert.equal(body.audio.filter(a => a.state === 'decided').length, 52, 'Review: 52 decided, none waiting');
   const audioTab = body.audio.map(a => listeningOf({stage: stageOf(a.readiness), signoff: a.signoff, masterSha: null, evidence: 'pending', record: a.label}));
-  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [46, 52], 'Audio tab: 46 of 52 approved, the six Branches cues are not');
+  assert.deepEqual([audioTab.filter(x => x === 'approved').length, audioTab.length], [52, 52], 'Audio tab: 52 of 52 approved');
 });
 
 test('B2: a finished inbox is reused, but a review decision or a listening sign-off shows in the very next answer', async () => {

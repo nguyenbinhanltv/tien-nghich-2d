@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Listening approvals a human gave OUTSIDE the studio's sign-off form: before the studio existed (kind 'before_studio': pilot_v1, wave2_batch1_v1) and later, stated by the project owner in chat and recorded here by an agent (kind 'owner_statement': wave2_batch2_v1 to wave2_batch4_v1). Read by the studio's Review tab and shown as 'approved before the studio / by record', distinct from a sign-off made in the studio's form. An agent only transcribes what the human said; it never approves. This file is a record, not a gate: a master whose sha256 differs from `master_sha256` is NOT covered and waits for a fresh listening. master_sha256 is the hash of each master in the commit that added that approval. The packs' own evidence.json files keep `human_listening: pending` on purpose (rewriting them would change pack hashes); this file is the record of the listening.",
+  "description": "Listening approvals a human gave OUTSIDE the studio's sign-off form: before the studio existed (kind 'before_studio': pilot_v1, wave2_batch1_v1) and later, stated by the project owner in chat and recorded here by an agent (kind 'owner_statement': wave2_batch2_v1 to wave2_batch4_v1 and branches_v1). Read by the studio's Review tab and shown as 'approved before the studio / by record', distinct from a sign-off made in the studio's form. An agent only transcribes what the human said; it never approves. This file is a record, not a gate: a master whose sha256 differs from `master_sha256` is NOT covered and waits for a fresh listening. master_sha256 is the hash of each master in the commit that added that approval. The packs' own evidence.json files keep `human_listening: pending` on purpose (rewriting them would change pack hashes); this file is the record of the listening.",
   "approvals": [
     {
       "id": "pilot_v1",
@@ -205,6 +205,38 @@
       "evidence": {
         "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1), 2026-11-22 about 14:10 Asia/Saigon, relayed to the recording worker in its task brief",
         "quote": "As relayed by the orchestrator (not verbatim): the owner listened to the 28 audio items of batches 2 to 4 and approve them.",
+        "pr": "Recorded in the pull request that added this entry; the date is the time of the statement, not of the commit"
+      }
+    },
+    {
+      "id": "branches_v1",
+      "kind": "owner_statement",
+      "approved_by": "user",
+      "recorded": "2026-11-23T12:05:00+07:00",
+      "recorded_by": "claude-code worker tien-nghich-2d-73 (an agent; it transcribed the statement, it did not listen or approve)",
+      "assets": {
+        "bgm_mist_archive": {
+          "master_sha256": "81e8b50b2cbdf505184abebf975c6761889922565f77160c2be82c767db2153c"
+        },
+        "bgm_ember_delta": {
+          "master_sha256": "4c7225c5f905134d435c4635950653c1e03fc02098f3ebc55693744688372c50"
+        },
+        "bgm_star_quarry": {
+          "master_sha256": "ea897d1ef1e26b9afdbe21e2575f3b5ce34335ce52c99dca4808252782ad70e9"
+        },
+        "sfx_paper_rustle": {
+          "master_sha256": "0408e3128e0277adf1e36dd993b92397267970065f810874713f708323f1047e"
+        },
+        "sfx_slag_shift": {
+          "master_sha256": "614ecd4f5ae9ca66a263f80c62b749898431e28cc3ded5a0b1d3781f920b9836"
+        },
+        "sfx_crystal_ring": {
+          "master_sha256": "548884b7bc23682acb6cdcc08822a2e7fc6b602ee0690ab0c16618934bedc06b"
+        }
+      },
+      "evidence": {
+        "source": "The project owner said it in chat to the orchestrator (session tien-nghich-2d-1), 2026-11-23 about 12:05 Asia/Saigon, relayed to the recording worker in its task brief. It covers the six Branches cues named here, at the master hashes on main (c72f601f).",
+        "quote": "Đã Nghe và duyệt",
         "pr": "Recorded in the pull request that added this entry; the date is the time of the statement, not of the commit"
       }
     }
