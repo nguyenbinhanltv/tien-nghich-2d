@@ -29,3 +29,20 @@ export function artOf(world: Pick<WorldState, 'mode'>, a: ActorState): ArtClip {
   if (a.diedTick >= 0 || a.hp <= 0) return { kind: a.kind, clip: 'death', startTick: a.clipStartTick };
   return { kind: a.kind, clip: a.clip === 'attack' ? 'attack' : 'move', startTick: a.clip === 'attack' ? a.clipStartTick : 0 };
 }
+
+/** Enemy shots (kind `mob_shot`) wear the art of the mob that fired them: the PX-1 projectiles, one per mob. */
+const MOB_SHOT: Record<string, string> = {
+  mob_blood_crow: 'pj_mob_crow_feather',
+  mob_blood_corpse: 'pj_mob_corpse_gore',
+  mob_blood_pool_lurker: 'pj_mob_lurker_bubble',
+  mob_vengeful_soul: 'pj_mob_soul_wisp',
+};
+/** Frames per second of the 4-frame `flight` loop of a shot. */
+export const SHOT_FPS = 12;
+
+/** Atlas frame of a shot: `fallback` (the kind's placeholder) unless an enemy fired it with its own art. Flight loops from the tick. */
+export function shotFrame(ownerKind: string | undefined, tick: number, fallback: string): string {
+  const art = ownerKind === undefined ? undefined : MOB_SHOT[ownerKind];
+  if (!art) return fallback;
+  return `projectiles/${art}/flight_none_${Math.floor((tick * SHOT_FPS) / 60) % 4}`;
+}

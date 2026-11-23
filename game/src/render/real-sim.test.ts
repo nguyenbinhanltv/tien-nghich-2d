@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { artOf } from './clip-map.ts';
+import { artOf, shotFrame } from './clip-map.ts';
 import { FightRunner } from './fight-runner.ts';
 import { hazardProgress, hazardShape } from './hazard-geometry.ts';
 import { NO_INPUT } from '../sim/loop.ts';
@@ -53,6 +53,17 @@ describe('artOf maps sim names to atlas names', () => {
     expect(artOf(w, boss('warn', 'attack_wail')).clip).toBe('attack_wail');
     expect(artOf(w, boss('stalk')).clip).toBe('move');
     expect(artOf(w, boss('release')).clip).toBe('death');
+  });
+});
+
+describe('shotFrame: an enemy shot wears the art of the mob that fired it', () => {
+  it('maps the four Blood Sea mobs, loops the 4 flight frames at 12 fps, and falls back for any other owner', () => {
+    expect(shotFrame('mob_blood_crow', 0, 'x')).toBe('projectiles/pj_mob_crow_feather/flight_none_0');
+    expect(shotFrame('mob_blood_corpse', 5, 'x')).toBe('projectiles/pj_mob_corpse_gore/flight_none_1');
+    expect(shotFrame('mob_blood_pool_lurker', 30, 'x')).toBe('projectiles/pj_mob_lurker_bubble/flight_none_2');
+    expect(shotFrame('mob_vengeful_soul', 20, 'x')).toBe('projectiles/pj_mob_soul_wisp/flight_none_0');
+    expect(shotFrame('boss_ghost_king', 0, 'fallback')).toBe('fallback');
+    expect(shotFrame(undefined, 0, 'fallback')).toBe('fallback');
   });
 });
 
