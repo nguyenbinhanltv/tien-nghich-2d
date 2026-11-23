@@ -15,6 +15,7 @@ import { DamageNumbers, TONE_COLOUR } from '../damage-numbers.ts';
 import { textPixels } from '../../ui/pixel-text.ts';
 import { Juice } from '../juice.ts';
 import { HurtPoses } from '../hurt-poses.ts';
+import { SUMMON_ORIGIN, SUMMON_RING_LIFT, summonFrameName, SummonFx } from '../summon-fx.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
@@ -79,6 +80,8 @@ export class BloodSeaScene extends Phaser.Scene {
   readonly numbers = new DamageNumbers();
   private numbersGfx!: Phaser.GameObjects.Graphics;
   private readonly hurts = new HurtPoses();
+  private readonly summonFx = new SummonFx();
+  private summonImages: Phaser.GameObjects.Image[] = [];
   private hud!: Hud;
   private floor!: FloorHud;
   private room!: RoomView;
@@ -194,6 +197,7 @@ export class BloodSeaScene extends Phaser.Scene {
     }
     for (const [id, s] of this.sprites) if (!seen.has(id)) { s.destroy(); this.sprites.delete(id); }
     this.drawHazards(w);
+    this.drawSummon(w);
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
@@ -246,6 +250,21 @@ export class BloodSeaScene extends Phaser.Scene {
         g.lineBetween(sh.x, sh.y, sh.x + Math.cos(sh.centre + sh.half) * sh.r, sh.y + Math.sin(sh.centre + sh.half) * sh.r);
       } else g.strokeCircle(sh.x, sh.y, sh.r);
     }
+  }
+
+  /** The summoning circle VFX under the boss's summon hazard; the plain disc outline stays (the real, readable area). */
+  private drawSummon(w: WorldState): void {
+    const rings = this.summonFx.update(w.hazards, (h) => h.kind === 'circle' && w.actors.find((a) => a.id === h.owner)?.role === 'boss', w.tick);
+    while (this.summonImages.length < rings.length) {
+      const name = summonFrameName(0);
+      this.summonImages.push(this.add.image(0, 0, this.frames.pageOf(name), name).setOrigin(SUMMON_ORIGIN.x, SUMMON_ORIGIN.y).setDepth(6));
+    }
+    this.summonImages.forEach((img, i) => {
+      const r = rings[i];
+      if (!r) { img.setVisible(false); return; }
+      const name = summonFrameName(r.frame);
+      img.setVisible(true).setTexture(this.frames.pageOf(name), name).setPosition(Math.round(r.x), Math.round(r.y) + SUMMON_RING_LIFT);
+    });
   }
 
   /** Floating damage numbers: pixel-font digits with an ink outline, in world space above the actor that was hit. */
