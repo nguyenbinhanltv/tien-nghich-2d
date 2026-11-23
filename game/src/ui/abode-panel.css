@@ -4,3 +4,5 @@
 .ap-place { font-family: var(--font-sharp); font-size: 18px; }
 .ap-msg { margin-top: auto; align-self: center; text-align: center; min-height: 1.3em; }
 .ap-prompt { align-self: center; text-align: center; min-height: 1.3em; margin-bottom: 4px; color: #ffd98a; }
+.ap-warn { align-self: center; text-align: center; color: #ff9a8a; min-height: 1.3em; margin-top: auto; }
+.ap-warn + .ap-msg { margin-top: 0; }
