@@ -115,6 +115,28 @@ describe('shooting, damage and death', () => {
   });
 });
 
+describe('aim input is untrusted', () => {
+  const fireWith = (aim: { x: number; y: number } | null): { dx: number; dy: number; ttl: number } => {
+    const { w, ev } = room();
+    spawnActor(w, 'mob_blood_crow', 160, 150, 8, ev);
+    for (let i = 0; i < 12; i++) step(w, { ...IDLE, fire: true, aim }, ev);
+    const p = w.projectiles;
+    return { dx: p.vx[0] as number, dy: p.vy[0] as number, ttl: p.count };
+  };
+  it('a non-unit aim fires at normal speed, a zero or NaN aim falls back to auto-aim, and nothing poisons the pool', () => {
+    const base = fireWith({ x: 1, y: 0 });
+    expect(base.ttl).toBe(1);
+    expect(fireWith({ x: 3, y: 0 })).toEqual(base);
+    for (const bad of [{ x: 0, y: 0 }, { x: NaN, y: 0 }, { x: Infinity, y: 1 }, null]) expect(fireWith(bad)).toEqual(base);
+    expect(Math.hypot(base.dx, base.dy)).toBeCloseTo(245 / 60, 9);
+  });
+  it('NaN movement input does not move the player', () => {
+    const { w, p } = room();
+    run(w, 5, { move: { x: NaN, y: NaN } });
+    expect(p.pos).toEqual({ x: 100, y: 150 });
+  });
+});
+
 describe('determinism with combat on', () => {
   it('same seed and inputs: same hash after 10,000 ticks; the world kept moving', () => {
     const play = (seed: number): { hash: string; hits: number } => {

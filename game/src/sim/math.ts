@@ -5,10 +5,10 @@ import type { Facing, Vec2 } from '../contracts/world.ts';
 export const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 export const dist = (ax: number, ay: number, bx: number, by: number): number => { const dx = ax - bx, dy = ay - by; return Math.sqrt(dx * dx + dy * dy); };
 
-/** Unit vector of (x, y), or (0, 0) for a zero vector. Writes into `out` to avoid allocating. */
+/** Unit vector of (x, y), or (0, 0) for a zero or non-finite vector. Writes into `out` to avoid allocating. */
 export function unitInto(out: Vec2, x: number, y: number): Vec2 {
   const n = Math.sqrt(x * x + y * y);
-  if (n === 0) { out.x = 0; out.y = 0; } else { out.x = x / n; out.y = y / n; }
+  if (!(n > 0) || !Number.isFinite(n)) { out.x = 0; out.y = 0; } else { out.x = x / n; out.y = y / n; }
   return out;
 }
 
