@@ -58,7 +58,10 @@ describe('the top-right HUD band stays clear of the minimap column (both languag
     const lines = wrapText(ALL_TABLES.en['boss_ghost_king']!, BOSS_NAME_MAX_W, 2);
     expect(lines.length).toBe(2);
   });
-  it('the floor label fits its reserved width in both languages', () => {
-    for (const loc of ['vi', 'en'] as const) expect(measure(ALL_TABLES[loc]['place.blood_sea']!)).toBeLessThanOrEqual(FLOOR_LABEL_MAX_W);
+  it('no boss or mob name is ever truncated by the wrap (no ".." in either language)', () => {
+    for (const loc of ['vi', 'en'] as const) for (const k of bosses) expect(wrapText(ALL_TABLES[loc][k]!, BOSS_NAME_MAX_W, 2).join(' '), `${loc}/${k}`).toBe(ALL_TABLES[loc][k]);
+  });
+  it('the floor label fits its reserved width in both languages, for every place.* name', () => {
+    for (const loc of ['vi', 'en'] as const) for (const k of Object.keys(ALL_TABLES[loc]).filter((x) => x.startsWith('place.'))) expect(measure(ALL_TABLES[loc][k]!), `${loc}/${k}`).toBeLessThanOrEqual(FLOOR_LABEL_MAX_W);
   });
 });
