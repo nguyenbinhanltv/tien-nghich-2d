@@ -38,3 +38,29 @@ export function propFrames(sequence: (prefix: string) => string[], id: string): 
   }
   return [];
 }
+
+// blob47 autotile (assets/raw/environment_items/tilesets/blob47_mapping.json): the mask has a bit for each neighbour of the same material
+// (N=1 NE=2 E=4 SE=8 S=16 SW=32 W=64 NW=128); a diagonal only counts when both its cardinals are set, which leaves 47 tiles, numbered in
+// ascending order of the reduced mask. A test compares this table with the JSON the generator wrote.
+const DIAG: readonly (readonly [number, number])[] = [[2, 5], [8, 20], [32, 80], [128, 65]];
+const reduce = (m: number): number => { for (const [d, sides] of DIAG) if ((m & sides) !== sides) m &= ~d; return m; };
+const REDUCED = [...new Set(Array.from({ length: 256 }, (_, m) => reduce(m)))].sort((a, b) => a - b);
+const INDEX = new Map(REDUCED.map((m, i) => [m, i] as const));
+/** Tile number (0..46) of a blob47 sheet for a raw 8-neighbour mask. */
+export function blobIndex(mask: number): number { return INDEX.get(reduce(mask & 255))!; }
+
+const RING: readonly (readonly [number, number, number])[] = [[1, 0, -1], [2, 1, -1], [4, 1, 0], [8, 1, 1], [16, 0, 1], [32, -1, 1], [64, -1, 0], [128, -1, -1]];
+/** Neighbour mask of cell (c, r): a bit for each of the 8 neighbours for which `same` is true. */
+export function neighbourMask(same: (c: number, r: number) => boolean, c: number, r: number): number {
+  let m = 0;
+  for (const [bit, dx, dy] of RING) if (same(c + dx, r + dy)) m |= bit;
+  return m;
+}
+/** Wall tops join every wall cell (face or top) and the room's border; doors and floor are edges. */
+export function wallTopIndex(rows: readonly string[], c: number, r: number): number {
+  return blobIndex(neighbourMask((x, y) => (rows[y]?.[x] ?? '#') === '#', c, r));
+}
+/** Blood pools join each other only (a pool next to floor, wall or prop gets its rim). */
+export function poolIndex(rows: readonly string[], c: number, r: number): number {
+  return blobIndex(neighbourMask((x, y) => rows[y]?.[x] === '~', c, r));
+}

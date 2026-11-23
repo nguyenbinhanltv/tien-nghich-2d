@@ -3,7 +3,7 @@
 // (locked / open) that follow the grid state the sim keeps. One RoomView per scene; `show()` rebuilds it on a room change.
 import type Phaser from 'phaser';
 import { frameIndex } from './animator.ts';
-import { doorSpots, propFrames, tileKind } from './room-tiles.ts';
+import { doorSpots, poolIndex, propFrames, tileKind, wallTopIndex } from './room-tiles.ts';
 import type { DoorSpot } from './room-tiles.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
@@ -44,10 +44,10 @@ export class RoomView {
       for (let c = 0; c < rows[r]!.length; c++) {
         const k = tileKind(rows, c, r), h = hash(c, r), x = c * TILE, y = r * TILE;
         if (k === 'wall-face') this.img(`${T}wall_face_f0_${h % 12}`, x, y - TILE, 2);
-        else if (k === 'wall-cap') this.img(`${T}wall_top_blob47_f0_46`, x, y, 2);
+        else if (k === 'wall-cap') this.img(`${T}wall_top_blob47_f0_${wallTopIndex(rows, c, r)}`, x, y, 2);
         else {
           this.img(`${T}floor_blood_variants_f0_${h % 4}`, x, y, 0);
-          if (k === 'pool') this.img(`${T}blood_pool_blob47_f0_46`, x, y, 1);
+          if (k === 'pool') this.img(`${T}blood_pool_blob47_f0_${poolIndex(rows, c, r)}`, x, y, 1);
         }
       }
     }
