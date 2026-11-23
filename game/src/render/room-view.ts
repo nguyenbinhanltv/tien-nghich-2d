@@ -3,14 +3,14 @@
 // (locked / open) that follow the grid state the sim keeps. One RoomView per scene; `show()` rebuilds it on a room change.
 import type Phaser from 'phaser';
 import { frameIndex } from './animator.ts';
-import { doorSpots, propFrames, tileKind } from './room-tiles.ts';
+import { doorSpots, poolIndex, propFrames, tileKind, wallTopIndex } from './room-tiles.ts';
 import type { DoorSpot } from './room-tiles.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
 /** Tile frames of a room's tileset (rooms.csv `tileset`). Hằng Nhạc: stone slabs with a garden patch every few tiles; no blood pools. */
 const SETS: Record<string, { dir: string; floor(c: number, r: number, h: number): string; face: string; cap: string; pool: boolean }> = {
-  ts_blood_valley: { dir: 'tilesets/ts_blood_valley/', floor: (_c, _r, h) => `floor_blood_variants_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_46', pool: true },
-  ts_hengyue: { dir: 'tilesets/ts_hengyue/', floor: (c, r, h) => `${((c >> 2) + (r >> 2)) % 4 === 0 ? 'floor_garden_variants' : 'floor_variants'}_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_46', pool: false },
+  ts_blood_valley: { dir: 'tilesets/ts_blood_valley/', floor: (_c, _r, h) => `floor_blood_variants_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_', pool: true },
+  ts_hengyue: { dir: 'tilesets/ts_hengyue/', floor: (c, r, h) => `${((c >> 2) + (r >> 2)) % 4 === 0 ? 'floor_garden_variants' : 'floor_variants'}_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_', pool: false },
 };
 const TILE = 16;
 const DOOR_LOCKED = 'props/prop_room_door/locked_none_0', DOOR_OPEN = 'props/prop_room_door/open_none_0';
@@ -49,10 +49,10 @@ export class RoomView {
       for (let c = 0; c < rows[r]!.length; c++) {
         const k = tileKind(rows, c, r), h = hash(c, r), x = c * TILE, y = r * TILE;
         if (k === 'wall-face') this.img(`${T}${S.face}${h % 12}`, x, y - TILE, 2);
-        else if (k === 'wall-cap') this.img(`${T}${S.cap}`, x, y, 2);
+        else if (k === 'wall-cap') this.img(`${T}${S.cap}${wallTopIndex(rows, c, r)}`, x, y, 2);
         else {
           this.img(`${T}${S.floor(c, r, h)}`, x, y, 0);
-          if (k === 'pool' && S.pool) this.img(`${T}blood_pool_blob47_f0_46`, x, y, 1);
+          if (k === 'pool' && S.pool) this.img(`${T}blood_pool_blob47_f0_${poolIndex(rows, c, r)}`, x, y, 1);
         }
       }
     }
