@@ -1,5 +1,6 @@
 import { h, humanize, badge, notice, skeleton } from './dom.mjs';
 import { filterRoster, sortRoster } from './state.mjs';
+import { bindPreview } from './preview.mjs';
 
 /** Left column: filters and the list of characters, each a real link so keyboard and middle-click work. */
 export function renderRoster(app) {
@@ -36,6 +37,7 @@ export function renderRoster(app) {
     h('span', 'who', h('strong', {title: name}, name), h('code', {title: c.id}, c.id),
       h('span', 'line', badge('readiness', c.readiness, ctx.t('stage.' + c.readiness)),
         h('small', {title: humanize(c.category) + (c.chunk ? ' · ' + humanize(c.chunk) : '')}, humanize(c.category) + (c.chunk ? ' · ' + humanize(c.chunk) : '')))));
+    bindPreview(app, link, c);
     return h('li', {}, link);
   }));
   root.dataset.filters = app.filtersOpen ? 'open' : 'closed';

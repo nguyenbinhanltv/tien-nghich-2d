@@ -7,6 +7,19 @@
 .characters .small { font-size: var(--ui-fs-sm); }
 .characters :is(code, .count, .ms) { font-family: var(--ui-font-mono); } .characters code { color: var(--ui-gold-soft); word-break: break-all; }
 .characters :is(.back-bar, .filters-toggle) { display: none; }
+.stage-col { display: grid; gap: var(--ui-sp-3); min-width: 0; align-content: start; }
+.clip-tabs .chip[aria-selected="true"] { color: var(--ui-gold-soft); border-color: var(--ui-gold); }
+.roster-item[data-playing] { border-color: var(--ui-line); background: var(--ui-bg); }
+/* The decision bar sticks to the bottom of the viewport while the stage is on screen and rests at the end of the stage after it. */
+.decide { position: sticky; bottom: 0; z-index: 4; display: grid; gap: var(--ui-sp-2); padding: var(--ui-sp-2) var(--ui-sp-3); background: var(--ui-surface); border: var(--ui-bw) solid var(--ui-line); border-top-color: var(--ui-gold); box-shadow: 0 calc(var(--ui-bw) * -2) 0 var(--ui-bg); }
+.decide[hidden] { display: none; }
+.decide-head { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; min-width: 0; } .decide-head h3 { margin: 0; }
+.decide-head code { max-width: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.decide-head .muted { flex: 1 1 14rem; } .decide .toast { max-width: none; margin: 0; }
+.decide-body { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: stretch; } .decide-body .field { flex: 1 1 14rem; min-width: 0; resize: vertical; max-height: 6rem; }
+.decide-actions { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; }
+@media (max-width: 900px) { .decide-head .muted { display: none; } .decide-actions { width: 100%; } .decide-actions .btn { flex: 1 1 auto; } }
+
 @media (max-width: 90rem) { .characters { grid-template-columns: 15rem minmax(0, 1fr); } .characters .panel { grid-column: 1 / -1; position: static; max-height: none; } .characters .roster { position: static; max-height: 26rem; } }
 @media (max-width: 900px) {
   .characters { grid-template-columns: minmax(0, 1fr); }
