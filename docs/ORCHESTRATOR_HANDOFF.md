@@ -154,7 +154,7 @@ Transports are stdio and loopback HTTP. `GET /mcp/jobs[?limit=n]` lists backgrou
 
 **Known gaps** (also in the studio README), re-read at this sync:
 
-- Exports are not opened in their engines (Phaser, Pixi, Godot, Unity, Aseprite, Tiled, and the LDtk and Tiled maps of #118); they are checked by tests against the published formats.
+- Exports were opened in Godot 4.7.2, Tiled 1.12.2, Phaser 3.90.0/4.2.1, PixiJS 8.23.0, LibreSprite 1.3 (`.ase`) and Pixelorama 1.2.4 (`.pxo`) on 2026-11-23 (`docs/STUDIO_EXPORT_VERIFICATION.md`); LDtk (including the LDtk map of #118), Unity and Aseprite itself are not opened and are checked by tests against the published formats.
 - Atlas PNGs are pixel-equal, not byte-equal, to the Python packer.
 - The three playables are hosted as scripted scenes; their art is not in the catalog.
 - Nothing was run on Windows.

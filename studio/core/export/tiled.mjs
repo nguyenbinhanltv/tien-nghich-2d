@@ -2,7 +2,7 @@
 // on a grid image the export builds from the atlas pages (a packed atlas is not a grid, so Tiled cannot use the page itself). Only assets
 // the project calls tilesets are exported, one file per sheet of one tile size. Tile animations (a list of tiles with milliseconds) and
 // collision shapes with custom properties (F5) are written as the tile's `animation` and `objectgroup`. The formats follow Tiled's
-// published JSON format; written to it, not opened in Tiled.
+// published JSON format; written to it and opened in Tiled 1.12.2.
 import { json, stem } from './common.mjs';
 import { drawSheets } from './sheets.mjs';
 
@@ -25,7 +25,7 @@ export function tilesetJson(ts, {name, columns, width, height}) {
   let next = 0;
   const nextId = () => ++next;
   return {type: 'tileset', version: '1.10', tiledversion: '1.10.2', name, tilewidth: ts.tileSize[0], tileheight: ts.tileSize[1], spacing: 0, margin: 0,
-    columns, tilecount: ts.tiles.length, image: `${name}.png`, imagewidth: width, imageheight: height,
+    columns, tilecount: columns * (height / ts.tileSize[1]), image: `${name}.png`, imagewidth: width, imageheight: height,
     tiles: ts.tiles.map(t => ({id: t.id, properties: [{name: 'frame', type: 'string', value: t.key}],
       ...(t.animation ? {animation: t.animation.map(s => ({tileid: s.tileId, duration: s.ms}))} : {}),
       ...(t.shapes ? {objectgroup: {type: 'objectgroup', draworder: 'index', name: '', id: 0, opacity: 1, visible: true, x: 0, y: 0, objects: t.shapes.map(s => tiledObject(s, nextId))}} : {})}))};
@@ -55,5 +55,5 @@ export async function build(desc, {readPage}) {
     `${animated} tile animation(s) are written as the tile's \`animation\` (tile ids with milliseconds) and ${shaped} tile(s) carry collision shapes with their custom properties as an \`objectgroup\`; they come from the asset's metadata (studio_metadata_set tiles).`,
     ...dropped.map(d => `Dropped: ${d}.`),
     'Sheets whose frames are not all one size are skipped. No terrain or wang sets are written: Tiled\'s autotiling rules are not recorded in the atlas.',
-    'Written to the documented format, not opened in Tiled.'] : ['This atlas holds no tileset frames, so nothing was written.']};
+    'Written to the documented format and opened in Tiled 1.12.2 (see studio/README.md).'] : ['This atlas holds no tileset frames, so nothing was written.']};
 }

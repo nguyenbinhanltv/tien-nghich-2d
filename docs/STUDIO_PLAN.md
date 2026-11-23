@@ -465,7 +465,7 @@ Kế hoạch "Ngọc giản & Ấn triện" (chủ dự án duyệt; phông Lora
 
 ### Còn thiếu, nói thẳng
 
-- Các tệp xuất cho Phaser, Pixi, Godot, Unity, Aseprite, Tiled và bản đồ LDtk chưa được mở trong engine tương ứng; chỉ được kiểm bằng test theo định dạng công bố.
+- Đã mở thử (2026-11-23): Godot 4.7.2, Tiled 1.12.2, Phaser 3.90.0 và 4.2.1, PixiJS 8.23.0, LibreSprite 1.3 (.ase), Pixelorama 1.2.4 (.pxo); chi tiết ở `docs/STUDIO_EXPORT_VERIFICATION.md`. Chưa mở được: LDtk (kể cả bản đồ LDtk), Unity, Aseprite; các bộ xuất này chỉ được kiểm bằng test theo định dạng công bố.
 - Chưa chạy trên Windows.
 - Tab Review chưa có bảng cho rubric và ảnh lineup (công cụ và pack đã có; kết quả của agent và ghi chú review mang chúng).
 - Ba bản chơi thử chạy như scene kịch bản được host; art của chúng không nằm trong catalog.
