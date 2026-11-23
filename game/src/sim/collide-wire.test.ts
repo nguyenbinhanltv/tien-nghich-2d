@@ -71,18 +71,30 @@ describe('collision in step()', () => {
     expect(w.stats.hits).toBe(0);
     expect(corpse.hp).toBe(corpse.hpMax);
   });
-  it('a mob that is hit flinches for real: its windup is cancelled and the telegraph disappears', () => {
+  it('a COUNTER hit makes a mob flinch for real: its windup is cancelled and the telegraph disappears', () => {
     const { w, ev } = arena();
     w.actors[0]!.pos.x = 120; w.actors[0]!.pos.y = 100;
     const wolf = mob(w, content, 'mob_blood_wolf', 60, 100, ev);
     for (let i = 0; i < 400 && wolf.ai.state !== 'windup'; i++) { ev.length = 0; step(w, NO_INPUT, ev, ctx); }
     expect(wolf.ai.state).toBe('windup'); expect(w.hazards.length).toBe(1);
-    // the player's blade (spawned by a strike toward the wolf) lands during the windup
     const p = w.actors[0]!;
     p.pos.x = wolf.pos.x + 30; p.pos.y = wolf.pos.y;
+    p.combat.counterWindow = 54; // a perfect dodge has just opened the counter window
     let flinched = false;
     for (let i = 0; i < 60 && !flinched; i++) { ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: { x: -1, y: 0 } }, ev, ctx); flinched = wolf.ai.state === 'recover'; }
-    expect(w.stats.hits).toBeGreaterThan(0); expect(flinched).toBe(true);
+    expect(w.stats.counterHits).toBeGreaterThan(0); expect(flinched).toBe(true);
     expect(w.hazards.filter((h) => h.owner === wolf.id)).toHaveLength(0);
+  });
+  it('holding strike against every mob does not stun-lock it: each still completes an attack', () => {
+    for (const kind of ['mob_blood_wolf', 'mob_blood_crow', 'mob_blood_corpse', 'mob_vengeful_soul', 'mob_blood_pool_lurker']) {
+      const { w, ev } = arena();
+      const p = w.actors[0]!; p.hp = p.hpMax = 999;
+      const m = mob(w, content, kind, 150, 100, ev);
+      m.hp = m.hpMax = 9999; // outlasts the blades
+      let resolved = 0;
+      for (let i = 0; i < 900; i++) { ev.length = 0; step(w, { ...NO_INPUT, fire: true, aim: null }, ev, ctx); resolved += ev.filter((e) => e.type === 'hazard-resolved').length; }
+      expect(w.stats.hits, kind).toBeGreaterThan(0);
+      expect(resolved, `${kind} completed an attack while being struck`).toBeGreaterThan(0);
+    }
   });
 });
