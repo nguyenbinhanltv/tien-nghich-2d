@@ -9,7 +9,7 @@
   for one tab and one language at a time. Open it from the studio's own server:
     http://127.0.0.1:4173/studio/ui/tests/viewport-harness.html?tab=review&w=900&lang=vi
   Query: tab (one of the nine ids), w (any width; presets 1600 1280 900 420), h (iframe height, default 800),
-  lang (en|vi), fit (1 = shrink to the panel, default; 0 = real size, scroll), nav (hash after #/, optional).
+  lang (en|vi), theme (abode|ink|paper), density (comfortable|compact), fit (1 = shrink to the panel, default; 0 = real size, scroll), nav (hash after #/, optional).
   The page title is a one-line report once the tab has settled:
     READY <tab> <lang> <w>x<h> overflowX=<px> offenders=<n> | TIMEOUT ...
   No dependency, no build step, same origin as the studio so it can set the language and read the layout.
@@ -61,7 +61,9 @@ const state = {
   h: Math.max(300, Math.min(3000, parseInt(q.get('h'), 10) || 800)),
   lang: pick(q.get('lang'), LANGS, 'en'),
   fit: q.get('fit') !== '0',
-  nav: q.get('nav') || ''
+  nav: q.get('nav') || '',
+  theme: pick(q.get('theme'), ['abode', 'ink', 'paper'], ''),          // optional: the interface mode to store before the studio loads (shell key studio.theme)
+  density: pick(q.get('density'), ['comfortable', 'compact'], '')      // optional: likewise for studio.density
 };
 const capture = q.get('capture') === '1';
 document.body.dataset.capture = capture ? '1' : '0';
@@ -77,7 +79,7 @@ function button(parent, label, pressed, onclick) {
 }
 
 function syncUrl() {
-  const p = new URLSearchParams({tab: state.tab, w: state.w, h: state.h, lang: state.lang, fit: state.fit ? 1 : 0});
+  const p = new URLSearchParams({tab: state.tab, w: state.w, h: state.h, lang: state.lang, fit: state.fit ? 1 : 0, ...(state.theme ? {theme: state.theme} : {}), ...(state.density ? {density: state.density} : {})});
   if (state.nav) p.set('nav', state.nav);
   if (capture) p.set('capture', '1');
   history.replaceState(null, '', `${location.pathname}?${p}`);
@@ -177,6 +179,9 @@ function load() {
   document.body.dataset.ready = 'false';
   status.dataset.state = 'loading'; status.textContent = 'loading';
   try { localStorage.setItem(LANG_KEY, state.lang); } catch { /* same-origin storage unavailable: the shell falls back to the browser language */ }
+  try {
+    for (const [key, value] of [['studio.theme', state.theme], ['studio.density', state.density]]) { if (value) localStorage.setItem(key, value); else localStorage.removeItem(key); }
+  } catch { /* as above */ }
   syncUrl(); drawControls(); applyScale();
   const box = el('box');
   box.textContent = '';

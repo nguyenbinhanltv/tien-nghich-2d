@@ -23,7 +23,7 @@
 .vx-row::before { content: ""; position: absolute; left: -2px; top: -2px; width: .45rem; height: .45rem; background: var(--ui-line); }
 .vx-row.state-packed::before { background: var(--ui-accent); } .vx-row.state-authored::before { background: var(--ui-gold); }
 .vx-row.state-planned { border-style: dashed; }
-.vx-thumb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; background: repeating-conic-gradient(var(--ui-surface) 0 25%, var(--ui-bg) 0 50%) 0 0 / 8px 8px; overflow: hidden; }
+.vx-thumb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; background: repeating-conic-gradient(var(--ui-checker-a) 0 25%, var(--ui-checker-b) 0 50%) 0 0 / 8px 8px; overflow: hidden; }
 .vx-thumb img { image-rendering: pixelated; max-width: 3.2rem; max-height: 3.2rem; width: auto; height: auto; }
 .vx-rowtext { display: grid; gap: 1px; min-width: 0; }
 .vx-rowid { font: var(--ui-fs-xs) var(--ui-font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

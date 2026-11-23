@@ -188,6 +188,27 @@
       "danger": "blood_06", "seal": "blood_04", "sealInk": "blood_07",
       "ok": "jade_05", "warn": "bronze_05", "ask": "soul_06", "link": "thunder_02"
     },
+    "themeModes": {
+      "abode": { "name": { "en": "The Abode", "vi": "Động phủ" } },
+      "ink": {
+        "name": { "en": "Black Ink", "vi": "Mực đen" },
+        "colors": {
+          "ink": "ink_01", "surface": "ink_02", "panel": "ink_01", "line": "ink_04", "lineStrong": "ink_06", "muted": "ink_06", "text": "thunder_04",
+          "accent": "jade_06", "accentSoft": "jade_03", "gold": "bronze_06", "goldSoft": "bronze_07",
+          "danger": "blood_06", "seal": "blood_04", "sealInk": "thunder_04",
+          "ok": "jade_06", "warn": "bronze_06", "ask": "soul_06", "link": "thunder_03"
+        }
+      },
+      "paper": {
+        "name": { "en": "Edict Paper", "vi": "Tuyên chỉ" },
+        "colors": {
+          "ink": "bronze_07", "surface": "bronze_07", "panel": "bronze_07", "line": "ink_05", "lineStrong": "ink_04", "muted": "ink_03", "text": "ink_01",
+          "accent": "jade_03", "accentSoft": "jade_05", "gold": "bronze_02", "goldSoft": "bronze_03",
+          "danger": "blood_04", "seal": "blood_04", "sealInk": "blood_07",
+          "ok": "jade_02", "warn": "orange_01", "ask": "soul_03", "link": "thunder_01"
+        }
+      }
+    },
     "categoryTabs": {
       "player": "characters", "pet": "characters", "npc": "characters", "mob": "characters", "boss": "characters",
       "tileset": "objects", "weapon": "objects", "projectile": "objects", "prop": "objects", "icon": "objects",

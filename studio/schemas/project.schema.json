@@ -1348,6 +1348,22 @@
             "type": "string"
           }
         },
+        "themeModes": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The studio's three interface modes: abode (dark; its colours are ui.theme), ink (high-contrast dark) and paper (light). Each entry may carry a name (what the mode is called in the project's voice, per language) and colors (the same roles as ui.theme, each a palette id, never hex). A mode the pack leaves out, or a role it leaves out, gets a neutral default of that mode, so a small palette still looks right. Aim for 4.5:1 text and 3:1 control borders in every mode, and 7:1 for body text in ink.",
+          "properties": {
+            "abode": {
+              "$ref": "#/$defs/themeMode"
+            },
+            "ink": {
+              "$ref": "#/$defs/themeMode"
+            },
+            "paper": {
+              "$ref": "#/$defs/themeMode"
+            }
+          }
+        },
         "categoryTabs": {
           "type": "object",
           "additionalProperties": {
@@ -1899,6 +1915,33 @@
         "timeoutSec": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "themeMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "object",
+          "required": [
+            "en"
+          ],
+          "properties": {
+            "en": {
+              "type": "string"
+            },
+            "vi": {
+              "type": "string"
+            }
+          }
+        },
+        "colors": {
+          "type": "object",
+          "description": "Shell colours by role, each a palette id; the roles are those of ui.theme.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     }

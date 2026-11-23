@@ -1,25 +1,24 @@
 /* Studio shell ("jade slip and seal"). Design tokens are in tokens.css (--ui-*, read from the pack's ui.theme as --theme-*); this file lays out the rail,
    the top bar and the page frame and keeps the older short names (--ink, --surface, --gold ...) that the tabs' own CSS still uses.
-   The fallbacks below are neutral and only show if the pack defines no theme. */
+   Colours come from tokens.css, so every mode (abode, ink, paper) reaches the tabs' own CSS through these names too. */
 :root {
-  --ink: var(--theme-ink, #101014);
-  --surface: var(--theme-surface, #26262c);
+  --ink: var(--ui-bg);
+  --surface: var(--ui-surface-raised);
   --surface-2: color-mix(in srgb, var(--surface) 55%, var(--ink));
-  --line: var(--theme-line, #46464e);
+  --line: var(--ui-line);
   /* The border of a control (WCAG 1.4.11 asks 3:1 against its surroundings). `line` is for dividers; a pack may say `lineStrong`, else its `muted`. */
-  --line-strong: var(--theme-lineStrong, var(--theme-muted, #7a7a84));
-  --muted: var(--theme-muted, #9a9aa2);
-  --text: var(--theme-text, #e4e4e8);
-  --accent: var(--theme-accent, #4aa3a3);
-  --accent-soft: var(--theme-accentSoft, #2f6b6b);
-  --gold: var(--theme-gold, #c8a040);
-  --gold-soft: var(--theme-goldSoft, #ecd890);
-  --danger: var(--theme-danger, #d05050);
+  --line-strong: var(--ui-line-strong);
+  --muted: var(--ui-text-muted);
+  --text: var(--ui-text);
+  --accent: var(--ui-accent);
+  --accent-soft: var(--ui-accent-soft);
+  --gold: var(--ui-gold);
+  --gold-soft: var(--ui-gold-soft);
+  --danger: var(--ui-danger);
   --rail-w: var(--ui-rail-w, 15.5rem);
   --font-ui: var(--ui-font-body, "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif);
   --font-display: var(--ui-font-display, Georgia, serif);
   --font-mono: var(--ui-font-mono, ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace);
-  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { background: var(--ink); }
@@ -79,10 +78,10 @@ a:hover { color: var(--gold-soft); }
 .crumbs .sep { color: var(--muted); }
 .crumbs code { color: var(--gold-soft); max-width: 16rem; overflow: hidden; text-overflow: ellipsis; }
 .chip { font: .75rem var(--font-mono); padding: .1rem .45rem; border: 1px solid var(--line-strong); color: var(--muted); }
-.switcher, .search-button, .lang button, .rail-toggle, .rail-close, button.plain { font: inherit; font-size: var(--ui-fs-sm, .875rem); color: var(--text); background: var(--surface-2); border: var(--ui-bw, 2px) solid var(--line-strong); cursor: pointer; padding: .35rem .7rem; border-radius: 0; }
+.switcher, .search-button, .theme-button, .lang button, .rail-toggle, .rail-close, button.plain { font: inherit; font-size: var(--ui-fs-sm, .875rem); color: var(--text); background: var(--surface-2); border: var(--ui-bw, 2px) solid var(--line-strong); cursor: pointer; padding: .35rem .7rem; border-radius: 0; }
 .switcher { display: inline-flex; gap: var(--ui-sp-2, .5rem); align-items: baseline; max-width: 14rem; }
 .switcher strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--gold-soft); }
-.switcher:hover, .search-button:hover, .rail-toggle:hover { border-color: var(--accent); }
+.switcher:hover, .search-button:hover, .theme-button:hover, .rail-toggle:hover { border-color: var(--accent); }
 .search-button { display: inline-flex; align-items: center; min-width: 9rem; justify-content: space-between; gap: var(--ui-sp-2, .5rem); color: var(--muted); }
 .search-button > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 8rem; }
 .search-button:hover { color: var(--text); }
@@ -90,6 +89,19 @@ kbd { border: 1px solid var(--line-strong); padding: 0 .35rem; color: var(--gold
 .lang { display: inline-flex; }
 .lang button { padding: .35rem .6rem; font-weight: 600; margin-left: -2px; }
 .lang button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); position: relative; }
+
+/* Mode and density menu: one button in the bar, a small panel under it. The panel is a plain group of toggle buttons; the 2-segment controls come from .ui-kit. */
+.theme-menu { position: relative; }
+.theme-button { display: inline-flex; align-items: center; gap: var(--ui-sp-2, .5rem); }
+.theme-button svg { width: 1rem; height: 1rem; fill: currentColor; image-rendering: pixelated; flex: none; }
+.theme-name { max-width: 7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.theme-panel { position: absolute; right: 0; top: calc(100% + var(--ui-sp-2, .5rem)); z-index: 45; min-width: 15rem; max-width: calc(100vw - 1.5rem); display: grid; gap: var(--ui-sp-3, .75rem);
+  padding: var(--ui-sp-3, .75rem); background: var(--ui-surface, var(--surface-2)); border: var(--ui-bw, 2px) solid var(--line-strong); box-shadow: 4px 4px 0 var(--ui-shadow); }
+.theme-panel[hidden] { display: none; }
+.theme-group { display: grid; gap: var(--ui-sp-1, .25rem); }
+.theme-label { font-size: var(--ui-fs-xs, .75rem); color: var(--muted); }
+.theme-group .seg { display: flex; flex-wrap: wrap; }
+.theme-group .seg > button { flex: 1 1 auto; }
 
 /* ---------- Page frame and the heading ladder ---------- */
 .main { padding: var(--ui-sp-5, 1.5rem) var(--ui-sp-5, 1.5rem) var(--ui-sp-7, 3rem); max-width: 80rem; width: 100%; }
@@ -156,6 +168,9 @@ kbd { border: 1px solid var(--line-strong); padding: 0 .35rem; color: var(--gold
   .switcher { max-width: 8rem; height: var(--ui-control-h, 2.5rem); align-items: center; }
   .switcher .muted { display: none; }
   .lang button { height: var(--ui-control-h, 2.5rem); }
+  .theme-button { height: var(--ui-control-h, 2.5rem); min-width: var(--ui-control-h, 2.5rem); padding: 0 .55rem; justify-content: center; }
+  .theme-name { display: none; }   /* the icon stays; the button keeps its title and the panel names the mode */
+  .theme-panel { position: fixed; left: .75rem; right: .75rem; top: 3.75rem; min-width: 0; }
   .main { padding: var(--ui-sp-4, 1rem) var(--ui-sp-4, 1rem) var(--ui-sp-6, 2rem); }
 }
 @media (max-width: 480px) {

@@ -36,6 +36,7 @@ export async function checkProject(rootArg) {
     out.counts.colours = file.colors?.length ?? 0;
     if (!file.outline) warn(pack.palette.file, 'no "outline" colour: outline checks need one');
     for (const [role, id] of Object.entries(pack.ui?.theme ?? {})) if (!ids.has(id)) warn(`ui.theme.${role}`, `names colour "${id}", which is not in the palette`);
+    for (const [mode, spec] of Object.entries(pack.ui?.themeModes ?? {})) for (const [role, id] of Object.entries(spec.colors ?? {})) if (!ids.has(id)) warn(`ui.themeModes.${mode}.colors.${role}`, `names colour "${id}", which is not in the palette`);
     if (pack.rules.outline.color !== 'palette' && !(file.colors ?? []).some(c => c.hex.toLowerCase() === pack.rules.outline.color.toLowerCase()))
       warn('rules.outline.color', `${pack.rules.outline.color} is not a colour of the palette, so a sprite cannot use it`);
   } catch (e) { error(pack.palette.file, `cannot read the palette: ${e.message}`); }

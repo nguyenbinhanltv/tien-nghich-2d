@@ -5,10 +5,16 @@ import { parseHash, formatHash, hubTab } from './router.mjs';
 import { translator, localize, pickLanguage, storageKey, loadTable } from './i18n.mjs';
 import { createPalette, createCheatSheet, isTyping, loadRecents, saveRecents, pushRecent, recentWorthy, loadZoom, nextZoom, zoomKey, nextPending } from './palette.mjs';
 import { crumbParts } from './crumbs.mjs';
+import { MODES, DENSITIES, modeKey, densityKey, pickMode, pickDensity, isChosen, readChoice, writeChoice, nextMode, nextDensity, modeRoles, modeLabel, applyAppearance } from './theme.mjs';
 import * as placeholder from './tabs/_placeholder/index.mjs';
 
 const $ = id => document.getElementById(id);
 const live = $('live');
+
+const store = (() => { try { return localStorage; } catch { return {getItem: () => null, setItem: () => {}}; } })();   // private mode may refuse even the lookup
+// The chosen mode shows before the project arrives, so the first paint is not the wrong one; boot() adds the pack's colours for it.
+const lightQuery = window.matchMedia?.('(prefers-color-scheme: light)');
+applyAppearance(document.documentElement, {mode: pickMode(readChoice(store, modeKey), Boolean(lightQuery?.matches)), density: pickDensity(readChoice(store, densityKey)), roles: {}});
 
 function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
@@ -51,8 +57,8 @@ const menuGlyph = ['########', '........', '########', '........', '########', '
 const closeGlyph = ['##....##', '###..###', '.######.', '..####..', '..####..', '.######.', '###..###', '##....##'];
 
 // With no project open (the server was started without one) the shell has only the Projects screen: this stands in for the project info.
-const noProject = () => ({id: null, name: '', brand: {mark: 'PK'}, languages: ['en', 'vi'], theme: {}, categoryTabs: {}, tools: [], tabConfig: {}, sources: [], tabs: [], palette: {name: '', colors: 0}});
-const state = {hubOnly: false, project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null, cheat: null, recents: [], zoom: null};
+const noProject = () => ({id: null, name: '', brand: {mark: 'PK'}, languages: ['en', 'vi'], theme: {}, themeModes: {}, categoryTabs: {}, tools: [], tabConfig: {}, sources: [], tabs: [], palette: {name: '', colors: 0}});
+const state = {mode: 'abode', density: 'comfortable', themeOpen: false, themeWritten: [], hubOnly: false, project: null, lang: 'en', shell: {}, route: null, active: null, seq: 0, palette: null, cheat: null, recents: [], zoom: null};
 const loadedCss = new Set();
 const projectsGlyph = ['########', '#......#', '#.####.#', '#.#..#.#', '#.####.#', '#.#..#.#', '#......#', '########'];
 
@@ -72,8 +78,61 @@ function navigate(partial, {replace = false} = {}) {
   if (replace) route();
 }
 
-function applyTheme(theme) {
-  for (const [role, hex] of Object.entries(theme)) if (hex) document.documentElement.style.setProperty('--theme-' + role, hex);
+// ---- Mode and density. Both are preferences of this browser: they change how the studio looks and nothing it does. ----
+const menuGlyph2 = ['..####..', '.###..#.', '####...#', '####...#', '####...#', '####...#', '.###..#.', '..####..'];
+const modeName = mode => modeLabel(state.project, mode, state.lang, localize) ?? t('theme.mode.' + mode);
+const densityName = density => t('theme.density.' + density);
+
+function applyAppearanceNow() {
+  state.themeWritten = applyAppearance(document.documentElement, {mode: state.mode, density: state.density, roles: modeRoles(state.project, state.mode)}, state.themeWritten);
+}
+
+async function setMode(mode) {
+  if (mode === state.mode || !MODES.includes(mode)) return;
+  state.mode = mode;
+  writeChoice(store, modeKey, mode);
+  applyAppearanceNow();
+  syncThemeMenu();
+  announce(t('theme.set', {mode: modeName(mode)}));
+  await mountRoute(true);   // a canvas reads its colours when it is drawn, so the open tab is drawn again
+}
+
+function setDensity(density) {
+  if (density === state.density || !DENSITIES.includes(density)) return;
+  state.density = density;
+  writeChoice(store, densityKey, density);
+  applyAppearanceNow();
+  syncThemeMenu();
+  announce(t('theme.densitySet', {density: densityName(density)}));
+}
+
+function setThemeMenu(open, {restoreFocus = false} = {}) {
+  state.themeOpen = open;
+  syncThemeMenu();
+  if (!open && restoreFocus) $('theme-toggle')?.focus();
+}
+
+function themeMenu() {
+  const group = (title, items, current, choose) => h('div', {class: 'theme-group'}, h('span', {class: 'theme-label'}, title),
+    h('div', {class: 'seg', role: 'group', 'aria-label': title}, ...items.map(([id, text]) =>
+      h('button', {type: 'button', 'data-value': id, 'aria-pressed': String(id === current), onclick: () => choose(id)}, text))));
+  return h('div', {class: 'theme-menu', id: 'theme-menu'},
+    h('button', {type: 'button', class: 'theme-button', id: 'theme-toggle', 'aria-haspopup': 'true', 'aria-expanded': String(state.themeOpen), 'aria-controls': 'theme-panel',
+      title: t('theme.title'), onclick: () => setThemeMenu(!state.themeOpen)}, glyphSvg(menuGlyph2), h('span', {class: 'theme-name'}, modeName(state.mode))),
+    h('div', {class: 'theme-panel ui-kit', id: 'theme-panel', role: 'group', 'aria-label': t('theme.title'), hidden: !state.themeOpen},
+      group(t('theme.mode'), MODES.map(m => [m, modeName(m)]), state.mode, setMode),
+      group(t('theme.density'), DENSITIES.map(d => [d, densityName(d)]), state.density, setDensity)));
+}
+
+/** Brings the menu in line with the state without rebuilding it, so focus and an open panel stay where they are. */
+function syncThemeMenu() {
+  const toggle = $('theme-toggle'), panel = $('theme-panel');
+  if (!toggle || !panel) return;
+  toggle.setAttribute('aria-expanded', String(state.themeOpen));
+  toggle.querySelector('.theme-name').textContent = modeName(state.mode);
+  panel.hidden = !state.themeOpen;
+  for (const b of panel.querySelectorAll('.theme-group:nth-child(1) button')) b.setAttribute('aria-pressed', String(b.dataset.value === state.mode));
+  for (const b of panel.querySelectorAll('.theme-group:nth-child(2) button')) b.setAttribute('aria-pressed', String(b.dataset.value === state.density));
 }
 
 function renderChrome() {
@@ -110,6 +169,7 @@ function renderTopbar() {
       onclick: () => navigate({tab: hubTab})}, h('span', {class: 'muted'}, t('top.project')), h('strong', {}, project.name), h('span', {'aria-hidden': 'true'}, '▾')),
     state.hubOnly ? '' : h('button', {type: 'button', class: 'search-button', onclick: () => state.palette.open(), 'aria-label': t('top.search'), 'aria-keyshortcuts': 'Control+K Meta+K'},
       h('span', {}, t('top.search')), h('kbd', {}, /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K')),
+    themeMenu(),
     h('div', {class: 'lang', role: 'group', 'aria-label': t('top.language')}, ...langs.map(l =>
       h('button', {type: 'button', 'aria-pressed': String(l === state.lang), lang: l, onclick: () => setLanguage(l)}, l.toUpperCase()))));
   renderCrumbs();
@@ -272,6 +332,8 @@ function paletteActions() {
     {id: 'zoom', title: t('actions.zoom', {zoom}), hint: t('actions.zoomNow', {zoom: state.zoom ? state.zoom + '×' : t('actions.zoomUnset')}), run: () => setZoom(zoom)}
   ];
   if (langs.length > 1) list.push({id: 'language', title: t('actions.language', {lang: next.toUpperCase()}), hint: t('actions.languageNow', {lang: state.lang.toUpperCase()}), run: () => setLanguage(next)});
+  list.push({id: 'theme', title: t('actions.theme', {mode: modeName(nextMode(state.mode))}), hint: t('actions.themeNow', {mode: modeName(state.mode)}), run: () => setMode(nextMode(state.mode))});
+  list.push({id: 'density', title: t('actions.density', {density: densityName(nextDensity(state.density))}), hint: t('actions.densityNow', {density: densityName(state.density)}), run: () => setDensity(nextDensity(state.density))});
   if (state.route?.asset) list.push({id: 'copy-id', title: t('actions.copyId'), hint: state.route.asset, run: () => copyAssetId(state.route.asset)});
   list.push({id: 'projects', title: t('actions.projects'), hint: t('actions.projectsHint'), run: () => navigate({tab: hubTab})});
   list.push({id: 'shortcuts', title: t('actions.shortcuts'), hint: '?', run: () => setTimeout(() => state.cheat.open(), 0)});   // after the palette's own focus hand-off, so Esc returns to the content
@@ -323,7 +385,14 @@ async function boot() {
     }
   }
   const {project} = state;
-  applyTheme(project.theme);
+  const storedMode = readChoice(store, modeKey);
+  state.mode = pickMode(storedMode, Boolean(lightQuery?.matches));
+  state.density = pickDensity(readChoice(store, densityKey));
+  applyAppearanceNow();
+  // Until the person picks a mode, the system's light/dark setting is followed live.
+  lightQuery?.addEventListener?.('change', () => { if (!isChosen(readChoice(store, modeKey))) { state.mode = pickMode(null, lightQuery.matches); applyAppearanceNow(); syncThemeMenu(); mountRoute(true); } });
+  document.addEventListener('click', event => { if (state.themeOpen && !event.target.closest('#theme-menu')) setThemeMenu(false); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && state.themeOpen && !state.palette?.isOpen()) { event.preventDefault(); setThemeMenu(false, {restoreFocus: true}); } });
   let stored;
   try { stored = localStorage.getItem(storageKey); } catch { stored = null; }
   state.lang = pickLanguage(project.languages, stored, navigator.languages ?? []);

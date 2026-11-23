@@ -43,7 +43,7 @@
 .agentline { color: var(--ui-accent); }
 .note { color: var(--ui-text-muted); }
 .row .chip, .dhead .chip { align-self: start; white-space: nowrap; }
-.checker { background: repeating-conic-gradient(var(--ui-surface) 0 25%, var(--ui-bg) 0 50%) 0 0 / 16px 16px; }
+.checker { background: repeating-conic-gradient(var(--ui-checker-a) 0 25%, var(--ui-checker-b) 0 50%) 0 0 / 16px 16px; }
 canvas.px, img { image-rendering: pixelated; }
 .artcounts { display: flex; flex-wrap: wrap; gap: var(--ui-sp-1) var(--ui-sp-3); align-items: center; font-size: var(--ui-fs-sm); }
 .artcounts .chip { margin-right: var(--ui-sp-1); }

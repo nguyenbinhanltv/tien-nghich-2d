@@ -24,7 +24,7 @@
 .badge { white-space: nowrap; } .t-muted { color: var(--ui-text-muted); }
 .search { min-width: 14rem; width: auto; }
 .viewer { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: var(--ui-sp-4); align-items: start; }
-.stage-wrap { overflow: auto; max-height: 75vh; border: var(--ui-bw) solid var(--ui-line); background: repeating-conic-gradient(var(--ui-surface) 0 25%, var(--ui-bg) 0 50%) 0 0 / 16px 16px; }
+.stage-wrap { overflow: auto; max-height: 75vh; border: var(--ui-bw) solid var(--ui-line); background: repeating-conic-gradient(var(--ui-checker-a) 0 25%, var(--ui-checker-b) 0 50%) 0 0 / 16px 16px; }
 .stage { position: relative; } .page-img { display: block; image-rendering: pixelated; } .overlay { position: absolute; inset: 0; cursor: crosshair; } .overlay:focus-visible { outline: 3px solid var(--ui-focus); outline-offset: -3px; }
 .side { display: grid; gap: var(--ui-sp-3); align-content: start; position: sticky; top: 4.5rem; }
 .detail { background: var(--ui-surface); border: var(--ui-bw) solid var(--ui-line); min-height: 8rem; } .detail-body { padding: var(--ui-sp-2) var(--ui-sp-3); }
