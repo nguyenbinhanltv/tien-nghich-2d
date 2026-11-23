@@ -144,24 +144,35 @@ export function semanticCheck(t: Tables, bodies: Record<string, unknown> = {}, s
     }
   }
 
-  // 4. the room chain: one abode start, every room reachable, no loop, ends on a reward room, boss room before it
+  // 4. the room chains: one abode start; each biome is one chain (its head is the room nothing points to, or the one the abode points to),
+  //    every room reachable, no loop, a chain stays in one biome, ends on a reward room with the boss room right before it
   const starts = t.rooms.filter((r) => r.kind === 'abode');
   if (t.rooms.length && starts.length !== 1) errors.push(`rooms.csv: expected exactly one abode room to start from, found ${starts.length}`);
   if (starts.length === 1) {
-    const order: string[] = [];
-    let cur: string | undefined = String(starts[0]!.id);
-    while (cur && rooms.has(cur)) {
-      if (order.includes(cur)) { errors.push(`rooms.csv: the room chain loops back to ${cur} (${[...order, cur].join(' -> ')})`); break; }
-      order.push(cur);
-      const next: string | number | undefined = rooms.get(cur)!.next;
-      cur = next ? String(next) : undefined;
+    const pointed = new Set(t.rooms.map((r) => (r.next ? String(r.next) : '')).filter(Boolean));
+    const heads = [String(starts[0]!.next ?? ''), ...t.rooms.filter((r) => r.kind !== 'abode' && !pointed.has(String(r.id))).map((r) => String(r.id))].filter((h, i, all) => h && all.indexOf(h) === i && rooms.has(h));
+    const reached = new Set<string>([String(starts[0]!.id)]);
+    const biomes = new Map<string, string>();
+    for (const head of heads) {
+      const order: string[] = [];
+      let cur: string | undefined = head;
+      while (cur && rooms.has(cur)) {
+        if (order.includes(cur)) { errors.push(`rooms.csv: the room chain loops back to ${cur} (${[...order, cur].join(' -> ')})`); break; }
+        order.push(cur); reached.add(cur);
+        const next: string | number | undefined = rooms.get(cur)!.next;
+        cur = next ? String(next) : undefined;
+      }
+      const biome = String(rooms.get(head)!.biome), other = biomes.get(biome);
+      if (other) errors.push(`rooms.csv: biome ${biome} has two room chains (from ${other} and ${head})`);
+      biomes.set(biome, head);
+      for (const id of order) if (rooms.get(id)!.biome !== biome) errors.push(`rooms.csv ${id}: a ${rooms.get(id)!.biome} room inside the ${biome} chain from ${head}`);
+      const last = rooms.get(order.at(-1)!);
+      if (last && last.kind !== 'reward') errors.push(`rooms.csv ${last.id}: the chain ends here but it is a ${last.kind} room, not a reward room`);
+      const bossAt = order.findIndex((id) => rooms.get(id)!.kind === 'boss');
+      if (bossAt >= 0 && bossAt !== order.length - 2) errors.push(`rooms.csv: the boss room must come right before the reward room (chain: ${order.join(' -> ')})`);
+      if (bossAt < 0) errors.push(`rooms.csv: the chain from ${head} has no boss room`);
     }
-    for (const id of rooms.keys()) if (!order.includes(id)) errors.push(`rooms.csv ${id}: not reachable from the abode (chain: ${order.join(' -> ')})`);
-    const last = rooms.get(order.at(-1)!);
-    if (last && last.kind !== 'reward') errors.push(`rooms.csv ${last.id}: the chain ends here but it is a ${last.kind} room, not a reward room`);
-    const bossAt = order.findIndex((id) => rooms.get(id)!.kind === 'boss');
-    if (bossAt >= 0 && bossAt !== order.length - 2) errors.push(`rooms.csv: the boss room must come right before the reward room (chain: ${order.join(' -> ')})`);
-    if (bossAt < 0) errors.push('rooms.csv: the chain has no boss room');
+    for (const id of rooms.keys()) if (!reached.has(id)) errors.push(`rooms.csv ${id}: not reachable from the abode (chains: ${heads.join(', ')})`);
   }
   return { errors, warnings };
 }
