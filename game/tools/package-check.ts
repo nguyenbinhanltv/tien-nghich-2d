@@ -13,9 +13,9 @@ const flag = (n: string): string | undefined => { const i = argv.indexOf(n); ret
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'tn2d-pkg-'));
 const run = (cmd: string, args: string[]): void => { execFileSync(cmd, args, { cwd: GAME, stdio: ['ignore', 'pipe', 'inherit'] }); };
 const dist = flag('--dist') ?? path.join(GAME, 'dist');
-const pack = flag('--pack') ?? path.join(tmp, 'pack');
+const pack = flag('--pack') ?? path.join(GAME, 'dist-content'); // the PWA plugin copies dist-content into the build, so the pack must exist before `vite build`
+if (!flag('--pack')) run('node', ['tools/content-build.ts']);
 if (!flag('--dist')) run(path.join(GAME, 'node_modules/.bin/vite'), ['build', '--emptyOutDir']);
-if (!flag('--pack')) run('node', ['tools/content-build.ts', '--out', pack]);
 const problems = [...checkWeb(dist).map((x) => `web: ${x}`), ...checkContentPack(pack).map((x) => `pack: ${x}`), ...checkChunks().map((x) => `atlas: ${x}`)];
 fs.rmSync(tmp, { recursive: true, force: true });
 for (const x of problems) console.error(`ERROR: ${x}`);

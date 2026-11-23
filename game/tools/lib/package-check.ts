@@ -8,7 +8,7 @@ import zlib from 'node:zlib';
 import { ASSETS, GAME, readJson, sha256 } from './repo.ts';
 
 export interface PackageBudget {
-  web: { jsGzipKiB: number; totalMiB: number; corePages: number; coreRgbaMiB: number; allowedTopLevel: string[] };
+  web: { jsGzipKiB: number; precacheMiB: number; audioMiB: number; corePages: number; coreRgbaMiB: number; allowedTopLevel: string[] };
   contentPack: { totalMiB: number };
   chunks: Record<string, { pages: number; mib: number }>;
 }
@@ -22,7 +22,7 @@ const MIB = 1048576;
 /** Local reference in html/css: ./x or x, not an absolute URL, data: or a fragment. */
 const local = (ref: string): string | null => (/^(https?:|data:|#|\/\/|mailto:)/.test(ref) ? null : ref.replace(/^\.\//, '').split(/[?#]/)[0]!);
 
-export function checkWeb(dist: string, b: PackageBudget = readBudget(), atlasSource = path.join(ASSETS, 'atlases/mobile')): string[] {
+export function checkWeb(dist: string, b: PackageBudget = readBudget(), atlasSource = path.join(ASSETS, 'atlases/mobile'), contentPack: string = path.join(GAME, 'dist-content')): string[] {
   const p: string[] = [];
   const need = (f: string): boolean => fs.existsSync(path.join(dist, f));
   if (!need('index.html')) return [`${dist}: no index.html`];
@@ -48,8 +48,9 @@ export function checkWeb(dist: string, b: PackageBudget = readBudget(), atlasSou
     else {
       const list = (JSON.parse(m[1]!) as string[]).map((e) => (e === './' ? 'index.html' : e.replace(/^\.\//, '')));
       // pwa/vite-plugin.ts: Longtime chunks other than abode are cached on first use, so they are in the build but deliberately not precached.
-      const lazy = (f: string): boolean => /^assets\/atlases_longtime\/mobile\/(?!abode\/)/.test(f);
-      for (const e of list) if (lazy(e)) p.push(`sw.js precaches ${e}, a lazy chunk: it would be downloaded on first launch`);
+      // Audio packs (28 MiB with both codecs) are lazy too.
+      const lazy = (f: string): boolean => /^assets\/(audio\/|atlases_longtime\/mobile\/(?!abode\/))/.test(f);
+      for (const e of list) if (lazy(e)) p.push(`sw.js precaches ${e}, a lazy file (audio pack or non-abode chunk): it would be downloaded on first launch`);
       for (const e of list) if (!need(e)) p.push(`sw.js precaches ${e}, which is not in the build`);
       for (const f of files) if (f !== 'sw.js' && !lazy(f) && !list.includes(f)) p.push(`${f} is in the build but not precached: offline play would miss it`);
     }
@@ -70,9 +71,20 @@ export function checkWeb(dist: string, b: PackageBudget = readBudget(), atlasSou
   const js = files.filter((f) => f.endsWith('.js') && f !== 'sw.js');
   const gz = js.reduce((n, f) => n + zlib.gzipSync(fs.readFileSync(path.join(dist, f))).length, 0) / 1024;
   if (gz > b.web.jsGzipKiB) p.push(`JS is ${gz.toFixed(0)} KiB gzipped, over the ${b.web.jsGzipKiB} KiB budget`);
-  const total = files.reduce((n, f) => n + fs.statSync(path.join(dist, f)).size, 0) / MIB;
-  if (total > b.web.totalMiB) p.push(`the build is ${total.toFixed(1)} MiB, over the ${b.web.totalMiB} MiB budget`);
+  const lazyFile = (f: string): boolean => /^assets\/(audio\/|atlases_longtime\/mobile\/(?!abode\/))/.test(f);
+  const size = (f: string): number => fs.statSync(path.join(dist, f)).size;
+  const first = files.filter((f) => f !== 'sw.js' && !lazyFile(f)).reduce((n, f) => n + size(f), 0) / MIB;
+  if (first > b.web.precacheMiB) p.push(`the first-launch download is ${first.toFixed(1)} MiB, over the ${b.web.precacheMiB} MiB budget`);
+  const audio = files.filter((f) => f.startsWith('assets/audio/')).reduce((n, f) => n + size(f), 0) / MIB;
+  if (audio > b.web.audioMiB) p.push(`audio is ${audio.toFixed(1)} MiB, over the ${b.web.audioMiB} MiB budget`);
+  for (const dir of new Set(files.filter((f) => f.startsWith('assets/audio/packs/')).map((f) => f.split('/').slice(0, 4).join('/'))))
+    if (!files.includes(`${dir}/pack.json`)) p.push(`${dir}: audio pack without pack.json`);
 
+  for (const f of files.filter((x) => x.startsWith('content/'))) { // the copies the game fetches must be the pack's own bytes
+    const src = path.join(contentPack, f.slice('content/'.length));
+    if (!fs.existsSync(src)) p.push(`${f}: not in the content pack ${contentPack}`);
+    else if (sha256(fs.readFileSync(path.join(dist, f))) !== sha256(fs.readFileSync(src))) p.push(`${f}: differs from the content pack (stale build)`);
+  }
   const pages = files.filter((f) => /^assets\/atlases\/mobile\/atlas-\d+\.png$/.test(f));
   if (pages.length > b.web.corePages) p.push(`${pages.length} core atlas pages, budget ${b.web.corePages}`);
   let rgba = 0;

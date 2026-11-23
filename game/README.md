@@ -22,7 +22,7 @@ npm run dev:lan   # cho điện thoại cùng Wi-Fi: docs/PLAYTEST_LAN.md
 | `content/tables/`, `content/encounters/` | bảng mẫu Huyết Hải (số liệu giữ chỗ, không phải cân bằng) |
 | `schemas/` | JSON Schema: bảng, encounter, bốn bảng hợp đồng Kiln, manifest gói |
 | `tools/` | `content-build.ts`, `kiln-contract-check.ts`, `draft-bodies.ts` (chạy trực tiếp bằng Node 24, không cần bước build) |
-| `package-budget.json` | ngân sách gói build (E9.4). `npm run package:check` dựng `dist/` + gói nội dung và kiểm: tham chiếu index/manifest, precache của service worker, kích thước JS/tổng, tệp cấm (map, studio, đường dẫn máy), trang atlas khớp nguồn Kiln, băm gói nội dung, trần trang/MiB từng chunk Longtime |
+| `package-budget.json` | ngân sách gói build (E9.4). `npm run package:check` dựng `dist/` + gói nội dung và kiểm: tham chiếu index/manifest, precache của service worker, kích thước JS và dung lượng tải lần đầu (precache) / audio, tệp cấm (map, studio, đường dẫn máy), trang atlas khớp nguồn Kiln, băm gói nội dung, trần trang/MiB từng chunk Longtime |
 | `perf-budget.json` | ngân sách hiệu năng (E9.3): sim ≤ 4 ms/frame với 1.500 đạn + 60 actor. `npm run perf` đo trên máy này và thoát 1 nếu vượt; test chỉ kiểm giới hạn cấu trúc, không kiểm thời gian |
 | `tests/golden/images.json` | SHA-256 của ảnh dựng bằng phần mềm (E9.2) ở 4 cỡ: 384×216, 1280×720, điện thoại 844×390@3, 1920×1080@2. `npm run qa:golden -- --out <thư mục>` xem ảnh; `--record` ghi lại sau thay đổi có chủ ý |
 | `tests/golden/` | `replay.json`: hash đã ghi của 6 kịch bản tất định (E9.1). `npm run qa:replay` so sánh; đổi hành vi sim thì `npm run qa:replay -- --record` rồi xem diff |

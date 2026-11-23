@@ -11,10 +11,11 @@ const copy = (src: string): string => { const d = fs.mkdtempSync(path.join(os.tm
 const manifest = (d: string): { files: Record<string, { sha256: string; bytes: number }> } => JSON.parse(fs.readFileSync(path.join(d, 'content.manifest.json'), 'utf8')) as never;
 
 beforeAll(() => {
+  // dist-content first: the PWA plugin copies it into the build (and refuses to build without it).
+  execFileSync('node', [path.join(GAME, 'tools/content-build.ts')], { cwd: GAME, stdio: 'ignore' });
   execFileSync(path.join(GAME, 'node_modules/.bin/vite'), ['build', '--emptyOutDir'], { cwd: GAME, stdio: 'ignore' });
   dist = copy(path.join(GAME, 'dist'));
-  pack = fs.mkdtempSync(path.join(os.tmpdir(), 'pk-pack-'));
-  execFileSync('node', [path.join(GAME, 'tools/content-build.ts'), '--out', pack], { cwd: GAME, stdio: 'ignore' });
+  pack = copy(path.join(GAME, 'dist-content'));
 }, 120_000);
 
 describe('E9.4 package checks on the real build', () => {
@@ -106,6 +107,29 @@ describe('E9.4 lazy Longtime chunks', () => {
     const swp = path.join(d, 'sw.js'), sw = fs.readFileSync(swp, 'utf8');
     expect(checkWeb(d)).toEqual([]);
     fs.writeFileSync(swp, sw.replace('const PRECACHE = [', 'const PRECACHE = ["./assets/atlases_longtime/mobile/trial/atlas-0.png",'));
-    expect(checkWeb(d).join('\n')).toMatch(/sw\.js precaches assets\/atlases_longtime\/mobile\/trial\/atlas-0\.png, a lazy chunk/);
+    expect(checkWeb(d).join('\n')).toMatch(/sw\.js precaches assets\/atlases_longtime\/mobile\/trial\/atlas-0\.png, a lazy file/);
+  });
+});
+
+describe('E9.4 audio and content copies in the build', () => {
+  it('audio must stay lazy, packs need pack.json, audio and first-launch budgets apply', () => {
+    const d = copy(dist);
+    const swp = path.join(d, 'sw.js'), sw = fs.readFileSync(swp, 'utf8');
+    const pack = fs.readdirSync(path.join(d, 'assets/audio/packs'))[0]!;
+    expect(checkWeb(d)).toEqual([]);
+    fs.writeFileSync(swp, sw.replace('const PRECACHE = [', `const PRECACHE = ["./assets/audio/packs/${pack}/pack.json",`));
+    expect(checkWeb(d).join('\n')).toMatch(/sw\.js precaches assets\/audio\/packs\/.*pack\.json, a lazy file/);
+    fs.writeFileSync(swp, sw);
+    fs.rmSync(path.join(d, 'assets/audio/packs', pack, 'pack.json'));
+    expect(checkWeb(d).join('\n')).toMatch(/audio pack without pack\.json/);
+    const b = readBudget();
+    const over = checkWeb(copy(dist), { ...b, web: { ...b.web, audioMiB: 1, precacheMiB: 0.1 } }).join('\n');
+    expect(over).toMatch(/audio is [\d.]+ MiB, over the 1 MiB/);
+    expect(over).toMatch(/first-launch download is [\d.]+ MiB, over the 0\.1 MiB/);
+  });
+  it('the content copy in the build must equal the pack', () => {
+    const d = copy(dist);
+    fs.appendFileSync(path.join(d, 'content/audio_events.json'), ' ');
+    expect(checkWeb(d).join('\n')).toMatch(/content\/audio_events\.json: differs from the content pack/);
   });
 });
