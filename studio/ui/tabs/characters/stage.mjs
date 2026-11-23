@@ -1,6 +1,7 @@
 import { h, humanize, badge, notice, skeleton } from './dom.mjs';
 import { clipFrames, durations, frameAt, rawFor, autoZoom, compares, overlayNames } from './state.mjs';
 import { compare, opaqueBounds } from './facing.mjs';
+import { reducedMotion } from '../../seal.mjs';
 import { pixelFrame, pixelToolbar, setView, trackPointer, dragWipe, wipeColumn, stepZoom, pixelAt } from '../../pixelview.mjs';
 
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888';
@@ -102,7 +103,7 @@ function stopPlay(app, commit) {
 export const pausePlayback = app => stopPlay(app, true);
 export function cancelPlayback(app) { cancelAnimationFrame(app.play.raf); app.play.on = false; app.liveFrame = null; }
 
-function startPlay(app) {
+export function startPlay(app) {
   const list = clipFrames(app.detail, app.sel.clip, app.sel.direction);
   const {ms} = durations(app.detail, app.sel.clip, list.length);
   const loop = app.detail.clips[app.sel.clip]?.loop !== false;
@@ -197,9 +198,22 @@ export function renderStage(app) {
   }));
   const speed = h('select', {class: 'field', 'data-fk': 'speed', 'aria-label': ctx.t('stage.speed'), onchange: event => { app.play.speed = Number(event.target.value); if (app.play.on) { stopPlay(app, false); startPlay(app); } }},
     ...[0.25, 0.5, 1, 2].map(v => h('option', {value: v, selected: app.play.speed === v}, v + '×')));
-  const clipTabs = h('div', {class: 'clip-tabs', role: 'group', 'aria-label': ctx.t('stage.clips')}, ...sel.clips.map(c =>
-    h('button', {type: 'button', class: 'chip', 'data-fk': 'clip-' + c, 'aria-pressed': String(c === sel.clip), onclick: () => set({clip: c, frame: 0})}, humanize(c),
-      h('b', 'count', String(detail.clips[c]?.frames ?? '')))));
+  // Clip tabs: choosing one plays it right here on the stage (a still first frame under reduced motion); choosing the clip on show toggles playback.
+  const pickClip = c => {
+    if (c === sel.clip) { app.play.on ? stopPlay(app, true) : startPlay(app); return; }
+    app.playNext = !reducedMotion(window);
+    set({clip: c, frame: 0});
+  };
+  const clipTabs = h('div', {class: 'clip-tabs', role: 'tablist', 'aria-label': ctx.t('stage.clips')}, ...sel.clips.map(c =>
+    h('button', {type: 'button', class: 'chip', role: 'tab', 'data-fk': 'clip-' + c, 'aria-selected': String(c === sel.clip), tabindex: c === sel.clip ? '0' : '-1',
+      onclick: () => pickClip(c), onkeydown: event => {
+        const at = sel.clips.indexOf(c), to = {ArrowRight: at + 1, ArrowLeft: at - 1, Home: 0, End: sel.clips.length - 1}[event.key];
+        if (to == null || event.repeat) return;
+        event.preventDefault(); event.stopPropagation();
+        const next = sel.clips[(to + sel.clips.length) % sel.clips.length];
+        app.focusClip = next;
+        pickClip(next);
+      }}, humanize(c), h('b', 'count', String(detail.clips[c]?.frames ?? '')))));
   const keep = root.contains(document.activeElement) ? document.activeElement.closest('[data-fk]')?.dataset.fk : null;
   root.replaceChildren(
     h('header', 'stage-head', h('div', 'titles', h('h2', {title: detail.name ?? humanize(detail.id)}, detail.name ?? humanize(detail.id)), h('code', {title: detail.id}, detail.id)),
@@ -219,6 +233,7 @@ export function renderStage(app) {
         app.play.on ? ctx.t('stage.pause') : ctx.t('stage.play')), speed, h('span', {class: 'frame-label muted', role: 'status'}, ctx.t('stage.frameOf', {n: live + 1, total: list.length})),
       h('span', 'muted small', assumed ? ctx.t('stage.assumedMs', {ms: detail.defaultFrameMs}) : ctx.t('stage.projectMs')), h('span', 'muted small', detail.clips[sel.clip]?.loop === false ? ctx.t('stage.oneShot') : ctx.t('stage.loops'))),
       strip));
-  if (keep) root.querySelector(`[data-fk="${keep}"]`)?.focus();
+  const focus = app.focusClip ? 'clip-' + app.focusClip : keep; app.focusClip = null;
+  if (focus) root.querySelector(`[data-fk="${focus}"]`)?.focus();
   drawCells(app);
 }
