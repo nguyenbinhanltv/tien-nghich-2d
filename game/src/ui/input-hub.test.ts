@@ -51,3 +51,20 @@ describe('gamepad presses that start in a menu do not leak into the game', () =>
     expect(hub.sample()).toMatchObject({ dash: false, fire: false });
   });
 });
+
+describe('gamepad bindings are read from the settings', () => {
+  it('a rebound button dashes; a button that was moved to the other action no longer does', () => {
+    const p = pad();
+    vi.stubGlobal('navigator', { getGamepads: () => [p] });
+    const hub = new InputHub(win, undefined, { dash: [3], counter: [0] });
+    p.buttons[3]!.pressed = true;
+    expect(hub.sample()).toMatchObject({ dash: true, fire: false });
+    p.buttons[3]!.pressed = false; hub.sample();
+    p.buttons[0]!.pressed = true;
+    expect(hub.sample()).toMatchObject({ dash: false, fire: true });
+    hub.setPadBindings({ dash: [0], counter: [3] });
+    p.buttons[0]!.pressed = false; hub.sample();
+    p.buttons[0]!.pressed = true;
+    expect(hub.sample()).toMatchObject({ dash: true, fire: false });
+  });
+});
