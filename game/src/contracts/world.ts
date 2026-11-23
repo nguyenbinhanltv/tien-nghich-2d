@@ -29,8 +29,8 @@ export interface Vec2 { x: number; y: number }
 export interface InputFrame {
   /** -1..1 per axis. The sim normalises; a diagonal is not faster. */
   move: Vec2;
-  /** Aim direction in radians, or null to auto-aim at the nearest threat (mobile default). */
-  aim: number | null;
+  /** Aim as a unit vector (the input layer derives it; the sim does no trigonometry), or null to auto-aim at the nearest threat (mobile default). */
+  aim: Vec2 | null;
   dash: boolean;
   fire: boolean;
 }
@@ -88,7 +88,7 @@ export interface WorldState {
   mode: Mode;
   /** Hit-stop: ticks left in which the world does not advance (but time-to-render does). */
   freeze: number;
-  /** Ticks spent in `playing`, not counting hit-stop. Result clocks read this. */
+  /** Ticks spent in `playing`, hit-stop included (the result clock). `tick` counts every step call. */
   elapsed: number;
   stats: FightStats;
   /** Absent until a run starts. */
