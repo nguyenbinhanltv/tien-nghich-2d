@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Derive a 3-frame `hurt` clip for the Hang Nhac mobs and boss from their existing idle frame.
+"""Derive a 3-frame `hurt` clip for the Hang Nhac and Co Than Chi Dia mobs and bosses from their existing idle frame.
 
 Run isolated:  python -I tools/scripts/build_hurt_clips.py [--check]   (numpy + Pillow only)
 
@@ -8,7 +8,7 @@ idle_<facing>_0. The three keys are
   hurt_0  hit flash (every body colour +3 steps up its own palette ramp, outline kept) + recoil 2 units
   hurt_1  half flash (+1 step) + recoil 1 unit
   hurt_2  original colours, original position (settle)
-A recoil unit is 1 px for 32x32 mobs and 2 px for the 64x64 boss. East recoils toward -x (west is the
+A recoil unit is canvas/32 px: 1 (mobs), 2 (64x64 boss), 3 (96x96 boss). East recoils toward -x (west is the
 runtime mirror, so it recoils toward +x there), south recoils toward -y. The shift is reduced when it
 would push an opaque pixel off the canvas. Output colours are palette colours only; alpha stays binary;
 the outline colour is never changed. Deterministic: the same inputs give byte-identical PNGs.
@@ -26,8 +26,10 @@ from PIL import Image
 REPO = Path(__file__).resolve().parents[2]
 ASSETS = {
     "mobs": ["mob_rogue_disciple", "mob_courtyard_guard", "mob_sword_acolyte", "mob_herb_viper",
-             "mob_demonic_talisman"],
-    "bosses": ["boss_teng_huayuan"],
+             "mob_demonic_talisman",
+             "mob_stone_puppet", "mob_stone_archer_puppet", "mob_chain_warden", "mob_void_eater",
+             "mob_rune_sentinel"],
+    "bosses": ["boss_teng_huayuan", "boss_ancient_god_remnant"],
 }
 FACINGS = ("south", "east")
 RECOIL = {"south": (0, -1), "east": (-1, 0)}
@@ -89,9 +91,9 @@ def build(root):
     for group, ids in ASSETS.items():
         for asset in ids:
             folder = root / "assets/processed" / group / asset
-            unit = 2 if group == "bosses" else 1
             for facing in FACINGS:
                 source = np.array(Image.open(folder / f"idle_{facing}_0.png").convert("RGBA"))
+                unit = source.shape[0] // 32  # 1 px at 32, 2 px at 64, 3 px at 96
                 for n, (steps, recoil) in enumerate(KEYS):
                     frame = brighten(source, steps, outline, ramps, lookup)
                     dx, dy = RECOIL[facing]

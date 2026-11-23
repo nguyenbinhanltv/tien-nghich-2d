@@ -942,10 +942,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_stone_puppet/",
    "palette_refs": [
     "ink_03",
@@ -994,10 +998,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 20,
-   "total_frames": 40,
+   "frames_per_direction": 23,
+   "total_frames": 46,
    "output_path": "assets/raw/characters/mobs/mob_stone_archer_puppet/",
    "palette_refs": [
     "ink_03",
@@ -1046,10 +1054,14 @@
     "death": {
      "frames": 6,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 44,
+   "frames_per_direction": 25,
+   "total_frames": 50,
    "output_path": "assets/raw/characters/mobs/mob_chain_warden/",
    "palette_refs": [
     "ink_04",
@@ -1098,10 +1110,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 44,
+   "frames_per_direction": 25,
+   "total_frames": 50,
    "output_path": "assets/raw/characters/mobs/mob_void_eater/",
    "palette_refs": [
     "soul_01",
@@ -1150,10 +1166,14 @@
     "death": {
      "frames": 4,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 22,
-   "total_frames": 44,
+   "frames_per_direction": 25,
+   "total_frames": 50,
    "output_path": "assets/raw/characters/mobs/mob_rune_sentinel/",
    "palette_refs": [
     "bronze_04",
@@ -1398,10 +1418,14 @@
     "death": {
      "frames": 12,
      "loop": false
+    },
+    "hurt": {
+     "frames": 3,
+     "loop": false
     }
    },
-   "frames_per_direction": 54,
-   "total_frames": 108,
+   "frames_per_direction": 57,
+   "total_frames": 114,
    "output_path": "assets/raw/characters/bosses/boss_ancient_god_remnant/",
    "palette_refs": [
     "ink_03",

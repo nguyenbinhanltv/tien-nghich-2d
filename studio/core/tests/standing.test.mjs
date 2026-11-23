@@ -136,14 +136,14 @@ test('the real project: every Longtime frame is approved on record, the legacy c
   assert.equal(vs.size, 1356);
   // Hằng Nhạc mobs and boss gained a derived `hurt` clip (tools/scripts/build_hurt_clips.py): new frames await a human,
   // and the asset-level baseline label no longer covers their changed asset.
-  const hurt = /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman)|boss_teng_huayuan)\//;
+  const hurt = /^characters\/(mob_(rogue_disciple|courtyard_guard|sword_acolyte|herb_viper|demonic_talisman|stone_puppet|stone_archer_puppet|chain_warden|void_eater|rune_sentinel)|boss_(teng_huayuan|ancient_god_remnant))\//;
   let baseline = 0;
   for (const f of core) {
     const want = vs.has(f.processed) ? 'approved' : hurt.test(f.info.key) ? 'awaiting' : 'baseline';
     baseline += want === 'baseline';
     assert.equal(await standing.of(f.processed), want, f.info.key);
   }
-  assert.ok(baseline > 1000, 'most of the legacy core art stays baseline');
+  assert.ok(baseline > 800, 'most of the legacy core art stays baseline');
 });
 
 test('a transparent pixel with colour does not break the match with the normalized stored copy', () => {

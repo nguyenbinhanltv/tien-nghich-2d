@@ -32,7 +32,7 @@ test('both entries carry the owner\'s own words, say the first statement was nar
 
 test('the real project: zero awaiting, the 51 vertical-slice assets of 2026-11-23 are approved with everything Longtime, the rest of the legacy core art stays baseline', async () => {
   const counts = await artCounts(repo, tmp('review-lib-'));
-  assert.deepEqual(counts, {approved: 3554, baseline: 1222, awaiting: 312, changes_requested: 0, total: 5088});
+  assert.deepEqual(counts, {approved: 3554, baseline: 902, awaiting: 668, changes_requested: 0, total: 5124});
 });
 
 test('the legacy baseline is not approved by this record: no entry covers a frame of assets/processed', () => {
@@ -128,11 +128,11 @@ test('the baseline record is kept untouched and never wins over an approval', as
   const baselineOnly = createStanding(repo, {review: pack.review});
   const tally = {};
   for (const [, s] of await baselineOnly.ofMany(frames)) tally[s] = (tally[s] ?? 0) + 1;
-  assert.equal(tally.baseline, 2578, 'baseline_frames.json still labels exactly the legacy art');
+  assert.equal(tally.baseline, 2258, 'baseline_frames.json still labels exactly the legacy art');
   const withApprovals = createStanding(repo, {review: pack.review, approvalsDir: pack.directories.approvals});
   const both = {};
   for (const [, s] of await withApprovals.ofMany(frames)) both[s] = (both[s] ?? 0) + 1;
-  assert.deepEqual(both, {approved: 3554, baseline: 1222, awaiting: 312});
+  assert.deepEqual(both, {approved: 3554, baseline: 902, awaiting: 668});
 });
 
 const VS = 'owner_vs_baseline_2026-11-23';
