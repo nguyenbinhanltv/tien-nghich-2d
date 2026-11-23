@@ -5,11 +5,17 @@
 import { COMBAT } from '../../contracts/combat.ts';
 import type { ActorState, GameEvent, WorldState } from '../../contracts/world.ts';
 import { msToTicks } from '../../contracts/world.ts';
+import type { ContentApi } from '../../contracts/content.ts';
 import { findPlayer } from '../actors.ts';
 import { unitInto } from '../math.ts';
+import { clamp } from '../math.ts';
+import { circleHitsSolid } from '../systems/grid.ts';
 import { addHazard, markDodgedThrough, resolveHazard } from '../systems/telegraph.ts';
+import { spawnMob } from './index.ts';
 
-export interface EncounterAttack { clip: string; tell: { ms: number; sfx_event?: string; vfx?: string }; dodge_window_ms: number; strike_window_ms: number; hit: { id: string; damage: number } }
+/** An attack that calls mobs instead of hurting: `count` of each, never more than `max_alive` hostile mobs on the field. */
+export interface EncounterSummon { mobs: { mob: string; count: number }[]; max_alive: number }
+export interface EncounterAttack { clip: string; tell: { ms: number; sfx_event?: string; vfx?: string }; dodge_window_ms: number; strike_window_ms: number; hit: { id: string; damage: number }; summon?: EncounterSummon }
 /** `enter_clip` is played by the renderer on the `phase-changed` event of this phase (see warn()); it does not change sim timing. */
 export interface EncounterPhase { id: string; hp_above: number; enter_clip?: string; opener?: string; stalk_ms?: number; loop: string[] }
 export interface Encounter { id: string; boss: string; phases: EncounterPhase[]; attacks: Record<string, EncounterAttack> }
@@ -19,6 +25,8 @@ export const HIT_SHAPES = {
   claw_strip: { kind: 'claw', radius: 17, length: 124, atPlayer: false },
   seal_disc: { kind: 'seal', radius: 32, length: 124, atPlayer: true },
   wail_ring: { kind: 'wail', radius: 103, length: 124, atPlayer: false },
+  /** The summoning circle shown under the boss; it deals no damage and is never resolved against the player. */
+  summon_call: { kind: 'circle', radius: 40, length: 0, atPlayer: false },
 } as const;
 export type HitId = keyof typeof HIT_SHAPES;
 
@@ -31,11 +39,24 @@ export function phaseIndex(enc: Encounter, hp: number, hpMax: number): number {
   return enc.phases.length - 1;
 }
 
+/** The encounter without its summon attacks: the three-attack core that matches the reference port (systems/ghost-king.ts) tick for tick. */
+export function stripSummons(enc: Encounter): Encounter {
+  const gone = new Set(Object.entries(enc.attacks).filter(([, a]) => a.summon).map(([k]) => k));
+  return {
+    ...enc, attacks: Object.fromEntries(Object.entries(enc.attacks).filter(([k]) => !gone.has(k))),
+    phases: enc.phases.map((ph) => { const { opener, ...rest } = ph; return { ...rest, ...(opener && !gone.has(opener) ? { opener } : {}), loop: ph.loop.filter((a) => !gone.has(a)) }; }),
+  };
+}
+
 /** Problems in an encounter the runner cannot play (unknown hit shapes, attacks, bad windows). Empty when playable. */
-export function encounterProblems(enc: Encounter): string[] {
+export function encounterProblems(enc: Encounter, mobIds?: ReadonlySet<string>): string[] {
   const p: string[] = [];
   for (const [name, a] of Object.entries(enc.attacks)) {
     if (!(a.hit.id in HIT_SHAPES)) p.push(`attack ${name}: unknown hit shape ${a.hit.id}`);
+    if (a.summon) {
+      if (a.hit.damage !== 0) p.push(`attack ${name}: a summon deals no damage`);
+      for (const m of a.summon.mobs) if (mobIds && !mobIds.has(m.mob)) p.push(`attack ${name}: summons unknown mob ${m.mob}`);
+    } else if (a.hit.id === 'summon_call') p.push(`attack ${name}: summon_call needs a summon list`);
     if (a.tell.ms < 250) p.push(`attack ${name}: tell ${a.tell.ms} ms is under 250 ms`);
     if (msToTicks(a.dodge_window_ms) !== COMBAT.dodgeGuard) p.push(`attack ${name}: dodge window ${a.dodge_window_ms} ms is not the ${COMBAT.dodgeGuard}-tick guard`);
     if (msToTicks(a.strike_window_ms) !== COMBAT.counterWindow) p.push(`attack ${name}: strike window ${a.strike_window_ms} ms is not the ${COMBAT.counterWindow}-tick counter window`);
@@ -62,6 +83,7 @@ function warn(world: WorldState, b: ActorState, p: ActorState, enc: Encounter, e
   } else name = phase.loop[b.ai.data[0]++ % phase.loop.length] as string;
   const atk = enc.attacks[name] as EncounterAttack, shape = HIT_SHAPES[atk.hit.id as HitId];
   b.ai.state = 'warn';
+  b.ai.data[3] = atk.summon ? Object.keys(enc.attacks).indexOf(name) + 1 : 0; // a summon in the making (read at impact); 0 for the damaging attacks, as in the reference port
   b.ai.timer = msToTicks(atk.tell.ms);
   b.facing = Math.abs(d.x) > 0.35 ? (d.x < 0 ? 'west' : 'east') : 'south';
   addHazard(world, {
@@ -71,8 +93,26 @@ function warn(world: WorldState, b: ActorState, p: ActorState, enc: Encounter, e
   b.clip = atk.clip; b.clipStartTick = world.tick;
 }
 
+/** Offsets (px) round the boss where summoned mobs appear: the first free one is used. Literals, no trig. */
+const SUMMON_SPOTS: readonly [number, number][] = [[-40, 0], [40, 0], [0, -40], [0, 40], [-28, -28], [28, -28], [-28, 28], [28, 28]];
+
+/** Call the mobs of a summon attack. Needs `content`; without it the call is only a telegraph. Skips spots inside walls. */
+function summon(world: WorldState, b: ActorState, s: EncounterSummon, events: GameEvent[], content: ContentApi | undefined): void {
+  if (!content) return;
+  let alive = world.actors.reduce((n, a) => n + (a.role === 'mob' && a.hp > 0 ? 1 : 0), 0), spot = b.ai.data[0] % SUMMON_SPOTS.length;
+  for (const m of s.mobs) for (let k = 0; k < m.count && alive < s.max_alive; k++) {
+    for (let tries = 0; tries < SUMMON_SPOTS.length; tries++, spot = (spot + 1) % SUMMON_SPOTS.length) {
+      const [dx, dy] = SUMMON_SPOTS[spot] as [number, number];
+      const x = clamp(b.pos.x + dx, world.room.minX, world.room.maxX), y = clamp(b.pos.y + dy, world.room.minY, world.room.maxY);
+      if (world.grid && circleHitsSolid(world.grid, x, y, 6)) continue;
+      spawnMob(world, content, m.mob, x, y, events); alive++; spot = (spot + 1) % SUMMON_SPOTS.length;
+      break;
+    }
+  }
+}
+
 /** One tick of the boss while the fight is `playing` (after the player and shots moved). `speed` is px/s from bosses.csv. */
-export function bossStep(world: WorldState, b: ActorState, enc: Encounter, speed: number, events: GameEvent[]): void {
+export function bossStep(world: WorldState, b: ActorState, enc: Encounter, speed: number, events: GameEvent[], content?: ContentApi): void {
   const p = findPlayer(world);
   if (!p || b.hp <= 0) return;
   const ai = b.ai, stalkSpeed = speed / 60;
@@ -92,7 +132,9 @@ export function bossStep(world: WorldState, b: ActorState, enc: Encounter, speed
     if (ai.timer <= 0) warn(world, b, p, enc, events);
   } else if (ai.state === 'warn' && ai.timer <= 0 && h) {
     ai.state = 'impact'; ai.timer = COMBAT.bossImpact;
-    resolveHazard(world, h, p, events);
+    const atk = ai.data[3] > 0 ? enc.attacks[Object.keys(enc.attacks)[ai.data[3] - 1] as string] : undefined;
+    ai.data[3] = 0;
+    if (atk?.summon) summon(world, b, atk.summon, events, content); else resolveHazard(world, h, p, events);
   } else if (ai.state === 'impact' && ai.timer <= 0) {
     world.hazards = world.hazards.filter((x) => x.owner !== b.id); // only the boss's own telegraph
     ai.state = 'recover'; ai.timer = COMBAT.bossRecovery;

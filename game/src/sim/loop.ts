@@ -68,7 +68,7 @@ export function step(world: WorldState, input: InputFrame, events: GameEvent[], 
     for (const a of world.actors) {
       if (a.role !== 'boss' || !ctx.content.has('bosses', a.kind)) continue;
       const row = ctx.content.get<BossRow>('bosses', a.kind);
-      bossStep(world, a, ctx.content.get<Encounter>('encounters', row.encounter), row.speed, events);
+      bossStep(world, a, ctx.content.get<Encounter>('encounters', row.encounter), row.speed, events, ctx.content);
     }
   } else for (const a of world.actors) if (a.role === 'boss' && a.kind === BOSS_SCRIPT) ghostKingStep(world, a, events);
   sweepDead(world, events);
