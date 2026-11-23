@@ -16,7 +16,8 @@ describe('sample content tables (Huyết Hải slice)', () => {
   it('pass their schemas', () => { expect(problems).toEqual([]); });
   it('have the slice shape: 5 mobs, 1 boss, a run abode -> 9 combat -> boss -> reward', () => {
     expect(tables.mobs.filter((m) => m.biome === 'blood_sea')).toHaveLength(5); expect(tables.bosses.filter((b) => b.biome === 'blood_sea')).toHaveLength(1);
-    expect(tables.rooms.map((r) => r.kind)).toEqual(['abode', ...Array<string>(9).fill('combat'), 'boss', 'reward']);
+    for (const biome of ['blood_sea', 'hengyue']) expect(tables.rooms.filter((r) => r.biome === biome).map((r) => r.kind)).toEqual([...Array<string>(9).fill('combat'), 'boss', 'reward']);
+    expect(tables.rooms.filter((r) => r.kind === 'abode')).toHaveLength(1);
   });
   it('cross-reference the art manifests, encounters and locale', () => {
     expect(crossCheck(tables, assets, { vi: locale('vi'), en: locale('en') })).toEqual([]);

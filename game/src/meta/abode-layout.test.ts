@@ -20,3 +20,12 @@ describe('abode layout', () => {
     expect(clampToWalk(999, 999)).toEqual({ x: WALK.x1, y: WALK.y1 });
   });
 });
+
+describe('the Hằng Nhạc gate', () => {
+  it('is a station of its own, in reach only near itself and away from the Huyết Hải gate', () => {
+    const g = STATIONS.find((s) => s.id === 'gate_hengyue')!, b = STATIONS.find((s) => s.id === 'gate')!;
+    expect(nearestStation(g.x, g.y)?.id).toBe('gate_hengyue');
+    expect(nearestStation(b.x, b.y)?.id).toBe('gate');
+    expect(Math.hypot(g.x - b.x, g.y - b.y)).toBeGreaterThan(g.reach + b.reach - 10);
+  });
+});

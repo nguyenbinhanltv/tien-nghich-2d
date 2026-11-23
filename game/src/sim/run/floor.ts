@@ -15,11 +15,24 @@ import { advanceRoom, startRun } from './run.ts';
 export const TILE = 16;
 const PLAYER_HP = 6, PLAYER_RADIUS = 5, BOSS_RADIUS = 19, BOSS_FIRST_ATTACK = 84;
 
-/** The rooms of the floor in play order: the chain of `next` after the abode. */
-export function floorChain(content: ContentApi): string[] {
+/** Biomes a run can start in, in rooms.csv order: the first is the default (the one the abode room leads to). */
+export function floorBiomes(content: ContentApi): string[] {
+  const rows = content.ids('rooms').map((id) => content.get<RoomRow>('rooms', id));
+  const abode = rows.find((r) => r.kind === 'abode');
+  const first = abode?.next ? rows.find((r) => r.id === abode.next)?.biome : undefined;
+  const all = rows.filter((r) => r.kind !== 'abode').map((r) => r.biome).filter((b, i, l) => l.indexOf(b) === i);
+  return first ? [first, ...all.filter((b) => b !== first)] : all;
+}
+
+/** The rooms of a biome in play order: from the room nothing leads to (the abode's `next` for the default biome), along `next`. */
+export function floorChain(content: ContentApi, biome?: string): string[] {
+  const rows = content.ids('rooms').map((id) => content.get<RoomRow>('rooms', id));
+  const want = biome ?? floorBiomes(content)[0];
+  const pointed = new Set(rows.map((r) => r.next).filter(Boolean));
+  const abode = rows.find((r) => r.kind === 'abode');
+  const head = rows.find((r) => r.biome === want && r.kind !== 'abode' && (!pointed.has(r.id) || abode?.next === r.id));
   const out: string[] = [];
-  const start = content.ids('rooms').find((id) => content.get<RoomRow>('rooms', id).kind === 'abode');
-  let id = start ? content.get<RoomRow>('rooms', start).next : undefined;
+  let id = head?.id;
   while (id && !out.includes(id)) { out.push(id); id = content.get<RoomRow>('rooms', id).next || undefined; }
   return out;
 }
@@ -73,11 +86,11 @@ export function enterRoom(world: WorldState, content: ContentApi, roomId: string
   setMode(world, 'playing', events);
 }
 
-/** Start a run on the floor: a fresh player (if none), the run state, and the first room. */
-export function startFloor(world: WorldState, content: ContentApi, runId: number, events: GameEvent[]): void {
+/** Start a run on the floor: a fresh player (if none), the run state, and the first room of `biome` (default: the abode's). */
+export function startFloor(world: WorldState, content: ContentApi, runId: number, events: GameEvent[], biome?: string): void {
   if (!findPlayer(world)) spawnActor(world, 'player', 0, 0, PLAYER_HP, events, PLAYER_RADIUS);
   startRun(world, runId);
-  enterRoom(world, content, floorChain(content)[0] as string, events);
+  enterRoom(world, content, floorChain(content, biome)[0] as string, events);
 }
 
 const alive = (world: WorldState): number => world.actors.reduce((n, a) => n + (a.role !== 'player' && a.hp > 0 ? 1 : 0), 0);
@@ -96,7 +109,7 @@ export function floorSystem(world: WorldState, content: ContentApi, events: Game
   if (!exit || !world.grid) return;
   const col = Math.floor(player.pos.x / TILE), row = Math.floor(player.pos.y / TILE);
   if (world.grid.rows[row]?.[col] !== 'O' || col !== L.size[0] - 1) return; // in the doorway of the exit
-  const chain = floorChain(content), next = chain[chain.indexOf(st.room) + 1];
+  const next = content.get<RoomRow>('rooms', st.room).next;
   if (!next) return;
   if (world.run?.outcome === 'active') {
     const r = advanceRoom(world, events);

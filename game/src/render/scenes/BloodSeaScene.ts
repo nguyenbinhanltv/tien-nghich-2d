@@ -19,7 +19,8 @@ import { SUMMON_ORIGIN, SUMMON_RING_LIFT, summonFrameName, SummonFx } from '../s
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
 import { attachRun, canRestartRun } from '../../meta/flow.ts';
-import type { ContentApi, RoomLayout } from '../../contracts/content.ts';
+import type { ContentApi, RoomLayout, RoomRow } from '../../contracts/content.ts';
+import { floorChain } from '../../sim/run/floor.ts';
 import { RoomView } from '../room-view.ts';
 
 export interface SceneHost {
@@ -28,6 +29,8 @@ export interface SceneHost {
   paused(): boolean;
   /** Display name of a content id (a boss or mob) in the player's language. */
   nameOf?(kind: string): string;
+  /** Biome the run is in (a rooms.csv biome id); absent = the default one (Huyết Hải). */
+  biome?: string;
   /** Floor name shown by the minimap (e.g. "Huyết Hải"). */
   floorLabel?: string;
   /** Sim events of this render frame (audio, juice). The array is cleared after the call. */
@@ -90,7 +93,7 @@ export class BloodSeaScene extends Phaser.Scene {
   constructor(host: SceneHost) {
     super('blood-sea');
     this.host = host;
-    this.fight = new FightRunner(host.run?.seed, host.content ?? null, host.run?.runId);
+    this.fight = new FightRunner(host.run?.seed, host.content ?? null, host.run?.runId, host.biome);
     // the boss-only fallback attaches its own run; on the real floor the sim started the run in the first room
     if (host.run && !this.fight.hasFloor) attachRun(this.fight.world, host.run.runId);
   }
@@ -109,7 +112,7 @@ export class BloodSeaScene extends Phaser.Scene {
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
     if (this.cache.json.exists('content-tables')) {
       const t = this.cache.json.get('content-tables') as { rooms?: { id: string; kind: string; next?: string }[] };
-      this.floor.setFloor(t.rooms ?? [], 'room_bs_1', this.host.floorLabel ?? '');
+      this.floor.setFloor(t.rooms ?? [], this.host.content ? (floorChain(this.host.content, this.host.biome)[0] ?? 'room_bs_1') : 'room_bs_1', this.host.floorLabel ?? '');
     }
     if (this.host.frozen) for (let i = 0; i < 120; i++) this.fight.tick(NO_INPUT);
     this.draw();
@@ -181,7 +184,7 @@ export class BloodSeaScene extends Phaser.Scene {
     if (!st || !grid || !this.host.content) return;
     if (this.room.roomId !== st.room) {
       const layout = this.host.content.get<RoomLayout>('room_layouts', st.room);
-      this.room.show(st.room, grid.rows, layout.props);
+      this.room.show(st.room, grid.rows, layout.props, this.host.content.get<RoomRow>('rooms', st.room).tileset);
       if (this.room.roomId && this.fight.world.tick > 0) this.cameras.main.fadeIn(180, 20, 16, 26);
     }
     this.room.update(grid.rows, w.tick);

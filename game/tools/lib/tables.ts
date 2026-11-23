@@ -154,6 +154,9 @@ export function semanticCheck(t: Tables, bodies: Record<string, unknown> = {}, s
     const reached = new Set<string>([String(starts[0]!.id)]);
     const biomes = new Map<string, string>();
     for (const head of heads) {
+      const biome = String(rooms.get(head)!.biome);
+      if (biomes.has(biome)) { errors.push(`rooms.csv ${head}: not reachable from the abode (a ${biome} room that no room leads to; the ${biome} chain already starts at ${biomes.get(biome)})`); continue; }
+      biomes.set(biome, head);
       const order: string[] = [];
       let cur: string | undefined = head;
       while (cur && rooms.has(cur)) {
@@ -162,9 +165,6 @@ export function semanticCheck(t: Tables, bodies: Record<string, unknown> = {}, s
         const next: string | number | undefined = rooms.get(cur)!.next;
         cur = next ? String(next) : undefined;
       }
-      const biome = String(rooms.get(head)!.biome), other = biomes.get(biome);
-      if (other) errors.push(`rooms.csv: biome ${biome} has two room chains (from ${other} and ${head})`);
-      biomes.set(biome, head);
       for (const id of order) if (rooms.get(id)!.biome !== biome) errors.push(`rooms.csv ${id}: a ${rooms.get(id)!.biome} room inside the ${biome} chain from ${head}`);
       const last = rooms.get(order.at(-1)!);
       if (last && last.kind !== 'reward') errors.push(`rooms.csv ${last.id}: the chain ends here but it is a ${last.kind} room, not a reward room`);

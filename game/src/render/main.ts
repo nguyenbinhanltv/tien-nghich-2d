@@ -29,7 +29,8 @@ const audio = new AudioDirector();
 // the sound card needs a user gesture: the first touch/key/pad press unlocks it and starts the room's bed
 hub.onGesture = () => audio.unlock();
 window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
-const startBgm = new URLSearchParams(location.search).get('view') === 'dong-phu' ? 'bgm_dong_phu' : 'bgm_blood_sea';
+const devBiome = new URLSearchParams(location.search).get('biome') === 'hengyue' ? 'hengyue' : 'blood_sea'; // dev: ?biome=hengyue plays the Hằng Nhạc floor without the hub
+const startBgm = new URLSearchParams(location.search).get('view') === 'dong-phu' ? 'bgm_dong_phu' : devBiome === 'hengyue' ? 'bgm_hengyue' : 'bgm_blood_sea';
 void audio.init().then(() => audio.engine.playBgm(startBgm));
 let portrait = false;
 let away = false; // app in the background (src/platform/lifecycle.ts)
@@ -46,7 +47,7 @@ const scene: Phaser.Scene = flow
   ? flow.first()
   : params.get('view') === 'clips'
   ? new ClipViewerScene(params.get('kind') ?? 'mob_blood_wolf', Number(params.get('page') ?? 0), params.get('chunk'))
-  : new BloodSeaScene({ content, onGate: (c) => ui.menus?.openGate(c), runLines: (r) => runLines((k) => i18n.t(k), r), sample: () => hub.sample(), floorLabel: i18n.t('place.blood_sea'), nameOf: (k) => (i18n.has(k) ? i18n.t(k) : ''), paused: () => portrait || away || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
+  : new BloodSeaScene({ content, onGate: (c) => ui.menus?.openGate(c), runLines: (r) => runLines((k) => i18n.t(k), r), sample: () => hub.sample(), biome: devBiome, floorLabel: i18n.t(`place.${devBiome}`), nameOf: (k) => (i18n.has(k) ? i18n.t(k) : ''), paused: () => portrait || away || (ui.menus?.isOpen ?? false), onEvents: (ev, w) => audio.handle(ev, w),
     status: (w) => { const p = w.actors.find((a) => a.role === 'player'), b = w.actors.find((a) => a.role === 'boss'); setStatus(statusText(i18n, { playerHp: p?.hp ?? 0, playerMax: p?.hpMax ?? 0, bossHp: b?.hp ?? 0, bossMax: b?.hpMax ?? 0, mode: w.mode }), isResult(w.mode)); },
     frozen: params.has('golden') });
 

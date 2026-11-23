@@ -7,7 +7,11 @@ import { doorSpots, propFrames, tileKind } from './room-tiles.ts';
 import type { DoorSpot } from './room-tiles.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
-const T = 'tilesets/ts_blood_valley/';
+/** Tile frames of a room's tileset (rooms.csv `tileset`). Hằng Nhạc: stone slabs with a garden patch every few tiles; no blood pools. */
+const SETS: Record<string, { dir: string; floor(c: number, r: number, h: number): string; face: string; cap: string; pool: boolean }> = {
+  ts_blood_valley: { dir: 'tilesets/ts_blood_valley/', floor: (_c, _r, h) => `floor_blood_variants_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_46', pool: true },
+  ts_hengyue: { dir: 'tilesets/ts_hengyue/', floor: (c, r, h) => `${((c >> 2) + (r >> 2)) % 4 === 0 ? 'floor_garden_variants' : 'floor_variants'}_f0_${h % 4}`, face: 'wall_face_f0_', cap: 'wall_top_blob47_f0_46', pool: false },
+};
 const TILE = 16;
 const DOOR_LOCKED = 'props/prop_room_door/locked_none_0', DOOR_OPEN = 'props/prop_room_door/open_none_0';
 const hash = (x: number, y: number): number => {
@@ -36,18 +40,19 @@ export class RoomView {
   }
 
   /** Rebuild for a room. `props` come from the layout (content/rooms), `rows` from the sim's grid. */
-  show(roomId: string, rows: readonly string[], props: readonly { id: string; at: [number, number] }[]): void {
+  show(roomId: string, rows: readonly string[], props: readonly { id: string; at: [number, number] }[], tileset = 'ts_blood_valley'): void {
+    const S = SETS[tileset] ?? SETS['ts_blood_valley']!, T = S.dir;
     for (const o of this.objects) o.destroy();
     this.objects = []; this.doors = []; this.props = [];
     this.roomId = roomId;
     for (let r = 0; r < rows.length; r++) {
       for (let c = 0; c < rows[r]!.length; c++) {
         const k = tileKind(rows, c, r), h = hash(c, r), x = c * TILE, y = r * TILE;
-        if (k === 'wall-face') this.img(`${T}wall_face_f0_${h % 12}`, x, y - TILE, 2);
-        else if (k === 'wall-cap') this.img(`${T}wall_top_blob47_f0_46`, x, y, 2);
+        if (k === 'wall-face') this.img(`${T}${S.face}${h % 12}`, x, y - TILE, 2);
+        else if (k === 'wall-cap') this.img(`${T}${S.cap}`, x, y, 2);
         else {
-          this.img(`${T}floor_blood_variants_f0_${h % 4}`, x, y, 0);
-          if (k === 'pool') this.img(`${T}blood_pool_blob47_f0_46`, x, y, 1);
+          this.img(`${T}${S.floor(c, r, h)}`, x, y, 0);
+          if (k === 'pool' && S.pool) this.img(`${T}blood_pool_blob47_f0_46`, x, y, 1);
         }
       }
     }

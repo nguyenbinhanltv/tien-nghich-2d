@@ -28,7 +28,7 @@ export function artOf(world: Pick<WorldState, 'mode' | 'tick'>, a: ActorState, m
   }
   if (a.role === 'boss') {
     if (a.hp <= 0 || a.ai.state === 'release') return { kind: a.kind, clip: 'death', startTick: a.clipStartTick };
-    if (a.ai.state === 'warn' || a.ai.state === 'impact') return { kind: a.kind, clip: BOSS_CLIP[a.clip] ?? 'attack_claw', startTick: a.clipStartTick };
+    if (a.ai.state === 'warn' || a.ai.state === 'impact') return { kind: a.kind, clip: BOSS_CLIP[a.clip] ?? a.clip, startTick: a.clipStartTick };
     return { kind: a.kind, clip: a.ai.state === 'stalk' ? 'move' : 'idle', startTick: 0 };
   }
   // mobs: dead -> death, a counter-struck mob flinches (hurt, from the recorded hit tick), otherwise move (their AI sets finer clips later)

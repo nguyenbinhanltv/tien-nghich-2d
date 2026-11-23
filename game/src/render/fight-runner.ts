@@ -18,8 +18,10 @@ export class FightRunner {
   /** Events of ticks since the last `drain()`. */
   private pending: GameEvent[] = [];
 
-  constructor(seed = FIGHT_SEED, content: ContentApi | null = null, runId = 1) {
-    this.content = content; this.runId = runId;
+  private readonly biome: string | undefined;
+
+  constructor(seed = FIGHT_SEED, content: ContentApi | null = null, runId = 1, biome?: string) {
+    this.content = content; this.runId = runId; this.biome = biome;
     this.sim = createSim({ seed, ...(content ? { content } : {}) });
     this.begin();
   }
@@ -31,7 +33,7 @@ export class FightRunner {
   restart(seed = FIGHT_SEED): void { this.sim = createSim({ seed, ...(this.content ? { content: this.content } : {}) }); this.pending.length = 0; this.begin(); }
   private begin(): void {
     const ev: GameEvent[] = [];
-    if (this.content) startFloor(this.sim.world, this.content, this.runId, ev); else startGhostKingFight(this.sim.world, ev);
+    if (this.content) startFloor(this.sim.world, this.content, this.runId, ev, this.biome); else startGhostKingFight(this.sim.world, ev);
     this.pending.push(...ev);
   }
   /** The realm-gate choice (cluster 2). The sim waits at the door until it is made; its events (realm-breakthrough, reward-gained) are queued. */

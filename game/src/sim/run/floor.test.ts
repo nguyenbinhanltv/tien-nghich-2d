@@ -9,7 +9,7 @@ import { findPlayer } from '../actors.ts';
 import { contentFromTables } from '../context.ts';
 import { createWorld, NO_INPUT, step } from '../loop.ts';
 import { damageEnemy } from '../systems/combat.ts';
-import { enterRoom, floorChain, floorSystem, startFloor, TILE } from './floor.ts';
+import { enterRoom, floorBiomes, floorChain, floorSystem, startFloor, TILE } from './floor.ts';
 import { takeGate } from './run.ts';
 import { dist, unitInto } from '../math.ts';
 import { hazardIncoming } from '../systems/telegraph.ts';
@@ -34,6 +34,34 @@ const freshRun = (seed = 1): { w: WorldState; ev: GameEvent[] } => { const w = c
 describe('floor chain', () => {
   it('is the nine combat rooms and the boss room, from the abode onwards', () => {
     expect(floorChain(content)).toEqual([...Array.from({ length: 9 }, (_, i) => `room_bs_${i + 1}`), 'room_bs_boss', 'room_bs_reward']);
+  });
+});
+
+describe('biomes (G2-HN)', () => {
+  it('lists blood_sea first (the abode leads there) then hengyue; each biome is its own chain of 11 rooms', () => {
+    expect(floorBiomes(content)).toEqual(['blood_sea', 'hengyue']);
+    expect(floorChain(content, 'hengyue')).toEqual([...Array.from({ length: 9 }, (_, i) => `room_hy_${i + 1}`), 'room_hy_boss', 'room_hy_reward']);
+    expect(floorChain(content, 'blood_sea')).toEqual(floorChain(content));
+    expect(floorChain(content, 'nowhere')).toEqual([]);
+  });
+  it('startFloor with a biome starts in its first room; without one it starts in Huyết Hải', () => {
+    const a = createWorld(1), b = createWorld(1);
+    startFloor(a, content, 1, [], 'hengyue'); startFloor(b, content, 1, []);
+    expect(a.stage!.room).toBe('room_hy_1'); expect(b.stage!.room).toBe('room_bs_1');
+    expect(a.actors.filter((x) => x.role === 'mob').map((x) => x.kind)).toEqual(['mob_rogue_disciple', 'mob_rogue_disciple']);
+  });
+  it('walks a Hằng Nhạc room into the next one, never into Huyết Hải, and the last room of the chain ends it', () => {
+    const w = createWorld(1), ev: GameEvent[] = [];
+    startFloor(w, content, 1, ev, 'hengyue');
+    for (const next of ['room_hy_2', 'room_hy_3']) { killAll(w, ev); for (let i = 0; i < 90; i++) tick(w, ev); walkOut(w, ev); if (w.stage!.room !== next) { killAll(w, ev); for (let i = 0; i < 90; i++) tick(w, ev); walkOut(w, ev); } expect(w.stage!.room).toBe(next); }
+  });
+  it('the boss room spawns Đằng Hóa Nguyên and its encounter runs through step()', () => {
+    const w = createWorld(1), ev: GameEvent[] = [];
+    startFloor(w, content, 1, ev, 'hengyue'); enterRoom(w, content, 'room_hy_boss', ev);
+    expect(w.actors.find((a) => a.role === 'boss')!.kind).toBe('boss_teng_huayuan');
+    let telegraphs = 0;
+    for (let i = 0; i < 300; i++) { tick(w, ev); telegraphs += ev.filter((e) => e.type === 'telegraph').length; }
+    expect(telegraphs).toBeGreaterThan(0);
   });
 });
 

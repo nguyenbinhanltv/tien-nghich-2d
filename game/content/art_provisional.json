@@ -1,0 +1,15 @@
+{
+  "$comment": "TEMPORARY allow-list, NOT an approval. Art that is on main but has no owner approval record yet (assets/review/art_approvals.json stays the only authority and is never written from here). The room validator accepts these ids and prints a 'not yet approved' warning for every use. Remove an id as soon as the owner approves it: a test fails when an id here is also approved.",
+  "decision": {
+    "by": "project owner, relayed by the orchestrator (session tien-nghich-2d-1)",
+    "date": "2026-11-24",
+    "quote": "Cho dùng tạm trước khi duyệt",
+    "scope": "Hằng Nhạc biome art for the G2-HN lane (rooms only)"
+  },
+  "ids": [
+    "ts_hengyue",
+    "mob_rogue_disciple", "mob_courtyard_guard", "mob_sword_acolyte", "mob_herb_viper", "mob_demonic_talisman",
+    "boss_teng_huayuan",
+    "prop_courtyard_pillar", "prop_stone_lantern", "prop_bamboo_cluster", "prop_spirit_herb", "prop_sect_banner"
+  ]
+}
