@@ -16,6 +16,7 @@
     "bench": "PERF=1 vitest run tests/sim-core.test.ts tests/combat-systems.test.ts --silent=false",
     "content:build": "node tools/content-build.ts",
     "content:check": "node tools/content-build.ts --check",
+    "bot": "node tools/bot-report.ts",
     "contract:check": "node tools/kiln-contract-check.ts",
     "hitbox": "node tools/hitbox.ts",
     "contract:draft-bodies": "node tools/draft-bodies.ts",
