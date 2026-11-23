@@ -11,3 +11,4 @@ Three modes (abode, ink, paper) and two densities (comfortable, compact). The ch
 - **THEME-007** The choice is kept in `localStorage`, and a storage that refuses neither throws nor blocks the change.
 - **THEME-008** The top bar menu is a toggle with `aria-expanded`, the command palette has a mode action and a density action, the system preference is followed until a choice is stored, and none of this posts anything.
 - **THEME-009** The schema and the pack agree on `ui.themeModes`.
+- **THEME-010** A change of the system colour scheme restyles the page without remounting the open tab (it happens by itself and must not discard what is being typed); an explicit choice of mode still redraws the tab.

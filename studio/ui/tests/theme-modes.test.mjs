@@ -161,3 +161,13 @@ test('THEME-009: the schema and the pack agree on ui.themeModes', () => {
   assert.equal(modes.additionalProperties, false);
   assert.ok(schema.$defs.themeMode.properties.colors && schema.$defs.themeMode.properties.name);
 });
+
+test('THEME-010: a change of the system colour scheme restyles the page but never remounts the open tab; choosing a mode does', () => {
+  const shell = fs.readFileSync(ui + 'shell.js', 'utf8');
+  const start = shell.indexOf("lightQuery?.addEventListener?.('change'");
+  const passive = shell.slice(start, shell.indexOf('\n', start));
+  assert.ok(start > 0 && /applyAppearanceNow\(\)/.test(passive) && /syncThemeMenu\(\)/.test(passive), 'it applies the tokens and syncs the menu');
+  assert.doesNotMatch(passive, /mountRoute/, 'no remount on a change the person did not make: a typed note would be lost');
+  const setMode = shell.slice(shell.indexOf('async function setMode'), shell.indexOf('function setDensity'));
+  assert.match(setMode, /mountRoute\(true\)/, 'an explicit choice still redraws the tab, so canvases read the new colours');
+});

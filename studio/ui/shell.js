@@ -389,8 +389,9 @@ async function boot() {
   state.mode = pickMode(storedMode, Boolean(lightQuery?.matches));
   state.density = pickDensity(readChoice(store, densityKey));
   applyAppearanceNow();
-  // Until the person picks a mode, the system's light/dark setting is followed live.
-  lightQuery?.addEventListener?.('change', () => { if (!isChosen(readChoice(store, modeKey))) { state.mode = pickMode(null, lightQuery.matches); applyAppearanceNow(); syncThemeMenu(); mountRoute(true); } });
+  // Until the person picks a mode, the system's light/dark setting is followed live. This happens by itself (sunset, a schedule), so it only restyles:
+  // the open tab is NOT remounted, which would throw away a note being typed. Canvases take the new colours the next time a tab is drawn.
+  lightQuery?.addEventListener?.('change', () => { if (!isChosen(readChoice(store, modeKey))) { state.mode = pickMode(null, lightQuery.matches); applyAppearanceNow(); syncThemeMenu(); } });
   document.addEventListener('click', event => { if (state.themeOpen && !event.target.closest('#theme-menu')) setThemeMenu(false); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && state.themeOpen && !state.palette?.isOpen()) { event.preventDefault(); setThemeMenu(false, {restoreFocus: true}); } });
   let stored;
