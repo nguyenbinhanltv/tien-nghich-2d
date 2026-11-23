@@ -15,6 +15,9 @@ const MIME: Record<string, string> = { '.png': 'image/png', '.json': 'applicatio
 export const AUDIO_RE = /^audio\/packs\/[a-z0-9_]+\/(pack\.json|sfx_sprite\.(ogg|m4a)|bgm_[a-z0-9_]+\.(ogg|m4a))$/;
 /** Compiled content the game reads at run time (npm run content:build writes dist-content/). */
 export const CONTENT_FILES = ['audio_events.json', 'tables.json'];
+/** Per-id JSON the floor needs: room layouts and boss encounters (dist-content/rooms/*.json, encounters/*.json). */
+export const CONTENT_RE = /^(rooms|encounters)\/[a-z0-9_]+\.json$/;
+export const isContentFile = (name: string): boolean => CONTENT_FILES.includes(name) || CONTENT_RE.test(name);
 export const ATLAS_RE = /^(atlases\/mobile\/atlas-\d+\.(png|json)|atlases\/mob-runtime\.json|atlases_longtime\/mobile\/[a-z_]+\/(atlas-\d+\.(png|json)|chunk-manifest\.json))$/;
 
 /** IPv4/IPv6 loopback and private (RFC 1918, link-local, unique-local) addresses. */
@@ -41,7 +44,7 @@ export function pwa(): Plugin {
     server.middlewares.use('/content', (req, res, next) => {
       const name = decodeURIComponent((req.url ?? '').split('?')[0] ?? '').replace(/^\//, '');
       const file = join(GAME, 'dist-content', name);
-      if (!CONTENT_FILES.includes(name) || !existsSync(file)) return next();
+      if (!isContentFile(name) || !existsSync(file)) return next();
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('Cache-Control', 'no-cache');
       res.end(readFileSync(file));
@@ -89,6 +92,15 @@ export function pwa(): Plugin {
         if (!existsSync(src)) throw new Error(`dist-content/${name} missing: run npm run content:build before vite build`);
         mkdirSync(join(dist, 'content'), { recursive: true });
         copyFileSync(src, join(dist, 'content', name));
+      }
+      for (const dir of ['rooms', 'encounters']) {
+        const from = join(GAME, 'dist-content', dir);
+        if (!existsSync(from)) throw new Error(`dist-content/${dir} missing: run npm run content:build before vite build`);
+        for (const f of readdirSync(from)) {
+          if (!isContentFile(`${dir}/${f}`)) continue;
+          mkdirSync(join(dist, 'content', dir), { recursive: true });
+          copyFileSync(join(from, f), join(dist, 'content', dir, f));
+        }
       }
       const all = listFiles(dist).map((f) => relative(dist, f).split(sep).join('/')).filter((f) => f !== 'sw.js' && !f.endsWith('.map'))
         // audio is fetched on first use (28 MB with both codecs); chunks other than the Dong Phu (abode) likewise
