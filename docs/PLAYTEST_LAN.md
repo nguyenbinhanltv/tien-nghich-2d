@@ -26,6 +26,6 @@ Nếu không mở được: kiểm tra cùng Wi-Fi, tắt "cách ly thiết bị
 
 ## Giới hạn cần biết (vì đây là HTTP thường, không phải HTTPS)
 - Trình duyệt chỉ cho **service worker (chơi offline)**, khóa hướng màn hình bằng mã và vài tính năng khác khi trang chạy qua HTTPS hoặc `localhost`. Qua `http://192.168...` game vẫn chạy bình thường nhưng **không có chế độ offline**, và hướng ngang dựa vào màn "xoay ngang" (iOS không bao giờ khóa hướng cho trang web).
-- Bản này là cảnh thử: đi, né, phản đòn **chỉ có hình ảnh**, chưa có sát thương, AI quái hay va chạm (sim thật của làn A chưa vào main). Quái trôi ngẫu nhiên.
+- Cảnh này chạy **sim thật** (trận Oán Hồn Quỷ Vương trong phòng Huyết Hải): Né, Phản đòn, sát thương, telegraph và Quỷ Vương là mã của làn A. Né đúng lúc vào vùng báo hiệu mở cửa sổ Phản đòn. Thắng hoặc thua thì Né/Phản đòn để chơi lại. Chưa có HUD đẹp (chỉ dòng chữ máu ở góc trái), chưa có quái thường, chưa có phòng/tầng.
 - Chưa có âm thanh (E7 làm sau).
 - Biểu tượng ứng dụng là hình tạm vẽ bằng mã, chưa được chủ dự án duyệt.

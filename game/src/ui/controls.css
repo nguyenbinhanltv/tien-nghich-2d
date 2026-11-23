@@ -20,3 +20,6 @@
 .rotate-gate p { margin: 0; opacity: 0.75; font-size: 15px; }
 @keyframes rot { 0%, 25% { transform: rotate(90deg); } 60%, 100% { transform: rotate(0deg); } }
 @media (prefers-reduced-motion: reduce) { .rotate-gate .ico { animation: none; transform: rotate(90deg); } }
+
+/* ?golden: only the canvas is part of the pixel contract */
+.golden .tc, .golden .status, .golden .rotate-gate { display: none !important; }

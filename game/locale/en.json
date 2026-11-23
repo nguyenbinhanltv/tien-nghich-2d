@@ -6,5 +6,10 @@
   "ui.rotate.hint": "The game is played in landscape only.",
   "ui.install.hint": "Add to Home Screen to play fullscreen.",
   "scene.blood_sea": "Blood Sea",
-  "hud.touch_hint": "Left: move · Right: Dodge / Counter"
+  "hud.touch_hint": "Left: move · Right: Dodge / Counter",
+  "hud.you": "You",
+  "hud.boss": "Boss",
+  "result.won": "Victory",
+  "result.lost": "Defeat",
+  "result.restart": "Dodge or Counter to retry"
 }
