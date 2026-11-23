@@ -8,6 +8,7 @@ import { ASSETS, GAME, REPO, readJson, rel, sha256 } from './lib/repo.ts';
 import { check } from './lib/schemas.ts';
 import { loadAssets } from './lib/assets.ts';
 import { crossCheck, loadTables, semanticCheck } from './lib/tables.ts';
+import { encounterProblems, type Encounter } from '../src/sim/ai/boss.ts';
 import { loadLayouts, validateAll, type RoomRow } from './lib/rooms.ts';
 import { verifyLocks } from './lib/hitbox-edit.ts';
 import { compileAudioEvents, compileBodies, compileClipEvents, compileTileShapes, readSidecars, verifyApprovals } from './lib/kiln-contract.ts';
@@ -36,6 +37,7 @@ for (const k of ['mob_blood_wolf', 'boss_ghost_king']) { // names are canon: the
   if (n && (locale.vi[k] !== n.vi || locale.en[k] !== n.en)) problems.push(`locale: ${k} differs from the manifest name`);
 }
 problems.push(...crossCheck(tables, assets, locale));
+for (const [id, e] of Object.entries(tables.encounters)) problems.push(...encounterProblems(e as Encounter).map((m) => `encounters/${id}.yaml: ${m}`));
 problems.push(...validateAll(tables.rooms as unknown as RoomRow[]));
 
 const bodies = compileBodies(assets, sidecars), events = compileClipEvents(assets, sidecars), shapes = compileTileShapes(assets, sidecars), audio = compileAudioEvents(assets);

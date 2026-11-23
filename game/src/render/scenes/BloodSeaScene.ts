@@ -10,6 +10,7 @@ import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
 import { artOf } from '../clip-map.ts';
 import { FloorHud } from '../floor-hud.ts';
+import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
@@ -56,6 +57,7 @@ export class BloodSeaScene extends Phaser.Scene {
   private input0: InputFrame | null = null;
   private endedAt = -1;
   readonly juice = new Juice();
+  private hud!: Hud;
   private floor!: FloorHud;
 
   constructor(host: SceneHost) {
@@ -70,6 +72,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#14101a');
     this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
+    this.hud = new Hud(this, this.frames);
     this.floor = new FloorHud(this, this.frames);
     // the floor map needs content/tables.json (npm run content:build); without it the game just has no minimap
     if (this.cache.json.exists('content-tables')) {
@@ -133,6 +136,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
+    this.hud.update(w);
     // the sim has no room-to-room play yet: the fight is the floor's boss room; the run state's room index takes over when it exists
     this.floor.update(w.run ? w.run.room : this.floor.indexOfKind('boss'), this.host.frozen ? 0 : this.time.now); // golden mode: the marker must not blink
     this.host.status?.(w);

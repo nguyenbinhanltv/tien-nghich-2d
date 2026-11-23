@@ -6,13 +6,12 @@ import { VIEW_W } from '../contracts/world.ts';
 import { canDraw, rasterize } from '../ui/pixel-font.ts';
 import { cellOrigin, chainFrom, CELL, connector, floorCounter, iconFrame, mapSize, roomStates, snakeLayout } from '../ui/minimap-layout.ts';
 import type { MiniRoom, RoomRow } from '../ui/minimap-layout.ts';
+import { MARGIN } from '../ui/hud-layout.ts';
 import type { KilnFrames } from './kiln-loader.ts';
 
 // palette ids ink_01 (outline), ink_06 (text), bronze_02 (connector), bronze_05 (visited connector)
 const INK = 0x14101a, TEXT = 0xd4d0d8, LINE = 0x63400f, LINE_DONE = 0xe0b030;
 const BLINK_MS = 450;
-/** Distance from the screen edge in logical px (same as the pixel HUD; larger on the sides for notches). */
-const MARGIN = { x: 8, y: 6 } as const;
 
 export class FloorHud {
   private readonly scene: Phaser.Scene;
