@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tien-nghich-2d/schemas/table-rooms.schema.json",
+  "title": "One row of content/tables/rooms.csv (after CSV typing; empty cells are absent)",
+  "type": "object", "additionalProperties": false,
+  "required": ["id", "biome", "kind", "width_tiles", "height_tiles", "tileset"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^room_[a-z0-9_]+$" },
+    "biome": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "kind": { "enum": ["abode", "combat", "boss", "reward"] },
+    "width_tiles": { "type": "integer", "minimum": 8, "maximum": 128 },
+    "height_tiles": { "type": "integer", "minimum": 8, "maximum": 128 },
+    "tileset": { "type": "string", "pattern": "^(ts|lt)_[a-z0-9_]+$" },
+    "mobs": { "type": "string", "pattern": "^mob_[a-z0-9_]+:[1-9][0-9]*(;mob_[a-z0-9_]+:[1-9][0-9]*)*$" },
+    "boss": { "type": "string", "pattern": "^boss_[a-z0-9_]+$" },
+    "next": { "type": "string", "pattern": "^room_[a-z0-9_]+$" }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "boss" } }, "required": ["kind"] }, "then": { "required": ["boss"] } },
+    { "if": { "properties": { "kind": { "const": "combat" } }, "required": ["kind"] }, "then": { "required": ["mobs"] } }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "tien-nghich-2d-game",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Tiên Nghịch 2D game code (G0-B scaffold). The pure-TypeScript simulation is kept apart from the renderer. Pixel Kiln (../studio) stays zero-build and is the content source.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "content:build": "node tools/content-build.ts",
+    "content:check": "node tools/content-build.ts --check",
+    "contract:check": "node tools/kiln-contract-check.ts",
+    "contract:draft-bodies": "node tools/draft-bodies.ts",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run content:check && npm run contract:check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "ajv": "^8.20.0",
+    "eslint": "^10.15.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1",
+    "yaml": "^2.9.1"
+  }
+}
