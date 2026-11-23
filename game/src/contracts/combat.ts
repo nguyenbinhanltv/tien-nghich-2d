@@ -6,6 +6,13 @@ export type Mode = 'ready' | 'playing' | 'falling' | 'releasing' | 'won' | 'lost
 
 export interface RoomBounds { minX: number; minY: number; maxX: number; maxY: number }
 
+/**
+ * Collision grid of a room: rows of tile characters (plain JSON so it is saved and hashed). `#` wall, `P` prop that blocks,
+ * `D` locked door (blocks), `O` open door, `.` floor, `~` blood pool (walkable). Blocking = `#`, `P`, `D`.
+ * Tile (c, r) covers world x in [c*tile, (c+1)*tile) and y in [r*tile, (r+1)*tile). Absent = a bare arena bounded by `room`.
+ */
+export interface RoomGrid { tile: number; rows: string[] }
+
 export interface FightStats { hits: number; dodges: number; counters: number; counterHits: number; hitsTaken: number }
 
 /** Source of the guard window: a dodge guards and charges a counter, a hurt blink only blinks. */

@@ -14,6 +14,7 @@ import { aiSystem } from './ai/index.ts';
 import { bossStep, type Encounter } from './ai/boss.ts';
 import type { SimContext } from './context.ts';
 import { mobMovement } from './systems/mob-move.ts';
+import { resolveMove } from './systems/grid.ts';
 
 export const NO_INPUT: InputFrame = { move: { x: 0, y: 0 }, aim: null, dash: false, fire: false };
 
@@ -52,7 +53,12 @@ export function step(world: WorldState, input: InputFrame, events: GameEvent[], 
   if (world.mode !== 'playing') return;
   world.elapsed++;
   if (world.freeze > 0) { world.freeze--; return; }
-  if (player) { tickTimers(player); playerControl(world, player, input, events); }
+  if (player) {
+    tickTimers(player);
+    const x0 = player.pos.x, y0 = player.pos.y;
+    playerControl(world, player, input, events);
+    if (world.grid) resolveMove(world, player, x0, y0);
+  }
   projectileSystem(world, events);
   if (world.mode !== 'playing') return;
   if (ctx) {

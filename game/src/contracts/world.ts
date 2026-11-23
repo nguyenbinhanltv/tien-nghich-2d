@@ -2,7 +2,7 @@
 // the renderer, audio and UI only read them. Everything here is plain data so a run can be saved,
 // replayed and hashed. No engine type may appear in this file. Lane A owns this folder; a change here
 // is its own small PR so lanes B, C and D can rebase on it.
-import type { ActorCombat, Hazard, Mode, RoomBounds, FightStats } from './combat.ts';
+import type { ActorCombat, Hazard, Mode, RoomBounds, RoomGrid, FightStats } from './combat.ts';
 import type { ProjectilePool } from './pool.ts';
 import type { RunState } from './run.ts';
 
@@ -85,6 +85,8 @@ export interface WorldState {
   hazards: Hazard[];
   nextHazardId: number;
   room: RoomBounds;
+  /** Optional tile collision of the room; omitted (not null) when absent so worlds without one hash as before. */
+  grid?: RoomGrid;
   mode: Mode;
   /** Hit-stop: ticks left in which the world does not advance (but time-to-render does). */
   freeze: number;
