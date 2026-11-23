@@ -21,7 +21,7 @@ hub.onGesture = () => audio.unlock();
 window.addEventListener('pointerdown', () => audio.unlock(), { passive: true });
 void audio.init().then(() => audio.engine.playBgm('bgm_blood_sea'));
 let portrait = false;
-const scene = new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait });
+const scene = new BloodSeaScene({ sample: () => hub.sample(), paused: () => portrait, onEvents: (ev, w) => audio.handle(ev, w) });
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
