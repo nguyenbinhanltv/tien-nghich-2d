@@ -7,17 +7,20 @@ import { loadProfile, serializeProfile } from '../sim/save/codec.ts';
 
 export interface KeyValueStore { getItem(key: string): string | null; setItem(key: string, value: string): void }
 export const PROFILE_KEY = 'tn2d.profile';
-export type LoadOutcome = { profile: SaveProfile; source: 'stored' | 'fresh' | 'recovered'; reason?: string };
+/** `unavailable`: the storage itself threw (blocked in a private or embedded webview); the profile then lives in memory only. */
+export type LoadOutcome = { profile: SaveProfile; source: 'stored' | 'fresh' | 'recovered' | 'unavailable'; reason?: string };
 
 export function readProfile(store: KeyValueStore, freshSeed: number): LoadOutcome {
-  const text = store.getItem(PROFILE_KEY);
+  let text: string | null;
+  try { text = store.getItem(PROFILE_KEY); } catch { return { profile: createProfile(freshSeed), source: 'unavailable', reason: 'storage' }; }
   if (text === null) return { profile: createProfile(freshSeed), source: 'fresh' };
   const r = loadProfile(text);
   if (r.ok) return { profile: r.profile, source: 'stored' };
-  store.setItem(`${PROFILE_KEY}.bad`, text);
+  try { store.setItem(`${PROFILE_KEY}.bad`, text); } catch { /* keeping the copy is best effort */ }
   return { profile: createProfile(freshSeed), source: 'recovered', reason: r.reason };
 }
 
-export function writeProfile(store: KeyValueStore, profile: SaveProfile): void {
-  store.setItem(PROFILE_KEY, serializeProfile(profile));
+/** Never throws: returns false when the storage refused (blocked, or quota exceeded) so the caller can tell the player. */
+export function writeProfile(store: KeyValueStore, profile: SaveProfile): boolean {
+  try { store.setItem(PROFILE_KEY, serializeProfile(profile)); return true; } catch { return false; }
 }

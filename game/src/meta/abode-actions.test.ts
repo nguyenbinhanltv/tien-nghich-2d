@@ -8,6 +8,15 @@ import { uiTables } from '../ui/strings.ts';
 const run = (over: Partial<RunState>): RunState => ({ runId: 1, room: 9, cluster: 2, realm: 2, gateUsed: true, carried: [], banked: [], learned: [], clusterFirstClear: [], outcome: 'won', ...over });
 
 describe('hub interactions', () => {
+  it('kiln reports the real result: ore only stored vs blanks made', () => {
+    let p = createProfile(1); p.inventory = [{ id: 'ore', amount: 2 }];
+    let o = interact(p, 'kiln');
+    expect(o.msg).toBe('abode.kiln.stored'); expect(o.vars).toEqual({ ore: 2, left: 2 }); expect(countOf(o.profile.inventory, ITEM.blank)).toBe(0);
+    p = o.profile; p.inventory = [{ id: 'ore', amount: 4 }];
+    o = interact(p, 'kiln'); // 2 waiting + 4 = 6 -> 2 blanks
+    expect(o.msg).toBe('abode.kiln.done'); expect(o.vars).toEqual({ n: 2 }); expect(o.profile.furnaceOre).toBe(0);
+    expect(uiTables.en['abode.kiln.stored']).toContain('{left}'); expect(uiTables.vi['abode.kiln.stored']).toContain('{ore}');
+  });
   it('kiln, beds and jar chain into a pill; every message key exists in both locales', () => {
     const keys = new Set<string>();
     const go = (p: ReturnType<typeof createProfile>, s: Parameters<typeof interact>[1]): ReturnType<typeof createProfile> => { const o = interact(p, s); keys.add(o.msg); return o.profile; };

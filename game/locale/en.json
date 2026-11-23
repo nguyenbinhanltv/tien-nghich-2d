@@ -7,7 +7,7 @@
   "ui.install.hint": "Add to Home Screen to play fullscreen.",
   "scene.blood_sea": "Blood Sea",
   "hud.touch_hint": "Left: move · Right: Dodge / Counter",
-  "abode.kiln.done": "Furnace: ore smelted into blanks.",
+  "abode.kiln.done": "Furnace: {n} blank(s) made.",
   "abode.kiln.empty": "No ore to smelt yet.",
   "abode.jar.done": "Two herbs brewed into a pill.",
   "abode.jar.missing": "Needs two herbs.",
@@ -29,5 +29,13 @@
   "station.chest": "Spirit chest",
   "station.bed": "Herb bed",
   "station.gate": "Teleport array",
-  "place.abode": "Abode"
+  "place.abode": "Abode",
+  "hud.you": "You",
+  "hud.boss": "Boss",
+  "result.won": "Victory",
+  "result.lost": "Defeat",
+  "result.restart": "Dodge or Counter to retry",
+  "abode.kiln.stored": "Ore stored in the furnace: {ore} added, {left} of 3 waiting.",
+  "abode.save.recovered": "The save was damaged: a copy was kept and a fresh profile started.",
+  "abode.save.unavailable": "Saving is not available here: progress will not be kept."
 }

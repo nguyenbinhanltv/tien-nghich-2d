@@ -14,7 +14,14 @@ const apply = (p: SaveProfile, r: AbodeResult, ok: string, fail: Record<string, 
 
 export function interact(p: SaveProfile, station: StationId): ActionOutcome {
   switch (station) {
-    case 'kiln': return apply(p, feedFurnace(p), 'abode.kiln.done', { nothing: 'abode.kiln.empty' });
+    case 'kiln': {
+      const r = feedFurnace(p);
+      if (!r.ok) return unchanged(p, 'abode.kiln.empty');
+      // report what really happened: blanks made, or ore only stored while the furnace waits for a third
+      const n = countOf(r.profile.inventory, ITEM.blank) - countOf(p.inventory, ITEM.blank);
+      const msg = n > 0 ? { msg: 'abode.kiln.done', vars: { n } } : { msg: 'abode.kiln.stored', vars: { ore: countOf(p.inventory, ITEM.ore), left: r.profile.furnaceOre } };
+      return { profile: r.profile, ...msg, changed: true };
+    }
     case 'jar': return apply(p, brewPill(p), 'abode.jar.done', { missing: 'abode.jar.missing' });
     case 'bed0': case 'bed1': case 'bed2': {
       const i = Number(station.slice(3)), plot = p.plots[i];
