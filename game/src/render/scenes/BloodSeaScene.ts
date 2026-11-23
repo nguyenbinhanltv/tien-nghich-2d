@@ -9,6 +9,7 @@ import { frameIndex, resolveClip } from '../animator.ts';
 import { KilnFrames, originOf, preloadKiln } from '../kiln-loader.ts';
 import { PROJECTILE_KINDS } from '../../contracts/pool.ts';
 import { artOf } from '../clip-map.ts';
+import { Hud } from '../hud.ts';
 import { Juice } from '../juice.ts';
 import { FightRunner } from '../fight-runner.ts';
 import { hazardProgress, hazardShape } from '../hazard-geometry.ts';
@@ -52,6 +53,7 @@ export class BloodSeaScene extends Phaser.Scene {
   private input0: InputFrame | null = null;
   private endedAt = -1;
   readonly juice = new Juice();
+  private hud!: Hud;
 
   constructor(host: SceneHost) {
     super('blood-sea');
@@ -65,6 +67,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#14101a');
     this.buildRoom();
     this.hazards = this.add.graphics().setDepth(5);
+    this.hud = new Hud(this, this.frames);
     if (this.host.frozen) for (let i = 0; i < 120; i++) this.fight.tick(NO_INPUT);
     this.draw();
   }
@@ -122,6 +125,7 @@ export class BloodSeaScene extends Phaser.Scene {
     this.drawShots(w);
     const o = this.juice.offset(this.time.now);
     this.cameras.main.setScroll(o.x, o.y);
+    this.hud.update(w);
     this.host.status?.(w);
   }
 
