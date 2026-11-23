@@ -1,0 +1,11 @@
+{
+  "schema": "tien-nghich-2d.perf-budget",
+  "version": 1,
+  "note": "Budgets of docs/GAME_PLAN.md section 7.3 / game-plan 7.3: sim <= 4 ms per frame with 1,500 shots and 60 actors. Timings are machine-dependent: `npm run perf` measures THIS machine and exits 1 over budget. The unit-test suite only checks the structural limits (pool capacities), never wall-clock.",
+  "sim": {
+    "stress": { "projectiles": 1500, "mobs": 59, "ticks": 600, "warmupTicks": 120 },
+    "stepP95Ms": 4,
+    "stepMaxMs": 16
+  },
+  "limits": { "maxProjectiles": 1500, "maxActors": 80 }
+}
