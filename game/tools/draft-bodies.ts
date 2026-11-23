@@ -7,6 +7,7 @@
 // Attack boxes (hitboxes) are NOT proposed: they carry design intent.
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { ASSETS, GAME, loadDecoder, readJson, rel } from './lib/repo.ts';
 import type { Rgba } from './lib/repo.ts';
 import type { Box } from './lib/kiln-contract.ts';
@@ -47,7 +48,7 @@ export async function draftFor(id: string): Promise<{ body: Record<string, unkno
     review: { status: 'draft-unreviewed', source: 'alpha-auto', note: `alpha >= ${ALPHA_THRESHOLD} bbox of ${rel(frame)}, inset 1 px` } } };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const argv = process.argv.slice(2);
   const flag = (n: string): string | undefined => { const i = argv.indexOf(n); return i < 0 ? undefined : argv[i + 1]; };
   const ids = (flag('--assets') ?? 'mob_blood_wolf,mob_blood_crow,mob_blood_corpse,mob_blood_pool_lurker,boss_ghost_king').split(',');

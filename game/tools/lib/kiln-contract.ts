@@ -90,6 +90,8 @@ export function compileClipEvents(assets: Map<string, AssetInfo>, sidecars: Map<
       if (!a) { problems.push(`${s.file}: events on unknown asset ${id}`); break; }
       const count = a.clips[name];
       if (count === undefined) { problems.push(`${s.file}: ${id} has no clip ${name}`); continue; }
+      const late = c.events.filter((e) => e.frame >= count);
+      if (late.length) { problems.push(`${s.file}: ${id}/${name} has ${count} frames, events on frame ${late.map((e) => e.frame).join(', ')} are out of range`); continue; }
       const metaMs = c.frameMs && c.frameMs.length === count;
       const frameMs = metaMs ? c.frameMs! : Array<number>(count).fill(DEFAULT_FRAME_MS);
       if (!metaMs) warnings.push(`${s.file}: ${id}/${name} has events but no frameMs; timed with the ${DEFAULT_FRAME_MS} ms default`);

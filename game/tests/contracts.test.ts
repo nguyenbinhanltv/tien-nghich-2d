@@ -98,6 +98,11 @@ describe('clip events', () => {
     expect(compileClipEvents(assets, side([{ frame: 0, name: 'boom' }])).problems).not.toEqual([]);
     expect(compileClipEvents(assets, new Map([['mob_test_wolf', { file: 'm.json', data: { clips: { dance: { events: [{ frame: 0, name: 'tell' }] } } } }]])).problems.join()).toMatch(/no clip dance/);
   });
+  it('rejects an event on a frame the clip does not have', () => {
+    const r = compileClipEvents(assets, side([{ frame: 7, name: 'hit' }], [100, 100, 100, 100]));
+    expect(r.problems.join()).toMatch(/out of range/);
+    expect(r.data.clips).toEqual({});
+  });
   it('lints a tell under 250 ms and a clip with no events', () => {
     const slow = compileClipEvents(assets, side([{ frame: 0, name: 'tell' }, { frame: 1, name: 'hit' }], [300, 100, 100, 100])).data;
     const fast = compileClipEvents(assets, side([{ frame: 0, name: 'tell' }, { frame: 1, name: 'hit' }], [200, 100, 100, 100])).data;
