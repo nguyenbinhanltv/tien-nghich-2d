@@ -5,7 +5,7 @@ Run isolated:  python -I tools/scripts/build_hurt_clips.py [--check]   (numpy + 
 
 Route: direct pixel edit of approved frames, no redraw. For every facing (south, east) the source is
 idle_<facing>_0. The three keys are
-  hurt_0  hit flash (every body colour +3 steps up its own palette ramp, outline kept) + recoil 2 units
+  hurt_0  hit flash (every body colour +3 steps up its own palette ramp (clamped at the ramp's top), outline kept) + recoil 2 units
   hurt_1  half flash (+1 step) + recoil 1 unit
   hurt_2  original colours, original position (settle)
 A recoil unit is canvas/32 px: 1 (mobs), 2 (64x64 boss), 3 (96x96 boss). East recoils toward -x (west is the
@@ -31,6 +31,7 @@ ASSETS = {
              "mob_rune_sentinel"],
     "bosses": ["boss_teng_huayuan", "boss_ancient_god_remnant"],
 }
+RED_THUNDER = {"thunder_05", "thunder_06"}
 FACINGS = ("south", "east")
 RECOIL = {"south": (0, -1), "east": (-1, 0)}
 KEYS = ((3, 2), (1, 1), (0, 0))  # (ramp steps up, recoil units) per frame
@@ -40,7 +41,9 @@ def palette():
     data = json.loads((REPO / "tools/generators/palette.json").read_bytes())
     ramps = {}
     for color in data["colors"]:
-        ramps.setdefault(color["group"], []).append(color["hex"].lower())
+        # heavenly-thunder-cyan-red is two ramps in one group: cyan (thunder_01-04) and red (thunder_05-06)
+        ramp = color["group"] + ("/red" if color["id"] in RED_THUNDER else "")
+        ramps.setdefault(ramp, []).append(color["hex"].lower())
     lookup = {}
     for group, hexes in ramps.items():
         for position, value in enumerate(hexes):
