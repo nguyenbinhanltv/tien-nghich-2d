@@ -14,7 +14,7 @@ let app;
 
 function makeApp(ctx, state) {
   const self = {
-    ctx, state, cards: [], floors: [], ui: null, stage: null, stageKey: null, token: 0, details: new Map(), evidences: new Map(), characters: null,
+    ctx, state, pv: {grid: true}, cards: [], floors: [], ui: null, stage: null, stageKey: null, token: 0, details: new Map(), evidences: new Map(), characters: null,
     effect(id) { if (!self.details.has(id)) self.details.set(id, ctx.tabApi('effect?id=' + encodeURIComponent(id)).catch(e => { self.details.delete(id); throw e; })); return self.details.get(id); },
     evidence(id) { if (!self.evidences.has(id)) self.evidences.set(id, ctx.tabApi('evidence?id=' + encodeURIComponent(id)).catch(e => { self.evidences.delete(id); throw e; })); return self.evidences.get(id); },
     /** A route for `patch` merged into the current state. `asset: id|null` switches effect and resets clip/frame. */
@@ -110,10 +110,12 @@ async function paintStage(app, token) {
   if (token !== app.token) return null;
   const floor = floors.find(f => f.id === state.floor) ?? floors[0];
   const stageHost = h('div', 'vx-stage');
+  const keep = ui.center.contains(document.activeElement) ? document.activeElement.closest('[data-fk]')?.dataset.fk : null;
   ui.center.replaceChildren(header(app, effect, clip, focus, variant), stageHost, overlay);
   app.stageKey = key;
   app.stage = mountStage(app, stageHost, {effect, clip, focus, variant, frames, floor, floors, character, state,
-    onFrame: frame => app.go({}, {frame, replace: true}), onChange: patch => app.route(patch)});
+    onFrame: frame => app.go({}, {frame, replace: true}), onNavigate: patch => app.go(patch, {replace: true})});
+  if (keep) ui.center.querySelector(`[data-fk="${keep}"]`)?.focus();
   app.live = {effect, clip, variant, frames, floors, floor};
   const missing = frames.filter(f => !f).length;
   if (missing) stageHost.prepend(h('p', {class: 'vx-warn', role: 'alert'}, ctx.t('stage.missing', {count: missing})));
@@ -167,6 +169,7 @@ async function paint() {
 }
 
 export async function mount(ctx, state) {
+  ctx.loadCss(new URL('../../pixelview.css', import.meta.url));
   ctx.loadCss(new URL('./vfx.css', import.meta.url));
   ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);

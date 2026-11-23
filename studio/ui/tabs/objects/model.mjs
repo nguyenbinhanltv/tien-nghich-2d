@@ -2,8 +2,12 @@
 // No DOM and no fetch, so node:test can drive all of it.
 import { computeBlob47Mask, createDefaultBitmaskMap, parseWorkerBitmaskJson, CANONICAL_47_MASKS } from '../../../src/blob47.js';
 
+import { snapZoom } from '../../pixelview.mjs';
+
 export const tools = ['blob', 'nine', 'hud'];
+/** The range of the card-size slider in the grid; the detail viewer goes up to the viewer's own top zoom (16×). */
 export const zoomRange = [1, 8];
+const maxZoom = 16;
 export const defaultZoom = 3;
 const idPattern = /^[A-Za-z0-9_.-]+$/;
 const pick = (value, ok) => (typeof value === 'string' && ok.test(value) ? value : null);
@@ -21,7 +25,7 @@ export function parseRoute(route = {}) {
     source: pick(p.source, idPattern),
     kind: pick(p.kind, idPattern), ready: pick(p.ready, /^(planned|authored|packed)$/), chunk: pick(p.chunk, idPattern), src: pick(p.src, idPattern),
     q: typeof p.q === 'string' ? p.q.slice(0, 60) : '',
-    zoom: int(p.zoom, zoomRange[0], zoomRange[1], defaultZoom),
+    zoom: snapZoom(int(p.zoom, 1, maxZoom, defaultZoom)),
     tool: tools.includes(p.tool) ? p.tool : null,
     sheet: pick(p.sheet, idPattern), ins, fill: int(p.fill, 0, 100, 100), seed: int(p.seed, 0, 999999, 1)
   };

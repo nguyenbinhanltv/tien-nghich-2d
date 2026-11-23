@@ -5,6 +5,7 @@ import { parseRoute as parse, stateParams, objectKinds, inScope, tools } from '.
 import { renderFilters, renderGrid } from './browser.mjs';
 import { renderDetail } from './detail.mjs';
 import { renderTool } from './tools.mjs';
+import { installShortcuts, stepZoom } from '../../pixelview.mjs';
 
 export function parseRoute(route) { return parse(route); }
 
@@ -14,7 +15,7 @@ function makeApp(ctx, state) {
   const details = new Map(), provenance = new Map();
   const key = a => a.source + '/' + a.id;
   const self = {
-    ctx, state, assets: [], kinds: [], links: {}, byId: new Map(), frames: [], shown: [], token: 0, cleanups: [], editableMap: null, dup: new Set(),
+    ctx, state, pv: {grid: true, bg: 'dark'}, ctl: null, assets: [], kinds: [], links: {}, byId: new Map(), frames: [], shown: [], token: 0, cleanups: [], editableMap: null, dup: new Set(),
     onCleanup(fn) { self.cleanups.push(fn); },
     runCleanups() { for (const fn of self.cleanups.splice(0)) fn(); },
     detail(a) { if (!details.has(key(a))) details.set(key(a), ctx.api('asset/' + encodeURIComponent(a.id) + '?source=' + encodeURIComponent(a.source)).catch(e => { details.delete(key(a)); throw e; })); return details.get(key(a)); },
@@ -82,10 +83,21 @@ async function paint(ui) {
 }
 
 export async function mount(ctx, state) {
+  ctx.loadCss(new URL('../../pixelview.css', import.meta.url));
   ctx.loadCss(new URL('./objects.css', import.meta.url));
   ctx.root.classList.add('ui-kit');
   const mine = app = makeApp(ctx, state);
   ctx.onUnmount(() => mine.runCleanups());
+  // Viewer keys: zoom works on the grid, the stage and the tools; play, step and grid belong to the stage while one is on screen.
+  const stopKeys = installShortcuts(action => {
+    if (action === 'zoomIn' || action === 'zoomOut') {
+      const next = stepZoom(mine.state.zoom, action === 'zoomIn' ? 1 : -1);
+      if (next !== mine.state.zoom) mine.go({zoom: next}, {replace: true});
+      return true;
+    }
+    return mine.ctl ? mine.ctl(action) : false;
+  });
+  ctx.onUnmount(stopKeys);
   const ui = layout(ctx);
   app.ui = ui;
   app.repaint = () => paint(ui);

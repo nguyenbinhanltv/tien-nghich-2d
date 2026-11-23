@@ -66,7 +66,9 @@ img, canvas.px { image-rendering: pixelated; }
 .clips { display: flex; flex-wrap: wrap; gap: var(--ui-sp-1); margin-bottom: var(--ui-sp-2); }
 .clip small { margin-left: .3rem; color: var(--ui-text-muted); }
 .stagebox { display: grid; place-items: center; min-height: 8rem; padding: var(--ui-sp-2); border: var(--ui-bw) solid var(--ui-line); overflow: auto; }
-.stage-img { display: block; max-width: none; }
+.stagebox .pv { max-width: none; }
+.stagebox canvas { display: block; max-width: none; cursor: crosshair; }
+.pv-tools { display: flex; flex-wrap: wrap; gap: var(--ui-sp-2); align-items: center; margin: var(--ui-sp-2) 0; }
 .controls { display: flex; gap: var(--ui-sp-3); align-items: center; margin: var(--ui-sp-2) 0; flex-wrap: wrap; }
 .tick { font: var(--ui-fs-xs) var(--ui-font-mono); color: var(--ui-text-muted); }
 .strip { display: flex; flex-wrap: wrap; gap: var(--ui-sp-1); list-style: none; margin: 0; padding: 0; }

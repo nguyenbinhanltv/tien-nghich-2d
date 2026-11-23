@@ -156,16 +156,18 @@ export function dragWipe(canvas, onWipe) {
  * The viewer's controls as one group: zoom out / zoom select / zoom in, grid switch, background choice and, when `wipe` is a number
  * (0..1), the wipe slider. Every control has a label; every change calls back and none redraws the group itself, so focus stays.
  * `labels`: zoom, zoomIn, zoomOut, auto, grid, gridHint, bg, bgNames {dark, light, palette}, wipe, coords, none.
+ * Optional: `noAuto` drops the Auto zoom entry; `backgrounds` is a list of preset ids (default dark, light, palette) with a name for each in
+ * `labels.bgNames`, for a caller whose presets are its own (the VFX floors) and are painted by the caller, not by this module's CSS.
  * Returns {el, coords} where `coords` is the <output> to hand to trackPointer.
  */
-export function pixelToolbar({labels, zoom, auto, grid, bg, wipe, onZoom, onGrid, onBg, onWipe}) {
+export function pixelToolbar({labels, zoom, auto, noAuto, grid, bg, backgrounds = BACKGROUNDS, wipe, onZoom, onGrid, onBg, onWipe}) {
   const zoomSelect = el('select', {class: 'field', 'data-fk': 'pv-zoom', onchange: event => onZoom(event.target.value ? Number(event.target.value) : null)},
-    el('option', {value: '', selected: auto}, labels.auto), ...ZOOMS.map(z => el('option', {value: z, selected: !auto && z === zoom}, z + '×')));
+    noAuto ? null : el('option', {value: '', selected: auto}, labels.auto), ...ZOOMS.map(z => el('option', {value: z, selected: !auto && z === zoom}, z + '×')));
   const step = (direction, label, glyph) => el('button', {type: 'button', class: 'btn', 'data-fk': 'pv-zoom-' + glyph, 'aria-label': label, title: label,
     disabled: (direction < 0 && zoom <= ZOOMS[0]) || (direction > 0 && zoom >= ZOOMS.at(-1)), onclick: () => onZoom(stepZoom(zoom, direction))}, glyph === 'in' ? '+' : '−');
   const gridBox = el('input', {type: 'checkbox', checked: grid, 'data-fk': 'pv-grid', onchange: event => onGrid(event.target.checked)});
   const hint = el('span', {class: 'pv-hint muted'}, zoom < GRID_MIN_ZOOM ? labels.gridHint : '');
-  const bgButtons = BACKGROUNDS.map(name => el('button', {type: 'button', 'data-fk': 'pv-bg-' + name, 'aria-pressed': String(bg === name),
+  const bgButtons = backgrounds.map(name => el('button', {type: 'button', 'data-fk': 'pv-bg-' + name, 'aria-pressed': String(bg === name),
     onclick: event => { for (const b of bgButtons) b.setAttribute('aria-pressed', String(b === event.currentTarget)); onBg(name); }}, labels.bgNames[name]));
   const coords = el('output', {class: 'pv-coords', 'aria-label': labels.coords}, labels.none);
   const wipeInput = typeof wipe === 'number' ? el('input', {type: 'range', min: 0, max: 100, step: 1, value: Math.round(wipe * 100), 'data-fk': 'pv-wipe',

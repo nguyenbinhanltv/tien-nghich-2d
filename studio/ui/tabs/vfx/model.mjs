@@ -1,6 +1,10 @@
 // Pure helpers for the VFX tab: route state, the playback plan, frame timing, timeline layout,
 // overlay geometry, readability notes. No DOM, no fetch.
-export const scales = [1, 2, 4];
+import { ZOOMS, isZoom } from '../../pixelview.mjs';
+
+/** Integer zooms only: the pixel viewer's list (1, 2, 3, 4, 6, 8, 12, 16). */
+export const scales = ZOOMS;
+export const defaultScale = 2;
 export const views = ['spec', 'audit', 'provenance', 'rounds', 'read'];
 const idPattern = /^[A-Za-z0-9_.-]+$/;
 const pick = (value, ok) => (typeof value === 'string' && ok.test(value) ? value : null);
@@ -12,11 +16,11 @@ const int = (value, min, max, fallback) => {
 /** URL → state. Total: junk gives defaults, never a throw. */
 export function parseRoute(route = {}) {
   const p = route.params ?? {};
-  const scale = int(p.scale, 1, 4, 2);
+  const scale = int(p.scale, 1, 16, defaultScale);
   return {
     asset: route.asset ?? null, clip: route.asset ? route.clip ?? null : null, frame: route.asset ? route.frame ?? null : null,
     source: pick(p.source, idPattern), variant: pick(p.variant, idPattern),
-    floor: pick(p.floor, idPattern), scale: scales.includes(scale) ? scale : 2,
+    floor: pick(p.floor, idPattern), scale: isZoom(scale) ? scale : defaultScale,
     overlay: p.overlay === '1', char: pick(p.char, idPattern), cclip: pick(p.cclip, idPattern), cdir: pick(p.cdir, idPattern),
     cn: int(p.cn, 0, 999, 0), oy: int(p.oy, 0, 48, 0),
     view: views.includes(p.view) ? p.view : 'spec', ra: int(p.ra, 1, 9, 1), rb: int(p.rb, 1, 9, 4),
@@ -29,7 +33,7 @@ export function stateParams(state) {
   const out = {};
   for (const key of ['source', 'variant', 'floor', 'ready', 'grp', 'char', 'cclip', 'cdir']) if (state[key]) out[key] = state[key];
   if (state.q) out.q = state.q;
-  if (state.scale !== 2) out.scale = String(state.scale);
+  if (state.scale !== defaultScale) out.scale = String(state.scale);
   if (state.overlay) out.overlay = '1';
   if (state.cn) out.cn = String(state.cn);
   if (state.oy) out.oy = String(state.oy);

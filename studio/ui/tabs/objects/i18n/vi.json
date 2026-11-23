@@ -124,5 +124,17 @@
   "tiles.ellipse": "elip {x},{y} {w}×{h}",
   "tiles.point": "điểm {x},{y}",
   "tiles.polygon": "đa giác {count} điểm",
-  "timeline.open": "Dòng thời gian và trình vẽ ngoài…"
+  "timeline.open": "Dòng thời gian và trình vẽ ngoài…",
+  "pv.zoomIn": "Phóng to",
+  "pv.zoomOut": "Thu nhỏ",
+  "pv.grid": "Lưới pixel",
+  "pv.gridHint": "Hiện từ 8×",
+  "pv.coords": "Pixel",
+  "pv.none": "–",
+  "detail.keys": "Phím: Space phát, ← → đổi frame, + − phóng, G lưới.",
+  "detail.canvas": "{id}, clip {clip}, frame {n}, phóng {zoom}×",
+  "pv.bg": "Nền",
+  "pv.bg.dark": "Tối",
+  "pv.bg.light": "Sáng",
+  "pv.bg.palette": "Theo palette"
 }

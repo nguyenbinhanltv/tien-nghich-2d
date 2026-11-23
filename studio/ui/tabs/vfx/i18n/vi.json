@@ -216,5 +216,12 @@
  "build.rec.skip": "Bỏ frame",
  "build.rec.columns": "Số cột của sheet",
  "build.recorded": "Bản cắt đã ghi, không so với hiệu ứng đã giao: {text}.",
- "build.recordedFrames": "Đã ghi"
+ "build.recordedFrames": "Đã ghi",
+  "pv.zoomIn": "Phóng to",
+  "pv.zoomOut": "Thu nhỏ",
+  "pv.grid": "Lưới pixel",
+  "pv.gridHint": "Hiện từ 8×",
+  "pv.coords": "Pixel",
+  "pv.none": "–",
+  "player.keys": "Phím: Space phát, ← → đổi frame, + − phóng, G lưới."
 }
