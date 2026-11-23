@@ -5,15 +5,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
-import type { RoomLayout } from '../../src/contracts/content.ts';
+import { BLOCKING_PROPS, type RoomLayout } from '../../src/contracts/content.ts';
 import { check } from './schemas.ts';
 import { ASSETS, GAME, readJson } from './repo.ts';
 
 export type { RoomLayout };
+export { BLOCKING_PROPS };
 export interface RoomRow { id: string; kind: string; width_tiles: number; height_tiles: number; mobs?: string; boss?: string; next?: string }
 
-/** Props that stop movement (they occupy their base tile). The rest are decoration or triggers drawn over walkable floor. */
-export const BLOCKING_PROPS: ReadonlySet<string> = new Set(['prop_restriction_pillar', 'prop_mist_ravine_rock', 'prop_bone_altar', 'prop_alchemy_jar', 'prop_shrine_altar', 'prop_spirit_chest']);
 /** Tiles between the player start and any spawn: nothing spawns on top of the player. */
 export const MIN_SPAWN_DISTANCE = 6;
 export const DOOR_ROWS = [7, 8] as const;

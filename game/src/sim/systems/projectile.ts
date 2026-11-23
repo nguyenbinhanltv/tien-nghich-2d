@@ -11,12 +11,14 @@ export const KIND = { spiritBlade: PROJECTILE_KINDS.indexOf('spirit_blade'), mob
 
 /** Largest shot radius the broad phase has to allow for when it queries around a target. */
 const MAX_SHOT_RADIUS = 8;
-const grids = new WeakMap<object, { hash: SpatialHash; out: Int32Array }>();
+const grids = new WeakMap<object, { hash: SpatialHash; out: Int32Array; key: string }>();
+/** The broad phase for the room the world has now: rebuilt when the room bounds change (the floor loads rooms of other sizes). */
 function scratch(world: WorldState): { hash: SpatialHash; out: Int32Array } {
+  const r = world.room, key = `${r.minX},${r.minY},${r.maxX},${r.maxY}`;
   let g = grids.get(world.projectiles);
-  if (!g) {
-    const w = world.room.maxX - world.room.minX + 64, h = world.room.maxY - world.room.minY + 64;
-    g = { hash: new SpatialHash(w, h, 24, world.projectiles.capacity, world.room.minX - 32, world.room.minY - 32), out: new Int32Array(world.projectiles.capacity) };
+  if (!g || g.key !== key) {
+    const w = r.maxX - r.minX + 64, h = r.maxY - r.minY + 64;
+    g = { hash: new SpatialHash(w, h, 24, world.projectiles.capacity, r.minX - 32, r.minY - 32), out: new Int32Array(world.projectiles.capacity), key };
     grids.set(world.projectiles, g);
   }
   return g;
