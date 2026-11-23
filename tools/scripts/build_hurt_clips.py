@@ -31,9 +31,8 @@ INK = PALETTE["ink_01"]
 FLASH = PALETTE["thunder_04"]
 FRAMES = 3
 
-PLAYERS = ["wl_outer_disciple", "wl_qi_condensation", "wl_blood_foundation", "wl_extreme_jing"]
-MOBS = ["mob_blood_wolf", "mob_blood_crow", "mob_blood_corpse", "mob_vengeful_soul", "mob_blood_pool_lurker"]
-BOSSES = ["boss_ghost_king"]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from px1_hurt import BOSSES, MOBS, PLAYERS  # noqa: E402
 TARGETS = ([("players", i, ["south", "east", "north", "west"]) for i in PLAYERS] +
            [("mobs", i, ["south", "east"]) for i in MOBS] +
            [("bosses", i, ["south", "east"]) for i in BOSSES])
