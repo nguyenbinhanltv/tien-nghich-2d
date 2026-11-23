@@ -1,31 +1,40 @@
-# Sample encounter (format sample, placeholder numbers). Clip names are real clips of boss_ghost_king
-# in assets/manifest.json; timings echo assets/encounter/blood-sea/contract.json (claw 900, wail 920, dodge 280, counter 900).
+# Oán Hồn Quỷ Vương (boss_ghost_king), E5.1/E5.2. Numbers are the playable's (playables/blood-sea/combat.mjs, ported in
+# src/sim/systems/ghost-king.ts) so the data-driven runner (src/sim/ai/boss.ts) matches it tick for tick; a parity test
+# keeps them equal. Placeholder for balance, not final numbers. Clip names are real clips of boss_ghost_king.
+#
+# Pattern priority (what the player must read first): the wail (large ring with one open wedge) is the longest tell and the
+# only attack that needs a direction choice; it comes first at half health. Claw = a strip toward the player, seal = a disc
+# under the player: both are 900 ms tells.
 id: oan_hon_quy_vuong
 boss: boss_ghost_king
 phases:
   - id: p1
     hp_above: 0.5
-    loop: [claw, wail]
+    stalk_ms: 1000
+    loop: [claw, seal]
   - id: p2
     hp_above: 0
     enter_clip: phase_transition
-    loop: [claw, wail, soul_devour]
+    opener: wail
+    stalk_ms: 650
+    loop: [claw, seal, wail]
 attacks:
   claw:
     clip: attack_claw
     tell: { ms: 900, sfx_event: tell }
     dodge_window_ms: 280
     strike_window_ms: 900
-    hit: { id: claw_arc, damage: 2 }
+    hit: { id: claw_strip, damage: 1 }
+  seal:
+    clip: soul_devour
+    tell: { ms: 900, sfx_event: tell }
+    dodge_window_ms: 280
+    strike_window_ms: 900
+    hit: { id: seal_disc, damage: 1 }
   wail:
+    # 920 ms call + 280 ms guard = 1200 ms from the first sound to the hit (72 ticks)
     clip: attack_wail
-    tell: { ms: 920, sfx_event: tell }
+    tell: { ms: 1200, sfx_event: tell }
     dodge_window_ms: 280
     strike_window_ms: 900
     hit: { id: wail_ring, damage: 2 }
-  soul_devour:
-    clip: soul_devour
-    tell: { ms: 920, sfx_event: tell }
-    dodge_window_ms: 280
-    strike_window_ms: 900
-    hit: { id: devour_cone, damage: 3 }
