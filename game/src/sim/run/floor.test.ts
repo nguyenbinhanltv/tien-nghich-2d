@@ -11,6 +11,8 @@ import { createWorld, NO_INPUT, step } from '../loop.ts';
 import { damageEnemy } from '../systems/combat.ts';
 import { enterRoom, floorChain, floorSystem, startFloor, TILE } from './floor.ts';
 import { takeGate } from './run.ts';
+import { dist, unitInto } from '../math.ts';
+import { hazardIncoming } from '../systems/telegraph.ts';
 
 const { tables } = loadTables();
 const layouts = Object.fromEntries(loadLayouts()) as Record<string, RoomLayout>;
@@ -67,6 +69,42 @@ describe('a room', () => {
     killAll(w, ev); for (let i = 0; i < 40; i++) tick(w, ev);
     walkOut(w, ev);
     expect(w.stage!.room).toBe('room_bs_2');
+  });
+});
+
+/** A plain real-input player: dash out of any telegraph that is about to land, otherwise close in on the boss and hold strike. */
+function playBoss(seed: number, maxTicks: number): { won: boolean; ticks: number; bossHp: number } {
+  const w = createWorld(seed), ev: GameEvent[] = [];
+  startFloor(w, content, 1, ev); enterRoom(w, content, 'room_bs_boss', ev);
+  const d = { x: 0, y: 0 };
+  let t = 0;
+  for (; t < maxTicks && w.mode !== 'won' && w.mode !== 'lost'; t++) {
+    const p = findPlayer(w)!, boss = w.actors.find((a) => a.role === 'boss')!;
+    const h = w.hazards.find((x) => x.timer <= 11 && hazardIncoming(x, p.pos.x, p.pos.y));
+    let move = { x: 0, y: 0 }, dash = false;
+    if (h && p.combat.cool === 0 && p.combat.dash === 0) {
+      dash = true;
+      if (h.kind === 'wail') move = { x: h.wedge.x, y: h.wedge.y };
+      else if (h.kind === 'claw') { const side = (p.pos.x - h.x) * h.dir.y - (p.pos.y - h.y) * h.dir.x; move = side >= 0 ? { x: h.dir.y, y: -h.dir.x } : { x: -h.dir.y, y: h.dir.x }; }
+      else { unitInto(d, p.pos.x - h.x, p.pos.y - h.y); move = { x: d.x || 1, y: d.y }; }
+    } else if (dist(p.pos.x, p.pos.y, boss.pos.x, boss.pos.y) > 80) { unitInto(d, boss.pos.x - p.pos.x, boss.pos.y - p.pos.y); move = { x: d.x, y: d.y }; }
+    ev.length = 0; step(w, { move, aim: null, dash, fire: true }, ev, ctx);
+  }
+  return { won: w.mode === 'won', ticks: t, bossHp: w.actors.find((a) => a.role === 'boss')?.hp ?? 0 };
+}
+
+describe('the boss with real blades', () => {
+  it('starts at the placeholder hp of the mobs-and-reference scale (not the 420 of the format sample)', () => {
+    const { w } = freshRun(); enterRoom(w, content, 'room_bs_boss', []);
+    const hp = w.actors.find((a) => a.role === 'boss')!.hpMax;
+    expect(hp).toBeGreaterThanOrEqual(12); expect(hp).toBeLessThanOrEqual(80);
+  });
+  it('can be killed by blades in under 60 s of play, and every seed lands blades on it', () => {
+    const runs = [1, 2, 3, 4, 5, 6].map((s) => playBoss(s, 60 * 60));
+    for (const r of runs) expect(r.bossHp).toBeLessThan(60);
+    const kills = runs.filter((r) => r.won);
+    expect(kills.length).toBeGreaterThanOrEqual(1);
+    for (const k of kills) expect(k.ticks).toBeLessThanOrEqual(60 * 60);
   });
 });
 
